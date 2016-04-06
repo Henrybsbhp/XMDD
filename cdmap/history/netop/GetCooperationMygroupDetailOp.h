@@ -39,6 +39,8 @@
 @property (nonatomic,strong) NSNumber* rsp_groupid;
 ///团名
 @property (nonatomic,strong) NSString* rsp_groupname;
+///团类型(1：自助，2：匹配)
+@property (nonatomic,assign) int rsp_type;
 
 
 @end

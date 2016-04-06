@@ -7,14 +7,12 @@
 //
 
 #import "GasNormalVC.h"
-#import "CKDatasource.h"
 #import "GasCard.h"
 #import "NSString+Split.h"
 #import "GetGaschargeConfigOp.h"
 #import "GasStore.h"
 #import "NSString+Format.h"
 
-#import "HKTableViewCell.h"
 #import "GasReminderCell.h"
 #import "GasPickAmountCell.h"
 #import "PKYStepper.h"
@@ -23,33 +21,22 @@
 #import "GasAddCardVC.h"
 #import "PayForGasViewController.h"
 
-@interface GasNormalVC ()<RTLabelDelegate>
-@property (nonatomic, strong) CKList *datasource;
-@property (nonatomic, strong) CKList *normalDatasource;
-@property (nonatomic, strong) CKList *loadingDatasource;
-
+@interface GasNormalVC ()
 @property (nonatomic, strong) GasChargePackage *curChargePkg;
 @property (nonatomic, strong) GasCard *curGasCard;
 @property (nonatomic, strong) GasStore *gasStore;
-@property (nonatomic, assign) float rechargeAmount;
+@property (nonatomic, assign) float normalRechargeAmount;
+@property (nonatomic, assign) float instalmentRechargeAmount;
 
 @end
 
 @implementation GasNormalVC
 
-- (void)dealloc
-{
-}
-
 - (instancetype)initWithTargetVC:(UIViewController *)vc tableView:(UITableView *)table
                     bottomButton:(UIButton *)btn bottomView:(UIView *)bottomView
 {
-    self = [super init];
+    self = [super initWithTargetVC:vc tableView:table bottomButton:btn bottomView:bottomView];
     if (self) {
-        _tableView = table;
-        _bottomBtn = btn;
-        _targetVC = vc;
-        _bottomView = bottomView;
         [self setupDatasource];
         [self setupGasStore];
     }
@@ -58,15 +45,11 @@
 
 - (void)setupDatasource
 {
-    self.rechargeAmount = 500;
+    self.normalRechargeAmount = 500;
     
     CKDict *row1 = self.curGasCard ? [self pickGasCardItem] : [self addGasCardItem];
-    self.normalDatasource = $($(row1,[self chargePackagesItem],[self pickGasAmountItem],[self wantInvoiceItem]),
-                              $([self gasReminderItem],[self serviceAgreementItem]));
-    
-    self.loadingDatasource = $($([self loadingItem]));
-    
-    self.datasource = self.normalDatasource;
+    self.datasource = $($(row1,[self chargePackagesItem],[self pickGasAmountItem],[self wantInvoiceItem]),
+                        $([self gasReminderItem],[self serviceAgreementItem]));
 }
 
 - (void)setupGasStore
@@ -90,51 +73,14 @@
     }];
 }
 
+#pragma Getter
+- (float)rechargeAmount {
+    return [self.curChargePkg.pkgid integerValue] > 0 ? self.instalmentRechargeAmount : self.normalRechargeAmount;
+}
+
 #pragma mark - Reload
-- (void)reloadFromSignal:(RACSignal *)signal
-{
-    CKDict *blankItem = self.loadingDatasource[0][@"Loading"];
-    __block BOOL triggered = NO;
-    @weakify(self);
-    [[signal initially:^{
-
-        @strongify(self);
-        //如果没在刷新
-        if (![blankItem[@"loading"] boolValue]) {
-            blankItem[@"loading"] = @YES;
-            [self reloadView:NO];
-        }
-    }] subscribeNext:^(id x) {
-
-        @strongify(self);
-        triggered = YES;
-        if ([self reloadDataIfNeeded]) {
-            //如果需要重新加载，停止刷新
-            blankItem[@"loading"] = @NO;
-            blankItem[@"error"] = @NO;
-            blankItem.forceReload = !blankItem.forceReload;
-            [self reloadView:NO];
-        }
-    } error:^(NSError *error) {
-
-        @strongify(self);
-        triggered = YES;
-        blankItem[@"loading"] = @NO;
-        blankItem[@"error"] = @YES;
-        blankItem.forceReload = !blankItem.forceReload;
-        [self reloadView:NO];
-    } completed:^{
-
-        @strongify(self);
-        //如果没有触发任何事件，表示该信号需要被忽略
-        if (!triggered && [self reloadDataIfNeeded]) {
-            //如果需要重新加载，停止刷新
-            blankItem[@"loading"] = @NO;
-            blankItem[@"error"] = @NO;
-            blankItem.forceReload = !blankItem.forceReload;
-            [self reloadView:NO];
-        }
-    }];
+- (void)reloadData {
+    [[self.gasStore getAllGasCards] send];
 }
 
 - (BOOL)reloadDataIfNeeded
@@ -156,43 +102,17 @@
     }
     if (!self.curChargePkg) {
         self.curChargePkg = [self.gasStore.chargePackages objectAtIndex:0];
+        self.instalmentRechargeAmount = [[self.curChargePkg.valueList safetyObjectAtIndex:0] integerValue];
     }
 
-    CKDict *row1 = self.normalDatasource[0][0];
+    CKDict *row1 = self.datasource[0][0];
     if (self.curGasCard && ![row1[kCKItemKey] isEqualToString:@"GasCard"]) {
-        [self.normalDatasource[0] replaceObject:[self pickGasCardItem] withKey:nil atIndex:0];
+        [self.datasource[0] replaceObject:[self pickGasCardItem] withKey:nil atIndex:0];
     }
     else if (!self.curGasCard && ![row1[kCKItemKey] isEqualToString:@"AddGasCard"]) {
-        [self.normalDatasource[0] replaceObject:[self addGasCardItem] withKey:nil atIndex:0];
+        [self.datasource[0] replaceObject:[self addGasCardItem] withKey:nil atIndex:0];
     }
-
-    [self reloadView:NO];
     return YES;
-}
-
-- (void)reloadView:(BOOL)force
-{
-    if (![self isEqual:self.tableView.delegate]) {
-        return;
-    }
-    CKDict *blankItem = self.loadingDatasource[0][@"Loading"];
-    CKList *oldDatasource = self.datasource;
-    if ([blankItem[@"loading"] boolValue] || [blankItem[@"error"] boolValue]) {
-        self.datasource = self.loadingDatasource;
-    }
-    else {
-        self.datasource = self.normalDatasource;
-    }
-    if (force || ![oldDatasource isEqual:self.datasource]) {
-        [self.tableView reloadData];
-    }
-    BOOL loading = [blankItem[@"loading"] boolValue];
-    if (loading) {
-        [self.tableView setContentOffset:CGPointZero];
-    }
-    self.tableView.scrollEnabled = !loading;
-    self.bottomView.hidden = loading;
-    [self reloadBottomButton];
 }
 
 - (void)reloadBottomButton
@@ -256,7 +176,7 @@
 
 - (void)actionPay
 {
-    [MobClick event:@"rp501-14"];
+    [MobClick event:@"rp501_14"];
     if (![LoginViewModel loginIfNeededForTargetViewController:self.targetVC]) {
         return;
     }
@@ -268,6 +188,8 @@
         [gToast showText:@"您本月加油已达到最大限额！" inView:self.targetVC.view];
         return;
     }
+    if (self.curChargePkg.pkgid) {
+    }
     if ([LoginViewModel loginIfNeededForTargetViewController:self.targetVC]) {
         
         PayForGasViewController * vc = [gasStoryboard instantiateViewControllerWithIdentifier:@"PayForGasViewController"];
@@ -277,44 +199,12 @@
 }
 
 #pragma mark - Cell
-///空白刷新（包括刷新失败）
-- (CKDict *)loadingItem
-{
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Loading"}];
-    @weakify(self);
-    item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        @strongify(self);
-        return [self heightForLoadingCell];
-    });
-
-    item[kCKCellWillDisplay] = CKCellWillDisplay(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        @strongify(self);
-        if ([data[@"loading"] boolValue]) {
-            [cell.contentView hideDefaultEmptyView];
-            CGPoint position = CGPointMake(self.tableView.frame.size.width/2, [self heightForLoadingCell]/2);
-            [cell.contentView startActivityAnimationWithType:GifActivityIndicatorType atPositon:position];
-        }
-        if ([data[@"error"] boolValue]) {
-            [cell.contentView stopActivityAnimation];
-            [cell.contentView showDefaultEmptyViewWithText:@"刷新失败，点击重试" tapBlock:^{
-                [[[GasStore fetchExistsStore] getAllGasCards] send];
-            }];
-        }
-    });
-    return item;
-}
-
-- (CGFloat)heightForLoadingCell
-{
-    return self.tableView.frame.size.height - self.tableView.tableHeaderView.frame.size.height + self.bottomBtn.superview.frame.size.height;
-}
-
 ///选择油卡
 - (CKDict *)pickGasCardItem
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"GasCard"}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 74;
+        return 60;
     });
     @weakify(self);
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -326,8 +216,6 @@
         logoV.image = [UIImage imageNamed:self.curGasCard.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
         titleL.text = self.curGasCard.cardtype == 2 ? @"中石油" : @"中石化";
         cardnoL.text = [self.curGasCard.gascardno splitByStep:4 replacement:@" "];
-        [(HKTableViewCell *)cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom
-                                                             insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     });
 
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -343,11 +231,7 @@
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"AddGasCard"}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 68;
-    });
-    item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        [(HKTableViewCell *)cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom
-                                                             insets:UIEdgeInsetsMake(0, 12, 0, 0)];
+        return 60;
     });
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -402,7 +286,7 @@
              subscribeNext:^(id x) {
                  @strongify(self);
                  self.curChargePkg = pkg;
-                 [self reloadView:NO];
+                 [self refreshViewWithForce:YES];
              }];
         }
     });
@@ -418,10 +302,10 @@
     //cell高度
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
-        @strongify(self);
         GasPickAmountCell *cell = data[@"cell"];
         if (!cell) {
-            cell = [[GasPickAmountCell alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 52)];
+            CGFloat width = [UIScreen mainScreen].bounds.size.width;
+            cell = [[GasPickAmountCell alloc] initWithFrame:CGRectMake(0, 0, width, 52)];
             data[@"cell"] = cell;
         }
         CKCellPrepareBlock prepare = data[kCKCellPrepare];
@@ -449,7 +333,7 @@
             };
             //递增
             cell1.stepper.incrementCallback = ^float(PKYStepper *stepper, float newValue) {
-                [MobClick event:@"rp501-7"];
+                [MobClick event:@"rp501_7"];
                 if (stepper.allowValueList && stepper.valueList.count > 0) {
                     float maxValue = [[stepper.valueList lastObject] floatValue];
                     if (newValue >= maxValue && stepper.value >= maxValue) {
@@ -465,7 +349,7 @@
             };
             //递减
             cell1.stepper.decrementCallback = ^float(PKYStepper *stepper, float newValue) {
-                [MobClick event:@"rp501-5"];
+                [MobClick event:@"rp501_5"];
                 if (stepper.allowValueList && stepper.valueList.count > 0) {
                     float minValue = [stepper.valueList[0] floatValue];
                     if (newValue <= minValue && stepper.value <= minValue) {
@@ -594,70 +478,7 @@
     return item;
 }
 
-#pragma mark - RTLabelDelegate
-- (void)rtLabel:(id)rtLabel didSelectLinkWithURL:(NSURL *)url
-{
-    [MobClick event:@"rp501_8"];
-    [gAppMgr.navModel pushToViewControllerByUrl:[url absoluteString]];
-}
 
-#pragma mark - UITableViewDelegate
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return [self.datasource count];
-}
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.datasource[section] count];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    if (section == 1) {
-        return 8;
-    }
-    return CGFLOAT_MIN;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return CGFLOAT_MIN;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CKDict *item = [[self.datasource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    if (item[kCKCellGetHeight]) {
-        return ((CKCellGetHeightBlock)item[kCKCellGetHeight])(item, indexPath);
-    }
-    return 45;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CKDict *item = [[self.datasource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:item[kCKItemKey] forIndexPath:indexPath];
-    if (item[kCKCellPrepare]) {
-        ((CKCellPrepareBlock)item[kCKCellPrepare])(item, cell, indexPath);
-    }
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CKDict *item = self.datasource[indexPath.section][indexPath.row];
-    if (item[kCKCellWillDisplay]) {
-        ((CKCellWillDisplayBlock)item[kCKCellWillDisplay])(item, cell, indexPath);
-    }
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CKDict *item = [[self.datasource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    if (item[kCKCellSelected]) {
-        ((CKCellSelectedBlock)item[kCKCellSelected])(item, indexPath);
-    }
-}
 
 @end

@@ -104,10 +104,6 @@ typedef enum : NSUInteger {
 #define XIAMMAWEB @"http://www.xiaomadada.com"
 #define ADDEFINEWEB @"http://www.xiaomadada.com/apphtml/couponpkg.html?jump=t"
 
-#define kDefTintColor   HEXCOLOR(@"#15ac1f")
-#define kDefLineColor   HEXCOLOR(@"#ebebeb")
-#define kDarkLineColor  HEXCOLOR(@"#e0e0e0")
-
 #define kKeyChainBaseServer     @"com.huika.xmdd"
 
 //字符串定义
@@ -185,6 +181,7 @@ typedef enum : NSUInteger {
 #define kAboutCouponPkgUrl      @"https://www.xiaomadada.com/apphtml/guanyulibao.html"
 #define kWeeklyCouponUrl    @"https://www.xiaomadada.com/apphtml/weeklycoupon.html"
 #define kAddGasNoticeUrl    @"https://xiaomadada.com/apphtml/chongzhishuoming.html"
+#define kInstalmentGasNoticeUrl @"https://www.xiaomadada.com/apphtml/fenqijiayou.html"
 #define kGasPaymentResultUrl      @"https://www.xiaomadada.com/paaweb/general/appDownload?ch=10002"
 #define kGasLicenseUrl          @"https://xiaomadada.com/apphtml/license-youka.html"
 #define kInsuranceDirectSellingUrl  @"https://www.xiaomadada.com/apphtml/chexianzhixiao.html"

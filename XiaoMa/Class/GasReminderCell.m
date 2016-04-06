@@ -10,6 +10,11 @@
 
 @implementation GasReminderCell
 
+- (void)dealloc
+{
+    
+}
+
 - (void)awakeFromNib {
     [self __commonInit];
 }

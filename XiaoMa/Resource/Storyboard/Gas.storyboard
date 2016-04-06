@@ -1360,9 +1360,9 @@
                         <subviews>
                             <tableView contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="75t-k2-vuz">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="488"/>
-                                <color key="backgroundColor" white="0.95908411609999999" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddGasCard" id="INs-g3-YYP" customClass="HKTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddGasCard" id="INs-g3-YYP">
                                         <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="INs-g3-YYP" id="VT4-jF-5Ga">
@@ -1370,26 +1370,26 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lAS-xp-Cpi">
-                                                    <rect key="frame" x="236" y="4" width="128" height="36"/>
+                                                    <rect key="frame" x="236" y="9" width="128" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="128" id="UHQ-5T-e1Z"/>
                                                         <constraint firstAttribute="height" constant="36" id="jGv-WA-VUh"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <inset key="titleEdgeInsets" minX="7" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     <inset key="imageEdgeInsets" minX="-8" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="添加油卡" image="gas_add_green">
-                                                        <color key="titleColor" red="0.12549019610000001" green="0.6705882353" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <state key="normal" title="添加油卡" image="gas_add_green_300" backgroundImage="gas_bg_rect_green">
+                                                        <color key="titleColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_18#BW_0.5#BC_RGB(32,171,42)"/>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BCI_4,4,4,4"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="centerX" secondItem="lAS-xp-Cpi" secondAttribute="centerX" id="1Q2-vC-7p8"/>
-                                                <constraint firstAttribute="centerY" secondItem="lAS-xp-Cpi" secondAttribute="centerY" id="bpd-RF-mtn"/>
+                                                <constraint firstAttribute="centerY" secondItem="lAS-xp-Cpi" secondAttribute="centerY" constant="-5" id="bpd-RF-mtn"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1414,20 +1414,20 @@
                                                         <constraint firstAttribute="width" constant="220" id="PVc-gM-JZ5"/>
                                                         <constraint firstAttribute="height" constant="36" id="juT-yU-VhG"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <inset key="titleEdgeInsets" minX="7" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     <inset key="imageEdgeInsets" minX="-8" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="添加浙商银行汽车卡" image="gas_add_green">
-                                                        <color key="titleColor" red="0.12549019610000001" green="0.6705882353" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <state key="normal" title="添加浙商银行汽车卡" image="gas_add_green_300" backgroundImage="gas_bg_rect_green">
+                                                        <color key="titleColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_18#BW_0.5#BC_RGB(32,171,42)"/>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BCI_4,4,4,4"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="添加浙商银行汽车卡后，既可享受金卡返利8%，最高返50元；白金卡返利15%，最高返100元。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hpZ-JA-vGw">
                                                     <rect key="frame" x="16" y="68" width="574" height="16"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1475,10 +1475,10 @@
                                                     <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1006" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="添加浙商银行汽车卡后，既可享受金卡返利8%，最高返50元；白金卡返利15%，最高返100元。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FrP-QR-JKr">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1006" contentMode="left" horizontalHuggingPriority="251" text="添加浙商银行汽车卡后，既可享受金卡返利8%，最高返50元；白金卡返利15%，最高返100元。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FrP-QR-JKr">
                                                     <rect key="frame" x="59" y="70" width="531" height="22"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="选择或添加其他汽车卡" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J4C-NO-p3T">
@@ -1518,7 +1518,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GasCard" rowHeight="63" id="TJh-t5-IiF" customClass="HKTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GasCard" rowHeight="63" id="TJh-t5-IiF">
                                         <rect key="frame" x="0.0" y="306.5" width="600" height="63"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TJh-t5-IiF" id="Axa-Wv-KMg">
@@ -1526,54 +1526,45 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gas_icon_cnpc" translatesAutoresizingMaskIntoConstraints="NO" id="SZL-EM-UB5">
-                                                    <rect key="frame" x="12" y="26" width="35" height="35"/>
+                                                    <rect key="frame" x="12" y="19" width="35" height="35"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="35" id="MIW-ih-QCI"/>
                                                         <constraint firstAttribute="height" constant="35" id="d5d-pD-cFd"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" tag="1004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cm_arrow_r" translatesAutoresizingMaskIntoConstraints="NO" id="t8h-Ep-ALd">
-                                                    <rect key="frame" x="579" y="36" width="9" height="15"/>
+                                                    <rect key="frame" x="579" y="29" width="9" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="9" id="MDw-vR-wYf"/>
                                                         <constraint firstAttribute="height" constant="15" id="eCW-IM-5rD"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 2324 2332 2433" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8p4-ct-o0a">
-                                                    <rect key="frame" x="59" y="41" width="512" height="21.5"/>
+                                                    <rect key="frame" x="59" y="26" width="512" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="中石油" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gm7-C2-FUg">
-                                                    <rect key="frame" x="59" y="24" width="512" height="16"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选择或添加油卡" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oXO-5a-7H8">
-                                                    <rect key="frame" x="12" y="5" width="576" height="16"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="oXO-5a-7H8" firstAttribute="top" secondItem="Axa-Wv-KMg" secondAttribute="top" constant="5" id="04P-tW-pbw"/>
                                                 <constraint firstItem="8p4-ct-o0a" firstAttribute="bottom" secondItem="SZL-EM-UB5" secondAttribute="bottom" constant="2" id="454-Rx-B4M"/>
+                                                <constraint firstItem="8p4-ct-o0a" firstAttribute="centerY" secondItem="Axa-Wv-KMg" secondAttribute="centerY" id="6yb-dG-QSv"/>
+                                                <constraint firstItem="8p4-ct-o0a" firstAttribute="centerY" secondItem="SZL-EM-UB5" secondAttribute="centerY" id="8Uy-hz-FIG"/>
                                                 <constraint firstItem="t8h-Ep-ALd" firstAttribute="leading" secondItem="8p4-ct-o0a" secondAttribute="trailing" constant="8" id="8Yy-NB-RQt"/>
-                                                <constraint firstItem="t8h-Ep-ALd" firstAttribute="leading" secondItem="Gm7-C2-FUg" secondAttribute="trailing" constant="8" id="B6c-fj-bZu"/>
                                                 <constraint firstItem="SZL-EM-UB5" firstAttribute="leading" secondItem="Axa-Wv-KMg" secondAttribute="leading" constant="12" id="Cse-Qt-Sxk"/>
+                                                <constraint firstItem="t8h-Ep-ALd" firstAttribute="centerY" secondItem="SZL-EM-UB5" secondAttribute="centerY" id="HfM-i2-GpL"/>
                                                 <constraint firstItem="8p4-ct-o0a" firstAttribute="leading" secondItem="SZL-EM-UB5" secondAttribute="trailing" constant="12" id="J9A-zP-2Po"/>
-                                                <constraint firstItem="Gm7-C2-FUg" firstAttribute="leading" secondItem="SZL-EM-UB5" secondAttribute="trailing" constant="12" id="WlA-5x-fAA"/>
                                                 <constraint firstAttribute="trailing" secondItem="t8h-Ep-ALd" secondAttribute="trailing" constant="12" id="bKe-28-1g9"/>
-                                                <constraint firstAttribute="trailing" secondItem="oXO-5a-7H8" secondAttribute="trailing" constant="12" id="bTX-lU-pra"/>
-                                                <constraint firstItem="oXO-5a-7H8" firstAttribute="leading" secondItem="Axa-Wv-KMg" secondAttribute="leading" constant="12" id="fF3-cH-32w"/>
-                                                <constraint firstAttribute="centerY" secondItem="t8h-Ep-ALd" secondAttribute="centerY" constant="-12" id="gC4-R3-Xbf"/>
-                                                <constraint firstItem="Gm7-C2-FUg" firstAttribute="leading" secondItem="SZL-EM-UB5" secondAttribute="trailing" constant="12" id="k8R-2O-1yd"/>
-                                                <constraint firstAttribute="centerY" secondItem="SZL-EM-UB5" secondAttribute="centerY" constant="-12" id="ojF-rJ-S3U"/>
-                                                <constraint firstItem="Gm7-C2-FUg" firstAttribute="top" secondItem="SZL-EM-UB5" secondAttribute="top" constant="-2" id="s7O-DZ-NR4"/>
+                                                <constraint firstAttribute="centerY" secondItem="t8h-Ep-ALd" secondAttribute="centerY" id="gC4-R3-Xbf"/>
+                                                <constraint firstAttribute="centerY" secondItem="SZL-EM-UB5" secondAttribute="centerY" constant="-5" id="ojF-rJ-S3U"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="454-Rx-B4M"/>
+                                                    <exclude reference="6yb-dG-QSv"/>
+                                                    <exclude reference="gC4-R3-Xbf"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChargePkgs" rowHeight="97" id="Lw9-af-X8v">
@@ -2108,6 +2099,8 @@
         <image name="cw_box2" width="17" height="17"/>
         <image name="cw_box3" width="17" height="17"/>
         <image name="gas_add_green" width="14" height="14"/>
+        <image name="gas_add_green_300" width="11" height="11"/>
+        <image name="gas_bg_rect_green" width="13" height="14"/>
         <image name="gas_box1" width="13" height="13"/>
         <image name="gas_box2" width="13" height="13"/>
         <image name="gas_btn_bg1" width="15" height="37"/>

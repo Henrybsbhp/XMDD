@@ -7,7 +7,7 @@
 //
 
 #import "GasVC.h"
-#import "GasTabView.h"
+#import "HorizontalScrollTabView.h"
 #import "ADViewController.h"
 #import "UIView+DefaultEmptyView.h"
 #import "HKTableViewCell.h"
@@ -17,7 +17,6 @@
 #import "CBAutoScrollLabel.h"
 #import "NSString+Format.h"
 #import "GasStore.h"
-#import "GasNormalVC.h"
 
 #import "GasPickAmountCell.h"
 #import "GasReminderCell.h"
@@ -36,7 +35,8 @@
 
 @interface GasVC ()
 @property (nonatomic, strong) ADViewController *adctrl;
-@property (nonatomic, strong) GasTabView *headerView;
+@property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, strong) HorizontalScrollTabView *tabView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -46,6 +46,7 @@
 @property (nonatomic,strong) UIImageView *notifyImg;
 @property (nonatomic, strong) GasNormalVC *normalVC;
 @property (nonatomic, strong) GasCZBVC *czbVC;
+@property (nonatomic, strong) GasSubVC *curSubVC;
 
 @end
 
@@ -63,7 +64,6 @@
     [self setupADView];
     [self setupBottomView];
     [self setupSubVC];
-    [[[GasStore fetchOrCreateStore] getAllGasCards] send];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -78,7 +78,7 @@
     [self.roundLb refreshLabels];
     //IOS 8.1.3下面有RTLabel消失的bug，需要重新刷一下页面
     if (IOSVersionGreaterThanOrEqualTo(@"8.1.3") && !IOSVersionGreaterThanOrEqualTo(@"8.4")) {
-        [self.tableView reloadData];
+        [self.curSubVC refreshViewWithForce:YES];
     }
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
@@ -86,48 +86,60 @@
 
 - (void)setupSubVC
 {
-
     self.normalVC = [[GasNormalVC alloc] initWithTargetVC:self tableView:self.tableView
                                              bottomButton:self.bottomBtn bottomView:self.bottomView];
     self.czbVC = [[GasCZBVC alloc] initWithTargetVC:self tableView:self.tableView
                                        bottomButton:self.bottomBtn bottomView:self.bottomView];
-    if (self.tabViewSelectedIndex == 0) {
-        self.tableView.delegate = self.normalVC;
-        self.tableView.dataSource = self.normalVC;
-        CKAsyncMainQueue(^{
-            [self.normalVC reloadView:YES];
-        });
-    }
-    else {
-        self.tableView.delegate = self.czbVC;
-        self.tableView.dataSource = self.czbVC;
-        CKAsyncMainQueue(^{
-            [self.czbVC reloadView:YES];
-        });
-    }
+    
+    self.curSubVC = self.tabViewSelectedIndex == 0 ? self.normalVC : self.czbVC;
+    self.tableView.delegate = self.curSubVC;
+    self.tableView.dataSource = self.curSubVC;
+    CKAsyncMainQueue(^{
+        [self.curSubVC reloadData];
+    });
 }
 
 - (void)setupHeaderView
 {
-    NSInteger index = self.tabViewSelectedIndex;
-    self.headerView = [[GasTabView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44) selectedIndex:index];
-    self.tableView.tableHeaderView = self.headerView;
+    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    self.headerView.backgroundColor = [UIColor whiteColor];
+    
+    self.tabView = [[HorizontalScrollTabView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    self.tabView.scrollTipBarColor = kDefTintColor;
+    HorizontalScrollTabItem *item1 = [HorizontalScrollTabItem itemWithTitle:@"普通充值" normalColor:kBlackTextColor
+                                                              selectedColor:kDefTintColor];
+    HorizontalScrollTabItem *item2 = [HorizontalScrollTabItem itemWithTitle:@"浙商卡充值" normalColor:kBlackTextColor
+                                                              selectedColor:kDefTintColor];
+    self.tabView.items = @[item1, item2];
+    [self.headerView addSubview:self.tabView];
+
     @weakify(self);
-    [self.headerView setTabBlock:^(NSInteger index) {
+    [self.tabView mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.left.equalTo(self.headerView);
+        make.right.equalTo(self.headerView);
+        make.height.mas_equalTo(44);
+        make.bottom.equalTo(self.headerView);
+    }];
+
+    [self.tabView setTabBlock:^(NSInteger index) {
         @strongify(self);
         if (index ==0) {
             [MobClick event:@"rp501_2"];
-            self.tableView.delegate = self.normalVC;
-            self.tableView.dataSource = self.normalVC;
-            [self.normalVC reloadView:YES];
+            self.curSubVC = self.normalVC;
         }
         else {
             [MobClick event:@"rp501_3"];
-            self.tableView.delegate = self.czbVC;
-            self.tableView.dataSource = self.czbVC;
-            [self.czbVC reloadView:YES];
+            self.curSubVC = self.czbVC;
         }
+        self.tableView.delegate = self.curSubVC;
+        self.tableView.dataSource = self.curSubVC;
+        [self.normalVC refreshViewWithForce:YES];
     }];
+    
+    [self.tabView reloadDataWithBoundsSize:CGSizeMake(ScreenWidth, 44) andSelectedIndex:self.tabViewSelectedIndex];
+    
+    self.tableView.tableHeaderView = self.headerView;
 }
 
 - (void)setupADView
@@ -138,8 +150,7 @@
     [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
         @strongify(self);
         if (ads.count > 0) {
-            GasTabView *headerView = self.headerView;
-            
+            UIView *headerView = self.headerView;
             if ([headerView.subviews containsObject:self.adctrl.adView])
             {
                 return;
@@ -165,7 +176,7 @@
 {
     if (note.length)
     {
-        GasTabView *headerView = self.headerView;
+        UIView *headerView = self.headerView;
         
         if ([headerView.subviews containsObject:self.backgroundView])
         {
@@ -260,12 +271,7 @@
 
 - (IBAction)actionPay:(id)sender
 {
-    if (self.tabViewSelectedIndex == 0) {
-        [self.normalVC actionPay];
-    }
-    else {
-        [self.czbVC actionPay];
-    }
+    [self.curSubVC actionPay];
 }
 
 - (IBAction)actionAgreement:(id)sender
@@ -299,7 +305,7 @@
 - (void)setTabViewSelectedIndex:(NSInteger)tabViewSelectedIndex
 {
     _tabViewSelectedIndex = tabViewSelectedIndex;
-    self.headerView.selectedIndex = tabViewSelectedIndex;
+    [self.tabView setSelectedIndex:tabViewSelectedIndex animated:NO];
 }
 
 -(UIImageView *)notifyImg
@@ -322,22 +328,6 @@
         _backgroundView.backgroundColor=[UIColor whiteColor];
     }
     return _backgroundView;
-}
-
--(CBAutoScrollLabel *)roundLb
-{
-    if (!_roundLb)
-    {
-        _roundLb=[[CBAutoScrollLabel alloc]init];
-        _roundLb.textColor=[UIColor whiteColor];
-        _roundLb.font=[UIFont systemFontOfSize:12];
-        _roundLb.backgroundColor = [UIColor clearColor];
-        _roundLb.labelSpacing = 30;
-        _roundLb.scrollSpeed = 30;
-        _roundLb.fadeLength = 5.f;
-        [_roundLb observeApplicationNotifications];
-    }
-    return _roundLb;
 }
 
 - (NSString *)appendSpace:(NSString *)note andWidth:(CGFloat)w

@@ -33,8 +33,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
-    self.navigationItem.leftBarButtonItem = back;
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login_backgroundImage.png"]];
+    [backgroundImageView setFrame:self.tableView.frame];
+    
+    self.tableView.backgroundView = backgroundImageView;
     
     self.smsModel = [[HKSMSModel alloc] init];
 
@@ -54,9 +56,16 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
 
 - (void)dealloc
 {
@@ -69,6 +78,12 @@
     [self.num setDidBeginEditingBlock:^(CKLimitTextField *field) {
         [MobClick event:@"rp002_1"];
     }];
+    
+
+    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#18D06A") forState:UIControlStateNormal];
+    
+    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
+    
     @weakify(self);
     [self.num setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
@@ -87,24 +102,26 @@
     }];
 }
 #pragma mark - Action
-- (void)actionBack:(id)sender {
+- (IBAction)actionCloseButton:(id)sender
+{
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self.model dismissForTargetVC:self forSucces:NO];
 }
 
 - (IBAction)actionGetVCode:(id)sender
 {
     [MobClick event:@"rp002_2"];
-    if ([self sharkCellIfErrorAtIndex:0]) {
+    if ([self sharkCellIfErrorAtIndex:1]) {
         return;
     }
 
-    RACSignal *sig = [self.smsModel rac_getSystemVcodeWithType:HKVcodeTypeLogin phone:[self textAtIndex:0]];
+    RACSignal *sig = [self.smsModel rac_getSystemVcodeWithType:HKVcodeTypeLogin phone:[self textAtIndex:1]];
     [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeError:^(NSError *error) {
         [gToast showError:error.domain];
     }];
     
     //激活输入验证码的输入框
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
     [field becomeFirstResponder];
 }
@@ -114,6 +131,11 @@
     [MobClick event:@"rp002_4"];
     self.checkBox.selected = !self.checkBox.selected;
     self.bottomBtn.enabled = self.checkBox.selected;
+    if (self.bottomBtn.enabled == NO) {
+        self.bottomBtn.backgroundColor = [UIColor colorWithHTMLExpression:@"#CFDBD3"];
+    } else {
+        self.bottomBtn.backgroundColor = [UIColor colorWithHTMLExpression:@"#18D06A"];
+    }
 }
 
 - (IBAction)actionAgreement:(id)sender
@@ -129,23 +151,24 @@
 {
     [MobClick event:@"rp002_6"];
     if (![self.num.text isPhoneNumber]) {
-        [self shakeCellAtIndex:0];
+        [self shakeCellAtIndex:1];
         return;
     }
     if (self.code.text.length < 4) {
-        [self shakeCellAtIndex:1];
+        [self shakeCellAtIndex:2];
         return;
     }
     
     [self.view endEditing:YES];
-    NSString *ad = [self textAtIndex:0];
-    NSString *vcode = [self textAtIndex:1];
+    NSString *ad = [self textAtIndex:1];
+    NSString *vcode = [self textAtIndex:2];
     @weakify(self);
     [[[self.model.loginModel rac_loginWithAccount:ad validCode:vcode] initially:^{
         [gToast showingWithText:@"正在登录..."];
     }] subscribeNext:^(id x) {
         @strongify(self);
         [gToast dismiss];
+        [self.navigationController setNavigationBarHidden:NO animated:NO];
         [self.model dismissForTargetVC:self forSucces:YES];
     } error:^(NSError *error) {
         [gToast showError:error.domain];
@@ -182,7 +205,7 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 15;
+    return CGFLOAT_MIN;
 }
 
 @end

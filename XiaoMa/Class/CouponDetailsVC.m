@@ -20,7 +20,7 @@
 #import "RescueHomeViewController.h"
 #import "GasVC.h"
 
-@interface CouponDetailsVC ()
+@interface CouponDetailsVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong ,nonatomic) HKCoupon * couponDic;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
@@ -228,107 +228,147 @@
 #pragma mark - Table view data source
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (section == 1) {
-        return @"使用流程";
-    }
-    return nil;
+    // 优惠券与使用流程还有按钮。所以分了3个section
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     CGFloat height = CGFLOAT_MIN;
     if (section == 1) {
-        height = 40;
+        height = 10;
     }
     return height;
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return CGFLOAT_MIN;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 10)];
+    view.backgroundColor = HEXCOLOR(@"#f7f7f8");
+    return view;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
+    
+    if (section == 1)
+    {
+        return (self.couponDic.useguide.count + 1);
+    }
+    else
+    {
         return 1;
     }
-    return self.couponDic.useguide.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return 130;
+        return 120;
     }
-    else
+    else if(indexPath.section == 1 && indexPath.row == 0)
     {
-        if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-        {
-            return UITableViewAutomaticDimension;
-        }
-        UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-        [cell layoutIfNeeded];
-        [cell setNeedsUpdateConstraints];
-        [cell updateConstraintsIfNeeded];
-        CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-        return ceil(size.height+1);
+        return 50;
     }
+    else if (indexPath.section == 2)
+    {
+        return 65;
+    }
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        return UITableViewAutomaticDimension;
+    }
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    [cell layoutIfNeeded];
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+    return ceil(size.height+1);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell;
-    if (indexPath.section == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"HeadCell"];
-        //背景图片
-        UILabel * nameLabel = (UILabel *)[cell.contentView viewWithTag:1001];
-        UILabel * subnameLabel = (UILabel *)[cell.contentView viewWithTag:1002];
-        UILabel * describeLabel = (UILabel *)[cell.contentView viewWithTag:1003];
-        UILabel * validDate = (UILabel *)[cell.contentView viewWithTag:1004];
-        UIImageView * bgImageView = (UIImageView *)[cell.contentView viewWithTag:1005];
-        
-        nameLabel.text = self.couponDic.couponName;
-        subnameLabel.text = [NSString stringWithFormat:@"%@", self.couponDic.subname];
-        describeLabel.text = [NSString stringWithFormat:@"使用说明：%@", self.couponDic.couponDescription];
-        validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@", [self.couponDic.validsince dateFormatForYYMMdd2], [self.couponDic.validthrough dateFormatForYYMMdd2]];
-        
-        UIImage *bgImg = [UIImage imageNamed:@"coupon_detailsbg"];
-        if (self.rgbStr.length > 0) {
-            NSString *strColor = [NSString stringWithFormat:@"#%@", self.rgbStr];
-            UIColor *color = HEXCOLOR(strColor);
-            bgImg = [bgImg imageByFilledWithColor:color];
-        }
-        bgImageView.image = bgImg;
-        
-        return cell;
+    if (indexPath.section == 0)
+    {
+        cell = [self headCellForRowAtIndexPath:indexPath];
     }
-    else {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"GuideCell"];
-        UILabel * nolabel = (UILabel *)[cell.contentView viewWithTag:1001];
-        UILabel * contentlabel = (UILabel *)[cell.contentView viewWithTag:1002];
-        
-        nolabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row + 1];
-        nolabel.layer.cornerRadius = 8.0f;
-        if (self.rgbStr.length > 0) {
-            NSString *strColor = [NSString stringWithFormat:@"#%@", self.rgbStr];
-            nolabel.backgroundColor = HEXCOLOR(strColor);
+    else if(indexPath.section == 1)
+    {
+        if (indexPath.row == 0)
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"noticeCell"];
         }
-        else {
-            nolabel.backgroundColor = [UIColor colorWithHex:@"#57C21F" alpha:1.0f];
+        else
+        {
+            cell = [self guideCellForRowAtIndexPath:indexPath];
         }
-        [nolabel.layer setMasksToBounds:YES];
-        
-        contentlabel.text = [self.couponDic.useguide safetyObjectAtIndex:indexPath.row];
-        if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
-            contentlabel.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 44;
-        }
-        return cell;
     }
+    else
+    {
+        cell = [self buttonCellForRowAtIndexPath:indexPath];
+    }
+    return cell;
+}
+
+- (UITableViewCell *)headCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeadCell"];
+    //背景图片
+    UIImageView * logo = (UIImageView *)[cell viewWithTag:1006];
+    logo.layer.cornerRadius = 22;
+    logo.layer.masksToBounds = YES;
+    logo.image = [UIImage imageNamed:@"coupon_logo"];
+    UIView *backgroundView = (UIView *)[cell viewWithTag:100];
+    UILabel * nameLabel = (UILabel *)[cell.contentView viewWithTag:1001];
+    UILabel * subnameLabel = (UILabel *)[cell.contentView viewWithTag:1002];
+    UILabel * describeLabel = (UILabel *)[cell.contentView viewWithTag:1003];
+    UILabel * validDate = (UILabel *)[cell.contentView viewWithTag:1004];
+    
+    UIImageView *imgView = [cell viewWithTag:1005];
+    UIImage *img = [[UIImage imageNamed:@"coupon_detailsawtooth"]resizableImageWithCapInsets:UIEdgeInsetsMake(1, -0.5, 1, -0.5) resizingMode:UIImageResizingModeTile];
+    imgView.image = img;
+    
+    nameLabel.text = self.couponDic.couponName;
+    subnameLabel.text = [NSString stringWithFormat:@"%@", self.couponDic.subname];
+    describeLabel.text = [NSString stringWithFormat:@"使用说明：%@", self.couponDic.couponDescription];
+    validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@", [self.couponDic.validsince dateFormatForYYMMdd2], [self.couponDic.validthrough dateFormatForYYMMdd2]];
+    return cell;
+}
+
+- (UITableViewCell *)guideCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"GuideCell"];
+    UILabel * nolabel = (UILabel *)[cell.contentView viewWithTag:1001];
+    UILabel * contentlabel = (UILabel *)[cell.contentView viewWithTag:1002];
+    
+    nolabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+    nolabel.layer.cornerRadius = 8.0f;
+    
+    nolabel.backgroundColor = [UIColor colorWithHex:@"#18d06a" alpha:1.0f];
+    
+    [nolabel.layer setMasksToBounds:YES];
+    
+    contentlabel.text = [self.couponDic.useguide safetyObjectAtIndex:indexPath.row - 1];
+    if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
+        contentlabel.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 44;
+    }
+    return cell;
+}
+
+- (UITableViewCell *)buttonCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"buttonCell"];
+    UIButton *button = [cell viewWithTag:100];
+    button.layer.cornerRadius = 5;
+    button.layer.masksToBounds = YES;
+    button.backgroundColor = [UIColor colorWithHex:@"#18d06a" alpha:1.0f];
+    return cell;
 }
 
 - (NSMutableAttributedString *)setLabelContent:(NSString *) contentStr

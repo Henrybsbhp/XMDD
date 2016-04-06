@@ -252,8 +252,7 @@
     if (card && card.desc) {
         return card.desc;
     }
-    return @"<font size=13 color='#888888'>充值即享<font color='#ff0000'>98折</font>，\
-        每月优惠限额1000元，超出部分不予奖励。每月最多充值2000元。</font>";
+    return @"<font size=13 color='#888888'>充值即享<font color='#ff0000'>98折</font>，每月优惠限额1000元，超出部分不予奖励。每月最多充值2000元。</font>";
 }
 
 ///浙商卡加油充值说明

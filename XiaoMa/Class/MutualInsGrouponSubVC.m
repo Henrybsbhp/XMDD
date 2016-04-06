@@ -118,7 +118,7 @@
     if (op.rsp_sharemoney > 0) {
         items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber
                                           detailColor:MutInsTextDarkGrayColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand ? op.rsp_carbrand : @"暂无"
+                  [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand.length > 0 ? op.rsp_carbrand : @"暂无"
                                           detailColor:MutInsTextDarkGrayColor],
                   [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:[NSString formatForRoundPrice2:op.rsp_sharemoney]
                                           detailColor:MutInsOrangeColor],
@@ -134,7 +134,7 @@
     else {
         items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber
                                           detailColor:MutInsTextDarkGrayColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand ? op.rsp_carbrand : @"暂无"
+                  [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand.length > 0 ? op.rsp_carbrand : @"暂无"
                                           detailColor:MutInsTextDarkGrayColor],
                   [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:@"暂无"
                                           detailColor:MutInsTextDarkGrayColor],
@@ -180,7 +180,6 @@
     vc.memberId = self.groupDetail.req_memberid;
     vc.groupId = self.groupDetail.req_groupid;
     vc.groupName = self.groupDetail.rsp_groupname;
-    vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

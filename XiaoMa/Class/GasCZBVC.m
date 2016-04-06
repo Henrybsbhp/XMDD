@@ -26,38 +26,26 @@
 #import "GasPayForCZBVC.h"
 
 @interface GasCZBVC ()<RTLabelDelegate>
-@property (nonatomic, strong) CKList *datasource;
-@property (nonatomic, strong) CKList *czbDatasource;
-@property (nonatomic, strong) CKList *loadingDatasource;
-
 @property (nonatomic, strong) HKBankCard *curBankCard;
 @property (nonatomic, strong) GasCard *curGasCard;
 @property (nonatomic, strong) GasStore *gasStore;
 @property (nonatomic, strong) BankStore *bankStore;
-
-@property (nonatomic, assign) float rechargeAmount;
-
 @end
+
 @implementation GasCZBVC
 
-- (void)dealloc
-{
-}
 
 - (instancetype)initWithTargetVC:(UIViewController *)vc tableView:(UITableView *)table
                     bottomButton:(UIButton *)btn bottomView:(UIView *)bottomView
 {
-    self = [super init];
+    self = [super initWithTargetVC:vc tableView:table bottomButton:btn bottomView:bottomView];
     if (self) {
-        _tableView = table;
-        _bottomBtn = btn;
-        _targetVC = vc;
-        _bottomView = bottomView;
         [self setupDatasource];
         [self setupStore];
     }
     return self;
 }
+
 
 - (void)setupDatasource
 {
@@ -65,11 +53,9 @@
     
     CKDict *row1 = self.curBankCard ? [self pickBankCardItem] : [self addBankCardItem];
     CKDict *row2 = self.curGasCard ? [self pickGasCardItem] : [self addGasCardItem];
-    self.czbDatasource = $($(row1,row2,[self pickGasAmountItem],[self wantInvoiceItem]),
-                           $([self gasReminderItem],[self serviceAgreementItem]));
+    self.datasource = $($(row1,row2,[self pickGasAmountItem],[self wantInvoiceItem]),
+                        $([self gasReminderItem],[self serviceAgreementItem]));
 
-    self.loadingDatasource = $($([self loadingItem]));
-    self.datasource = self.czbDatasource;
 }
 
 - (void)setupStore
@@ -131,97 +117,24 @@
     }
 
     //设置银行卡数据源
-    CKDict *row1 = self.czbDatasource[0][0];
+    CKDict *row1 = self.datasource[0][0];
     if (self.curBankCard && ![row1[kCKItemKey] isEqualToString:@"BankCard"]) {
-        [self.czbDatasource[0] replaceObject:[self pickBankCardItem] withKey:nil atIndex:0];
+        [self.datasource[0] replaceObject:[self pickBankCardItem] withKey:nil atIndex:0];
     }
     else if (!self.curBankCard && ![row1[kCKItemKey] isEqualToString:@"AddCZBCard"]) {
-        [self.czbDatasource[0] replaceObject:[self addBankCardItem] withKey:nil atIndex:0];
+        [self.datasource[0] replaceObject:[self addBankCardItem] withKey:nil atIndex:0];
     }
     
     //设置油卡数据源
-    CKDict *row2 = self.czbDatasource[0][1];
+    CKDict *row2 = self.datasource[0][1];
     if (self.curGasCard && ![row2[kCKItemKey] isEqualToString:@"GasCard"]) {
-        [self.czbDatasource[0] replaceObject:[self pickGasCardItem] withKey:nil atIndex:1];
+        [self.datasource[0] replaceObject:[self pickGasCardItem] withKey:nil atIndex:1];
     }
     else if (!self.curGasCard && ![row2[kCKItemKey] isEqualToString:@"AddGasCard"]) {
-        [self.czbDatasource[0] replaceObject:[self addGasCardItem] withKey:nil atIndex:1];
+        [self.datasource[0] replaceObject:[self addGasCardItem] withKey:nil atIndex:1];
     }
-    [self reloadView:NO];
     return YES;
 }
-
-- (void)reloadFromSignal:(RACSignal *)signal
-{
-    CKDict *blankItem = self.loadingDatasource[0][@"Loading"];
-    __block BOOL triggered = NO;
-    @weakify(self);
-    [[signal initially:^{
-        
-        @strongify(self);
-        //如果没在刷新
-        if (![blankItem[@"loading"] boolValue]) {
-            blankItem[@"loading"] = @YES;
-            [self reloadView:NO];
-        }
-    }] subscribeNext:^(id x) {
-        
-        @strongify(self);
-        triggered = YES;
-        if ([self reloadDataIfNeeded]) {
-            //如果需要重新加载，停止刷新
-            blankItem[@"loading"] = @NO;
-            blankItem[@"error"] = @NO;
-            blankItem.forceReload = !blankItem.forceReload;
-            [self reloadView:NO];
-        }
-    } error:^(NSError *error) {
-        
-        @strongify(self);
-        triggered = YES;
-        blankItem[@"loading"] = @NO;
-        blankItem[@"error"] = @YES;
-        blankItem.forceReload = !blankItem.forceReload;
-        [self reloadView:YES];
-    } completed:^{
-        
-        @strongify(self);
-        //如果没有触发任何事件，表示该信号需要被忽略
-        if (!triggered && [self reloadDataIfNeeded]) {
-            //如果需要重新加载，停止刷新
-            blankItem[@"loading"] = @NO;
-            blankItem[@"error"] = @NO;
-            blankItem.forceReload = !blankItem.forceReload;
-            [self reloadView:NO];
-        }
-    }];
-}
-
-- (void)reloadView:(BOOL)force
-{
-    if (![self isEqual:self.tableView.delegate]) {
-        return;
-    }
-    CKDict *blankItem = self.loadingDatasource[0][@"Loading"];
-    CKList *oldDatasource = self.datasource;
-    if ([blankItem[@"loading"] boolValue] || [blankItem[@"error"] boolValue]) {
-        self.datasource = self.loadingDatasource;
-    }
-    else {
-        self.datasource = self.czbDatasource;
-    }
-    if (force || ![oldDatasource isEqual:self.datasource]) {
-        [self.tableView reloadData];
-    }
-    BOOL loading = [blankItem[@"loading"] boolValue];
-    if (loading) {
-        [self.tableView setContentOffset:CGPointZero];
-    }
-    self.tableView.scrollEnabled = !loading;
-    self.bottomView.hidden = loading;
-    [self reloadBottomButton];
-}
-
 
 - (void)reloadBottomButton
 {
@@ -308,41 +221,8 @@
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
 }
+
 #pragma mark - Cell
-///空白刷新（包括刷新失败）
-- (CKDict *)loadingItem
-{
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Loading"}];
-    @weakify(self);
-    item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        @strongify(self);
-        return [self heightForLoadingCell];
-    });
-    
-    item[kCKCellWillDisplay] = CKCellWillDisplay(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-
-        @strongify(self);
-        if ([data[@"loading"] boolValue]) {
-            [cell.contentView hideDefaultEmptyView];
-            CGPoint position = CGPointMake(self.tableView.frame.size.width/2, [self heightForLoadingCell]/2);
-            [cell.contentView startActivityAnimationWithType:GifActivityIndicatorType atPositon:position];
-        }
-        if ([data[@"error"] boolValue]) {
-            [cell.contentView stopActivityAnimation];
-           
-            [cell.contentView showDefaultEmptyViewWithText:@"刷新失败，点击重试" tapBlock:^{
-                [[[GasStore fetchExistsStore] getAllGasCards] send];
-            }];
-        }
-    });
-    return item;
-}
-
-- (CGFloat)heightForLoadingCell
-{
-    return self.tableView.frame.size.height - self.tableView.tableHeaderView.frame.size.height + self.bottomBtn.superview.frame.size.height;
-}
-
 ///选择银行卡
 - (CKDict *)pickBankCardItem
 {
@@ -433,8 +313,6 @@
         logoV.image = [UIImage imageNamed:self.curGasCard.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
         titleL.text = self.curGasCard.cardtype == 2 ? @"中石油" : @"中石化";
         cardnoL.text = [self.curGasCard.gascardno splitByStep:4 replacement:@" "];
-        [(HKTableViewCell *)cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom
-                                                             insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     });
     
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -451,10 +329,6 @@
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"AddGasCard"}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 68;
-    });
-    item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        [(HKTableViewCell *)cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom
-                                                             insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     });
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -631,70 +505,6 @@
     return item;
 }
 
-#pragma mark - RTLabelDelegate
-- (void)rtLabel:(id)rtLabel didSelectLinkWithURL:(NSURL *)url
-{
-    [MobClick event:@"rp501-8"];
-    [gAppMgr.navModel pushToViewControllerByUrl:[url absoluteString]];
-}
 
-#pragma mark - UITableViewDelegate
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return [self.datasource count];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.datasource[section] count];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    if (section == 1) {
-        return 8;
-    }
-    return CGFLOAT_MIN;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return CGFLOAT_MIN;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CKDict *item = [[self.datasource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    if (item[kCKCellGetHeight]) {
-        return ((CKCellGetHeightBlock)item[kCKCellGetHeight])(item, indexPath);
-    }
-    return 45;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CKDict *item = [[self.datasource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:item[kCKItemKey]];
-    if (item[kCKCellPrepare]) {
-        ((CKCellPrepareBlock)item[kCKCellPrepare])(item, cell, indexPath);
-    }
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CKDict *item = self.datasource[indexPath.section][indexPath.row];
-    if (item[kCKCellWillDisplay]) {
-        ((CKCellWillDisplayBlock)item[kCKCellWillDisplay])(item, cell, indexPath);
-    }
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CKDict *item = [[self.datasource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    if (item[kCKCellSelected]) {
-        ((CKCellSelectedBlock)item[kCKCellSelected])(item, indexPath);
-    }
-}
 
 @end

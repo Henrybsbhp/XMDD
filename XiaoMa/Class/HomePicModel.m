@@ -62,11 +62,13 @@
         [mutableArray safetyAddObject:item];
     }
     homePicModel.homeItemArray = [NSArray arrayWithArray:mutableArray];
-    homePicModel.yjxcPic = [rsp stringParamForName:@"yjxcpic"];
-    homePicModel.mzlqpic = [rsp stringParamForName:@"mzlqpic"];
-    homePicModel.bxfwpic = [rsp stringParamForName:@"bxfwpic"];
-    homePicModel.zyjypic = [rsp stringParamForName:@"zyjypic"];
-    homePicModel.njxbpic = [rsp stringParamForName:@"njxbpic"];
+    
+    NSDictionary * bottomDict = [rsp objectForKey:@"bottomItem"];
+    HomeItem * item = [[HomeItem alloc] init];
+    item.homeItemTitle = [bottomDict stringParamForName:@"title"];
+    item.homeItemPicUrl = [bottomDict stringParamForName:@"pic"];
+    item.homeItemRedirect = [bottomDict stringParamForName:@"url"];
+    homePicModel.bottomItem = item;
     
     return homePicModel;
 }
@@ -75,11 +77,7 @@
 - (void)encodeWithCoder:(NSCoder *)coder
 {
     [coder encodeObject:self.homeItemArray forKey:@"toppics"];
-    [coder encodeObject:self.yjxcPic forKey:@"yjxcpic"];
-    [coder encodeObject:self.mzlqpic forKey:@"mzlqpic"];
-    [coder encodeObject:self.bxfwpic forKey:@"bxfwpic"];
-    [coder encodeObject:self.zyjypic forKey:@"zyjypic"];
-    [coder encodeObject:self.njxbpic forKey:@"njxbpic"];
+    [coder encodeObject:self.bottomItem forKey:@"bottomItem"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -87,11 +85,7 @@
     self = [super init];
     if (self) {
         self.homeItemArray = [coder decodeObjectForKey:@"toppics"];
-        self.yjxcPic = [coder decodeObjectForKey:@"yjxcpic"];
-        self.mzlqpic = [coder decodeObjectForKey:@"mzlqpic"];
-        self.bxfwpic = [coder decodeObjectForKey:@"bxfwpic"];
-        self.zyjypic = [coder decodeObjectForKey:@"zyjypic"];
-        self.njxbpic = [coder decodeObjectForKey:@"njxbpic"];
+        self.bottomItem = [coder decodeObjectForKey:@"bottomItem"];
     }
     return self;
 }

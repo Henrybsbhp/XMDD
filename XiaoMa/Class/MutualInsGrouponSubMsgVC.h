@@ -13,7 +13,7 @@
 @property (nonatomic, strong)HKMutualGroup * group;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *groupMembers;
-@property (nonatomic, copy) void(^didScrollBlock)(UIScrollView *scrollView);
+@property (nonatomic, copy) void(^didScrollBlock)(UIScrollView *scrollView, CGPoint newOffset, CGPoint oldOffset);
 @property (nonatomic, copy)void(^didMessageAvatarTaped)(NSNumber *memberID);
 
 - (void)reloadData;
