@@ -21,5 +21,6 @@
 - (void)setupUploadBtn:(UIButton *)btn andDescLabel:(UILabel *)label forCar:(HKMyCar *)car;
 - (RACSignal *)rac_uploadDrivingLicenseWithTargetVC:(UIViewController *)targetVC initially:(void(^)(void))block;
 - (NSString *)descForCarStatus:(HKMyCar *)car;
+- (NSString *)uploadButtonStateForCar:(HKMyCar *)car;
 
 @end

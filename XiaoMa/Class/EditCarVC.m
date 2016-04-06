@@ -25,6 +25,7 @@
 #import "AreaTablePickerVC.h"
 #import "CarIDCodeCheckModel.h"
 #import "OETextField.h"
+#import "UIView+RoundedCorner.h"
 
 @interface EditCarVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -636,9 +637,6 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 10;
-    }
     return CGFLOAT_MIN;
 }
 
@@ -739,6 +737,7 @@
 
     label.text = data.customInfo[@"title"];
     
+    [chooseV setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
     chooseV.displayLb.text = self.curCar.licenceArea.length ? self.curCar.licenceArea : [self getCurrentProvince];
     @weakify(self);
     [[[chooseV rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]

@@ -226,7 +226,8 @@
     {
         if (self.minInsuranceExpirationDate)
         {
-            self.datePicker.minimumDate = self.minInsuranceExpirationDate;
+            NSDate *nextDat = [NSDate dateWithTimeInterval:24*60*60 sinceDate:self.minInsuranceExpirationDate];//后一天
+            self.datePicker.minimumDate = nextDat;
         }
         NSDate *selectedDate = self.insuranceExpirationDate ? self.insuranceExpirationDate : nil;
         

@@ -18,6 +18,7 @@
 #import "MutualInsPayResultVC.h"
 #import "MutualInsActivityVC.h"
 #import "MutualInsStore.h"
+#import "HKArrowView.h"
 
 @interface MutualInsPayViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 
@@ -83,10 +84,18 @@
 
 - (void)setupDateSource
 {
-    NSArray * section1 = @[[self celldataFor0_0],[self celldataFor0_1],[self celldataFor0_2],[self celldataFor0_3]];
+    NSArray * section1;
+    if (self.proxybuy)
+    {
+        section1 = @[[self celldataFor0_0],[self celldataFor0_1],[self celldataFor0_2],[self celldataFor0_3],[self celldataFor0_4]];
+    }
+    else
+    {
+        section1 = @[[self celldataFor0_0],[self celldataFor0_1],[self celldataFor0_2],[self celldataFor0_3]];
+    }
     
     NSMutableArray * section2 = [NSMutableArray arrayWithArray:@[[self celldataFor1_0],[self celldataFor1_1]]];
-    if (self.contract.couponlist.count)
+    if (self.contract.couponname.length)
     {
         [section2 safetyAddObject:[self celldataFor1_2]];
     }
@@ -411,9 +420,16 @@
 {
     UILabel *titleLb = (UILabel *)[cell.contentView viewWithTag:101];
     UILabel *contentLb = (UILabel *)[cell.contentView viewWithTag:102];
+    HKArrowView * arrowView = (HKArrowView *)[cell searchViewWithTag:103];
+    UILabel * tagLb = (UILabel *)[cell searchViewWithTag:20301];
     
     titleLb.text = data.object;
     contentLb.text = data.tag;
+    NSString * arrowTilte = data.customInfo[@"tag"];
+    arrowView.hidden = !arrowTilte;
+    arrowView.bgColor = HEXCOLOR(@"#ff7428");
+    arrowView.cornerRadius = 2.0f;
+    tagLb.text = arrowTilte;
     
     contentLb.attributedText = [self stringWithContent:data.tag andContent:data.customObject];
 }
@@ -555,7 +571,7 @@
     HKCellData *celldata = [HKCellData dataWithCellID:@"InfoItemCell" tag:nil];
     celldata.object = @"互助期限";
     celldata.tag = self.contract.contractperiod;
-    celldata.customObject = [NSString stringWithFormat:@"(共%@个月)",self.contract.totalmonth];
+    celldata.customObject = [NSString stringWithFormat:@"(%@个月)",self.contract.totalmonth];
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 27;
     }];
@@ -566,10 +582,29 @@
 {
     HKCellData *celldata = [HKCellData dataWithCellID:@"InfoItemCell" tag:nil];
     celldata.object = @"共计费用";
-    celldata.customObject = [NSString formatForPrice:self.contract.total];
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 27;
     }];
+    
+    CGFloat price = self.contract.total - self.contract.couponmoney;
+    celldata.customObject =  [NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]];
+    NSString * tag = self.contract.couponmoney ? [NSString stringWithFormat:@"原价￥%@ 优惠￥%@",[NSString formatForPrice:self.contract.total],[NSString formatForPrice:self.contract.couponmoney]] : @"";
+    celldata.customInfo[@"tag"] = tag;
+    return celldata;
+}
+
+- (HKCellData *)celldataFor0_4
+{
+    HKCellData *celldata = [HKCellData dataWithCellID:@"InfoItemCell" tag:nil];
+    celldata.object = @"车船税/交强险";
+    
+    CGFloat total = self.contract.forcefee + self.contract.taxshipfee;
+    celldata.tag = [NSString stringWithFormat:@"￥%@",[NSString formatForPrice:total]];
+    [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 27;
+    }];
+    
+
     return celldata;
 }
 
@@ -656,7 +691,7 @@
     self.licenseData = [HKCellData dataWithCellID:@"LicenseCell" tag:nil];
     self.licenseData.customInfo[@"check"] = @YES;
     
-    NSMutableString *license = [NSMutableString stringWithString:@"我已阅读并同意小马达达《保险服务协议》"];
+    NSMutableString *license = [NSMutableString stringWithString:@"我已阅读并同意小马达达《小马互助协议》"];
     
     self.licenseData.customInfo[@"range1"] = [NSValue valueWithRange:NSMakeRange(license.length - 8, 8)];
     self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:kInsuranceLicenseUrl];
