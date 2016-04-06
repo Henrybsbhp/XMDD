@@ -198,7 +198,7 @@
 
 #pragma mark - Public
 - (BOOL)isRechargeForInstalment {
-    return [self isRechargeForInstalment];
+    return [self.curChargePkg.pkgid integerValue] > 0;
 }
 
 
