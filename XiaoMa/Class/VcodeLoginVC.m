@@ -13,6 +13,7 @@
 #import "VCodeInputField.h"
 #import "NSString+PhoneNumber.h"
 #import "CKLimitTextField.h"
+#import "IQKeyboardManager.h"
 
 @interface VcodeLoginVC ()
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
@@ -41,6 +42,7 @@
     self.smsModel = [[HKSMSModel alloc] init];
 
     NSArray *mobEvents = @[@"rp002_7",@"rp002_8",@"rp002_9"];
+    
     self.smsModel.getVcodeButton = self.vcodeBtn;
     self.smsModel.inputVcodeField = self.code;
     self.smsModel.phoneField = self.num;
@@ -97,6 +99,7 @@
     }];
     
     self.code.textLimit = 8;
+    
     [self.code setDidBeginEditingBlock:^(CKLimitTextField *field) {
         [MobClick event:@"rp002_3"];
     }];
