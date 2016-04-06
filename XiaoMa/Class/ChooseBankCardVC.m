@@ -13,6 +13,7 @@
 #import "PayForWashCarVC.h"
 #import "BindBankCardVC.h"
 #import "GetUserResourcesV2Op.h"
+#import "CouponModel.h"
 
 @interface ChooseBankCardVC ()
 
@@ -67,7 +68,8 @@
 
 - (void)reloadData
 {
-    [[[[gAppMgr.myUser.couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
+    CouponModel * couponModel = [[CouponModel alloc] init];
+    [[[[couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
         
         [self.tableView.refreshView beginRefreshing];
     }] finally:^{
