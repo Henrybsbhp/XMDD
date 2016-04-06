@@ -115,7 +115,7 @@
     {
         [self.headView mas_remakeConstraints:^(MASConstraintMaker *make) {
             
-            make.height.equalTo(@52);
+            make.height.equalTo(@50);
         }];
     }
     
@@ -183,7 +183,7 @@
 - (void)createIllegalCardWithCar:(NSObject *)car
 {
     CGFloat w = CGRectGetWidth(self.view.frame);
-    CGFloat h= CGRectGetHeight(self.view.frame);
+    CGFloat h= CGRectGetHeight(self.view.frame) - self.headView.frame.size.height;
     CGFloat x = self.scrollView.subviews.count * w;
     
     self.scrollView.contentSize = CGSizeMake(x + w, h);
