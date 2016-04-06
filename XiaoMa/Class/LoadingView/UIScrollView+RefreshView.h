@@ -13,4 +13,5 @@
 @property (nonatomic, strong) HKRefreshControl *refreshView;
 - (void)restartRefreshViewAnimatingWhenRefreshing;
 - (BOOL)isRefreshViewExists;
+- (void)removeRefreshView;
 @end
