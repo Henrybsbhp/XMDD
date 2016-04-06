@@ -36,4 +36,9 @@ static char kRefreshViewKey;
     return objc_getAssociatedObject(self, &kRefreshViewKey);
 }
 
+-(void)removeRefreshView
+{
+    objc_setAssociatedObject(self, &kRefreshViewKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 @end

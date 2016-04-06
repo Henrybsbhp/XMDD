@@ -177,7 +177,7 @@
     else if (group.btnStatus == GroupBtnStatusDelete){
         
         //删除我的团操作 团长和团员调用新接口，入参不同
-        
+        // @lyw 过期团多的，删除会崩溃
         DeleteCooperationGroupOp * op = [DeleteCooperationGroupOp operation];
         op.req_memberid = group.memberId;
         op.req_groupid = group.groupId;
