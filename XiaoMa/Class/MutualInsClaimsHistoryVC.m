@@ -47,6 +47,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+
 #pragma mark UITableViewDataSource
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -78,7 +79,7 @@
         hkLabel.trapeziumColor = [UIColor colorWithHex:@"#18D06A" alpha:1];
     }
     hkLabel.textColor = [UIColor whiteColor];
-
+    
     UIView *backView = [cell viewWithTag:1000];
     [self addCorner:backView];
     
@@ -91,9 +92,7 @@
     statusLabel.text = model.detailstatusdesc;
     
     UILabel *timeLabel = [cell viewWithTag:1005];
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyy.MM.dd HH:mm"];
-    timeLabel.text = [format stringFromDate:[NSDate dateWithUTS:model.lstupdatetime]];
+    timeLabel.text = [[NSDate dateWithUTS:model.lstupdatetime]dateFormatForYYMMdd2];
     return cell;
 }
 
