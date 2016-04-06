@@ -19,6 +19,7 @@
 #import "AddCloseAnimationButton.h"
 #import "HKPopoverView.h"
 #import "UpdateCarOp.h"
+#import "UIView+RoundedCorner.h"
 
 #import "ValuationViewController.h"
 
@@ -102,7 +103,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self setEmptyContentView];
+    [self setUI];
     [self setupCarStore];
     [[self.carStore getAllCars] send];
 }
@@ -112,13 +113,19 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setEmptyContentView
+- (void)setUI
 {
     UIButton *addCarButton = [self.emptyContentView viewWithTag:1002];
     [[addCarButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
+    
+    [self.defaultLabel setCornerRadius:3 withBorderColor:HEXCOLOR(@"#FDFE28") borderWidth:0.5 backgroundColor:HEXCOLOR(@"#18D06A") backgroundImage:nil contentMode:UIViewContentModeScaleToFill];
+    
+    [self.defaultLabel setCornerRadius:3];
+    [self.defaultLabel setBorderWidth:0.5];
+    [self.defaultLabel setBorderColor:HEXCOLOR(@"#FDFE28")];
 }
 
 - (void)setupCarStore
@@ -341,9 +348,15 @@
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"BottomCell" forIndexPath:indexPath];
     UIButton * uploadButton = [cell.contentView viewWithTag:1001];
-    UIButton * valuationButton = [cell.contentView viewWithTag:1002];
+    UILabel * uploadStateLabel = [cell.contentView viewWithTag:1002];
+    UIButton * valuationButton = [cell.contentView viewWithTag:1003];
     
     @weakify(self);
+    [[RACObserve(self.model, selectedCar) distinctUntilChanged] subscribeNext:^(HKMyCar *car) {
+        @strongify(self);
+        uploadStateLabel.text = [self.model uploadButtonStateForCar:self.model.selectedCar];
+    }];
+    
     [[[uploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
         [self uploadDrivingLicenceWithCar:self.model.currentCar];
