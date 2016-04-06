@@ -132,14 +132,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView beginUpdates];
-    // tell the table you're about to start making changes
-    
-    // If the index path of the currently expanded cell is the same as the index that
-    // has just been tapped set the expanded index to nil so that there aren't any
-    // expanded cells, otherwise, set the expanded index to the index that has just
-    // been selected.
-    
     if ([indexPath compare:self.expandedIndexPath] == NSOrderedSame) {
         self.expandedIndexPath = nil;
     } else {
@@ -147,7 +139,6 @@
     }
     
     [self.tableView reloadData];
-    [tableView endUpdates];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

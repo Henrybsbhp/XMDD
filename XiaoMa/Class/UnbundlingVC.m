@@ -73,6 +73,7 @@ static NSString *s_sendedPhone;
 
 - (IBAction)actionUnbind:(id)sender
 {
+    [self.vcodeField resignFirstResponder];
     [MobClick event:@"rp329_3"];
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
@@ -267,7 +268,7 @@ static NSString *s_sendedPhone;
     [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:last4CardNumber]];
     [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:@"的银行卡，验证码已发送至"]];
     [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:phone attributes:@{NSForegroundColorAttributeName:HEXCOLOR(@"#18D06A")}]];
-    [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:@"，" attributes:nil]];
+    
     return attrStr;
 }
 
