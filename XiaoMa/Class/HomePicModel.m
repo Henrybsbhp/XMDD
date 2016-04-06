@@ -10,14 +10,16 @@
 
 @implementation HomeItem
 
-- (instancetype)initWithTitlt:(NSString *)title picUrl:(NSString *)picurl andUrl:(NSString *)url imageName:(NSString *)imageName
+- (instancetype)initWithId:(NSNumber *)itemId titlt:(NSString *)title picUrl:(NSString *)picurl andUrl:(NSString *)url imageName:(NSString *)imageName isnew:(BOOL)flag
 {
     self = [super init];
     if (self) {
+        self.homeItemId = itemId;
         self.homeItemTitle = title;
         self.homeItemPicUrl = picurl;
         self.homeItemRedirect = url;
         self.defaultImageName = imageName;
+        self.isNewFlag = flag;
     }
     return self;
 }
@@ -27,6 +29,8 @@
     [coder encodeObject:self.homeItemTitle forKey:@"title"];
     [coder encodeObject:self.homeItemPicUrl forKey:@"pic"];
     [coder encodeObject:self.homeItemRedirect forKey:@"url"];
+    [coder encodeObject:self.homeItemId forKey:@"itemid"];
+    [coder encodeObject:@(self.isNewFlag) forKey:@"newflag"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -36,6 +40,9 @@
         self.homeItemTitle = [coder decodeObjectForKey:@"title"];
         self.homeItemPicUrl = [coder decodeObjectForKey:@"pic"];
         self.homeItemRedirect = [coder decodeObjectForKey:@"url"];
+        self.homeItemId = [coder decodeObjectForKey:@"itemid"];
+        self.isNewFlag = [coder decodeBoolForKey:@"newflag"];
+        
     }
     return self;
 }
@@ -59,25 +66,61 @@
         item.homeItemTitle = [dict stringParamForName:@"title"];
         item.homeItemPicUrl = [dict stringParamForName:@"pic"];
         item.homeItemRedirect = [dict stringParamForName:@"url"];
+        item.homeItemId = [dict numberParamForName:@"id"];
+        item.isNewFlag = [dict boolParamForName:@"newflag"];
         [mutableArray safetyAddObject:item];
     }
     homePicModel.homeItemArray = [NSArray arrayWithArray:mutableArray];
     
-    NSDictionary * bottomDict = [rsp objectForKey:@"bottomItem"];
-    HomeItem * item = [[HomeItem alloc] init];
-    item.homeItemTitle = [bottomDict stringParamForName:@"title"];
-    item.homeItemPicUrl = [bottomDict stringParamForName:@"pic"];
-    item.homeItemRedirect = [bottomDict stringParamForName:@"url"];
-    homePicModel.bottomItem = item;
-    
     return homePicModel;
+}
+
+- (HomePicModel *)analyzeHomePicModel:(HomePicModel *)model
+{
+    for (HomeItem * item in model.homeItemArray)
+    {
+        //设置默认图片
+        if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=g"])
+            item.defaultImageName = @"hp_refuel_300";
+        else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=sl"])
+            item.defaultImageName = @"hp_carwash_300";
+        else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=coins"])
+            item.defaultImageName = @"hp_mutualIns_300";
+        else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=ins"])
+            item.defaultImageName = @"hp_insurance_300";
+        else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=a"])
+            item.defaultImageName = @"hp_weekcoupon_300";
+        else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=vio"])
+            item.defaultImageName = @"peccancy_300";
+        else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=val"])
+            item.defaultImageName = @"hp_valuation_300";
+        else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=rescue"])
+            item.defaultImageName = @"hp_rescue_300";
+        else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=ast"])
+            item.defaultImageName = @"hp_assist_300";
+        
+        //找到id一样的,且newflag不一样.设为和本地一样
+        [self.homeItemArray firstObjectByFilteringOperatorWithIndex:^BOOL(HomeItem * selfItem, NSUInteger index) {
+            
+            if (selfItem.homeItemId && [selfItem.homeItemId isEqualToNumber:item.homeItemId])
+            {
+                if (selfItem.isNewFlag != item.isNewFlag)
+                {
+                    item.isNewFlag = selfItem.isNewFlag;
+                    return YES;
+                }
+            }
+            return NO;
+        }];
+    }
+    
+    return model;
 }
 
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
     [coder encodeObject:self.homeItemArray forKey:@"toppics"];
-    [coder encodeObject:self.bottomItem forKey:@"bottomItem"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -85,7 +128,6 @@
     self = [super init];
     if (self) {
         self.homeItemArray = [coder decodeObjectForKey:@"toppics"];
-        self.bottomItem = [coder decodeObjectForKey:@"bottomItem"];
     }
     return self;
 }

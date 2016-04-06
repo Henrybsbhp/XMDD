@@ -25,6 +25,7 @@
 #import "InsPayResultVC.h"
 #import "InsLicensePopVC.h"
 #import "DetailWebVC.h"
+#import "CouponModel.h"
 
 
 
@@ -38,35 +39,16 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
 
-@property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 @property (nonatomic)BOOL isLoadingResourse;
 @property (nonatomic, assign) BOOL isLicenseChecked;
 @property (nonatomic, strong) HKCellData *licenseData;
 
-/////支付平台，（section == 2）
-//@property (nonatomic)PaymentPlatform platform;
+@property (nonatomic,strong)NSArray * validInsuranceCouponArray;
+
+@property (nonatomic)PaymentChannelType paymentChannel;
 @end
 
 @implementation PayForInsuranceVC
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    [self setupCheckBoxHelper];
-    [self setupBottomView];
-    
-    self.selectInsuranceCoupouArray = [NSMutableArray array];
-    
-    self.isLoadingResourse = YES;
-    [self reloadData];
-    [self requestGetUserInsCoupon];
-}
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (void)dealloc
 {
@@ -75,18 +57,24 @@
     DebugLog(@"PayForInsuranceVC dealloc");
 }
 
-- (void)setupCheckBoxHelper
-{
-    self.checkBoxHelper = [CKSegmentHelper new];
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    [self setupBottomView];
+    
+    [self reloadLicenseData];
+    [self requestGetUserInsCoupon];
+}
+
+
+#pragma mark - Setup
 - (void)setupBottomView
 {
-    //line
-    [self.bottomView setBorderColor:kDefLineColor];
-    [self.bottomView showBorderLineWithDirectionMask:CKViewBorderDirectionTop];
-    [self.bottomView layoutBorderLineIfNeeded];
-    
     //label
     CGFloat total = self.insOrder.totoalpay + self.insOrder.forcetaxfee;
     UILabel *label = (UILabel *)[self.bottomView viewWithTag:1001];
@@ -104,7 +92,7 @@
 }
 
 #pragma mark - Datasource
-- (void)reloadData
+- (void)reloadLicenseData
 {
     self.licenseData = [HKCellData dataWithCellID:@"LicenseCell" tag:nil];
     self.licenseData.customInfo[@"check"] = @YES;
@@ -151,23 +139,6 @@
     [gPhoneHelper makePhone:number andInfo:@"咨询电话: 4007-111-111"];
 }
 
-- (void)gotoPaidFailVC
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您的保险订单支付失败，请重新支付！" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
-    [alert show];
-//    InsPayFaildVC *vc = [UIStoryboard vcWithId:@"InsPayFaildVC" inStoryboard:@"Insurance"];
-//    vc.insOrder = self.insOrder;
-//    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)gotoPaidSuccessVC
-{
-    InsPayResultVC *resultVC = [UIStoryboard vcWithId:@"InsPayResultVC" inStoryboard:@"Insurance"];
-    resultVC.insModel = self.insModel;
-    resultVC.insOrder = self.insOrder;
-    [self.navigationController pushViewController:resultVC animated:YES];
-}
-
 - (IBAction)actionPay:(id)sender {
     
     [MobClick event:@"rp326_6"];
@@ -179,91 +150,18 @@
      }];
 }
 
-- (PaymentChannelType)getCurrentPaymentChannel
+- (void)gotoPaidFailVC
 {
-    NSArray * array = [[self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup] sortedArrayUsingComparator:^NSComparisonResult(UIButton * obj1, UIButton * obj2) {
-        
-        NSIndexPath * path1 = (NSIndexPath *)obj1.customObject;
-        NSIndexPath * path2 = (NSIndexPath *)obj2.customObject;
-        return path1.row > path2.row;
-    }];
-    for (NSInteger i = 0 ; i < array.count ; i++)
-    {
-        UIButton * btn = [array safetyObjectAtIndex:i];
-        BOOL s = btn.selected;
-        if (s == YES)
-        {
-            if (i == 0)
-            {
-                return PaymentChannelAlipay;
-            }
-            else if (i == 1)
-            {
-                if (gPhoneHelper.exsitWechat)
-                    return PaymentChannelWechat;
-                else
-                    return PaymentChannelUPpay;
-            }
-            else if (i == 2)
-            {
-                return PaymentChannelUPpay;
-            }
-        }
-    }
-    return 0;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您的保险订单支付失败，请重新支付！" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+    [alert show];
 }
 
-- (void)getCurrentCoupon:(InsuranceOrderPayOp *)op
+- (void)gotoPaidSuccessVC
 {
-    NSArray * array = [[self.checkBoxHelper itemsForGroupName:CheckBoxDiscountGroup] sortedArrayUsingComparator:^NSComparisonResult(UIButton * obj1, UIButton * obj2) {
-        
-        NSIndexPath * path1 = (NSIndexPath *)obj1.customObject;
-        NSIndexPath * path2 = (NSIndexPath *)obj2.customObject;
-        return path1.row > path2.row;
-    }];
-    for (NSInteger i = 0 ; i < array.count ; i++)
-    {
-        UIButton * btn = [array safetyObjectAtIndex:i];
-        BOOL s = btn.selected;
-        if (s == YES)
-        {
-            if (i == 1)
-            {
-                if (self.insOrder.iscontainActivity)
-                {
-                    op.req_cid = nil;
-                    op.req_type = self.insOrder.activityType;
-                }
-                else
-                {
-                    if (!self.couponType)
-                    {
-                        op.req_cid = nil;
-                    }
-                    else
-                    {
-                        HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
-                        op.req_cid = c.couponId;
-                    }
-                    op.req_type = 0;
-                }
-            }
-            else if (i == 2)
-            {
-                if (!self.couponType)
-                {
-                    op.req_cid = nil;
-                }
-                else
-                {
-                    HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
-                    op.req_cid = c.couponId;
-                }
-                op.req_type = 0;
-            }
-            return;
-        }
-    }
+    InsPayResultVC *resultVC = [UIStoryboard vcWithId:@"InsPayResultVC" inStoryboard:@"Insurance"];
+    resultVC.insModel = self.insModel;
+    resultVC.insOrder = self.insOrder;
+    [self.navigationController pushViewController:resultVC animated:YES];
 }
 
 
@@ -348,7 +246,7 @@
         }
     }
     
-    PaymentChannelType channel = [self getCurrentPaymentChannel];
+    PaymentChannelType channel = self.paymentChannel;
     if (channel == 0)
     {
         UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择支付方式" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
@@ -411,39 +309,36 @@
     
     CGFloat height = 44;
     if (indexPath.section == 0){
-        if (indexPath.row == 0){
-            height = 66;
-        }
-        else if (indexPath.row == 5){
+        if (indexPath.row == 0)
+            height = 55;
+        else if (indexPath.row == 5)
             height = 30;
-        }
         else
-        {
-            height = 26;
-        }
+            height = 23;
     }
-    if (indexPath.section != 0){
-        if (indexPath.row == 0){
-            height = 30;
-        }
-        else{
-            height = 50;
-        }
-    }
-    if (indexPath.section == 3) {
+    else if (indexPath.section == 3) {
         height = self.licenseData.heightBlock(tableView);
     }
+    else{
+        if (indexPath.row == 0)
+            height = 40;
+        else
+            height = 50;
+    }
+    
     return height;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
-    return CGFLOAT_MIN;
+   return  CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    return  CGFLOAT_MIN;
+    if (section == 0)
+        return CGFLOAT_MIN;
+    return 10;
 }
 
 
@@ -459,22 +354,18 @@
         }
     }
     else if (indexPath.section == 1) {
-        if (indexPath.row == 0)
-        {
+        if (indexPath.row == 0){
             cell = [self discountTitleCellAtIndexPath:indexPath];
         }
-        else
-        {
+        else{
             cell = [self discountCellAtIndexPath:indexPath];
         }
     }
     else if (indexPath.section == 2) {
-        if (indexPath.row == 0)
-        {
+        if (indexPath.row == 0){
             cell = [self paymentPlatformTitleCellAtIndexPath:indexPath];
         }
-        else
-        {
+        else{
             cell = [self paymentPlatformCellAtIndexPath:indexPath];
         }
     }
@@ -485,32 +376,7 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (![cell isKindOfClass:[JTTableViewCell class]]) {
-        return;
-    }
-    JTTableViewCell *jtcell = (JTTableViewCell *)cell;
-    
-    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0) || (indexPath.section == 0 && indexPath.row == 5))
-    {
-        [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, 0, 0) forDirectionMask:CKViewBorderDirectionBottom];
-        [cell.contentView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom];
-        [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:CKViewBorderDirectionBottom];
-    }
-    else
-    {
-        if (indexPath.section == 0)
-        {
-            if (indexPath.row != 3 || indexPath != 0)
-            {
-                return;
-            }
-        }
-        jtcell.customSeparatorInset = UIEdgeInsetsMake(-1, 8, 0, 8);
-        [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
-    }
-}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -521,6 +387,19 @@
             if (!self.insOrder.iscontainActivity)
             {
                 [self jumpToChooseCouponVC];
+            }
+            else
+            {
+                if (self.isSelectActivity)
+                {
+                    self.isSelectActivity = NO;
+                }
+                else
+                {
+                    self.isSelectActivity = YES;
+                    [self.selectInsuranceCoupouArray removeAllObjects];
+                    self.couponType = 0;
+                }
             }
         }
         else if (indexPath.row == 2)
@@ -534,31 +413,28 @@
     }
     else if (indexPath.section == 2)
     {
-        if (indexPath.row > 0)
-        {
-            NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
-            for (NSInteger i = 0 ; i < array.count ; i++)
-            {
-                UIButton * btn = [array safetyObjectAtIndex:i];
-                if ([btn.customObject isKindOfClass:[NSIndexPath class]])
-                {
-                    NSIndexPath * path = (NSIndexPath *)btn.customObject;
-                    if (path.section == indexPath.section && path.row == indexPath.row)
-                    {
-                        btn.selected = YES;
-                    }
-                    else
-                    {
-                        btn.selected = NO;
-                    }
-                }
-            }
-            
+        if (indexPath.row == 1) {
+           self.paymentChannel = PaymentChannelAlipay;
         }
+        else if (indexPath.row == 2) {
+            if (gPhoneHelper.exsitWechat)
+            {
+                self.paymentChannel = PaymentChannelWechat;
+            }
+            else
+            {
+                self.paymentChannel = PaymentChannelUPpay;
+            }
+        }
+        else if (indexPath.row == 3) {
+            self.paymentChannel = PaymentChannelUPpay;
+        }
+        
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
-#pragma mark - TableViewCell
+#pragma mark - About Cell
 - (UITableViewCell *)insTitleCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"InsuranceTitleCell"];
@@ -611,13 +487,10 @@
 - (UITableViewCell *)discountCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"DiscountCell"];
-    UIButton *boxB = (UIButton *)[cell.contentView viewWithTag:1001];
-    UILabel *label = (UILabel *)[cell.contentView viewWithTag:1002];
-    UIImageView *arrow = (UIImageView *)[cell.contentView viewWithTag:1003];
-    UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:1004];
-    UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
-    UILabel *tagLb = (UILabel *)[cell.contentView viewWithTag:1006];
-    UIView *tagBg = (UIView *)[cell.contentView viewWithTag:1007];
+    UILabel *label = (UILabel *)[cell.contentView viewWithTag:101];
+    UILabel *tagLb = (UILabel *)[cell.contentView viewWithTag:20201];
+    UIView *tagBg = (UIView *)[cell.contentView viewWithTag:102];
+    UIImageView * squareView = (UIImageView *)[cell searchViewWithTag:103];
     
     if (self.insOrder.iscontainActivity)
     {
@@ -628,308 +501,70 @@
             [tagBg makeCornerRadius:3.0f];
             tagLb.hidden = !self.insOrder.activityName.length;
             tagBg.hidden = !self.insOrder.activityName.length;
-            arrow.hidden = YES;
             
-            NSDate * earlierDate;
-            NSDate * laterDate;
-            dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",earlierDate ? [earlierDate dateFormatForYYMMdd2] : @"",laterDate ? [laterDate dateFormatForYYMMdd2] : @""];
-            
-            if (self.isSelectActivity)
-            {
-                statusLb.text = @"已选中";
-                statusLb.textColor = HEXCOLOR(@"#fb4209");
-                statusLb.hidden = NO;
-            }
-            else
-            {
-                statusLb.text = @"未使用";
-                statusLb.textColor = HEXCOLOR(@"#aaaaaa");
-                statusLb.hidden = YES;
-            }
+            [[RACObserve(self, isSelectActivity) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
+                
+                squareView.hidden = ![number integerValue];
+            }];
             
             [tagLb mas_remakeConstraints:^(MASConstraintMaker *make) {
                
                 make.centerY.equalTo(cell.contentView);
             }];
-            dateLb.hidden = YES;
         }
         else
         {
-            cell = [self setupInsuranceCouponForCell:cell];
-        }
-        
-        if ((self.isSelectActivity && indexPath.row == 1) ||
-            (self.couponType == CouponTypeInsurance && indexPath.row == 2))
-        {
-            [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
-            boxB.selected = YES;
-        }
-        else
-        {
-            boxB.selected = NO;
+            cell = [self setupInsuranceCouponForCell];
         }
     }
     else
     {
-        cell = [self setupInsuranceCouponForCell:cell];
-        
-        if ((self.couponType == CouponTypeInsurance && indexPath.row == 1))
-        {
-            [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
-            boxB.selected = YES;
-        }
-        else
-        {
-            boxB.selected = NO;
-        }
+        cell = [self setupInsuranceCouponForCell];
     }
-    
-
-    
-    
-    // checkBox 点击处理
-    NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxDiscountGroup];
-    for (NSInteger i = 0 ; i < array.count ; i++)
-    {
-        UIButton * btn = [array safetyObjectAtIndex:i];
-        if ([btn.customObject isKindOfClass:[NSIndexPath class]])
-        {
-            NSIndexPath * path = (NSIndexPath *)btn.customObject;
-            if (path.section == indexPath.section && path.row == indexPath.row)
-            {
-                [self.checkBoxHelper removeItem:btn forGroupName:CheckBoxDiscountGroup];
-                break;
-            }
-        }
-    }
-    @weakify(self);
-    boxB.customObject = indexPath;
-    [self.checkBoxHelper addItem:boxB forGroupName:CheckBoxDiscountGroup withChangedBlock:^(id item, BOOL selected) {
-        
-        @strongify(self);
-        boxB.selected = selected;
-        
-        if (self.insOrder.iscontainActivity)
-        {
-            if (indexPath.row == 1) {
-                
-                if (self.isSelectActivity)
-                {
-                    [MobClick event:@"rp1006_3"];
-                    statusLb.text = @"已选中";
-                    statusLb.textColor = HEXCOLOR(@"#fb4209");
-                    statusLb.hidden = NO;
-                }
-                else
-                {
-                    statusLb.text = @"未使用";
-                    statusLb.textColor = HEXCOLOR(@"#aaaaaa");
-                    statusLb.hidden = YES;
-                }
-            }
-            else
-            {
-                if (self.couponType == CouponTypeInsurance)
-                {
-                    [MobClick event:@"rp1006_4"];
-                    statusLb.text = @"已选中";
-                    statusLb.textColor = HEXCOLOR(@"#fb4209");
-                    statusLb.hidden = NO;
-                }
-                else
-                {
-                    statusLb.text = @"未使用";
-                    statusLb.textColor = HEXCOLOR(@"#aaaaaa");
-                    statusLb.hidden = YES;
-                }
-            }
-        }
-        else
-        {
-            if (self.couponType == CouponTypeInsurance)
-            {
-                statusLb.text = @"已选中";
-                statusLb.textColor = HEXCOLOR(@"#fb4209");
-                statusLb.hidden = NO;
-            }
-            else
-            {
-                statusLb.text = @"未使用";
-                statusLb.textColor = HEXCOLOR(@"#aaaaaa");
-                statusLb.hidden = YES;
-            }
-        }
-
-    }];
-    [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        @strongify(self);
-        if (indexPath.row == 2)
-        {
-            if (!self.selectInsuranceCoupouArray.count)
-            {
-                [self jumpToChooseCouponVC];
-                [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
-            }
-            else
-            {
-                if (self.couponType == CouponTypeInsurance)
-                {
-                    self.couponType = 0;
-                    [self.checkBoxHelper cancelSelectedForGroupName:CheckBoxDiscountGroup];
-                }
-                else
-                {
-                    HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
-                    self.couponType = c.conponType;
-                    self.isSelectActivity = NO;
-                    [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
-                }
-            }
-            
-        }
-        else if (indexPath.row == 1)
-        {
-            if (self.insOrder.iscontainActivity)
-            {
-                if (self.isSelectActivity)
-                {
-                    self.isSelectActivity = NO;
-                    self.couponType = 0;
-                    [self.checkBoxHelper cancelSelectedForGroupName:CheckBoxDiscountGroup];
-                }
-                else
-                {
-                    self.isSelectActivity = YES;
-                    self.couponType = 0;
-                    [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
-                }
-            }
-            else
-            {
-                if (!self.selectInsuranceCoupouArray.count)
-                {
-                    [self jumpToChooseCouponVC];
-                    [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
-                }
-                else
-                {
-                    if (self.couponType == CouponTypeInsurance)
-                    {
-                        self.couponType = 0;
-                        [self.checkBoxHelper cancelSelectedForGroupName:CheckBoxDiscountGroup];
-                    }
-                    else
-                    {
-                        HKCoupon * c = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
-                        self.couponType = c.conponType;
-                        [self.checkBoxHelper selectItem:boxB forGroupName:CheckBoxDiscountGroup];
-                    }
-                }
-            }
-        }
-        
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
-        [self refreshPriceLb];
-    }];
     
     return cell;
 }
 
 - (UITableViewCell *)paymentPlatformCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
-    UIImageView *iconV;
-    UILabel *titleLb,*noteLb,*recommendLB;
-    UIButton *boxB;
-    cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellA"];
-    iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
-    titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
-    noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
-    boxB = (UIButton *)[cell.contentView viewWithTag:1003];
-    recommendLB = (UILabel *)[cell.contentView viewWithTag:1005];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PayPlatformCell"];
+    UIImageView *iconImgV,*tickImgV;
+    UILabel *titleLb,*recommendLB;
+    iconImgV = (UIImageView *)[cell searchViewWithTag:101];
+    titleLb = (UILabel *)[cell searchViewWithTag:102];
+    tickImgV = (UIImageView *)[cell searchViewWithTag:103];
+    recommendLB = (UILabel *)[cell searchViewWithTag:104];
     recommendLB.cornerRadius = 3.0f;
     recommendLB.layer.masksToBounds = YES;
     
     
     if (indexPath.row == 1) {
-        iconV.image = [UIImage imageNamed:@"cw_alipay"];
+        iconImgV.image = [UIImage imageNamed:@"cw_alipay"];
         titleLb.text = @"支付宝支付";
-        noteLb.text = @"推荐支付宝用户使用";
         recommendLB.hidden = NO;
+        tickImgV.hidden = self.paymentChannel != PaymentChannelAlipay;
     }
     else if (indexPath.row == 2) {
         if (gPhoneHelper.exsitWechat)
         {
-            iconV.image = [UIImage imageNamed:@"cw_wechat"];
+            iconImgV.image = [UIImage imageNamed:@"cw_wechat"];
             titleLb.text = @"微信支付";
-            noteLb.text = @"推荐微信用户使用";
+            tickImgV.hidden = self.paymentChannel != PaymentChannelWechat;
         }
         else
         {
-            iconV.image = [UIImage imageNamed:@"ins_uppay"];
+            iconImgV.image = [UIImage imageNamed:@"ins_uppay"];
             titleLb.text = @"银联支付";
-            noteLb.text = @"推荐银联卡用户使用";
+            tickImgV.hidden = self.paymentChannel != PaymentChannelUPpay;
         }
         recommendLB.hidden = YES;
     }
     else if (indexPath.row == 3) {
-        iconV.image = [UIImage imageNamed:@"ins_uppay"];
+        iconImgV.image = [UIImage imageNamed:@"ins_uppay"];
         titleLb.text = @"银联支付";
-        noteLb.text = @"推荐银联卡用户使用";
         recommendLB.hidden = YES;
+        tickImgV.hidden = self.paymentChannel != PaymentChannelUPpay;
     }
-    
-    NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
-    UIButton * removeBtn;
-    for (NSInteger i = 0 ; i < array.count ; i++)
-    {
-        UIButton * btn = [array safetyObjectAtIndex:i];
-        if ([btn.customObject isKindOfClass:[NSIndexPath class]])
-        {
-            NSIndexPath * path = (NSIndexPath *)btn.customObject;
-            if (path.section == indexPath.section && path.row == indexPath.row)
-            {
-                [self.checkBoxHelper removeItem:btn forGroupName:CheckBoxPlatformGroup];
-                removeBtn = btn;
-                break;
-            }
-        }
-    }
-    @weakify(self);
-    boxB.customObject = indexPath;
-    boxB.selected = removeBtn.selected;
-    [self.checkBoxHelper addItem:boxB forGroupName:CheckBoxPlatformGroup withChangedBlock:^(id item, BOOL selected) {
-        
-    }];
-    
-    @weakify(boxB)
-    [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        @strongify(self);
-        
-        NSArray * array = [self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup];
-        [array enumerateObjectsUsingBlock:^(UIButton * obj, NSUInteger idx, BOOL *stop) {
-            
-            obj.selected = NO;
-        }];
-        
-        @strongify(boxB)
-        boxB.selected = YES;
-        if (indexPath.row == 1){
-            [MobClick event:@"rp1006_5"];
-        }
-        else if (indexPath.row == 2){
-            if (gPhoneHelper.exsitWechat) {
-                [MobClick event:@"rp1006_6"];
-            }
-            else {
-                [MobClick event:@"rp1006_7"];
-            }
-        }
-        else{
-            [MobClick event:@"rp1006_7"];
-        }
-    }];
 
     return cell;
 }
@@ -959,7 +594,9 @@
     TTTAttributedLabel *richL = [cell viewWithTag:1002];
     
     HKCellData *data = self.licenseData;
-
+    
+    BOOL checked = [data.customInfo[@"check"] boolValue];
+    checkB.selected = checked;
     //选择框
     @weakify(checkB);
     [[[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
@@ -970,6 +607,10 @@
          data.customInfo[@"check"] = @(checked);
          checkB.selected = checked;
          self.payBtn.enabled = checked;
+         if (checked)
+             [self.payBtn setBackgroundColor:HEXCOLOR(@"#ff7428")];
+         else
+             [self.payBtn setBackgroundColor:HEXCOLOR(@"#dbdbdb")];
     }];
 
     //文字和协议链接
@@ -1014,11 +655,14 @@
 
 - (void)requestGetUserInsCoupon
 {
-    [[gAppMgr.myUser.couponModel rac_getVaildInsuranceCoupon:self.insOrder.orderid] subscribeNext:^(GetInscouponOp * op) {
+    
+    CouponModel * couponModel = [[CouponModel alloc] init];
+    [[couponModel rac_getVaildInsuranceCoupon:self.insOrder.orderid] subscribeNext:^(GetInscouponOp * op) {
+        
+        self.validInsuranceCouponArray = op.rsp_inscouponsArray;
+        [self selectDefaultCoupon];
         
         self.isLoadingResourse = NO;
-        
-        [self selectDefaultCoupon];
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
@@ -1040,11 +684,11 @@
         [self tableViewReloadData];
         return;
     }
-    if (gAppMgr.myUser.couponModel.validInsuranceCouponArray.count)
+    if (self.validInsuranceCouponArray.count)
     {
-        for (NSInteger i = 0 ; i < gAppMgr.myUser.couponModel.validInsuranceCouponArray.count ; i++)
+        for (NSInteger i = 0 ; i < self.validInsuranceCouponArray.count ; i++)
         {
-            HKCoupon * coupon = [gAppMgr.myUser.couponModel.validInsuranceCouponArray safetyObjectAtIndex:i];
+            HKCoupon * coupon = [self.validInsuranceCouponArray safetyObjectAtIndex:i];
             if (coupon.couponAmount < self.insOrder.totoalpay)
             {
                     [self.selectInsuranceCoupouArray addObject:coupon];
@@ -1062,7 +706,6 @@
 
 - (void)tableViewReloadData
 {
-    [self.checkBoxHelper cancelSelectedForGroupName:CheckBoxDiscountGroup];
     [self.tableView reloadData];
     [self refreshPriceLb];
 }
@@ -1091,53 +734,29 @@
     [self.payBtn setTitle:btnText forState:UIControlStateNormal];
 }
 
-- (UITableViewCell *)setupInsuranceCouponForCell:(UITableViewCell * )cell
+- (UITableViewCell *)setupInsuranceCouponForCell
 {
-//    cell = [self.tableView dequeueReusableCellWithIdentifier:@"DiscountCellB"];
-    UIButton *boxB = (UIButton *)[cell.contentView viewWithTag:1001];
-    UILabel *label = (UILabel *)[cell.contentView viewWithTag:1002];
-    UIImageView *arrow = (UIImageView *)[cell.contentView viewWithTag:1003];
-    UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:1004];
-    UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
-    UILabel *tagLb = (UILabel *)[cell.contentView viewWithTag:1006];
-    UIView *tagBg = (UIView *)[cell.contentView viewWithTag:1007];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CouponCell"];
     
-    tagLb.hidden = YES;
-    tagBg.hidden = YES;
-    arrow.hidden = NO;
+    UILabel *nameLb = (UILabel *)[cell.contentView viewWithTag:101];
+    UILabel *couponLb = (UILabel *)[cell.contentView viewWithTag:102];
+    UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:103];
+
     
-    label.text = [NSString stringWithFormat:@"保险代金券：%ld张", (long)gAppMgr.myUser.couponModel.validInsuranceCouponArray.count];
-    arrow.hidden = NO;
-    
-    NSDate * earlierDate;
-    NSDate * laterDate;
-    for (HKCoupon * c in gAppMgr.myUser.couponModel.validInsuranceCouponArray)
-    {
-        earlierDate = [c.validsince earlierDate:earlierDate];
-        laterDate = [c.validthrough laterDate:laterDate];
-    }
-    dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",earlierDate ? [earlierDate dateFormatForYYMMdd2] : @"",laterDate ? [laterDate dateFormatForYYMMdd2] : @""];
+    nameLb.text = @"保险代金券";
     
     if (self.couponType == CouponTypeInsurance)
     {
-        statusLb.text = @"已选中";
-        statusLb.textColor = HEXCOLOR(@"#fb4209");
-        statusLb.hidden = NO;
-        boxB.selected = YES;
+        couponLb.hidden = NO;
+        dateLb.hidden = NO;
+        couponLb.text = [self calcCouponTitle:self.selectInsuranceCoupouArray];
+        dateLb.text = [self calcCouponValidDateString:self.selectInsuranceCoupouArray];
     }
     else
     {
-        statusLb.text = @"未使用";
-        statusLb.textColor = HEXCOLOR(@"#aaaaaa");
-        statusLb.hidden = YES;
-        boxB.selected = NO;
+        couponLb.hidden = YES;
+        dateLb.hidden = YES;
     }
-    
-    [tagLb mas_remakeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(cell.contentView).offset(8);
-    }];
-    dateLb.hidden = NO;
     return cell;
 }
 
@@ -1146,10 +765,58 @@
     ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
     vc.type = CouponTypeInsurance;
     vc.selectedCouponArray = self.selectInsuranceCoupouArray;
-    vc.couponArray = gAppMgr.myUser.couponModel.validInsuranceCouponArray;
+    vc.couponArray = self.validInsuranceCouponArray;
     vc.numberLimit = 1;
     vc.upperLimit = self.insOrder.totoalpay;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+///获取优惠劵title（12元代金劵）
+- (NSString *)calcCouponTitle:(NSArray *)couponArray
+{
+    if (couponArray.count == 0)
+    {
+        return @"";
+    }
+    else if (couponArray.count == 1)
+    {
+        HKCoupon * coupon = [couponArray safetyObjectAtIndex:0];
+        return coupon.couponName;
+    }
+    else
+    {
+        CGFloat totalAmount = 0.0;
+        for (HKCoupon * c in couponArray)
+        {
+            totalAmount = totalAmount + c.couponAmount;
+        }
+        NSString * string =  [NSString stringWithFormat:@"%lu代金劵(共%@元)",(unsigned long)couponArray.count,[NSString formatForPrice:totalAmount]];
+        return string;
+    }
+}
+
+
+///获取优惠劵的两头时间
+- (NSString *)calcCouponValidDateString:(NSArray *)couponArray
+{
+    NSDate * earlierDate;
+    NSDate * laterDate;
+    for (HKCoupon * c in couponArray)
+    {
+        earlierDate = [c.validsince earlierDate:earlierDate];
+        laterDate = [c.validthrough laterDate:laterDate];
+    }
+    NSString * string = [NSString stringWithFormat:@"有效期：%@ - %@",earlierDate ? [earlierDate dateFormatForYYMMdd2] : @"",laterDate ? [laterDate dateFormatForYYMMdd2] : @""];
+    
+    return string;
+}
+
+
+#pragma mark - Lazy 
+- (NSMutableArray *)selectInsuranceCoupouArray
+{
+    if (!_selectInsuranceCoupouArray)
+        _selectInsuranceCoupouArray = [NSMutableArray array];
+    return _selectInsuranceCoupouArray;
+}
 @end

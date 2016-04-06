@@ -138,6 +138,12 @@
     [self addCorner:[cell viewWithTag:101]];
     [self addCorner:[cell viewWithTag:102]];
     [self addCorner:[cell viewWithTag:103]];
+    
+    [self setPreferredMaxLayoutWidth:[cell viewWithTag:104]];
+    [self setPreferredMaxLayoutWidth:[cell viewWithTag:105]];
+    [self setPreferredMaxLayoutWidth:[cell viewWithTag:106]];
+    [self setPreferredMaxLayoutWidth:[cell viewWithTag:107]];
+    
     [cell layoutIfNeeded];
     return cell;
 }
@@ -370,6 +376,11 @@
 {
     label.layer.cornerRadius = 10;
     label.layer.masksToBounds = YES;
+}
+
+-(void)setPreferredMaxLayoutWidth:(UILabel *)label
+{
+    label.preferredMaxLayoutWidth = self.view.bounds.size.width - 70;
 }
 
 @end

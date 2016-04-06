@@ -20,6 +20,19 @@
 
 @implementation HKAlertVC
 
+-(BOOL)isShowing
+{
+    NSArray *arr = self.view.subviews;
+    if ([arr containsObject:self.contentView])
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -33,11 +46,19 @@
 
 - (void)show
 {
+    if (self.isShowing)
+    {
+        return;
+    }
     [self showWithActionHandler:nil];
 }
 
 - (void)showWithActionHandler:(void(^)(NSInteger index, id alertVC))actionHandler
 {
+    if (self.isShowing)
+    {
+        return;
+    }
     _actionHandler = actionHandler;
     CGRect frame = self.contentView.bounds;
     
@@ -59,6 +80,7 @@
 
 - (void)dismiss
 {
+    [self.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.alertView dismissWithCompletion:nil];
 }
 
