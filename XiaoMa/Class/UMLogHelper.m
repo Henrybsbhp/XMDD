@@ -83,7 +83,7 @@
                              @"PayForGasViewController":@{@"pagetag":@"rp508"},//油卡充值支付
                              
                              // 估值
-                             @"ValuationViewController":@{@"pagetag":@"rp601"},//二手车估值
+                             @"ValuationHomeVC":@{@"pagetag":@"rp601"},//二手车估值
                              @"ValuationResultVC":@{@"pagetag":@"rp602"},//二手车估值结果
                              @"HistoryCollectionVC":@{@"pagetag":@"rp603"},//历史估值列表
                              @"SecondCarValuationVC":@{@"pagetag":@"rp604"},//估值车提交平台
