@@ -96,6 +96,7 @@
     @weakify(self);
     [[logoutBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"rp302_6"];
         [alert show];
         
     }];
