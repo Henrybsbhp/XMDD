@@ -67,7 +67,7 @@
 - (CKDict *)messageItemWithInfo:(MutualInsMemberInfo *)info {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Message", @"left":@(![info.memberid isEqual:self.group.memberId]),
                                       @"img":info.brandurl, @"title":info.licensenumber, @"msg":info.statusdesc,
-                                      @"memberID":self.group.memberId,
+                                      @"memberID":info.memberid,
                                       @"time":[NSDate dateWithTimeIntervalSince1970:info.lstupdatetime/1000.0]}];
     @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
