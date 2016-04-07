@@ -21,7 +21,7 @@
 #import "UpdateCarOp.h"
 #import "UIView+RoundedCorner.h"
 
-#import "ValuationViewController.h"
+#import "ValuationHomeVC.h"
 
 @interface CarsListVC () <UIScrollViewDelegate>
 
@@ -365,7 +365,7 @@
     [[[valuationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         [MobClick event:@"rp309_4"];
         @strongify(self);
-        ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
+        ValuationHomeVC *vc = [UIStoryboard vcWithId:@"ValuationHomeVC" inStoryboard:@"Valuation"];
         vc.carIndex = self.sliderView.currentIndex;
         [self.navigationController pushViewController:vc animated:YES];
     }];
