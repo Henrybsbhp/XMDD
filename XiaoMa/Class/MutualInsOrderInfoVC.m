@@ -65,7 +65,7 @@
     
     if (self.contract.status == 2 && !self.contract.finishaddress)
     {
-        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(jumoToFinishAddressVC)];
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"寄送地址" style:UIBarButtonItemStylePlain target:self action:@selector(jumoToFinishAddressVC)];
         [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
         self.navigationItem.rightBarButtonItem = right;
     }
@@ -200,7 +200,7 @@
     
     CGFloat price = self.contract.total - self.contract.couponmoney;
     NSString * tag = self.contract.couponmoney ? [NSString stringWithFormat:@"原价￥%@ 优惠￥%@",[NSString formatForPrice:self.contract.total],[NSString formatForPrice:self.contract.couponmoney]] : @"";
-    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString formatForPrice:price],@"tag":tag}];
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]],@"tag":tag}];
     [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
     
     for (NSDictionary * subIns in self.contract.inslist)
@@ -314,8 +314,9 @@
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ProgressCell"];
     HKProgressView * progressView = (HKProgressView *)[cell searchViewWithTag:101];
-    progressView.titleArray = @[@"待支付",@"已支付",@"协议待出",@"协议已出"];
-    NSIndexSet *set = [NSIndexSet indexSetWithIndex:self.contract.status - 1];
+    progressView.titleArray = @[@"待支付",@"已支付",@"协议已出"];
+    NSInteger status = self.contract.status == 3 ? 4 : self.contract.status;
+    NSIndexSet *set = [NSIndexSet indexSetWithIndex:status - 1];
     progressView.selectedIndexSet = set;
     return cell;
 }

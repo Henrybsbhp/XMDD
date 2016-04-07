@@ -258,15 +258,15 @@ typedef enum : NSInteger
         self.menuItems = $([self menuItemInvite], [self menuItemMakeCall]);
     }
     else if (status == MutInsStatusAgreementTakingEffect) {
-        self.menuItems = $([self menuItemMyOrder], [self menuItemInvite], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall]);
     }
     else if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll ||
              status == MutInsStatusPaidForSelf || status == MutInsStatusGettedAgreement) {
-        self.menuItems = $([self menuItemMyOrder], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall]);
     }
     else if (status == MutInsStatusReviewFailed || status == MutInsStatusGroupDissolved ||
              status == MutInsStatusGroupExpired || status == MutInsStatusJoinFailed) {
-        self.menuItems = $([self menuItemRegroup], [self menuItemDeleteGroup], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemRegroup], [self menuItemDeleteGroup], [self menuItemMakeCall]);
     }
     else {
         self.menuItems = $([self menuItemInvite], [self menuItemQuit], [self menuItemMakeCall]);
@@ -311,8 +311,11 @@ typedef enum : NSInteger
 }
 
 #pragma mark - MenuItems
-- (CKDict *)menuItemInvite {
-    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"邀请入团",@"img":@"mins_person"}];
+- (id)menuItemInvite {
+    if (self.groupDetail.rsp_invitebtnflag == 0) {
+        CKNULL;
+    }
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"邀请好友",@"img":@"mins_person"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
