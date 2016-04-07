@@ -267,7 +267,8 @@
             {
                 self.tableView.showBottomLoadingView = YES;
                 [self.tableView.bottomLoadingView hideIndicatorText];
-                [self.tableView showDefaultEmptyViewWithText:@"附近没有您要找的商户"];
+//                [self.tableView showDefaultEmptyViewWithText:@"附近没有您要找的商户"];
+                [self.tableView showImageEmptyViewWithImageName:@"def_withoutShop" text:@"附近没有您要找的商户"];
             }
             else
             {

@@ -95,12 +95,17 @@
         }
         else {
             NSString *blank;
+            NSDictionary *dic;
             if ([self.delegate respondsToSelector:@selector(loadingModel:blankPromptingWithType:)]) {
                 blank = [self.delegate loadingModel:self blankPromptingWithType:HKLoadingTypeFirstTime];
+                dic = @{@"title":blank,@"image":@""};
+            }
+            else if ([self.delegate respondsToSelector:@selector(loadingModel:blankImagePromptingWithType:)])
+            {
+                dic = [self.delegate loadingModel:self blankImagePromptingWithType:HKLoadingTypeFirstTime];
             }
             @weakify(self);
-            [self.targetView showDefaultEmptyViewWithText:blank tapBlock:^{
-
+            [self.targetView showImageEmptyViewWithImageName:dic[@"image"] text:dic[@"title"] tapBlock:^{
                 @strongify(self);
                 if ([self.delegate respondsToSelector:@selector(loadingModel:didTappedForBlankPrompting:type:)]) {
                     [self.delegate loadingModel:self didTappedForBlankPrompting:blank type:HKLoadingTypeFirstTime];
@@ -117,12 +122,17 @@
             [self.delegate loadingModel:self didLoadingFailWithType:HKLoadingTypeFirstTime error:error];
         }
         NSString *errorPrompting;
+        NSDictionary *dic;
         if ([self.delegate respondsToSelector:@selector(loadingModel:errorPromptingWithType:error:)]) {
             errorPrompting = [self.delegate loadingModel:self errorPromptingWithType:HKLoadingTypeFirstTime error:error];
+            dic = @{@"title":errorPrompting,@"image":@""};
+        }
+        else if ([self.delegate respondsToSelector:@selector(loadingModel:errorImagePromptingWithType:error:)])
+        {
+            dic = [self.delegate loadingModel:self errorImagePromptingWithType:HKLoadingTypeFirstTime error:error];
         }
         @weakify(self);
-        [self.targetView showDefaultEmptyViewWithText:errorPrompting tapBlock:^{
-            
+        [self.targetView showImageEmptyViewWithImageName:dic[@"image"] text:dic[@"title"] tapBlock:^{
             @strongify(self);
             if ([self.delegate respondsToSelector:@selector(loadingModel:didTappedForErrorPrompting:type:)]) {
                 [self.delegate loadingModel:self didTappedForErrorPrompting:errorPrompting type:HKLoadingTypeFirstTime];
@@ -186,12 +196,17 @@
         }
         if (data.count == 0) {
             NSString *blank;
+            NSDictionary *dic;
             if ([self.delegate respondsToSelector:@selector(loadingModel:blankPromptingWithType:)]) {
                 blank = [self.delegate loadingModel:self blankPromptingWithType:HKLoadingTypeReload];
+                dic = @{@"title":blank,@"image":@""};
+            }
+            else if ([self.delegate respondsToSelector:@selector(loadingModel:blankImagePromptingWithType:)])
+            {
+                dic = [self.delegate loadingModel:self blankImagePromptingWithType:HKLoadingTypeReload];
             }
             @weakify(self);
-            [self.targetView showDefaultEmptyViewWithText:blank tapBlock:^{
-                
+            [self.targetView showImageEmptyViewWithImageName:dic[@"image"] text:dic[@"title"] tapBlock:^{
                 @strongify(self);
                 if ([self.delegate respondsToSelector:@selector(loadingModel:didTappedForBlankPrompting:type:)]) {
                     [self.delegate loadingModel:self didTappedForBlankPrompting:blank type:HKLoadingTypeReload];

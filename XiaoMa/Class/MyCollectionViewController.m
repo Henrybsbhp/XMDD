@@ -84,7 +84,7 @@
 {
     [self.tableView reloadData];
     if (gAppMgr.myUser.favorites.favoritesArray.count == 0) {
-        [self.view showDefaultEmptyViewWithText:@"您暂未收藏商户"];
+        [self.view showImageEmptyViewWithImageName:@"def_withoutCollection" text:@"您暂未收藏商户"];
     }
     else {
         [self.view hideDefaultEmptyView];

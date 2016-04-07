@@ -91,16 +91,17 @@
         @strongify(self)
         self.dataSourceArray = (NSMutableArray *)op.req_applysecueArray;
         if (self.dataSourceArray.count == 0) {
-            if (self.type == 1) {
-                [self.view showDefaultEmptyViewWithText:@"暂无救援记录" tapBlock:^{
+            if (self.type == 1)
+            {
+                [self.view showImageEmptyViewWithImageName:@"def_withoutRescueHistory" text:@"暂无救援记录" tapBlock:^{
                     [self historyNetwork];
                 }];
-                
-            }else {
-                [self.view showDefaultEmptyViewWithText:@"暂无协办记录" tapBlock:^{
+            }
+            else
+            {
+                [self.view showImageEmptyViewWithImageName:@"def_withoutAssistHistory" text:@"暂无协办记录" tapBlock:^{
                     [self historyNetwork];
-                }];
-                
+                }];   
             }
         }
         
