@@ -28,10 +28,19 @@
 
 - (void)showDefaultEmptyViewWithText:(NSString *)text centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock
 {
-    [self showDefaultEmptyViewWithImageName:@"cm_blank" text:text centerOffset:offset tapBlock:tapBlock];
+    [self showEmptyViewWithImageName:@"cm_blank" text:text centerOffset:offset tapBlock:tapBlock];
 }
 
-- (void)showDefaultEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
+- (void)showImageEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
+{
+    [self showEmptyViewWithImageName:imgName text:text centerOffset:-20 tapBlock:nil];
+}
+- (void)showImageEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text tapBlock:(void(^)(void))tapBlock
+{
+    [self showEmptyViewWithImageName:imgName text:text centerOffset:-20 tapBlock:tapBlock];
+}
+
+- (void)showEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
                              centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock
 {
     UIView *view = self.customInfo[kEmptyView];
