@@ -36,7 +36,8 @@
 {
     UIView *view = self.customInfo[kEmptyView];
     if (!view) {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
+//        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
+        view = [[UIView alloc]initWithFrame:self.bounds];
         view.backgroundColor = [UIColor clearColor];
 //        view.userInteractionEnabled = NO;
         UIImageView *imgView =  [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -94,6 +95,15 @@
 {
     UIView *view = self.customInfo[kEmptyView];
     view.hidden = YES;
+}
+
+- (BOOL)isShowDefaultEmptyView
+{
+    UIView *view = self.customInfo[kEmptyView];
+    if (view && !view.hidden) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)actionDefaultEmptyViewTaped:(UITapGestureRecognizer *)tap

@@ -40,7 +40,7 @@
 @property (nonatomic,strong, readonly)DeviceInfo * deviceInfo;
 @property (nonatomic, strong,readonly) HKTokenPool *tokenPool;
 @property (nonatomic,strong)ClientInfo * clientInfo;
-///首页图片数据结构
+///首页九宫格数据结构
 @property (nonatomic,strong)HomePicModel * homePicModel;
 ///常用数据缓存（可手动清除）
 @property (nonatomic, strong, readonly) TMCache *dataCache;
@@ -82,8 +82,6 @@
 
 - (void)resetWithAccount:(NSString *)account;
 
-///获取上次的定位地址和天气信息
-- (void)loadLastLocationAndWeather;
 ///获取搜索历史
 - (NSArray *)loadSearchHistory;
 ///清除搜索历史

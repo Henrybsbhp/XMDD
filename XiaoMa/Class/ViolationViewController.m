@@ -10,13 +10,16 @@
 #import "ViolationItemViewController.h"
 #import "MyCarStore.h"
 #import "MyUIPageControl.h"
+#import "HKPageSliderView.h"
+
+#define kAddCarTitle @"添加爱车"
 
 
-@interface ViolationViewController ()<UIScrollViewDelegate>
+@interface ViolationViewController ()<UIScrollViewDelegate,PageSliderDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UIView *headView;
-@property (strong,nonatomic)MyUIPageControl * pageController;
+@property (strong,nonatomic)HKPageSliderView * pageController;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic,strong)NSArray * datasource;
 @property (nonatomic,strong) MyCarStore *carStore;
@@ -41,11 +44,6 @@
     [super viewDidLoad];
     
     [self setupNavigation];
-    CKAsyncMainQueue(^{
-        
-        [self setupPageController];
-        [self setupScrollView];
-    });
     
     // 设置数据源&获取所有爱车
     [self setupCarStore];
@@ -92,73 +90,94 @@
     NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
     NSInteger current = self.currentIndex;
     
-    if (!self.pageController)
+    NSMutableArray * tArray = [NSMutableArray array];
+    NSArray * licenceArray = [[self.carStore.cars allObjects] arrayByMappingOperator:^id(HKMyCar * car) {
+        
+        return car.licencenumber;
+    }];
+    [tArray safetyAddObjectsFromArray:licenceArray];
+    if (licenceArray.count < 5)
     {
-        self.pageController = [[MyUIPageControl alloc] init];
+        [tArray safetyAddObject:kAddCarTitle];
     }
-    self.pageController.numberOfPages = total;
-    self.pageController.currentPage = current;
+    self.pageController = [[HKPageSliderView alloc] initWithFrame:self.headView.frame andTitleArray:tArray andStyle:HKTabBarStyleCleanMenu atIndex:current];
+    self.pageController.delegate = self;
     self.pageController.hidden = total <= 1;
+    [self.headView removeSubviews];
     
-    [self.pageController removeFromSuperview];
+    if (total <= 1)
+    {
+        [self.headView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            
+            make.height.equalTo(@0);
+        }];
+    }else
+    {
+        [self.headView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            
+            make.height.equalTo(@52);
+        }];
+    }
     
-    UIView * headView = self.headView;
-    self.pageController.center = headView.center;
-    [headView addSubview:self.pageController];
-}
-
-- (void)refreshPageController
-{
-    NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
-    NSInteger current = self.currentIndex;
-    self.pageController.numberOfPages = total;
-    self.pageController.currentPage = current;
-    self.pageController.hidden = total <= 1;
+    self.pageController.center = self.headView.center;
+    [self.headView addSubview:self.pageController];
 }
 
 - (void)setupScrollView
 {
-    self.view.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
+    self.view.backgroundColor = [UIColor colorWithHex:@"#f7f7f8" alpha:1.0f];
     self.scrollView.directionalLockEnabled = YES;
     self.scrollView.delegate = self;
     self.scrollView.backgroundColor = [UIColor clearColor];
-
-    @weakify(self);
-    [self.scrollView mas_updateConstraints:^(MASConstraintMaker *make) {
-        @strongify(self);
-        make.top.equalTo(self.view);
-        make.bottom.equalTo(self.view);
-    }];
+    
+//    @weakify(self);
+//    [self.scrollView mas_updateConstraints:^(MASConstraintMaker *make) {
+//        @strongify(self);
+//        make.top.equalTo(self.headView.mas_bottom);
+//        make.bottom.equalTo(self.view);
+//    }];
 }
+
+#pragma mark - Utility
+- (void)refreshPageController
+{
+    NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
+    NSInteger current = self.currentIndex;
+    self.pageController.hidden = total <= 1;
+    [self.pageController selectAtIndex:current];
+}
+
+
 
 - (void)refreshScrollView
 {
-//    CKAsyncMainQueue(^{
+    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    for (NSInteger i = 0; i < self.datasource.count; i++) {
+        
+        NSString * obj = [self.datasource safetyObjectAtIndex:i];
+        [self createIllegalCardWithCar:obj];
+    }
     
-        [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        for (NSInteger i = 0; i < self.datasource.count; i++) {
-            
-            NSObject * obj = [self.datasource safetyObjectAtIndex:i];
-            [self createIllegalCardWithCar:obj];
-        }
-        
-        if (self.datasource.count < 5)
-        {
-            [self createIllegalCardWithCar:nil];
-        }
-        
-        NSInteger index = NSNotFound;
-        
-        if (self.defaultSelectCar) {
-            index = [self.datasource indexOfObject:self.defaultSelectCar];
-        }
-        if (index == NSNotFound) {
-            index = 0;
-        }
+    if (self.datasource.count < 5)
+    {
+        [self createIllegalCardWithCar:nil];
+    }
+    
+    NSInteger index = NSNotFound;
+    
+    if (self.defaultSelectCar) {
+        index = [self.datasource indexOfObject:self.defaultSelectCar];
+    }
+    if (index == NSNotFound) {
+        index = 0;
+    }
     
     self.currentIndex = index;
+    
+    CKAsyncMainQueue(^{
         [self loadPageIndex:index animated:NO];
-//    });
+    });
+    
 }
 
 - (void)createIllegalCardWithCar:(NSObject *)car
@@ -225,9 +244,10 @@
         }
         
         self.datasource = [self.carStore.cars allObjects];
-        self.defaultSelectCar  = car;
-        [self refreshScrollView];
+        self.defaultSelectCar = car;
         [self setupPageController];
+        [self setupScrollView];
+        [self refreshScrollView];
     } error:^(NSError *error) {
         
         @strongify(self);
@@ -259,5 +279,12 @@
     [self refreshPageController];
 }
 
+
+#pragma mark - PageSliderDelegate
+- (void)pageClickAtIndex:(NSInteger)index
+{
+    self.currentIndex = index;
+    [self loadPageIndex:index animated:YES];
+}
 
 @end

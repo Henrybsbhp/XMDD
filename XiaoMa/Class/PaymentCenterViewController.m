@@ -144,20 +144,7 @@
 
 - (void)actionPay
 {
-    [self.paymentArray enumerateObjectsUsingBlock:^(NSMutableDictionary *d, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        UIButton * btn = [d objectForKey:@"btn"];
-        if (btn && [btn isKindOfClass:[UIButton class]])
-        {
-            if (btn.selected)
-            {
-                self.paychannel = [[d objectForKey:@"paymentType"] integerValue];
-                *stop = YES;
-            }
-        }
-    }];
     NSString * tradeno = self.getGeneralOrderdetailOp.tradeNo;
-//    NSString * tradetype = self.getGeneralOrderdetailOp.tradeType;
     CGFloat fee = self.getGeneralOrderdetailOp.rsp_fee;
     NSString * productName = self.getGeneralOrderdetailOp.rsp_prodname;
     NSString * submitTime = [[NSDate date] dateFormatForDT8];
@@ -240,7 +227,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    return  CGFLOAT_MIN;
+    if (section == 0)
+        return  CGFLOAT_MIN;
+    return 10;
 }
 
 
@@ -294,25 +283,9 @@
             return;
         }
         
-        for (NSDictionary * dict  in self.paymentArray)
-        {
-            NSObject * obj = [dict objectForKey:@"btn"];
-            if (obj && [obj isKindOfClass:[UIButton class]] && [obj.customObject isKindOfClass:[NSIndexPath class]])
-            {
-                UIButton * btn = (UIButton *)obj;
-                NSIndexPath * path = (NSIndexPath *)obj.customObject;
-                
-                if (indexPath.section == path.section &&
-                    indexPath.row == path.row)
-                {
-                    btn.selected = YES;
-                }
-                else
-                {
-                    btn.selected = NO;
-                }
-            }
-        }
+        NSMutableDictionary * dict = [self.paymentArray safetyObjectAtIndex:indexPath.row - 1];
+        PaymentChannelType paychannel = [dict[@"paymentType"] integerValue];
+        self.paychannel = paychannel;
     }
 }
 
@@ -360,65 +333,29 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView paymentCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    UIImageView *iconV;
-    UILabel *titleLb,*noteLb,*recommendLB;
-    UIButton *boxB;
+    UIImageView *iconImgV,*tickImgV;
+    UILabel *titleLb,*recommendLB;
+    
+    cell = [self.tableView dequeueReusableCellWithIdentifier:@"PayPlatformCell"];
+    iconImgV = (UIImageView *)[cell searchViewWithTag:101];
+    titleLb = (UILabel *)[cell searchViewWithTag:102];
+    tickImgV = (UIImageView *)[cell searchViewWithTag:103];
+    recommendLB = (UILabel *)[cell searchViewWithTag:104];
+    recommendLB.cornerRadius = 3.0f;
+    recommendLB.layer.masksToBounds = YES;
     
     NSMutableDictionary * dict = [self.paymentArray safetyObjectAtIndex:indexPath.row - 1];
-    cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellA"];
-    iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
-    titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
-    noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
-    boxB = (UIButton *)[cell.contentView viewWithTag:1003];
-    recommendLB = (UILabel *)[cell.contentView viewWithTag:1005];
     
-    [boxB setImage:[UIImage imageNamed:@"cw_box2"] forState:UIControlStateNormal];
-    [boxB setImage:[UIImage imageNamed:@"cw_box3"] forState:UIControlStateSelected];
-    [boxB setImage:[UIImage imageNamed:@"cw_box3"] forState:UIControlStateHighlighted];
-    
-    iconV.image = [UIImage imageNamed:dict[@"logo"]];
+    iconImgV.image = [UIImage imageNamed:dict[@"logo"]];
     titleLb.text = dict[@"title"];
-    noteLb.text = dict[@"subTitle"];
     
     PaymentChannelType paychannel = [dict[@"paymentType"] integerValue];
     recommendLB.hidden = paychannel != PaymentChannelAlipay;
     [recommendLB makeCornerRadius:3.0f];
     
-    
-    UIButton * btn = [dict objectForKey:@"btn"];
-    if (!btn)
-    {
-        boxB.customObject = indexPath;
-        [dict safetySetObject:boxB forKey:@"btn"];
-    }
-    else
-    {
-        if ([btn.customObject isKindOfClass:[NSIndexPath class]])
-        {
-            NSIndexPath * path = (NSIndexPath *)btn.customObject;
-            if (path.section == indexPath.section && path.row == indexPath.row)
-            {
-                btn = boxB;
-            }
-        }
-    }
-    
-    boxB.selected = [dict[@"paymentType"] integerValue] == self.paychannel;
-    
-    @weakify(boxB)
-    [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+    [[RACObserve(self, paychannel) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
         
-        [self.paymentArray enumerateObjectsUsingBlock:^(NSMutableDictionary *d, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            UIButton * btn = [d objectForKey:@"btn"];
-            if (btn && [btn isKindOfClass:[UIButton class]])
-            {
-                btn.selected = NO;
-            }
-        }];
-        
-        @strongify(boxB)
-        boxB.selected = YES;
+        tickImgV.hidden = paychannel != [number integerValue];
     }];
     
     return cell;
@@ -496,7 +433,7 @@
                                           @{@"paymentType":@(PaymentChannelUPpay),
                                             @"title":@"银联支付",
                                             @"subTitle":@"推荐银联用户使用",
-                                            @"logo":@"ins_uppay"}];
+                                            @"logo":@"uppay_logo_66"}];
             [tArray safetyAddObject:dict];
         }
     }

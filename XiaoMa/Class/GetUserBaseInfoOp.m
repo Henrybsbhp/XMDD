@@ -51,9 +51,6 @@
         gAppMgr.myUser.userName = op.rsp_nickName;
         gAppMgr.myUser.phoneNumber = op.rsp_phone;
         gAppMgr.myUser.avatarUrl = op.rsp_avatar;
-//        gAppMgr.myUser.validCarwashArray = op.rsp_vcc;
-        gAppMgr.myUser.couponModel.abcCarwashesCount = op.rsp_freewashes;
-        gAppMgr.myUser.couponModel.abcIntegral = op.rsp_bankcredit;
         gAppMgr.myUser.sex = op.rsp_sex;
         gAppMgr.myUser.birthday = op.rsp_birthday;
     }];

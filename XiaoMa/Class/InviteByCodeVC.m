@@ -114,7 +114,7 @@
     
     //未下载
     NSString * tipOneInviteString = @"1，您需要先邀请您的好友下载小马达达App";
-    NSString * tipTwoInviteString = @"2，受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入";
+    NSString * tipTwoInviteString = @"2，受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入\n";
     
     CKDict *titleForNoDownLoad = [self setTitleCellForSectionIndex:2];
     CKDict *inviteContentTipOne = [self setNormalContentCell:tipOneInviteString];
@@ -137,6 +137,7 @@
         
         UILabel *codeLabel = (UILabel *)[cell.contentView viewWithTag:1001];
         UIButton *copyBtn = (UIButton *)[cell.contentView viewWithTag:1002];
+        codeLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 34;
         codeLabel.text = [NSString stringWithFormat:@"团队暗号：%@", self.cipherForCopy ?: @""];
         
         [copyBtn setTitle:@"复制暗号" forState:UIControlStateNormal];
@@ -174,6 +175,8 @@
     titleDict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
         UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:1001];
+        titleLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 34;
+        
         if (sectionIndex == 1) {
             titleLabel.text = @"如果您的好友已下载小马达达App";
         }
@@ -198,6 +201,7 @@
     titleDict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
         UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:1001];
+        contentLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 30;
         contentLabel.text = contentString;
     });
     return titleDict;
@@ -485,7 +489,7 @@
             contentLabel.text = @"1，您需要先邀请您的好友下载小马达达App";
         }
         else {
-            contentLabel.text = @"2，受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入";
+            contentLabel.text = @"2，受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入\n";
         }
     }
     

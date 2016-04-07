@@ -42,10 +42,10 @@
 {
     self.styleModel = [TabBarMenuStyleModel new];
     if (self.style == HKTabBarStyleUnderline) {
-        self.styleModel.menuHeight = 44;
+        self.styleModel.menuHeight = 46;
         self.styleModel.buttonSpacing = 10;
-        self.styleModel.menuNormalColor = [UIColor blackColor]; //todo
-        self.styleModel.menuSelectedColor = [UIColor greenColor]; //todo
+        self.styleModel.menuNormalColor = HEXCOLOR(@"#888888"); //todo
+        self.styleModel.menuSelectedColor = HEXCOLOR(@"#18D06A"); //todo
     }
     else if (self.style == HKTabBarStyleUnderCorner) {
         self.styleModel.menuHeight = 38;
@@ -54,6 +54,13 @@
         self.styleModel.menuSelectedColor = [UIColor whiteColor];
         self.styleModel.menuBackgroundColor = HEXCOLOR(@"#12c461");
     }
+    else if (self.style == HKTabBarStyleCleanMenu) {
+        self.styleModel.menuHeight = 50;
+        self.styleModel.buttonSpacing = 5;
+        self.styleModel.menuNormalColor = HEXCOLOR(@"#888888");
+        self.styleModel.menuSelectedColor = HEXCOLOR(@"#18D06A");
+        self.styleModel.menuBackgroundColor = [UIColor clearColor];
+    }
 }
 
 - (void)setupMenu
@@ -61,6 +68,11 @@
     self.menuScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.styleModel.menuHeight)];
     self.menuScrollView.showsHorizontalScrollIndicator = NO;
     [self addSubview:self.menuScrollView];
+    if (self.style == HKTabBarStyleCleanMenu) {
+        UIImageView *lineView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 49.5, self.bounds.size.width, 0.5)];
+        lineView.image = [UIImage imageNamed:@"cm_greenline"];
+        [self insertSubview:lineView atIndex:0];
+    }
     
     //设置按钮
     self.buttons = [NSMutableArray array];
@@ -72,14 +84,18 @@
         [button setTitleColor:self.currentIndex == i ? self.styleModel.menuSelectedColor  : self.styleModel.menuNormalColor forState:UIControlStateNormal];
         
         //先按照最大的字体设置大小
-        button.titleLabel.font = [UIFont systemFontOfSize:15];
-        [button sizeToFit];
-        
         if (self.style == HKTabBarStyleUnderline) {
             button.titleLabel.font = [UIFont systemFontOfSize:15];
         }
         else if (self.style == HKTabBarStyleUnderCorner) {
+            button.titleLabel.font = [UIFont systemFontOfSize:15];
+            [button sizeToFit];
             button.titleLabel.font = self.currentIndex == i ? [UIFont systemFontOfSize:15] : [UIFont systemFontOfSize:12];
+        }
+        else if (self.style == HKTabBarStyleCleanMenu) {
+            button.titleLabel.font = [UIFont systemFontOfSize:21];
+            [button sizeToFit];
+            button.titleLabel.font = self.currentIndex == i ? [UIFont systemFontOfSize:21] : [UIFont systemFontOfSize:12];
         }
         button.backgroundColor = [UIColor clearColor];
         [button addTarget:self action:@selector(buttonEvent:) forControlEvents:UIControlEventTouchUpInside];
@@ -113,46 +129,39 @@
         UIView *underLine = [[UIView alloc] init];
         underLine.backgroundColor = [UIColor greenColor]; //todo
         [self.cursorView addSubview:underLine];
-        //添加约束  todo  请用mas替换
-        underLine.translatesAutoresizingMaskIntoConstraints = NO;
-        NSArray *hConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[underLine]-0-|"
-                                                                        options:0
-                                                                        metrics:nil
-                                                                          views:NSDictionaryOfVariableBindings(underLine)];
-        NSArray *vConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[underLine(2)]-0-|"
-                                                                        options:0
-                                                                        metrics:nil
-                                                                          views:NSDictionaryOfVariableBindings(underLine)];
-        [self.cursorView addConstraints:hConstraints];
-        [self.cursorView addConstraints:vConstraints];
+        
+        [underLine mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.cursorView);
+            make.right.equalTo(self.cursorView);
+            make.height.mas_equalTo(2);
+            make.bottom.equalTo(self.cursorView);
+        }];
     }
-    else if (self.style == HKTabBarStyleUnderCorner) {
+    else if (self.style == HKTabBarStyleUnderCorner){
         self.menuScrollView.backgroundColor = self.styleModel.menuBackgroundColor;
         UIImageView *underTriangle = [[UIImageView alloc] init];
         underTriangle.image = [UIImage imageNamed:@"mec_cursor"];
         underTriangle.translatesAutoresizingMaskIntoConstraints = NO;
         [self.cursorView addSubview:underTriangle];
         
-        //添加约束  todo  请用mas替换
-        [self.cursorView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"[underTriangle(12)]"
-                                                                                options:0
-                                                                                metrics:nil
-                                                                                  views:NSDictionaryOfVariableBindings(underTriangle)]];
+        [underTriangle mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.cursorView.mas_centerX);
+            make.size.mas_equalTo(CGSizeMake(11, 6));
+            make.bottom.equalTo(self.cursorView);
+        }];
+    }
+    else if (self.style == HKTabBarStyleCleanMenu) {
+        self.menuScrollView.backgroundColor = self.styleModel.menuBackgroundColor;
+        UIImageView *underTriangle = [[UIImageView alloc] init];
+        underTriangle.image = [UIImage imageNamed:@"mec_greencursor"];
+        underTriangle.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.cursorView addSubview:underTriangle];
         
-        NSLayoutConstraint *hConstraints = [NSLayoutConstraint constraintWithItem:underTriangle
-                                                                        attribute:NSLayoutAttributeCenterX
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.cursorView
-                                                                        attribute:NSLayoutAttributeCenterX
-                                                                       multiplier:1
-                                                                         constant:0];
-        NSArray *vConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[underTriangle(8)]-0-|"
-                                                                        options:0
-                                                                        metrics:nil
-                                                                          views:NSDictionaryOfVariableBindings(underTriangle)];
-        
-        [self.cursorView addConstraint:hConstraints];
-        [self.cursorView addConstraints:vConstraints];
+        [underTriangle mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.cursorView.mas_centerX);
+            make.size.mas_equalTo(CGSizeMake(16, 7));
+            make.bottom.equalTo(self.cursorView).offset(0.5);
+        }];
     }
 }
 
@@ -212,6 +221,11 @@
     }
     NSInteger index = sender.tag;
     [self selectAtIndex:index];
+    
+    if ([self.delegate respondsToSelector:@selector(pageClickAtIndex:)])
+    {
+        [self.delegate pageClickAtIndex:index];
+    }
     //设置滚动
     [self.contentScrollView setContentOffset:CGPointMake(index * self.contentScrollView.bounds.size.width, 0) animated:YES];
 }
@@ -222,7 +236,7 @@
     }
     
     self.isAnimation = YES;
-    self.contentScrollView.scrollEnabled = NO;
+    //self.contentScrollView.scrollEnabled = NO;
     
     //上一个按钮的恢复
     UIButton *lastButton = [self.buttons objectAtIndex:self.currentIndex];
@@ -234,8 +248,24 @@
     
     //字体放大缩小
     if (self.style == HKTabBarStyleUnderCorner) {
-        lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
-        clickButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        [UIView animateWithDuration:0.3 animations:^{
+            lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
+            clickButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        } completion:^(BOOL finished) {
+            
+        }];
+//        lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
+//        clickButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    }
+    else if (self.style == HKTabBarStyleCleanMenu) {
+        [UIView animateWithDuration:0.3 animations:^{
+            lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
+            clickButton.titleLabel.font = [UIFont systemFontOfSize:21];
+        } completion:^(BOOL finished) {
+            
+        }];
+//        lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
+//        clickButton.titleLabel.font = [UIFont systemFontOfSize:21];
     }
     
     //动画完成前，设置上一个按钮后设置新的index
@@ -250,7 +280,7 @@
                     self.styleModel.menuHeight);
     } completion:^(BOOL finished) {
         self.isAnimation = NO;
-        self.contentScrollView.scrollEnabled = YES;
+        //self.contentScrollView.scrollEnabled = YES;
     }];
     
     //当选中按钮的位置>中心点时，自动居中
