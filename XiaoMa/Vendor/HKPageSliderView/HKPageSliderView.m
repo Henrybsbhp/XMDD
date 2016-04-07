@@ -8,6 +8,9 @@
 
 #import "HKPageSliderView.h"
 
+#define HKTabBarStyleCleanMenuScale 0.7f
+#define HKTabBarStyleUnderCornerScale 0.8f
+
 @interface HKPageSliderView()
 
 @property (nonatomic, assign) HKTabBarStyle style;
@@ -90,12 +93,21 @@
         else if (self.style == HKTabBarStyleUnderCorner) {
             button.titleLabel.font = [UIFont systemFontOfSize:15];
             [button sizeToFit];
-            button.titleLabel.font = self.currentIndex == i ? [UIFont systemFontOfSize:15] : [UIFont systemFontOfSize:12];
+            [button.titleLabel setTextAlignment:NSTextAlignmentCenter];
+            
+            CGFloat r = self.currentIndex == i ? 1.0f : HKTabBarStyleUnderCornerScale;
+            button.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, r, r);
+//            button.titleLabel.font = self.currentIndex == i ? [UIFont systemFontOfSize:15] : [UIFont systemFontOfSize:12];
         }
         else if (self.style == HKTabBarStyleCleanMenu) {
             button.titleLabel.font = [UIFont systemFontOfSize:21];
             [button sizeToFit];
-            button.titleLabel.font = self.currentIndex == i ? [UIFont systemFontOfSize:21] : [UIFont systemFontOfSize:12];
+            [button.titleLabel setTextAlignment:NSTextAlignmentCenter];
+            
+//            CGFloat r = self.currentIndex == i ? 1.0f : HKTabBarStyleCleanMenuScale;
+            // 一开始全设置为最小的
+            CGFloat r = HKTabBarStyleCleanMenuScale;
+            button.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, r, r);
         }
         button.backgroundColor = [UIColor clearColor];
         [button addTarget:self action:@selector(buttonEvent:) forControlEvents:UIControlEventTouchUpInside];
@@ -248,40 +260,49 @@
     
     //字体放大缩小
     if (self.style == HKTabBarStyleUnderCorner) {
-        [UIView animateWithDuration:0.3 animations:^{
-            lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
-            clickButton.titleLabel.font = [UIFont systemFontOfSize:15];
-        } completion:^(BOOL finished) {
-            
-        }];
-//        lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
-//        clickButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        
+        if (![self.delegate respondsToSelector:@selector(observeScrollViewOffset)]){
+            [UIView animateWithDuration:0.3 animations:^{
+                lastButton.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, HKTabBarStyleUnderCornerScale, HKTabBarStyleUnderCornerScale);
+            }];
+            [UIView animateWithDuration:0.3 animations:^{
+                clickButton.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+            }];
+        }
     }
     else if (self.style == HKTabBarStyleCleanMenu) {
-        [UIView animateWithDuration:0.3 animations:^{
-            lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
-            clickButton.titleLabel.font = [UIFont systemFontOfSize:21];
-        } completion:^(BOOL finished) {
-            
-        }];
-//        lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
-//        clickButton.titleLabel.font = [UIFont systemFontOfSize:21];
+        
+        if (![self.delegate respondsToSelector:@selector(observeScrollViewOffset)]){
+            [UIView animateWithDuration:0.3 animations:^{
+                lastButton.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, HKTabBarStyleCleanMenuScale, HKTabBarStyleCleanMenuScale);
+            }];
+            [UIView animateWithDuration:0.3 animations:^{
+                clickButton.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+            }];
+        }
     }
     
     //动画完成前，设置上一个按钮后设置新的index
     self.currentIndex = index;
     
     //光标移动动画
-    [UIView animateWithDuration:0.3 animations:^{
-        self.cursorView.frame = CGRectMake(
-                    clickButton.center.x - (clickButton.bounds.size.width / 2 + self.styleModel.buttonSpacing),
-                    0,
-                    clickButton.bounds.size.width + 2 * self.styleModel.buttonSpacing,
-                    self.styleModel.menuHeight);
-    } completion:^(BOOL finished) {
+    if (![self.delegate respondsToSelector:@selector(observeScrollViewOffset)])
+    {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.cursorView.frame = CGRectMake(
+                                               clickButton.center.x - (clickButton.bounds.size.width / 2 + self.styleModel.buttonSpacing),
+                                               0,
+                                               clickButton.bounds.size.width + 2 * self.styleModel.buttonSpacing,
+                                               self.styleModel.menuHeight);
+        } completion:^(BOOL finished) {
+            self.isAnimation = NO;
+            //self.contentScrollView.scrollEnabled = YES;
+        }];
+    }
+    else
+    {
         self.isAnimation = NO;
-        //self.contentScrollView.scrollEnabled = YES;
-    }];
+    }
     
     //当选中按钮的位置>中心点时，自动居中
     if (self.menuScrollView.contentSize.width > self.menuScrollView.bounds.size.width) {
@@ -298,6 +319,67 @@
 //    }
 }
 
+- (void)slideOffsetX:(CGFloat)offsetX andTotleW:(CGFloat)totalWidth andPageW:(CGFloat)pageWidth
+{
+    if (offsetX < 0 || offsetX > totalWidth)
+        return;
+    CGFloat remainder;
+    CGFloat remainderOffsetX = offsetX;
+    NSInteger index = 0;
+    for (;;)
+    {
+        if (remainderOffsetX - pageWidth < 0)
+        {
+            remainder = remainderOffsetX;
+            break;
+        }
+        remainderOffsetX = remainderOffsetX - pageWidth;
+        index = index + 1;
+    }
+    
+    UIButton * btn = [self.buttons safetyObjectAtIndex:index];
+    UIButton * nextBtn = [self.buttons safetyObjectAtIndex:index + 1];
+    if (!nextBtn)
+    {
+        return;
+    }
+    CGFloat space = nextBtn.center.x - btn.center.x;
+    CGFloat percent = 1.0 * remainder / pageWidth;
+    CGFloat offset = 1.0 * space * percent;
+    
+    CGFloat x = btn.center.x + offset - (btn.bounds.size.width / 2 + self.styleModel.buttonSpacing);
+    NSLog(@"x:%f",x);
+    self.cursorView.frame = CGRectMake(x,0,
+                                       btn.bounds.size.width + 2 * self.styleModel.buttonSpacing,
+                                       self.styleModel.menuHeight);
+    
+    //字体放大缩小
+    if (self.style == HKTabBarStyleUnderCorner) {
+        
+        CGFloat bigScale = 1 - ((1 - HKTabBarStyleUnderCornerScale) * percent);
+        CGFloat smallScale = HKTabBarStyleUnderCornerScale + ((1 - HKTabBarStyleUnderCornerScale) * percent);
+        btn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, bigScale, bigScale);
+        nextBtn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, smallScale, smallScale);
+        
+    }
+    else if (self.style == HKTabBarStyleCleanMenu) {
+        
+        CGFloat bigScale = 1 - ((1 - HKTabBarStyleCleanMenuScale) * percent);
+        CGFloat smallScale = HKTabBarStyleCleanMenuScale + ((1 - HKTabBarStyleCleanMenuScale) * percent);
+        btn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, bigScale, bigScale);
+        nextBtn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, smallScale, smallScale);
+        [btn setTitleColor:[self getBigGradualColor:percent] forState:UIControlStateNormal];
+        [nextBtn setTitleColor:[self getSmallGradualColor:percent] forState:UIControlStateNormal];
+        
+        // 违章页面，会出现先刷到第一栏，然后刷到第x（默认爱车）栏（导致第一栏缩放为1）
+        UIButton * firstBtn = [self.buttons safetyObjectAtIndex:0];
+        if (firstBtn != btn && firstBtn != nextBtn)
+        {
+            firstBtn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, HKTabBarStyleCleanMenuScale, HKTabBarStyleCleanMenuScale);
+        }
+    }
+}
+
 - (void)makeButtonCenter:(UIButton *)clickButton
 {
     if (clickButton.center.x + self.menuScrollView.bounds.size.width / 2 > self.menuScrollView.contentSize.width) {
@@ -307,6 +389,57 @@
         [self.menuScrollView setContentOffset:CGPointMake(0, self.menuScrollView.contentOffset.y) animated:YES];
     } else {
         [self.menuScrollView setContentOffset:CGPointMake(clickButton.center.x - self.menuScrollView.bounds.size.width / 2, self.menuScrollView.contentOffset.y) animated:YES];
+    }
+}
+
+
+- (UIColor *)getBigGradualColor:(CGFloat)percent
+{
+    CGFloat normalComponents[3];
+    CGFloat selectComponents[3];
+    [self getRGBComponents:normalComponents forColor:self.styleModel.menuNormalColor];
+    [self getRGBComponents:selectComponents forColor:self.styleModel.menuSelectedColor];
+    
+    CGFloat r = ABS(normalComponents[0] - selectComponents[0]) * percent + selectComponents[0];
+    CGFloat g = -ABS(normalComponents[1] - selectComponents[1]) * percent + selectComponents[1];
+    CGFloat b = ABS(normalComponents[2] - selectComponents[2]) * percent + selectComponents[2];
+    
+    UIColor *color = [UIColor colorWithRed:r green:g blue:b alpha:1.0f];
+    return color;
+}
+
+- (UIColor *)getSmallGradualColor:(CGFloat)percent
+{
+    CGFloat normalComponents[3];
+    CGFloat selectComponents[3];
+    [self getRGBComponents:normalComponents forColor:self.styleModel.menuNormalColor];
+    [self getRGBComponents:selectComponents forColor:self.styleModel.menuSelectedColor];
+    
+    CGFloat r = -ABS(normalComponents[0] - selectComponents[0]) * percent + normalComponents[0];
+    CGFloat g = ABS(normalComponents[1] - selectComponents[1]) * percent + normalComponents[1];
+    CGFloat b = -ABS(normalComponents[2] - selectComponents[2]) * percent + normalComponents[2];
+    
+    UIColor *color = [UIColor colorWithRed:r green:g blue:b alpha:1.0f];
+    return color;
+}
+
+- (void)getRGBComponents:(CGFloat [3])components forColor:(UIColor *)color {
+    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+    unsigned char resultingPixel[4];
+    CGContextRef context = CGBitmapContextCreate(&resultingPixel,
+                                                 1,
+                                                 1,
+                                                 8,
+                                                 4,
+                                                 rgbColorSpace,
+                                                 kCGImageAlphaNoneSkipLast);
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, CGRectMake(0, 0, 1, 1));
+    CGContextRelease(context);
+    CGColorSpaceRelease(rgbColorSpace);
+    
+    for (int component = 0; component < 3; component++) {
+        components[component] = resultingPixel[component] / 255.0f;
     }
 }
 

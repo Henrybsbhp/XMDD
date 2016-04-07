@@ -16,9 +16,14 @@ typedef NS_ENUM(NSInteger, HKTabBarStyle) {
 
 @protocol PageSliderDelegate <NSObject>
 
+@optional
+
 - (void)pageClickAtIndex:(NSInteger)index;
 
-@optional
+/// 委托中是否监控scrollview的offset属性 。 会通知菜单栏进行动画。如果响应的话，菜单栏的点击事件的光标动画就不需要了。 。
+- (BOOL)observeScrollViewOffset;
+
+
 
 - (void)addContentVCAtIndex:(NSInteger)index;
 
@@ -35,6 +40,9 @@ typedef NS_ENUM(NSInteger, HKTabBarStyle) {
 @property (nonatomic, strong) UIScrollView *contentScrollView;
 
 - (void)selectAtIndex:(NSInteger)index;
+
+// 光标移动方向，pecent百分比，direction方向（-1左，1右）
+- (void)slideOffsetX:(CGFloat)offsetX andTotleW:(CGFloat)totalWidth andPageW:(CGFloat)pageWidth;
 
 @end
 
