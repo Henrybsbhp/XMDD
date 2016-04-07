@@ -10,6 +10,7 @@
 #import "UploadFileOp.h"
 #import "HKImagePicker.h"
 #import "MyCarStore.h"
+#import "UIView+RoundedCorner.h"
 
 @implementation MyCarListVModel
 - (NSString *)descForCarStatus:(HKMyCar *)car
@@ -17,7 +18,7 @@
     NSString *desc;
     switch (car.status) {
         case 1:
-            desc = @"认证审核中";
+            desc = @"审核中";
             break;
         case 2:
             desc = @"已认证";
@@ -28,8 +29,7 @@
         default: {
             MyCarStore *store = [MyCarStore fetchExistsStore];
             if (store.defaultTip) {
-                //desc = store.defaultTip;
-                desc = @"未认证";
+                desc = store.defaultTip;
             }
             else {
                 desc = @"未认证";
@@ -39,28 +39,60 @@
     return desc;
 }
 
+- (NSString *)uploadButtonStateForCar:(HKMyCar *)car
+{
+    NSString *desc;
+    switch (car.status) {
+        case 1:
+            desc = @"已上传行驶证";
+            break;
+        case 2:
+            desc = @"行驶证已认证通过";
+            break;
+        case 3:
+            desc = @"请重新上传行驶证";
+            break;
+        default: {
+            desc = @"上传行驶证送大礼";
+        } break;
+    }
+    return desc;
+}
+
 - (void)setupUploadBtn:(UIButton *)btn andDescLabel:(UILabel *)label forCar:(HKMyCar *)car
 {
-    btn.userInteractionEnabled = NO;
+    //TODO
     NSString *title;
-    NSString *desc = [self descForCarStatus:car];
+    NSString *desc;
     BOOL enable = NO;
     switch (car.status) {
         case 1:
             title = @"审核中";
+            desc = @"已上传行驶证";
             break;
         case 2:
-            title = @"审核成功";
+            title = @"已认证";
+            desc = @"行驶证已认证通过";
             break;
         case 3:
             title = @"重新上传";
             btn.userInteractionEnabled = YES;
             enable = YES;
+            [btn setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+            desc = [NSString stringWithFormat:@"认证未通过，%@", car.failreason.length > 0 ? car.failreason : @"请重新上传行驶证"];
             break;
         default:
             title = @"一键上传";
             btn.userInteractionEnabled = YES;
             enable = YES;
+            [btn setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+            MyCarStore *store = [MyCarStore fetchExistsStore];
+            if (store.defaultTip) {
+                desc = store.defaultTip;
+            }
+            else {
+                desc = @"未认证";
+            }
             break;
     }
     [btn setTitle:title forState:UIControlStateNormal];

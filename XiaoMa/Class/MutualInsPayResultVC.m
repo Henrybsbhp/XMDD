@@ -26,6 +26,8 @@
 @property (nonatomic,strong)UIView * view3;
 @property (nonatomic,strong)UIView * view4;
 
+@property (nonatomic, strong) CKList *datasource;
+
 @end
 
 @implementation MutualInsPayResultVC
@@ -38,8 +40,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupUI];
     [self setupNavigationBar];
+    
+    self.contactname = self.contract.insurancedname;
+    self.contactphone = gAppMgr.myUser.userID;
+    
+    [self setupDatasource];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,187 +59,274 @@
     self.navigationItem.leftBarButtonItem = back;
 }
 
-- (void)setupUI
+- (void)setupDatasource
 {
-    self.tableView.tableFooterView = [UIView new];
-    self.commitBtn.layer.cornerRadius = 5;
-    self.commitBtn.layer.masksToBounds = YES;
+    CKDict * topDict = [self topData];
+    CKDict * infoDict = [self infoData];
+    
+    CKDict * sectionHeadDict = [self sectionHeaderData];
+    CKDict * nameDict = [self textinputDataForName];
+    CKDict * phoneDict = [self textinputDataForPhone];
+    CKDict * districtDict = [self textinputDataForDistrict];
+    CKDict * detailAddressDict = [self textinputDataForDetailAddress];
+    CKDict * tagDict = [self tagData];
+    self.datasource = $($(topDict,infoDict),
+                        $(sectionHeadDict,nameDict,phoneDict,districtDict,detailAddressDict,tagDict));
+    [self.tableView reloadData];
 }
 
 #pragma mark UITableViewDataSource
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 7;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 1;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell;
-    if (indexPath.section == 0)
-    {
-        cell = [self resultCellForRowAtIndexPath:indexPath];
-    }
-    else if (indexPath.section == 1)
-    {
-        cell = [self infoCellForRowAtIndexPath:indexPath];
-    }
-    else if (indexPath.section == 2 || indexPath.section == 3 || indexPath.section == 4)
-    {
-        cell = [self inputCellForRowAtIndexPath:indexPath];
-    }
-    else if (indexPath.section == 5)
-    {
-        cell = [self districtCellForRowAtIndexPath:indexPath];
-    }
-    else if (indexPath.section == 6)
-    {
-        cell = [self detailCellForRowAtIndexPath:indexPath];
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
-}
-
--(UITableViewCell *)resultCellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [self.tableView dequeueReusableCellWithIdentifier:@"resultCell"];
-}
-
--(UITableViewCell *)infoCellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"infoCell"];
-    UIView *backgoundView = [cell viewWithTag:100];
-    backgoundView.layer.borderWidth = 1;
-    backgoundView.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    UIImageView * imageView = (UIImageView *)[cell searchViewWithTag:101];
-    UILabel * lb1 = (UILabel *)[cell searchViewWithTag:102];
-    UILabel * lb2 = (UILabel *)[cell searchViewWithTag:103];
-    
-    [imageView setImageByUrl:self.contract.xmddlogo
-                    withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
-    lb1.text = self.contract.licencenumber;
-    lb2.text = [NSString formatForPrice:self.contract.total];
-
-    return cell;
-}
-
--(UITableViewCell *)inputCellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"inputCell"];
-    UILabel *title = [cell viewWithTag:100];
-    UITextField *textField = [cell viewWithTag:101];
-    textField.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
-    textField.layer.borderWidth = 1;
-    switch (indexPath.section)
+    if (section == 0)
     {
-        case 2:
-            title.text = @"联系人姓名";
-            textField.placeholder = @"请输入联系人姓名";
-            textField.keyboardType = UIKeyboardTypeDefault;
-            textField.text = self.contactname;
-            self.view1 = textField;
-            break;
-        case 3:
-            title.text = @"联系人手机";
-            textField.placeholder = @"请输入联系人手机";
-            textField.keyboardType = UIKeyboardTypePhonePad;
-            textField.text = self.contactphone;
-            self.view2 = textField;
-            break;
-        default:
-            title.text = @"协议寄送地址";
-            textField.keyboardType = UIKeyboardTypeDefault;
-            textField.hidden = YES;
-            break;
+        return CGFLOAT_MIN;
     }
-    
-    [[[textField rac_textSignal] takeUntilForCell:cell] subscribeNext:^(NSString * x) {
-        
-        switch (indexPath.section)
-        {
-            case 2:
-                self.contactname = x;
-                break;
-            case 3:
-                self.contactphone = x;
-                break;
-        }
-    }];
-    return cell;
+    return 10;
 }
 
--(UITableViewCell *)districtCellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"districtCell"];
-    UITextField *textField = [cell viewWithTag:101];
-    textField.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
-    textField.layer.borderWidth = 1;
-    
-    textField.text = self.area;
-    self.view3 = textField;
-    return cell;
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return CGFLOAT_MIN;
 }
 
--(UITableViewCell *)detailCellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"detailCell"];
-    UITextField *textField = [cell viewWithTag:100];
-    textField.layer.borderColor = [[UIColor colorWithHex:@"#dedfe0" alpha:1]CGColor];
-    textField.layer.borderWidth = 1;
-    
-    textField.text = self.address;
-    self.view4 = textField;
-    [[[textField rac_textSignal] takeUntilForCell:cell] subscribeNext:^(NSString *x) {
-        self.address = x;
-    }];
-    return cell;
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return  self.datasource.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [[self.datasource objectAtIndex:section] count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
-    {
-        return 48;
+    CKDict *data = self.datasource[indexPath.section][indexPath.row];
+    CKCellGetHeightBlock block = data[kCKCellGetHeight];
+    if (block) {
+        return block(data,indexPath);
     }
-    else if (indexPath.section == 1)
-    {
-        return 140;
-    }
-    else if (indexPath.section == 2 || indexPath.section == 3 || indexPath.section == 5)
-    {
-        return 53;
-    }
-    else if(indexPath.section == 6)
-    {
-        return 81;
-    }
-    return 30;
+    return 48;
 }
 
-#pragma mark UITableViewDelegate
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CKDict *data = self.datasource[indexPath.section][indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data[kCKCellID] forIndexPath:indexPath];
+    CKCellPrepareBlock block = data[kCKCellPrepare];
+    if (block) {
+        block(data, cell, indexPath);
+    }
+    return cell;
+}
+
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 5)
-    {
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        UITextField *textField = [cell viewWithTag:101];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    CKDict *data = self.datasource[indexPath.section][indexPath.row];
+    CKCellSelectedBlock block = data[kCKCellSelected];
+    if (block) {
+            block(data, indexPath);
+    }
+}
+
+#pragma mark - About Cell
+- (CKDict *)topData
+{
+    CKDict *data = [CKDict dictWith:@{kCKItemKey:@"top", kCKCellID:@"topCell"}];
+    //cell行高
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 44;
+    });
+    return data;
+}
+
+
+- (CKDict *)infoData
+{
+    CKDict *data = [CKDict dictWith:@{kCKItemKey:@"info", kCKCellID:@"infoCell"}];
+    //cell行高
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 112;
+    });
+    //cell准备重绘
+    @weakify(self);
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self);
+        UIImageView * imageView = (UIImageView *)[cell searchViewWithTag:101];
+        UILabel * nameLb = (UILabel *)[cell searchViewWithTag:102];
+        UILabel * carLb = (UILabel *)[cell searchViewWithTag:104];
+        UILabel * priceLb = (UILabel *)[cell searchViewWithTag:106];
+        
+        //@fq TODO
+        [imageView setImageByUrl:self.contract.xmddlogo
+                        withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+        nameLb.text = self.contract.xmddname;
+        carLb.text = self.contract.licencenumber;
+        
+        CGFloat price = self.contract.total - self.contract.couponmoney;
+        priceLb.text =  [NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]];
+    });
+    return data;
+}
+
+
+- (CKDict *)sectionHeaderData
+{
+    CKDict *data = [CKDict dictWith:@{kCKItemKey:@"top", kCKCellID:@"seactionHeaderCell"}];
+    //cell行高
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 40;
+    });
+    return data;
+}
+
+- (CKDict *)textinputDataForName
+{
+    CKDict *data = [CKDict dictWith:@{kCKItemKey:@"name", kCKCellID:@"inputCell"}];
+    //cell行高
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 43;
+    });
+    //cell准备重绘
+    @weakify(self);
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self);
+        UILabel *title = [cell viewWithTag:101];
+        UITextField *textField = [cell viewWithTag:102];
+        
+        title.text = @"姓名";
+        textField.placeholder = @"请输入联系人姓名";
+        textField.text = self.contactname;
+        self.view1 = textField;
+        
+        [[[textField rac_textSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * x) {
+            
+            self.contactname = x;
+        }];
+    });
+    return data;
+}
+
+- (CKDict *)textinputDataForPhone
+{
+    CKDict *data = [CKDict dictWith:@{kCKItemKey:@"phone", kCKCellID:@"inputCell"}];
+    //cell行高
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 43;
+    });
+    //cell准备重绘
+    @weakify(self);
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self);
+        UILabel *title = [cell viewWithTag:101];
+        UITextField *textField = [cell viewWithTag:102];
+        
+        title.text = @"手机";
+        textField.placeholder = @"请输入联系人手机";
+        textField.text = self.contactphone;
+        self.view2 = textField;
+        
+        [[[textField rac_textSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * x) {
+            
+            self.contactname = x;
+        }];
+    });
+    return data;
+}
+
+- (CKDict *)textinputDataForDistrict
+{
+    CKDict *data = [CKDict dictWith:@{kCKItemKey:@"phone", kCKCellID:@"districtCell"}];
+    //cell行高
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 43;
+    });
+    //cell准备重绘
+    @weakify(self);
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self);
+        UILabel *title = [cell viewWithTag:101];
+        UITextField *textField = [cell viewWithTag:102];
+        
+        title.text = @"寄送地址";
+        textField.text = self.area;
+        self.view3 = textField;
+        
+        [[RACObserve(self, area) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * x) {
+            
+            textField.text = x;
+        }];
+    });
+    
+    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        
         AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
         
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
             
-            textField.text = [NSString stringWithFormat:@"%@%@%@",provinceModel.infoName ?: @"",cityModel.infoName ?: @"",disctrictModel.infoName ?: @""];
-            self.area = textField.text;
+            NSString * text = [NSString stringWithFormat:@"%@%@%@",provinceModel.infoName ?: @"",cityModel.infoName ?: @"",disctrictModel.infoName ?: @""];
+            self.area = text;
         }];
         [self.navigationController pushViewController:vc animated:YES];
-    }
+    });
+    return data;
 }
+
+
+
+- (CKDict *)textinputDataForDetailAddress
+{
+    CKDict *data = [CKDict dictWith:@{kCKItemKey:@"detailAddress", kCKCellID:@"inputCell"}];
+    //cell行高
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 43;
+    });
+    //cell准备重绘
+    @weakify(self);
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self);
+        UILabel *title = [cell viewWithTag:101];
+        UITextField *textField = [cell viewWithTag:102];
+        
+        title.text = @"详细地址";
+        textField.placeholder = @"请输入联系人详细地址";
+        textField.text = self.address;
+        self.view4 = textField;
+        
+        [[[textField rac_textSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * x) {
+            
+            self.address = x;
+        }];
+    });
+    return data;
+}
+
+- (CKDict *)tagData
+{
+    CKDict *data = [CKDict dictWith:@{kCKItemKey:@"tag", kCKCellID:@"tagCell"}];
+    //cell行高
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 42;
+    });
+    return data;
+}
+
 
 #pragma mark Action
 - (IBAction)commitAction:(id)sender {
@@ -295,25 +388,29 @@
 
 - (void)actionBack
 {
-    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您未提交联系人信息，为保证协议的正常送达，请先完善信息。是否继续完善信息？" delegate:nil cancelButtonTitle:@"执意退出" otherButtonTitles:@"继续完善", nil];
-    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
+    HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+    alert.topTitle = @"温馨提示";
+    alert.imageName = @"mins_bulb";
+    alert.message = @"您未提交联系人信息，为保证协议的正常送达，请先完善信息。是否继续完善信息？";
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"执意退出" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
         
-        if (![number integerValue])
+        for (UIViewController * vc in self.navigationController.viewControllers)
         {
-            for (UIViewController * vc in self.navigationController.viewControllers)
+            if ([vc isKindOfClass:[MutualInsOrderInfoVC class]])
             {
-                if ([vc isKindOfClass:[MutualInsOrderInfoVC class]])
-                {
-                    [((MutualInsOrderInfoVC *)vc) requestContractDetail];
-                    [self.navigationController popToViewController:vc animated:YES];
-                    return;
-                }
+                [((MutualInsOrderInfoVC *)vc) requestContractDetail];
+                [self.navigationController popToViewController:vc animated:YES];
+                return;
             }
-            [self.navigationController popToRootViewControllerAnimated:YES];
         }
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }];
-    
-    [av show];
+    HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"继续完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+    }];
+    alert.actionItems = @[cancel, improve];
+    [alert show];
 }
 
 @end

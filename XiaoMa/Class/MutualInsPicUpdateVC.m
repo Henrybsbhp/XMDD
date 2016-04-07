@@ -226,7 +226,8 @@
     {
         if (self.minInsuranceExpirationDate)
         {
-            self.datePicker.minimumDate = self.minInsuranceExpirationDate;
+            NSDate *nextDat = [NSDate dateWithTimeInterval:24*60*60 sinceDate:self.minInsuranceExpirationDate];//后一天
+            self.datePicker.minimumDate = nextDat;
         }
         NSDate *selectedDate = self.insuranceExpirationDate ? self.insuranceExpirationDate : nil;
         
@@ -532,7 +533,7 @@
 - (void)actionUpload:(PictureRecord *)record withImageView:(HKImageView *)imageView {
     
     record.isUploading = YES;
-    [[imageView rac_setUploadingImage:self.currentRecord.image withImageType:UploadFileTypeDaDaHelp]
+    [[imageView rac_setUploadingImage:self.currentRecord.image withImageType:UploadFileTypeMutualIns]
      subscribeNext:^(UploadFileOp *op) {
          
          record.url = [op.rsp_urlArray safetyObjectAtIndex:0];

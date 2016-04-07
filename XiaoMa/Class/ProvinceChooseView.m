@@ -23,7 +23,7 @@
     {
         _displayLb = [[UILabel alloc] initWithFrame:CGRectZero];
         _displayLb.font = [UIFont systemFontOfSize:17];
-        _displayLb.textColor = RGBCOLOR(32,171,42);
+        _displayLb.textColor = HEXCOLOR(@"#18D06A");
         _displayLb.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_displayLb];
         

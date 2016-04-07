@@ -13,6 +13,12 @@
 #import "HKImageAlertVC.h"
 #import "GroupIntroductionVC.h"
 
+@interface PasteboardModel ()
+
+@property (nonatomic, assign) BOOL isAlertShowing;
+
+@end
+
 @implementation PasteboardModel
 
 - (void)prepareForShareWhisper:(NSString *)whisper
@@ -39,7 +45,7 @@
             {
                 [self handleXMInsTag:pasteboardStr];
             }
-            else
+            else if (!self.isAlertShowing)
             {
                 [self handleNoLogin];
             }
@@ -51,6 +57,7 @@
 
 - (void)handleNoLogin
 {
+    self.isAlertShowing = YES;
     InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
     alertVC.alertType = InviteAlertTypeNologin;
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:self.cancelClickBlock];
@@ -58,6 +65,7 @@
     alertVC.actionItems = @[cancel, login];
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
         [alertView dismiss];
+        self.isAlertShowing = NO;
         if (index == 1) {
             [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=login"];
         }
@@ -71,6 +79,7 @@
 
 - (void)handleXMInsTag:(NSString *)str
 {
+    [UIPasteboard generalPasteboard].string = @"";
     SearchCooperationGroupOp * op = [SearchCooperationGroupOp operation];
     op.req_cipher = str;
     [[op rac_postRequest] subscribeNext:^(SearchCooperationGroupOp * rop) {
@@ -85,7 +94,6 @@
         alertVC.actionItems = @[cancel, join];
         [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
             
-            [UIPasteboard generalPasteboard].string = @"";
             [alertView dismiss];
             if (index == 1) {
                 if (rop.rsp_groupType == GroupTypeByself) {
@@ -115,7 +123,6 @@
             alert.message = error.domain;
             HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
                 [alertVC dismiss];
-                [UIPasteboard generalPasteboard].string = @"";
             }];
             alert.actionItems = @[ok];
             [alert show];

@@ -138,6 +138,12 @@
     [self addCorner:[cell viewWithTag:101]];
     [self addCorner:[cell viewWithTag:102]];
     [self addCorner:[cell viewWithTag:103]];
+    
+    [self setPreferredMaxLayoutWidth:[cell viewWithTag:104]];
+    [self setPreferredMaxLayoutWidth:[cell viewWithTag:105]];
+    [self setPreferredMaxLayoutWidth:[cell viewWithTag:106]];
+    [self setPreferredMaxLayoutWidth:[cell viewWithTag:107]];
+    
     [cell layoutIfNeeded];
     return cell;
 }
@@ -150,7 +156,6 @@
     UILabel *characterLabel = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *userCNTInfoLabel = (UILabel *)[cell.contentView viewWithTag:1004];
     
-//    @叶志成 按钮
     UIButton *checkBtn = (UIButton *)[cell searchViewWithTag:1005];
     checkBtn.userInteractionEnabled = NO;
     couponMoneyLabel.layer.cornerRadius = 3;
@@ -160,8 +165,8 @@
     couponMoneyLabel.text=[NSString stringWithFormat:@" %@ ",dataModel[@"couponmoney"]];
     characterLabel.text=[NSString stringWithFormat:@"平台特点：%@",dataModel[@"character"]];
     userCNTInfoLabel.text=[NSString stringWithFormat:@"用户数量：%@",dataModel[@"usercntinfo"]];
-    characterLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 65;
-    userCNTInfoLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 65;
+    characterLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 100;
+    userCNTInfoLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 100;
     
     [cell layoutIfNeeded];
     return cell;
@@ -371,6 +376,11 @@
 {
     label.layer.cornerRadius = 10;
     label.layer.masksToBounds = YES;
+}
+
+-(void)setPreferredMaxLayoutWidth:(UILabel *)label
+{
+    label.preferredMaxLayoutWidth = self.view.bounds.size.width - 70;
 }
 
 @end

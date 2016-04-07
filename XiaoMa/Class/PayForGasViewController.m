@@ -388,7 +388,6 @@
         vc.url = [NSString stringWithFormat:@"%@?fr=APP&token=%@&tradeno=%@&tradetype=FQJY&status=%@",
                   url, gNetworkMgr.token, paidop.rsp_tradeid, status];
         [self.navigationController pushViewController:vc animated:YES];
-        [self pushToPaymentResultWithPaidOp:paidop andGasCard:card];
     }
     //普通加油
     else {

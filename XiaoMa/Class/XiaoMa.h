@@ -43,6 +43,7 @@
 #import "BaseOp.h"
 #import "HKViewController.h"
 #import "HKView.h"
+#import "HKImageAlertVC.h"
 
 //常用vc&View
 #import "CKNavigationController.h"

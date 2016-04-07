@@ -74,7 +74,7 @@
 //开发环境
     #define ApiBaseUrl @"http://dev01.xiaomadada.com/paa/rest/api"
     #define ApiFormalUrl @"https://www.xiaomadada.com/paa/rest/api" //正式
-    #define DiscoverUrl @"https://dev01.xiaomadada.com/paaweb/general/discoveryload"//发现地址
+    #define DiscoverUrl @"http://dev01.xiaomadada.com/paaweb/general/discoveryload"//发现地址
     #define PayCenterNotifyUrl @"http://dev01.xiaomadada.com/paaweb/general/order/paynotify"
     #define OrderDetailsUrl @"http://dev01.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
     #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"

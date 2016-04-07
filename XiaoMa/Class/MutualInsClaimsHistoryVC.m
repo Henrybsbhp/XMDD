@@ -47,6 +47,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+
 #pragma mark UITableViewDataSource
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -78,7 +79,7 @@
         hkLabel.trapeziumColor = [UIColor colorWithHex:@"#18D06A" alpha:1];
     }
     hkLabel.textColor = [UIColor whiteColor];
-
+    
     UIView *backView = [cell viewWithTag:1000];
     [self addCorner:backView];
     
@@ -91,9 +92,7 @@
     statusLabel.text = model.detailstatusdesc;
     
     UILabel *timeLabel = [cell viewWithTag:1005];
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyy.MM.dd HH:mm"];
-    timeLabel.text = [format stringFromDate:[NSDate dateWithUTS:model.lstupdatetime]];
+    timeLabel.text = [[NSDate dateWithUTS:model.lstupdatetime]dateFormatForYYMMdd2];
     return cell;
 }
 
@@ -137,18 +136,36 @@
 -(void)loadData
 {
     GetCooperationClaimsListOp *op = [GetCooperationClaimsListOp new];
-    [[[op rac_postRequest]initially:^{
-        [self.tableView.refreshView beginRefreshing];
-    }]subscribeNext:^(id x) {
+    [[[[op rac_postRequest] initially:^{
+    
+        [self.view hideDefaultEmptyView];
+        if (!self.dataArr.count)
+        {
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        }
+    }] finally:^{
+        
+        [self.tableView.refreshView endRefreshing];
+    }] subscribeNext:^(id x) {
+        
+        [self.view stopActivityAnimation];
+        
         self.dataArr = op.rsp_claimlist;
-        [self.tableView reloadData];
         if (self.dataArr.count == 0)
         {
-            [self.tableView showDefaultEmptyViewWithText:@"暂无理赔记录"];
+            @weakify(self)
+            [self.view showDefaultEmptyViewWithText:@"暂无理赔记录,点击重新获取" tapBlock:^{
+                @strongify(self)
+                [self loadData];
+            }];
         }
-        [self.tableView.refreshView endRefreshing];
+        [self.tableView reloadData];
     }error:^(NSError *error) {
-        [self.tableView.refreshView stopActivityAnimation];
+        @weakify(self)
+        [self.view showDefaultEmptyViewWithText:@"暂无理赔记录,点击重新获取" tapBlock:^{
+            @strongify(self)
+            [self loadData];
+        }];
     }];
 }
 
