@@ -164,6 +164,7 @@
 {
     if ([LoginViewModel loginIfNeededForTargetViewController:self.targetVC]) {
         GasCardListVC *vc = [UIStoryboard vcWithId:@"GasCardListVC" inStoryboard:@"Gas"];
+        vc.selectedGasCardID = self.curGasCard.gid;
         [vc setSelectedBlock:^(GasCard *card) {
             [[self.gasStore updateCardInfoByGID:card.gid] send];
         }];

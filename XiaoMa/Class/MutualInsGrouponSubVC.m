@@ -64,8 +64,8 @@
         status == MutInsStatusUnderReview || status == MutInsStatusNeedReviewAgain || status == MutInsStatusReviewFailed ||
         status == MutInsStatusNeedQuote || status == MutInsStatusAccountingPrice || status == MutInsStatusPeopleNumberUment) {
         
-        datasource = $([self carsItem],[self splitLineItem], [self arrowItem], [self descItem], [self timeItem],
-                       [self buttonItem], [self bottomItem]);
+        datasource = $([self carsItem],[self splitLineItem], [self arrowItem], [self waterWaveItem], [self descItem],
+                       [self timeItem], [self buttonItem], [self bottomItem]);
     }
     else if (status == MutInsStatusToBePaid) {
         
@@ -78,8 +78,8 @@
                        [self buttonItem], [self bottomItem]);
     }
     else {
-        datasource = $([self carsItem], [self splitLineItem], [self descItem], [self timeItem], [self buttonItem],
-                       [self bottomItem]);
+        datasource = $([self carsItem], [self splitLineItem], [self waterWaveItem], [self descItem], [self timeItem],
+                       [self buttonItem], [self bottomItem]);
     }
     self.datasource = datasource;
     [self.tableView reloadData];
@@ -471,8 +471,11 @@
     return item;
 }
 
-- (CKDict *)waterWaveItem
+- (id)waterWaveItem
 {
+    if (self.groupDetail.rsp_totalpoolamt == 0) {
+        return CKNULL;
+    }
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Wave"}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 168;

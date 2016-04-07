@@ -10,7 +10,7 @@
 #import "GasBaseVM.h"
 
 @interface GasCardListVC : HKViewController
-
+@property (nonatomic, strong) NSNumber *selectedGasCardID;
 @property (nonatomic, copy) void(^selectedBlock)(GasCard *selectedCard);
 
 @end

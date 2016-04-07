@@ -76,6 +76,7 @@
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[tuple.second integerValue] inSection:0];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
+        [self resetSelectedGasCardIDIfNeeded];
     } error:^(NSError *error) {
         
         @strongify(self);
@@ -94,6 +95,7 @@
         
         @strongify(self);
         [self.tableView.refreshView endRefreshing];
+        [self resetSelectedGasCardIDIfNeeded];
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
@@ -115,6 +117,14 @@
     [self reloadWithSignal:signal];
 }
 
+#pragma mark - Util
+- (void)resetSelectedGasCardIDIfNeeded {
+    if ([self.gasStore.gasCards count] == 0 ||
+        (self.selectedGasCardID && [self.gasStore.gasCards objectForKey:self.selectedGasCardID])) {
+        return;
+    }
+    self.selectedGasCardID = [self.gasStore.gasCards keyForObjectAtIndex:0];
+}
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -132,6 +142,7 @@
         if (card && self.selectedBlock) {
             self.selectedBlock(card);
         }
+        self.selectedGasCardID = card.gid;
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
@@ -198,12 +209,18 @@
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *cardnoL = (UILabel *)[cell.contentView viewWithTag:1003];
+    UIImageView *checkboxV = [cell viewWithTag:1004];
     
     GasCard *card = [self.gasStore.gasCards objectAtIndex:indexPath.row];
     logoV.image = [UIImage imageNamed:card.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
     titleL.text = card.cardtype == 2 ? @"中石油" : @"中石化";
     cardnoL.text = [card.gascardno splitByStep:4 replacement:@" "];
-
+    
+    [[RACObserve(self, selectedGasCardID) takeUntilForCell:cell] subscribeNext:^(id x) {
+        checkboxV.hidden = ![card.gid isEqual:x];
+    }];
+    
+    cell.customSeparatorInset = UIEdgeInsetsZero;
     return cell;
 }
 

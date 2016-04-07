@@ -9,27 +9,14 @@
 #import "GasVC.h"
 #import "HorizontalScrollTabView.h"
 #import "ADViewController.h"
-#import "UIView+DefaultEmptyView.h"
-#import "HKTableViewCell.h"
-#import "UIView+JTLoadingView.h"
 #import "NSString+RectSize.h"
-#import "NSString+Split.h"
 #import "CBAutoScrollLabel.h"
 #import "NSString+Format.h"
 #import "GasStore.h"
 
-#import "GasPickAmountCell.h"
-#import "GasReminderCell.h"
-
 #import "GasNormalVC.h"
 #import "GasCZBVC.h"
-#import "MyBankVC.h"
-#import "GasCardListVC.h"
-#import "GasAddCardVC.h"
-#import "GasPayForCZBVC.h"
 #import "GasRecordVC.h"
-#import "GasPaymentResultVC.h"
-#import "PayForGasViewController.h"
 #import "PaymentSuccessVC.h"
 
 
