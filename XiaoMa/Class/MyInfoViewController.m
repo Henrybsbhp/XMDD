@@ -93,7 +93,6 @@
     }];
     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确定要退出登录？" ActionItems:@[cancel,confirm]];
     
-    @weakify(self);
     [[logoutBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"rp302_6"];
