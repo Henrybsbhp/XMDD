@@ -34,6 +34,8 @@
     self.rsp_ifgroupowner = [dict[@"ifgroupowner"] boolValue];
     self.rsp_ifownerhascar = [dict[@"ifownerhascar"] boolValue];
     self.rsp_groupid = dict[@"groupid"];
+    self.rsp_pricebuttonname = dict[@"pricebuttonname"];
+    self.rsp_invitebtnflag = [dict[@"invitebtnflag"] intValue];
     self.rsp_groupname = dict[@"groupname"];
     self.rsp_type = [dict[@"type"] intValue];
 	

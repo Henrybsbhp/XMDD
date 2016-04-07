@@ -15,7 +15,7 @@
 #import "MyCarStore.h"
 #import "NSString+Format.h"
 
-#import "ValuationViewController.h"
+#import "ValuationHomeVC.h"
 
 #import "HKImageAlertVC.h"
 
@@ -380,7 +380,7 @@
     [subv setValuationClickBlock:^(void) {
         [MobClick event:@"rp309_4"];
         @strongify(self);
-        ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
+        ValuationHomeVC *vc = [UIStoryboard vcWithId:@"ValuationHomeVC" inStoryboard:@"Valuation"];
         vc.carIndex = index;
         [self.navigationController pushViewController:vc animated:YES];
     }];
