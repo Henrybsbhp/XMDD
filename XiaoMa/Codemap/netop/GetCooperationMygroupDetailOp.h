@@ -56,6 +56,10 @@
 @property (nonatomic,strong) NSNumber* rsp_groupid;
 ///用于暂存接口返回时的时间戳
 @property (nonatomic, assign) NSTimeInterval tempTimetag;
+///核价按钮名字
+@property (nonatomic,strong) NSString* rsp_pricebuttonname;
+///是否显示邀请好友(1：显示，0：不显示)
+@property (nonatomic,assign) int rsp_invitebtnflag;
 ///团名
 @property (nonatomic,strong) NSString* rsp_groupname;
 ///团类型(1：自助，2：匹配)

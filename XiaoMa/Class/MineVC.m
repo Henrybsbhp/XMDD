@@ -106,6 +106,7 @@
             }
             
         }
+        self.isCarVC = NO;
     }
 }
 
@@ -480,6 +481,7 @@
     car[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         CarsListVC *vc = [UIStoryboard vcWithId:@"CarsListVC" inStoryboard:@"Car"];
         vc.model.allowAutoChangeSelectedCar = YES;
+        self.isCarVC = YES;
         [self.navigationController pushViewController:vc animated:YES];
     });
     
