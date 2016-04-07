@@ -37,6 +37,8 @@
     self.tempTimetag = [[NSDate date] timeIntervalSince1970];
     self.rsp_groupname = dict[@"groupname"];
     self.rsp_type = [dict[@"type"] intValue];
+    self.rsp_pricebuttonname = dict[@"pricebuttonname"];
+    self.rsp_invitebtnflag = [dict[@"invitebtnflag"] intValue];
 
     return self;
 }
