@@ -155,14 +155,14 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mec_certificate_tag" translatesAutoresizingMaskIntoConstraints="NO" id="5BT-dW-zg5">
-                                            <rect key="frame" x="283" y="52" width="10" height="10"/>
+                                            <rect key="frame" x="287.5" y="52" width="10" height="10"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="10" id="HJm-Zc-vkm"/>
                                                 <constraint firstAttribute="height" constant="10" id="n8j-sQ-TAl"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QYd-Gv-C3T">
-                                            <rect key="frame" x="295" y="50" width="11" height="15"/>
+                                            <rect key="frame" x="299.5" y="50" width="11" height="15"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -180,11 +180,11 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="QYd-Gv-C3T" secondAttribute="trailing" constant="45" id="3Eu-N8-wPf"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="QYd-Gv-C3T" secondAttribute="trailing" constant="30" id="3Eu-N8-wPf"/>
                                         <constraint firstItem="Wbo-8B-eDC" firstAttribute="top" secondItem="OZv-So-Okb" secondAttribute="top" id="6Vh-K2-su5"/>
                                         <constraint firstItem="QYd-Gv-C3T" firstAttribute="top" secondItem="OZv-So-Okb" secondAttribute="top" constant="50" id="DjW-DB-KuS"/>
                                         <constraint firstAttribute="trailing" secondItem="Wbo-8B-eDC" secondAttribute="trailing" id="LeW-9u-hja"/>
-                                        <constraint firstItem="QYd-Gv-C3T" firstAttribute="centerX" secondItem="OZv-So-Okb" secondAttribute="centerX" id="QVB-gj-tl2"/>
+                                        <constraint firstItem="QYd-Gv-C3T" firstAttribute="centerX" secondItem="OZv-So-Okb" secondAttribute="centerX" constant="5" id="QVB-gj-tl2"/>
                                         <constraint firstItem="ucX-bp-aCK" firstAttribute="leading" secondItem="MJs-KB-7v6" secondAttribute="trailing" constant="7" id="Rut-OB-IEc"/>
                                         <constraint firstItem="MJs-KB-7v6" firstAttribute="centerX" secondItem="OZv-So-Okb" secondAttribute="centerX" id="SqI-6b-DpF"/>
                                         <constraint firstItem="MJs-KB-7v6" firstAttribute="top" secondItem="QYd-Gv-C3T" secondAttribute="bottom" constant="15" id="Zqr-HR-slr"/>
@@ -192,7 +192,7 @@
                                         <constraint firstItem="5BT-dW-zg5" firstAttribute="trailing" secondItem="QYd-Gv-C3T" secondAttribute="leading" constant="-2" id="tCC-C3-gjw"/>
                                         <constraint firstItem="Wbo-8B-eDC" firstAttribute="leading" secondItem="OZv-So-Okb" secondAttribute="leading" id="v8Y-FM-Qab"/>
                                         <constraint firstItem="ucX-bp-aCK" firstAttribute="centerY" secondItem="MJs-KB-7v6" secondAttribute="centerY" id="wqZ-NE-i9v"/>
-                                        <constraint firstItem="5BT-dW-zg5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OZv-So-Okb" secondAttribute="leading" constant="45" id="yZI-IY-yX4"/>
+                                        <constraint firstItem="5BT-dW-zg5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OZv-So-Okb" secondAttribute="leading" constant="30" id="yZI-IY-yX4"/>
                                         <constraint firstItem="5BT-dW-zg5" firstAttribute="centerY" secondItem="QYd-Gv-C3T" secondAttribute="centerY" id="z1F-Yu-JDv"/>
                                     </constraints>
                                 </view>

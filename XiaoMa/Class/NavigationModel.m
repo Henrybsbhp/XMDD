@@ -22,7 +22,7 @@
 #import "MyBankVC.h"
 #import "InsSimpleCar.h"
 #import "InsCheckResultsVC.h"
-#import "ValuationViewController.h"
+#import "ValuationHomeVC.h"
 
 #import "AppDelegate.h"
 
@@ -212,7 +212,7 @@
         ///估值
         else if ([@"val" equalByCaseInsensitive:name])
         {
-            ValuationViewController * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationViewController"];
+            ValuationHomeVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationHomeVC"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         ///核保结果 TODO
