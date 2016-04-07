@@ -107,6 +107,8 @@ class=GetCooperationMygroupDetail op auth path="/cooperation/mygroup/detail/get"
     <"是否当前人是团长本人">ifgroupowner:bool
     <"团长是否有车">ifownerhascar:bool
     <"团记录ID">groupid:number
+    <"核价按钮名字">pricebuttonname
+    <"是否显示邀请好友(1：显示，0：不显示)">invitebtnflag:int
     <"团名">groupname
     <"团类型(1：自助，2：匹配)">type:int
   }

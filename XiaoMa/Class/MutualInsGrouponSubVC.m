@@ -22,6 +22,7 @@
 #import "HKProgressView.h"
 #import "PullDownAnimationButton.h"
 #import "WaterWaveProgressView.h"
+#import "MutualInsStore.h"
 
 #import "HKImageAlertVC.h"
 #import "CarListVC.h"
@@ -101,10 +102,10 @@
 }
 
 #pragma mark - Action
-- (void)actionGotoMembersVC
+- (void)actionGotoMembersVCWithMembers:(NSArray *)members
 {
     MutualInsGrouponMembersVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponMembersVC"];
-    vc.members = self.groupDetail.rsp_members;
+    vc.members = members;
     vc.title = self.title;
     [self.parentViewController.navigationController pushViewController:vc animated:YES];
 }
@@ -333,26 +334,26 @@
 {
     ApplyCooperationPremiumCalculateOp *op = [ApplyCooperationPremiumCalculateOp operation];
     op.req_groupid = self.groupDetail.rsp_groupid;
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
         [gToast showingWithText:@"正在核价..."];
     }] subscribeNext:^(id x) {
+        @strongify(self);
         [gToast showSuccess:@"核价成功"];
+        MutualInsStore *store = [MutualInsStore fetchExistsStore];
+        [[store reloadSimpleGroups] sendAndIgnoreError];
+        [[store reloadDetailGroupByMemberID:self.groupDetail.req_memberid andGroupID:self.groupDetail.rsp_groupid] sendAndIgnoreError];
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];
 }
 
-#pragma mark - CellItem
-- (id)carsItem
-{
-    //如果没有成员，忽略
-    NSArray *members = [self.groupDetail.rsp_members arrayByFilteringOperator:^BOOL(MutualInsMemberInfo *info) {
+#pragma mark - Util
+- (NSArray *)sortAndFilterMembers:(NSArray *)members {
+    NSArray *newMembers = [members arrayByFilteringOperator:^BOOL(MutualInsMemberInfo *info) {
         return info.showflag ? info : nil;
     }];
-    if (members.count == 0) {
-        return CKNULL;
-    }
-    members = [members sortedArrayUsingComparator:^NSComparisonResult(MutualInsMemberInfo *obj1, MutualInsMemberInfo *obj2) {
+    return  [newMembers sortedArrayUsingComparator:^NSComparisonResult(MutualInsMemberInfo *obj1, MutualInsMemberInfo *obj2) {
         if ([obj1.memberid isEqual:self.groupDetail.req_memberid]) {
             return NSOrderedAscending;
         }
@@ -363,6 +364,18 @@
             return [obj1.memberid compare:obj2.memberid];
         }
     }];
+}
+
+
+#pragma mark - CellItem
+- (id)carsItem
+{
+    NSArray *members = [self sortAndFilterMembers:self.groupDetail.rsp_members];
+    //如果没有成员，忽略
+    if (members.count == 0) {
+        return CKNULL;
+    }
+
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Cars"}];
     @weakify(self);
     item[@"members"] = members;
@@ -377,7 +390,7 @@
         [cardsCell setCarDidSelectedBlock:^(MutualInsMemberInfo *info) {
             @strongify(self);
             if (!info) {
-                [self actionGotoMembersVC];
+                [self actionGotoMembersVCWithMembers:data[@"members"]];
             }
             else {
                 [self requestDetailInfoForMember:info.memberid];
@@ -387,7 +400,7 @@
     return item;
 }
 
-- (CKDict *)splitLineItem
+- (id)splitLineItem
 {
     if (self.groupDetail.rsp_timeperiod.length == 0) {
         return [self splitLine1Item];
@@ -395,8 +408,11 @@
     return [self splitLine2Item];
 }
 
-- (CKDict *)splitLine1Item
+- (id)splitLine1Item
 {
+    if (self.groupDetail.rsp_members.count == 0) {
+        return CKNULL;
+    }
     NSString *amount = [NSString stringWithFormat:@"共%d车", (int)[self.groupDetail.rsp_members count]];
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Line1", @"amount":amount}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -412,10 +428,10 @@
     return item;
 }
 
-- (CKDict *)splitLine2Item
+- (id)splitLine2Item
 {
-    NSString *amount = [NSString stringWithFormat:@"共%d车", (int)[self.groupDetail.rsp_members count]];
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Line2", @"time":self.groupDetail.rsp_timeperiod, @"amount":amount}];
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Line2", @"time":self.groupDetail.rsp_timeperiod,
+                                      @"amount":@([self.groupDetail.rsp_members count])}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 36;
     });
@@ -428,16 +444,22 @@
         
         timeB.hidden = [item[@"time"] length] == 0;
         [timeB setTitle:[@" " append:item[@"time"]] forState:UIControlStateNormal];
-        [amountB setTitle:[@" " append:item[@"amount"]] forState:UIControlStateNormal];
+        
+        NSString *strAmount = [NSString stringWithFormat:@"共%@车", data[@"amount"]];
+        [amountB setTitle:[@" " append:strAmount] forState:UIControlStateNormal];
+        amountB.hidden = [data[@"amount"] integerValue] == 0;
     });
     return item;
 }
 
-- (CKDict *)arrowItem
+- (id)arrowItem
 {
+    if (self.groupDetail.rsp_barstatus == 0) {
+        return CKNULL;
+    }
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Arrow"}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 40;
+        return 44;
     });
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         HKProgressView *arrowV = [cell viewWithTag:1001];
@@ -542,14 +564,14 @@
 
 - (id)buttonItem
 {
-    if (self.groupDetail.rsp_buttonname.length == 0) {
+    if (self.groupDetail.rsp_buttonname.length == 0 && self.groupDetail.rsp_pricebuttonflag == 0) {
         return CKNULL;
     }
-    
     NSString *key = @"Button1";
-    if (self.groupDetail.rsp_pricebuttonflag > 0) {
+    if (self.groupDetail.rsp_buttonname.length > 0 && self.groupDetail.rsp_pricebuttonflag > 0) {
         key = @"Button2";
     }
+    
     CKDict *item = [CKDict dictWith:@{kCKItemKey:key}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 48;
@@ -557,11 +579,21 @@
     @weakify(self);
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         @strongify(self);
-        UIButton *button1 = [cell viewWithTag:1001];
-        UIButton *button2 = [cell viewWithTag:1002];
+        UIButton *imporveButton;
+        UIButton *priceButton;
+        if (self.groupDetail.rsp_buttonname.length > 0 && self.groupDetail.rsp_pricebuttonflag > 0) {
+            imporveButton = [cell viewWithTag:1001];
+            priceButton = [cell viewWithTag:1002];
+        }
+        else if (self.groupDetail.rsp_pricebuttonflag > 0) {
+            priceButton = [cell viewWithTag:1001];
+        }
+        else if (self.groupDetail.rsp_buttonname.length > 0) {
+            imporveButton = [cell viewWithTag:1001];
+        }
         
-        [button1 setTitle:self.groupDetail.rsp_buttonname forState:UIControlStateNormal];
-        [[[button1 rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+        [imporveButton setTitle:self.groupDetail.rsp_buttonname forState:UIControlStateNormal];
+        [[[imporveButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              @strongify(self);
              MutInsStatus status = self.status;
@@ -583,13 +615,8 @@
              }
         }];
         
-        if (self.status == MutInsStatusNeedCar) {
-            [button2 setTitle:@"没有车直接报价" forState:UIControlStateNormal];
-        }
-        else if (self.status == MutInsStatusNeedReviewAgain){
-            [button2 setTitle:@"不完善直接报价" forState:UIControlStateNormal];
-        }
-        [[[button2 rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+        [priceButton setTitle:self.groupDetail.rsp_pricebuttonname forState:UIControlStateNormal];
+        [[[priceButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              @strongify(self);
              [self actionCheckPrice];
