@@ -37,7 +37,7 @@
 @interface MutualInsGrouponSubVC ()
 @property (nonatomic, strong) CKList *allItems;
 @property (nonatomic, strong) CKList *datasource;
-
+@property (nonatomic, strong) NSArray *sortedMembers;
 @property (nonatomic, assign) MutInsStatus status;
 @end
 
@@ -59,6 +59,7 @@
 - (void)reloadDataWithStatus:(MutInsStatus)status
 {
     self.status = status;
+    self.sortedMembers = [self sortAndFilterMembers:self.groupDetail.rsp_members];
     CKList *datasource;
     if (status == MutInsStatusNeedCar || status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedInsList ||
         status == MutInsStatusUnderReview || status == MutInsStatusNeedReviewAgain || status == MutInsStatusReviewFailed ||
@@ -368,7 +369,7 @@
 #pragma mark - CellItem
 - (id)carsItem
 {
-    NSArray *members = [self sortAndFilterMembers:self.groupDetail.rsp_members];
+    NSArray *members = self.sortedMembers;
     //如果没有成员，忽略
     if (members.count == 0) {
         return CKNULL;
@@ -408,10 +409,10 @@
 
 - (id)splitLine1Item
 {
-    if (self.groupDetail.rsp_members.count == 0) {
+    if (self.sortedMembers.count == 0) {
         return CKNULL;
     }
-    NSString *amount = [NSString stringWithFormat:@"共%d车", (int)[self.groupDetail.rsp_members count]];
+    NSString *amount = [NSString stringWithFormat:@"共%d车", (int)[self.sortedMembers count]];
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Line1", @"amount":amount}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 28;
@@ -429,7 +430,7 @@
 - (id)splitLine2Item
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Line2", @"time":self.groupDetail.rsp_timeperiod,
-                                      @"amount":@([self.groupDetail.rsp_members count])}];
+                                      @"amount":@([self.sortedMembers count])}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 36;
     });

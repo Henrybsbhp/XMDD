@@ -313,7 +313,7 @@ typedef enum : NSInteger
 #pragma mark - MenuItems
 - (id)menuItemInvite {
     if (self.groupDetail.rsp_invitebtnflag == 0) {
-        CKNULL;
+        return CKNULL;
     }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"邀请好友",@"img":@"mins_person"}];
     @weakify(self);

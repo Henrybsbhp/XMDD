@@ -1,13 +1,13 @@
 //
-//  UIConstants.h
+//  HKUIConstants.h
 //  XiaoMa
 //
 //  Created by jiangjunchen on 16/4/5.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#ifndef UIConstants_h
-#define UIConstants_h
+#ifndef HKUIConstants_h
+#define HKUIConstants_h
 
 #define kDefTintColor               HEXCOLOR(@"#18d06a")
 #define kDefLineColor               HEXCOLOR(@"#ebebeb")
@@ -22,4 +22,4 @@
 #define kOrangeColor                HEXCOLOR(@"#ff7428")
 
 
-#endif /* UIConstants_h */
+#endif /* HKUIConstants_h */
