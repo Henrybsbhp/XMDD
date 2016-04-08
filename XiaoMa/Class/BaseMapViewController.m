@@ -73,11 +73,7 @@
 
 - (void)initBaseNavigationBar
 {
-    UIImage *img = [UIImage imageNamed:@"cm_nav_back"];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain
-                                                            target:self action:@selector(returnAction)];
-//    self.navigationItem.leftBarButtonItem = item;
-    [self.navigationItem setLeftBarButtonItem:item animated:YES];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(returnAction)];   
 }
 
 - (void)initTitle:(NSString *)title

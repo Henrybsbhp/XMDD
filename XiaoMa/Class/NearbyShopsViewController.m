@@ -59,7 +59,7 @@
     }
     
     [self setupSYViewInContainer:self.bottomScrollView];
-//    [self.bottomSYView reloadData];
+    //    [self.bottomSYView reloadData];
     
     self.mapView.showsUserLocation = YES;
     
@@ -105,10 +105,7 @@
 {
     self.navigationItem.title = @"附近门店";
     
-    UIImage *img = [UIImage imageNamed:@"cm_nav_back"];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain
-                                                            target:self action:@selector(returnAction)];
-    [self.navigationItem setLeftBarButtonItem:item animated:YES];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(returnAction)];
 }
 
 - (void)setupMapView
@@ -149,7 +146,7 @@
 {
     @weakify(self)
     [[self.locationMeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-       
+        
         [MobClick event:@"rp104_6"];
         @strongify(self)
         [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
@@ -194,12 +191,12 @@
             }];
             [self highlightMapViewWithIndex:0];
             [self.bottomSYView reloadData];
-//            if (self.nearbyShopArray.count)
-//            {
-//                JTShop * shop = [self.nearbyShopArray firstObject];
-//                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude);
-//                [self setCenter:coordinate];
-//            }
+            //            if (self.nearbyShopArray.count)
+            //            {
+            //                JTShop * shop = [self.nearbyShopArray firstObject];
+            //                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude);
+            //                [self setCenter:coordinate];
+            //            }
             self.bottomSYView.currentPageIndex = 0;
         }
     } error:^(NSError *error) {
@@ -233,23 +230,23 @@
     }
     
     
-//        JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:index];
-//        for (MAAnnotationView * v in  self.mapView.annotations)
-//        {
-//            v.image = [UIImage imageNamed:@"shop_pin"];
-//            if ([v.customObject isKindOfClass:[JTShop class]])
-//            {
-//                JTShop * s  = (JTShop *)v.customObject;
-//                if ([shop.shopID isEqualToString:s.shopID])
-//                {
-//                    v.image = [UIImage imageNamed:@"high_shop_pin"];
-//                }
-//                else
-//                {
-//                    v.image = [UIImage imageNamed:@"shop_pin"];
-//                }
-//            }x
-//        }
+    //        JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:index];
+    //        for (MAAnnotationView * v in  self.mapView.annotations)
+    //        {
+    //            v.image = [UIImage imageNamed:@"shop_pin"];
+    //            if ([v.customObject isKindOfClass:[JTShop class]])
+    //            {
+    //                JTShop * s  = (JTShop *)v.customObject;
+    //                if ([shop.shopID isEqualToString:s.shopID])
+    //                {
+    //                    v.image = [UIImage imageNamed:@"high_shop_pin"];
+    //                }
+    //                else
+    //                {
+    //                    v.image = [UIImage imageNamed:@"shop_pin"];
+    //                }
+    //            }x
+    //        }
 }
 
 #pragma mark - MAMapViewDelegate
@@ -369,7 +366,7 @@
         rect.size.width = rect.size.width - 10;
         rect.origin.x = 5;
         bottomView.frame = rect;
-//        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+        //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
         bottomView.tag = 1001;
         bottomView.backgroundColor = [UIColor whiteColor];
         bottomView.borderWidth = 0.5f;
@@ -404,7 +401,7 @@
     BOOL favorite = [gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID] ? YES : NO;
     UIImage * image = [UIImage imageNamed:favorite ? @"nb_collected" : @"nb_collection"];
     [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
-
+    
     
     mapBottomView.titleLb.text = shop.shopName;
     mapBottomView.addressLb.text = shop.shopAddress;
@@ -425,10 +422,10 @@
         [MobClick event:@"rp104_4"];
         if (shop.shopPhone.length == 0)
         {
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 [alertVC dismiss];
             }];
-            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_error" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
             [alert show];
             return ;
         }
@@ -497,7 +494,7 @@
         [MobClick event:@"rp104_5"];
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
-
+    
     return pageView;
 }
 
@@ -507,7 +504,7 @@
     self.bottomIndex = pageIndex;
     self.isAutoRegionChanging = YES;
     [self highlightMapViewWithIndex:pageIndex];
-
+    
     JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude);
     [self.mapView setCenterCoordinate:coordinate animated:YES];

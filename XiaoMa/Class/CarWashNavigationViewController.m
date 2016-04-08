@@ -111,10 +111,10 @@
         @strongify(self)
         if (self.shop.shopPhone.length == 0)
         {
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 [alertVC dismiss];
             }];
-            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_error" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
             [alert show];
             
             return ;

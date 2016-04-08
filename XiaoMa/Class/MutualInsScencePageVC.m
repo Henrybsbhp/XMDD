@@ -114,8 +114,7 @@
     [self addCorner:self.lastStepBtn];
     [self addBorder:self.lastStepBtn];
     
-    UIBarButtonItem *backBtnItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
-    self.navigationItem.leftBarButtonItem = backBtnItem;
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(back)];
 }
 
 -(void)setSelectedIndex
@@ -243,10 +242,10 @@
             NSArray *viewControllers = self.navigationController.viewControllers;
             [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
         }error:^(NSError *error) {
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 [alertVC dismiss];
             }];
-            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提醒" ImageName:@"mins_error" Message:error.domain ActionItems:@[cancel]];
+            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提醒" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel]];
             [alert show];
             [self.view stopActivityAnimation];
         }];

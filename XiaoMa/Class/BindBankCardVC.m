@@ -111,10 +111,10 @@
         
         if (error.code == 616102) {
             
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 [alertVC dismiss];
             }];
-            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_error" Message:@"该卡已绑定当前账号,请勿重复绑定" ActionItems:@[cancel]];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该卡已绑定当前账号,请勿重复绑定" ActionItems:@[cancel]];
             [alert show];
             
         }
