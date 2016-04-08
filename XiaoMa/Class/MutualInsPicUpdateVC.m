@@ -82,7 +82,7 @@
         @strongify(self)
         if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
         {
-            [gToast showMistake:@"待图片上传成功"];
+            [gToast showMistake:@"请等待图片上传成功"];
             return ;
         }
         if (!self.idPictureRecord.url.length)
@@ -252,9 +252,12 @@
     
     record.customArray = [NSMutableArray arrayWithArray:@[selectImgView,camView]];
     
+    [selectImgView removeTagGesture];
     UIImageView *maskView = selectImgView.customObject;
     selectImgView.hidden = !record.image;
     selectImgView.image = record.image;
+    camView.hidden = record.image;
+    
     
     if (!maskView) {
         maskView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cm_watermark"]];
@@ -278,7 +281,7 @@
         [self pickImageWithIndex:indexPath];
     }];
     
-    camView.hidden = record.image;
+    
     
     
     [[RACObserve(record, image) takeUntilForCell:cell] subscribeNext:^(UIImage * img) {

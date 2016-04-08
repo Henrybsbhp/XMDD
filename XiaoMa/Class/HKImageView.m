@@ -220,4 +220,9 @@
     self.tapGesture.enabled = YES;
 }
 
+- (void)removeTagGesture
+{
+    [self removeGestureRecognizer:_tapGesture];
+}
+
 @end

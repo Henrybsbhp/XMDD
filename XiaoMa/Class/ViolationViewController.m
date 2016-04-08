@@ -115,7 +115,7 @@
     {
         [self.headView mas_remakeConstraints:^(MASConstraintMaker *make) {
             
-            make.height.equalTo(@52);
+            make.height.equalTo(@50);
         }];
     }
     
@@ -130,12 +130,7 @@
     self.scrollView.delegate = self;
     self.scrollView.backgroundColor = [UIColor clearColor];
     
-//    @weakify(self);
-//    [self.scrollView mas_updateConstraints:^(MASConstraintMaker *make) {
-//        @strongify(self);
-//        make.top.equalTo(self.headView.mas_bottom);
-//        make.bottom.equalTo(self.view);
-//    }];
+    [self observeScrollViewOffset];
 }
 
 #pragma mark - Utility
@@ -183,7 +178,7 @@
 - (void)createIllegalCardWithCar:(NSObject *)car
 {
     CGFloat w = CGRectGetWidth(self.view.frame);
-    CGFloat h= CGRectGetHeight(self.view.frame);
+    CGFloat h= CGRectGetHeight(self.view.frame) - self.headView.frame.size.height;
     CGFloat x = self.scrollView.subviews.count * w;
     
     self.scrollView.contentSize = CGSizeMake(x + w, h);
@@ -281,11 +276,25 @@
 }
 
 
+
 #pragma mark - PageSliderDelegate
 - (void)pageClickAtIndex:(NSInteger)index
 {
     self.currentIndex = index;
     [self loadPageIndex:index animated:YES];
+}
+
+- (BOOL)observeScrollViewOffset
+{
+    @weakify(self)
+    [[RACObserve(self.scrollView,contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * value) {
+        
+        @strongify(self)
+        CGPoint p = [value CGPointValue];
+        [self.pageController slideOffsetX:p.x andTotleW:self.scrollView.contentSize.width andPageW:gAppMgr.deviceInfo.screenSize.width];
+    }];
+    
+    return YES;
 }
 
 @end
