@@ -15,7 +15,7 @@
 #import "CKLimitTextField.h"
 #import "IQKeyboardManager.h"
 
-@interface VcodeLoginVC ()
+@interface VcodeLoginVC () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
 @property (weak, nonatomic) IBOutlet UIButton *vcodeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
@@ -68,6 +68,9 @@
 {
     [super viewDidDisappear:animated];
     
+    [self.num resignFirstResponder];
+    [self.code resignFirstResponder];
+    
     [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
@@ -114,17 +117,7 @@
             [self setViewMovedUp:YES];
         }
     }];
-    
-//    [self.code setShouldBeginEditingBlock:^BOOL(CKLimitTextField *textField) {
-//        
-//        if  (self.view.frame.origin.y >= 0) {
-//            [self setViewMovedUp:YES];
-//        }
-//        
-//        return YES;
-//    }];
 }
-
 
 // 点击验证码 textField 后，如登录按钮被遮住，则提升 view 的高度。
 - (void)setViewMovedUp:(BOOL)movedUp
