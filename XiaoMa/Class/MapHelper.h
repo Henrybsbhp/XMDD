@@ -36,5 +36,7 @@
 - (RACSignal *)rac_getUserLocation;
 - (RACSignal *)rac_getInvertGeoInfo;
 
+- (void)handleGPSError:(NSError *)error;
+
 @end
 
