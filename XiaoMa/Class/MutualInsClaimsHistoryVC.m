@@ -92,7 +92,8 @@
     statusLabel.text = model.detailstatusdesc;
     
     UILabel *timeLabel = [cell viewWithTag:1005];
-    timeLabel.text = [[NSDate dateWithUTS:model.lstupdatetime]dateFormatForYYMMdd2];
+    timeLabel.text = [NSString stringWithFormat:@"%@",model.lstupdatetime];
+    
     return cell;
 }
 
