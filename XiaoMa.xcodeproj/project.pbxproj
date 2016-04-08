@@ -84,7 +84,6 @@
 		1833F59F1BCD47EB000E1DA1 /* Gas.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1833F59E1BCD47EB000E1DA1 /* Gas.storyboard */; };
 		1833F5A31BCDF46B000E1DA1 /* GasTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F5A21BCDF46B000E1DA1 /* GasTabView.m */; };
 		1833F5A71BCDF5D0000E1DA1 /* CKLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F5A61BCDF5D0000E1DA1 /* CKLine.m */; };
-		1833F5AA1BCE2C0C000E1DA1 /* GasNormalVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F5A91BCE2C0C000E1DA1 /* GasNormalVM.m */; };
 		1837A7551B70C97A0006E6C5 /* UIImageView+WebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837A7541B70C97A0006E6C5 /* UIImageView+WebImage.m */; };
 		1837A75F1B72130F0006E6C5 /* SDBrowserImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837A7591B72130F0006E6C5 /* SDBrowserImageView.m */; };
 		1837A7601B72130F0006E6C5 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837A75B1B72130F0006E6C5 /* SDPhotoBrowser.m */; };
@@ -244,11 +243,8 @@
 		18B7A2741C202E6B00865A99 /* GetAreaByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A2731C202E6B00865A99 /* GetAreaByNameOp.m */; };
 		18B7A2771C203B5E00865A99 /* GetAreaByIdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A2761C203B5E00865A99 /* GetAreaByIdOp.m */; };
 		18BB361B1C4E2D02003E7B86 /* HKMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BB361A1C4E2D02003E7B86 /* HKMapView.m */; };
-		18BF41E11BCE3E880039F210 /* GasCZBVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41E01BCE3E880039F210 /* GasCZBVM.m */; };
-		18BF41E41BCE40540039F210 /* GasBaseVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41E31BCE40540039F210 /* GasBaseVM.m */; };
 		18BF41E71BCF444B0039F210 /* HKTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41E61BCF444B0039F210 /* HKTableViewCell.m */; };
 		18BF41F11BCF6A540039F210 /* GasPickAmountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41F01BCF6A540039F210 /* GasPickAmountCell.m */; };
-		18BF41F51BCF6D890039F210 /* PKYStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41F41BCF6D890039F210 /* PKYStepper.m */; };
 		18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41F81BCF75DA0039F210 /* RTLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		18BF41FC1BD08F860039F210 /* GasReminderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41FB1BD08F860039F210 /* GasReminderCell.m */; };
 		18BF42011BD0D5A20039F210 /* GasAddCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF42001BD0D5A20039F210 /* GasAddCardVC.m */; };
@@ -918,8 +914,6 @@
 		1833F5A21BCDF46B000E1DA1 /* GasTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasTabView.m; sourceTree = "<group>"; };
 		1833F5A51BCDF5D0000E1DA1 /* CKLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKLine.h; path = Class/CKLine.h; sourceTree = "<group>"; };
 		1833F5A61BCDF5D0000E1DA1 /* CKLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKLine.m; path = Class/CKLine.m; sourceTree = "<group>"; };
-		1833F5A81BCE2C0C000E1DA1 /* GasNormalVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasNormalVM.h; sourceTree = "<group>"; };
-		1833F5A91BCE2C0C000E1DA1 /* GasNormalVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasNormalVM.m; sourceTree = "<group>"; };
 		1837A7531B70C97A0006E6C5 /* UIImageView+WebImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+WebImage.h"; path = "Class/UIImageView+WebImage.h"; sourceTree = "<group>"; };
 		1837A7541B70C97A0006E6C5 /* UIImageView+WebImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+WebImage.m"; path = "Class/UIImageView+WebImage.m"; sourceTree = "<group>"; };
 		1837A7581B72130F0006E6C5 /* SDBrowserImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDBrowserImageView.h; sourceTree = "<group>"; };
@@ -1239,16 +1233,10 @@
 		18B7A2761C203B5E00865A99 /* GetAreaByIdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaByIdOp.m; path = Class/GetAreaByIdOp.m; sourceTree = "<group>"; };
 		18BB36191C4E2D02003E7B86 /* HKMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKMapView.h; path = Class/HKMapView.h; sourceTree = "<group>"; };
 		18BB361A1C4E2D02003E7B86 /* HKMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKMapView.m; path = Class/HKMapView.m; sourceTree = "<group>"; };
-		18BF41DF1BCE3E880039F210 /* GasCZBVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasCZBVM.h; sourceTree = "<group>"; };
-		18BF41E01BCE3E880039F210 /* GasCZBVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasCZBVM.m; sourceTree = "<group>"; };
-		18BF41E21BCE40540039F210 /* GasBaseVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasBaseVM.h; sourceTree = "<group>"; };
-		18BF41E31BCE40540039F210 /* GasBaseVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasBaseVM.m; sourceTree = "<group>"; };
 		18BF41E51BCF444B0039F210 /* HKTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKTableViewCell.h; path = Class/HKTableViewCell.h; sourceTree = "<group>"; };
 		18BF41E61BCF444B0039F210 /* HKTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKTableViewCell.m; path = Class/HKTableViewCell.m; sourceTree = "<group>"; };
 		18BF41EF1BCF6A540039F210 /* GasPickAmountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasPickAmountCell.h; sourceTree = "<group>"; };
 		18BF41F01BCF6A540039F210 /* GasPickAmountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasPickAmountCell.m; sourceTree = "<group>"; };
-		18BF41F31BCF6D890039F210 /* PKYStepper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKYStepper.h; sourceTree = "<group>"; };
-		18BF41F41BCF6D890039F210 /* PKYStepper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKYStepper.m; sourceTree = "<group>"; };
 		18BF41F71BCF75DA0039F210 /* RTLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTLabel.h; sourceTree = "<group>"; };
 		18BF41F81BCF75DA0039F210 /* RTLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTLabel.m; sourceTree = "<group>"; };
 		18BF41FA1BD08F860039F210 /* GasReminderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasReminderCell.h; sourceTree = "<group>"; };
@@ -2311,7 +2299,6 @@
 				18CECC221C30F8890075B7F9 /* JT3DScrollView */,
 				6BF3925C1BD8935600838292 /* CBAutoScrollLabel */,
 				18BF41F61BCF75DA0039F210 /* RTLabel */,
-				18BF41F21BCF6D890039F210 /* PKYStepper */,
 				18C52C371BA6CE9400F6C38B /* DAProgressOverlayView */,
 				6BEDB0431BA666D4009A8C3F /* CCSegmentedControl */,
 				18E28A0F1B93E5880070E759 /* UPPaySDK */,
@@ -3568,7 +3555,6 @@
 			isa = PBXGroup;
 			children = (
 				1833F5A01BCDF450000E1DA1 /* View */,
-				18BF41FD1BD0AA090039F210 /* ViewModel */,
 				1833F59B1BCD47AD000E1DA1 /* GasVC.h */,
 				1833F59C1BCD47AD000E1DA1 /* GasVC.m */,
 				18273F261C7FEE70004192B3 /* GasNormalVC.h */,
@@ -3581,15 +3567,6 @@
 			name = GasVC;
 			sourceTree = "<group>";
 		};
-		18BF41F21BCF6D890039F210 /* PKYStepper */ = {
-			isa = PBXGroup;
-			children = (
-				18BF41F31BCF6D890039F210 /* PKYStepper.h */,
-				18BF41F41BCF6D890039F210 /* PKYStepper.m */,
-			);
-			path = PKYStepper;
-			sourceTree = "<group>";
-		};
 		18BF41F61BCF75DA0039F210 /* RTLabel */ = {
 			isa = PBXGroup;
 			children = (
@@ -3597,19 +3574,6 @@
 				18BF41F81BCF75DA0039F210 /* RTLabel.m */,
 			);
 			path = RTLabel;
-			sourceTree = "<group>";
-		};
-		18BF41FD1BD0AA090039F210 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				1833F5A81BCE2C0C000E1DA1 /* GasNormalVM.h */,
-				1833F5A91BCE2C0C000E1DA1 /* GasNormalVM.m */,
-				18BF41DF1BCE3E880039F210 /* GasCZBVM.h */,
-				18BF41E01BCE3E880039F210 /* GasCZBVM.m */,
-				18BF41E21BCE40540039F210 /* GasBaseVM.h */,
-				18BF41E31BCE40540039F210 /* GasBaseVM.m */,
-			);
-			name = ViewModel;
 			sourceTree = "<group>";
 		};
 		18BF41FE1BD0D57C0039F210 /* AddGasCard */ = {
@@ -5441,7 +5405,6 @@
 				50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				181355991C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m in Sources */,
-				18BF41E41BCE40540039F210 /* GasBaseVM.m in Sources */,
 				6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */,
 				180AD8351BD88CB700E608F9 /* BankCardStore.m in Sources */,
 				4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */,
@@ -5564,7 +5527,6 @@
 				182BEF6D1CA2364500D67C18 /* GasStore.m in Sources */,
 				6B1175291C0C436D00FC1881 /* HKViolation.m in Sources */,
 				5014B6571C07041B00DFAB18 /* GetShareButtonOp.m in Sources */,
-				1833F5AA1BCE2C0C000E1DA1 /* GasNormalVM.m in Sources */,
 				6BBBF5561B295FD300E1B809 /* GainUserAwardOp.m in Sources */,
 				6BBAB8D11ADE30F900EC342F /* GetShopRatesOp.m in Sources */,
 				6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */,
@@ -5732,7 +5694,6 @@
 				509D1CC21C086E01003ED860 /* ShareResponeManager.m in Sources */,
 				18B78F5C1BA989BE0061ECAD /* HKLaunchInfo.m in Sources */,
 				50094B461C117CE80069683C /* AreaTablePickerVC.m in Sources */,
-				18BF41E11BCE3E880039F210 /* GasCZBVM.m in Sources */,
 				5014B65A1C07043900DFAB18 /* GetShareDetailOp.m in Sources */,
 				1851F42F1B0C304B00241A01 /* AutoBrand+Extension.m in Sources */,
 				1833F58B1BCD373B000E1DA1 /* DeleteGascardOp.m in Sources */,
@@ -5816,7 +5777,6 @@
 				184453311C90465F007B895D /* HKTableViewController.m in Sources */,
 				18AB16A31C1F18AE0000E718 /* PickerVC.m in Sources */,
 				6B9BF4B91BF96CAC0046FF48 /* PaymentCenterViewController.m in Sources */,
-				18BF41F51BCF6D890039F210 /* PKYStepper.m in Sources */,
 				6BE2BD611AE6408500A69875 /* DownloadOp.m in Sources */,
 				18F8135F1B5F308D005F49B0 /* HKVersionManager.m in Sources */,
 				6BBBF5531B295CE400E1B809 /* CheckUserAwardOp.m in Sources */,

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GasCZBVM.h"
 #import "HKBankCard.h"
 
 @interface MyBankVC : HKViewController

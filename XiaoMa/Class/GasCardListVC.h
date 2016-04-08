@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GasBaseVM.h"
+#import "GasCard.h"
 
 @interface GasCardListVC : HKViewController
 @property (nonatomic, strong) NSNumber *selectedGasCardID;
