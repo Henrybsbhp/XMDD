@@ -21,7 +21,7 @@
 #import "ValuationCarSubView.h"
 
 
-@interface ValuationHomeVC ()<UIScrollViewDelegate, UITextFieldDelegate>
+@interface ValuationHomeVC ()<UIScrollViewDelegate, UITextFieldDelegate,PageSliderDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *advc;
@@ -34,6 +34,7 @@
 @property (nonatomic, strong) UILabel * locationLabel;
 @property (nonatomic, strong) HKLocationDataModel * locationData;
 @property (nonatomic, assign) LocateState locateState;
+@property (nonatomic, assign) BOOL isSelected;
 
 @property (nonatomic, strong) HKPageSliderView * sliderView;
 
@@ -72,12 +73,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
     [self.view endEditing:YES];
 }
 
@@ -242,9 +243,11 @@
             locationL.text = [NSString stringWithFormat:@"%@/%@", self.locationData.province, self.locationData.city];
         }
         else {
-            locImageV.hidden = NO;
-            [activityView stopAnimating];
-            locationL.text = @"定位失败，请选择";
+            if (!self.isSelected) {
+                locImageV.hidden = NO;
+                [activityView stopAnimating];
+                locationL.text = @"定位失败，请选择";
+            }
         }
     }];
     return cell;
@@ -255,6 +258,7 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ContentCell" forIndexPath:indexPath];
     UIView *view = [cell.contentView viewWithTag:1001];
     
+    @weakify(self);
     if (self.dataSource.count == 0) {
         ValuationEmptySubView * emptySubVC = [[ValuationEmptySubView alloc] init];
         [self addChildViewController:emptySubVC];
@@ -262,6 +266,7 @@
         [view addSubview:emptySubVC.view];
         [emptySubVC setAddCarClickBlock:^{
             [MobClick event:@"rp601_3"];
+            @strongify(self);
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                 self.carIndex = self.dataSource.count;
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
@@ -286,11 +291,13 @@
         
         HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:titleArray andStyle:HKTabBarStyleCleanMenu atIndex:self.carIndex];
         pageSliderView.contentScrollView.delegate = self;
+        pageSliderView.delegate = self;
         if (view.subviews.count != 0) {
             [view removeSubviews];
         }
         [view addSubview:pageSliderView];
         self.sliderView = pageSliderView;//赋值全局
+        [self observeScrollViewOffset];
         [self addContentView:count];
     }
     
@@ -305,14 +312,15 @@
             
             ValuationCarSubView * contentVC = [[ValuationCarSubView alloc] init];
             [self addChildViewController:contentVC];
-            contentVC.originVC = self;
             contentVC.car = car;
             contentVC.view.frame = CGRectMake(i * self.view.bounds.size.width, 0, self.view.bounds.size.width, 150);
 
             @weakify(contentVC);
+            @weakify(self);
             [contentVC setContentDidChangeBlock:^() {
                 [MobClick event:@"rp601_7"];
                 @strongify(contentVC);
+                @strongify(self);
                 self.selectCar = contentVC.car;
             }];
             
@@ -323,8 +331,10 @@
             [self addChildViewController:emptySubVC];
             emptySubVC.view.frame = CGRectMake(i * self.view.bounds.size.width, 0, self.view.bounds.size.width, 150);
             [self.sliderView.contentScrollView addSubview:emptySubVC.view];
+            @weakify(self);
             [emptySubVC setAddCarClickBlock:^{
                 [MobClick event:@"rp601_3"];
+                @strongify(self);
                 if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                     self.carIndex = self.dataSource.count;
                     EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
@@ -346,7 +356,9 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"BottomBtnCell" forIndexPath:indexPath];
     UIButton *valuationButton = [cell.contentView viewWithTag:1001];
+    @weakify(self);
     [[[valuationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
         [self evaluationAction];
     }];
     
@@ -365,6 +377,7 @@
         @weakify(self);
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * districtModel) {
             @strongify(self);
+            self.isSelected = YES;
             self.locationData.province = provinceModel.infoName;
             self.locationData.city = cityModel.infoName;
             self.locationLabel.text = [NSString stringWithFormat:@"%@/%@", provinceModel.infoName, cityModel.infoName];
@@ -467,14 +480,32 @@
 
 
 - (IBAction)goToHistoryVC:(id)sender {
-    /**
-     *  历史记录事件
-     */
     [MobClick event:@"rp601_1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         HistoryCollectionVC *historyVC=[UIStoryboard vcWithId:@"HistoryCollectionVC" inStoryboard:@"Valuation"];
         [self.navigationController pushViewController:historyVC animated:YES];
     }
+}
+
+#pragma mark - PageSliderDelegate
+//- (void)pageClickAtIndex:(NSInteger)index
+//{
+//    self.currentIndex = index;
+//    [self loadPageIndex:index animated:YES];
+//}
+
+#pragma mark - PageSliderDelegate
+- (BOOL)observeScrollViewOffset
+{
+    @weakify(self)
+    [RACObserve(self.sliderView.contentScrollView,contentOffset) subscribeNext:^(NSValue * value) {
+        
+        @strongify(self)
+        CGPoint p = [value CGPointValue];
+        [self.sliderView slideOffsetX:p.x andTotleW:self.sliderView.contentScrollView.contentSize.width andPageW:gAppMgr.deviceInfo.screenSize.width];
+    }];
+    
+    return YES;
 }
 
 @end

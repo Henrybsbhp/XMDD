@@ -16,6 +16,7 @@
 @property (nonatomic, copy) void(^didScrollBlock)(UIScrollView *scrollView, CGPoint newOffset, CGPoint oldOffset);
 @property (nonatomic, copy)void(^didMessageAvatarTaped)(NSNumber *memberID);
 
+
 - (void)reloadData;
 
 @end

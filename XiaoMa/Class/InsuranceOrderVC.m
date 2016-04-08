@@ -230,25 +230,25 @@
 
 - (void)actionCancelOrder:(id)sender {
     [MobClick event:@"rp1012_4"];
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了吧" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了吧" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
         [MobClick event:@"rp1012_5"];
         [alertVC dismiss];
     }];
-    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定取消" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [alertVC dismiss];
         [MobClick event:@"rp1012_6"];
         [self requestCancelInsOrder];
     }];
-    HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_ok" Message:@"取消订单后，订单将关闭且无法继续支付您确定现在取消订单？" ActionItems:@[cancel,confirm]];
+    HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"取消订单后，订单将关闭且无法继续支付您确定现在取消订单？" ActionItems:@[cancel,confirm]];
     [alert show];
 }
 
 - (void)actionMakeCall:(id)sender {
     [MobClick event:@"rp1012_3"];
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
         [alertVC dismiss];
     }];
-    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [alertVC dismiss];
         [gPhoneHelper makePhone:@"4007111111"];
     }];

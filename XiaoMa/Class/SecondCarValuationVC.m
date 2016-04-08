@@ -380,7 +380,7 @@
 
 -(void)setPreferredMaxLayoutWidth:(UILabel *)label
 {
-    label.preferredMaxLayoutWidth = self.view.bounds.size.width - 70;
+    label.preferredMaxLayoutWidth = self.view.bounds.size.width - 80;
 }
 
 @end

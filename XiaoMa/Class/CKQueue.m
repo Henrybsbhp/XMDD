@@ -115,7 +115,25 @@ static unsigned long long g_queueid = 0;
     }
 }
 
-- (void)insertObject:(id)object forKey:(id<NSCopying>)key atIndex:(NSInteger)index {
+- (void)replaceObject:(id)object withKey:(id<NSCopying>)key atIndex:(NSInteger)index {
+    //index超出范围
+    if (index >= self.array.count) {
+        return;
+    }
+    CKQueueNode *oldNode = self.array[index];
+    if (oldNode) {
+        CKQueueNode *newNode = [self createQueueNode];
+        newNode.object = object;
+        newNode.queueid = _queueid;
+        if (key && ![[NSNull null] isEqual:key]) {
+            newNode.key = key;
+            [self.cache setObject:newNode forKey:key];
+        }
+        [self.array replaceObjectAtIndex:index withObject:newNode];
+    }
+}
+
+- (void)insertObject:(id)object withKey:(id<NSCopying>)key atIndex:(NSInteger)index {
     
     //index超出范围
     if (index >= self.array.count) {

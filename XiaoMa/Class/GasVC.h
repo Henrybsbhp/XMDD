@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GasNormalVM.h"
-#import "GasCZBVM.h"
 
 @interface GasVC : HKViewController
 

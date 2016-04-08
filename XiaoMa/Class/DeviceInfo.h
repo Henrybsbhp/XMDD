@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define ScreenWidth      [UIScreen mainScreen].bounds.size.width
+
 @interface DeviceInfo : NSObject
 
 ///屏幕大小

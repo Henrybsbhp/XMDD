@@ -64,15 +64,16 @@
             @strongify(self);
             if (self.carStore.cars.count == 0) {
                 //TODO:1
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有添加爱车, 请先添加爱车" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-                    NSInteger i = [n integerValue];
-                    if (i == 1) {
-                        EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                        [self.navigationController pushViewController:vc animated:YES];
-                    }else{
-                    }
+                
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+                    [alertVC dismiss];
                 }];
+                HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"省钱攻略" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                    [self.navigationController pushViewController:vc animated:YES];
+                    [alertVC dismiss];
+                }];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您还没有添加爱车, 请先添加爱车" ActionItems:@[cancel,confirm]];
                 [alert show];
             }
             else {
@@ -105,18 +106,18 @@
         
     }error:^(NSError *error) {
         if (error.code == 611139001) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"亲,暂时只支持协办券办理哦!\n点击省钱攻略免费获取协办券" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
-            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-                NSInteger i = [n integerValue];
-                if (i == 1) {
-                    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-                    vc.title = @"省钱攻略";
-                    vc.url = kMoneySavingStrategiesUrl;
-                    [self.navigationController pushViewController:vc animated:YES];
-                }else{
-                    
-                }
+            
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+                [alertVC dismiss];
             }];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"省钱攻略" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+                vc.title = @"省钱攻略";
+                vc.url = kMoneySavingStrategiesUrl;
+                [self.navigationController pushViewController:vc animated:YES];
+                [alertVC dismiss];
+            }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"亲,暂时只支持协办券办理哦!\n点击省钱攻略免费获取协办券" ActionItems:@[cancel,confirm]];
             [alert show];
         }
     }];

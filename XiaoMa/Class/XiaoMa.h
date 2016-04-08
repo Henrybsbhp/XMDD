@@ -51,9 +51,11 @@
 #import "JTTableViewCell.h"
 #import "JTTableView.h"
 #import "DetailWebVC.h"
+#import "HKImageAlertVC.h"
 
 //引用
 #import "Constants.h"
+#import "UIConstants.h"
 #import "XiaoMaConstants.h"
 
 //常用model

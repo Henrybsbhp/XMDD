@@ -152,8 +152,12 @@
 
 - (void)gotoPaidFailVC
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您的保险订单支付失败，请重新支付！" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_error" Message:@"您的保险订单支付失败，请重新支付！" ActionItems:@[cancel]];
     [alert show];
+    
 }
 
 - (void)gotoPaidSuccessVC
@@ -249,8 +253,12 @@
     PaymentChannelType channel = self.paymentChannel;
     if (channel == 0)
     {
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择支付方式" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
-        [av show];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [alertVC dismiss];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请选择支付方式" ActionItems:@[cancel]];
+
+        [alert show];
         return;
     }
     op.req_paychannel = channel;

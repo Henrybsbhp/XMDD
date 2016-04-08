@@ -72,14 +72,15 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"暂无加油记录";
+    return @{@"title":@"暂无加油记录",@"image":@"def_withoutFuelHistory"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
-    return @"获取加油记录失败，点击重试";
+    return @{@"title":@"获取加油记录失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
@@ -152,7 +153,11 @@
     timeLabel.text = [[NSDate dateWithUTS:@(record.payedtime)] dateFormatForYYYYMMddHHmm2];
     logoV.image = [UIImage imageNamed:record.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
     cardnumLbabel.text = [record.gascardno splitByStep:4 replacement:@" "];
+    cardnumLbabel.minimumScaleFactor = 0.8;
+    cardnumLbabel.adjustsFontSizeToFitWidth = YES;
     rechargeLabel.text = [NSString stringWithFormat:@"￥%d", record.chargemoney];
+    rechargeLabel.minimumScaleFactor = 0.6;
+    rechargeLabel.adjustsFontSizeToFitWidth = YES;
     payLabel.text = [NSString stringWithFormat:@"支付金额：￥%d", record.paymoney];
     stateLabel.text = record.statusdesc;
     return cell;

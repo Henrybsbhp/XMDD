@@ -18,6 +18,11 @@
 
 @implementation ValuationCarSubView
 
+- (void)dealloc
+{
+    DebugLog(@"ValuationCarSubView dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -94,9 +99,11 @@
     CarInfoCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (indexPath.row == 1) {
         PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
-        vc.originVC = self.originVC;
+        vc.originVC = self.parentViewController;
+        @weakify(self);
         [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel * series, AutoDetailModel * model) {
             
+            @strongify(self);
             self.car.brand = brand.brandname;
             self.car.brandLogo = brand.brandLogo;
             self.car.seriesModel = series;
@@ -200,7 +207,7 @@
     [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView.mas_centerY);
         make.right.equalTo(self.contentView).offset(-25);
-        make.left.equalTo(self.contentView).offset(76);
+        make.left.equalTo(self.contentView).offset(80);
     }];
 }
 

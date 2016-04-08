@@ -146,7 +146,7 @@
     [datasource addObject:@[cell3_0]];
     
     //section 4
-    if (!(self.model.allowAutoChangeSelectedCar || !_isEditingModel || !(self.curCar.editMask & HKCarEditableDelete))) {
+    if (!(!_isEditingModel || !(self.curCar.editMask & HKCarEditableDelete))) {
         HKCellData *cell4_0 = [HKCellData dataWithCellID:@"Delete" tag:nil];
         [datasource addObject:@[cell4_0]];
     }
@@ -221,6 +221,7 @@
     cell1_3.customInfo[@"title"] = @"品牌车系";
     cell1_3.customInfo[@"placehold"] = @"请选择品牌车系";
     cell1_3.object = [[RACObserve(self.curCar, brand) merge:RACObserve(self.curCar, seriesModel.seriesname)] map:^id(id value) {
+        @strongify(self);
         if (self.curCar.brand && self.curCar.seriesModel.seriesname) {
             return [NSString stringWithFormat:@"%@ %@", self.curCar.brand, self.curCar.seriesModel.seriesname];
         }
@@ -314,6 +315,7 @@
         
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
             
+            @strongify(self);
             NSString * cityName = [NSString stringWithFormat:@"%@",cityModel.infoName];
             self.curCar.cityName = cityName;
             self.curCar.provinceName = provinceModel.infoName;
@@ -362,6 +364,7 @@
     
     cell2_2.customInfo[@"howAction"] = [^(void){
         
+        @strongify(self);
         [self showPicture:@"ins_eg_pic1"];
     } copy];
 
@@ -393,6 +396,7 @@
     } copy];
     cell2_3.customInfo[@"howAction"] = [^(void){
         
+        @strongify(self)
         [self showPicture:@"ins_eg_pic3"];
     } copy];
     
@@ -561,41 +565,37 @@
     }
     if (self.isEditingModel) {
         [self.view endEditing:YES];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您未保存信息，是否现在保存？" delegate:nil
-                                              cancelButtonTitle:@"算了" otherButtonTitles:@"保存", nil];
-        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
-            //算了
-            if ([number integerValue] == 0) {
-                [MobClick event:@"rp312_14"];
-                CKAfter(0.1, ^{
-                    [self.navigationController popViewControllerAnimated:YES];
-                });
-            }
-            //保存
-            else {
-                [MobClick event:@"rp312_15"];
-                [self actionSave:nil];
-            }
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+            [MobClick event:@"rp312_14"];
+            CKAfter(0.1, ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+            [alertVC dismiss];
         }];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"保存" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [MobClick event:@"rp312_15"];
+            [self actionSave:nil];
+            [alertVC dismiss];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您未保存信息，是否现在保存？" ActionItems:@[cancel,confirm]];
         [alert show];
     }
     else {
         [self.view endEditing:YES];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"您未保存行驶证，需填写相关必填项并点击“保存”后方能添加爱车。"
-                                                       delegate:nil cancelButtonTitle:@"放弃添加" otherButtonTitles:@"继续添加", nil];
-        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
-            //放弃
-            if ([number integerValue] == 0) {
-                [MobClick event:@"rp312_16"];
-                CKAfter(0.1, ^{
-                    [self.navigationController popViewControllerAnimated:YES];
-                });
-            }
-            //继续
-            else {
-                [MobClick event:@"rp312_17"];
-            }
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃添加" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+            [MobClick event:@"rp312_16"];
+            CKAfter(0.1, ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+            [alertVC dismiss];
         }];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续添加" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [MobClick event:@"rp312_17"];
+            [alertVC dismiss];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您未保存行驶证，需填写相关必填项并点击“保存”后方能添加爱车。" ActionItems:@[cancel,confirm]];
         [alert show];
     }
 }

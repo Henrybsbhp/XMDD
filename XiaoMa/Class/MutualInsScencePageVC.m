@@ -236,6 +236,7 @@
                 [self.scencePhotoVM deleteAllInfo];
                 NSArray *viewControllers = self.navigationController.viewControllers;
                 [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:2] animated:YES];
+                [alertVC dismiss];
             }];
             HKAlertVC *alert = [self alertWithTopTitle:@"提交成功" ImageName:@"mins_ok" Message:@"恭喜，照片提交成功，理赔记录已生成，请等待车险专员为您服务，谢谢～" ActionItems:@[cancel]];
             [alert show];
@@ -245,7 +246,7 @@
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
                 [alertVC dismiss];
             }];
-            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提醒" ImageName:@"mins_ok" Message:error.domain ActionItems:@[cancel]];
+            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提醒" ImageName:@"mins_error" Message:error.domain ActionItems:@[cancel]];
             [alert show];
             [self.view stopActivityAnimation];
         }];

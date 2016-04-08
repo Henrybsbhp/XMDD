@@ -14,7 +14,7 @@
 #import "JTLabel.h"
 #import "UnbindBankcardOp.h"
 #import "UIView+Shake.h"
-#import "BankCardStore.h"
+#import "BankStore.h"
 #import "HKImageAlertVC.h"
 
 static NSString *s_sendedPhone;
@@ -77,9 +77,10 @@ static NSString *s_sendedPhone;
     if ([self sharkCellIfErrorAtIndex:0]) {
         return;
     }
-    BankCardStore *store = [BankCardStore fetchOrCreateStore];
+    BankStore *store = [BankStore fetchOrCreateStore];
     @weakify(self);
-    [[[[store sendEvent:[store deleteBankCardByCID:self.card.cardID vcode:self.vcodeField.text]] signal] initially:^{
+    
+    [[[[store deleteBankCardByCID:self.card.cardID vcode:self.vcodeField.text] sendAndIgnoreError] initially:^{
         
         [gToast showingWithText:@"正在解绑..."];
     }] subscribeNext:^(id x) {
@@ -96,18 +97,12 @@ static NSString *s_sendedPhone;
         HKAlertVC *alert = [self alertWithTopTitle:@"解绑成功" ImageName:@"mins_ok" Message:@"您将无法使用该卡支付了！" ActionItems:@[confirm]];
         
         [alert show];
-        
-//        [ResultVC showInTargetVC:self withSuccessText:@"解绑成功!" ensureBlock:^{
-//            [MobClick event:@"rp329_4"];
-//            [self.navigationController popToViewController:self.originVC animated:YES];
-//            [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
-//        }];
     } error:^(NSError *error) {
-        
+
         [gToast showError:error.domain];
     }];
-  
 }
+
 
 -(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems
 {

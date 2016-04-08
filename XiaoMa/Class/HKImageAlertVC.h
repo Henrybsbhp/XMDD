@@ -16,4 +16,7 @@
 ///(default is top:35,left:25,right:25,bottom:35)
 @property (nonatomic, assign) UIEdgeInsets contentInsets;
 
+// 返回HKImageAlertVC的工厂方法
++(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems;
+
 @end

@@ -7,11 +7,11 @@
 //
 
 #import "HKTableViewCell.h"
-#import "PKYStepper.h"
+#import "GasStepper.h"
 #import "RTLabel.h"
 
 @interface GasPickAmountCell : HKTableViewCell
-@property (nonatomic, strong) PKYStepper *stepper;
+@property (nonatomic, strong) GasStepper *stepper;
 @property (nonatomic, strong) RTLabel *richLabel;
 - (CGFloat)cellHeight;
 

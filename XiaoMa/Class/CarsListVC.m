@@ -23,7 +23,7 @@
 
 #import "ValuationHomeVC.h"
 
-@interface CarsListVC () <UIScrollViewDelegate>
+@interface CarsListVC () <UIScrollViewDelegate,PageSliderDelegate>
 
 @property (nonatomic, assign) BOOL isViewAppearing;
 @property (nonatomic, assign) BOOL isBackToMine;
@@ -53,7 +53,7 @@
 
 - (void)dealloc
 {
-    DebugLog(@"CarListVC dealloc");
+    DebugLog(@"CarsListVC dealloc");
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -116,7 +116,9 @@
 - (void)setUI
 {
     UIButton *addCarButton = [self.emptyContentView viewWithTag:1002];
+    @weakify(self);
     [[addCarButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
@@ -160,18 +162,21 @@
     }] finally:^{
         
         @strongify(self);
-        if (![self.view isShowDefaultEmptyView] && self.datasource.count > 0) {
-            self.tableView.hidden = NO;
-            self.emptyView.hidden = YES;
-        }
-        else {
-            self.tableView.hidden = YES;
-            self.emptyView.hidden = NO;
-        }
-        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
-            [self setNeedsStatusBarAppearanceUpdate];
-        }
-        [self.view stopActivityAnimation];
+        //防止加载动画一闪而过
+        CKAfter(0.5, ^{
+            if (![self.view isShowDefaultEmptyView] && self.datasource.count > 0) {
+                self.tableView.hidden = NO;
+                self.emptyView.hidden = YES;
+            }
+            else {
+                self.tableView.hidden = YES;
+                self.emptyView.hidden = NO;
+            }
+            if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+                [self setNeedsStatusBarAppearanceUpdate];
+            }
+            [self.view stopActivityAnimation];
+        });
     }] subscribeNext:^(id x) {
         
         @strongify(self);
@@ -214,7 +219,9 @@
         }
 
         if (self.datasource.count == 0) {
-            self.emptyContentView.hidden = NO;
+            CKAfter(0.5, ^{
+                self.emptyContentView.hidden = NO;
+            });
         }
         else {
             [self refreshTableView];
@@ -233,10 +240,13 @@
 
 - (void)refreshTableView
 {
-    [self.view hideDefaultEmptyView];
-    [self.view hideIndicatorText];
-    self.tableView.hidden = NO;
-    self.emptyView.hidden = YES;
+    //防止加载动画一闪而过
+    CKAfter(0.5, ^{
+        [self.view hideDefaultEmptyView];
+        [self.view hideIndicatorText];
+        self.tableView.hidden = NO;
+        self.emptyView.hidden = YES;
+    });
     
     @weakify(self);
     [self.headerBgView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -245,6 +255,7 @@
     }];
     
     [[RACObserve(self.model, selectedCar) distinctUntilChanged] subscribeNext:^(HKMyCar *car) {
+        @strongify(self);
         self.carNumberLabel.text = car.licencenumber;
         self.defaultLabel.hidden = !car.isDefault;
         self.carStateLabel.text= [self.model descForCarStatus:car];
@@ -319,12 +330,14 @@
     if (carNumArray.count > 0) {
         HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:carNumArray andStyle:HKTabBarStyleUnderCorner atIndex:[self.datasource indexOfObject:self.model.currentCar]];
         pageSliderView.contentScrollView.delegate = self;
+        pageSliderView.delegate = self;
         
         if (view.subviews.count != 0) {
             [view removeSubviews];
         }
         [view addSubview:pageSliderView];
         self.sliderView = pageSliderView;//赋值全局
+        [self observeScrollViewOffset];
         [self addContentView];
     }
     return cell;
@@ -396,6 +409,7 @@
             else {
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                 vc.originCar = self.model.currentCar;
+                vc.model = self.model;
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }];
@@ -417,7 +431,9 @@
         alert.topTitle = @"温馨提示";
         alert.imageName = @"mins_bulb";
         alert.message = @"您的爱车信息不完整，是否现在完善？";
+        @weakify(self);
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+            @strongify(self);
             [alertVC dismiss];
             if (self.model.originVC) {
                 [self.navigationController popToViewController:self.model.originVC animated:YES];
@@ -427,7 +443,6 @@
                 [self.navigationController popViewControllerAnimated:YES];
             }
         }];
-        @weakify(self);
         HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             @strongify(self);
             [alertVC dismiss];
@@ -481,10 +496,6 @@
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == self.sliderView.contentScrollView) {
-        NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width + 0.5); //过半取整
-        [self.sliderView selectAtIndex:pageIndex];
-    }
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
@@ -507,6 +518,25 @@
             self.model.selectedCar = car;
         }
     }
+    
+    if (scrollView == self.sliderView.contentScrollView) {
+        NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width);
+        [self.sliderView selectAtIndex:pageIndex];
+    }
+}
+
+#pragma mark - PageSliderDelegate
+- (BOOL)observeScrollViewOffset
+{
+    @weakify(self)
+    [RACObserve(self.sliderView.contentScrollView,contentOffset) subscribeNext:^(NSValue * value) {
+        
+        @strongify(self)
+        CGPoint p = [value CGPointValue];
+        [self.sliderView slideOffsetX:p.x andTotleW:self.sliderView.contentScrollView.contentSize.width andPageW:gAppMgr.deviceInfo.screenSize.width];
+    }];
+    
+    return YES;
 }
 
 @end

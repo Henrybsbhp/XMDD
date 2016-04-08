@@ -7,7 +7,7 @@
 //
 
 #import "BindBankCardVC.h"
-#import "BankCardStore.h"
+#import "BankStore.h"
 #import "HKSMSModel.h"
 #import "UIView+Shake.h"
 #import "BindBankcardOp.h"
@@ -110,9 +110,13 @@
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         
         if (error.code == 616102) {
-            UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"" message:@"该卡已绑定当前账号,请勿重复绑定"
-                                                        cancelButtonTitle:@"确定"];
+            
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                [alertVC dismiss];
+            }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_error" Message:@"该卡已绑定当前账号,请勿重复绑定" ActionItems:@[cancel]];
             [alert show];
+            
         }
         else {
             [gToast showError:error.domain];
@@ -189,10 +193,10 @@
             
             [MobClick event:@"rp313_6"];
             [self.navigationController popViewControllerAnimated:YES];
-            BankCardStore *store = [BankCardStore fetchExistsStore];
-            [store sendEvent:[store getAllBankCards]];
+            BankStore *store = [BankStore fetchOrCreateStore];
+            [[store getAllBankCards] sendAndIgnoreError];
             MyCarStore *carStore = [MyCarStore fetchExistsStore];
-            [[carStore getAllCars] send];
+            [[carStore getAllCars] sendAndIgnoreError];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
             if (self.finishAction)
             {
@@ -201,20 +205,6 @@
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"恭喜，绑定成功" ImageName:@"mins_ok" Message:@"您现在可以使用该卡支付咯！" ActionItems:@[confirm]];
         [alert show];
-        
-//        [ResultVC showInTargetVC:self withSuccessText:@"恭喜，绑定成功!" ensureBlock:^{
-//            [MobClick event:@"rp313_6"];
-//            [self.navigationController popViewControllerAnimated:YES];
-//            BankCardStore *store = [BankCardStore fetchExistsStore];
-//            [store sendEvent:[store getAllBankCards]];
-//            MyCarStore *carStore = [MyCarStore fetchExistsStore];
-//            [[carStore getAllCars] send];
-//            [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
-//            if (self.finishAction)
-//            {
-//                self.finishAction();
-//            }
-//        }];
     } error:^(NSError *error) {
 
         [gToast showError:error.domain];
