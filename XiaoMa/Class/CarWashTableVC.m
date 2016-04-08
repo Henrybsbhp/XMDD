@@ -129,8 +129,6 @@
 
 - (void)setSegmentView
 {
-    [self.carwashBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
-    [self.withheartBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
     self.segHelper = [[CKSegmentHelper alloc] init];
     @weakify(self)
     [self.segHelper addItem:self.carwashBtn forGroupName:@"CarwashTabBar" withChangedBlock:^(id item, BOOL selected) {
@@ -347,12 +345,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 8.0f;
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    return 8;
 }
 
 
