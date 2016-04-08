@@ -10,7 +10,7 @@
 #import "GetRescueHostCountsOp.h"
 #import "GetRescueApplyHostCarOp.h"
 #import "DatePickerVC.h"
-#import "CarListVC.h"
+#import "PickCarVC.h"
 #import "CommissionSuccessVC.h"
 #import "MyCarStore.h"
 #import "DetailWebVC.h"
@@ -143,10 +143,10 @@
         [gToast dismissInView:self.view];
         if (error.code == 611139001) {
             
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
                 [alertVC dismiss];
             }];
-            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"省钱攻略" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"省钱攻略" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.title = @"省钱攻略";
                 vc.url = kMoneySavingStrategiesUrl;
@@ -160,7 +160,7 @@
         else if (error.code == 611139002)
         {
             
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 [self.navigationController popViewControllerAnimated:YES];
                 [alertVC dismiss];
             }];
@@ -249,14 +249,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 3) {
-        CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-        vc.title = @"选择爱车";
-        vc.model.allowAutoChangeSelectedCar = YES;
-        vc.model.disableEditingCar = YES;
-        vc.model.currentCar = self.defaultCar;
-        vc.model.originVC = self;
-        [vc.model setFinishBlock:^(HKMyCar *curSelectedCar) {
-            self.defaultCar = curSelectedCar;
+        //选择爱车
+        PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
+        vc.defaultCar = self.defaultCar;
+        @weakify(self);
+        [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
+            @strongify(self);
+            self.defaultCar = carModel.selectedCar;
             [self countNetwork];
         }];
         [self.navigationController pushViewController:vc animated:YES];

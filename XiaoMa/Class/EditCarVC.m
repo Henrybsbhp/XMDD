@@ -146,7 +146,7 @@
     [datasource addObject:@[cell3_0]];
     
     //section 4
-    if (!(self.model.allowAutoChangeSelectedCar || !_isEditingModel || !(self.curCar.editMask & HKCarEditableDelete))) {
+    if (!(!_isEditingModel || !(self.curCar.editMask & HKCarEditableDelete))) {
         HKCellData *cell4_0 = [HKCellData dataWithCellID:@"Delete" tag:nil];
         [datasource addObject:@[cell4_0]];
     }
@@ -221,6 +221,7 @@
     cell1_3.customInfo[@"title"] = @"品牌车系";
     cell1_3.customInfo[@"placehold"] = @"请选择品牌车系";
     cell1_3.object = [[RACObserve(self.curCar, brand) merge:RACObserve(self.curCar, seriesModel.seriesname)] map:^id(id value) {
+        @strongify(self);
         if (self.curCar.brand && self.curCar.seriesModel.seriesname) {
             return [NSString stringWithFormat:@"%@ %@", self.curCar.brand, self.curCar.seriesModel.seriesname];
         }
@@ -314,6 +315,7 @@
         
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
             
+            @strongify(self);
             NSString * cityName = [NSString stringWithFormat:@"%@",cityModel.infoName];
             self.curCar.cityName = cityName;
             self.curCar.provinceName = provinceModel.infoName;
@@ -362,6 +364,7 @@
     
     cell2_2.customInfo[@"howAction"] = [^(void){
         
+        @strongify(self);
         [self showPicture:@"ins_eg_pic1"];
     } copy];
 
@@ -393,6 +396,7 @@
     } copy];
     cell2_3.customInfo[@"howAction"] = [^(void){
         
+        @strongify(self)
         [self showPicture:@"ins_eg_pic3"];
     } copy];
     
@@ -562,14 +566,14 @@
     if (self.isEditingModel) {
         [self.view endEditing:YES];
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             [MobClick event:@"rp312_14"];
             CKAfter(0.1, ^{
                 [self.navigationController popViewControllerAnimated:YES];
             });
             [alertVC dismiss];
         }];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"保存" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"保存" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [MobClick event:@"rp312_15"];
             [self actionSave:nil];
             [alertVC dismiss];
@@ -580,14 +584,14 @@
     else {
         [self.view endEditing:YES];
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃添加" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃添加" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             [MobClick event:@"rp312_16"];
             CKAfter(0.1, ^{
                 [self.navigationController popViewControllerAnimated:YES];
             });
             [alertVC dismiss];
         }];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续添加" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续添加" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [MobClick event:@"rp312_17"];
             [alertVC dismiss];
         }];

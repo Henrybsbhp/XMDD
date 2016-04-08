@@ -14,7 +14,7 @@
 #import "InviteCompleteVC.h"
 #import "InviteByCodeVC.h"
 #import "MutualInsPicUpdateVC.h"
-#import "CarListVC.h"
+#import "PickCarVC.h"
 #import "ApplyCooperationGroupJoinOp.h"
 #import "MutualInsHomeVC.h"
 #import "EditCarVC.h"
@@ -149,7 +149,7 @@
         [alertView dismiss];
         if (index) {
             
-            [self jumpToCarListVCWithGroupID:groupId groupName:groupName];
+            [self jumpToPickCarVCWithGroupID:groupId groupName:groupName];
         }
         else {
             
@@ -159,19 +159,13 @@
     }];
 }
 
-- (void)jumpToCarListVCWithGroupID:(NSNumber *)groupId groupName:(NSString *)groupname
+- (void)jumpToPickCarVCWithGroupID:(NSNumber *)groupId groupName:(NSString *)groupname
 {
-    CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-    vc.title = @"选择爱车";
-    vc.model.allowAutoChangeSelectedCar = YES;
-    vc.model.disableEditingCar = YES; //不可修改
-    vc.canJoin = YES; //用于控制爱车页面底部view
-    vc.model.originVC = self.originVC;
-    
-    @weakify(self)
-    [vc setFinishPickActionForMutualIns:^(MyCarListVModel *carModel, UIView * loadingView) {
-        
-        @strongify(self)
+    PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
+    vc.isShowBottomView = YES;
+    @weakify(self);
+    [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
+        @strongify(self);
         //爱车页面入团按钮委托实现
         [self requestApplyJoinGroupWithID:groupId groupName:groupname carModel:carModel loadingView:loadingView];
     }];
@@ -248,7 +242,7 @@
                 @strongify(self);
                 [alertVC dismiss];
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                carModel.originVC = nil;  //设置为nil，返回爱车列表；或者用[UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+                carModel.originVC = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
                 vc.originCar = carModel.selectedCar;
                 vc.model = carModel;
                 [self.navigationController pushViewController:vc animated:YES];
@@ -358,6 +352,7 @@
     
     UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:101];
     UITextField *groupTextField = (UITextField *)[cell.contentView viewWithTag:102];
+    [groupTextField becomeFirstResponder];
     UIActivityIndicatorView * indicatorView = (UIActivityIndicatorView *)[cell.contentView viewWithTag:103];
     UIButton *diceButton = (UIButton *)[cell.contentView viewWithTag:112];
 

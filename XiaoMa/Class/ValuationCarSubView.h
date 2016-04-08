@@ -10,8 +10,6 @@
 
 @interface ValuationCarSubView : UIViewController
 
-@property (nonatomic, strong) UIViewController *originVC;
-
 @property (nonatomic, strong) HKMyCar *car;
 
 @property (nonatomic, strong) UITextField *cellContentField;

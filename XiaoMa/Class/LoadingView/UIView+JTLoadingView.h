@@ -32,6 +32,7 @@ typedef enum : NSUInteger {
 
 - (void)startActivityAnimation;
 - (void)startActivityAnimationWithType:(ActivityIndicatorType)type;
+- (void)startActivityAnimationWithType:(ActivityIndicatorType)type atPositon:(CGPoint)position;
 - (void)stopActivityAnimation;
 
 - (BOOL)isActivityAnimating;

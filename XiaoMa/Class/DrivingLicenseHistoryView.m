@@ -88,10 +88,10 @@
 - (void)actionDeleteRecord:(PictureRecord *)record
 {
     
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
         [alertVC dismiss];
     }];
-    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         NSInteger item = [self.recordList indexOfObject:record];
         if (item == NSNotFound) {
             return ;

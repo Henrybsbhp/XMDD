@@ -420,7 +420,7 @@
              HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
                  [alertVC dismiss];
              }];
-             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"在线无法单独购买商业险,请拨打4007-111-111, 小马达达车险专员为您服务" ActionItems:@[cancel]];
+             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_error" Message:@"在线无法单独购买商业险,请拨打4007-111-111, 小马达达车险专员为您服务" ActionItems:@[cancel]];
              [alert show];
              
              return ;

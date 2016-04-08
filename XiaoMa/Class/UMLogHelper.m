@@ -56,7 +56,7 @@
                              @"MyInfoViewController":@{@"pagetag":@"rp302"},//我的资料
                              @"MyCouponVC":@{@"pagetag":@"rp304"},//我的优惠劵
                              @"EditMyInfoViewController":@{@"pagetag":@"rp305"},//我的资料编辑
-                             @"CarListVC":@{@"pagetag":@"rp309"},//我的爱车
+                             @"CarsListVC":@{@"pagetag":@"rp309"},//我的爱车
                              @"EditCarVC":@{@"pagetag":@"rp312"},//编辑我的爱车
                              @"MyBankVC":@{@"pagetag":@"rp314"},//我的银行卡
                              @"BindBankCardVC":@{@"pagetag":@"rp313"},//绑定银行卡

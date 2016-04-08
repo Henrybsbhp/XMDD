@@ -7,7 +7,8 @@
 //
 
 #import "GasAddCardVC.h"
-#import "GasCardStore.h"
+#import "GasCard.h"
+#import "GasStore.h"
 #import "HKTableViewCell.h"
 #import "NSString+Split.h"
 #import "CKLimitTextField.h"
@@ -92,9 +93,11 @@
         [self shakeTextFieldCellAtRow:2];
         return;
     }
-    GasCardStore *store = [GasCardStore fetchOrCreateStore];
+    
+    GasStore *store = [GasStore fetchOrCreateStore];
+
     @weakify(self);
-    [[[[store sendEvent:[store addCard:self.curCard]] signal] initially:^{
+    [[[[store addGasCard:self.curCard] sendAndIgnoreError] initially:^{
         
         [gToast showingWithText:@"正在添加..."];
     }] subscribeNext:^(id x) {
@@ -116,7 +119,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return 120;
+        return 152;
     }
     return 44;
 }
@@ -137,33 +140,32 @@
     UIImageView *checkedV1 = (UIImageView *)[cell.contentView viewWithTag:1003];
     UIImageView *checkedV2 = (UIImageView *)[cell.contentView viewWithTag:1004];
     
-    iconBtn1.layer.borderWidth = 0.5;
+    iconBtn1.layer.borderWidth = 1;
     iconBtn1.layer.cornerRadius = 5;
     iconBtn1.layer.masksToBounds = YES;
-    iconBtn2.layer.borderWidth = 0.5;
+    iconBtn2.layer.borderWidth = 1;
     iconBtn2.layer.cornerRadius = 5;
     iconBtn2.layer.masksToBounds = YES;
     [[RACObserve(self, curCard) takeUntilForCell:cell] subscribeNext:^(GasCard *card) {
         if (card.cardtype == 2) {
             iconBtn1.borderColor = HEXCOLOR(@"#dddddd");
-            iconBtn2.borderColor = HEXCOLOR(@"#20ab2a");
+            iconBtn2.borderColor = kDefTintColor;
             checkedV1.hidden = YES;
             checkedV2.hidden = NO;
         } else {
             iconBtn2.borderColor = HEXCOLOR(@"#dddddd");
-            iconBtn1.borderColor = HEXCOLOR(@"#20ab2a");
+            iconBtn1.borderColor = kDefTintColor;
             checkedV2.hidden = YES;
             checkedV1.hidden = NO;
         }
     }];
-    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsZero];
-    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 16, 0, 0)];
     return cell;
 }
 
 - (UITableViewCell *)cardCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     CKLimitTextField *field = (CKLimitTextField *)[cell.contentView viewWithTag:1002];
     
@@ -217,8 +219,6 @@
         }];
     }];
     
-    UIEdgeInsets insets = indexPath.row == 2 ? UIEdgeInsetsZero : UIEdgeInsetsMake(0, 12, 0, 0);
-    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:insets];
     return cell;
 }
 

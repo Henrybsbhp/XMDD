@@ -6,16 +6,15 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "GasSubVC.h"
+#import "GasChargePackage.h"
 
-@interface GasNormalVC : NSObject<UITableViewDataSource, UITableViewDelegate>
+@interface GasNormalVC :GasSubVC
+@property (nonatomic, strong) GasChargePackage *curChargePkg;
+@property (nonatomic, assign) float normalRechargeAmount;
+@property (nonatomic, assign) float instalmentRechargeAmount;
 
-@property (nonatomic, weak, readonly) UIViewController *targetVC;
-@property (nonatomic, weak, readonly) UITableView *tableView;
-@property (nonatomic, weak, readonly) UIButton *bottomBtn;
-
-- (instancetype)initWithTargetVC:(UIViewController *)vc tableView:(UITableView *)table bottomButton:(UIButton *)btn;
-- (void)reloadData;
+- (BOOL)isRechargeForInstalment;
+- (BOOL)needInvoice;
 
 @end

@@ -25,7 +25,7 @@
 #import "PaymentSuccessVC.h"
 #import "ChooseCouponVC.h"
 #import "ChooseBankCardVC.h"
-#import "CarListVC.h"
+#import "PickCarVC.h"
 #import "EditCarVC.h"
 #import "CarwashFreshmanGuideVC.h"
 
@@ -206,10 +206,10 @@
             [cell shake];
         });
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             [alertVC dismiss];
         }];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"前往添加" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"前往添加" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
             [self.navigationController pushViewController:vc animated:YES];
             [alertVC dismiss];
@@ -220,10 +220,10 @@
         return;
     }
     
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
         [alertVC dismiss];
     }];
-    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [self requestCheckoutWithCouponType:self.couponType];
     }];
     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"支付确认" ImageName:@"mins_bulb" Message:@"请务必到店享受服务，且与店员确认服务商家与软件当前支付商家一致后再付款，付完不退款" ActionItems:@[cancel,confirm]];
@@ -341,17 +341,14 @@
 {
     if (indexPath.section == 0){
         if (indexPath.row == 3) {
-            
             // 选择爱车
             [MobClick event:@"rp108_10"];
-            CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-            vc.title = @"选择爱车";
-            vc.model.allowAutoChangeSelectedCar = YES;
-            vc.model.disableEditingCar = YES;
-            vc.model.currentCar = self.defaultCar;
-            vc.model.originVC = self;
-            [vc.model setFinishBlock:^(HKMyCar *curSelectedCar) {
-                self.defaultCar = curSelectedCar;
+            PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
+            vc.defaultCar = self.defaultCar;
+            @weakify(self);
+            [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
+                @strongify(self);
+                self.defaultCar = carModel.selectedCar;
             }];
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -817,10 +814,10 @@
             return ;
         }
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             [alertVC dismiss];
         }];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"再试一次" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"再试一次" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [self requestGainWeeklyCoupon];
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel,confirm]];
@@ -1221,11 +1218,11 @@
     if (error.code == 615801) {
         [gToast dismiss];
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             [MobClick event:@"rp108_8"];
             [alertVC dismiss];
         }];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"原价支付" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"原价支付" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [MobClick event:@"rp108_9"];
             [self requestCheckoutWithCouponType:CouponTypeNone];
         }];

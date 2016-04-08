@@ -155,7 +155,7 @@
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
         [alertVC dismiss];
     }];
-    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您的保险订单支付失败，请重新支付！" ActionItems:@[cancel]];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_error" Message:@"您的保险订单支付失败，请重新支付！" ActionItems:@[cancel]];
     [alert show];
     
 }
@@ -253,7 +253,7 @@
     PaymentChannelType channel = self.paymentChannel;
     if (channel == 0)
     {
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [alertVC dismiss];
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请选择支付方式" ActionItems:@[cancel]];

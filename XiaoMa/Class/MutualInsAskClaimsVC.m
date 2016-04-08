@@ -167,10 +167,10 @@
 
 -(void)crimeReportSectionAction
 {
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
         [alertVC dismiss];
     }];
-    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [alertVC dismiss];
         [gPhoneHelper makePhone:@"4007111111"];
     }];
@@ -226,7 +226,7 @@
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
                 [alertVC dismiss];
             }];
-            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"未检测到您的爱车有车险报案记录，快速理赔需要先报案后才能进行现场拍照。请先报案，谢谢～" ActionItems:@[cancel]];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_error" Message:@"未检测到您的爱车有车险报案记录，快速理赔需要先报案后才能进行现场拍照。请先报案，谢谢～" ActionItems:@[cancel]];
             [alert show];
         }
         [self.view stopActivityAnimation];

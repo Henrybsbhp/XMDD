@@ -6,8 +6,8 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "GasSubVC.h"
 
-@interface GasCZBVC : NSObject
+@interface GasCZBVC : GasSubVC 
 
 @end
