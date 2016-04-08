@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "GasCZBVM.h"
+#import "HKBankCard.h"
 
 @interface MyBankVC : HKViewController
 
-@property (nonatomic, strong) id selectedCardReveicer;
+@property (nonatomic, copy) void(^didSelectedBlock)(HKBankCard *card);
 
 @end

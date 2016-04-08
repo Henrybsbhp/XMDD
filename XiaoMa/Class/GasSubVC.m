@@ -101,11 +101,12 @@
     } error:^(NSError *error) {
         
         @strongify(self);
+        [gToast showError:error.domain];
         triggered = YES;
         loadingItem[@"loading"] = @NO;
         loadingItem[@"error"] = @YES;
         loadingItem.forceReload = !loadingItem.forceReload;
-        [self refreshViewWithForce:NO];
+        [self refreshViewWithForce:YES];
     } completed:^{
         
         @strongify(self);
@@ -119,6 +120,15 @@
         }
     }];
 }
+
+- (NSString *)recentlyUsedGasCardKey
+{
+    if (!gAppMgr.myUser) {
+        return nil;
+    }
+    return [NSString stringWithFormat:@"%@.%@", gAppMgr.myUser.userID, @"recentlyUsedGasCard"];
+}
+
 #pragma mark - Private
 - (void)setupLoadingDatasource {
     self.loadingDatasource = $($([self loadingItem]));

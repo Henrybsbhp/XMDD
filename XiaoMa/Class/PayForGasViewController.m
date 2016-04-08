@@ -20,6 +20,7 @@
 #import "OrderPaidSuccessOp.h"
 #import "CancelGaschargeOp.h"
 #import "FMDeviceManager.h"
+#import "CKDatasource.h"
 
 @interface PayForGasViewController ()
 
@@ -334,7 +335,7 @@
         }];
         paidSuccess = YES;
         NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-        NSString *key = [self recentlyUsedGasCardKey];
+        NSString *key = [self.gasNormalVC recentlyUsedGasCardKey];
         if (key) {
             [def setObject:paidop.req_gid forKey:key];
         }
@@ -366,15 +367,27 @@
     [event send];
 }
 
-- (NSString *)recentlyUsedGasCardKey
-{
-    if (!gAppMgr.myUser) {
-        return nil;
-    }
-    return [NSString stringWithFormat:@"%@.%@", gAppMgr.myUser.userID, @"recentlyUsedGasCard"];
+#pragma mark - Util
+- (void)selectedCouponCell {
+    [MobClick event:@"rp508_1"];
+    [self jumpToChooseCouponVC];
 }
 
-#pragma mark - Util
+- (void)selectedPaymentCellWithInfo:(NSDictionary *)dict {
+    PaymentChannelType tt = (PaymentChannelType)[dict[@"payment"] integerValue];
+    if (tt == PaymentChannelAlipay) {
+        [MobClick event:@"rp508_3"];
+    }
+    else if (tt == PaymentChannelWechat) {
+        [MobClick event:@"rp508_4"];
+    }
+    else {
+        [MobClick event:@"rp508_5"];
+    }
+    self.paychannel = tt;
+   
+}
+
 - (void)pushToPaymentResultWithPaidOp:(GascardChargeOp *)paidop andGasCard:(GasCard *)card {
     //分期加油
     if ([paidop isKindOfClass:[GascardChargeByStagesOp class]]) {
@@ -421,6 +434,22 @@
     return NO;
 }
 
+///获取优惠劵的两头时间
+- (NSString *)calcCouponValidDateString:(NSArray *)couponArray
+{
+    NSDate * earlierDate;
+    NSDate * laterDate;
+    for (HKCoupon * c in couponArray)
+    {
+        earlierDate = [c.validsince earlierDate:earlierDate];
+        laterDate = [c.validthrough laterDate:laterDate];
+    }
+    NSString * string = [NSString stringWithFormat:@"有效期：%@ - %@",earlierDate ? [earlierDate dateFormatForYYMMdd2] : @"",laterDate ? [laterDate dateFormatForYYMMdd2] : @""];
+    
+    return string;
+}
+
+
 #pragma mark - Tableview data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
@@ -454,7 +483,7 @@
     }
     else if ([cellName isEqualToString:@"CouponHeadCell"])
     {
-        height = 30;
+        height = 41;
     }
     else if ([cellName isEqualToString:@"CouponCell"])
     {
@@ -462,7 +491,7 @@
     }
     else if ([cellName isEqualToString:@"PaymentPlatformHeadCell"])
     {
-        height = 30;
+        height = 41;
     }
     else if ([cellName isEqualToString:@"PaymentPlatformCell"])
     {
@@ -473,7 +502,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
-    return CGFLOAT_MIN;
+    return 9;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -516,37 +545,27 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     NSDictionary * dict = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
     NSString * cellName = dict[@"cellname"];
-    if ([cellName isEqualToString:@"CouponCell"])
-    {
-        [MobClick event:@"rp508_2"];
-        [self jumpToChooseCouponVC];
+    if ([cellName isEqualToString:@"CouponCell"]) {
+        [self selectedCouponCell];
+    }
+    if ([cellName isEqualToString:@"PaymentPlatformCell"]) {
+        [self selectedPaymentCellWithInfo:dict];
     }
 }
 
 #pragma mark - TableViewCell
 - (UITableViewCell *)payTitleCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PayTitleCell"];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PayTitleCell"];
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
-    UIView * logoBg = (UIView *)[cell searchViewWithTag:101];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
-//    [logoV makeCornerRadius:5.0f];
-    
-    logoBg.borderWidth = 0.5f;
-    logoBg.borderColor = [UIColor lightGrayColor];
-    [logoBg makeCornerRadius:5.0f];
     
     titleL.text = self.payTitle;
     addrL.text = self.paySubTitle;
@@ -557,7 +576,7 @@
 
 - (UITableViewCell *)infoItemCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"InfoItemCell"];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"InfoItemCell"];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *infoL = (UILabel *)[cell.contentView viewWithTag:1002];
 
@@ -566,13 +585,10 @@
     titleL.text =  dict[@"title"];
     infoL.text = dict[@"value"];
     
-    if (indexPath.row == array.count - 1)
-    {
-        [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
+    if (indexPath.row == array.count - 1) {
         infoL.textColor = [UIColor colorWithHex:@"#ff5a00" alpha:1.0f];
     }
-    else
-    {
+    else {
         infoL.textColor = [UIColor colorWithHex:@"#323232" alpha:1.0f];
     }
     
@@ -581,7 +597,7 @@
 
 - (UITableViewCell *)couponHeadCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CouponHeadCell"];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CouponHeadCell"];
     UIActivityIndicatorView * indicator = (UIActivityIndicatorView *)[cell searchViewWithTag:202];
     
     [[RACObserve(self, isLoadingResourse) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * num) {
@@ -589,98 +605,43 @@
         indicator.animating = [num integerValue];
         indicator.hidden = ![num integerValue];
     }];
-    
 
-    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
-
-    
     return cell;
 }
 
 - (UITableViewCell *)couponInfoCellAtIndexPath:(NSIndexPath *)indexPath
 {
     HKTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CouponInfoCell"];
-    UIButton *boxB = (UIButton *)[cell.contentView viewWithTag:1001];
-    UILabel *label = (UILabel *)[cell.contentView viewWithTag:1002];
-    UIImageView *arrow = (UIImageView *)[cell.contentView viewWithTag:1003];
-    UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:1004];
-    UILabel *statusLb = (UILabel *)[cell.contentView viewWithTag:1005];
+    UILabel *label = [cell viewWithTag:1001];
+    UILabel *detailLabel = [cell viewWithTag:1002];
+    UILabel *dateLabel = [cell viewWithTag:1003];
     
-    NSArray * array = [self.datasource safetyObjectAtIndex:indexPath.section];
-    NSDictionary * dict = [array safetyObjectAtIndex:indexPath.row];
-    NSArray * gasCoupon = dict[@"array"];
+    label.text = @"加油优惠券";
     
-    label.text = [NSString stringWithFormat:@"加油优惠劵：%ld张", (long)gasCoupon.count];
-    arrow.hidden = NO;
-    
-    NSDate * earlierDate;
-    NSDate * laterDate;
-    for (HKCoupon * c in gasCoupon)
-    {
-        earlierDate = [c.validsince earlierDate:earlierDate];
-        laterDate = [c.validthrough laterDate:laterDate];
-    }
-    dateLb.text = [NSString stringWithFormat:@"有效期：%@ - %@",earlierDate ? [earlierDate dateFormatForYYMMdd2] : @"",laterDate ? [laterDate dateFormatForYYMMdd2] : @""];
-    
-    @weakify(self)
-    [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        [MobClick event:@"rp508_1"];
-        @strongify(self)
-        if (!self.selectGasCoupouArray.count)
-        {
-            [self jumpToChooseCouponVC];
-        }
-        else
-        {
-            if ([self isGasCouponType:self.couponType])
-            {
-                self.couponType = 0;
-            }
-            else
-            {
-                HKCoupon * coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
-                self.couponType = coupon.conponType;
-            }
-        }
-    }];
-
-    
+    @weakify(self);
     [[RACObserve(self, couponType) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * num) {
         
+        @strongify(self);
         BOOL flag = [self isGasCouponType:[num integerValue]];
-        if (flag)
-        {
-            statusLb.text = @"已选中";
-            statusLb.textColor = HEXCOLOR(@"#fb4209");
-            statusLb.hidden = NO;
-            boxB.selected = YES;
+        if (flag && self.selectGasCoupouArray.count > 0) {
+            dateLabel.text = [self calcCouponValidDateString:self.selectGasCoupouArray];
+            HKCoupon *coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
+            detailLabel.text = coupon.couponName;
         }
-        else
-        {
-            statusLb.text = @"未使用";
-            statusLb.textColor = HEXCOLOR(@"#aaaaaa");
-            statusLb.hidden = YES;
-            boxB.selected = NO;
+        else {
+            dateLabel.text = nil;
+            detailLabel.text = nil;
         }
-        
         [self refreshBottomView];
-            
     }];
-    
-    if (indexPath.row == array.count - 1)
-    {
-        [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
-    }
+
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(0, 16, 0, 0)];
     return cell;
 }
 
 - (UITableViewCell *)paymentPlatformHeadCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformHeadCell"];
-    
-    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
-    
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformHeadCell"];
     return cell;
 }
 
@@ -691,7 +652,7 @@
     UIImageView *iconV = (UIImageView *)[cell searchViewWithTag:1001];
     UILabel * titleLb = (UILabel *)[cell searchViewWithTag:1002];
     UILabel * noteLb = (UILabel *)[cell searchViewWithTag:1004];
-    UIButton * boxB = (UIButton *)[cell searchViewWithTag:1003];
+    UIButton * checkedB = (UIButton *)[cell searchViewWithTag:1003];
     UILabel * recommendLB = (UILabel *)[cell searchViewWithTag:1005];
     [recommendLB makeCornerRadius:3.0f];
     
@@ -704,35 +665,13 @@
     recommendLB.hidden = ![dict[@"recommend"] boolValue];
     PaymentChannelType tt = (PaymentChannelType)[dict[@"payment"] integerValue];
     
-    [[RACObserve(self, paychannel) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * num) {
+    [[RACObserve(self, paychannel) takeUntilForCell:cell] subscribeNext:^(NSNumber * num) {
         
         PaymentChannelType type = (PaymentChannelType)[num integerValue];
-        boxB.selected = type == tt;
+        checkedB.hidden = type != tt;
     }];
     
-    @weakify(self)
-    [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        if (tt == PaymentChannelAlipay) {
-            [MobClick event:@"rp508_3"];
-        }
-        else if (tt == PaymentChannelWechat) {
-            [MobClick event:@"rp508_4"];
-        }
-        else {
-            [MobClick event:@"rp508_5"];
-        }
-        @strongify(self)
-        self.paychannel = tt;
-    }];
-    
-    if (indexPath.row == array.count - 1)
-    {
-        [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
-    }
-    else
-    {
-        [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 8, 0, 8)];
-    }
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(0, 16, 0, 0)];
     
     return cell;
 }

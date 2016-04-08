@@ -226,8 +226,8 @@
 
 - (void)setupBottomView
 {
-    UIImage *bg1 = [[UIImage imageNamed:@"gas_btn_bg1"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
-    UIImage *bg2 = [[UIImage imageNamed:@"gas_btn_bg2"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+    UIImage *bg1 = [[UIImage imageNamed:@"btn_bg_orange"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
+    UIImage *bg2 = [[UIImage imageNamed:@"btn_bg_orange_disable"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     [self.bottomBtn setBackgroundImage:bg1 forState:UIControlStateNormal];
     [self.bottomBtn setBackgroundImage:bg2 forState:UIControlStateDisabled];
     self.bottomBtn.titleLabel.adjustsFontSizeToFitWidth = YES;

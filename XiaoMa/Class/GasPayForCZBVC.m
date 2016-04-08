@@ -80,8 +80,8 @@
     button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
     [button setTitle:self.payTitle forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setBackgroundImage:[[UIImage imageNamed:@"gas_btn_bg1"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)] forState:UIControlStateNormal];
-    [button setBackgroundImage:[[UIImage imageNamed:@"gas_btn_bg2"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)] forState:UIControlStateDisabled];
+    [button setBackgroundImage:[[UIImage imageNamed:@"btn_bg_green"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)] forState:UIControlStateNormal];
+    [button setBackgroundImage:[[UIImage imageNamed:@"btn_bg_green_disable"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)] forState:UIControlStateDisabled];
     [button addTarget:self action:@selector(actionPay:) forControlEvents:UIControlEventTouchUpInside];
     [container addSubview:button];
     

@@ -8,7 +8,6 @@
 
 #import "MyBankVC.h"
 #import "ADViewController.h"
-#import "HKBankCard.h"
 #import "HKConvertModel.h"
 #import "CardDetailVC.h"
 #import "BindBankCardVC.h"
@@ -110,14 +109,11 @@
     else if (indexPath.row < self.bankCards.count) {
         [MobClick event:@"rp314_2"];
         HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
-        if (self.selectedCardReveicer) {
-            HKStoreEvent *evt = [HKStoreEvent eventWithSignal:[RACSignal return:card] code:kHKStoreEventSelect
-                                                       object:self.selectedCardReveicer];
-            [self.bankStore sendEvent:evt];
-            [self.navigationController popViewControllerAnimated:YES];
+        if (self.didSelectedBlock) {
+            self.didSelectedBlock(card);
+            [self actionBack:nil];
             return;
         }
-        
         BankCardDetailVC *vc = [UIStoryboard vcWithId:@"BankCardDetailVC" inStoryboard:@"Bank"];
         vc.card = card;
         vc.originVC = self;

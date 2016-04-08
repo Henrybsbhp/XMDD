@@ -104,7 +104,11 @@
     
     //设置当前油卡
     if ([self.gasStore.gasCards count] > 0 && ![self.gasStore.gasCards objectForKey:self.curGasCard.gid]) {
-        self.curGasCard = [self.gasStore.gasCards objectAtIndex:0];
+        GasCard *card = [self.gasStore.gasCards objectForKey:[self recentlyUsedGasCardKey]];
+        if (!card) {
+            card = [self.gasStore.gasCards objectAtIndex:0];
+        }
+        self.curGasCard = card;
     }
     else if ([self.gasStore.gasCards count] == 0) {
         self.curGasCard = nil;
@@ -191,7 +195,7 @@
         GasCardListVC *vc = [UIStoryboard vcWithId:@"GasCardListVC" inStoryboard:@"Gas"];
         vc.selectedGasCardID = self.curGasCard.gid;
         [vc setSelectedBlock:^(GasCard *card) {
-            [[self.gasStore updateCZBCardInfoByCID:card.gid] send];
+            [[self.gasStore updateCZBCardInfoByCID:card.gid] sendAndIgnoreError];
         }];
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }

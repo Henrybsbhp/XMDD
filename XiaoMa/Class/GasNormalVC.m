@@ -84,7 +84,10 @@
 {
     //设置当前油卡
     if ([self.gasStore.gasCards count] > 0 && ![self.gasStore.gasCards objectForKey:self.curGasCard.gid]) {
-        GasCard *card = [self.gasStore.gasCards objectAtIndex:0];
+        GasCard *card = [self.gasStore.gasCards objectForKey:[self recentlyUsedGasCardKey]];
+        if (!card) {
+            card = [self.gasStore.gasCards objectAtIndex:0];
+        }
         [[self.gasStore updateCardInfoByGID:card.gid] send];
         return NO;
     }

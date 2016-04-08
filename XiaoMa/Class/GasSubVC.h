@@ -36,5 +36,6 @@
 #pragma mark - Public
 - (void)refreshViewWithForce:(BOOL)force;
 - (void)reloadFromSignal:(RACSignal *)signal;
+- (NSString *)recentlyUsedGasCardKey;
 
 @end
