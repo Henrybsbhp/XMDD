@@ -102,7 +102,7 @@
         }
         if (!self.insuranceExpirationDate)
         {
-            [gToast showMistake:@"请选择保险到期日"];
+            [gToast showMistake:@"请选择商业险到期日期"];
             return ;
         }
         
@@ -140,7 +140,7 @@
         headerLabel.text = @"请选择保险公司";
     }
     else{
-        headerLabel.text = @"请选择保险到期日";
+        headerLabel.text = @"请选择商业险到期日期";
     }
     [headerLabel sizeToFit];
     [view addSubview:headerLabel];
@@ -370,7 +370,7 @@
     {
         [[RACObserve(self, insuranceExpirationDate) takeUntilForCell:cell] subscribeNext:^(NSDate * date) {
             
-            lb.text = date ? [date dateFormatForYYMMdd] : @"请选择保险到期日";
+            lb.text = date ? [date dateFormatForYYMMdd] : @"请选择商业险到期日期";
             lb.textColor = date ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#888888");
         }];
     }

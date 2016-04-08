@@ -57,6 +57,15 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.navigationItem.leftBarButtonItem = back;
+    
+    if (self.isFromOrderInfoVC)
+    {
+        self.navigationItem.title = @"寄送地址";
+    }
+    else
+    {
+        self.navigationItem.title = @"支付成功";
+    }
 }
 
 - (void)setupDatasource
@@ -70,8 +79,17 @@
     CKDict * districtDict = [self textinputDataForDistrict];
     CKDict * detailAddressDict = [self textinputDataForDetailAddress];
     CKDict * tagDict = [self tagData];
-    self.datasource = $($(topDict,infoDict),
+    
+    if (self.isFromOrderInfoVC)
+    {
+        self.datasource = $($(infoDict),
                         $(sectionHeadDict,nameDict,phoneDict,districtDict,detailAddressDict,tagDict));
+    }
+    else
+    {
+        self.datasource = $($(topDict,infoDict),
+                            $(sectionHeadDict,nameDict,phoneDict,districtDict,detailAddressDict,tagDict));
+    }
     [self.tableView reloadData];
 }
 
@@ -273,7 +291,7 @@
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         
-        AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
+        AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCityAndDicstrict fromVC:self];
         
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
             
@@ -304,7 +322,7 @@
         UITextField *textField = [cell viewWithTag:102];
         
         title.text = @"详细地址";
-        textField.placeholder = @"请输入联系人详细地址";
+        textField.placeholder = @"请输入详细地址";
         textField.text = self.address;
         self.view4 = textField;
         

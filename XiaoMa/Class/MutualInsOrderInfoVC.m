@@ -145,6 +145,7 @@
 {
     MutualInsPayResultVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayResultVC"];
     vc.contract = self.contract;
+    vc.isFromOrderInfoVC = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -201,7 +202,7 @@
     CGFloat price = self.contract.total - self.contract.couponmoney;
     NSString * tag = self.contract.couponmoney ? [NSString stringWithFormat:@"原价￥%@ 优惠￥%@",[NSString formatForPrice:self.contract.total],[NSString formatForPrice:self.contract.couponmoney]] : @"";
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]],@"tag":tag}];
-    [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
+    [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"互助项目",@"content":@"各项金额（元）"}];
     
     for (NSDictionary * subIns in self.contract.inslist)
     {
@@ -314,7 +315,7 @@
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ProgressCell"];
     HKProgressView * progressView = (HKProgressView *)[cell searchViewWithTag:101];
-    progressView.titleArray = @[@"待支付",@"已支付",@"协议已出"];
+    progressView.titleArray = @[@"待支付",@"已支付",@"协议已寄送"];
     NSInteger status = self.contract.status == 3 ? 4 : self.contract.status;
     NSIndexSet *set = [NSIndexSet indexSetWithIndex:status - 1];
     progressView.selectedIndexSet = set;
