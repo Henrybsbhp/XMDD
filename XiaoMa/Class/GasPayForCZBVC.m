@@ -55,7 +55,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 90;
+    [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 100;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
