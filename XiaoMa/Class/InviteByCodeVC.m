@@ -248,7 +248,6 @@
     HKAlertActionItem *goWechat = [HKAlertActionItem itemWithTitle:@"去微信粘贴" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
     alertVC.actionItems = @[cancel, goWechat];
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-        [alertView dismiss];
         if (index == 1) {
             if ([WXApi isWXAppInstalled]) {
                 [WXApi openWXApp];

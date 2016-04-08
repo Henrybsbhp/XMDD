@@ -88,9 +88,7 @@
 - (void)actionDeleteRecord:(PictureRecord *)record
 {
     
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-        [alertVC dismiss];
-    }];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         NSInteger item = [self.recordList indexOfObject:record];
         if (item == NSNotFound) {
@@ -116,7 +114,6 @@
             
             [gToast showError:error.domain];
         }];
-        [alertVC dismiss];
     }];
     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"是否删除该行驶证记录" ActionItems:@[cancel,confirm]];
     [alert show];

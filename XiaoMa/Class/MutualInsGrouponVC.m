@@ -338,12 +338,8 @@ typedef enum : NSInteger
         @strongify(self);
         HKMessageAlertVC *alert = [[HKMessageAlertVC alloc] init];
         alert.messageLabel.text = @"您确认退出该团？退出后将无法查看团内信息。";
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:MutInsTextGrayColor clickBlock:^(id alertVC) {
-            [alertVC dismiss];
-        }];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:MutInsTextGrayColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:MutInsGreenColor clickBlock:^(id alertVC) {
-            @strongify(self);
-            [alertVC dismiss];
             [self requestExitGroup];
         }];
         alert.actionItems = @[cancel, confirm];

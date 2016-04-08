@@ -240,9 +240,7 @@
             [MobClick event:@"rp804_1"];
             evaluationBtn.enabled = YES;
             
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-            }];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 RescueCancelHostcarOp *op = [RescueCancelHostcarOp operation];
                 op.applyId = history.applyId;
@@ -259,7 +257,6 @@
                 } error:^(NSError *error) {
                     [gToast showText:@"取消失败, 请重试"];
                 }] ;
-                [alertVC dismiss];
             }];
             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您确定要取消本次协办服务吗？" ActionItems:@[cancel,confirm]];
             [alert show];
