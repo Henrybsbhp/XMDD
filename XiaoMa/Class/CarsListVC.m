@@ -23,7 +23,7 @@
 
 #import "ValuationHomeVC.h"
 
-@interface CarsListVC () <UIScrollViewDelegate>
+@interface CarsListVC () <UIScrollViewDelegate,PageSliderDelegate>
 
 @property (nonatomic, assign) BOOL isViewAppearing;
 @property (nonatomic, assign) BOOL isBackToMine;
@@ -330,12 +330,14 @@
     if (carNumArray.count > 0) {
         HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:carNumArray andStyle:HKTabBarStyleUnderCorner atIndex:[self.datasource indexOfObject:self.model.currentCar]];
         pageSliderView.contentScrollView.delegate = self;
+        pageSliderView.delegate = self;
         
         if (view.subviews.count != 0) {
             [view removeSubviews];
         }
         [view addSubview:pageSliderView];
         self.sliderView = pageSliderView;//赋值全局
+        [self observeScrollViewOffset];
         [self addContentView];
     }
     return cell;
@@ -494,10 +496,6 @@
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == self.sliderView.contentScrollView) {
-        NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width + 0.5); //过半取整
-        [self.sliderView selectAtIndex:pageIndex];
-    }
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
@@ -520,6 +518,25 @@
             self.model.selectedCar = car;
         }
     }
+    
+    if (scrollView == self.sliderView.contentScrollView) {
+        NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width);
+        [self.sliderView selectAtIndex:pageIndex];
+    }
+}
+
+#pragma mark - PageSliderDelegate
+- (BOOL)observeScrollViewOffset
+{
+    @weakify(self)
+    [RACObserve(self.sliderView.contentScrollView,contentOffset) subscribeNext:^(NSValue * value) {
+        
+        @strongify(self)
+        CGPoint p = [value CGPointValue];
+        [self.sliderView slideOffsetX:p.x andTotleW:self.sliderView.contentScrollView.contentSize.width andPageW:gAppMgr.deviceInfo.screenSize.width];
+    }];
+    
+    return YES;
 }
 
 @end

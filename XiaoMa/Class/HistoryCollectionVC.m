@@ -477,17 +477,15 @@
     self.selectedAllBtn.selected = YES;
     [MobClick event:@"rp603_2"];
     
-    UIAlertView *alerView = [[UIAlertView alloc]initWithTitle:nil message:@"请确认是否清空估值记录" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [alerView show];
-    [[alerView rac_buttonClickedSignal] subscribeNext:^(NSNumber *index) {
-        if (index.integerValue == 1)
-        {
-            [self uploadDeletaArr:@"all"];
-        }
-        else
-        {
-            self.selectedAllBtn.selected = NO;
-        }
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        self.selectedAllBtn.selected = NO;
+        [alertVC dismiss];
     }];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [self uploadDeletaArr:@"all"];
+        [alertVC dismiss];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"请确认是否清空估值记录" ActionItems:@[cancel,confirm]];
+    [alert show];
 }
 @end

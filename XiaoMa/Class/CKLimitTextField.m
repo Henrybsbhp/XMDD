@@ -149,6 +149,15 @@
     }
 }
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    if (_textField.shouldBeginEditingBlock) {
+        return _textField.shouldBeginEditingBlock(_textField);
+    }
+    
+    return YES;
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     _oldCursorPosition = nil;

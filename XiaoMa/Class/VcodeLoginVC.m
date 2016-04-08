@@ -13,6 +13,7 @@
 #import "VCodeInputField.h"
 #import "NSString+PhoneNumber.h"
 #import "CKLimitTextField.h"
+#import "IQKeyboardManager.h"
 
 @interface VcodeLoginVC ()
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
@@ -21,6 +22,8 @@
 @property (nonatomic, strong) HKSMSModel *smsModel;
 @property (weak, nonatomic) IBOutlet CKLimitTextField *num;
 @property (weak, nonatomic) IBOutlet VCodeInputField *code;
+@property (nonatomic, assign) CGFloat upOffsetY;
+
 @end
 
 @implementation VcodeLoginVC
@@ -41,6 +44,7 @@
     self.smsModel = [[HKSMSModel alloc] init];
 
     NSArray *mobEvents = @[@"rp002_7",@"rp002_8",@"rp002_9"];
+    
     self.smsModel.getVcodeButton = self.vcodeBtn;
     self.smsModel.inputVcodeField = self.code;
     self.smsModel.phoneField = self.num;
@@ -97,10 +101,63 @@
     }];
     
     self.code.textLimit = 8;
+    
+    [self.code setDidEndEditingBlock:^(CKLimitTextField *textField) {
+        if (self.view.frame.origin.y < 0) {
+            [self setViewMovedUp:NO];
+        }
+    }];
+    
     [self.code setDidBeginEditingBlock:^(CKLimitTextField *field) {
         [MobClick event:@"rp002_3"];
+        if  (self.view.frame.origin.y >= 0) {
+            [self setViewMovedUp:YES];
+        }
     }];
+    
+//    [self.code setShouldBeginEditingBlock:^BOOL(CKLimitTextField *textField) {
+//        
+//        if  (self.view.frame.origin.y >= 0) {
+//            [self setViewMovedUp:YES];
+//        }
+//        
+//        return YES;
+//    }];
 }
+
+
+// 点击验证码 textField 后，如登录按钮被遮住，则提升 view 的高度。
+- (void)setViewMovedUp:(BOOL)movedUp
+{
+    
+    [UIView animateWithDuration:0.4f animations:^{
+        
+        CGRect rect = self.view.frame;
+        
+        if (movedUp) {
+            
+            CGFloat offsetY = self.view.frame.size.height - 367 - 84;
+            self.upOffsetY = 260 - offsetY;
+            if (self.upOffsetY >= 0) {
+                rect.origin.y -= self.upOffsetY;
+                rect.size.height += self.upOffsetY;
+            }
+            
+            
+        } else {
+            if (self.upOffsetY >= 0) {
+                rect.origin.y = 0;
+                rect.size.height -= self.upOffsetY;
+            }
+            
+        }
+        
+        self.view.frame = rect;
+        
+    }];
+   
+}
+
 #pragma mark - Action
 - (IBAction)actionCloseButton:(id)sender
 {

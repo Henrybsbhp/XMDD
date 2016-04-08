@@ -21,4 +21,6 @@
 - (void)hideMaskView;
 - (void)showMaskView;
 
+- (void)removeTagGesture;
+
 @end

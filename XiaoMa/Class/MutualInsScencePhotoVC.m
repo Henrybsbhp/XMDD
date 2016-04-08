@@ -301,15 +301,17 @@
  */
 -(void)deletePhoto:(NSIndexPath *)indexPath
 {
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"删除照片" message:@"请确认是否删除照片?" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [alertView show];
-    [[alertView rac_buttonClickedSignal]subscribeNext:^(NSNumber *x) {
-        if (x.integerValue == 1)
-        {
-            [self.recordArray safetyRemoveObjectAtIndex:indexPath.section - 2];
-            [self.tableView reloadData];
-        }
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
     }];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [self.recordArray safetyRemoveObjectAtIndex:indexPath.section - 2];
+        [self.tableView reloadData];
+        [alertVC dismiss];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提醒" ImageName:@"mins_error" Message:@"请确认是否删除照片?" ActionItems:@[cancel]];
+    [alert show];
+    
 }
 /**
  *  给照片打水印

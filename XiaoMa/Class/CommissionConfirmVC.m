@@ -142,28 +142,32 @@
     } error:^(NSError *error) {
         [gToast dismissInView:self.view];
         if (error.code == 611139001) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:error.domain delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
-            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-                NSInteger i = [n integerValue];
-                if (i == 1) {
-                    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-                    vc.title = @"省钱攻略";
-                    vc.url = kMoneySavingStrategiesUrl;
-                    [self.navigationController pushViewController:vc animated:YES];
-                }else{
-                    
-                }
+            
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                [alertVC dismiss];
             }];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"省钱攻略" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+                vc.title = @"省钱攻略";
+                vc.url = kMoneySavingStrategiesUrl;
+                [self.navigationController pushViewController:vc animated:YES];
+                [alertVC dismiss];
+            }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel,confirm]];
             [alert show];
+            
         }
         else if (error.code == 611139002)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"协办结果" message:error.domain delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-                
+            
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
                 [self.navigationController popViewControllerAnimated:YES];
+                [alertVC dismiss];
             }];
+            
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"协办结果" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel]];
             [alert show];
+            
         }
         else
         {

@@ -21,7 +21,7 @@
 #import "ValuationCarSubView.h"
 
 
-@interface ValuationHomeVC ()<UIScrollViewDelegate, UITextFieldDelegate>
+@interface ValuationHomeVC ()<UIScrollViewDelegate, UITextFieldDelegate,PageSliderDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *advc;
@@ -34,6 +34,7 @@
 @property (nonatomic, strong) UILabel * locationLabel;
 @property (nonatomic, strong) HKLocationDataModel * locationData;
 @property (nonatomic, assign) LocateState locateState;
+@property (nonatomic, assign) BOOL isSelected;
 
 @property (nonatomic, strong) HKPageSliderView * sliderView;
 
@@ -242,9 +243,11 @@
             locationL.text = [NSString stringWithFormat:@"%@/%@", self.locationData.province, self.locationData.city];
         }
         else {
-            locImageV.hidden = NO;
-            [activityView stopAnimating];
-            locationL.text = @"定位失败，请选择";
+            if (!self.isSelected) {
+                locImageV.hidden = NO;
+                [activityView stopAnimating];
+                locationL.text = @"定位失败，请选择";
+            }
         }
     }];
     return cell;
@@ -288,11 +291,13 @@
         
         HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:titleArray andStyle:HKTabBarStyleCleanMenu atIndex:self.carIndex];
         pageSliderView.contentScrollView.delegate = self;
+        pageSliderView.delegate = self;
         if (view.subviews.count != 0) {
             [view removeSubviews];
         }
         [view addSubview:pageSliderView];
         self.sliderView = pageSliderView;//赋值全局
+        [self observeScrollViewOffset];
         [self addContentView:count];
     }
     
@@ -372,6 +377,7 @@
         @weakify(self);
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * districtModel) {
             @strongify(self);
+            self.isSelected = YES;
             self.locationData.province = provinceModel.infoName;
             self.locationData.city = cityModel.infoName;
             self.locationLabel.text = [NSString stringWithFormat:@"%@/%@", provinceModel.infoName, cityModel.infoName];
@@ -479,6 +485,27 @@
         HistoryCollectionVC *historyVC=[UIStoryboard vcWithId:@"HistoryCollectionVC" inStoryboard:@"Valuation"];
         [self.navigationController pushViewController:historyVC animated:YES];
     }
+}
+
+#pragma mark - PageSliderDelegate
+//- (void)pageClickAtIndex:(NSInteger)index
+//{
+//    self.currentIndex = index;
+//    [self loadPageIndex:index animated:YES];
+//}
+
+#pragma mark - PageSliderDelegate
+- (BOOL)observeScrollViewOffset
+{
+    @weakify(self)
+    [RACObserve(self.sliderView.contentScrollView,contentOffset) subscribeNext:^(NSValue * value) {
+        
+        @strongify(self)
+        CGPoint p = [value CGPointValue];
+        [self.sliderView slideOffsetX:p.x andTotleW:self.sliderView.contentScrollView.contentSize.width andPageW:gAppMgr.deviceInfo.screenSize.width];
+    }];
+    
+    return YES;
 }
 
 @end

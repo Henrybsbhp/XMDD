@@ -144,7 +144,7 @@
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }
     }] finally:^{
-        
+        [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
     }] subscribeNext:^(id x) {
         
@@ -161,6 +161,7 @@
         }
         [self.tableView reloadData];
     }error:^(NSError *error) {
+        [self.view stopActivityAnimation];
         @weakify(self)
         [self.view showDefaultEmptyViewWithText:@"暂无理赔记录,点击重新获取" tapBlock:^{
             @strongify(self)

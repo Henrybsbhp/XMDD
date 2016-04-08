@@ -206,29 +206,28 @@
             [cell shake];
         });
         
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"温馨提醒" message:@"您尚未添加爱车，请先添加 " delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往添加", nil];
-        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
-            
-            NSInteger index =[number integerValue];
-            if (index == 1)
-            {
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                [self.navigationController pushViewController:vc animated:YES];
-            }
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            [alertVC dismiss];
         }];
-        [av show];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"前往添加" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+            [self.navigationController pushViewController:vc animated:YES];
+            [alertVC dismiss];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提醒" ImageName:@"mins_bulb" Message:@"您尚未添加爱车，请先添加 " ActionItems:@[cancel,confirm]];
+        [alert show];
+        
         return;
     }
-    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"支付确认" message:@"请务必到店享受服务，且与店员确认服务商家与软件当前支付商家一致后再付款，付完不退款" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-    [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
-        
-        NSInteger index =[number integerValue];
-        if (index == 1)
-        {
-            [self requestCheckoutWithCouponType:self.couponType];
-        }
+    
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
     }];
-    [av show];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        [self requestCheckoutWithCouponType:self.couponType];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"支付确认" ImageName:@"mins_bulb" Message:@"请务必到店享受服务，且与店员确认服务商家与软件当前支付商家一致后再付款，付完不退款" ActionItems:@[cancel,confirm]];
+    [alert show];
 }
 
 
@@ -814,16 +813,16 @@
             ///用户已领取
             return ;
         }
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:error.domain delegate:nil cancelButtonTitle:@"算了" otherButtonTitles:@"再试一次", nil];
-        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
-            
-            NSInteger index = [number integerValue];
-            if (index == 1)
-            {
-                [self requestGainWeeklyCoupon];
-            }
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            [alertVC dismiss];
         }];
-        [av show];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"再试一次" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            [self requestGainWeeklyCoupon];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel,confirm]];
+        [alert show];
+
     }];
 }
 
@@ -1218,19 +1217,18 @@
 {
     if (error.code == 615801) {
         [gToast dismiss];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您不在该商户服务范围内，请刷新或者到店后洗完车后再支付或者原价支付。"
-                                                       delegate:nil cancelButtonTitle:@"放弃支付" otherButtonTitles:@"原价支付", nil];
-        [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
-            //放弃支付
-            if ([number integerValue] == 0) {
-                [MobClick event:@"rp108_8"];
-            }
-            else if ([number integerValue] == 1) {
-                [MobClick event:@"rp108_9"];
-                [self requestCheckoutWithCouponType:CouponTypeNone];
-            }
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            [MobClick event:@"rp108_8"];
+            [alertVC dismiss];
         }];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"原价支付" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            [MobClick event:@"rp108_9"];
+            [self requestCheckoutWithCouponType:CouponTypeNone];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您不在该商户服务范围内，请刷新或者到店后洗完车后再支付或者原价支付。" ActionItems:@[cancel,confirm]];
         [alert show];
+        
     }
     else if (error.code == 5003 || error.code == 615805)
     {

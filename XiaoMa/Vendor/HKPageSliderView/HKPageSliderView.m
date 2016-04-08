@@ -8,6 +8,9 @@
 
 #import "HKPageSliderView.h"
 
+#define HKTabBarStyleCleanMenuScale 0.7f
+#define HKTabBarStyleUnderCornerScale 0.8f
+
 @interface HKPageSliderView()
 
 @property (nonatomic, assign) HKTabBarStyle style;
@@ -46,13 +49,25 @@
         self.styleModel.buttonSpacing = 10;
         self.styleModel.menuNormalColor = HEXCOLOR(@"#888888"); //todo
         self.styleModel.menuSelectedColor = HEXCOLOR(@"#18D06A"); //todo
+        self.styleModel.menuNormalColorR = 0.53125f;
+        self.styleModel.menuNormalColorG = 0.53125f;
+        self.styleModel.menuNormalColorB = 0.53125f;
+        self.styleModel.menuSelectColorR = 0.09375f;
+        self.styleModel.menuSelectColorG = 0.8125f;
+        self.styleModel.menuSelectColorB = 0.4140625f;
     }
     else if (self.style == HKTabBarStyleUnderCorner) {
         self.styleModel.menuHeight = 38;
         self.styleModel.buttonSpacing = 8;
-        self.styleModel.menuNormalColor = RGBACOLOR(255, 255, 255, 0.8);
-        self.styleModel.menuSelectedColor = [UIColor whiteColor];
+        self.styleModel.menuNormalColor = HEXCOLOR(@"#dbdbdb");
+        self.styleModel.menuSelectedColor = HEXCOLOR(@"#ffffff");
         self.styleModel.menuBackgroundColor = HEXCOLOR(@"#12c461");
+        self.styleModel.menuNormalColorR = 0.85546875f;
+        self.styleModel.menuNormalColorG = 0.85546875f;
+        self.styleModel.menuNormalColorB = 0.85546875f;
+        self.styleModel.menuSelectColorR = 1.0f;
+        self.styleModel.menuSelectColorG = 1.0f;
+        self.styleModel.menuSelectColorB = 1.0f;
     }
     else if (self.style == HKTabBarStyleCleanMenu) {
         self.styleModel.menuHeight = 50;
@@ -60,6 +75,13 @@
         self.styleModel.menuNormalColor = HEXCOLOR(@"#888888");
         self.styleModel.menuSelectedColor = HEXCOLOR(@"#18D06A");
         self.styleModel.menuBackgroundColor = [UIColor clearColor];
+        
+        self.styleModel.menuNormalColorR = 0.53125f;
+        self.styleModel.menuNormalColorG = 0.53125f;
+        self.styleModel.menuNormalColorB = 0.53125f;
+        self.styleModel.menuSelectColorR = 0.09375f;
+        self.styleModel.menuSelectColorG = 0.8125f;
+        self.styleModel.menuSelectColorB = 0.4140625f;
     }
 }
 
@@ -90,12 +112,18 @@
         else if (self.style == HKTabBarStyleUnderCorner) {
             button.titleLabel.font = [UIFont systemFontOfSize:15];
             [button sizeToFit];
-            button.titleLabel.font = self.currentIndex == i ? [UIFont systemFontOfSize:15] : [UIFont systemFontOfSize:12];
+            [button.titleLabel setTextAlignment:NSTextAlignmentCenter];
+            
+            CGFloat r = self.currentIndex == i ? 1.0f : HKTabBarStyleUnderCornerScale;
+            button.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, r, r);
         }
         else if (self.style == HKTabBarStyleCleanMenu) {
             button.titleLabel.font = [UIFont systemFontOfSize:21];
             [button sizeToFit];
-            button.titleLabel.font = self.currentIndex == i ? [UIFont systemFontOfSize:21] : [UIFont systemFontOfSize:12];
+            [button.titleLabel setTextAlignment:NSTextAlignmentCenter];
+            // 一开始全设置为最小的
+            CGFloat r = HKTabBarStyleCleanMenuScale;
+            button.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, r, r);
         }
         button.backgroundColor = [UIColor clearColor];
         [button addTarget:self action:@selector(buttonEvent:) forControlEvents:UIControlEventTouchUpInside];
@@ -248,40 +276,49 @@
     
     //字体放大缩小
     if (self.style == HKTabBarStyleUnderCorner) {
-        [UIView animateWithDuration:0.3 animations:^{
-            lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
-            clickButton.titleLabel.font = [UIFont systemFontOfSize:15];
-        } completion:^(BOOL finished) {
-            
-        }];
-//        lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
-//        clickButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        
+        if (![self.delegate respondsToSelector:@selector(observeScrollViewOffset)]){
+            [UIView animateWithDuration:0.3 animations:^{
+                lastButton.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, HKTabBarStyleUnderCornerScale, HKTabBarStyleUnderCornerScale);
+            }];
+            [UIView animateWithDuration:0.3 animations:^{
+                clickButton.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+            }];
+        }
     }
     else if (self.style == HKTabBarStyleCleanMenu) {
-        [UIView animateWithDuration:0.3 animations:^{
-            lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
-            clickButton.titleLabel.font = [UIFont systemFontOfSize:21];
-        } completion:^(BOOL finished) {
-            
-        }];
-//        lastButton.titleLabel.font = [UIFont systemFontOfSize:12];
-//        clickButton.titleLabel.font = [UIFont systemFontOfSize:21];
+        
+        if (![self.delegate respondsToSelector:@selector(observeScrollViewOffset)]){
+            [UIView animateWithDuration:0.3 animations:^{
+                lastButton.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, HKTabBarStyleCleanMenuScale, HKTabBarStyleCleanMenuScale);
+            }];
+            [UIView animateWithDuration:0.3 animations:^{
+                clickButton.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+            }];
+        }
     }
     
     //动画完成前，设置上一个按钮后设置新的index
     self.currentIndex = index;
     
     //光标移动动画
-    [UIView animateWithDuration:0.3 animations:^{
-        self.cursorView.frame = CGRectMake(
-                    clickButton.center.x - (clickButton.bounds.size.width / 2 + self.styleModel.buttonSpacing),
-                    0,
-                    clickButton.bounds.size.width + 2 * self.styleModel.buttonSpacing,
-                    self.styleModel.menuHeight);
-    } completion:^(BOOL finished) {
+    if (![self.delegate respondsToSelector:@selector(observeScrollViewOffset)])
+    {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.cursorView.frame = CGRectMake(
+                                               clickButton.center.x - (clickButton.bounds.size.width / 2 + self.styleModel.buttonSpacing),
+                                               0,
+                                               clickButton.bounds.size.width + 2 * self.styleModel.buttonSpacing,
+                                               self.styleModel.menuHeight);
+        } completion:^(BOOL finished) {
+            self.isAnimation = NO;
+            //self.contentScrollView.scrollEnabled = YES;
+        }];
+    }
+    else
+    {
         self.isAnimation = NO;
-        //self.contentScrollView.scrollEnabled = YES;
-    }];
+    }
     
     //当选中按钮的位置>中心点时，自动居中
     if (self.menuScrollView.contentSize.width > self.menuScrollView.bounds.size.width) {
@@ -298,6 +335,67 @@
 //    }
 }
 
+- (void)slideOffsetX:(CGFloat)offsetX andTotleW:(CGFloat)totalWidth andPageW:(CGFloat)pageWidth
+{
+    if (offsetX < 0 || offsetX > totalWidth)
+        return;
+    CGFloat remainder;
+    CGFloat remainderOffsetX = offsetX;
+    NSInteger index = 0;
+    for (;;)
+    {
+        if (remainderOffsetX - pageWidth < 0)
+        {
+            remainder = remainderOffsetX;
+            break;
+        }
+        remainderOffsetX = remainderOffsetX - pageWidth;
+        index = index + 1;
+    }
+    
+    UIButton * btn = [self.buttons safetyObjectAtIndex:index];
+    UIButton * nextBtn = [self.buttons safetyObjectAtIndex:index + 1];
+    if (!nextBtn)
+    {
+        return;
+    }
+    CGFloat space = nextBtn.center.x - btn.center.x;
+    CGFloat percent = 1.0 * remainder / pageWidth;
+    CGFloat offset = 1.0 * space * percent;
+    
+    CGFloat x = btn.center.x + offset - (btn.bounds.size.width / 2 + self.styleModel.buttonSpacing);
+    self.cursorView.frame = CGRectMake(x,0,
+                                       btn.bounds.size.width + 2 * self.styleModel.buttonSpacing,
+                                       self.styleModel.menuHeight);
+    
+    //字体放大缩小
+    if (self.style == HKTabBarStyleUnderCorner) {
+        
+        CGFloat bigScale = 1 - ((1 - HKTabBarStyleUnderCornerScale) * percent);
+        CGFloat smallScale = HKTabBarStyleUnderCornerScale + ((1 - HKTabBarStyleUnderCornerScale) * percent);
+        btn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, bigScale, bigScale);
+        nextBtn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, smallScale, smallScale);
+        [btn setTitleColor:[self getBigGradualColor:percent] forState:UIControlStateNormal];
+        [nextBtn setTitleColor:[self getSmallGradualColor:percent] forState:UIControlStateNormal];
+    }
+    else if (self.style == HKTabBarStyleCleanMenu) {
+        
+        CGFloat bigScale = 1 - ((1 - HKTabBarStyleCleanMenuScale) * percent);
+        CGFloat smallScale = HKTabBarStyleCleanMenuScale + ((1 - HKTabBarStyleCleanMenuScale) * percent);
+        btn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, bigScale, bigScale);
+        nextBtn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, smallScale, smallScale);
+        [btn setTitleColor:[self getBigGradualColor:percent] forState:UIControlStateNormal];
+        [nextBtn setTitleColor:[self getSmallGradualColor:percent] forState:UIControlStateNormal];
+        
+        // 违章页面，会出现先刷到第一栏，然后刷到第x（默认爱车）栏（导致第一栏缩放为1）
+        UIButton * firstBtn = [self.buttons safetyObjectAtIndex:0];
+        if (firstBtn != btn && firstBtn != nextBtn)
+        {
+            firstBtn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, HKTabBarStyleCleanMenuScale, HKTabBarStyleCleanMenuScale);
+        }
+    }
+}
+
 - (void)makeButtonCenter:(UIButton *)clickButton
 {
     if (clickButton.center.x + self.menuScrollView.bounds.size.width / 2 > self.menuScrollView.contentSize.width) {
@@ -309,6 +407,28 @@
         [self.menuScrollView setContentOffset:CGPointMake(clickButton.center.x - self.menuScrollView.bounds.size.width / 2, self.menuScrollView.contentOffset.y) animated:YES];
     }
 }
+
+
+- (UIColor *)getBigGradualColor:(CGFloat)percent
+{
+    CGFloat r = (self.styleModel.menuNormalColorR - self.styleModel.menuSelectColorR) * percent  + self.styleModel.menuSelectColorR;
+    CGFloat g = (self.styleModel.menuNormalColorG - self.styleModel.menuSelectColorG) * percent + self.styleModel.menuSelectColorG;
+    CGFloat b = (self.styleModel.menuNormalColorB - self.styleModel.menuSelectColorB) * percent + self.styleModel.menuSelectColorB;
+    
+    UIColor *color = [UIColor colorWithRed:r green:g blue:b alpha:1.0f];
+    return color;
+}
+
+- (UIColor *)getSmallGradualColor:(CGFloat)percent
+{
+    CGFloat r = (self.styleModel.menuSelectColorR - self.styleModel.menuNormalColorR)* percent + self.styleModel.menuNormalColorR;
+    CGFloat g = (self.styleModel.menuSelectColorG - self.styleModel.menuNormalColorG) * percent + self.styleModel.menuNormalColorG;
+    CGFloat b = (self.styleModel.menuSelectColorB - self.styleModel.menuNormalColorB) * percent + self.styleModel.menuNormalColorB;
+    
+    UIColor *color = [UIColor colorWithRed:r green:g blue:b alpha:1.0f];
+    return color;
+}
+
 
 @end
 

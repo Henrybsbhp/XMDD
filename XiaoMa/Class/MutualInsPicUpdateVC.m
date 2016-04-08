@@ -82,7 +82,7 @@
         @strongify(self)
         if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
         {
-            [gToast showMistake:@"待图片上传成功"];
+            [gToast showMistake:@"请等待图片上传成功"];
             return ;
         }
         if (!self.idPictureRecord.url.length)
@@ -252,9 +252,12 @@
     
     record.customArray = [NSMutableArray arrayWithArray:@[selectImgView,camView]];
     
+    [selectImgView removeTagGesture];
     UIImageView *maskView = selectImgView.customObject;
     selectImgView.hidden = !record.image;
     selectImgView.image = record.image;
+    camView.hidden = record.image;
+    
     
     if (!maskView) {
         maskView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cm_watermark"]];
@@ -278,7 +281,7 @@
         [self pickImageWithIndex:indexPath];
     }];
     
-    camView.hidden = record.image;
+    
     
     
     [[RACObserve(record, image) takeUntilForCell:cell] subscribeNext:^(UIImage * img) {
@@ -506,8 +509,10 @@
             }
             else
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"该设备不支持拍照" message:nil delegate:nil
-                                                      cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                    [alertVC dismiss];
+                }];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_error" Message:@"该设备不支持拍照" ActionItems:@[cancel]];
                 [alert show];
             }
         }

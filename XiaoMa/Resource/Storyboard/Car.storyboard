@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -385,7 +385,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dI9-Gc-eYC">
                                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mec_empty" translatesAutoresizingMaskIntoConstraints="NO" id="EhU-s0-o6G">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="def_withoutCar" translatesAutoresizingMaskIntoConstraints="NO" id="EhU-s0-o6G">
                                                 <rect key="frame" x="205" y="73" width="190" height="190"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="190" id="cX2-0f-Np4"/>
@@ -1258,11 +1258,11 @@
         <image name="cm_arrow_r" width="9" height="15"/>
         <image name="cm_nav_back_white" width="11" height="19"/>
         <image name="cm_nav_greenback" width="9" height="17"/>
+        <image name="def_withoutCar" width="152" height="152"/>
         <image name="how_input" width="12" height="12"/>
         <image name="mec_btn_bg4" width="17" height="42"/>
         <image name="mec_certificate" width="37" height="30"/>
         <image name="mec_certificate_tag" width="10" height="10"/>
-        <image name="mec_empty" width="190" height="190"/>
         <image name="mec_gift" width="35" height="32"/>
         <image name="mec_valuation" width="38" height="30"/>
         <image name="questionMark_300" width="15" height="15"/>
