@@ -37,7 +37,7 @@
 }
 - (void)showImageEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text tapBlock:(void(^)(void))tapBlock
 {
-    if (imgName.length)
+    if (imgName.length && [UIImage imageNamed:imgName])
     {
         [self showEmptyViewWithImageName:imgName text:text centerOffset:-20 tapBlock:tapBlock];
     }
