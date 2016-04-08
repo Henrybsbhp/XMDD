@@ -15,6 +15,7 @@
 #import "DetailWebVC.h"
 #import "PayForInsuranceVC.h"
 #import "PayForGasViewController.h"
+#import "MutualInsPayViewController.h"
 
 @interface ChooseCouponVC ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -139,6 +140,12 @@
             pay4GasVC.selectGasCoupouArray = self.selectedCouponArray;
             pay4GasVC.couponType = coupon.conponType;
         }
+    }
+    
+    if (vc && [vc isKindOfClass:[MutualInsPayViewController class]])
+    {
+        MutualInsPayViewController * mutualInsPayVC = (MutualInsPayViewController *)vc;
+        [mutualInsPayVC tableViewReloadData];
     }
     
     [self.navigationController popViewControllerAnimated:YES];

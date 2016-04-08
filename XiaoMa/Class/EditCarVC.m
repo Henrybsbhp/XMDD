@@ -290,7 +290,7 @@
         }
     }];
     
-    return @[cell1_0,cell1_1,cell1_2,cell1_3,cell1_4];
+    return @[cell1_0,cell1_1,cell1_3,cell1_4,cell1_2];
 }
 
 - (NSArray *)dataListForSection2
