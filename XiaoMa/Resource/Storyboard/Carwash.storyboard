@@ -647,13 +647,13 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="洗车" id="sa9-7Z-AFt">
                         <rightBarButtonItems>
-                            <barButtonItem image="icon_local_3_0" id="Fv3-iE-5yx">
+                            <barButtonItem image="icon_local_300" id="Fv3-iE-5yx">
                                 <color key="tintColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="actionMap:" destination="x6m-ob-FHx" id="KWE-bg-ujJ"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem image="icon_search_3_0" id="zfW-cc-3Pa">
+                            <barButtonItem image="icon_search_300" id="zfW-cc-3Pa">
                                 <inset key="imageInsets" minX="0.0" minY="0.0" maxX="-15" maxY="0.0"/>
                                 <color key="tintColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
@@ -3246,10 +3246,10 @@
         <image name="coupon_shadow" width="297" height="20"/>
         <image name="cw_coupon_selected" width="27" height="22"/>
         <image name="gouzi_green" width="12" height="10"/>
-        <image name="icon_local_3_0" width="20" height="20"/>
+        <image name="icon_local_300" width="20" height="20"/>
         <image name="icon_navigation_3_0" width="16" height="16"/>
         <image name="icon_phone_3_0" width="16" height="16"/>
-        <image name="icon_search_3_0" width="20" height="20"/>
+        <image name="icon_search_300" width="20" height="20"/>
         <image name="location_me" width="38" height="38"/>
         <image name="mb_add" width="15" height="15"/>
         <image name="mb_logo" width="25" height="19"/>
