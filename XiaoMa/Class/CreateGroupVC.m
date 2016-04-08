@@ -352,6 +352,7 @@
     
     UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:101];
     UITextField *groupTextField = (UITextField *)[cell.contentView viewWithTag:102];
+    [groupTextField becomeFirstResponder];
     UIActivityIndicatorView * indicatorView = (UIActivityIndicatorView *)[cell.contentView viewWithTag:103];
     UIButton *diceButton = (UIButton *)[cell.contentView viewWithTag:112];
 

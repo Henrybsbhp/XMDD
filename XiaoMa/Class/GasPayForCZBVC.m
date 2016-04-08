@@ -175,12 +175,12 @@
 {
     if (self.orderInfo) {
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             [self.navigationController popViewControllerAnimated:YES];
             [self.model cancelOrderWithTradeNumber:self.orderInfo.rsp_tradeid gasCardID:self.orderInfo.req_gid];
             [alertVC dismiss];
         }];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续支付" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续支付" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [alertVC dismiss];
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您还有订单未支付，是否继续支付？" ActionItems:@[cancel,confirm]];
