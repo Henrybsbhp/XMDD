@@ -61,6 +61,37 @@
     return signal;
 }
 
+- (RACSignal *)sendWithIgnoreError:(BOOL)ignore andDelay:(NSTimeInterval)delay
+{
+    RACSignal *signal = self.signal;
+    if (ignore) {
+        signal = [signal catch:^RACSignal *(NSError *error) {
+            return [RACSignal empty];
+        }];
+    }
+    CKEvent *event = self;
+    if (self.signal && ![self.signal isEqual:signal]) {
+        event = [self mapSignal:^RACSignal *(RACSignal *signal) {
+            return signal;
+        }];
+    }
+    
+    if (delay) {
+        [[CKDispatcher sharedDispatcher] performSelector:@selector(sendEvent:) withObject:event afterDelay:delay];
+    }
+    return self.signal;
+}
+
+- (CKEvent *)setObject:(id)object
+{
+    return [CKEvent eventWithName:self.name object:object userInfo:self.userInfo signal:self.signal];
+}
+
+- (CKEvent *)setUserInfo:(NSDictionary *)userInfo
+{
+    return [CKEvent eventWithName:self.name object:self.object userInfo:userInfo signal:self.signal];
+}
+
 - (BOOL)isEqualForAnyoneOfNames:(NSArray *)names
 {
     return [names firstObjectByFilteringOperator:^BOOL(NSString *name) {

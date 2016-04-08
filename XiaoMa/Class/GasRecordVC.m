@@ -153,7 +153,11 @@
     timeLabel.text = [[NSDate dateWithUTS:@(record.payedtime)] dateFormatForYYYYMMddHHmm2];
     logoV.image = [UIImage imageNamed:record.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
     cardnumLbabel.text = [record.gascardno splitByStep:4 replacement:@" "];
+    cardnumLbabel.minimumScaleFactor = 0.8;
+    cardnumLbabel.adjustsFontSizeToFitWidth = YES;
     rechargeLabel.text = [NSString stringWithFormat:@"￥%d", record.chargemoney];
+    rechargeLabel.minimumScaleFactor = 0.6;
+    rechargeLabel.adjustsFontSizeToFitWidth = YES;
     payLabel.text = [NSString stringWithFormat:@"支付金额：￥%d", record.paymoney];
     stateLabel.text = record.statusdesc;
     return cell;

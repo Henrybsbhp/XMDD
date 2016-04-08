@@ -109,6 +109,12 @@ static char sActivityIndicatorView;
 
 - (void)startActivityAnimationWithType:(ActivityIndicatorType)type
 {
+    CGPoint position = CGPointMake(self.frame.size.width/2, self.indicatorPoistionY);
+    [self startActivityAnimationWithType:type atPositon:position];
+}
+
+- (void)startActivityAnimationWithType:(ActivityIndicatorType)type atPositon:(CGPoint)position
+{
     if (type == MONActivityIndicatorType)
     {
         if (![self.activityIndicatorView isKindOfClass:[MONActivityIndicatorView class]])
@@ -166,7 +172,7 @@ static char sActivityIndicatorView;
         }
         [(GifActivityIndicatorView *)self.activityIndicatorView startAnimating];
     }
-    self.activityIndicatorView.center = CGPointMake(self.frame.size.width/2, self.indicatorPoistionY);
+    self.activityIndicatorView.center = position;
     [self bringSubviewToFront:self.activityIndicatorView];
 }
 

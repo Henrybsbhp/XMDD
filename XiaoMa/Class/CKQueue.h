@@ -24,7 +24,8 @@
 - (void)removeObjectForKey:(id<NSCopying>)key;
 - (void)removeObjectAtIndex:(NSUInteger)index;
 - (void)replaceObject:(id)object forKey:(id<NSCopying>)key;
-- (void)insertObject:(id)object forKey:(id<NSCopying>)key atIndex:(NSInteger)index;
+- (void)replaceObject:(id)object withKey:(id<NSCopying>)key atIndex:(NSInteger)index;
+- (void)insertObject:(id)object withKey:(id<NSCopying>)key atIndex:(NSInteger)index;
 
 - (id)keyForObjectAtIndex:(NSUInteger)index;
 - (id)objectAtIndex:(NSUInteger)index;
