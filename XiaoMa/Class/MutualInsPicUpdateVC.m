@@ -555,7 +555,7 @@
 - (void)actionBack:(id)sender {
     
     
-    if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany || self.insuranceExpirationDate || self.lastYearInsCompany)
+    if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany.length || self.insuranceExpirationDate || self.lastYearInsCompany.length || self.idPictureRecord.url.length || self.drivingLicensePictureRecord.url.length)
     {
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [self.navigationController popViewControllerAnimated:YES];
