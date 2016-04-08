@@ -77,20 +77,20 @@
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         self.tableView.hidden = YES;
-        [self.tableView startActivityAnimationWithType:GifActivityIndicatorType];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] subscribeNext:^(GetCouponDetailsOp * op) {
         
         @strongify(self);
-        [self.tableView stopActivityAnimation];
+        [self.view stopActivityAnimation];
         self.tableView.hidden = NO;
         self.couponDic = op.rsp_couponDetails;
         [self.tableView reloadData];
     } error:^(NSError *error) {
         @strongify(self);
-        [self.tableView stopActivityAnimation];
+        [self.view stopActivityAnimation];
         [gToast showError:error.domain];
         self.tableView.hidden = YES;
-        [self.tableView showDefaultEmptyViewWithText:@"优惠券详情获取失败"];
+        [self.view showDefaultEmptyViewWithText:@"优惠券详情获取失败"];
     }];
 }
 

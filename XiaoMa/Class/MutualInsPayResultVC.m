@@ -388,6 +388,7 @@
 
 - (void)actionBack
 {
+
     HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
@@ -395,6 +396,7 @@
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"执意退出" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
         [alertVC dismiss];
         
+
         for (UIViewController * vc in self.navigationController.viewControllers)
         {
             if ([vc isKindOfClass:[MutualInsOrderInfoVC class]])
@@ -405,6 +407,7 @@
             }
         }
         [self.navigationController popToRootViewControllerAnimated:YES];
+
     }];
     HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"继续完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [alertVC dismiss];

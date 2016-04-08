@@ -43,23 +43,25 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
+    
     if (self.couponNewType == CouponNewTypeCarWash) {
-        return @"您还没有洗车优惠券";
+        return @{@"title":@"您还没有洗车优惠券",@"image":@"def_withoutCoupon"};
     }
     else if (self.couponNewType == CouponNewTypeGas) {
-        return @"您还没有加油优惠券";
+        return @{@"title":@"您还没有加油优惠券",@"image":@"def_withoutCoupon"};
     }
     else if (self.couponNewType == CouponNewTypeInsurance) {
-        return @"您还没有保险优惠券";
+        return @{@"title":@"您还没有保险优惠券",@"image":@"def_withoutCoupon"};
     }
-    return @"您还没有其他优惠券";
+    return @{@"title":@"暂无洗车订单",@"image":@"def_withoutCoupon"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
-    return @"获取优惠券失败，点击重试";
+    return @{@"title":@"获取优惠券失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (NSArray *)loadingModel:(HKLoadingModel *)model datasourceFromLoadedData:(NSArray *)data withType:(HKLoadingTypeMask)type
