@@ -55,8 +55,9 @@
  *  @param offset   图片偏移量
  *  @param tapBlock 点击事件
  */
-- (void)showImageEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
-                             centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock;
+- (void)showEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
+                      centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock;
+
 /**
  *  隐藏空页面
  */
