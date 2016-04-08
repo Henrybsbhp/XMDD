@@ -87,37 +87,39 @@
 #pragma mark - Action
 - (void)actionDeleteRecord:(PictureRecord *)record
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"是否删除该行驶证记录" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [alertView show];
-    [[alertView rac_buttonClickedSignal] subscribeNext:^(NSNumber *x) {
-        //确定
-        if ([x integerValue] == 1) {
-            NSInteger item = [self.recordList indexOfObject:record];
-            if (item == NSNotFound) {
-                return ;
-            }
-
-            @weakify(self);
-            [[[self rac_deleteDrivingLicenseRecord:record] initially:^{
-                
-                [gToast showingWithText:@"正在删除..."];
-            }] subscribeNext:^(id x) {
-
-                @strongify(self);
-                [gToast dismiss];
-                NSMutableArray *array = [NSMutableArray arrayWithArray:self.recordList];
-                [array safetyRemoveObjectAtIndex:item];
-                self.recordList = array;
-                [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:item inSection:0]]];
-                if (self.selectedRecordIndex == item) {
-                    self.selectedRecordIndex = NSNotFound;
-                }
-            } error:^(NSError *error) {
-                
-                [gToast showError:error.domain];
-            }];
-        }
+    
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+        [alertVC dismiss];
     }];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        NSInteger item = [self.recordList indexOfObject:record];
+        if (item == NSNotFound) {
+            return ;
+        }
+        
+        @weakify(self);
+        [[[self rac_deleteDrivingLicenseRecord:record] initially:^{
+            
+            [gToast showingWithText:@"正在删除..."];
+        }] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            [gToast dismiss];
+            NSMutableArray *array = [NSMutableArray arrayWithArray:self.recordList];
+            [array safetyRemoveObjectAtIndex:item];
+            self.recordList = array;
+            [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:item inSection:0]]];
+            if (self.selectedRecordIndex == item) {
+                self.selectedRecordIndex = NSNotFound;
+            }
+        } error:^(NSError *error) {
+            
+            [gToast showError:error.domain];
+        }];
+        [alertVC dismiss];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"是否删除该行驶证记录" ActionItems:@[cancel,confirm]];
+    [alert show];
     
 }
 

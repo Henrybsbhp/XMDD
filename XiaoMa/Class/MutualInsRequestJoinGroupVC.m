@@ -179,7 +179,7 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CipherBannerCell"];
     
     UITextField *cipherTextField = (UITextField *)[cell.contentView viewWithTag:101];
-    
+    [cipherTextField becomeFirstResponder];
     // 设置 cipherTextField 左侧留白
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 19, 20)];
     cipherTextField.leftView = paddingView;

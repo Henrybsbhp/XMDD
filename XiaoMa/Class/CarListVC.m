@@ -15,7 +15,7 @@
 #import "MyCarStore.h"
 #import "NSString+Format.h"
 
-#import "ValuationViewController.h"
+#import "ValuationHomeVC.h"
 
 #import "HKImageAlertVC.h"
 
@@ -220,7 +220,7 @@
             [self.navigationItem setRightBarButtonItem:right animated:YES]; //解决添加按钮的抖动
         }
         if (self.datasource.count == 0) {
-            [self.view showDefaultEmptyViewWithText:@"暂无爱车，快去添加一辆吧" tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_withoutCar" text:@"暂无爱车，快去添加一辆吧" tapBlock:^{
                 @strongify(self);
                 [self actionAddCar:nil];
             }];
@@ -233,7 +233,8 @@
         
         @strongify(self);
         [gToast showError:error.domain];
-        [self.view showDefaultEmptyViewWithText:@"获取爱车信息失败，点击重试" tapBlock:^{
+        
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取爱车信息失败，点击重试" tapBlock:^{
             @strongify(self);
             [[self.carStore getAllCars] send];
         }];
@@ -380,7 +381,7 @@
     [subv setValuationClickBlock:^(void) {
         [MobClick event:@"rp309_4"];
         @strongify(self);
-        ValuationViewController *vc = [UIStoryboard vcWithId:@"ValuationViewController" inStoryboard:@"Valuation"];
+        ValuationHomeVC *vc = [UIStoryboard vcWithId:@"ValuationHomeVC" inStoryboard:@"Valuation"];
         vc.carIndex = index;
         [self.navigationController pushViewController:vc animated:YES];
     }];

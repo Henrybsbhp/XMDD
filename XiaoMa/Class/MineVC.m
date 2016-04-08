@@ -19,7 +19,6 @@
 #import "UIView+ShowDot.h"
 #import "CardDetailVC.h"
 #import "UnbundlingVC.h"
-#import "CarListVC.h"
 #import "CarsListVC.h"
 #import "HKTableViewCell.h"
 #import "GuideStore.h"
@@ -106,6 +105,7 @@
             }
             
         }
+        self.isCarVC = NO;
     }
 }
 
@@ -480,6 +480,7 @@
     car[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         CarsListVC *vc = [UIStoryboard vcWithId:@"CarsListVC" inStoryboard:@"Car"];
         vc.model.allowAutoChangeSelectedCar = YES;
+        self.isCarVC = YES;
         [self.navigationController pushViewController:vc animated:YES];
     });
     

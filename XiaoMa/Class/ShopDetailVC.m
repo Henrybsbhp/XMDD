@@ -548,8 +548,11 @@
             [MobClick event:@"rp105_5"];
             if (self.shop.shopPhone.length == 0)
             {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
-                [av show];
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                    [alertVC dismiss];
+                }];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_error" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
+                [alert show];
                 return ;
             }
             
@@ -660,8 +663,11 @@
         @strongify(self)
         if (self.shop.shopPhone.length == 0)
         {
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
-            [av show];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                [alertVC dismiss];
+            }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
+            [alert show];
             return ;
         }
         

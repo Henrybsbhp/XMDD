@@ -82,7 +82,7 @@
         @strongify(self)
         if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
         {
-            [gToast showMistake:@"待图片上传成功"];
+            [gToast showMistake:@"请等待图片上传成功"];
             return ;
         }
         if (!self.idPictureRecord.url.length)
@@ -252,9 +252,12 @@
     
     record.customArray = [NSMutableArray arrayWithArray:@[selectImgView,camView]];
     
+    [selectImgView removeTagGesture];
     UIImageView *maskView = selectImgView.customObject;
     selectImgView.hidden = !record.image;
     selectImgView.image = record.image;
+    camView.hidden = record.image;
+    
     
     if (!maskView) {
         maskView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cm_watermark"]];
@@ -278,7 +281,7 @@
         [self pickImageWithIndex:indexPath];
     }];
     
-    camView.hidden = record.image;
+    
     
     
     [[RACObserve(record, image) takeUntilForCell:cell] subscribeNext:^(UIImage * img) {
@@ -299,10 +302,10 @@
         }
     }];
     
-
+    
     /// 图片适应
     [[RACObserve(selectImgView, image) takeUntilForCell:cell] subscribeNext:^(UIImage *img) {
-       
+        
         @strongify(self)
         if (!img || [[self defImage] isEqual:img] || [[self errorImage] isEqual:img]) {
             maskView.hidden = YES;
@@ -335,7 +338,7 @@
             }];
         }
     }];
-
+    
     
     return cell;
 }
@@ -391,7 +394,7 @@
     }] subscribeNext:^(id x) {
         
         [gToast dismiss];
-
+        
         MutualInsChooseVC * vc = [UIStoryboard vcWithId:@"MutualInsChooseVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = self.memberId;
         vc.groupId = self.groupId;
@@ -506,8 +509,10 @@
             }
             else
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"该设备不支持拍照" message:nil delegate:nil
-                                                      cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                    [alertVC dismiss];
+                }];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_error" Message:@"该设备不支持拍照" ActionItems:@[cancel]];
                 [alert show];
             }
         }
@@ -549,51 +554,67 @@
 
 - (void)actionBack:(id)sender {
     
-    //刷新团列表信息
-    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
-    [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] sendAndIgnoreError];
     
-    MutualInsGrouponVC *grouponvc;
-    MutualInsHomeVC *homevc;
-    NSInteger homevcIndex = NSNotFound;
-    for (NSInteger i=0; i<self.navigationController.viewControllers.count; i++) {
-        UIViewController *vc = self.navigationController.viewControllers[i];
-        if ([vc isKindOfClass:[MutualInsGrouponVC class]]) {
-            grouponvc = (MutualInsGrouponVC *)vc;
-            break;
+    if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany.length || self.insuranceExpirationDate || self.lastYearInsCompany.length || self.idPictureRecord.url.length || self.drivingLicensePictureRecord.url.length)
+    {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [self.navigationController popViewControllerAnimated:YES];
+            [alertVC dismiss];
+        }];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+            [alertVC dismiss];
+        }];
+        HKImageAlertVC *alertVC = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您有未保存的信息，是否在当前页面继续编辑？" ActionItems:@[cancel,confirm]];
+        [alertVC show];
+    }
+    else
+    {
+        //刷新团列表信息
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
+        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] sendAndIgnoreError];
+        
+        MutualInsGrouponVC *grouponvc;
+        MutualInsHomeVC *homevc;
+        NSInteger homevcIndex = NSNotFound;
+        for (NSInteger i=0; i<self.navigationController.viewControllers.count; i++) {
+            UIViewController *vc = self.navigationController.viewControllers[i];
+            if ([vc isKindOfClass:[MutualInsGrouponVC class]]) {
+                grouponvc = (MutualInsGrouponVC *)vc;
+                break;
+            }
+            if ([vc isKindOfClass:[MutualInsHomeVC class]]) {
+                homevc = (MutualInsHomeVC *)vc;
+                homevcIndex = i;
+            }
         }
-        if ([vc isKindOfClass:[MutualInsHomeVC class]]) {
-            homevc = (MutualInsHomeVC *)vc;
-            homevcIndex = i;
+        if (grouponvc) {
+            [self.navigationController popToViewController:grouponvc animated:YES];
+            return;
         }
+        //创建团详情视图
+        grouponvc  = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+        HKMutualGroup * group = [[HKMutualGroup alloc] init];
+        group.groupId = self.groupId;
+        group.groupName = self.groupName;
+        group.memberId = self.memberId;
+        grouponvc.group = group;
+        
+        NSMutableArray *vcs = [NSMutableArray array];
+        if (homevcIndex != NSNotFound) {
+            NSArray *subvcs = [self.navigationController.viewControllers subarrayToIndex:homevcIndex+1];
+            [vcs addObjectsFromArray:subvcs];
+        }
+        else {
+            //创建团root视图
+            homevc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
+            [vcs addObject:self.navigationController.viewControllers[0]];
+            [vcs addObject:homevc];
+        }
+        [vcs addObject:grouponvc];
+        [vcs addObject:self];
+        self.navigationController.viewControllers = vcs;
+        [self.navigationController popViewControllerAnimated:YES];
     }
-    if (grouponvc) {
-        [self.navigationController popToViewController:grouponvc animated:YES];
-        return;
-    }
-    //创建团详情视图
-    grouponvc  = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-    HKMutualGroup * group = [[HKMutualGroup alloc] init];
-    group.groupId = self.groupId;
-    group.groupName = self.groupName;
-    group.memberId = self.memberId;
-    grouponvc.group = group;
-
-    NSMutableArray *vcs = [NSMutableArray array];
-    if (homevcIndex != NSNotFound) {
-        NSArray *subvcs = [self.navigationController.viewControllers subarrayToIndex:homevcIndex+1];
-        [vcs addObjectsFromArray:subvcs];
-    }
-    else {
-        //创建团root视图
-        homevc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
-        [vcs addObject:self.navigationController.viewControllers[0]];
-        [vcs addObject:homevc];
-    }
-    [vcs addObject:grouponvc];
-    [vcs addObject:self];
-    self.navigationController.viewControllers = vcs;
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -634,7 +655,7 @@
     if (!_pickInsCompanysVC)
         _pickInsCompanysVC = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
     return _pickInsCompanysVC;
-        
+    
 }
 
 #pragma mark - Getter

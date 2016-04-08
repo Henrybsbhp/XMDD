@@ -373,6 +373,8 @@
 		5037DC741C43855E005AF932 /* NewGainAwardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5037DC731C43855E005AF932 /* NewGainAwardVC.m */; };
 		503B20581C08028C00F396DD /* AwardShareSheetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 503B20571C08028C00F396DD /* AwardShareSheetVC.m */; };
 		503B205B1C08337200F396DD /* AwardOtherSheetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 503B205A1C08337200F396DD /* AwardOtherSheetVC.m */; };
+		503C5B1B1CB50E2D00EFCDDA /* ValuationEmptySubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 503C5B1A1CB50E2D00EFCDDA /* ValuationEmptySubView.m */; };
+		503C5B251CB523D200EFCDDA /* ValuationCarSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 503C5B241CB523D200EFCDDA /* ValuationCarSubView.m */; };
 		5040B37A1C06AC1A00ADE77F /* HKLocationDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5040B3791C06AC1A00ADE77F /* HKLocationDataModel.m */; };
 		5040B37D1C06D50200ADE77F /* ApplyUnionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5040B37C1C06D50200ADE77F /* ApplyUnionOp.m */; };
 		504FFE921C0588C7002D7D6D /* JoinUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 504FFE911C0588C7002D7D6D /* JoinUsViewController.m */; };
@@ -380,6 +382,7 @@
 		504FFE991C05B56D002D7D6D /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 504FFE981C05B56D002D7D6D /* area.plist */; };
 		504FFEA21C05D48E002D7D6D /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 504FFEA11C05D48E002D7D6D /* city.plist */; };
 		504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 504FFEA41C05D4C9002D7D6D /* AreaPickerVC.m */; };
+		5050309B1CB5058700AB4D91 /* ValuationHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5050309A1CB5058700AB4D91 /* ValuationHomeVC.m */; };
 		505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 505358F31C0D79640029B5BA /* SharedNotifyOp.m */; };
 		505BC1C21C87D4FA00253F6D /* MutualInsHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
@@ -395,7 +398,6 @@
 		506A30991B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 506A30981B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m */; };
 		506A309F1B8F08FC002F1F14 /* InsuranceAppointmentOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 506A309E1B8F08FC002F1F14 /* InsuranceAppointmentOp.m */; };
 		506F03F61C9658C500B262D7 /* HKTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 506F03F51C9658C500B262D7 /* HKTimer.m */; };
-		5071D7C41C1EE756003D397C /* CarValuationSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5071D7C31C1EE756003D397C /* CarValuationSubView.m */; };
 		5073810A1BA12A6800B29756 /* CarWashCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 507381091BA12A6800B29756 /* CarWashCouponVModel.m */; };
 		5073810D1BA1672D00B29756 /* GetCouponByTypeNewOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5073810C1BA1672D00B29756 /* GetCouponByTypeNewOp.m */; };
 		507404D91BDF6B8000DAC6BA /* GetCouponByTypeNewV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 507404D81BDF6B8000DAC6BA /* GetCouponByTypeNewV2Op.m */; };
@@ -417,14 +419,13 @@
 		5093C9FE1C92A68A006B2258 /* InviteByCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */; };
 		509D1CC21C086E01003ED860 /* ShareResponeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 509D1CC11C086E01003ED860 /* ShareResponeManager.m */; };
 		50A1E06E1C1EA12800176572 /* Valuation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50A1E06D1C1EA12800176572 /* Valuation.storyboard */; };
-		50A1E0711C1EA3A300176572 /* ValuationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A1E0701C1EA3A300176572 /* ValuationViewController.m */; };
 		50AC2B501C8D737400620551 /* MutualInsPicUpdateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AC2B4F1C8D737300620551 /* MutualInsPicUpdateVC.m */; };
-		50ACC6A51C20FC79006E984E /* CarScrollTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ACC6A41C20FC79006E984E /* CarScrollTableViewCell.m */; };
 		50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ACC6A71C2138F9006E984E /* CarEvaluateOp.m */; };
 		50B508871C7C075800B6151E /* UIView+Genie.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B508861C7C075800B6151E /* UIView+Genie.m */; };
 		50B5088D1C7C469800B6151E /* HomeSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5088C1C7C469800B6151E /* HomeSuspendedAdVC.m */; };
 		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; };
 		50BA11641C27F42F00EA1E4A /* CarIDCodeCheckModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */; };
+		50BA9C771CB663EB00B7F310 /* PickCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BA9C761CB663EB00B7F310 /* PickCarVC.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		50BF30161CABEE0100D0FC07 /* AdListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BF30151CABEE0100D0FC07 /* AdListData.m */; };
 		50BF301A1CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */; };
@@ -1487,6 +1488,10 @@
 		503B20571C08028C00F396DD /* AwardShareSheetVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwardShareSheetVC.m; sourceTree = "<group>"; };
 		503B20591C08337200F396DD /* AwardOtherSheetVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwardOtherSheetVC.h; sourceTree = "<group>"; };
 		503B205A1C08337200F396DD /* AwardOtherSheetVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwardOtherSheetVC.m; sourceTree = "<group>"; };
+		503C5B191CB50E2D00EFCDDA /* ValuationEmptySubView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationEmptySubView.h; sourceTree = "<group>"; };
+		503C5B1A1CB50E2D00EFCDDA /* ValuationEmptySubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationEmptySubView.m; sourceTree = "<group>"; };
+		503C5B231CB523D200EFCDDA /* ValuationCarSubView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationCarSubView.h; sourceTree = "<group>"; };
+		503C5B241CB523D200EFCDDA /* ValuationCarSubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationCarSubView.m; sourceTree = "<group>"; };
 		5040B3781C06AC1A00ADE77F /* HKLocationDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKLocationDataModel.h; path = Class/HKLocationDataModel.h; sourceTree = "<group>"; };
 		5040B3791C06AC1A00ADE77F /* HKLocationDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKLocationDataModel.m; path = Class/HKLocationDataModel.m; sourceTree = "<group>"; };
 		5040B37B1C06D50200ADE77F /* ApplyUnionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplyUnionOp.h; path = Class/ApplyUnionOp.h; sourceTree = "<group>"; };
@@ -1499,6 +1504,8 @@
 		504FFEA11C05D48E002D7D6D /* city.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = city.plist; sourceTree = "<group>"; };
 		504FFEA31C05D4C9002D7D6D /* AreaPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaPickerVC.h; sourceTree = "<group>"; };
 		504FFEA41C05D4C9002D7D6D /* AreaPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaPickerVC.m; sourceTree = "<group>"; };
+		505030991CB5058700AB4D91 /* ValuationHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationHomeVC.h; sourceTree = "<group>"; };
+		5050309A1CB5058700AB4D91 /* ValuationHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationHomeVC.m; sourceTree = "<group>"; };
 		505358F21C0D79640029B5BA /* SharedNotifyOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedNotifyOp.h; path = Class/SharedNotifyOp.h; sourceTree = "<group>"; };
 		505358F31C0D79640029B5BA /* SharedNotifyOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SharedNotifyOp.m; path = Class/SharedNotifyOp.m; sourceTree = "<group>"; };
 		505BC1C01C87D4FA00253F6D /* MutualInsHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsHomeVC.h; sourceTree = "<group>"; };
@@ -1526,8 +1533,6 @@
 		506A309E1B8F08FC002F1F14 /* InsuranceAppointmentOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsuranceAppointmentOp.m; path = Class/InsuranceAppointmentOp.m; sourceTree = "<group>"; };
 		506F03F41C9658C500B262D7 /* HKTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKTimer.h; path = Class/HKTimer.h; sourceTree = "<group>"; };
 		506F03F51C9658C500B262D7 /* HKTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKTimer.m; path = Class/HKTimer.m; sourceTree = "<group>"; };
-		5071D7C21C1EE756003D397C /* CarValuationSubView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarValuationSubView.h; sourceTree = "<group>"; };
-		5071D7C31C1EE756003D397C /* CarValuationSubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarValuationSubView.m; sourceTree = "<group>"; };
 		507381081BA12A6800B29756 /* CarWashCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarWashCouponVModel.h; sourceTree = "<group>"; };
 		507381091BA12A6800B29756 /* CarWashCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarWashCouponVModel.m; sourceTree = "<group>"; };
 		5073810B1BA1672D00B29756 /* GetCouponByTypeNewOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCouponByTypeNewOp.h; path = Class/GetCouponByTypeNewOp.h; sourceTree = "<group>"; };
@@ -1568,12 +1573,8 @@
 		509D1CC01C086E01003ED860 /* ShareResponeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareResponeManager.h; path = Class/ShareResponeManager.h; sourceTree = "<group>"; };
 		509D1CC11C086E01003ED860 /* ShareResponeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareResponeManager.m; path = Class/ShareResponeManager.m; sourceTree = "<group>"; };
 		50A1E06D1C1EA12800176572 /* Valuation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Valuation.storyboard; sourceTree = "<group>"; };
-		50A1E06F1C1EA3A300176572 /* ValuationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuationViewController.h; sourceTree = "<group>"; };
-		50A1E0701C1EA3A300176572 /* ValuationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationViewController.m; sourceTree = "<group>"; };
 		50AC2B4E1C8D737300620551 /* MutualInsPicUpdateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPicUpdateVC.h; sourceTree = "<group>"; };
 		50AC2B4F1C8D737300620551 /* MutualInsPicUpdateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPicUpdateVC.m; sourceTree = "<group>"; };
-		50ACC6A31C20FC79006E984E /* CarScrollTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarScrollTableViewCell.h; sourceTree = "<group>"; };
-		50ACC6A41C20FC79006E984E /* CarScrollTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarScrollTableViewCell.m; sourceTree = "<group>"; };
 		50ACC6A61C2138F9006E984E /* CarEvaluateOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarEvaluateOp.h; path = Class/CarEvaluateOp.h; sourceTree = "<group>"; };
 		50ACC6A71C2138F9006E984E /* CarEvaluateOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarEvaluateOp.m; path = Class/CarEvaluateOp.m; sourceTree = "<group>"; };
 		50B508851C7C075800B6151E /* UIView+Genie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Genie.h"; path = "Class/UIView+Genie.h"; sourceTree = "<group>"; };
@@ -1584,6 +1585,8 @@
 		50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWebViewBridge.m; sourceTree = "<group>"; };
 		50BA11621C27F42F00EA1E4A /* CarIDCodeCheckModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarIDCodeCheckModel.h; path = Class/CarIDCodeCheckModel.h; sourceTree = "<group>"; };
 		50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarIDCodeCheckModel.m; path = Class/CarIDCodeCheckModel.m; sourceTree = "<group>"; };
+		50BA9C751CB663EB00B7F310 /* PickCarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickCarVC.h; sourceTree = "<group>"; };
+		50BA9C761CB663EB00B7F310 /* PickCarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickCarVC.m; sourceTree = "<group>"; };
 		50BE7C901B6716B500675887 /* SelectScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectScrollView.h; path = Class/SelectScrollView.h; sourceTree = "<group>"; };
 		50BE7C911B6716B500675887 /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectScrollView.m; path = Class/SelectScrollView.m; sourceTree = "<group>"; };
 		50BF30141CABEE0100D0FC07 /* AdListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdListData.h; path = Class/AdListData.h; sourceTree = "<group>"; };
@@ -2981,6 +2984,8 @@
 				508F65341CACDD0F00F88744 /* CarsListVC.m */,
 				508F65361CAD072800F88744 /* CarListSubVC.h */,
 				508F65371CAD072800F88744 /* CarListSubVC.m */,
+				50BA9C751CB663EB00B7F310 /* PickCarVC.h */,
+				50BA9C761CB663EB00B7F310 /* PickCarVC.m */,
 			);
 			name = MyCar;
 			sourceTree = "<group>";
@@ -3962,12 +3967,12 @@
 		502D09D21C1E9D08001610F0 /* Valuation */ = {
 			isa = PBXGroup;
 			children = (
-				50A1E06F1C1EA3A300176572 /* ValuationViewController.h */,
-				50A1E0701C1EA3A300176572 /* ValuationViewController.m */,
-				5071D7C21C1EE756003D397C /* CarValuationSubView.h */,
-				5071D7C31C1EE756003D397C /* CarValuationSubView.m */,
-				50ACC6A31C20FC79006E984E /* CarScrollTableViewCell.h */,
-				50ACC6A41C20FC79006E984E /* CarScrollTableViewCell.m */,
+				505030991CB5058700AB4D91 /* ValuationHomeVC.h */,
+				5050309A1CB5058700AB4D91 /* ValuationHomeVC.m */,
+				503C5B191CB50E2D00EFCDDA /* ValuationEmptySubView.h */,
+				503C5B1A1CB50E2D00EFCDDA /* ValuationEmptySubView.m */,
+				503C5B231CB523D200EFCDDA /* ValuationCarSubView.h */,
+				503C5B241CB523D200EFCDDA /* ValuationCarSubView.m */,
 				4EF12DEB1C1EBC900098B8C6 /* SecondCarValuationVC.h */,
 				4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */,
 				4E5995661C201C5300686565 /* CommitSuccessVC.h */,
@@ -5340,6 +5345,7 @@
 				1818D8F51C22845A0078C329 /* PayForPremiumOp.m in Sources */,
 				181355C11C96935300894CA1 /* HKProgressView.m in Sources */,
 				50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */,
+				5050309B1CB5058700AB4D91 /* ValuationHomeVC.m in Sources */,
 				6B42270D1C1FDF150090F802 /* PayForGasViewController.m in Sources */,
 				5093C9FE1C92A68A006B2258 /* InviteByCodeVC.m in Sources */,
 				6BCD951B1C9FEA0E00BE3E8C /* InviteCompleteVC.m in Sources */,
@@ -5351,6 +5357,7 @@
 				18FC01E31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m in Sources */,
 				50FEF76B1C8827C900B85F19 /* AutoGroupInfoVC.m in Sources */,
 				6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */,
+				503C5B251CB523D200EFCDDA /* ValuationCarSubView.m in Sources */,
 				2E3EEBCF1C22AAD50010E34F /* CommissionSuccessVC.m in Sources */,
 				1833F5891BCD373B000E1DA1 /* AddGascardOp.m in Sources */,
 				2E3EEBC61C227CC90010E34F /* CommissionConfirmVC.m in Sources */,
@@ -5367,7 +5374,6 @@
 				18988CB21BC79A76001DECD5 /* HKUserStore.m in Sources */,
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				6BC80C921C96BD6800C7BA3D /* GetCoorperationClaimConfigOp.m in Sources */,
-				5071D7C41C1EE756003D397C /* CarValuationSubView.m in Sources */,
 				50FAC26B1C23AB9C00F8990F /* GetAutomobileModelV2Op.m in Sources */,
 				6B26EE9B1C8EC12B00428EC4 /* Reachability.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
@@ -5733,6 +5739,7 @@
 				18900B4D1C1EA05E003DA439 /* GetInsProvinceListOp.m in Sources */,
 				18AB16A61C1FAE6B0000E718 /* InsBaseCar.m in Sources */,
 				184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */,
+				50BA9C771CB663EB00B7F310 /* PickCarVC.m in Sources */,
 				6BFE6A731C04036500EC9766 /* ViolationModel.m in Sources */,
 				18D811C61C1EDB5300B6AB04 /* CKDispatcher.m in Sources */,
 				4EA1CB231C969830006CCBEA /* MutualInsScencePhotoVM.m in Sources */,
@@ -5829,7 +5836,6 @@
 				184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */,
 				1885F0C31B1C50970056D3BD /* UIView+AddBadgeView.m in Sources */,
 				18FC01E51C4E6C6F00FD61BF /* IQUIView+IQKeyboardToolbar.m in Sources */,
-				50A1E0711C1EA3A300176572 /* ValuationViewController.m in Sources */,
 				505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */,
 				181AA43E1CA3BC7600ADD50C /* MutualInsModel.m in Sources */,
 				18B7A2711C2014BA00865A99 /* CityPickerVC.m in Sources */,
@@ -5874,7 +5880,6 @@
 				5078E4D21B93FD4000E3B198 /* GetInscouponOp.m in Sources */,
 				6B16D6471C9664F400322B70 /* MutualInsContract.m in Sources */,
 				6BC80D2B1C9AA52300C7BA3D /* GetCooperationResourcesOp.m in Sources */,
-				50ACC6A51C20FC79006E984E /* CarScrollTableViewCell.m in Sources */,
 				18C52C361BA6783500F6C38B /* PictureRecord.m in Sources */,
 				6BD6E29A1B9D7F67001D33E6 /* NSString+Safe.m in Sources */,
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
@@ -5912,6 +5917,7 @@
 				6BD293D81B946B49006482A4 /* PayForInsuranceVC.m in Sources */,
 				50F0FF641C9A96B7009A94A3 /* GetMutualInsListOp.m in Sources */,
 				2EB0DA5C1C325CA900D9A5B2 /* RescueCancelHostcarOp.m in Sources */,
+				503C5B1B1CB50E2D00EFCDDA /* ValuationEmptySubView.m in Sources */,
 				1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */,
 				50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */,
 			);

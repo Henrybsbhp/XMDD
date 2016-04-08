@@ -56,7 +56,7 @@
                              @"MyInfoViewController":@{@"pagetag":@"rp302"},//我的资料
                              @"MyCouponVC":@{@"pagetag":@"rp304"},//我的优惠劵
                              @"EditMyInfoViewController":@{@"pagetag":@"rp305"},//我的资料编辑
-                             @"CarListVC":@{@"pagetag":@"rp309"},//我的爱车
+                             @"CarsListVC":@{@"pagetag":@"rp309"},//我的爱车
                              @"EditCarVC":@{@"pagetag":@"rp312"},//编辑我的爱车
                              @"MyBankVC":@{@"pagetag":@"rp314"},//我的银行卡
                              @"BindBankCardVC":@{@"pagetag":@"rp313"},//绑定银行卡
@@ -83,7 +83,7 @@
                              @"PayForGasViewController":@{@"pagetag":@"rp508"},//油卡充值支付
                              
                              // 估值
-                             @"ValuationViewController":@{@"pagetag":@"rp601"},//二手车估值
+                             @"ValuationHomeVC":@{@"pagetag":@"rp601"},//二手车估值
                              @"ValuationResultVC":@{@"pagetag":@"rp602"},//二手车估值结果
                              @"HistoryCollectionVC":@{@"pagetag":@"rp603"},//历史估值列表
                              @"SecondCarValuationVC":@{@"pagetag":@"rp604"},//估值车提交平台

@@ -13,6 +13,7 @@
 #import "ShareResponeManager.h"
 #import "SecondCarValuationVC.h"
 #import "GetCityInfoByNameOp.h"
+#import "NSString+RectSize.h"
 
 @interface ValuationResultVC ()
 
@@ -37,12 +38,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-    {
-        self.tableView.rowHeight = UITableViewAutomaticDimension;
-        self.tableView.estimatedRowHeight = 50;
-    }
 }
 
 - (void)actionBack:(id)sender
@@ -59,11 +54,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==0)
-    {
-        return 6;
-    }
-    return 5;
+    return 6;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -82,19 +73,11 @@
             return 12;
         }
         else if (indexPath.row == 1) {
-            if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-            {
-                return UITableViewAutomaticDimension;
-            }
-            UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-            [cell layoutIfNeeded];
-            [cell setNeedsUpdateConstraints];
-            [cell updateConstraintsIfNeeded];
-            CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-            return ceil(size.height+1);
+            CGFloat height = [self.modelStr labelSizeWithWidth:(self.tableView.frame.size.width - 86) font:[UIFont systemFontOfSize:12]].height;
+            return 40 + height;
         }
         else {
-            return 38;
+            return 23;
         }
     }
     else {
@@ -107,8 +90,11 @@
         else if (indexPath.row == 2) {
             return 170;
         }
+        else if (indexPath.row == 3){
+            return 25;
+        }
         else {
-            return 35;
+            return 75;
         }
     }
 }
@@ -162,7 +148,7 @@
                 tipLabel.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 32;
             }
         }
-        else {
+        else if (indexPath.row == 3){
             cell=[tableView dequeueReusableCellWithIdentifier:@"SecondMoreCell"];
             UIButton * moreBtn = (UIButton *)[cell.contentView viewWithTag:1001];
             @weakify(self);
@@ -175,6 +161,22 @@
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.url = self.evaluateOp.rsp_url;
                 [self.navigationController pushViewController:vc animated:YES];
+            }];
+        }
+        else {
+            cell=[tableView dequeueReusableCellWithIdentifier:@"ButtonCell"];
+            UIButton * shareBtn = (UIButton *)[cell.contentView viewWithTag:1001];
+            UIButton * sallBtn = (UIButton *)[cell.contentView viewWithTag:1002];
+            
+            @weakify(self);
+            [[[shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                @strongify(self)
+                [self shareAction];
+            }];
+            
+            [[[sallBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                @strongify(self)
+                [self carSallAction];
             }];
         }
     }
@@ -226,10 +228,7 @@
     return cell;
 }
 
-- (IBAction)shareAction:(id)sender {
-    /**
-     *  炫耀一下事件
-     */
+- (void)shareAction {
     [MobClick event:@"rp602_3"];
     [gToast showingWithText:@"分享信息拉取中..."];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
@@ -266,21 +265,20 @@
     }];
 }
 
-- (IBAction)carSallAction:(id)sender {
-    /**
-     *  一键卖车事件
-     */
+- (void)carSallAction {
     [MobClick event:@"rp602_4"];
     GetCityInfoByNameOp * op = [GetCityInfoByNameOp operation];
     op.province = self.provinceName;
     op.city = self.cityName;
     [[op rac_postRequest] subscribeNext:^(GetCityInfoByNameOp * op) {
         if ([op.rsp_sellerCityId intValue] == 0) {
-            UIAlertView * alertView = [[UIAlertView alloc] init];
-            alertView.title = @"提示";
-            alertView.message = @"抱歉，您所在的城市未开通此项服务，敬请期待";
-            [alertView addButtonWithTitle:@"知道了"];
-            [alertView show];
+            
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                [alertVC dismiss];
+            }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"抱歉，您所在的城市未开通此项服务，敬请期待" ActionItems:@[cancel]];
+            [alert show];
+            
         }
         else {
             SecondCarValuationVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"SecondCarValuationVC"];
@@ -291,9 +289,6 @@
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];
-    
-    
 }
-
 
 @end

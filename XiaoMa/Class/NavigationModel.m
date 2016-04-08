@@ -13,7 +13,7 @@
 #import "InsuranceStore.h"
 #import "GasVC.h"
 #import "DetailWebVC.h"
-#import "CarListVC.h"
+#import "CarsListVC.h"
 #import "GasVC.h"
 #import "PaymentCenterViewController.h"
 #import "ViolationViewController.h"
@@ -22,7 +22,7 @@
 #import "MyBankVC.h"
 #import "InsSimpleCar.h"
 #import "InsCheckResultsVC.h"
-#import "ValuationViewController.h"
+#import "ValuationHomeVC.h"
 
 #import "AppDelegate.h"
 
@@ -60,13 +60,13 @@
         else if ([@"cl" equalByCaseInsensitive:name]) {
             if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
                 return YES;
-            CarListVC *vc = (CarListVC *)[self viewControllerByIdentify:@"CarListVC" withPrecidate:nil];
+            CarsListVC *vc = (CarsListVC *)[self viewControllerByIdentify:@"CarsListVC" withPrecidate:nil];
             if (vc) {
                 [self.curNavCtrl popToViewController:vc animated:YES];
                 vc.originCarID = @([value integerValue]);
             }
             else {
-                vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+                vc = [UIStoryboard vcWithId:@"CarsListVC" inStoryboard:@"Car"];
                 vc.originCarID = @([value integerValue]);
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
@@ -212,7 +212,7 @@
         ///估值
         else if ([@"val" equalByCaseInsensitive:name])
         {
-            ValuationViewController * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationViewController"];
+            ValuationHomeVC * vc = [valuationStoryboard instantiateViewControllerWithIdentifier:@"ValuationHomeVC"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         ///核保结果 TODO

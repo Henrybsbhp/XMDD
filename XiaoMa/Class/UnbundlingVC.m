@@ -27,7 +27,6 @@ static NSString *s_sendedPhone;
 @property (nonatomic, strong) HKSMSModel *smsModel;
 @property (nonatomic, strong) NSAttributedString *promptString;
 @property (nonatomic, strong) UIView *headerView;
-
 @property (nonatomic, strong) HKImageAlertVC *alert;
 
 @end
@@ -127,10 +126,25 @@ static NSString *s_sendedPhone;
         
     }
     
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        
+        // iOS 8 以下版本锁定输入验证码 Cell 的高度。
+        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"normalCell"];
+        [cell setNeedsUpdateConstraints];
+        [cell updateConstraintsIfNeeded];
+        [cell setNeedsLayout];
+        [cell layoutIfNeeded];
+        CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+        
+        return ceil(size.height + 11);
+        
+    }
+    
     UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
-    [cell layoutIfNeeded];
     [cell setNeedsUpdateConstraints];
     [cell updateConstraintsIfNeeded];
+    [cell setNeedsLayout];
+    [cell layoutIfNeeded];
     CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
     
     return ceil(size.height + 1);
