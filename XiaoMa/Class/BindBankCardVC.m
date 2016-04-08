@@ -85,9 +85,7 @@
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
                 [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
                 
-                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
-                UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
-                [field becomeFirstResponder];
+                [self.vcodeField becomeFirstResponder];
                 
             });
             return [RACSignal return:nil];
@@ -101,6 +99,7 @@
         _firstRowVisible = NO;
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.vcodeField becomeFirstResponder];
         
     } error:^(NSError *error) {
         
@@ -122,12 +121,15 @@
         else {
             [gToast showError:error.domain];
         }
+        [self.vcodeField becomeFirstResponder];
+        
     }];
     
     //激活输入验证码的输入框
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
-    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
-    [field becomeFirstResponder];
+    [self.vcodeField becomeFirstResponder];
+//    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
+//    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
+//    [field becomeFirstResponder];
 }
 
 - (IBAction)actionCheck:(id)sender
@@ -154,6 +156,11 @@
 
 - (IBAction)actionBind:(id)sender {
     [MobClick event:@"rp313_5"];
+    
+    [self.phoneField resignFirstResponder];
+    [self.cardField resignFirstResponder];
+    [self.vcodeField resignFirstResponder];
+    
     if (self.cardField.text.length < 15 || self.cardField.text.length > 20) {
         [self shakeCellAtIndex:0 section:0];
         return;
@@ -183,7 +190,6 @@
         
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
             [alertVC dismiss];
-            [gPhoneHelper makePhone:@"4007111111"];
             
             [MobClick event:@"rp313_6"];
             [self.navigationController popViewControllerAnimated:YES];
