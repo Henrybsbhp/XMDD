@@ -7,18 +7,20 @@
 //
 
 #import "UserStore.h"
-#import "CKQueue.h"
+#import "JTQueue.h"
 
 #define kEvtGetAllBankCards       @"getAllBankCards"
+#define kEvtDeleteBankCard        @"deleteBankCardByCID"
 
 #define kDomainBankCards          @"bankCards"
 
 @interface BankStore : UserStore
 
-@property (nonatomic, strong) CKQueue *bankCards;
+@property (nonatomic, strong) JTQueue *bankCards;
 
 ///获取当前用户的所有银行卡
 - (CKEvent *)getAllBankCards;
 - (CKEvent *)getAllBankCardsIfNeeded;
+- (CKEvent *)deleteBankCardByCID:(NSNumber *)cid vcode:(NSString *)vcode;
 
 @end

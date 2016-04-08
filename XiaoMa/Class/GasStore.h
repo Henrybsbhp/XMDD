@@ -49,5 +49,8 @@
 ///获取浙商充值配置信息
 - (CKEvent *)getCZBChargeConfig;
 
+//Other
+- (NSString *)recentlyUsedGasCardKey;
+- (void)saverecentlyUsedGasCardID:(NSNumber *)gid;
 
 @end

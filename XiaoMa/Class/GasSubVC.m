@@ -121,13 +121,6 @@
     }];
 }
 
-- (NSString *)recentlyUsedGasCardKey
-{
-    if (!gAppMgr.myUser) {
-        return nil;
-    }
-    return [NSString stringWithFormat:@"%@.%@", gAppMgr.myUser.userID, @"recentlyUsedGasCard"];
-}
 
 #pragma mark - Private
 - (void)setupLoadingDatasource {

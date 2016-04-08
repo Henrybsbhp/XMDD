@@ -27,7 +27,6 @@
 
 @interface GasCZBVC ()<RTLabelDelegate>
 @property (nonatomic, strong) HKBankCard *curBankCard;
-@property (nonatomic, strong) GasCard *curGasCard;
 @property (nonatomic, strong) GasStore *gasStore;
 @property (nonatomic, strong) BankStore *bankStore;
 @end
@@ -92,6 +91,7 @@
 #pragma mark - Reload
 - (void)reloadData {
     [[self.bankStore getAllBankCards] send];
+    [[self.gasStore getAllGasCards] send];
 }
 
 - (BOOL)reloadDataIfNeeded
@@ -104,7 +104,7 @@
     
     //设置当前油卡
     if ([self.gasStore.gasCards count] > 0 && ![self.gasStore.gasCards objectForKey:self.curGasCard.gid]) {
-        GasCard *card = [self.gasStore.gasCards objectForKey:[self recentlyUsedGasCardKey]];
+        GasCard *card = [self.gasStore.gasCards objectForKey:[self.gasStore recentlyUsedGasCardKey]];
         if (!card) {
             card = [self.gasStore.gasCards objectAtIndex:0];
         }
@@ -141,6 +141,7 @@
     else if (!self.curGasCard && ![row2[kCKItemKey] isEqualToString:@"AddGasCard"]) {
         [self.datasource[0] replaceObject:[self addGasCardItem] withKey:nil atIndex:1];
     }
+    [self refreshViewWithForce:NO];
     return YES;
 }
 
@@ -177,6 +178,13 @@
 {
     if ([LoginViewModel loginIfNeededForTargetViewController:self.targetVC]) {
         MyBankVC *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
+        //选中一个银行卡时被触发
+        @weakify(self);
+        [vc setDidSelectedBlock:^(HKBankCard *bankCard) {
+            @strongify(self);
+            [[self.gasStore updateCZBCardInfoByCID:bankCard.cardID] send];
+        }];
+
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -194,8 +202,11 @@
     if ([LoginViewModel loginIfNeededForTargetViewController:self.targetVC]) {
         GasCardListVC *vc = [UIStoryboard vcWithId:@"GasCardListVC" inStoryboard:@"Gas"];
         vc.selectedGasCardID = self.curGasCard.gid;
+        @weakify(self);
         [vc setSelectedBlock:^(GasCard *card) {
-            [[self.gasStore updateCZBCardInfoByCID:card.gid] sendAndIgnoreError];
+            @strongify(self);
+            self.curGasCard = card;
+            [self refreshViewWithForce:YES];
         }];
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
@@ -226,7 +237,14 @@
         vc.gasCard = self.curGasCard;
         vc.chargeamt = self.rechargeAmount;
         vc.payTitle = [self.bottomBtn titleForState:UIControlStateNormal];
+        vc.needInvoice = [self.datasource[0][@"WantInvoiceCell"][@"bill"] boolValue];
         vc.originVC = self.targetVC;
+        @weakify(self);
+        [vc setDidPaidSuccessBlock:^{
+            @strongify(self);
+            self.rechargeAmount = 500;
+            [self.gasStore updateCZBCardInfoByCID:self.curBankCard.cardID];
+        }];
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -242,7 +260,7 @@
         CGFloat width = self.tableView.frame.size.width - 82 - 10;
         NSString *text = [self rechargeDescriptionForCZBCard:self.curBankCard];
         CGSize size = [text labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
-        CGFloat height = 70+10;
+        CGFloat height = 51+10;
         return MAX(height+14, height+size.height);
     });
     

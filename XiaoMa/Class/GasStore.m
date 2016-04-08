@@ -123,6 +123,7 @@
     return sig;
 }
 
+
 - (RACSignal *)rac_addGasCard:(GasCard *)card
 {
     AddGascardOp *op = [AddGascardOp operation];
@@ -136,6 +137,7 @@
         return card;
     }] replayLast];
 }
+
 
 - (RACSignal *)rac_deleteCardByGID:(NSNumber *)gid
 {
@@ -151,6 +153,7 @@
         return nil;
     }] replayLast];
 }
+
 
 - (RACSignal *)rac_getChargeConfig
 {
@@ -179,6 +182,7 @@
     return cfgSig;
 }
 
+
 - (RACSignal *)rac_getGasCardNormalInfoByGID:(NSNumber *)gid
 {
     GetGaschargeInfoOp *op = [GetGaschargeInfoOp operation];
@@ -200,6 +204,7 @@
     return sig;
 }
 
+
 - (RACSignal *)rac_updateCZBCardInfoByCID:(NSNumber *)cid
 {
     GetCZBGaschargeInfoOp *op = [GetCZBGaschargeInfoOp operation];
@@ -214,6 +219,7 @@
     }] replay];
     return sig;
 }
+
 
 - (RACSignal *)rac_getCZBChargeConfig
 {
@@ -236,5 +242,22 @@
     return sig;
 }
 
+#pragma mark - Other
+- (NSString *)recentlyUsedGasCardKey
+{
+    if (!gAppMgr.myUser) {
+        return nil;
+    }
+    return [NSString stringWithFormat:@"%@.%@", gAppMgr.myUser.userID, @"recentlyUsedGasCard"];
+}
+
+- (void)saverecentlyUsedGasCardID:(NSNumber *)gid
+{
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSString *key = [self recentlyUsedGasCardKey];
+    if (key) {
+        [def setObject:gid forKey:key];
+    }
+}
 
 @end

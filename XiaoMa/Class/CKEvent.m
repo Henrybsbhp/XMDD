@@ -69,9 +69,6 @@
             return [RACSignal empty];
         }];
     }
-    if (delay > 0) {
-        signal = [signal delay:delay];
-    }
     CKEvent *event = self;
     if (self.signal && ![self.signal isEqual:signal]) {
         event = [self mapSignal:^RACSignal *(RACSignal *signal) {
@@ -79,7 +76,9 @@
         }];
     }
     
-    [[CKDispatcher sharedDispatcher] sendEvent:event];
+    if (delay) {
+        [[CKDispatcher sharedDispatcher] performSelector:@selector(sendEvent:) withObject:event afterDelay:delay];
+    }
     return self.signal;
 }
 

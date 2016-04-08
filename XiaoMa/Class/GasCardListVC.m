@@ -107,13 +107,13 @@
 
 - (void)reloadDataIfNeeded
 {
-    RACSignal *signal = [[[self.gasStore getAllGasCardsIfNeeded] setObject:self] sendAndIgnoreError];
+    RACSignal *signal = [[[self.gasStore getAllGasCardsIfNeeded] setObject:self] sendWithIgnoreError:YES andDelay:0.4];
     [self reloadWithSignal:signal];
 }
 
 - (void)reloadData
 {
-    RACSignal *signal = [[[self.gasStore getAllGasCards] setObject:self] sendAndIgnoreError];
+    RACSignal *signal = [[[self.gasStore getAllGasCards] setObject:self] sendWithIgnoreError:YES andDelay:0.4];
     [self reloadWithSignal:signal];
 }
 

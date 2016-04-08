@@ -334,11 +334,7 @@
             DebugLog(@"已通知服务器支付成功!");
         }];
         paidSuccess = YES;
-        NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-        NSString *key = [self.gasNormalVC recentlyUsedGasCardKey];
-        if (key) {
-            [def setObject:paidop.req_gid forKey:key];
-        }
+        [[GasStore fetchOrCreateStore] saverecentlyUsedGasCardID:paidop.req_gid];
         [self pushToPaymentResultWithPaidOp:paidop andGasCard:card];
     } error:^(NSError *error) {
         

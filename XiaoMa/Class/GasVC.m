@@ -13,6 +13,7 @@
 #import "CBAutoScrollLabel.h"
 #import "NSString+Format.h"
 #import "GasStore.h"
+#import "BankStore.h"
 
 #import "GasNormalVC.h"
 #import "GasCZBVC.h"
@@ -82,7 +83,8 @@
     self.tableView.delegate = self.curSubVC;
     self.tableView.dataSource = self.curSubVC;
     CKAsyncMainQueue(^{
-        [self.curSubVC reloadData];
+        [[[BankStore fetchExistsStore] getAllBankCards] send];
+        [[[GasStore fetchExistsStore] getAllGasCards] send];
     });
 }
 
