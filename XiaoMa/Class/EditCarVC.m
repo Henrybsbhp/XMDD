@@ -562,14 +562,14 @@
     if (self.isEditingModel) {
         [self.view endEditing:YES];
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             [MobClick event:@"rp312_14"];
             CKAfter(0.1, ^{
                 [self.navigationController popViewControllerAnimated:YES];
             });
             [alertVC dismiss];
         }];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"保存" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"保存" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [MobClick event:@"rp312_15"];
             [self actionSave:nil];
             [alertVC dismiss];
@@ -580,14 +580,14 @@
     else {
         [self.view endEditing:YES];
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃添加" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃添加" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             [MobClick event:@"rp312_16"];
             CKAfter(0.1, ^{
                 [self.navigationController popViewControllerAnimated:YES];
             });
             [alertVC dismiss];
         }];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续添加" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续添加" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [MobClick event:@"rp312_17"];
             [alertVC dismiss];
         }];

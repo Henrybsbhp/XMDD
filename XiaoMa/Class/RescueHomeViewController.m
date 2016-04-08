@@ -103,10 +103,10 @@
             {
                 if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
                 {
-                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
                         [alertVC dismiss];
                     }];
-                    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"前往设置" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"前往设置" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
                         [alertVC dismiss];
                     }];
@@ -116,7 +116,7 @@
                 }
                 else
                 {
-                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                         [alertVC dismiss];
                     }];
                     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"请允许小马达达访问您的位置" ActionItems:@[cancel]];
@@ -127,7 +127,7 @@
             }
             case LocationFail:
             {
-                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                     [alertVC dismiss];
                 }];
                 HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"城市定位失败,请重试" ActionItems:@[cancel]];
