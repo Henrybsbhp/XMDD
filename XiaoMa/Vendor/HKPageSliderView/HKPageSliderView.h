@@ -56,4 +56,14 @@ typedef NS_ENUM(NSInteger, HKTabBarStyle) {
 @property (nonatomic, strong) UIColor *menuSelectedColor;
 @property (nonatomic, strong) UIView *bottomView;
 
+
+/// 如下颜色需要和menuNormalColor对应
+@property (nonatomic)CGFloat menuNormalColorR;
+@property (nonatomic)CGFloat menuNormalColorG;
+@property (nonatomic)CGFloat menuNormalColorB;
+
+@property (nonatomic)CGFloat menuSelectColorR;
+@property (nonatomic)CGFloat menuSelectColorG;
+@property (nonatomic)CGFloat menuSelectColorB;
+
 @end

@@ -49,13 +49,25 @@
         self.styleModel.buttonSpacing = 10;
         self.styleModel.menuNormalColor = HEXCOLOR(@"#888888"); //todo
         self.styleModel.menuSelectedColor = HEXCOLOR(@"#18D06A"); //todo
+        self.styleModel.menuNormalColorR = 0.53125f;
+        self.styleModel.menuNormalColorG = 0.53125f;
+        self.styleModel.menuNormalColorB = 0.53125f;
+        self.styleModel.menuSelectColorR = 0.09375f;
+        self.styleModel.menuSelectColorG = 0.8125f;
+        self.styleModel.menuSelectColorB = 0.4140625f;
     }
     else if (self.style == HKTabBarStyleUnderCorner) {
         self.styleModel.menuHeight = 38;
         self.styleModel.buttonSpacing = 8;
-        self.styleModel.menuNormalColor = RGBACOLOR(255, 255, 255, 0.8);
-        self.styleModel.menuSelectedColor = [UIColor whiteColor];
+        self.styleModel.menuNormalColor = HEXCOLOR(@"#dbdbdb");
+        self.styleModel.menuSelectedColor = HEXCOLOR(@"#ffffff");
         self.styleModel.menuBackgroundColor = HEXCOLOR(@"#12c461");
+        self.styleModel.menuNormalColorR = 0.85546875f;
+        self.styleModel.menuNormalColorG = 0.85546875f;
+        self.styleModel.menuNormalColorB = 0.85546875f;
+        self.styleModel.menuSelectColorR = 1.0f;
+        self.styleModel.menuSelectColorG = 1.0f;
+        self.styleModel.menuSelectColorB = 1.0f;
     }
     else if (self.style == HKTabBarStyleCleanMenu) {
         self.styleModel.menuHeight = 50;
@@ -63,6 +75,13 @@
         self.styleModel.menuNormalColor = HEXCOLOR(@"#888888");
         self.styleModel.menuSelectedColor = HEXCOLOR(@"#18D06A");
         self.styleModel.menuBackgroundColor = [UIColor clearColor];
+        
+        self.styleModel.menuNormalColorR = 0.53125f;
+        self.styleModel.menuNormalColorG = 0.53125f;
+        self.styleModel.menuNormalColorB = 0.53125f;
+        self.styleModel.menuSelectColorR = 0.09375f;
+        self.styleModel.menuSelectColorG = 0.8125f;
+        self.styleModel.menuSelectColorB = 0.4140625f;
     }
 }
 
@@ -97,14 +116,11 @@
             
             CGFloat r = self.currentIndex == i ? 1.0f : HKTabBarStyleUnderCornerScale;
             button.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, r, r);
-//            button.titleLabel.font = self.currentIndex == i ? [UIFont systemFontOfSize:15] : [UIFont systemFontOfSize:12];
         }
         else if (self.style == HKTabBarStyleCleanMenu) {
             button.titleLabel.font = [UIFont systemFontOfSize:21];
             [button sizeToFit];
             [button.titleLabel setTextAlignment:NSTextAlignmentCenter];
-            
-//            CGFloat r = self.currentIndex == i ? 1.0f : HKTabBarStyleCleanMenuScale;
             // 一开始全设置为最小的
             CGFloat r = HKTabBarStyleCleanMenuScale;
             button.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, r, r);
@@ -348,7 +364,6 @@
     CGFloat offset = 1.0 * space * percent;
     
     CGFloat x = btn.center.x + offset - (btn.bounds.size.width / 2 + self.styleModel.buttonSpacing);
-    NSLog(@"x:%f",x);
     self.cursorView.frame = CGRectMake(x,0,
                                        btn.bounds.size.width + 2 * self.styleModel.buttonSpacing,
                                        self.styleModel.menuHeight);
@@ -360,7 +375,8 @@
         CGFloat smallScale = HKTabBarStyleUnderCornerScale + ((1 - HKTabBarStyleUnderCornerScale) * percent);
         btn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, bigScale, bigScale);
         nextBtn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, smallScale, smallScale);
-        
+        [btn setTitleColor:[self getBigGradualColor:percent] forState:UIControlStateNormal];
+        [nextBtn setTitleColor:[self getSmallGradualColor:percent] forState:UIControlStateNormal];
     }
     else if (self.style == HKTabBarStyleCleanMenu) {
         
@@ -395,14 +411,9 @@
 
 - (UIColor *)getBigGradualColor:(CGFloat)percent
 {
-    CGFloat normalComponents[3];
-    CGFloat selectComponents[3];
-    [self getRGBComponents:normalComponents forColor:self.styleModel.menuNormalColor];
-    [self getRGBComponents:selectComponents forColor:self.styleModel.menuSelectedColor];
-    
-    CGFloat r = ABS(normalComponents[0] - selectComponents[0]) * percent + selectComponents[0];
-    CGFloat g = -ABS(normalComponents[1] - selectComponents[1]) * percent + selectComponents[1];
-    CGFloat b = ABS(normalComponents[2] - selectComponents[2]) * percent + selectComponents[2];
+    CGFloat r = (self.styleModel.menuNormalColorR - self.styleModel.menuSelectColorR) * percent  + self.styleModel.menuSelectColorR;
+    CGFloat g = (self.styleModel.menuNormalColorG - self.styleModel.menuSelectColorG) * percent + self.styleModel.menuSelectColorG;
+    CGFloat b = (self.styleModel.menuNormalColorB - self.styleModel.menuSelectColorB) * percent + self.styleModel.menuSelectColorB;
     
     UIColor *color = [UIColor colorWithRed:r green:g blue:b alpha:1.0f];
     return color;
@@ -410,38 +421,14 @@
 
 - (UIColor *)getSmallGradualColor:(CGFloat)percent
 {
-    CGFloat normalComponents[3];
-    CGFloat selectComponents[3];
-    [self getRGBComponents:normalComponents forColor:self.styleModel.menuNormalColor];
-    [self getRGBComponents:selectComponents forColor:self.styleModel.menuSelectedColor];
-    
-    CGFloat r = -ABS(normalComponents[0] - selectComponents[0]) * percent + normalComponents[0];
-    CGFloat g = ABS(normalComponents[1] - selectComponents[1]) * percent + normalComponents[1];
-    CGFloat b = -ABS(normalComponents[2] - selectComponents[2]) * percent + normalComponents[2];
+    CGFloat r = (self.styleModel.menuSelectColorR - self.styleModel.menuNormalColorR)* percent + self.styleModel.menuNormalColorR;
+    CGFloat g = (self.styleModel.menuSelectColorG - self.styleModel.menuNormalColorG) * percent + self.styleModel.menuNormalColorG;
+    CGFloat b = (self.styleModel.menuSelectColorB - self.styleModel.menuNormalColorB) * percent + self.styleModel.menuNormalColorB;
     
     UIColor *color = [UIColor colorWithRed:r green:g blue:b alpha:1.0f];
     return color;
 }
 
-- (void)getRGBComponents:(CGFloat [3])components forColor:(UIColor *)color {
-    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
-    unsigned char resultingPixel[4];
-    CGContextRef context = CGBitmapContextCreate(&resultingPixel,
-                                                 1,
-                                                 1,
-                                                 8,
-                                                 4,
-                                                 rgbColorSpace,
-                                                 kCGImageAlphaNoneSkipLast);
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, CGRectMake(0, 0, 1, 1));
-    CGContextRelease(context);
-    CGColorSpaceRelease(rgbColorSpace);
-    
-    for (int component = 0; component < 3; component++) {
-        components[component] = resultingPixel[component] / 255.0f;
-    }
-}
 
 @end
 
