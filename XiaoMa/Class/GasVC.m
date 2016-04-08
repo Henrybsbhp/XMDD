@@ -415,7 +415,8 @@
         [self.view stopActivityAnimation];
         y = y - self.view.frame.size.height/2;
         @weakify(self);
-        [self.view showDefaultEmptyViewWithText:@"刷新失败，点击重试" centerOffset:y tapBlock:^{
+        
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"刷新失败，点击重试" centerOffset:y tapBlock:^{
             @strongify(self);
             [self.curModel reloadWithForce:YES];
         }];

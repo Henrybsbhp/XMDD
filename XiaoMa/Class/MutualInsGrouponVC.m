@@ -217,8 +217,7 @@ typedef enum : NSInteger
         @strongify(self);
         [gToast showError:error.domain];
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"获取团详情失败，点击重试" tapBlock:^{
-            
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取团详情失败，点击重试" tapBlock:^{
             @strongify(self);
             [[self.minsStore reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] send];
         }];

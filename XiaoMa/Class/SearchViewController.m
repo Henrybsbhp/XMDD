@@ -296,8 +296,7 @@
         self.isLoading = NO;
         self.resultArray = nil;
         @weakify(self);
-        [self.tableView showDefaultEmptyViewWithText:error.domain tapBlock:^{
-            
+        [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:error.domain tapBlock:^{
             @strongify(self);
             [self searchShops];
         }];

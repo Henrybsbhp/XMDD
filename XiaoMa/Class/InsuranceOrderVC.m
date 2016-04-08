@@ -146,7 +146,7 @@
         }
         else {
             [self.view stopActivityAnimation];
-            [self.view showDefaultEmptyViewWithText:@"获取订单详情失败，点击重试" tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取订单详情失败，点击重试" tapBlock:^{
                 @strongify(self);
                 [[self.insStore getInsOrderByID:self.orderID] send];
             }];

@@ -247,11 +247,13 @@
         self.tableView.showBottomLoadingView = NO;
         self.navigationItem.rightBarButtonItem = nil;
         [self refreshBottomView];
-        [self.tableView showDefaultEmptyViewWithText:@"暂无估值记录"];
+        self.tableView.hidden = YES;
+        [self.view showImageEmptyViewWithImageName:@"def_withoutValuationHistory" text:@"暂无估值记录"];
     }
     else
     {
-        [self.tableView hideDefaultEmptyView];
+        self.tableView.hidden = NO;
+        [self.view hideDefaultEmptyView];
     }
     /**
      *  保证在清空历史的时候也能进行一次reloadData操作
@@ -360,11 +362,13 @@
         {
             self.tableView.showBottomLoadingView = YES;
             [self.tableView.bottomLoadingView hideIndicatorText];
-            [self.tableView showDefaultEmptyViewWithText:@"暂无估值记录"];
+            self.tableView.hidden = YES;
+            [self.view showImageEmptyViewWithImageName:@"def_withoutValuationHistory" text:@"暂无估值记录"];
         }
         else
         {
-            [self.tableView hideDefaultEmptyView];
+            self.tableView.hidden = NO;
+            [self.view hideDefaultEmptyView];
             if (op.rsp_dataArr.count >= 10)
             {
                 self.isExist = YES;
@@ -386,7 +390,7 @@
         [self.view stopActivityAnimation];
         
         @weakify(self)
-        [self.view showDefaultEmptyViewWithText:@"估值记录获取失败，请点击屏幕重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"估值记录获取失败，请点击屏幕重试" tapBlock:^{
             @strongify(self);
             [self requestValuationHistory];
         }];

@@ -137,6 +137,7 @@
 -(void)loadData
 {
     GetCooperationClaimsListOp *op = [GetCooperationClaimsListOp new];
+    @weakify(self)
     [[[[op rac_postRequest] initially:^{
     
         [self.view hideDefaultEmptyView];
@@ -154,8 +155,8 @@
         self.dataArr = op.rsp_claimlist;
         if (self.dataArr.count == 0)
         {
-            @weakify(self)
-            [self.view showDefaultEmptyViewWithText:@"暂无理赔记录,点击重新获取" tapBlock:^{
+            
+            [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"暂无理赔记录,点击重新获取" tapBlock:^{
                 @strongify(self)
                 [self loadData];
             }];
@@ -163,8 +164,7 @@
         [self.tableView reloadData];
     }error:^(NSError *error) {
         [self.view stopActivityAnimation];
-        @weakify(self)
-        [self.view showDefaultEmptyViewWithText:@"暂无理赔记录,点击重新获取" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取理赔记录失败,点击重新获取" tapBlock:^{
             @strongify(self)
             [self loadData];
         }];

@@ -109,7 +109,9 @@
     } error:^(NSError *error) {
         
         [self.tableView.bottomLoadingView stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+        
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
+            @strongify(self);
             [self historyNetwork];
         }];
     }] ;

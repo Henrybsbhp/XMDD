@@ -115,9 +115,9 @@
         self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
+        
         @weakify(self);
-        [self.tableView showDefaultEmptyViewWithText:@"列表请求失败，点击重试" tapBlock:^{
-            
+        [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:@"列表请求失败，点击重试" tapBlock:^{
             @strongify(self);
             [self requestAutoGroupArray];
         }];

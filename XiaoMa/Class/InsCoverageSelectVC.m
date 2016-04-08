@@ -139,7 +139,7 @@
         
         @strongify(self);
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"保险方案获取失败，点击重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"保险方案获取失败，点击重试" tapBlock:^{
             @strongify(self);
             [self requestInsurancePlans];
         }];
