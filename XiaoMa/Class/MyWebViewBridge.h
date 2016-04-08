@@ -33,6 +33,11 @@
 
 - (void)uploadImage;
 
+///设置导航
+- (void)registerNavigation;
+///设置提示框
+- (void)registerAlertVC;
+
 - (UIBarButtonItem *)setSingleMenu:(NSString *)singleBtn;
 
 - (UIBarButtonItem *)setMultipleMenu:(NSArray *)btnArray;

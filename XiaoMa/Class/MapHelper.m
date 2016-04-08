@@ -155,5 +155,47 @@
     }
 }
 
+- (void)handleGPSError:(NSError *)error
+{
+    switch (error.code) {
+        case kCLErrorDenied:
+        {
+            if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开,然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
+                
+                [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
+                    
+                    if ([x integerValue] == 1)
+                    {
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                    }
+                }];
+                [av show];
+            }
+            else
+            {
+                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置打开，然后重启应用" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+                
+                [av show];
+            }
+            break;
+        }
+        case LocationFail:
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [av show];
+        }
+        default:
+        {
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [av show];
+            break;
+        }
+    }
+}
+
 @end
 

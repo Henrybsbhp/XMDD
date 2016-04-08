@@ -143,6 +143,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     //上传单张图片
     [self.bridge uploadImage];
+    
+    //设置导航
+    [self.bridge registerNavigation];
+    
+    //设置提示框
+    [self.bridge registerAlertVC];
 }
 
 - (void)setupRightItems
