@@ -783,9 +783,9 @@
                                                     </userDefinedRuntimeAttributes>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="XmD-Ha-UkA"/>
                                                             <exclude reference="4c7-Ie-X19"/>
                                                             <exclude reference="6k9-dg-TFV"/>
+                                                            <exclude reference="XmD-Ha-UkA"/>
                                                         </mask>
                                                     </variation>
                                                 </button>
