@@ -210,7 +210,7 @@
     }];
     
     //激活输入验证码的输入框
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
     [field becomeFirstResponder];
 }
