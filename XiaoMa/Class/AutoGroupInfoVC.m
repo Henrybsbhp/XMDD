@@ -7,7 +7,7 @@
 //
 
 #import "AutoGroupInfoVC.h"
-#import "CarListVC.h"
+#import "PickCarVC.h"
 #import "GetCooperationAutoGroupOp.h"
 #import "NSMutableDictionary+AddParams.h"
 #import "UIView+JTLoadingView.h"
@@ -324,14 +324,12 @@
 - (void)joinSystemGroupWithGroupID:(NSNumber *)groupid groupName:(NSString *)groupname
 {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-        vc.title = @"选择爱车";
-        vc.model.allowAutoChangeSelectedCar = YES;
-        vc.model.disableEditingCar = YES; //不可修改
-        vc.canJoin = YES; //用于控制爱车页面底部view
-        vc.model.originVC = self;
-        [vc setFinishPickActionForMutualIns:^(MyCarListVModel * carModel, UIView * loadingView) {
-            
+        
+        PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
+        vc.isShowBottomView = YES;
+        @weakify(self);
+        [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
+            @strongify(self);
             //爱车页面入团按钮委托实现
             [self requestApplyJoinGroupWithID:groupid groupName:groupname carModel:carModel loadingView:loadingView];
         }];
@@ -373,7 +371,7 @@
                 @strongify(self);
                 [alertVC dismiss];
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                carModel.originVC = nil;  //设置为nil，返回爱车列表；或者用[UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+                carModel.originVC = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"]; //返回选车页面
                 vc.originCar = carModel.selectedCar;
                 vc.model = carModel;
                 [self.navigationController pushViewController:vc animated:YES];

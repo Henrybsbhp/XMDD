@@ -13,7 +13,7 @@
 #import "InsuranceStore.h"
 #import "GasVC.h"
 #import "DetailWebVC.h"
-#import "CarListVC.h"
+#import "CarsListVC.h"
 #import "GasVC.h"
 #import "PaymentCenterViewController.h"
 #import "ViolationViewController.h"
@@ -60,13 +60,13 @@
         else if ([@"cl" equalByCaseInsensitive:name]) {
             if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
                 return YES;
-            CarListVC *vc = (CarListVC *)[self viewControllerByIdentify:@"CarListVC" withPrecidate:nil];
+            CarsListVC *vc = (CarsListVC *)[self viewControllerByIdentify:@"CarsListVC" withPrecidate:nil];
             if (vc) {
                 [self.curNavCtrl popToViewController:vc animated:YES];
                 vc.originCarID = @([value integerValue]);
             }
             else {
-                vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+                vc = [UIStoryboard vcWithId:@"CarsListVC" inStoryboard:@"Car"];
                 vc.originCarID = @([value integerValue]);
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }

@@ -17,6 +17,11 @@
 
 @implementation ValuationEmptySubView
 
+- (void)dealloc
+{
+    DebugLog(@"ValuationEmptySubView dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -27,7 +32,9 @@
 {
     UIButton * addCarButton = [[UIButton alloc] init];
     [addCarButton setImage:[UIImage imageNamed:@"illegal_add_300"] forState:UIControlStateNormal];
+    @weakify(self);
     [[addCarButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         if (self.addCarClickBlock) {
             self.addCarClickBlock();
         }

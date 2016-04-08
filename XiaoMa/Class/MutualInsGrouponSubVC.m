@@ -25,7 +25,7 @@
 #import "MutualInsStore.h"
 
 #import "HKImageAlertVC.h"
-#import "CarListVC.h"
+#import "PickCarVC.h"
 #import "MutualInsAlertVC.h"
 #import "MutualInsGrouponMembersVC.h"
 #import "MutualInsPicUpdateVC.h"
@@ -155,14 +155,12 @@
 }
 
 - (void)actionImproveCarInfo {
-    CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-    vc.title = @"选择爱车";
-    vc.model.allowAutoChangeSelectedCar = YES;
-    vc.model.disableEditingCar = YES; //不可修改
-    vc.canJoin = YES; //用于控制爱车页面底部view
+    PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
+    vc.isShowBottomView = YES;
     @weakify(self);
-    [vc setFinishPickActionForMutualIns:^(MyCarListVModel *carModel, UIView * loadingView) {
+    [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
         @strongify(self);
+        //爱车页面入团按钮委托实现
         [self requestApplyJoinGroup:self.groupDetail.rsp_groupid andCarModel:carModel andLoadingView:loadingView];
     }];
     [self.navigationController pushViewController:vc animated:YES];
@@ -316,7 +314,7 @@
                 @strongify(self);
                 [alertVC dismiss];
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                carModel.originVC = nil;  //设置为nil，返回爱车列表；或者用[UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
+                carModel.originVC = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
                 vc.originCar = carModel.selectedCar;
                 vc.model = carModel;
                 [self.navigationController pushViewController:vc animated:YES];
