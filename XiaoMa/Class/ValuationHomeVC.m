@@ -72,12 +72,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
     [self.view endEditing:YES];
 }
 
@@ -255,6 +255,7 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ContentCell" forIndexPath:indexPath];
     UIView *view = [cell.contentView viewWithTag:1001];
     
+    @weakify(self);
     if (self.dataSource.count == 0) {
         ValuationEmptySubView * emptySubVC = [[ValuationEmptySubView alloc] init];
         [self addChildViewController:emptySubVC];
@@ -262,6 +263,7 @@
         [view addSubview:emptySubVC.view];
         [emptySubVC setAddCarClickBlock:^{
             [MobClick event:@"rp601_3"];
+            @strongify(self);
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                 self.carIndex = self.dataSource.count;
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
@@ -305,14 +307,15 @@
             
             ValuationCarSubView * contentVC = [[ValuationCarSubView alloc] init];
             [self addChildViewController:contentVC];
-            contentVC.originVC = self;
             contentVC.car = car;
             contentVC.view.frame = CGRectMake(i * self.view.bounds.size.width, 0, self.view.bounds.size.width, 150);
 
             @weakify(contentVC);
+            @weakify(self);
             [contentVC setContentDidChangeBlock:^() {
                 [MobClick event:@"rp601_7"];
                 @strongify(contentVC);
+                @strongify(self);
                 self.selectCar = contentVC.car;
             }];
             
@@ -323,8 +326,10 @@
             [self addChildViewController:emptySubVC];
             emptySubVC.view.frame = CGRectMake(i * self.view.bounds.size.width, 0, self.view.bounds.size.width, 150);
             [self.sliderView.contentScrollView addSubview:emptySubVC.view];
+            @weakify(self);
             [emptySubVC setAddCarClickBlock:^{
                 [MobClick event:@"rp601_3"];
+                @strongify(self);
                 if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                     self.carIndex = self.dataSource.count;
                     EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
@@ -346,7 +351,9 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"BottomBtnCell" forIndexPath:indexPath];
     UIButton *valuationButton = [cell.contentView viewWithTag:1001];
+    @weakify(self);
     [[[valuationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
         [self evaluationAction];
     }];
     
@@ -467,9 +474,6 @@
 
 
 - (IBAction)goToHistoryVC:(id)sender {
-    /**
-     *  历史记录事件
-     */
     [MobClick event:@"rp601_1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         HistoryCollectionVC *historyVC=[UIStoryboard vcWithId:@"HistoryCollectionVC" inStoryboard:@"Valuation"];

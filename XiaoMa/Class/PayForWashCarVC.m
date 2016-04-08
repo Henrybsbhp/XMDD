@@ -25,7 +25,7 @@
 #import "PaymentSuccessVC.h"
 #import "ChooseCouponVC.h"
 #import "ChooseBankCardVC.h"
-#import "CarListVC.h"
+#import "PickCarVC.h"
 #import "EditCarVC.h"
 #import "CarwashFreshmanGuideVC.h"
 
@@ -342,17 +342,14 @@
 {
     if (indexPath.section == 0){
         if (indexPath.row == 3) {
-            
             // 选择爱车
             [MobClick event:@"rp108_10"];
-            CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-            vc.title = @"选择爱车";
-            vc.model.allowAutoChangeSelectedCar = YES;
-            vc.model.disableEditingCar = YES;
-            vc.model.currentCar = self.defaultCar;
-            vc.model.originVC = self;
-            [vc.model setFinishBlock:^(HKMyCar *curSelectedCar) {
-                self.defaultCar = curSelectedCar;
+            PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
+            vc.defaultCar = self.defaultCar;
+            @weakify(self);
+            [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
+                @strongify(self);
+                self.defaultCar = carModel.selectedCar;
             }];
             [self.navigationController pushViewController:vc animated:YES];
         }

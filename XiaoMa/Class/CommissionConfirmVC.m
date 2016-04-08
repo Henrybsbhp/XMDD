@@ -10,7 +10,7 @@
 #import "GetRescueHostCountsOp.h"
 #import "GetRescueApplyHostCarOp.h"
 #import "DatePickerVC.h"
-#import "CarListVC.h"
+#import "PickCarVC.h"
 #import "CommissionSuccessVC.h"
 #import "MyCarStore.h"
 #import "DetailWebVC.h"
@@ -245,14 +245,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 3) {
-        CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-        vc.title = @"选择爱车";
-        vc.model.allowAutoChangeSelectedCar = YES;
-        vc.model.disableEditingCar = YES;
-        vc.model.currentCar = self.defaultCar;
-        vc.model.originVC = self;
-        [vc.model setFinishBlock:^(HKMyCar *curSelectedCar) {
-            self.defaultCar = curSelectedCar;
+        //选择爱车
+        PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
+        vc.defaultCar = self.defaultCar;
+        @weakify(self);
+        [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
+            @strongify(self);
+            self.defaultCar = carModel.selectedCar;
             [self countNetwork];
         }];
         [self.navigationController pushViewController:vc animated:YES];

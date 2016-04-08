@@ -53,7 +53,7 @@
 
 - (void)dealloc
 {
-    DebugLog(@"CarListVC dealloc");
+    DebugLog(@"CarsListVC dealloc");
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -116,7 +116,9 @@
 - (void)setUI
 {
     UIButton *addCarButton = [self.emptyContentView viewWithTag:1002];
+    @weakify(self);
     [[addCarButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
         EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
         [self.navigationController pushViewController:vc animated:YES];
     }];
@@ -160,18 +162,21 @@
     }] finally:^{
         
         @strongify(self);
-        if (![self.view isShowDefaultEmptyView] && self.datasource.count > 0) {
-            self.tableView.hidden = NO;
-            self.emptyView.hidden = YES;
-        }
-        else {
-            self.tableView.hidden = YES;
-            self.emptyView.hidden = NO;
-        }
-        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
-            [self setNeedsStatusBarAppearanceUpdate];
-        }
-        [self.view stopActivityAnimation];
+        //防止加载动画一闪而过
+        CKAfter(0.5, ^{
+            if (![self.view isShowDefaultEmptyView] && self.datasource.count > 0) {
+                self.tableView.hidden = NO;
+                self.emptyView.hidden = YES;
+            }
+            else {
+                self.tableView.hidden = YES;
+                self.emptyView.hidden = NO;
+            }
+            if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+                [self setNeedsStatusBarAppearanceUpdate];
+            }
+            [self.view stopActivityAnimation];
+        });
     }] subscribeNext:^(id x) {
         
         @strongify(self);
@@ -214,7 +219,9 @@
         }
 
         if (self.datasource.count == 0) {
-            self.emptyContentView.hidden = NO;
+            CKAfter(0.5, ^{
+                self.emptyContentView.hidden = NO;
+            });
         }
         else {
             [self refreshTableView];
@@ -233,10 +240,13 @@
 
 - (void)refreshTableView
 {
-    [self.view hideDefaultEmptyView];
-    [self.view hideIndicatorText];
-    self.tableView.hidden = NO;
-    self.emptyView.hidden = YES;
+    //防止加载动画一闪而过
+    CKAfter(0.5, ^{
+        [self.view hideDefaultEmptyView];
+        [self.view hideIndicatorText];
+        self.tableView.hidden = NO;
+        self.emptyView.hidden = YES;
+    });
     
     @weakify(self);
     [self.headerBgView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -245,6 +255,7 @@
     }];
     
     [[RACObserve(self.model, selectedCar) distinctUntilChanged] subscribeNext:^(HKMyCar *car) {
+        @strongify(self);
         self.carNumberLabel.text = car.licencenumber;
         self.defaultLabel.hidden = !car.isDefault;
         self.carStateLabel.text= [self.model descForCarStatus:car];
@@ -396,6 +407,7 @@
             else {
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                 vc.originCar = self.model.currentCar;
+                vc.model = self.model;
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }];
@@ -417,7 +429,9 @@
         alert.topTitle = @"温馨提示";
         alert.imageName = @"mins_bulb";
         alert.message = @"您的爱车信息不完整，是否现在完善？";
+        @weakify(self);
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+            @strongify(self);
             [alertVC dismiss];
             if (self.model.originVC) {
                 [self.navigationController popToViewController:self.model.originVC animated:YES];
@@ -427,7 +441,6 @@
                 [self.navigationController popViewControllerAnimated:YES];
             }
         }];
-        @weakify(self);
         HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             @strongify(self);
             [alertVC dismiss];

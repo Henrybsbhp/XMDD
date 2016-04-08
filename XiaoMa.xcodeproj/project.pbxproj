@@ -425,6 +425,7 @@
 		50B5088D1C7C469800B6151E /* HomeSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5088C1C7C469800B6151E /* HomeSuspendedAdVC.m */; };
 		50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */; };
 		50BA11641C27F42F00EA1E4A /* CarIDCodeCheckModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */; };
+		50BA9C771CB663EB00B7F310 /* PickCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BA9C761CB663EB00B7F310 /* PickCarVC.m */; };
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		50BF30161CABEE0100D0FC07 /* AdListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BF30151CABEE0100D0FC07 /* AdListData.m */; };
 		50BF301A1CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */; };
@@ -1582,6 +1583,8 @@
 		50B5A2951BD8CC51004E00ED /* MyWebViewBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWebViewBridge.m; sourceTree = "<group>"; };
 		50BA11621C27F42F00EA1E4A /* CarIDCodeCheckModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarIDCodeCheckModel.h; path = Class/CarIDCodeCheckModel.h; sourceTree = "<group>"; };
 		50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarIDCodeCheckModel.m; path = Class/CarIDCodeCheckModel.m; sourceTree = "<group>"; };
+		50BA9C751CB663EB00B7F310 /* PickCarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickCarVC.h; sourceTree = "<group>"; };
+		50BA9C761CB663EB00B7F310 /* PickCarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickCarVC.m; sourceTree = "<group>"; };
 		50BE7C901B6716B500675887 /* SelectScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectScrollView.h; path = Class/SelectScrollView.h; sourceTree = "<group>"; };
 		50BE7C911B6716B500675887 /* SelectScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectScrollView.m; path = Class/SelectScrollView.m; sourceTree = "<group>"; };
 		50BF30141CABEE0100D0FC07 /* AdListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdListData.h; path = Class/AdListData.h; sourceTree = "<group>"; };
@@ -2970,6 +2973,8 @@
 				508F65341CACDD0F00F88744 /* CarsListVC.m */,
 				508F65361CAD072800F88744 /* CarListSubVC.h */,
 				508F65371CAD072800F88744 /* CarListSubVC.m */,
+				50BA9C751CB663EB00B7F310 /* PickCarVC.h */,
+				50BA9C761CB663EB00B7F310 /* PickCarVC.m */,
 			);
 			name = MyCar;
 			sourceTree = "<group>";
@@ -5732,6 +5737,7 @@
 				18900B4D1C1EA05E003DA439 /* GetInsProvinceListOp.m in Sources */,
 				18AB16A61C1FAE6B0000E718 /* InsBaseCar.m in Sources */,
 				184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */,
+				50BA9C771CB663EB00B7F310 /* PickCarVC.m in Sources */,
 				6BFE6A731C04036500EC9766 /* ViolationModel.m in Sources */,
 				18D811C61C1EDB5300B6AB04 /* CKDispatcher.m in Sources */,
 				4EA1CB231C969830006CCBEA /* MutualInsScencePhotoVM.m in Sources */,
