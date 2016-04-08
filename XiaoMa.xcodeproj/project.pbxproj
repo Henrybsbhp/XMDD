@@ -1019,7 +1019,7 @@
 		186A096B1CB39CC000FFB3F8 /* HorizontalScrollTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalScrollTabView.h; sourceTree = "<group>"; };
 		186A096C1CB39CC000FFB3F8 /* HorizontalScrollTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalScrollTabView.m; sourceTree = "<group>"; };
 		186A096E1CB3B6EE00FFB3F8 /* XiaoMaConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XiaoMaConstants.h; path = Class/XiaoMaConstants.h; sourceTree = "<group>"; };
-		186A096F1CB3B73400FFB3F8 /* UIConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UIConstants.h; path = Class/UIConstants.h; sourceTree = "<group>"; };
+		186A096F1CB3B73400FFB3F8 /* HKUIConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HKUIConstants.h; path = Class/HKUIConstants.h; sourceTree = "<group>"; };
 		186A097E1CB4BBA500FFB3F8 /* GasStepper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasStepper.h; sourceTree = "<group>"; };
 		186A097F1CB4BBA500FFB3F8 /* GasStepper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasStepper.m; sourceTree = "<group>"; };
 		186F2FB31C155FA5005CF051 /* CKStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKStore.h; path = Class/CKStore.h; sourceTree = "<group>"; };
@@ -3103,7 +3103,7 @@
 				509D1CC11C086E01003ED860 /* ShareResponeManager.m */,
 				6BA48A081C3F853F00AED445 /* SupportFileManager.h */,
 				6BA48A091C3F853F00AED445 /* SupportFileManager.m */,
-				186A096F1CB3B73400FFB3F8 /* UIConstants.h */,
+				186A096F1CB3B73400FFB3F8 /* HKUIConstants.h */,
 			);
 			name = Singleton;
 			sourceTree = "<group>";

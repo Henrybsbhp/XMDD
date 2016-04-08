@@ -87,21 +87,21 @@
 - (void)reloadWithSignal:(RACSignal *)signal
 {
     @weakify(self);
-    [[signal initially:^{
+    [[[signal initially:^{
         
         @strongify(self);
         [self.tableView.refreshView beginRefreshing];
+    }] finally:^{
+      
+        [self.tableView.refreshView endRefreshing];
     }] subscribeNext:^(id x) {
         
         @strongify(self);
-        [self.tableView.refreshView endRefreshing];
         [self resetSelectedGasCardIDIfNeeded];
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
-        @strongify(self);
         [gToast showError:error.domain];
-        [self.tableView.refreshView endRefreshing];
     }];
 }
 
