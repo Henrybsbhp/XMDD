@@ -140,8 +140,8 @@
         if (self.selectedCouponArray.count)
         {
             HKCoupon * coupon = [self.selectedCouponArray safetyObjectAtIndex:0];
-            pay4GasVC.couponType = coupon.conponType;
             pay4GasVC.selectGasCoupouArray = self.selectedCouponArray;
+            pay4GasVC.couponType = coupon.conponType;
         }
     }
     

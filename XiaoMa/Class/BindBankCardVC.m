@@ -7,7 +7,7 @@
 //
 
 #import "BindBankCardVC.h"
-#import "BankCardStore.h"
+#import "BankStore.h"
 #import "HKSMSModel.h"
 #import "UIView+Shake.h"
 #import "BindBankcardOp.h"
@@ -85,9 +85,7 @@
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
                 [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
                 
-                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
-                UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
-                [field becomeFirstResponder];
+                [self.vcodeField becomeFirstResponder];
                 
             });
             return [RACSignal return:nil];
@@ -101,6 +99,7 @@
         _firstRowVisible = NO;
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.vcodeField becomeFirstResponder];
         
     } error:^(NSError *error) {
         
@@ -122,12 +121,15 @@
         else {
             [gToast showError:error.domain];
         }
+        [self.vcodeField becomeFirstResponder];
+        
     }];
     
     //激活输入验证码的输入框
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
-    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
-    [field becomeFirstResponder];
+    [self.vcodeField becomeFirstResponder];
+//    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
+//    UITextField *field = (UITextField *)[cell.contentView viewWithTag:1001];
+//    [field becomeFirstResponder];
 }
 
 - (IBAction)actionCheck:(id)sender
@@ -154,6 +156,11 @@
 
 - (IBAction)actionBind:(id)sender {
     [MobClick event:@"rp313_5"];
+    
+    [self.phoneField resignFirstResponder];
+    [self.cardField resignFirstResponder];
+    [self.vcodeField resignFirstResponder];
+    
     if (self.cardField.text.length < 15 || self.cardField.text.length > 20) {
         [self shakeCellAtIndex:0 section:0];
         return;
@@ -183,14 +190,13 @@
         
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
             [alertVC dismiss];
-            [gPhoneHelper makePhone:@"4007111111"];
             
             [MobClick event:@"rp313_6"];
             [self.navigationController popViewControllerAnimated:YES];
-            BankCardStore *store = [BankCardStore fetchExistsStore];
-            [store sendEvent:[store getAllBankCards]];
+            BankStore *store = [BankStore fetchOrCreateStore];
+            [[store getAllBankCards] sendAndIgnoreError];
             MyCarStore *carStore = [MyCarStore fetchExistsStore];
-            [[carStore getAllCars] send];
+            [[carStore getAllCars] sendAndIgnoreError];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
             if (self.finishAction)
             {
@@ -199,20 +205,6 @@
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"恭喜，绑定成功" ImageName:@"mins_ok" Message:@"您现在可以使用该卡支付咯！" ActionItems:@[confirm]];
         [alert show];
-        
-//        [ResultVC showInTargetVC:self withSuccessText:@"恭喜，绑定成功!" ensureBlock:^{
-//            [MobClick event:@"rp313_6"];
-//            [self.navigationController popViewControllerAnimated:YES];
-//            BankCardStore *store = [BankCardStore fetchExistsStore];
-//            [store sendEvent:[store getAllBankCards]];
-//            MyCarStore *carStore = [MyCarStore fetchExistsStore];
-//            [[carStore getAllCars] send];
-//            [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
-//            if (self.finishAction)
-//            {
-//                self.finishAction();
-//            }
-//        }];
     } error:^(NSError *error) {
 
         [gToast showError:error.domain];

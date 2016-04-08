@@ -107,6 +107,18 @@
     self.count = self.mQueue.count;
 }
 
+- (void)removeObjectAtIndex:(NSInteger)index
+{
+    RACTuple *tuple = [self.mQueue safetyObjectAtIndex:index];
+    if (tuple) {
+        [self.mQueue removeObjectAtIndex:index];
+        if (tuple.second) {
+            [self.mObjectMap removeObjectForKey:tuple.second];
+        }
+    }
+    self.count = self.mQueue.count;
+}
+
 - (void)removeAllObjects
 {
     [self.mObjectMap removeAllObjects];

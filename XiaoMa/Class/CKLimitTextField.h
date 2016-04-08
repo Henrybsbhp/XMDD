@@ -15,7 +15,6 @@
 @property (nonatomic, strong) NSString *regexpPattern;
 @property (nonatomic, copy) void (^didBeginEditingBlock)(CKLimitTextField *textField);
 @property (nonatomic, copy) void (^didEndEditingBlock)(CKLimitTextField *textField);
-@property (nonatomic, copy) BOOL (^shouldBeginEditingBlock)(CKLimitTextField *textField);
 @property (nonatomic, copy) void (^textChangingBlock)(CKLimitTextField *textField, NSString *replacement);
 @property (nonatomic, copy) void (^textDidChangedBlock)(CKLimitTextField *textField);
 @property (nonatomic, copy) BOOL (^shouldChangeBlock)(CKLimitTextField *field, NSRange range, NSString *replaceStr);
