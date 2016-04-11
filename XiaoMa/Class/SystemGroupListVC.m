@@ -32,7 +32,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 @interface SystemGroupListVC ()
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
-@property (nonatomic,strong)NSArray * autoGroupArray;
+@property (nonatomic,strong)NSArray *autoGroupArray;
 
 @end
 
@@ -102,9 +102,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     op.district = gMapHelper.addrComponent.district;
     [[[op rac_postRequest] deliverOn:[RACScheduler mainThreadScheduler]]
      subscribeNext:^(GetCooperationAutoGroupOp * rop) {
-        
-        self.tableView.hidden = NO;
-        [self.view stopActivityAnimation];
+         
         [self.tableView.refreshView endRefreshing];
         self.autoGroupArray = rop.rsp_autoGroupArray;
         if (self.autoGroupArray.count)
@@ -119,6 +117,8 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         {
             [self.tableView showDefaultEmptyViewWithText:@"马上推出，敬请期待"];
         }
+        [self.view stopActivityAnimation];
+        self.tableView.hidden = NO;
     } error:^(NSError *error) {
         
         self.tableView.hidden = NO;
@@ -242,7 +242,14 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     {
         NSTimeInterval leftTime = [groupInfo integerParamForName:@"lefttime"] / 1000;
         RACDisposable * disp = [[[HKTimer rac_timeCountDownWithOrigin:leftTime andTimeTag:[groupInfo.customObject doubleValue]] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * timeStr) {
-            infoLabel.text = [NSString stringWithFormat:@"%@ %@", [groupInfo stringParamForName:@"tip"], timeStr];
+            if (![timeStr isEqualToString:@"end"]) {
+                infoLabel.text = [NSString stringWithFormat:@"%@ %@", [groupInfo stringParamForName:@"tip"], timeStr];
+            }
+            else {
+                [disp dispose];
+                [self requestAutoGroupArray];
+            }
+            
         }];
         [[self rac_deallocDisposable] addDisposable:disp];
     }

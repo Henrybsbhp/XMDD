@@ -31,6 +31,7 @@
 @property (nonatomic, strong) MyCarStore *carStore;
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) HKPageSliderView * sliderView;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (weak, nonatomic) IBOutlet UIView *emptyContentView;
@@ -333,6 +334,8 @@
         HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:carNumArray andStyle:HKTabBarStyleUnderCorner atIndex:[self.datasource indexOfObject:self.model.currentCar]];
         pageSliderView.contentScrollView.delegate = self;
         pageSliderView.delegate = self;
+        self.tapGesture =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goToEditCar)];
+        [pageSliderView.contentScrollView addGestureRecognizer:self.tapGesture];
         
         if (view.subviews.count != 0) {
             [view removeSubviews];
@@ -357,6 +360,14 @@
         
         [self.sliderView.contentScrollView addSubview:contentVC.view];
     }
+}
+
+- (void)goToEditCar
+{
+    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+    vc.originCar = self.model.currentCar;
+    vc.model = self.model;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (UITableViewCell *)bottomCellAtIndexPath:(NSIndexPath *)indexPath
@@ -409,10 +420,7 @@
                 [self.navigationController pushViewController:vc animated:YES];
             }
             else {
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                vc.originCar = self.model.currentCar;
-                vc.model = self.model;
-                [self.navigationController pushViewController:vc animated:YES];
+                [self goToEditCar];
             }
         }];
         
