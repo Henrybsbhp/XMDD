@@ -456,7 +456,7 @@
         <!--平台互助团-->
         <scene sceneID="Ygk-Tj-dl0">
             <objects>
-                <viewController storyboardIdentifier="AutoGroupInfoVC" title="平台互助团" id="B7U-LS-wHL" customClass="AutoGroupInfoVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SystemGroupListVC" title="平台互助团" id="B7U-LS-wHL" customClass="SystemGroupListVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Z3K-Aa-cd0"/>
                         <viewControllerLayoutGuide type="bottom" id="4Ep-7K-Pae"/>
