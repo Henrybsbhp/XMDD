@@ -144,7 +144,7 @@
     
     NSDictionary * dict2_3 = @{@"title":@"银联支付",@"subtitle":@"推荐银联用户使用",
                                @"payment":@(PaymentChannelUPpay),@"recommend":@(NO),
-                               @"cellname":@"PaymentPlatformCell",@"icon":@"pm_uppay"};
+                               @"cellname":@"PaymentPlatformCell",@"icon":@"uppay_logo_66"};
     
     self.paymentArray = gPhoneHelper.exsitWechat ? @[dict2_1,dict2_2,dict2_3] : @[dict2_1,dict2_3];
     NSMutableArray * tArray = [NSMutableArray arrayWithObject:dict2_0];
