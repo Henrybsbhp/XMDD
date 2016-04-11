@@ -793,7 +793,7 @@
         {
             totalAmount = totalAmount + c.couponAmount;
         }
-        NSString * string =  [NSString stringWithFormat:@"%lu代金劵(共%@元)",(unsigned long)couponArray.count,[NSString formatForPrice:totalAmount]];
+        NSString * string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
         return string;
     }
 }
