@@ -102,7 +102,7 @@
         }
         if (!self.insuranceExpirationDate)
         {
-            [gToast showMistake:@"请选择保险到期日"];
+            [gToast showMistake:@"请选择商业险到期日期"];
             return ;
         }
         
@@ -140,7 +140,7 @@
         headerLabel.text = @"请选择保险公司";
     }
     else{
-        headerLabel.text = @"请选择保险到期日";
+        headerLabel.text = @"请选择商业险到期日期";
     }
     [headerLabel sizeToFit];
     [view addSubview:headerLabel];
@@ -174,16 +174,7 @@
         
         PictureRecord * record = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
         CGFloat width = gAppMgr.deviceInfo.screenSize.width - 60;
-        CGFloat height;
-        if (record.image)
-        {
-            CGFloat imgRatio = record.image.size.height / record.image.size.width;
-            height = imgRatio * width;
-        }
-        else
-        {
-            height = 666.0 / 1024 * width;
-        }
+        CGFloat height = 666.0 / 1024 * width;
         return height;
     }
     return 58;
@@ -370,7 +361,7 @@
     {
         [[RACObserve(self, insuranceExpirationDate) takeUntilForCell:cell] subscribeNext:^(NSDate * date) {
             
-            lb.text = date ? [date dateFormatForYYMMdd] : @"请选择保险到期日";
+            lb.text = date ? [date dateFormatForYYMMdd] : @"请选择商业险到期日期";
             lb.textColor = date ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#888888");
         }];
     }
@@ -432,8 +423,7 @@
         self.tableView.hidden = YES;
         self.bottomView.hidden = YES;
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:[NSString stringWithFormat:@"%@ \n点击再试一次",error.domain] tapBlock:^{
-            
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:[NSString stringWithFormat:@"%@ \n点击再试一次",error.domain] tapBlock:^{
             @strongify(self)
             [self requesLastIdLicenseInfo];
         }];
@@ -509,10 +499,8 @@
             }
             else
             {
-                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
-                    [alertVC dismiss];
-                }];
-                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_error" Message:@"该设备不支持拍照" ActionItems:@[cancel]];
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该设备不支持拍照" ActionItems:@[cancel]];
                 [alert show];
             }
         }
@@ -557,12 +545,9 @@
     
     if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany.length || self.insuranceExpirationDate || self.lastYearInsCompany.length || self.idPictureRecord.url.length || self.drivingLicensePictureRecord.url.length)
     {
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-            [self.navigationController popViewControllerAnimated:YES];
-            [alertVC dismiss];
-        }];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-            [alertVC dismiss];
+            [self.navigationController popViewControllerAnimated:YES];
         }];
         HKImageAlertVC *alertVC = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您有未保存的信息，是否在当前页面继续编辑？" ActionItems:@[cancel,confirm]];
         [alertVC show];

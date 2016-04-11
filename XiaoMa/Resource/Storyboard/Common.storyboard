@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -87,10 +87,10 @@
                                 <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HeadCell" id="asd-Nj-moZ">
-                                        <rect key="frame" x="0.0" y="50" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="asd-Nj-moZ" id="2gL-lm-Ktk">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bd0-F2-dXH">
@@ -114,10 +114,10 @@
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LabelCell" id="FiL-oR-rXa">
-                                        <rect key="frame" x="0.0" y="94" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="93.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FiL-oR-rXa" id="ftr-1D-z2V">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="br2-kf-Yth">
@@ -282,7 +282,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vJx-6o-xNN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1086" y="769"/>
+            <point key="canvasLocation" x="1024" y="756"/>
         </scene>
         <!--WebVC-->
         <scene sceneID="Uba-C9-baA">
@@ -934,7 +934,7 @@
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GpsCell" id="SWo-sj-Ibe" userLabel="GpsCell" customClass="HKTableViewCell">
-                                                <rect key="frame" x="0.0" y="50" width="600" height="44"/>
+                                                <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SWo-sj-Ibe" id="DWE-fg-bgk">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -961,7 +961,7 @@
                                                 </constraints>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LabelCell" id="0Wj-r8-TTd" customClass="HKTableViewCell">
-                                                <rect key="frame" x="0.0" y="94" width="600" height="44"/>
+                                                <rect key="frame" x="0.0" y="93.5" width="600" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Wj-r8-TTd" id="oqe-uf-YRL">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -1052,13 +1052,13 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" text="一分钱洗车券" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXD-Nl-iqz">
-                                                    <rect key="frame" x="20" y="10" width="102" height="21"/>
+                                                    <rect key="frame" x="20" y="10" width="102" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="（小马达达新用户专享）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Dk-Y7-8Rh">
-                                                    <rect key="frame" x="20" y="33" width="121" height="14"/>
+                                                    <rect key="frame" x="20" y="32" width="121" height="13.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -1141,9 +1141,22 @@
                                     <outlet property="delegate" destination="tbh-h7-m7z" id="Q8T-Rt-58j"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Xi-54-dH6">
+                                <rect key="frame" x="504" y="490" width="96" height="110"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="110" id="Z3N-xr-VBs"/>
+                                    <constraint firstAttribute="width" constant="96" id="vwl-ix-z3c"/>
+                                </constraints>
+                                <state key="normal" image="coupon_askCoupon"/>
+                                <connections>
+                                    <action selector="getMoreAction:" destination="tbh-h7-m7z" eventType="touchUpInside" id="iE1-B7-6Ub"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Hqy-MD-3m4" firstAttribute="top" secondItem="8Xi-54-dH6" secondAttribute="bottom" id="5ca-98-ATU"/>
+                            <constraint firstAttribute="trailing" secondItem="8Xi-54-dH6" secondAttribute="trailing" id="czx-sz-BPg"/>
                             <constraint firstAttribute="trailing" secondItem="mx3-2L-GUd" secondAttribute="trailing" id="dVR-nO-PC1"/>
                             <constraint firstItem="mx3-2L-GUd" firstAttribute="leading" secondItem="npK-bE-ZUx" secondAttribute="leading" id="goM-G7-IgG"/>
                             <constraint firstAttribute="bottom" secondItem="mx3-2L-GUd" secondAttribute="bottom" id="wDZ-Wg-Ane"/>
@@ -1152,8 +1165,8 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="选择优惠券" id="41A-85-RfL">
-                        <barButtonItem key="rightBarButtonItem" image="coupon_more" id="3MV-aJ-QXJ">
-                            <color key="tintColor" red="0.1344757674" green="0.671875" blue="0.1314050806" alpha="1" colorSpace="calibratedRGB"/>
+                        <barButtonItem key="rightBarButtonItem" image="questionMark_300" id="3MV-aJ-QXJ">
+                            <color key="tintColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="getMoreAction:" destination="tbh-h7-m7z" id="EtG-AY-VZD"/>
                             </connections>
@@ -1162,6 +1175,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="askMoreAction" destination="8Xi-54-dH6" id="rSq-bs-aoJ"/>
                         <outlet property="tableView" destination="mx3-2L-GUd" id="KQf-hM-fnz"/>
                     </connections>
                 </viewController>
@@ -1245,11 +1259,12 @@
         <image name="Horizontaline" width="621" height="1"/>
         <image name="alipay_logo_66" width="33" height="33"/>
         <image name="cancel_social" width="35" height="35"/>
+        <image name="coupon_askCoupon" width="89" height="102"/>
         <image name="coupon_background" width="297" height="73"/>
-        <image name="coupon_more" width="17" height="17"/>
         <image name="coupon_shadow" width="297" height="20"/>
         <image name="cw_coupon_selected" width="27" height="22"/>
         <image name="qq_logo" width="37" height="37"/>
+        <image name="questionMark_300" width="15" height="15"/>
         <image name="round_tick" width="23" height="23"/>
         <image name="timeline_logo" width="37" height="37"/>
         <image name="wechat_logo" width="37" height="37"/>

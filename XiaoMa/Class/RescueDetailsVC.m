@@ -81,6 +81,7 @@
     GetRescueDetailOp *op = [GetRescueDetailOp operation];
     op.rescueid = self.type;
     op.type = [NSNumber numberWithInteger:1];
+    @weakify(self)
     [[[[op rac_postRequest] initially:^{
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
@@ -99,7 +100,8 @@
         [self.tableView reloadData];
     } error:^(NSError *error) {
         if (self.dataSourceArray.count == 0) {
-            [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
+                @strongify(self);
                 [self actionFirstEnter];
             }];
         }

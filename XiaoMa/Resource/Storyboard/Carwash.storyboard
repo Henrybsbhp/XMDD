@@ -292,7 +292,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" tag="3001" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hhr-z6-med">
+                                                <button opaque="NO" tag="3001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hhr-z6-med">
                                                     <rect key="frame" x="12" y="6" width="282.5" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="iFK-QR-qU6"/>
@@ -305,7 +305,7 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <button opaque="NO" tag="3002" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X8V-qS-TiO">
+                                                <button opaque="NO" tag="3002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X8V-qS-TiO">
                                                     <rect key="frame" x="305.5" y="6" width="282.5" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="ays-a0-lB8"/>
@@ -346,9 +346,11 @@
                                                 <constraint firstItem="hhr-z6-med" firstAttribute="centerY" secondItem="3fE-tw-j00" secondAttribute="centerY" id="k8Q-Ld-fn3"/>
                                                 <constraint firstItem="hhr-z6-med" firstAttribute="leading" secondItem="3fE-tw-j00" secondAttribute="leading" constant="12" id="ksC-i1-30O"/>
                                                 <constraint firstItem="kdz-bs-gGW" firstAttribute="centerX" secondItem="3fE-tw-j00" secondAttribute="centerX" id="qkg-2Z-LC9"/>
+                                                <constraint firstItem="X8V-qS-TiO" firstAttribute="leading" secondItem="hhr-z6-med" secondAttribute="trailing" constant="11" id="t37-Jb-guv"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="Ky3-2D-XO8"/>
                                                     <exclude reference="UWi-0h-dqg"/>
                                                 </mask>
                                             </variation>
@@ -563,7 +565,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" tag="3001" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="azp-YB-bWZ">
+                                                <button opaque="NO" tag="3001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="azp-YB-bWZ">
                                                     <rect key="frame" x="12" y="6" width="282.5" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="sxm-8h-eIK"/>
@@ -583,13 +585,13 @@
                                                         <constraint firstAttribute="height" constant="1" id="wwm-4A-RPa"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Verticalline" translatesAutoresizingMaskIntoConstraints="NO" id="v1j-WQ-epw">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Verticalline" translatesAutoresizingMaskIntoConstraints="NO" id="v1j-WQ-epw">
                                                     <rect key="frame" x="299.5" y="5" width="1" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="1" id="Yvj-h5-LjN"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" tag="3002" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ChC-lg-0RP">
+                                                <button opaque="NO" tag="3002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ChC-lg-0RP">
                                                     <rect key="frame" x="305.5" y="6" width="282.5" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="uSp-nO-2Sh"/>
@@ -611,6 +613,7 @@
                                                 <constraint firstItem="ChC-lg-0RP" firstAttribute="centerY" secondItem="1wN-U8-iZA" secondAttribute="centerY" id="Hbf-Bv-7EG"/>
                                                 <constraint firstAttribute="centerY" secondItem="1wN-U8-iZA" secondAttribute="centerY" id="OF2-0q-PiR"/>
                                                 <constraint firstItem="azp-YB-bWZ" firstAttribute="leading" secondItem="1wN-U8-iZA" secondAttribute="leading" constant="12" id="Sn3-M6-msf"/>
+                                                <constraint firstItem="ChC-lg-0RP" firstAttribute="leading" secondItem="azp-YB-bWZ" secondAttribute="trailing" constant="11" id="Ssw-AE-0of"/>
                                                 <constraint firstItem="bRF-9W-yKH" firstAttribute="leading" secondItem="1wN-U8-iZA" secondAttribute="leading" id="Sub-AK-SOW"/>
                                                 <constraint firstItem="ChC-lg-0RP" firstAttribute="leading" secondItem="v1j-WQ-epw" secondAttribute="trailing" constant="5" id="T0I-PK-hRZ"/>
                                                 <constraint firstAttribute="trailing" secondItem="bRF-9W-yKH" secondAttribute="trailing" id="hrV-7K-Xjc"/>
@@ -1426,7 +1429,7 @@
                                     <constraint firstAttribute="width" constant="70" id="eZt-v7-MtR"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="-20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="cm_nav_back">
+                                <state key="normal" image="nav_back_300">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -2140,8 +2143,8 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="选择优惠券" id="ntg-Ia-thG">
-                        <barButtonItem key="rightBarButtonItem" image="coupon_more" id="Bxe-8c-9L4">
-                            <color key="tintColor" red="0.1344757674" green="0.671875" blue="0.1314050806" alpha="1" colorSpace="calibratedRGB"/>
+                        <barButtonItem key="rightBarButtonItem" image="questionMark_300" id="Bxe-8c-9L4">
+                            <color key="tintColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="getMoreAction:" destination="3j5-Cb-ePK" id="yKN-Vm-LBs"/>
                             </connections>
@@ -2607,7 +2610,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GeB-M7-EEz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="869" y="196"/>
+            <point key="canvasLocation" x="871" y="196"/>
         </scene>
         <!--银行卡-->
         <scene sceneID="Xmw-1d-1c4">
@@ -3242,11 +3245,9 @@
         <image name="carwash_freshmanGuide_btn2" width="150" height="53"/>
         <image name="cm_arrow_r" width="9" height="15"/>
         <image name="cm_bg" width="17" height="24"/>
-        <image name="cm_nav_back" width="19" height="17"/>
         <image name="cm_nav_shadow" width="7" height="3"/>
         <image name="collect" width="40" height="22"/>
         <image name="coupon_background" width="297" height="73"/>
-        <image name="coupon_more" width="15" height="14"/>
         <image name="coupon_shadow" width="297" height="20"/>
         <image name="cw_coupon_selected" width="27" height="22"/>
         <image name="gouzi_green" width="12" height="10"/>
@@ -3257,9 +3258,11 @@
         <image name="location_me" width="38" height="38"/>
         <image name="mb_add" width="15" height="15"/>
         <image name="mb_logo" width="25" height="19"/>
+        <image name="nav_back_300" width="18" height="18"/>
         <image name="nb_abc" width="15" height="14"/>
         <image name="nb_ticket" width="15" height="14"/>
         <image name="paymentSuccess_gasCoupon_icon" width="40" height="40"/>
+        <image name="questionMark_300" width="15" height="15"/>
         <image name="rate_number" width="12" height="11"/>
         <image name="round_tick" width="23" height="23"/>
         <image name="shop_green_star" width="51" height="20"/>

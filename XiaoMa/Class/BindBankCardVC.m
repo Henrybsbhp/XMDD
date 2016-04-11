@@ -110,11 +110,8 @@
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         
         if (error.code == 616102) {
-            
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-            }];
-            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_error" Message:@"该卡已绑定当前账号,请勿重复绑定" ActionItems:@[cancel]];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该卡已绑定当前账号,请勿重复绑定" ActionItems:@[cancel]];
             [alert show];
             
         }
@@ -189,7 +186,6 @@
 //        TODO @hx
         
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
-            [alertVC dismiss];
             
             [MobClick event:@"rp313_6"];
             [self.navigationController popViewControllerAnimated:YES];

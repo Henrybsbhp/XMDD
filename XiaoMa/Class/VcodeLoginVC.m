@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet CKLimitTextField *num;
 @property (weak, nonatomic) IBOutlet VCodeInputField *code;
 @property (nonatomic, assign) CGFloat upOffsetY;
+@property (nonatomic, strong) NSString *currentPhone;
 
 @end
 
@@ -105,11 +106,6 @@
         }
     }];
     
-
-    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#18D06A") forState:UIControlStateNormal];
-    
-    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
-    
     @weakify(self);
     [self.num setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
@@ -120,7 +116,14 @@
                 self.vcodeBtn.enabled = enable;
             }
         }
+        if (self.currentPhone && ![self.currentPhone isEqualToString:field.text]) {
+            [self.code hideRightView];
+        }
     }];
+
+    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#18D06A") forState:UIControlStateNormal];
+    
+    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
     
     self.code.textLimit = 8;
     
@@ -184,8 +187,9 @@
         return;
     }
 
-    RACSignal *sig = [self.smsModel rac_getSystemVcodeWithType:HKVcodeTypeLogin phone:[self textAtIndex:1]];
-    [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeError:^(NSError *error) {
+    self.currentPhone = [self textAtIndex:1];
+    RACSignal *sig = [self.smsModel rac_getSystemVcodeWithType:HKVcodeTypeLogin phone:self.currentPhone];
+    [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig andPhone:self.currentPhone] subscribeError:^(NSError *error) {
         [gToast showError:error.domain];
     }];
     

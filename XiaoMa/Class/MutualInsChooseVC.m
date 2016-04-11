@@ -16,13 +16,14 @@
 #import "MutualInsStore.h"
 #import "MutualInsGrouponVC.h"
 #import "MutualInsHomeVC.h"
+#import "PopAnimation.h"
 
 #define ThirdInsArr        @[@50, @100, @150]
-#define ThirdPiceArr       @[@1631, @2124, @2686]
+#define ThirdPiceArr       @[@1312.96, @1759.73, @2162.23]
 #define SeatInsArr         @[@1, @2, @3, @4, @5]
 #define NumOfSeatArr       @[@2, @5, @7]
-#define DriverDiscount     0.0041
-#define PassengerDiscount  0.0026
+#define DriverDiscount     33.005
+#define PassengerDiscount  20.93
 #define InsHelpWebURL      @[@"http://www.baidu.com", @"http://www.baidu.com", @"http://www.baidu.com"]
 
 @interface MutualInsChooseVC ()
@@ -32,6 +33,8 @@
 @property (nonatomic, strong) CKList *datasource;
 //类别列表（id，折扣，名字）
 @property (nonatomic, strong) NSArray *insListArray;
+
+@property (strong, nonatomic) HKImageAlertVC *alert;
 
 //所选类别价格
 @property (nonatomic, assign) CGFloat totalPrice;
@@ -48,6 +51,8 @@
 
 //是否代理购买交强险
 @property (nonatomic, assign) BOOL isAgent;
+
+@property (nonatomic, assign) CGFloat lastOriginPrice;
 
 - (IBAction)submitAction:(id)sender;
 
@@ -93,9 +98,7 @@
         @strongify(self);
         self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
-        @weakify(self);
-        [self.view showDefaultEmptyViewWithText:@"获取信息失败，点击重试" tapBlock:^{
-            
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取信息失败，点击重试" tapBlock:^{
             @strongify(self);
             [self.view hideDefaultEmptyView];
             [self requestData];
@@ -208,12 +211,17 @@
             [discountL setCornerRadius:2 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.5];
         }
         //帮助按钮
+        NSArray * tipsArray = @[@"功能类似传统三者险，用于赔偿事故中给第三方造成的人身及财产损失。比如：撞坏了别人的车，三者宝将帮您赔付对方车辆维修费用，以及车上人员医疗费用。",
+                              @"功能类似传统车损险，用于赔偿事故中您爱车的损失。比如：撞了护栏或别人的车，车损宝为您提供爱车修复的费用。",
+                              @"功能类似传统座位险，用于赔偿事故中车内司机及乘客伤亡的医疗费或事故金。比如：意外事故中，车上乘客不幸受伤，座位宝为您提供医疗费用。"];
         @weakify(self);
         [[[helpBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
-            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-            vc.url = [InsHelpWebURL safetyObjectAtIndex:insIndex];
-            [self.navigationController pushViewController:vc animated:YES];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                [alertVC dismiss];
+            }];
+            HKAlertVC *alert = [self alertWithTopTitle:[dataModel.insList[insIndex] objectForKey:@"name"] ImageName:@"mins_bulb" Message:[tipsArray safetyObjectAtIndex:insIndex] ActionItems:@[confirm]];
+            [alert show];
         }];
         
         //车损险
@@ -458,7 +466,11 @@
         UILabel *priceL = [cell.contentView viewWithTag:1001];
         UILabel *tipL = [cell.contentView viewWithTag:1002];
         
-        priceL.text = [NSString formatForPrice:self.totalPrice];
+        NSTimeInterval duration = fabs(self.totalPrice - self.lastOriginPrice) / 1500 > 1.5 ? fabs(self.totalPrice - self.lastOriginPrice) / 1500 : 1.5;
+        duration = duration > 3 ? 3 :duration;
+        [PopAnimation animatedForLabel:priceL fromValue:self.lastOriginPrice toValue:self.totalPrice andDuration:duration];
+        self.lastOriginPrice = self.totalPrice;
+//        priceL.text = [NSString formatForPrice:self.totalPrice];
         NSString * tipStr = [NSString stringWithFormat:@"若未出险，车损宝可全额返还%@元", [NSString formatForPrice:self.carPrice]];
         NSMutableAttributedString * attributeStr = [[NSMutableAttributedString alloc] initWithString:tipStr];
         [attributeStr addAttributeForegroundColor:HEXCOLOR(@"#FF7428") range:NSMakeRange(13, tipStr.length - 14)];
@@ -474,7 +486,7 @@
     CGFloat thirdDiscountFloat = [[dataModel.insList[1] objectForKey:@"discount"] floatValue] / 100;
     
     //三者险价格（标准报价*险种折扣*小马折扣）
-    self.thirdPrice = [[ThirdPiceArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] * thirdDiscountFloat * xmDiscount;
+    self.thirdPrice = [[ThirdPiceArr safetyObjectAtIndex:self.thirdInsSelectIndex] floatValue] * thirdDiscountFloat * xmDiscount;
     [self calculateSeatPrice:dataModel];
 }
 
@@ -490,7 +502,7 @@
     if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] >= [dataModel.minthirdSum integerValue]) {
         realSeat = self.seatInsSelect - 1;
     }
-    self.seatPrice = isSeatSelected ? (realSeat * 10000 * DriverDiscount + realSeat * 10000 * (self.numberOfSeat - 1) * PassengerDiscount) * seatDiscountFloat * xmDiscount : 0;
+    self.seatPrice = isSeatSelected ? (realSeat * DriverDiscount + realSeat * (self.numberOfSeat - 1) * PassengerDiscount) * seatDiscountFloat * xmDiscount : 0;
     self.totalPrice = self.carPrice + self.thirdPrice + self.seatPrice;
 }
 
@@ -546,18 +558,20 @@
     }
 }
 
+
+#pragma mark - Action
 - (IBAction)submitAction:(id)sender {
     UpdateCooperationInsInfoOp * op = [UpdateCooperationInsInfoOp operation];
     
     NSString * insListStr = [NSString stringWithFormat:@"%@@%@@0",[[self.insListArray safetyObjectAtIndex:0] objectForKey:@"id"], [[self.insListArray safetyObjectAtIndex:0] objectForKey:@"name"]];
     
     CKDict * thirdIns = self.datasource[@"insSection"][1];
-    if (thirdIns[@"isSelected"]) {
+    if ([thirdIns[@"isSelected"] boolValue]) {
         insListStr = [NSString stringWithFormat:@"%@|%@@%@@%@", insListStr, [[self.insListArray safetyObjectAtIndex:1] objectForKey:@"id"], [[self.insListArray safetyObjectAtIndex:1] objectForKey:@"name"], [NSString stringWithFormat:@"%ld万", [[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue]]];
     }
     
     CKDict * seatIns = self.datasource[@"insSection"][2];
-    if (seatIns[@"isSelected"]) {
+    if ([seatIns[@"isSelected"] boolValue]) {
         insListStr = [NSString stringWithFormat:@"%@|%@@%@@%@万", insListStr, [[self.insListArray safetyObjectAtIndex:2] objectForKey:@"id"], [[self.insListArray safetyObjectAtIndex:2] objectForKey:@"name"], [NSString stringWithFormat:@"%ld万", (long)self.seatInsSelect]];
     }
     
@@ -612,6 +626,8 @@
     grouponvc.group = group;
     
     NSMutableArray *vcs = [NSMutableArray array];
+    
+    // 堆栈中有小马互助首页
     if (homevcIndex != NSNotFound) {
         NSArray *subvcs = [self.navigationController.viewControllers subarrayToIndex:homevcIndex+1];
         [vcs addObjectsFromArray:subvcs];
@@ -627,5 +643,19 @@
     self.navigationController.viewControllers = vcs;
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+-(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems
+{
+    if (!_alert)
+    {
+        _alert = [[HKImageAlertVC alloc]init];
+    }
+    _alert.topTitle = topTitle;
+    _alert.imageName = imageName;
+    _alert.message = message;
+    _alert.actionItems = actionItems;
+    return _alert;
+}
+
 
 @end

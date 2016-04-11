@@ -55,7 +55,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 90;
+    [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 100;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -114,13 +114,10 @@
         @weakify(self);
         HKAlertActionItem *leftItem = [HKAlertActionItem itemWithTitle:@"放弃支付" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             @strongify(self);
-            [alertVC dismiss];
             [self requestCancelOrderWithTradeNumber:self.orderInfo.rsp_tradeid gasCardID:self.orderInfo.req_gid];
             [self.navigationController popViewControllerAnimated:YES];
         }];
-        HKAlertActionItem *rightItem = [HKAlertActionItem itemWithTitle:@"继续支付" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-            [alertVC dismiss];
-        }];
+        HKAlertActionItem *rightItem = [HKAlertActionItem itemWithTitle:@"继续支付" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
         alert.actionItems = @[leftItem, rightItem];
         [alert show];
     }
@@ -153,7 +150,7 @@
     [field becomeFirstResponder];
 }
 
-- (IBAction)actionPay:(id)sender
+- (void)actionPay:(id)sender
 {
     [MobClick event:@"rp507_3"];
     GascardChargeOp *op = [GascardChargeOp operation];
@@ -345,6 +342,12 @@
         @strongify(self);
         BOOL enable = vcode.length >= 6 && self.orderInfo && ![self.orderInfo.customInfo[@"Invaild"] boolValue];
         payButton.enabled = enable;
+    }];
+    
+    [[[payButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
+        @strongify(self);
+        [self actionPay:nil];
     }];
 }
 

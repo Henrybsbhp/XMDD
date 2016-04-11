@@ -301,15 +301,12 @@
  */
 -(void)deletePhoto:(NSIndexPath *)indexPath
 {
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-        [alertVC dismiss];
-    }];
-    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [self.recordArray safetyRemoveObjectAtIndex:indexPath.section - 2];
         [self.tableView reloadData];
-        [alertVC dismiss];
     }];
-    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提醒" ImageName:@"mins_error" Message:@"请确认是否删除照片?" ActionItems:@[cancel,confirm]];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提醒" ImageName:@"mins_bulb" Message:@"请确认是否删除照片?" ActionItems:@[cancel,confirm]];
     [alert show];
     
 }

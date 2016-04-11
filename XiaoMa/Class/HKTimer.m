@@ -19,11 +19,11 @@
         
         NSTimeInterval curtimetag = [[NSDate date] timeIntervalSince1970];
         NSTimeInterval leftTime = originTime - (curtimetag - timeTag);
-        if (leftTime < 0) {
-            return [RACSignal empty];
+        if ((NSInteger)leftTime == 0) {
+            return [RACSignal return:@"end"];
         }
         return [RACSignal return:[self ddhhmmssFormatWithTimeInterval:leftTime]];
-    }] take:(int)leftTime] deliverOn:[RACScheduler mainThreadScheduler]];
+    }] take:(int)leftTime + 1] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
 + (RACSignal *)rac_startWithOrigin:(NSTimeInterval)originTime andTimeTag:(NSTimeInterval)timeTag
@@ -39,7 +39,7 @@
             return [RACSignal empty];
         }
         return [RACSignal return:@(leftTime)];
-    }] take:(int)leftTime] deliverOn:[RACScheduler mainThreadScheduler]];
+    }] take:(int)leftTime + 1] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
 + (NSString *)ddhhmmFormatWithTimeInterval:(NSTimeInterval)leftTime

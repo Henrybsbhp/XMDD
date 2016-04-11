@@ -6,7 +6,7 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "AutoGroupInfoVC.h"
+#import "SystemGroupListVC.h"
 #import "PickCarVC.h"
 #import "GetCooperationAutoGroupOp.h"
 #import "NSMutableDictionary+AddParams.h"
@@ -20,14 +20,23 @@
 #import "HKImageAlertVC.h"
 #import "EditCarVC.h"
 
-@interface AutoGroupInfoVC ()
+typedef NS_ENUM(NSInteger, GroupButtonState) {
+    GroupButtonStateNotStart   = 1,
+    GroupButtonStateSignUp     = 2,
+    GroupButtonStateEndSign    = 3,
+    GroupButtonStateBeingGroup = 4,
+    GroupButtonStateTimeOut    = 5
+};
+
+///平台团列表
+@interface SystemGroupListVC ()
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
-@property (nonatomic,strong)NSArray * autoGroupArray;
+@property (nonatomic,strong)NSArray *autoGroupArray;
 
 @end
 
-@implementation AutoGroupInfoVC
+@implementation SystemGroupListVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -93,9 +102,7 @@
     op.district = gMapHelper.addrComponent.district;
     [[[op rac_postRequest] deliverOn:[RACScheduler mainThreadScheduler]]
      subscribeNext:^(GetCooperationAutoGroupOp * rop) {
-        
-        self.tableView.hidden = NO;
-        [self.view stopActivityAnimation];
+         
         [self.tableView.refreshView endRefreshing];
         self.autoGroupArray = rop.rsp_autoGroupArray;
         if (self.autoGroupArray.count)
@@ -110,14 +117,16 @@
         {
             [self.tableView showDefaultEmptyViewWithText:@"马上推出，敬请期待"];
         }
+        [self.view stopActivityAnimation];
+        self.tableView.hidden = NO;
     } error:^(NSError *error) {
         
         self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
+        
         @weakify(self);
-        [self.tableView showDefaultEmptyViewWithText:@"列表请求失败，点击重试" tapBlock:^{
-            
+        [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:@"列表请求失败，点击重试" tapBlock:^{
             @strongify(self);
             [self requestAutoGroupArray];
         }];
@@ -196,14 +205,22 @@
 - (UITableViewCell *)headerCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeaderCell" forIndexPath:indexPath];
+    UIView * backgroundView = [cell searchViewWithTag:100];
     UILabel * titleLb = (UILabel *)[cell searchViewWithTag:101];
     UILabel * tagLb = (UILabel *)[cell searchViewWithTag:102];
     NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
     
+    [backgroundView setCornerRadius:3 withBackgroundColor:[UIColor whiteColor]];
+    
     titleLb.text = [groupInfo stringParamForName:@"name"];
     tagLb.text = [NSString stringWithFormat:@"已有%ld入团",[groupInfo integerParamForName:@"membercnt"]];
     
-    tagLb.textColor = [groupInfo stringParamForName:@"tip"].length == 0 ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#18D06A");
+    if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateNotStart || [groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateEndSign) {
+        tagLb.textColor = HEXCOLOR(@"#454545");
+    }
+    else {
+        tagLb.textColor = HEXCOLOR(@"#18D06A");
+    }
     return cell;
 }
 
@@ -225,7 +242,14 @@
     {
         NSTimeInterval leftTime = [groupInfo integerParamForName:@"lefttime"] / 1000;
         RACDisposable * disp = [[[HKTimer rac_timeCountDownWithOrigin:leftTime andTimeTag:[groupInfo.customObject doubleValue]] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * timeStr) {
-            infoLabel.text = [NSString stringWithFormat:@"%@ %@", [groupInfo stringParamForName:@"tip"], timeStr];
+            if (![timeStr isEqualToString:@"end"]) {
+                infoLabel.text = [NSString stringWithFormat:@"%@ %@", [groupInfo stringParamForName:@"tip"], timeStr];
+            }
+            else {
+                [disp dispose];
+                [self requestAutoGroupArray];
+            }
+            
         }];
         [[self rac_deallocDisposable] addDisposable:disp];
     }
@@ -235,10 +259,14 @@
 - (UITableViewCell *)footerCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"FooterCell" forIndexPath:indexPath];
+    UIView *lineView = [cell.contentView viewWithTag:100];
+    UIView *backgroundView = [cell.contentView viewWithTag:101];
+    [lineView setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#EAEAEA")];
+    [backgroundView setCornerRadius:5 withBackgroundColor:[UIColor whiteColor]];
     
-    UILabel *tagLabel = (UILabel *)[cell.contentView viewWithTag:101];
-    
-    UIButton * btn = [cell.contentView viewWithTag:102];
+    UILabel *tagLabel = [cell.contentView viewWithTag:1001];
+    UIButton * btn = [cell.contentView viewWithTag:1002];
+    UILabel *stateLabel = [cell.contentView viewWithTag:1003];
     
     NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
     
@@ -246,40 +274,78 @@
     NSString *groupname = groupInfo[@"name"];
     tagLabel.text = [NSString stringWithFormat:@"  %@  ", [groupInfo stringParamForName:@"grouptag"]];
     
-    if ([groupInfo stringParamForName:@"tip"].length == 0) {
+    if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateNotStart) {
+        
+        btn.hidden = NO;
+        stateLabel.hidden = YES;
+        
         [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.8];
         tagLabel.textColor = HEXCOLOR(@"#888888");
-        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#dedfe0")];
-        [btn setTitle:@"已结束" forState:UIControlStateNormal];
-    }
-    
-    else {
-        if ([groupInfo boolParamForName:@"isgroupcanenroll"]){
-            [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.8];
-            [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
-            if ([groupInfo boolParamForName:@"ingroup"]) {
-                [btn setTitle:@"已加入" forState:UIControlStateNormal];
-            }
-            else {
-                [btn setTitle:@"申请加入" forState:UIControlStateNormal];
-            }
-        }
         
-        else {
-            [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.8];
-            tagLabel.textColor = HEXCOLOR(@"#888888");
-            [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#dedfe0")];
-            [btn setTitle:@"未开始" forState:UIControlStateNormal];
+        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#dedfe0")];
+        [btn setTitle:@"报名未开始" forState:UIControlStateNormal];
+    }
+    else if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp) {
+        
+        btn.hidden = NO;
+        stateLabel.hidden = YES;
+        
+        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.8];
+        tagLabel.textColor = HEXCOLOR(@"#ff7428");
+        
+        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+        if ([groupInfo boolParamForName:@"ingroup"]) {
+            [btn setTitle:@"已加入" forState:UIControlStateNormal];
         }
+        else {
+            [btn setTitle:@"申请加入" forState:UIControlStateNormal];
+        }
+    }
+    else if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateEndSign) {
+        
+        btn.hidden = NO;
+        stateLabel.hidden = YES;
+        
+        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.8];
+        tagLabel.textColor = HEXCOLOR(@"#888888");
+        
+        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#dedfe0")];
+        if ([groupInfo boolParamForName:@"ingroup"]) {
+            [btn setTitle:@"已加入" forState:UIControlStateNormal];
+        }
+        else {
+            [btn setTitle:@"报名已截止" forState:UIControlStateNormal];
+        }
+    }
+    else if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateBeingGroup) {
+        
+        btn.hidden = YES;
+        stateLabel.hidden = NO;
+        
+        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.8];
+        tagLabel.textColor = HEXCOLOR(@"#ff7428");
+        
+        stateLabel.text = @"开团中";
+    }
+    else {
+        btn.hidden = YES;
+        stateLabel.hidden = NO;
+        
+        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.8];
+        tagLabel.textColor = HEXCOLOR(@"#888888");
+        
+        stateLabel.text = @"已过期";
     }
     
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        if ([groupInfo boolParamForName:@"ingroup"] || [groupInfo stringParamForName:@"tip"].length == 0 || ![groupInfo boolParamForName:@"isgroupcanenroll"]) {
-            [self jumpToGroupDetail:indexPath];
-        }
-        else {
+        
+        if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp && ![groupInfo boolParamForName:@"ingroup"]) {
             [self joinSystemGroupWithGroupID:groupid groupName:groupname];
         }
+        else {
+            [self jumpToGroupDetail:indexPath];
+        }
+        
     }];
     return cell;
 }
@@ -298,24 +364,24 @@
     vc.titleStr = @"平台团介绍";
     vc.groupType = MutualGroupTypeSystem;
     NSDictionary * dic = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
+    vc.titleStr = [dic stringParamForName:@"name"] ?: @"平台团介绍";
     //团介绍页底部按钮标题
-    if ([dic stringParamForName:@"tip"].length == 0) {
-        vc.btnType = BtnTypeEnded;
+    if ([dic integerParamForName:@"groupstatus"] == GroupButtonStateNotStart) {
+        vc.btnType = BtnTypeNotStart;
+    }
+    else if ([dic integerParamForName:@"groupstatus"] == GroupButtonStateSignUp) {
+        if ([dic boolParamForName:@"ingroup"]) {
+            vc.btnType = BtnTypeAlready;
+        }
+        
+        else {
+            vc.btnType = BtnTypeJoinNow;
+        }
     }
     else {
-        if (![dic boolParamForName:@"isgroupcanenroll"])  {
-            vc.btnType = BtnTypeNotStart;
-        }
-        else {
-            if ([dic boolParamForName:@"ingroup"]) {
-                vc.btnType = BtnTypeAlready;
-            }
-            
-            else {
-                vc.btnType = BtnTypeJoinNow;
-            }
-        }
+        vc.btnType = BtnTypeHidden;
     }
+
     vc.groupId = [dic numberParamForName:@"groupid"];
     vc.groupName = dic[@"name"];
     [self.navigationController pushViewController:vc animated:YES];
@@ -363,13 +429,14 @@
             alert.topTitle = @"温馨提示";
             alert.imageName = @"mins_bulb";
             alert.message = error.domain;
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-            }];
+//            @rocky
+//            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+//
+//            }];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
             @weakify(self);
             HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 @strongify(self);
-                [alertVC dismiss];
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                 carModel.originVC = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"]; //返回选车页面
                 vc.originCar = carModel.selectedCar;

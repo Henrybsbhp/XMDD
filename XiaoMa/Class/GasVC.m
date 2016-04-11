@@ -101,7 +101,7 @@
                                                               selectedColor:kDefTintColor];
     self.tabView.items = @[item1, item2];
     [self.headerView addSubview:self.tabView];
-
+    
     @weakify(self);
     [self.tabView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
@@ -110,7 +110,7 @@
         make.height.mas_equalTo(44);
         make.bottom.equalTo(self.headerView);
     }];
-
+    
     [self.tabView setTabBlock:^(NSInteger index) {
         @strongify(self);
         if (index ==0) {
@@ -284,7 +284,7 @@
         [self.tabBarController.delegate tabBarController:self.tabBarController didSelectViewController:firstTabVC];
         
         [self.navigationController popToRootViewControllerAnimated:YES];
-
+        
         return;
     }
     [self.navigationController popViewControllerAnimated:YES];
@@ -302,7 +302,7 @@
     if (!_notifyImg)
     {
         _notifyImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 28, 28)];
-        _notifyImg.image = [UIImage imageNamed:@"gas_notify"];
+        _notifyImg.image = [UIImage imageNamed:@"gas_notify_300"];
         _notifyImg.contentMode=UIViewContentModeCenter;
         _notifyImg.backgroundColor=[UIColor whiteColor];
     }
@@ -317,6 +317,22 @@
         _backgroundView.backgroundColor=[UIColor whiteColor];
     }
     return _backgroundView;
+}
+
+-(CBAutoScrollLabel *)roundLb
+{
+    if (!_roundLb)
+    {
+        _roundLb=[[CBAutoScrollLabel alloc]init];
+        _roundLb.textColor=[UIColor whiteColor];
+        _roundLb.font=[UIFont systemFontOfSize:12];
+        _roundLb.backgroundColor = [UIColor clearColor];
+        _roundLb.labelSpacing = 30;
+        _roundLb.scrollSpeed = 30;
+        _roundLb.fadeLength = 5.f;
+        [_roundLb observeApplicationNotifications];
+    }
+    return _roundLb;
 }
 
 - (NSString *)appendSpace:(NSString *)note andWidth:(CGFloat)w

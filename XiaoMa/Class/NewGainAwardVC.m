@@ -154,7 +154,9 @@
         
         @strongify(self);
         [self.view stopActivityAnimation];
-        [self.coverView showDefaultEmptyViewWithText:@"获取礼券信息失败，请点击重试" tapBlock:^{
+        
+        [self.coverView showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取礼券信息失败，请点击重试" tapBlock:^{
+            @strongify(self)
             [self requestOperation];
         }];
     }];

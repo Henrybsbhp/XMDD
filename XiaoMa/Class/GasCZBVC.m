@@ -416,8 +416,6 @@
              [self showToastIfNeededWithOldRechargeAmount:oldValue andNewRechargeAmount:value];
              [self reloadBottomButton];
          }];
-        
-        [cell1 addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     });
     
     return item;
@@ -564,8 +562,7 @@
     NSString *text = @"<font size=12 color='#888888'>充值成功后，须至相应加油站圈存后方能使用。</font>";
     NSString *link = kAddGasNoticeUrl;
     NSString *agreement = @"《充值服务说明》";
-    text = [NSString stringWithFormat:@"%@<font size=12 color='#888888'>更多充值说明，\
-            点击查看<font color='#009cff'><a href='%@'>%@</a></font></font>",
+    text = [NSString stringWithFormat:@"%@<font size=12 color='#888888'>更多充值说明，点击查看<font color='#009cff'><a href='%@'>%@</a></font></font>",
             text, link, agreement];
     return text;
 }

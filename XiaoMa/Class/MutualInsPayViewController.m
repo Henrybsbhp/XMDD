@@ -150,7 +150,7 @@
         {
             totalAmount = totalAmount + c.couponAmount;
         }
-        NSString * string =  [NSString stringWithFormat:@"%lu代金劵(共%@元)",(unsigned long)couponArray.count,[NSString formatForPrice:totalAmount]];
+        NSString * string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:MIN(totalAmount, self.maxCouponAmt)]];
         return string;
     }
 }
@@ -191,11 +191,16 @@
     CGFloat amount = 0;
     for (NSInteger i = 0 ; i < self.cashCoupouArray.count ; i++)
     {
-        HKCoupon * coupon = [self.cashCoupouArray safetyObjectAtIndex:i];
-        amount = amount + coupon.couponAmount;
-        [self.selectCashCoupouArray addObject:coupon];
-        if (amount >= self.maxCouponAmt)
+        if (self.maxCouponAmt && amount < self.maxCouponAmt)
+        {
+            HKCoupon * coupon = [self.cashCoupouArray safetyObjectAtIndex:i];
+            amount = amount + coupon.couponAmount;
+            [self.selectCashCoupouArray addObject:coupon];
+        }
+        else
+        {
             break;
+        }
     }
     [self refreshPriceLb];
     [self.tableView reloadData];
@@ -299,6 +304,12 @@
         [str appendAttributedString:attrStr2];
     }
     return str;
+}
+
+- (void)tableViewReloadData
+{
+    [self.tableView reloadData];
+    [self refreshPriceLb];
 }
 
 

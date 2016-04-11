@@ -220,6 +220,7 @@
     HKCellData *cell1_3 = [HKCellData dataWithCellID:@"Selection" tag:nil];
     cell1_3.customInfo[@"title"] = @"品牌车系";
     cell1_3.customInfo[@"placehold"] = @"请选择品牌车系";
+    cell1_3.customInfo[@"disable"] = @(!(self.curCar.editMask & HKCarEditableEditCarModel));
     cell1_3.object = [[RACObserve(self.curCar, brand) merge:RACObserve(self.curCar, seriesModel.seriesname)] map:^id(id value) {
         @strongify(self);
         if (self.curCar.brand && self.curCar.seriesModel.seriesname) {
@@ -239,6 +240,9 @@
         @strongify(self);
         [MobClick event:@"rp312_4"];
         [self.view endEditing:YES];
+        if (!(self.curCar.editMask & HKCarEditableEditCarModel)) {
+            return ;
+        }
         PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
         vc.originVC = self;
         [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel *series, AutoDetailModel *model) {
@@ -254,6 +258,7 @@
     HKCellData *cell1_4 = [HKCellData dataWithCellID:@"Selection" tag:nil];
     cell1_4.customInfo[@"title"] = @"具体车型";
     cell1_4.customInfo[@"placehold"] = @"请选择具体车型";
+    cell1_4.customInfo[@"disable"] = @(!(self.curCar.editMask & HKCarEditableEditCarModel));
     cell1_4.object = RACObserve(self.curCar, detailModel.modelname);
     cell1_4.customInfo[@"inspector"] = [^BOOL(NSIndexPath *indexPath) {
         @strongify(self);
@@ -267,6 +272,9 @@
         @strongify(self);
         [MobClick event:@"rp312_5"];
         [self.view endEditing:YES];
+        if (!(self.curCar.editMask & HKCarEditableEditCarModel)) {
+            return ;
+        }
         if ([self.curCar.seriesModel.seriesid integerValue] != 0) {
             PickerAutoModelVC *vc = [UIStoryboard vcWithId:@"PickerAutoModelVC" inStoryboard:@"Car"];
             vc.series = self.curCar.seriesModel;
@@ -290,7 +298,7 @@
         }
     }];
     
-    return @[cell1_0,cell1_1,cell1_2,cell1_3,cell1_4];
+    return @[cell1_0,cell1_1,cell1_3,cell1_4,cell1_2];
 }
 
 - (NSArray *)dataListForSection2
@@ -405,7 +413,7 @@
     cell2_4.customInfo[@"suffix"] = @"万";
     cell2_4.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
         @strongify(self);
-        field.text = [NSString stringWithFormat:@"%.2f", self.curCar.price];
+        field.text = [NSString formatForPrice:self.curCar.price];
         field.keyboardType = UIKeyboardTypeDecimalPad;
         field.clearsOnBeginEditing = YES;
         field.textLimit = 12;
@@ -422,7 +430,7 @@
         
         [field setDidEndEditingBlock:^(CKLimitTextField *field) {
             @strongify(self);
-            field.text = [NSString stringWithFormat:@"%.2f", self.curCar.price];
+            field.text = [NSString formatForPrice:self.curCar.price];
         }];
     } copy];
     
@@ -449,7 +457,7 @@
         
         [field setDidEndEditingBlock:^(CKLimitTextField *field) {
             @strongify(self);
-            field.text = [NSString stringWithFormat:@"%.2f", self.curCar.odo / 10000.00];
+            field.text = [NSString formatForPrice:self.curCar.odo / 10000.00];
         }];
     } copy];
     
@@ -571,12 +579,10 @@
             CKAfter(0.1, ^{
                 [self.navigationController popViewControllerAnimated:YES];
             });
-            [alertVC dismiss];
         }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"保存" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [MobClick event:@"rp312_15"];
             [self actionSave:nil];
-            [alertVC dismiss];
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您未保存信息，是否现在保存？" ActionItems:@[cancel,confirm]];
         [alert show];
@@ -589,11 +595,9 @@
             CKAfter(0.1, ^{
                 [self.navigationController popViewControllerAnimated:YES];
             });
-            [alertVC dismiss];
         }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续添加" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [MobClick event:@"rp312_17"];
-            [alertVC dismiss];
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您未保存行驶证，需填写相关必填项并点击“保存”后方能添加爱车。" ActionItems:@[cancel,confirm]];
         [alert show];
@@ -739,7 +743,7 @@
     OETextField *field = (OETextField *)[cell.contentView viewWithTag:1003];
     [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
 
-    cell.contentView.userInteractionEnabled  = self.curCar.editMask & HKCarEditableEdit;
+    cell.contentView.userInteractionEnabled  = self.curCar.editMask & HKCarEditableEditPlateNumber;
 
     label.text = data.customInfo[@"title"];
     
@@ -787,9 +791,23 @@
 {
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
     UITextField *field = (UITextField *)[cell.contentView viewWithTag:1002];
+    UIImageView *arrow = [cell viewWithTag:1003];
+    
+    BOOL disable = [data.customInfo[@"disable"] boolValue];
+    cell.selectionStyle = disable ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleDefault;
+    arrow.hidden = disable;
 
     label.text = data.customInfo[@"title"];
+    
     field.placeholder = data.customInfo[@"placehold"];
+    [field mas_updateConstraints:^(MASConstraintMaker *make) {
+        if (disable) {
+            make.right.equalTo(self.view).offset(-14);
+        }
+        else {
+            make.right.equalTo(arrow.mas_left).offset(-8);
+        }
+    }];
     [[[data.object distinctUntilChanged] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *text) {
         field.text = text;
     }];
@@ -807,6 +825,7 @@
     label.text = data.customInfo[@"title"];
     suffixL.text = data.customInfo[@"suffix"];
     field.rightViewMode = UITextFieldViewModeNever;
+    field.placeholder = data.customInfo[@"placehold"];
     void(^block)(CKLimitTextField *filed, RACSignal *stopSig) = data.customInfo[@"block"] ;
     if (block) {
         block(field, [cell rac_prepareForReuseSignal]);

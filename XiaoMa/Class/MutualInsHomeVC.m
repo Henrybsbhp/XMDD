@@ -7,7 +7,7 @@
 //
 
 #import "MutualInsHomeVC.h"
-#import "AutoGroupInfoVC.h"
+#import "SystemGroupListVC.h"
 #import "GroupIntroductionVC.h"
 #import "MutualInsGrouponVC.h"
 #import "InviteByCodeVC.h"
@@ -112,20 +112,6 @@
                 [self resetTableView];
             }
         }
-        if (self.minsStore.lastGroupId)
-        {
-            for (NSInteger i = 0 ; i < self.myGroupArray.count; i++)
-            {
-                HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:i];
-                if ([group.groupId isEqualToNumber:self.minsStore.lastGroupId])
-                {
-                    NSIndexPath * scrollPath = [NSIndexPath indexPathForRow:i+3+1 inSection:0];
-                    [self.tableView scrollToRowAtIndexPath:scrollPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-                    self.minsStore.lastGroupId = nil;
-                    return ;
-                }
-            }
-        }
     } error:^(NSError *error) {
         
         @strongify(self);
@@ -135,7 +121,7 @@
         }
         else {
             [self.view stopActivityAnimation];
-            [self.view showDefaultEmptyViewWithText:@"获取信息失败，点击重试" tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取信息失败，点击重试" tapBlock:^{
                 @strongify(self);
                 [self.view hideDefaultEmptyView];
                 [self reloadIfNeeded];
@@ -156,7 +142,7 @@
         return NO;
     }
     
-    if (!self.myGroupArray) {
+    if (gAppMgr.myUser && !self.myGroupArray) {
         [[self.minsStore reloadSimpleGroups] send];
         return NO;
     }
@@ -175,12 +161,11 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (group.btnStatus == GroupBtnStatusDelete){
-        
+    
         //删除我的团操作 团长和团员调用新接口，入参不同
-        // @lyw 过期团多的，删除会崩溃
         DeleteCooperationGroupOp * op = [DeleteCooperationGroupOp operation];
-        op.req_memberid = group.memberId;
-        op.req_groupid = group.groupId;
+        op.req_memberid = @0;
+        op.req_groupid = @256;
         [[[op rac_postRequest] initially:^{
             [gToast showingWithText:@"删除中..."];
         }] subscribeNext:^(id x) {
@@ -192,7 +177,6 @@
             else {
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }
-//            [self.tableView reloadData];
         } error:^(NSError *error) {
             [gToast showError:error.domain];
         }];
@@ -272,7 +256,7 @@
     }
     else if (indexPath.row == 1)
     {
-        AutoGroupInfoVC * vc = [UIStoryboard vcWithId:@"AutoGroupInfoVC" inStoryboard:@"MutualInsJoin"];
+        SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
         vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -344,6 +328,11 @@
 - (UITableViewCell *)myGroupCellCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyGroupCell" forIndexPath:indexPath];
+    UIView *lineView = [cell.contentView viewWithTag:100];
+    UIView *backgroundView = [cell.contentView viewWithTag:101];
+    [lineView setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#EAEAEA")];
+    [backgroundView setCornerRadius:5 withBackgroundColor:[UIColor whiteColor]];
+    
     UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *carIdLabel = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *statusLabel = (UILabel *)[cell.contentView viewWithTag:1003];
@@ -359,7 +348,13 @@
     if ([group.leftTime integerValue] != 0)
     {
         RACDisposable * disp = [[[HKTimer rac_timeCountDownWithOrigin:[group.leftTime integerValue] / 1000 andTimeTag:group.leftTimeTag] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * timeStr) {
-            timeLabel.text = [NSString stringWithFormat:@"%@ \n%@", group.tip, timeStr];
+            if (![timeStr isEqualToString:@"end"]) {
+                timeLabel.text = [NSString stringWithFormat:@"%@ \n%@", group.tip, timeStr];
+            }
+            else {
+                [disp dispose];
+                [[self.minsStore reloadSimpleGroups] send];
+            }
         }];
         [[self rac_deallocDisposable] addDisposable:disp];
     }
@@ -387,11 +382,14 @@
             [opeBtn setTitle:@"完善资料" forState:UIControlStateNormal];
             [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
         }
+        [opeBtn setTitle:@"删除" forState:UIControlStateNormal];
+        [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
         @weakify(self);
         [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            NSIndexPath * cellPath = [self.tableView indexPathForCell:cell];
             @strongify(self);
-            [self operationBtnAction:x withGroup:group withIndexPath:indexPath];
+            [self operationBtnAction:x withGroup:group withIndexPath:cellPath];
         }];
     }
     return cell;

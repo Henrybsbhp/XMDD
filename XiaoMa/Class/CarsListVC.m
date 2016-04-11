@@ -31,6 +31,7 @@
 @property (nonatomic, strong) MyCarStore *carStore;
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) HKPageSliderView * sliderView;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (weak, nonatomic) IBOutlet UIView *emptyContentView;
@@ -231,7 +232,9 @@
         
         @strongify(self);
         [gToast showError:error.domain];
-        [self.view showDefaultEmptyViewWithText:@"获取爱车信息失败，点击重试" tapBlock:^{
+        
+        @weakify(self);
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取爱车信息失败，点击重试" tapBlock:^{
             @strongify(self);
             [[self.carStore getAllCars] send];
         }];
@@ -331,6 +334,8 @@
         HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:carNumArray andStyle:HKTabBarStyleUnderCorner atIndex:[self.datasource indexOfObject:self.model.currentCar]];
         pageSliderView.contentScrollView.delegate = self;
         pageSliderView.delegate = self;
+        self.tapGesture =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goToEditCar)];
+        [pageSliderView.contentScrollView addGestureRecognizer:self.tapGesture];
         
         if (view.subviews.count != 0) {
             [view removeSubviews];
@@ -355,6 +360,14 @@
         
         [self.sliderView.contentScrollView addSubview:contentVC.view];
     }
+}
+
+- (void)goToEditCar
+{
+    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+    vc.originCar = self.model.currentCar;
+    vc.model = self.model;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (UITableViewCell *)bottomCellAtIndexPath:(NSIndexPath *)indexPath
@@ -407,10 +420,7 @@
                 [self.navigationController pushViewController:vc animated:YES];
             }
             else {
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                vc.originCar = self.model.currentCar;
-                vc.model = self.model;
-                [self.navigationController pushViewController:vc animated:YES];
+                [self goToEditCar];
             }
         }];
         
@@ -434,7 +444,6 @@
         @weakify(self);
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             @strongify(self);
-            [alertVC dismiss];
             if (self.model.originVC) {
                 [self.navigationController popToViewController:self.model.originVC animated:YES];
             }
@@ -445,7 +454,6 @@
         }];
         HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             @strongify(self);
-            [alertVC dismiss];
             [MobClick event:@"rp104_9"];
             EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
             vc.originCar = self.model.selectedCar;
@@ -500,7 +508,11 @@
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
+    
     if (scrollView == self.sliderView.contentScrollView) {
+        NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width);
+        [self.sliderView selectAtIndex:pageIndex];
+        
         HKMyCar *car = [self.datasource safetyObjectAtIndex:self.sliderView.currentIndex];
         self.model.currentCar = car;
         if (self.model.allowAutoChangeSelectedCar) {
@@ -512,16 +524,15 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     if (scrollView == self.sliderView.contentScrollView) {
+        
+        NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width);
+        [self.sliderView selectAtIndex:pageIndex];
+        
         HKMyCar *car = [self.datasource safetyObjectAtIndex:self.sliderView.currentIndex];
         self.model.currentCar = car;
         if (self.model.allowAutoChangeSelectedCar) {
             self.model.selectedCar = car;
         }
-    }
-    
-    if (scrollView == self.sliderView.contentScrollView) {
-        NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width);
-        [self.sliderView selectAtIndex:pageIndex];
     }
 }
 

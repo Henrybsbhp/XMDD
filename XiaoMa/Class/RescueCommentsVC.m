@@ -188,23 +188,24 @@
     op.type = self.applyType;
     self.tableView.hidden = YES;
     
+    @weakify(self)
     [[[[op rac_postRequest] initially:^{
+        @strongify(self);
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-        
     }] finally:^{
+        @strongify(self);
         [self.view stopActivityAnimation];
-        
     }] subscribeNext:^(GetRescueCommentOp *op) {
+        @strongify(self);
         self.tableView.hidden = NO;
         self.evaluationArray = op.rescueDetailArray;
-        self.tableView.hidden = NO;
         self.footerView.hidden = YES;
         [self.tableView reloadData];
-        
     } error:^(NSError *error) {
         self.tableView.hidden = YES;
-        [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
+            @strongify(self);
             [self alreadyNetwork];
         }];
     }] ;

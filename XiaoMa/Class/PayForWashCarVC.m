@@ -206,13 +206,10 @@
             [cell shake];
         });
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-            [alertVC dismiss];
-        }];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"前往添加" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
             [self.navigationController pushViewController:vc animated:YES];
-            [alertVC dismiss];
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提醒" ImageName:@"mins_bulb" Message:@"您尚未添加爱车，请先添加 " ActionItems:@[cancel,confirm]];
         [alert show];
@@ -220,9 +217,7 @@
         return;
     }
     
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-        [alertVC dismiss];
-    }];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [self requestCheckoutWithCouponType:self.couponType];
     }];
@@ -814,9 +809,7 @@
             return ;
         }
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-            [alertVC dismiss];
-        }];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#888888") clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"再试一次" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [self requestGainWeeklyCoupon];
         }];
@@ -1072,8 +1065,9 @@
         paymoney = paymoney > 0 ? paymoney : 0.01f;
     }
 
-    
-    NSString * btnText = [NSString stringWithFormat:@"您只需支付%.2f元，现在支付",paymoney];
+    NSString * btnText = [NSString stringWithFormat:@"您%@需支付%.2f元，现在支付",
+                          paymoney != serviceAmount ? @"只" : @"",
+                          paymoney];
     [self.payBtn setTitle:btnText forState:UIControlStateNormal];
     
     CGFloat maxAmt = self.getUserResourcesV2Op.rsp_maxGasCouponAmt ? self.getUserResourcesV2Op.rsp_maxGasCouponAmt : 10.0f;
@@ -1220,7 +1214,6 @@
         
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             [MobClick event:@"rp108_8"];
-            [alertVC dismiss];
         }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"原价支付" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [MobClick event:@"rp108_9"];
@@ -1286,7 +1279,11 @@
         {
             totalAmount = totalAmount + c.couponAmount;
         }
-        NSString * string =  [NSString stringWithFormat:@"%lu代金劵(共%@元)",(unsigned long)couponArray.count,[NSString formatForPrice:totalAmount]];
+        if (totalAmount >= self.service.origprice)
+        {
+            totalAmount = self.service.origprice - 0.01;
+        }
+        NSString * string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
         return string;
     }
 }

@@ -217,8 +217,7 @@ typedef enum : NSInteger
         @strongify(self);
         [gToast showError:error.domain];
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"获取团详情失败，点击重试" tapBlock:^{
-            
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取团详情失败，点击重试" tapBlock:^{
             @strongify(self);
             [[self.minsStore reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] send];
         }];
@@ -303,6 +302,7 @@ typedef enum : NSInteger
 
         @strongify(self);
         [gToast showSuccess:@"删除成功！"];
+        [[self.minsStore reloadSimpleGroups] sendAndIgnoreError];
         [self actionBack:nil];
     } error:^(NSError *error) {
         
@@ -313,7 +313,7 @@ typedef enum : NSInteger
 #pragma mark - MenuItems
 - (id)menuItemInvite {
     if (self.groupDetail.rsp_invitebtnflag == 0) {
-        CKNULL;
+        return CKNULL;
     }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"邀请好友",@"img":@"mins_person"}];
     @weakify(self);
@@ -339,12 +339,8 @@ typedef enum : NSInteger
         @strongify(self);
         HKMessageAlertVC *alert = [[HKMessageAlertVC alloc] init];
         alert.messageLabel.text = @"您确认退出该团？退出后将无法查看团内信息。";
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:MutInsTextGrayColor clickBlock:^(id alertVC) {
-            [alertVC dismiss];
-        }];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:MutInsTextGrayColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:MutInsGreenColor clickBlock:^(id alertVC) {
-            @strongify(self);
-            [alertVC dismiss];
             [self requestExitGroup];
         }];
         alert.actionItems = @[cancel, confirm];
@@ -393,7 +389,16 @@ typedef enum : NSInteger
 }
 
 ///删除该团
-- (CKDict *)menuItemDeleteGroup {
+- (id)menuItemDeleteGroup {
+    
+    if (self.groupDetail.rsp_ifgroupowner) {
+        id member = [self.groupDetail.rsp_members firstObjectByFilteringOperator:^BOOL(MutualInsMemberInfo *info) {
+            return info.showflag;
+        }];
+        if (member) {
+            return CKNULL;
+        }
+    }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Delete",@"title":@"删除该团",@"img":@"mins_close"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
