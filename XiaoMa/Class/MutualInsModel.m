@@ -12,6 +12,7 @@
 
 @implementation MutualInsModel
 
+
 - (void)popToMutualInsGroupDetailVCWith:(HKMutualGroup *)group {
     
     UINavigationController *nav = self.currentVC.navigationController;

@@ -28,7 +28,7 @@
 {
     self.gasCards = nil;
     self.bankStore = nil;
-    [self triggerEvent:[[RACSignal return:nil] eventWithName:@"reloadUser"] forDomain:kDomainGasCards];
+    [[self getAllGasCards] send];
 }
 
 #pragma mark - Util
@@ -41,10 +41,17 @@
 }
 
 #pragma mark - Event
+
 ///获取当前用户所有油卡信息
 - (CKEvent *)getAllGasCards
 {
-    CKEvent *event = [[self rac_getAllGasCards] eventWithName:@"getAllGasCards"];
+    CKEvent *event;
+    if (!gAppMgr.myUser) {
+        event = [[RACSignal return:nil] eventWithName:@"reloadUser"];
+    }
+    else {
+        event = [[self rac_getAllGasCards] eventWithName:@"getAllGasCards"];
+    }
     return [self inlineEvent:event forDomain:kDomainGasCards];
 }
 

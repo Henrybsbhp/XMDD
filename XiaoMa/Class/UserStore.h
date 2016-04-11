@@ -21,4 +21,5 @@
 - (void)updateTimetagForKey:(NSString *)key;
 - (void)resetAllTimetags;
 
+
 @end

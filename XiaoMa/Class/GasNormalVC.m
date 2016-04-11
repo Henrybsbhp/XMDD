@@ -272,7 +272,7 @@
             UILabel *titleL = [cell.contentView viewWithTag:tag*10+1];
             UILabel *discountL = [cell.contentView viewWithTag:tag*10+2];
             
-            titleL.text = pkg.month == 1 ? @"快速充值" : [NSString stringWithFormat:@"分%d个月充值", pkg.month];
+            titleL.text = pkg.month == 1 ? @"快速到账" : [NSString stringWithFormat:@"分%d个月充值", pkg.month];
             discountL.text = [NSString stringWithFormat:@"%@折", pkg.discount];
             
             if ([self.curChargePkg.pkgid isEqual:pkg.pkgid]) {
@@ -480,10 +480,13 @@
 ///普通加油充值说明
 - (NSString *)rechargeDescriptionForNormal:(GasCard *)card
 {
-    if (card && card.desc) {
+    if (card && card.desc.length > 0) {
         return card.desc;
     }
-    return @"<font size=12 color='#888888'>充值即享<font color='#ff0000'>98折</font>，每月优惠限额1000元，超出部分不予奖励。每月最多充值2000元。</font>";
+    if (self.gasStore.config.rsp_desc) {
+        return self.gasStore.config.rsp_desc;
+    }
+    return @"<font size=12 color='#888888'>充值即享<font color='#ff0000'>98折</font>，每月优惠限额1000元，超出部分不予奖励。每月最多充值1000元。</font>";
 }
 
 
@@ -614,8 +617,7 @@
     NSString *text = @"<font size=12 color='#888888'>充值成功后，须至相应加油站圈存后方能使用。</font>";
     NSString *link = [self isRechargeForInstalment] ? kInstalmentGasNoticeUrl : kAddGasNoticeUrl;
     NSString *agreement = @"《充值服务说明》";
-    text = [NSString stringWithFormat:@"%@<font size=12 color='#888888'>更多充值说明，\
-            点击查看<font color='#009cff'><a href='%@'>%@</a></font></font>",
+    text = [NSString stringWithFormat:@"%@<font size=12 color='#888888'>更多充值说明，点击查看<font color='#009cff'><a href='%@'>%@</a></font></font>",
             text, link, agreement];
     return text;
 }

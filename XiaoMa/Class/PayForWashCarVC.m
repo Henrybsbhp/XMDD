@@ -1065,8 +1065,9 @@
         paymoney = paymoney > 0 ? paymoney : 0.01f;
     }
 
-    
-    NSString * btnText = [NSString stringWithFormat:@"您只需支付%.2f元，现在支付",paymoney];
+    NSString * btnText = [NSString stringWithFormat:@"您%@需支付%.2f元，现在支付",
+                          paymoney != serviceAmount ? @"只" : @"",
+                          paymoney];
     [self.payBtn setTitle:btnText forState:UIControlStateNormal];
     
     CGFloat maxAmt = self.getUserResourcesV2Op.rsp_maxGasCouponAmt ? self.getUserResourcesV2Op.rsp_maxGasCouponAmt : 10.0f;

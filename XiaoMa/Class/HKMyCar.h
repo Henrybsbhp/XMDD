@@ -13,8 +13,9 @@
 typedef enum : NSInteger
 {
     HKCarEditableNone = 0,
-    HKCarEditableEdit = 0x01,
+    HKCarEditableEditPlateNumber = 0x01,
     HKCarEditableDelete = 0x02,
+    HKCarEditableEditCarModel = 0x04,
     HKCarEditableAll = 0xff
 }HKCarEditableMask;
 
