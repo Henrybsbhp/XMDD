@@ -89,7 +89,6 @@ static NSString *s_sendedPhone;
         [gToast dismiss];
         
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
-            [alertVC dismiss];
             [MobClick event:@"rp329_4"];
             [self.navigationController popToViewController:self.originVC animated:YES];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];

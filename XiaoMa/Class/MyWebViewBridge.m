@@ -247,8 +247,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             NSString * t = btnDict[@"text"];
             NSString * value = btnDict[@"value"];
             HKAlertActionItem *item = [HKAlertActionItem itemWithTitle:t color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-                
                 NSDictionary * rDict = @{@"value":value,@"modalId":modalId};
                 [self.myBridge callHandler:@"modalHandler" data:rDict responseCallback:^(id response) {
                 }];

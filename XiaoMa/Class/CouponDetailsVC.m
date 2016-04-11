@@ -90,7 +90,7 @@
         [self.view stopActivityAnimation];
         [gToast showError:error.domain];
         self.tableView.hidden = YES;
-        [self.view showDefaultEmptyViewWithText:@"优惠券详情获取失败"];
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"优惠券详情获取失败"];
     }];
 }
 

@@ -180,8 +180,7 @@
         self.bottomView.hidden = YES;
         self.topView.hidden = YES;
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:[NSString stringWithFormat:@"%@ \n点击再试一次",error.domain] tapBlock:^{
-            
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:[NSString stringWithFormat:@"%@ \n点击再试一次",error.domain] tapBlock:^{
             @strongify(self)
             [self requestContractDetail];
         }];

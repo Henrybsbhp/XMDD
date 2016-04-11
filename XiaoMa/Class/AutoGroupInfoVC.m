@@ -115,9 +115,9 @@
         self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
+        
         @weakify(self);
-        [self.tableView showDefaultEmptyViewWithText:@"列表请求失败，点击重试" tapBlock:^{
-            
+        [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:@"列表请求失败，点击重试" tapBlock:^{
             @strongify(self);
             [self requestAutoGroupArray];
         }];
@@ -364,13 +364,14 @@
             alert.topTitle = @"温馨提示";
             alert.imageName = @"mins_bulb";
             alert.message = error.domain;
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-            }];
+//            @rocky
+//            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+//
+//            }];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
             @weakify(self);
             HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 @strongify(self);
-                [alertVC dismiss];
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                 carModel.originVC = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"]; //返回选车页面
                 vc.originCar = carModel.selectedCar;

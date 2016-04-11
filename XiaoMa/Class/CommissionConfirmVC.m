@@ -142,16 +142,16 @@
     } error:^(NSError *error) {
         [gToast dismissInView:self.view];
         if (error.code == 611139001) {
-            
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-            }];
+//            
+//            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+//                
+//            }];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"省钱攻略" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.title = @"省钱攻略";
                 vc.url = kMoneySavingStrategiesUrl;
                 [self.navigationController pushViewController:vc animated:YES];
-                [alertVC dismiss];
             }];
             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel,confirm]];
             [alert show];
@@ -162,7 +162,6 @@
             
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 [self.navigationController popViewControllerAnimated:YES];
-                [alertVC dismiss];
             }];
             
             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"协办结果" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel]];

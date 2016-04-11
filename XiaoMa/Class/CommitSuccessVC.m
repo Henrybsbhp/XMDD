@@ -53,7 +53,7 @@
 {
     [self.shareBtn makeCornerRadius:5.0f];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backToHomePage)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(backToHomePage)];
 }
 
 

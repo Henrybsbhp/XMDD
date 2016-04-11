@@ -121,9 +121,7 @@
             alert.topTitle = @"温馨提示";
             alert.imageName = @"mins_bulb";
             alert.message = error.domain;
-            HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-            }];
+            HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#888888") clickBlock:nil];
             alert.actionItems = @[ok];
             [alert show];
         }

@@ -84,9 +84,7 @@
         @strongify(self);
         self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
-        @weakify(self);
-        [self.view showDefaultEmptyViewWithText:@"获取邀请信息失败，点击重试" tapBlock:^{
-            
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取邀请信息失败，点击重试" tapBlock:^{
             @strongify(self);
             [self requestInviteInfo];
         }];
@@ -250,7 +248,6 @@
     HKAlertActionItem *goWechat = [HKAlertActionItem itemWithTitle:@"去微信粘贴" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
     alertVC.actionItems = @[cancel, goWechat];
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-        [alertView dismiss];
         if (index == 1) {
             if ([WXApi isWXAppInstalled]) {
                 [WXApi openWXApp];

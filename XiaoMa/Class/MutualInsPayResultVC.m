@@ -413,9 +413,6 @@
     alert.imageName = @"mins_bulb";
     alert.message = @"您未提交联系人信息，为保证协议的正常送达，请先完善信息。是否继续完善信息？";
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"执意退出" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-        [alertVC dismiss];
-        
-
         for (UIViewController * vc in self.navigationController.viewControllers)
         {
             if ([vc isKindOfClass:[MutualInsOrderInfoVC class]])
@@ -428,9 +425,7 @@
         [self.navigationController popToRootViewControllerAnimated:YES];
 
     }];
-    HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"继续完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-        [alertVC dismiss];
-    }];
+    HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"继续完善" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
     alert.actionItems = @[cancel, improve];
     [alert show];
 }
