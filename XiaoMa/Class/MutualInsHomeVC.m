@@ -161,12 +161,11 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (group.btnStatus == GroupBtnStatusDelete){
-        
+    
         //删除我的团操作 团长和团员调用新接口，入参不同
-        // @lyw 过期团多的，删除会崩溃
         DeleteCooperationGroupOp * op = [DeleteCooperationGroupOp operation];
-        op.req_memberid = group.memberId;
-        op.req_groupid = group.groupId;
+        op.req_memberid = @0;
+        op.req_groupid = @256;
         [[[op rac_postRequest] initially:^{
             [gToast showingWithText:@"删除中..."];
         }] subscribeNext:^(id x) {
@@ -178,7 +177,6 @@
             else {
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }
-//            [self.tableView reloadData];
         } error:^(NSError *error) {
             [gToast showError:error.domain];
         }];
@@ -384,11 +382,14 @@
             [opeBtn setTitle:@"完善资料" forState:UIControlStateNormal];
             [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
         }
+        [opeBtn setTitle:@"删除" forState:UIControlStateNormal];
+        [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
         @weakify(self);
         [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            NSIndexPath * cellPath = [self.tableView indexPathForCell:cell];
             @strongify(self);
-            [self operationBtnAction:x withGroup:group withIndexPath:indexPath];
+            [self operationBtnAction:x withGroup:group withIndexPath:cellPath];
         }];
     }
     return cell;
