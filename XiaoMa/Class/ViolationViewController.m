@@ -9,7 +9,6 @@
 #import "ViolationViewController.h"
 #import "ViolationItemViewController.h"
 #import "MyCarStore.h"
-#import "MyUIPageControl.h"
 #import "HKPageSliderView.h"
 
 #define kAddCarTitle @"添加爱车"

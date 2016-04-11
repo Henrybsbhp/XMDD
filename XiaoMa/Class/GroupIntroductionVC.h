@@ -20,6 +20,7 @@ typedef enum : NSUInteger {
     BtnTypeHidden
 } DetailBtnType;
 
+/// 团介绍页面
 @interface GroupIntroductionVC : HKViewController
 
 @property (nonatomic, weak) UIViewController *originVC;

@@ -7,7 +7,7 @@
 //
 
 #import "GroupIntroductionVC.h"
-#import "AutoGroupInfoVC.h"
+#import "SystemGroupListVC.h"
 #import "PickCarVC.h"
 #import "ApplyCooperationGroupJoinOp.h"
 #import "MutualInsPicUpdateVC.h"
@@ -187,7 +187,7 @@
 - (void)selfGroupTour
 {
     CreateGroupVC * vc = [UIStoryboard vcWithId:@"CreateGroupVC" inStoryboard:@"MutualInsJoin"];
-    vc.originVC = self.originVC;
+//    vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

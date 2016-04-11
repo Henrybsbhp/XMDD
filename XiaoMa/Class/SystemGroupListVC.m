@@ -6,7 +6,7 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "AutoGroupInfoVC.h"
+#import "SystemGroupListVC.h"
 #import "PickCarVC.h"
 #import "GetCooperationAutoGroupOp.h"
 #import "NSMutableDictionary+AddParams.h"
@@ -28,14 +28,15 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     GroupButtonStateTimeOut    = 5
 };
 
-@interface AutoGroupInfoVC ()
+///平台团列表
+@interface SystemGroupListVC ()
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 @property (nonatomic,strong)NSArray * autoGroupArray;
 
 @end
 
-@implementation AutoGroupInfoVC
+@implementation SystemGroupListVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];

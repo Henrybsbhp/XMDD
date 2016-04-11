@@ -11,6 +11,7 @@
 #import "UIView+Shake.h"
 #import "UpdateCooperationContractDeliveryinfoOp.h"
 #import "MutualInsOrderInfoVC.h"
+#import "MutualInsGrouponVC.h"
 
 @interface MutualInsPayResultVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
@@ -390,9 +391,9 @@
         [gToast showSuccess:@"联系人信息已提交，请等待车险专员为您服务"];
         for (UIViewController * vc in self.navigationController.viewControllers)
         {
-            if ([vc isKindOfClass:[MutualInsOrderInfoVC class]])
+            // 支付结果肯定在团详情-> 订单 —> 支付
+            if ([vc isKindOfClass:[MutualInsGrouponVC class]])
             {
-                [((MutualInsOrderInfoVC *)vc) requestContractDetail];
                 [self.navigationController popToViewController:vc animated:YES];
                 return;
             }
@@ -407,7 +408,6 @@
 
 - (void)actionBack
 {
-
     HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
@@ -415,9 +415,8 @@
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"执意退出" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
         for (UIViewController * vc in self.navigationController.viewControllers)
         {
-            if ([vc isKindOfClass:[MutualInsOrderInfoVC class]])
+            if ([vc isKindOfClass:[MutualInsGrouponVC class]])
             {
-                [((MutualInsOrderInfoVC *)vc) requestContractDetail];
                 [self.navigationController popToViewController:vc animated:YES];
                 return;
             }

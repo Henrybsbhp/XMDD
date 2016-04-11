@@ -551,6 +551,8 @@
     }
 }
 
+
+#pragma mark - Action
 - (IBAction)submitAction:(id)sender {
     UpdateCooperationInsInfoOp * op = [UpdateCooperationInsInfoOp operation];
     
@@ -617,6 +619,8 @@
     grouponvc.group = group;
     
     NSMutableArray *vcs = [NSMutableArray array];
+    
+    // 堆栈中有小马互助首页
     if (homevcIndex != NSNotFound) {
         NSArray *subvcs = [self.navigationController.viewControllers subarrayToIndex:homevcIndex+1];
         [vcs addObjectsFromArray:subvcs];
