@@ -90,7 +90,7 @@
             imageView.image = [UIImage imageNamed:@"mutualIns_crimesReport"];
             
             titleLabel.text = @"我要报案";
-            detailLabel.text = @"遭受交通事故请狂戳这里";
+            detailLabel.text = @"发生交通事故请狂戳这里";
             
             hkLabel.hidden = YES;
             break;

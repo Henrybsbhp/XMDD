@@ -500,7 +500,11 @@
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
+    
     if (scrollView == self.sliderView.contentScrollView) {
+        NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width);
+        [self.sliderView selectAtIndex:pageIndex];
+        
         HKMyCar *car = [self.datasource safetyObjectAtIndex:self.sliderView.currentIndex];
         self.model.currentCar = car;
         if (self.model.allowAutoChangeSelectedCar) {
@@ -512,16 +516,15 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     if (scrollView == self.sliderView.contentScrollView) {
+        
+        NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width);
+        [self.sliderView selectAtIndex:pageIndex];
+        
         HKMyCar *car = [self.datasource safetyObjectAtIndex:self.sliderView.currentIndex];
         self.model.currentCar = car;
         if (self.model.allowAutoChangeSelectedCar) {
             self.model.selectedCar = car;
         }
-    }
-    
-    if (scrollView == self.sliderView.contentScrollView) {
-        NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width);
-        [self.sliderView selectAtIndex:pageIndex];
     }
 }
 
