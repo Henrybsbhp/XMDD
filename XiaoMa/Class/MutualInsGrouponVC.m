@@ -389,7 +389,16 @@ typedef enum : NSInteger
 }
 
 ///删除该团
-- (CKDict *)menuItemDeleteGroup {
+- (id)menuItemDeleteGroup {
+    
+    if (self.groupDetail.rsp_ifgroupowner) {
+        id member = [self.groupDetail.rsp_members firstObjectByFilteringOperator:^BOOL(MutualInsMemberInfo *info) {
+            return info.showflag;
+        }];
+        if (member) {
+            return CKNULL;
+        }
+    }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Delete",@"title":@"删除该团",@"img":@"mins_close"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
