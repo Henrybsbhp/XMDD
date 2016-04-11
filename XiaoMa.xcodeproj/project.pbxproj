@@ -692,6 +692,7 @@
 		C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */; };
 		C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */; };
 		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
+		C35803051CBB79600002808D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35803041CBB79600002808D /* Images.xcassets */; };
 		C35E37671CAA7ED2008E536D /* UIView+HKLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C35E37661CAA7ED2008E536D /* UIView+HKLine.m */; };
 		C36B8A9F1CB3526100BC2487 /* GetSystemHomeModuleOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */; };
 		FA024A321CAE500500481F59 /* BankCardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA024A311CAE500500481F59 /* BankCardDetailVC.m */; };
@@ -2159,6 +2160,7 @@
 		C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCouponVC.h; sourceTree = "<group>"; };
 		C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCouponVC.m; sourceTree = "<group>"; };
 		C26489B31AF8A70A00F1E318 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		C35803041CBB79600002808D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C35E37651CAA7ED2008E536D /* UIView+HKLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+HKLine.h"; path = "Class/UIView+HKLine.h"; sourceTree = "<group>"; };
 		C35E37661CAA7ED2008E536D /* UIView+HKLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+HKLine.m"; path = "Class/UIView+HKLine.m"; sourceTree = "<group>"; };
 		C36B8A9D1CB3526100BC2487 /* GetSystemHomeModuleOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemHomeModuleOp.h; path = Class/GetSystemHomeModuleOp.h; sourceTree = "<group>"; };
@@ -3056,6 +3058,7 @@
 		1883D9121ACBBE5E002A4D19 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				C35803041CBB79600002808D /* Images.xcassets */,
 				6BD293BA1B943EF1006482A4 /* Storyboard */,
 				1851F4221B0C29A500241A01 /* CoreData */,
 				6BBAB9581ADE724300EC342F /* Other */,
@@ -5160,6 +5163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				182BEF0B1CA0F65200D67C18 /* JCAlertView.bundle in Resources */,
+				C35803051CBB79600002808D /* Images.xcassets in Resources */,
 				6BB61B9A1AEF5350004F39AA /* MapBottomView.xib in Resources */,
 				504FFEA21C05D48E002D7D6D /* city.plist in Resources */,
 				6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */,
