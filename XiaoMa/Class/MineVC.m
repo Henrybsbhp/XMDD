@@ -474,6 +474,8 @@
 
 - (void)reloadData
 {
+    [[self.carStore getDefaultCar] send];
+    
     CKDict *top = [self topData];
     
     CKDict *car = [self normalDataWithInfo:@{kCKItemKey:@"car", @"img":@"Mine_myCar_imageView", @"title":@"爱车", @"evt":@"rp301_4",@"isContainLicense":@(YES)}];
