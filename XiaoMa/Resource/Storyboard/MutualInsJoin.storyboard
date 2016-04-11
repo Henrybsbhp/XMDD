@@ -1153,14 +1153,6 @@
                                                     <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pdj-NJ-7cg">
-                                                    <rect key="frame" x="124" y="8" width="30" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="30" id="Q4n-Rk-8Vl"/>
-                                                        <constraint firstAttribute="height" constant="30" id="yI1-3g-4sw"/>
-                                                    </constraints>
-                                                    <state key="normal" image="min_inshelp"/>
-                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VTx-Ze-mTK">
                                                     <rect key="frame" x="42" y="41" width="40" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -1171,19 +1163,11 @@
                                             <constraints>
                                                 <constraint firstItem="4r0-5Z-W2o" firstAttribute="top" secondItem="gbT-Zn-V3t" secondAttribute="bottom" constant="12" id="3N5-uH-8y9"/>
                                                 <constraint firstItem="gbT-Zn-V3t" firstAttribute="top" secondItem="9EU-1E-w98" secondAttribute="top" constant="15" id="736-qW-LDa"/>
-                                                <constraint firstItem="Pdj-NJ-7cg" firstAttribute="top" secondItem="9EU-1E-w98" secondAttribute="topMargin" id="RQh-gF-uN9"/>
                                                 <constraint firstItem="VTx-Ze-mTK" firstAttribute="leading" secondItem="4r0-5Z-W2o" secondAttribute="trailing" constant="8" symbolic="YES" id="feX-5W-Xyd"/>
-                                                <constraint firstItem="Pdj-NJ-7cg" firstAttribute="leading" secondItem="gbT-Zn-V3t" secondAttribute="trailing" id="fy2-js-xkj"/>
-                                                <constraint firstItem="Pdj-NJ-7cg" firstAttribute="centerY" secondItem="gbT-Zn-V3t" secondAttribute="centerY" id="kb5-dC-KJ2"/>
                                                 <constraint firstItem="4r0-5Z-W2o" firstAttribute="leading" secondItem="9EU-1E-w98" secondAttribute="leading" constant="16" id="kph-Po-Qao"/>
                                                 <constraint firstItem="gbT-Zn-V3t" firstAttribute="leading" secondItem="9EU-1E-w98" secondAttribute="leading" constant="16" id="tY6-qJ-laT"/>
                                                 <constraint firstItem="VTx-Ze-mTK" firstAttribute="centerY" secondItem="4r0-5Z-W2o" secondAttribute="centerY" id="zia-e9-sq2"/>
                                             </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="RQh-gF-uN9"/>
-                                                </mask>
-                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="EstimateTitleCell" rowHeight="60" id="RqV-4t-c1V" userLabel="EstimateTitleCell">
@@ -1193,8 +1177,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预估费用" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0nn-Xc-GUc">
-                                                    <rect key="frame" x="13" y="11" width="60" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预估互助费用" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0nn-Xc-GUc">
+                                                    <rect key="frame" x="13" y="11" width="90" height="21"/>
                                                     <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="15"/>
                                                     <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
