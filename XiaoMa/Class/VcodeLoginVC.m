@@ -15,6 +15,12 @@
 #import "CKLimitTextField.h"
 #import "IQKeyboardManager.h"
 
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
+#define IS_IPHONE_4_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH < 568.0)
+
 @interface VcodeLoginVC () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
 @property (weak, nonatomic) IBOutlet UIButton *vcodeBtn;
@@ -84,6 +90,19 @@
     self.num.textLimit = 11;
     [self.num setDidBeginEditingBlock:^(CKLimitTextField *field) {
         [MobClick event:@"rp002_1"];
+        if (IS_IPHONE_4_OR_LESS) {
+            
+        } else if (self.view.frame.origin.y >= 0) {
+            [self setViewMovedUp:YES];
+        }
+    }];
+    
+    [self.num setDidEndEditingBlock:^(CKLimitTextField *textField) {
+        if (IS_IPHONE_4_OR_LESS) {
+            
+        } else if (self.view.frame.origin.y < 0) {
+            [self setViewMovedUp:NO];
+        }
     }];
     
 

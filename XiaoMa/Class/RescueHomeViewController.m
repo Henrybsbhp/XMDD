@@ -43,6 +43,7 @@
     // [self addsubView];
     [self requestGetAddress];
     [self actionFirstEnterNetwork];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)dealloc
