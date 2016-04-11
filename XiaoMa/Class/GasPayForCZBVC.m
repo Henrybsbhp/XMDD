@@ -150,7 +150,7 @@
     [field becomeFirstResponder];
 }
 
-- (IBAction)actionPay:(id)sender
+- (void)actionPay:(id)sender
 {
     [MobClick event:@"rp507_3"];
     GascardChargeOp *op = [GascardChargeOp operation];
@@ -342,6 +342,12 @@
         @strongify(self);
         BOOL enable = vcode.length >= 6 && self.orderInfo && ![self.orderInfo.customInfo[@"Invaild"] boolValue];
         payButton.enabled = enable;
+    }];
+    
+    [[[payButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
+        @strongify(self);
+        [self actionPay:nil];
     }];
 }
 

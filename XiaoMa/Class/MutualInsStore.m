@@ -13,6 +13,13 @@
 
 @implementation MutualInsStore
 
+- (void)reloadForUserChanged:(JTUser *)user
+{
+    self.simpleGroups = nil;
+    self.detailGroups = nil;
+    [[self reloadSimpleGroups] send];
+}
+
 - (CKEvent *)reloadDetailGroupByMemberID:(NSNumber *)memberid andGroupID:(NSNumber *)groupid
 {
     GetCooperationMygroupDetailOp *op = [GetCooperationMygroupDetailOp operation];
@@ -29,14 +36,20 @@
 
 - (CKEvent *)reloadSimpleGroups
 {
-    RACSignal *signal = [[[[GetCooperationMyGroupOp operation] rac_postRequest] doNext:^(GetCooperationMyGroupOp *op) {
-        JTQueue *groupList = [[JTQueue alloc] init];
-        for (HKMutualGroup *group in op.rsp_groupArray) {
-            [groupList addObject:group forKey:[group identify]];
-        }
-        self.simpleGroups = groupList;
-    }] replayLast];
-    CKEvent *event = [signal eventWithName:@"getSimpleGroups" object:nil];
+    CKEvent *event;
+    if (!gAppMgr.myUser) {
+        event = [[RACSignal return:nil] eventWithName:@"reloadUser"];
+    }
+    else {
+        RACSignal *signal = [[[[GetCooperationMyGroupOp operation] rac_postRequest] doNext:^(GetCooperationMyGroupOp *op) {
+            JTQueue *groupList = [[JTQueue alloc] init];
+            for (HKMutualGroup *group in op.rsp_groupArray) {
+                [groupList addObject:group forKey:[group identify]];
+            }
+            self.simpleGroups = groupList;
+        }] replayLast];
+        event = [signal eventWithName:@"getSimpleGroups" object:nil];
+    }
     return [self inlineEvent:event forDomain:kDomainMutualInsSimpleGroups];
 }
 

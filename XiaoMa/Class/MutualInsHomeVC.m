@@ -156,7 +156,7 @@
         return NO;
     }
     
-    if (!self.myGroupArray) {
+    if (gAppMgr.myUser && !self.myGroupArray) {
         [[self.minsStore reloadSimpleGroups] send];
         return NO;
     }
