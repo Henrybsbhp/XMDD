@@ -17,7 +17,7 @@ typedef enum : NSUInteger {
     BtnTypeNotStart,
     BtnTypeJoinNow,
     BtnTypeAlready,
-    BtnTypeEnded
+    BtnTypeHidden
 } DetailBtnType;
 
 /// 团介绍页面

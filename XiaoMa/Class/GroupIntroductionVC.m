@@ -21,6 +21,7 @@
 @interface GroupIntroductionVC () <UIWebViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 @property (weak, nonatomic) IBOutlet UIView *sysGroupView;
 @property (weak, nonatomic) IBOutlet UIView *selfGroupView;
 
@@ -74,9 +75,8 @@
             [self.sysJoinBtn setBackgroundColor:HEXCOLOR(@"#dedfe0")];
         }
         else {
-            self.sysJoinBtn.enabled = NO;
-            [self.sysJoinBtn setTitle:@"已结束" forState:UIControlStateNormal];
-            [self.sysJoinBtn setBackgroundColor:HEXCOLOR(@"#dedfe0")];
+            self.sysGroupView.hidden = YES;
+            self.bottomConstraint.constant = 0;
         }
     }
     else

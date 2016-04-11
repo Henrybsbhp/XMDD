@@ -33,6 +33,8 @@
 //类别列表（id，折扣，名字）
 @property (nonatomic, strong) NSArray *insListArray;
 
+@property (strong, nonatomic) HKImageAlertVC *alert;
+
 //所选类别价格
 @property (nonatomic, assign) CGFloat totalPrice;
 @property (nonatomic, assign) CGFloat carPrice;
@@ -206,12 +208,17 @@
             [discountL setCornerRadius:2 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.5];
         }
         //帮助按钮
+        NSArray * tipsArray = @[@"功能类似传统三者险，用于赔偿事故中给第三方造成的人身及财产损失。比如：撞坏了别人的车，三者宝将帮您赔付对方车辆维修费用，以及车上人员医疗费用。",
+                              @"功能类似传统车损险，用于赔偿事故中您爱车的损失。比如：撞了护栏或别人的车，车损宝为您提供爱车修复的费用。",
+                              @"功能类似传统座位险，用于赔偿事故中车内司机及乘客伤亡的医疗费或事故金。比如：意外事故中，车上乘客不幸受伤，座位宝为您提供医疗费用。"];
         @weakify(self);
         [[[helpBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
-            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-            vc.url = [InsHelpWebURL safetyObjectAtIndex:insIndex];
-            [self.navigationController pushViewController:vc animated:YES];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                [alertVC dismiss];
+            }];
+            HKAlertVC *alert = [self alertWithTopTitle:[dataModel.insList[insIndex] objectForKey:@"name"] ImageName:@"mins_bulb" Message:[tipsArray safetyObjectAtIndex:insIndex] ActionItems:@[confirm]];
+            [alert show];
         }];
         
         //车损险
@@ -552,12 +559,12 @@
     NSString * insListStr = [NSString stringWithFormat:@"%@@%@@0",[[self.insListArray safetyObjectAtIndex:0] objectForKey:@"id"], [[self.insListArray safetyObjectAtIndex:0] objectForKey:@"name"]];
     
     CKDict * thirdIns = self.datasource[@"insSection"][1];
-    if (thirdIns[@"isSelected"]) {
+    if ([thirdIns[@"isSelected"] boolValue]) {
         insListStr = [NSString stringWithFormat:@"%@|%@@%@@%@", insListStr, [[self.insListArray safetyObjectAtIndex:1] objectForKey:@"id"], [[self.insListArray safetyObjectAtIndex:1] objectForKey:@"name"], [NSString stringWithFormat:@"%ld万", [[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue]]];
     }
     
     CKDict * seatIns = self.datasource[@"insSection"][2];
-    if (seatIns[@"isSelected"]) {
+    if ([seatIns[@"isSelected"] boolValue]) {
         insListStr = [NSString stringWithFormat:@"%@|%@@%@@%@万", insListStr, [[self.insListArray safetyObjectAtIndex:2] objectForKey:@"id"], [[self.insListArray safetyObjectAtIndex:2] objectForKey:@"name"], [NSString stringWithFormat:@"%ld万", (long)self.seatInsSelect]];
     }
     
@@ -629,5 +636,19 @@
     self.navigationController.viewControllers = vcs;
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+-(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems
+{
+    if (!_alert)
+    {
+        _alert = [[HKImageAlertVC alloc]init];
+    }
+    _alert.topTitle = topTitle;
+    _alert.imageName = imageName;
+    _alert.message = message;
+    _alert.actionItems = actionItems;
+    return _alert;
+}
+
 
 @end
