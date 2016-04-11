@@ -7,7 +7,7 @@
 //
 
 #import "MutualInsHomeVC.h"
-#import "AutoGroupInfoVC.h"
+#import "SystemGroupListVC.h"
 #import "GroupIntroductionVC.h"
 #import "MutualInsGrouponVC.h"
 #import "InviteByCodeVC.h"
@@ -272,7 +272,7 @@
     }
     else if (indexPath.row == 1)
     {
-        AutoGroupInfoVC * vc = [UIStoryboard vcWithId:@"AutoGroupInfoVC" inStoryboard:@"MutualInsJoin"];
+        SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
         vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
     }
