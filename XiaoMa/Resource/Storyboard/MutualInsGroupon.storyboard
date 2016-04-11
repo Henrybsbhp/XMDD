@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -24,14 +24,14 @@
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aag-iW-NyW">
                                         <rect key="frame" x="15" y="15" width="570" height="521"/>
                                         <subviews>
-                                            <containerView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="sHf-6r-XYz">
-                                                <rect key="frame" x="0.0" y="123" width="570" height="128"/>
+                                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="sHf-6r-XYz">
+                                                <rect key="frame" x="0.0" y="123" width="570" height="360"/>
                                                 <connections>
                                                     <segue destination="lVK-Xr-agE" kind="embed" identifier="MutualInsGrouponSubMsgVC" id="oxP-Y7-sc3"/>
                                                 </connections>
                                             </containerView>
-                                            <containerView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="OOV-4b-G0r">
-                                                <rect key="frame" x="0.0" y="0.0" width="570" height="128"/>
+                                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="OOV-4b-G0r">
+                                                <rect key="frame" x="0.0" y="0.0" width="570" height="304"/>
                                                 <connections>
                                                     <segue destination="K1O-XZ-ktw" kind="embed" identifier="MutualInsGrouponSubVC" id="Fzc-pu-lBM"/>
                                                 </connections>
@@ -103,7 +103,7 @@
                         <viewControllerLayoutGuide type="bottom" id="T0b-aj-bNS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="CqB-68-TcE">
-                        <rect key="frame" x="0.0" y="0.0" width="570" height="128"/>
+                        <rect key="frame" x="0.0" y="0.0" width="570" height="304"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="m0V-yW-pln">
@@ -240,7 +240,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="570" height="32"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="030-NR-hQR">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="030-NR-hQR">
                                                     <rect key="frame" x="266.5" y="5" width="37.5" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -525,11 +525,11 @@
                         <viewControllerLayoutGuide type="bottom" id="wwb-zM-9hP"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ZwX-aQ-BkA">
-                        <rect key="frame" x="0.0" y="0.0" width="570" height="128"/>
+                        <rect key="frame" x="0.0" y="0.0" width="570" height="360"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Rqh-zl-ZHa">
-                                <rect key="frame" x="0.0" y="0.0" width="570" height="128"/>
+                                <rect key="frame" x="0.0" y="0.0" width="570" height="360"/>
                                 <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.97254901959999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Message" id="6VB-7E-5Lx" customClass="MutualInsGrouponMsgCell">
