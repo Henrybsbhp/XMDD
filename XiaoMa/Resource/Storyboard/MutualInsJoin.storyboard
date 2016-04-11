@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -1431,8 +1431,8 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
-                                                <activityIndicatorView opaque="NO" tag="103" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bjK-Q9-tlJ">
-                                                    <rect key="frame" x="542" y="55" width="20" height="20"/>
+                                                <activityIndicatorView opaque="NO" tag="103" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bjK-Q9-tlJ">
+                                                    <rect key="frame" x="535.5" y="55" width="20" height="20"/>
                                                 </activityIndicatorView>
                                                 <button opaque="NO" tag="112" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cWh-Wn-C0g">
                                                     <rect key="frame" x="521" y="40" width="49" height="49"/>
@@ -1470,7 +1470,9 @@
                                                 <constraint firstItem="cWh-Wn-C0g" firstAttribute="centerY" secondItem="FBL-26-bPw" secondAttribute="centerY" id="iwO-RU-2f5"/>
                                                 <constraint firstItem="cWh-Wn-C0g" firstAttribute="trailing" secondItem="FBL-26-bPw" secondAttribute="trailing" id="lUb-DE-vB3"/>
                                                 <constraint firstItem="bjK-Q9-tlJ" firstAttribute="trailing" secondItem="FBL-26-bPw" secondAttribute="trailing" constant="-10" id="oWW-ZP-SFv"/>
+                                                <constraint firstItem="bjK-Q9-tlJ" firstAttribute="centerX" secondItem="cWh-Wn-C0g" secondAttribute="centerX" id="p7X-zt-RRe"/>
                                                 <constraint firstItem="cWh-Wn-C0g" firstAttribute="leading" secondItem="FBL-26-bPw" secondAttribute="trailing" id="qNk-Nr-SgW"/>
+                                                <constraint firstItem="bjK-Q9-tlJ" firstAttribute="centerY" secondItem="cWh-Wn-C0g" secondAttribute="centerY" id="r6y-bc-fDb"/>
                                                 <constraint firstAttribute="trailing" secondItem="FBL-26-bPw" secondAttribute="trailing" constant="28" id="v2o-iZ-8ih"/>
                                                 <constraint firstItem="cWh-Wn-C0g" firstAttribute="centerY" secondItem="LKZ-a4-qc8" secondAttribute="centerY" id="vIN-kq-O9J"/>
                                                 <constraint firstItem="FBL-26-bPw" firstAttribute="top" secondItem="Ufy-CR-yvO" secondAttribute="bottom" constant="7" id="zIV-6s-7wj"/>
