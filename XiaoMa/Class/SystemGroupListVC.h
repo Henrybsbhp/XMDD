@@ -8,7 +8,7 @@
 
 #import "HKViewController.h"
 
-@interface AutoGroupInfoVC : HKViewController
+@interface SystemGroupListVC : HKViewController
 
 @property (nonatomic, weak) UIViewController *originVC;
 

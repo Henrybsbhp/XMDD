@@ -7,7 +7,7 @@
 //
 
 #import "GroupIntroductionVC.h"
-#import "AutoGroupInfoVC.h"
+#import "SystemGroupListVC.h"
 #import "PickCarVC.h"
 #import "ApplyCooperationGroupJoinOp.h"
 #import "MutualInsPicUpdateVC.h"
@@ -21,6 +21,7 @@
 @interface GroupIntroductionVC () <UIWebViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 @property (weak, nonatomic) IBOutlet UIView *sysGroupView;
 @property (weak, nonatomic) IBOutlet UIView *selfGroupView;
 
@@ -74,9 +75,8 @@
             [self.sysJoinBtn setBackgroundColor:HEXCOLOR(@"#dedfe0")];
         }
         else {
-            self.sysJoinBtn.enabled = NO;
-            [self.sysJoinBtn setTitle:@"已结束" forState:UIControlStateNormal];
-            [self.sysJoinBtn setBackgroundColor:HEXCOLOR(@"#dedfe0")];
+            self.sysGroupView.hidden = YES;
+            self.bottomConstraint.constant = 0;
         }
     }
     else
@@ -187,7 +187,7 @@
 - (void)selfGroupTour
 {
     CreateGroupVC * vc = [UIStoryboard vcWithId:@"CreateGroupVC" inStoryboard:@"MutualInsJoin"];
-    vc.originVC = self.originVC;
+//    vc.originVC = self.originVC;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
