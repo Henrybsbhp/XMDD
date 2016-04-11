@@ -18,11 +18,11 @@
 #import "MutualInsHomeVC.h"
 
 #define ThirdInsArr        @[@50, @100, @150]
-#define ThirdPiceArr       @[@1631, @2124, @2686]
+#define ThirdPiceArr       @[@1312.96, @1759.73, @2162.23]
 #define SeatInsArr         @[@1, @2, @3, @4, @5]
 #define NumOfSeatArr       @[@2, @5, @7]
-#define DriverDiscount     0.0041
-#define PassengerDiscount  0.0026
+#define DriverDiscount     33.005
+#define PassengerDiscount  20.93
 #define InsHelpWebURL      @[@"http://www.baidu.com", @"http://www.baidu.com", @"http://www.baidu.com"]
 
 @interface MutualInsChooseVC ()
@@ -495,7 +495,7 @@
     if ([[ThirdInsArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] >= [dataModel.minthirdSum integerValue]) {
         realSeat = self.seatInsSelect - 1;
     }
-    self.seatPrice = isSeatSelected ? (realSeat * 10000 * DriverDiscount + realSeat * 10000 * (self.numberOfSeat - 1) * PassengerDiscount) * seatDiscountFloat * xmDiscount : 0;
+    self.seatPrice = isSeatSelected ? (realSeat * DriverDiscount + realSeat * (self.numberOfSeat - 1) * PassengerDiscount) * seatDiscountFloat * xmDiscount : 0;
     self.totalPrice = self.carPrice + self.thirdPrice + self.seatPrice;
 }
 
