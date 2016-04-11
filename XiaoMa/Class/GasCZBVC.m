@@ -416,8 +416,6 @@
              [self showToastIfNeededWithOldRechargeAmount:oldValue andNewRechargeAmount:value];
              [self reloadBottomButton];
          }];
-        
-        [cell1 addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
     });
     
     return item;
