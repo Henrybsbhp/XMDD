@@ -344,6 +344,11 @@
 - (UITableViewCell *)myGroupCellCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyGroupCell" forIndexPath:indexPath];
+    UIView *lineView = [cell.contentView viewWithTag:100];
+    UIView *backgroundView = [cell.contentView viewWithTag:101];
+    [lineView setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#EAEAEA")];
+    [backgroundView setCornerRadius:5 withBackgroundColor:[UIColor whiteColor]];
+    
     UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *carIdLabel = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *statusLabel = (UILabel *)[cell.contentView viewWithTag:1003];
