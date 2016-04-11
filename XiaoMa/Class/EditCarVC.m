@@ -413,7 +413,7 @@
     cell2_4.customInfo[@"suffix"] = @"万";
     cell2_4.customInfo[@"block"] = [^(CKLimitTextField *field, RACSignal *stopSig) {
         @strongify(self);
-        field.text = [NSString stringWithFormat:@"%.2f", self.curCar.price];
+        field.text = [NSString formatForPrice:self.curCar.price];
         field.keyboardType = UIKeyboardTypeDecimalPad;
         field.clearsOnBeginEditing = YES;
         field.textLimit = 12;
@@ -430,7 +430,7 @@
         
         [field setDidEndEditingBlock:^(CKLimitTextField *field) {
             @strongify(self);
-            field.text = [NSString stringWithFormat:@"%.2f", self.curCar.price];
+            field.text = [NSString formatForPrice:self.curCar.price];
         }];
     } copy];
     
@@ -457,7 +457,7 @@
         
         [field setDidEndEditingBlock:^(CKLimitTextField *field) {
             @strongify(self);
-            field.text = [NSString stringWithFormat:@"%.2f", self.curCar.odo / 10000.00];
+            field.text = [NSString formatForPrice:self.curCar.odo / 10000.00];
         }];
     } copy];
     

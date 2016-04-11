@@ -486,7 +486,7 @@
     CGFloat thirdDiscountFloat = [[dataModel.insList[1] objectForKey:@"discount"] floatValue] / 100;
     
     //三者险价格（标准报价*险种折扣*小马折扣）
-    self.thirdPrice = [[ThirdPiceArr safetyObjectAtIndex:self.thirdInsSelectIndex] integerValue] * thirdDiscountFloat * xmDiscount;
+    self.thirdPrice = [[ThirdPiceArr safetyObjectAtIndex:self.thirdInsSelectIndex] floatValue] * thirdDiscountFloat * xmDiscount;
     [self calculateSeatPrice:dataModel];
 }
 
