@@ -165,6 +165,11 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
 
 - (RACSignal *)rac_startGetVcodeWithFetchVcodeSignal:(RACSignal *)vcodeSignal
 {
+    return [self rac_startGetVcodeWithFetchVcodeSignal:vcodeSignal andPhone:nil];
+}
+
+- (RACSignal *)rac_startGetVcodeWithFetchVcodeSignal:(RACSignal *)vcodeSignal andPhone:(NSString *)phone
+{
     UIButton *btn = self.getVcodeButton;
     VCodeInputField *field = self.inputVcodeField;
     
@@ -176,9 +181,16 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
         [btn setTitle:@"正在获取..." forState:UIControlStateNormal];
         btn.enabled = NO;
     }] flattenMap:^RACStream *(id value) {
+        @strongify(self);
         [subject sendNext:value];
         [subject sendCompleted];
-        [field showRightViewAfterInterval:kVCodePromptInteval];
+        [field showRightViewAfterInterval:kVCodePromptInteval withFilter:^BOOL{
+            @strongify(self);
+            if (phone && self.phoneField) {
+                return [phone isEqualToString:self.phoneField.text];
+            }
+            return YES;
+        }];
         return [self rac_timeCountDown:kMaxVcodeInterval];
     }] finally:^{
         @strongify(self);
