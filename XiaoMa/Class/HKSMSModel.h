@@ -37,5 +37,6 @@ typedef enum : NSInteger
 ///对获取验证码按钮进行倒计时
 - (BOOL)countDownIfNeededWithVcodeType:(HKVcodeType)type;
 - (RACSignal *)rac_startGetVcodeWithFetchVcodeSignal:(RACSignal *)vcodeSignal;
+- (RACSignal *)rac_startGetVcodeWithFetchVcodeSignal:(RACSignal *)vcodeSignal andPhone:(NSString *)phone;
 
 @end
