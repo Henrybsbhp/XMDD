@@ -174,16 +174,7 @@
         
         PictureRecord * record = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
         CGFloat width = gAppMgr.deviceInfo.screenSize.width - 60;
-        CGFloat height;
-        if (record.image)
-        {
-            CGFloat imgRatio = record.image.size.height / record.image.size.width;
-            height = imgRatio * width;
-        }
-        else
-        {
-            height = 666.0 / 1024 * width;
-        }
+        CGFloat height = 666.0 / 1024 * width;
         return height;
     }
     return 58;
