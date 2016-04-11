@@ -53,7 +53,6 @@
 		181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6DA21B15919900D38555 /* LFGlassView.m */; };
 		1821C34D1C4794D800120AF4 /* HomeNewbieGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821C34C1C4794D800120AF4 /* HomeNewbieGuideVC.m */; };
 		1821C3571C4DD36C00120AF4 /* CKDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821C3561C4DD36C00120AF4 /* CKDatasource.m */; };
-		1821C35A1C4DFD6500120AF4 /* SMSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821C3591C4DFD6500120AF4 /* SMSModel.m */; };
 		18273F251C7ED1F8004192B3 /* GascardChargeByStagesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F241C7ED1F8004192B3 /* GascardChargeByStagesOp.m */; };
 		18273F281C7FEE70004192B3 /* GasNormalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F271C7FEE70004192B3 /* GasNormalVC.m */; };
 		18273F2B1C7FEE88004192B3 /* GasCZBVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F2A1C7FEE88004192B3 /* GasCZBVC.m */; };
@@ -150,7 +149,6 @@
 		18804AAE1B280E3C00E7E764 /* HKLoadingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804AAD1B280E3C00E7E764 /* HKLoadingModel.m */; };
 		1883D8FF1ACB99AC002A4D19 /* XiaoMaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */; };
 		1883D9101ACBBE30002A4D19 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D90F1ACBBE30002A4D19 /* main.m */; };
-		1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1883D9131ACBBE5E002A4D19 /* Images.xcassets */; };
 		1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9181ACBC2E0002A4D19 /* AppDelegate.m */; };
 		1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9261ACCD6C0002A4D19 /* MainTabBarVC.m */; };
 		1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */; };
@@ -345,6 +343,7 @@
 		4E043B1A1C9A511200742268 /* MutualInsChooseCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E043B191C9A511200742268 /* MutualInsChooseCarVC.m */; };
 		4E045E731CABD52600F17446 /* NSString+BankNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E045E721CABD52600F17446 /* NSString+BankNumber.m */; };
 		4E045E761CABD55600F17446 /* ConfirmClaimOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E045E751CABD55600F17446 /* ConfirmClaimOp.m */; };
+		4E1FEF321CBB97C100A9BA6F /* PopAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FEF311CBB97C100A9BA6F /* PopAnimation.m */; };
 		4E34529D1C96A9BF00E2AFE2 /* MutualInsScencePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E34529C1C96A9BF00E2AFE2 /* MutualInsScencePageVC.m */; };
 		4E3452D11C96B90500E2AFE2 /* MutualInsClaimDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3452D01C96B90500E2AFE2 /* MutualInsClaimDetailVC.m */; };
 		4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5995671C201C5300686565 /* CommitSuccessVC.m */; };
@@ -446,7 +445,7 @@
 		50FAC2681C23AA8200F8990F /* PickerAutoModelVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAC2671C23AA8200F8990F /* PickerAutoModelVC.m */; };
 		50FAC26B1C23AB9C00F8990F /* GetAutomobileModelV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAC26A1C23AB9C00F8990F /* GetAutomobileModelV2Op.m */; };
 		50FAC2711C23B8C000F8990F /* AutoSeriesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FAC2701C23B8C000F8990F /* AutoSeriesModel.m */; };
-		50FEF76B1C8827C900B85F19 /* AutoGroupInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FEF76A1C8827C900B85F19 /* AutoGroupInfoVC.m */; };
+		50FEF76B1C8827C900B85F19 /* SystemGroupListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FEF76A1C8827C900B85F19 /* SystemGroupListVC.m */; };
 		6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */; };
 		6B086BA71AE4F03800659DB7 /* UIView+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B086BA61AE4F03800659DB7 /* UIView+Base.m */; };
 		6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0DB8211BEB277A007BE693 /* GetCarwashOrderListV3Op.m */; };
@@ -694,6 +693,7 @@
 		C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */; };
 		C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */; };
 		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
+		C35803051CBB79600002808D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35803041CBB79600002808D /* Images.xcassets */; };
 		C35E37671CAA7ED2008E536D /* UIView+HKLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C35E37661CAA7ED2008E536D /* UIView+HKLine.m */; };
 		C36B8A9F1CB3526100BC2487 /* GetSystemHomeModuleOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */; };
 		FA024A321CAE500500481F59 /* BankCardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA024A311CAE500500481F59 /* BankCardDetailVC.m */; };
@@ -855,8 +855,6 @@
 		1821C34C1C4794D800120AF4 /* HomeNewbieGuideVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeNewbieGuideVC.m; sourceTree = "<group>"; };
 		1821C3551C4DD36C00120AF4 /* CKDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKDatasource.h; path = Class/CKDatasource.h; sourceTree = "<group>"; };
 		1821C3561C4DD36C00120AF4 /* CKDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKDatasource.m; path = Class/CKDatasource.m; sourceTree = "<group>"; };
-		1821C3581C4DFD6500120AF4 /* SMSModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMSModel.h; path = Class/SMSModel.h; sourceTree = "<group>"; };
-		1821C3591C4DFD6500120AF4 /* SMSModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMSModel.m; path = Class/SMSModel.m; sourceTree = "<group>"; };
 		18273F231C7ED1F8004192B3 /* GascardChargeByStagesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GascardChargeByStagesOp.h; sourceTree = "<group>"; };
 		18273F241C7ED1F8004192B3 /* GascardChargeByStagesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GascardChargeByStagesOp.m; sourceTree = "<group>"; };
 		18273F261C7FEE70004192B3 /* GasNormalVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasNormalVC.h; sourceTree = "<group>"; };
@@ -1052,7 +1050,6 @@
 		1883D8FD1ACB99AC002A4D19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XiaoMaTests.m; sourceTree = "<group>"; };
 		1883D90F1ACBBE30002A4D19 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Misc/main.m; sourceTree = "<group>"; };
-		1883D9131ACBBE5E002A4D19 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1883D9171ACBC2E0002A4D19 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Class/AppDelegate.h; sourceTree = "<group>"; };
 		1883D9181ACBC2E0002A4D19 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Class/AppDelegate.m; sourceTree = "<group>"; };
 		1883D9231ACBC4A9002A4D19 /* XiaoMa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XiaoMa.h; path = Class/XiaoMa.h; sourceTree = "<group>"; };
@@ -1434,6 +1431,8 @@
 		4E045E721CABD52600F17446 /* NSString+BankNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BankNumber.m"; path = "Class/NSString+BankNumber.m"; sourceTree = "<group>"; };
 		4E045E741CABD55600F17446 /* ConfirmClaimOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmClaimOp.h; path = Class/ConfirmClaimOp.h; sourceTree = "<group>"; };
 		4E045E751CABD55600F17446 /* ConfirmClaimOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmClaimOp.m; path = Class/ConfirmClaimOp.m; sourceTree = "<group>"; };
+		4E1FEF301CBB97C100A9BA6F /* PopAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PopAnimation.h; path = Class/PopAnimation.h; sourceTree = "<group>"; };
+		4E1FEF311CBB97C100A9BA6F /* PopAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PopAnimation.m; path = Class/PopAnimation.m; sourceTree = "<group>"; };
 		4E34529B1C96A9BF00E2AFE2 /* MutualInsScencePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsScencePageVC.h; sourceTree = "<group>"; };
 		4E34529C1C96A9BF00E2AFE2 /* MutualInsScencePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsScencePageVC.m; sourceTree = "<group>"; };
 		4E3452CF1C96B90500E2AFE2 /* MutualInsClaimDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsClaimDetailVC.h; sourceTree = "<group>"; };
@@ -1626,8 +1625,8 @@
 		50FAC26A1C23AB9C00F8990F /* GetAutomobileModelV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAutomobileModelV2Op.m; path = Class/GetAutomobileModelV2Op.m; sourceTree = "<group>"; };
 		50FAC26F1C23B8C000F8990F /* AutoSeriesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AutoSeriesModel.h; path = Class/AutoSeriesModel.h; sourceTree = "<group>"; };
 		50FAC2701C23B8C000F8990F /* AutoSeriesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoSeriesModel.m; path = Class/AutoSeriesModel.m; sourceTree = "<group>"; };
-		50FEF7691C8827C900B85F19 /* AutoGroupInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoGroupInfoVC.h; sourceTree = "<group>"; };
-		50FEF76A1C8827C900B85F19 /* AutoGroupInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoGroupInfoVC.m; sourceTree = "<group>"; };
+		50FEF7691C8827C900B85F19 /* SystemGroupListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemGroupListVC.h; sourceTree = "<group>"; };
+		50FEF76A1C8827C900B85F19 /* SystemGroupListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemGroupListVC.m; sourceTree = "<group>"; };
 		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6B086BA21AE4E19000659DB7 /* GetSystemTipsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemTipsOp.h; path = Class/GetSystemTipsOp.h; sourceTree = "<group>"; };
 		6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemTipsOp.m; path = Class/GetSystemTipsOp.m; sourceTree = "<group>"; };
@@ -2164,6 +2163,7 @@
 		C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCouponVC.h; sourceTree = "<group>"; };
 		C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCouponVC.m; sourceTree = "<group>"; };
 		C26489B31AF8A70A00F1E318 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		C35803041CBB79600002808D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C35E37651CAA7ED2008E536D /* UIView+HKLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+HKLine.h"; path = "Class/UIView+HKLine.h"; sourceTree = "<group>"; };
 		C35E37661CAA7ED2008E536D /* UIView+HKLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+HKLine.m"; path = "Class/UIView+HKLine.m"; sourceTree = "<group>"; };
 		C36B8A9D1CB3526100BC2487 /* GetSystemHomeModuleOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemHomeModuleOp.h; path = Class/GetSystemHomeModuleOp.h; sourceTree = "<group>"; };
@@ -2423,6 +2423,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				4E1FEF281CBB978B00A9BA6F /* PopAnimation */,
 				1805393F1C9FC08B00D896A1 /* AlertView */,
 				180538D91C9BFA2600D896A1 /* TableView */,
 				6BC80D031C9946B000C7BA3D /* View */,
@@ -2521,15 +2522,6 @@
 				184F09FA1C7B036A00DD6B54 /* CKQueue.m */,
 			);
 			name = Base;
-			sourceTree = "<group>";
-		};
-		1821C35B1C4E128C00120AF4 /* Temp */ = {
-			isa = PBXGroup;
-			children = (
-				1821C3581C4DFD6500120AF4 /* SMSModel.h */,
-				1821C3591C4DFD6500120AF4 /* SMSModel.m */,
-			);
-			name = Temp;
 			sourceTree = "<group>";
 		};
 		182BEF071CA0F65200D67C18 /* JCAlertView */ = {
@@ -3070,7 +3062,7 @@
 		1883D9121ACBBE5E002A4D19 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				1883D9131ACBBE5E002A4D19 /* Images.xcassets */,
+				C35803041CBB79600002808D /* Images.xcassets */,
 				6BD293BA1B943EF1006482A4 /* Storyboard */,
 				1851F4221B0C29A500241A01 /* CoreData */,
 				6BBAB9581ADE724300EC342F /* Other */,
@@ -3211,7 +3203,6 @@
 		18895B2E1B4CB4D600928F62 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				1821C35B1C4E128C00120AF4 /* Temp */,
 				18895B331B4CB87900928F62 /* Super */,
 				1883D9311ACCDA8B002A4D19 /* DefaultStyleModel.h */,
 				1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */,
@@ -3939,6 +3930,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		4E1FEF281CBB978B00A9BA6F /* PopAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				4E1FEF301CBB97C100A9BA6F /* PopAnimation.h */,
+				4E1FEF311CBB97C100A9BA6F /* PopAnimation.m */,
+			);
+			name = PopAnimation;
+			sourceTree = "<group>";
+		};
 		4E97D7121C9000FC00FC418F /* MutualInsClaims */ = {
 			isa = PBXGroup;
 			children = (
@@ -3992,8 +3992,8 @@
 				505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */,
 				5029A84D1C9121C2006B3438 /* GroupIntroductionVC.h */,
 				5029A84E1C9121C2006B3438 /* GroupIntroductionVC.m */,
-				50FEF7691C8827C900B85F19 /* AutoGroupInfoVC.h */,
-				50FEF76A1C8827C900B85F19 /* AutoGroupInfoVC.m */,
+				50FEF7691C8827C900B85F19 /* SystemGroupListVC.h */,
+				50FEF76A1C8827C900B85F19 /* SystemGroupListVC.m */,
 				FA93A7BC1C9978AB00CBD565 /* CreateGroupVC.h */,
 				FA93A7BD1C9978AB00CBD565 /* CreateGroupVC.m */,
 				FA958E231C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.h */,
@@ -5176,6 +5176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				182BEF0B1CA0F65200D67C18 /* JCAlertView.bundle in Resources */,
+				C35803051CBB79600002808D /* Images.xcassets in Resources */,
 				6BB61B9A1AEF5350004F39AA /* MapBottomView.xib in Resources */,
 				504FFEA21C05D48E002D7D6D /* city.plist in Resources */,
 				6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */,
@@ -5217,7 +5218,6 @@
 				6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */,
 				18CECC291C30F8890075B7F9 /* LICENSE in Resources */,
 				6BD293C81B943EF1006482A4 /* About.storyboard in Resources */,
-				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
 				18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */,
 				6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */,
 				18E28A261B954F4E0070E759 /* Car.storyboard in Resources */,
@@ -5355,7 +5355,7 @@
 				18E592351C193C6D006010D9 /* InsBuyVC.m in Sources */,
 				1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */,
 				18FC01E31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m in Sources */,
-				50FEF76B1C8827C900B85F19 /* AutoGroupInfoVC.m in Sources */,
+				50FEF76B1C8827C900B85F19 /* SystemGroupListVC.m in Sources */,
 				6B978BFA1B6B643A00A6E7C6 /* HKCoverage.m in Sources */,
 				503C5B251CB523D200EFCDDA /* ValuationCarSubView.m in Sources */,
 				2E3EEBCF1C22AAD50010E34F /* CommissionSuccessVC.m in Sources */,
@@ -5395,7 +5395,6 @@
 				6B8D47561BEA03C900706989 /* GetCarwashOrderV2Op.m in Sources */,
 				50AC2B501C8D737400620551 /* MutualInsPicUpdateVC.m in Sources */,
 				6B50127E1C59F5F000267DCB /* UIViewController+Swizzling.m in Sources */,
-				1821C35A1C4DFD6500120AF4 /* SMSModel.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
 				6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */,
 				6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */,
@@ -5476,6 +5475,7 @@
 				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
 				50F0FF711C9AA446009A94A3 /* MutualInsChooseVC.m in Sources */,
 				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
+				4E1FEF321CBB97C100A9BA6F /* PopAnimation.m in Sources */,
 				18C52C411BA80AC700F6C38B /* GetPicHistoryOp.m in Sources */,
 				18A9E8D21BDF18EA0061D3BC /* HKCellData.m in Sources */,
 				6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */,
@@ -6038,7 +6038,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=0",
+					"XMDDEnvironment=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/react-native/React/**",
