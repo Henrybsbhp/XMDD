@@ -18,6 +18,7 @@
 #import "MutualInsPayViewController.h"
 
 @interface ChooseCouponVC ()<UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UIButton *askMoreAction;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)getMoreAction:(id)sender;
@@ -60,6 +61,7 @@
     {
         self.tableView.hidden = YES;
         [self.view showImageEmptyViewWithImageName:@"def_withoutCoupon" text:@"暂无优惠券"];
+        [self.view bringSubviewToFront:self.askMoreAction];
     }
     else
     {
@@ -347,5 +349,6 @@
         [self.tableView reloadData];
     }
 }
+
 
 @end

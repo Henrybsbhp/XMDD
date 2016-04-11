@@ -220,7 +220,7 @@
     HKCellData *cell1_3 = [HKCellData dataWithCellID:@"Selection" tag:nil];
     cell1_3.customInfo[@"title"] = @"品牌车系";
     cell1_3.customInfo[@"placehold"] = @"请选择品牌车系";
-    cell1_3.customInfo[@"disable"] = @(!(self.curCar.editMask & HKCarEditableEdit));
+    cell1_3.customInfo[@"disable"] = @(!(self.curCar.editMask & HKCarEditableEditCarModel));
     cell1_3.object = [[RACObserve(self.curCar, brand) merge:RACObserve(self.curCar, seriesModel.seriesname)] map:^id(id value) {
         @strongify(self);
         if (self.curCar.brand && self.curCar.seriesModel.seriesname) {
@@ -240,7 +240,7 @@
         @strongify(self);
         [MobClick event:@"rp312_4"];
         [self.view endEditing:YES];
-        if (!(self.curCar.editMask & HKCarEditableEdit)) {
+        if (!(self.curCar.editMask & HKCarEditableEditCarModel)) {
             return ;
         }
         PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
@@ -258,7 +258,7 @@
     HKCellData *cell1_4 = [HKCellData dataWithCellID:@"Selection" tag:nil];
     cell1_4.customInfo[@"title"] = @"具体车型";
     cell1_4.customInfo[@"placehold"] = @"请选择具体车型";
-    cell1_4.customInfo[@"disable"] = @(!(self.curCar.editMask & HKCarEditableEdit));
+    cell1_4.customInfo[@"disable"] = @(!(self.curCar.editMask & HKCarEditableEditCarModel));
     cell1_4.object = RACObserve(self.curCar, detailModel.modelname);
     cell1_4.customInfo[@"inspector"] = [^BOOL(NSIndexPath *indexPath) {
         @strongify(self);
@@ -272,7 +272,7 @@
         @strongify(self);
         [MobClick event:@"rp312_5"];
         [self.view endEditing:YES];
-        if (!(self.curCar.editMask & HKCarEditableEdit)) {
+        if (!(self.curCar.editMask & HKCarEditableEditCarModel)) {
             return ;
         }
         if ([self.curCar.seriesModel.seriesid integerValue] != 0) {
@@ -743,7 +743,7 @@
     OETextField *field = (OETextField *)[cell.contentView viewWithTag:1003];
     [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
 
-    cell.contentView.userInteractionEnabled  = self.curCar.editMask & HKCarEditableEdit;
+    cell.contentView.userInteractionEnabled  = self.curCar.editMask & HKCarEditableEditPlateNumber;
 
     label.text = data.customInfo[@"title"];
     

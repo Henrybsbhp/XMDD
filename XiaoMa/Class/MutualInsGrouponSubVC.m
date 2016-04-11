@@ -342,10 +342,14 @@
 }
 
 #pragma mark - Util
-- (NSArray *)sortAndFilterMembers:(NSArray *)members {
-    NSArray *newMembers = [members arrayByFilteringOperator:^BOOL(MutualInsMemberInfo *info) {
-        return info.showflag ? info : nil;
-    }];
+- (NSArray *)sortAndFilterMembers:(NSArray *)members
+{
+    NSMutableArray *newMembers = [NSMutableArray array];
+    for (MutualInsMemberInfo *member in members) {
+        if (member.showflag) {
+            [newMembers addObject:member];
+        }
+    }
     return  [newMembers sortedArrayUsingComparator:^NSComparisonResult(MutualInsMemberInfo *obj1, MutualInsMemberInfo *obj2) {
         if ([obj1.memberid isEqual:self.groupDetail.req_memberid]) {
             return NSOrderedAscending;

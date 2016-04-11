@@ -28,7 +28,13 @@
 ///获取当前用户的所有银行卡
 - (CKEvent *)getAllBankCards
 {
-    CKEvent *event = [[self rac_getAllBankCards] eventWithName:kEvtGetAllBankCards];
+    CKEvent *event;
+    if (!gAppMgr.myUser) {
+        event = [[RACSignal return:nil] eventWithName:@"reloadUser"];
+    }
+    else {
+        event = [[self rac_getAllBankCards] eventWithName:kEvtGetAllBankCards];
+    }
     return [self inlineEvent:event forDomain:kDomainBankCards];
 }
 

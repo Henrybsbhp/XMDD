@@ -39,7 +39,6 @@
 
 - (void)reloadForUserChanged:(JTUser *)user
 {
-    
 }
 
 - (BOOL)needUpdateTimetagForKey:(NSString *)key
