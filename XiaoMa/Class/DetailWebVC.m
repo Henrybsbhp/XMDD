@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     menuItemsTypeCollection             = 1
 };
 
-@interface DetailWebVC () <UIWebViewDelegate, UINavigationBarDelegate, NJKWebViewProgressDelegate>
+@interface DetailWebVC () <UIWebViewDelegate, NJKWebViewProgressDelegate>
 
 @property (nonatomic, strong) NavigationModel *navModel;
 
@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)dealloc
 {
-//    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:@"UIWindowDidRotateNotification"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:@"UIWindowDidRotateNotification"];
     [[NSURLCache sharedURLCache] removeCachedResponseForRequest:self.request];
     DebugLog(@"DetailWebVC dealloc ~");
 }
@@ -52,14 +52,14 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:_progressView];
     
-//    [[NSNotificationCenter defaultCenter] addObserverForName:@"UIWindowDidRotateNotification" object:nil queue:nil usingBlock:^(NSNotification *note) {
-//        
-//        if ([note.userInfo[@"UIWindowOldOrientationUserInfoKey"] intValue] >= 3) {
-//            [self.navigationController.navigationBar sizeToFit];
-//            self.navigationController.navigationBar.frame = (CGRect){0, 0, self.view.frame.size.width, 64};
-//        }
-//        
-//    }];
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"UIWindowDidRotateNotification" object:nil queue:nil usingBlock:^(NSNotification *note) {
+        
+        if ([note.userInfo[@"UIWindowOldOrientationUserInfoKey"] intValue] >= 3) {
+            [self.navigationController.navigationBar sizeToFit];
+            self.navigationController.navigationBar.frame = (CGRect){0, 0, self.view.frame.size.width, 64};
+        }
+        
+    }];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -70,8 +70,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.navigationController.navigationBar.delegate = self;
     
     self.view.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
     self.webView.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
@@ -91,10 +89,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         self.webView.scrollView.contentSize = self.webView.frame.size;
         [self.webView loadRequest:self.request];
     });
-}
-
-- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar {
-    return UIBarPositionTopAttached;
 }
 
 - (void)requestUrl:(NSString *)url

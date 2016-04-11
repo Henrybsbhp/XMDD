@@ -346,9 +346,11 @@
                                                 <constraint firstItem="hhr-z6-med" firstAttribute="centerY" secondItem="3fE-tw-j00" secondAttribute="centerY" id="k8Q-Ld-fn3"/>
                                                 <constraint firstItem="hhr-z6-med" firstAttribute="leading" secondItem="3fE-tw-j00" secondAttribute="leading" constant="12" id="ksC-i1-30O"/>
                                                 <constraint firstItem="kdz-bs-gGW" firstAttribute="centerX" secondItem="3fE-tw-j00" secondAttribute="centerX" id="qkg-2Z-LC9"/>
+                                                <constraint firstItem="X8V-qS-TiO" firstAttribute="leading" secondItem="hhr-z6-med" secondAttribute="trailing" constant="11" id="t37-Jb-guv"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="Ky3-2D-XO8"/>
                                                     <exclude reference="UWi-0h-dqg"/>
                                                 </mask>
                                             </variation>
@@ -611,6 +613,7 @@
                                                 <constraint firstItem="ChC-lg-0RP" firstAttribute="centerY" secondItem="1wN-U8-iZA" secondAttribute="centerY" id="Hbf-Bv-7EG"/>
                                                 <constraint firstAttribute="centerY" secondItem="1wN-U8-iZA" secondAttribute="centerY" id="OF2-0q-PiR"/>
                                                 <constraint firstItem="azp-YB-bWZ" firstAttribute="leading" secondItem="1wN-U8-iZA" secondAttribute="leading" constant="12" id="Sn3-M6-msf"/>
+                                                <constraint firstItem="ChC-lg-0RP" firstAttribute="leading" secondItem="azp-YB-bWZ" secondAttribute="trailing" constant="11" id="Ssw-AE-0of"/>
                                                 <constraint firstItem="bRF-9W-yKH" firstAttribute="leading" secondItem="1wN-U8-iZA" secondAttribute="leading" id="Sub-AK-SOW"/>
                                                 <constraint firstItem="ChC-lg-0RP" firstAttribute="leading" secondItem="v1j-WQ-epw" secondAttribute="trailing" constant="5" id="T0I-PK-hRZ"/>
                                                 <constraint firstAttribute="trailing" secondItem="bRF-9W-yKH" secondAttribute="trailing" id="hrV-7K-Xjc"/>

@@ -18,4 +18,6 @@
 ///是否代买交强险
 @property (nonatomic)BOOL proxybuy;
 
+- (void)tableViewReloadData;
+
 @end

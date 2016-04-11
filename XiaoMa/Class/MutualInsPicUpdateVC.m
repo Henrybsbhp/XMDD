@@ -102,7 +102,7 @@
         }
         if (!self.insuranceExpirationDate)
         {
-            [gToast showMistake:@"请选择保险到期日"];
+            [gToast showMistake:@"请选择商业险到期日期"];
             return ;
         }
         
@@ -140,7 +140,7 @@
         headerLabel.text = @"请选择保险公司";
     }
     else{
-        headerLabel.text = @"请选择保险到期日";
+        headerLabel.text = @"请选择商业险到期日期";
     }
     [headerLabel sizeToFit];
     [view addSubview:headerLabel];
@@ -174,16 +174,7 @@
         
         PictureRecord * record = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
         CGFloat width = gAppMgr.deviceInfo.screenSize.width - 60;
-        CGFloat height;
-        if (record.image)
-        {
-            CGFloat imgRatio = record.image.size.height / record.image.size.width;
-            height = imgRatio * width;
-        }
-        else
-        {
-            height = 666.0 / 1024 * width;
-        }
+        CGFloat height = 666.0 / 1024 * width;
         return height;
     }
     return 58;
@@ -370,7 +361,7 @@
     {
         [[RACObserve(self, insuranceExpirationDate) takeUntilForCell:cell] subscribeNext:^(NSDate * date) {
             
-            lb.text = date ? [date dateFormatForYYMMdd] : @"请选择保险到期日";
+            lb.text = date ? [date dateFormatForYYMMdd] : @"请选择商业险到期日期";
             lb.textColor = date ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#888888");
         }];
     }
