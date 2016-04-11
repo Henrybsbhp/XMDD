@@ -260,6 +260,7 @@
 //获取服务器数据
 -(void)reloadData
 {
+    @weakify(self)
     SecondCarValuationOp *op = [SecondCarValuationOp new];
     op.req_sellerCityId = self.sellercityid;
     [[[op rac_postRequest] initially:^{
@@ -268,18 +269,19 @@
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] subscribeNext:^(SecondCarValuationOp *op) {
         
+        [self.view stopActivityAnimation];
+        self.tableView.hidden=NO;
         self.dataArr = op.rsp_dataArr;
         self.tip = op.rsp_tip;
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
+        self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"网络请求失败。点击屏幕重新请求" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败。点击屏幕重新请求" tapBlock:^{
+            @strongify(self);
             [self reloadData];
         }];
-    } completed:^{
-        [self.view stopActivityAnimation];
-        self.tableView.hidden=NO;
     }];
 }
 

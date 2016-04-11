@@ -15,6 +15,7 @@
 #import "DetailWebVC.h"
 #import "PayForInsuranceVC.h"
 #import "PayForGasViewController.h"
+#import "MutualInsPayViewController.h"
 
 @interface ChooseCouponVC ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -55,11 +56,15 @@
 - (void)reloadData
 {
     [self.tableView reloadData];
-    if (self.couponArray.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"暂无优惠券"];
+    if (self.couponArray.count == 0)
+    {
+        self.tableView.hidden = YES;
+        [self.view showImageEmptyViewWithImageName:@"def_withoutCoupon" text:@"暂无优惠券"];
     }
-    else {
-        [self.tableView hideDefaultEmptyView];
+    else
+    {
+        self.tableView.hidden = NO;
+        [self.view hideDefaultEmptyView];
     }
 }
 
@@ -136,9 +141,15 @@
         if (self.selectedCouponArray.count)
         {
             HKCoupon * coupon = [self.selectedCouponArray safetyObjectAtIndex:0];
-            pay4GasVC.couponType = coupon.conponType;
             pay4GasVC.selectGasCoupouArray = self.selectedCouponArray;
+            pay4GasVC.couponType = coupon.conponType;
         }
+    }
+    
+    if (vc && [vc isKindOfClass:[MutualInsPayViewController class]])
+    {
+        MutualInsPayViewController * mutualInsPayVC = (MutualInsPayViewController *)vc;
+        [mutualInsPayVC tableViewReloadData];
     }
     
     [self.navigationController popViewControllerAnimated:YES];

@@ -37,7 +37,7 @@
 @interface MutualInsGrouponSubVC ()
 @property (nonatomic, strong) CKList *allItems;
 @property (nonatomic, strong) CKList *datasource;
-
+@property (nonatomic, strong) NSArray *sortedMembers;
 @property (nonatomic, assign) MutInsStatus status;
 @end
 
@@ -59,13 +59,14 @@
 - (void)reloadDataWithStatus:(MutInsStatus)status
 {
     self.status = status;
+    self.sortedMembers = [self sortAndFilterMembers:self.groupDetail.rsp_members];
     CKList *datasource;
     if (status == MutInsStatusNeedCar || status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedInsList ||
         status == MutInsStatusUnderReview || status == MutInsStatusNeedReviewAgain || status == MutInsStatusReviewFailed ||
         status == MutInsStatusNeedQuote || status == MutInsStatusAccountingPrice || status == MutInsStatusPeopleNumberUment) {
         
-        datasource = $([self carsItem],[self splitLineItem], [self arrowItem], [self descItem], [self timeItem],
-                       [self buttonItem], [self bottomItem]);
+        datasource = $([self carsItem],[self splitLineItem], [self arrowItem], [self waterWaveItem], [self descItem],
+                       [self timeItem], [self buttonItem], [self bottomItem]);
     }
     else if (status == MutInsStatusToBePaid) {
         
@@ -78,8 +79,8 @@
                        [self buttonItem], [self bottomItem]);
     }
     else {
-        datasource = $([self carsItem], [self splitLineItem], [self descItem], [self timeItem], [self buttonItem],
-                       [self bottomItem]);
+        datasource = $([self carsItem], [self splitLineItem], [self waterWaveItem], [self descItem], [self timeItem],
+                       [self buttonItem], [self bottomItem]);
     }
     self.datasource = datasource;
     [self.tableView reloadData];
@@ -253,13 +254,10 @@
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
     alert.message = msg;
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"再等一下" color:MutInsTextGrayColor clickBlock:^(id alertVC) {
-        [alertVC dismiss];
-    }];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"再等一下" color:MutInsTextGrayColor clickBlock:nil];
     @weakify(self);
     HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"直接报价" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         @strongify(self);
-        [alertVC dismiss];
         [self requestPremiumCalculate];
     }];
     alert.actionItems = @[cancel, improve];
@@ -306,13 +304,10 @@
             alert.topTitle = @"温馨提示";
             alert.imageName = @"mins_bulb";
             alert.message = error.domain;
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-            }];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
             @weakify(self);
             HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 @strongify(self);
-                [alertVC dismiss];
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                 carModel.originVC = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
                 vc.originCar = carModel.selectedCar;
@@ -368,7 +363,7 @@
 #pragma mark - CellItem
 - (id)carsItem
 {
-    NSArray *members = [self sortAndFilterMembers:self.groupDetail.rsp_members];
+    NSArray *members = self.sortedMembers;
     //如果没有成员，忽略
     if (members.count == 0) {
         return CKNULL;
@@ -408,10 +403,10 @@
 
 - (id)splitLine1Item
 {
-    if (self.groupDetail.rsp_members.count == 0) {
+    if (self.sortedMembers.count == 0) {
         return CKNULL;
     }
-    NSString *amount = [NSString stringWithFormat:@"共%d车", (int)[self.groupDetail.rsp_members count]];
+    NSString *amount = [NSString stringWithFormat:@"共%d车", (int)[self.sortedMembers count]];
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Line1", @"amount":amount}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 28;
@@ -429,7 +424,7 @@
 - (id)splitLine2Item
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Line2", @"time":self.groupDetail.rsp_timeperiod,
-                                      @"amount":@([self.groupDetail.rsp_members count])}];
+                                      @"amount":@([self.sortedMembers count])}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 36;
     });
@@ -469,8 +464,11 @@
     return item;
 }
 
-- (CKDict *)waterWaveItem
+- (id)waterWaveItem
 {
+    if (self.groupDetail.rsp_totalpoolamt == 0) {
+        return CKNULL;
+    }
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Wave"}];
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 168;

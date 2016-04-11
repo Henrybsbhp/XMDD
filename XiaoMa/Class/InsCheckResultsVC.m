@@ -95,7 +95,7 @@
         
         @strongify(self);
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"获取核保结果失败，点击重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取核保结果失败，点击重试" tapBlock:^{
             @strongify(self);
             [self requestPremiums];
         }];

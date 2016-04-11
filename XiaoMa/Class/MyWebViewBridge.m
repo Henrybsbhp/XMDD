@@ -14,6 +14,7 @@
 #import "ShareResponeManager.h"
 #import "SharedNotifyOp.h"
 #import "AwardOtherSheetVC.h"
+#import "HKImageAlertVC.h"
 
 typedef NS_ENUM(NSInteger, MenuItemsType) {
     menuItemsTypeShare                  = 1,
@@ -199,6 +200,80 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
+///设置导航
+- (void)registerNavigation
+{
+    [self.myBridge registerHandler:@"navi" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSDictionary * dic = data;
+        
+        
+        NSString * distination = [dic stringParamForName:@"distination"];
+        NSString * distinationName = [dic stringParamForName:@"name"];
+        double latitude = [[[distination componentsSeparatedByString:@","] safetyObjectAtIndex:1] doubleValue];
+        double longitude = [[[distination componentsSeparatedByString:@","] safetyObjectAtIndex:0] doubleValue];
+        JTShop * shop = [[JTShop alloc] init];
+        shop.shopLatitude = latitude;
+        shop.shopLongitude = longitude;
+        shop.shopName = distinationName;
+        
+        [[gMapHelper rac_getUserLocation] subscribeNext:^(MAUserLocation * l) {
+            
+            CLLocationCoordinate2D startCoordinate = l.coordinate;
+            [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:startCoordinate andView:gAppMgr.navModel.curNavCtrl.topViewController.view];
+        } error:^(NSError *error) {
+           
+            [gMapHelper handleGPSError:error];
+        }];
+        
+        responseCallback(nil);
+    }];
+}
+
+- (void)registerAlertVC
+{
+    [self.myBridge registerHandler:@"modal" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSDictionary * dic = data;
+        
+        NSString * modalId = [dic stringParamForName:@"modalId"];
+        NSString * title = [dic stringParamForName:@"title"];
+        NSString * text = [dic stringParamForName:@"text"];
+        NSString * type = [dic stringParamForName:@"type"];
+        
+        NSArray * buttons = dic[@"buttons"];
+        
+        NSMutableArray * alertItemArray = [NSMutableArray array];
+        for (NSDictionary * btnDict in buttons)
+        {
+            NSString * t = btnDict[@"text"];
+            NSString * value = btnDict[@"value"];
+            HKAlertActionItem *item = [HKAlertActionItem itemWithTitle:t color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+                NSDictionary * rDict = @{@"value":value,@"modalId":modalId};
+                [self.myBridge callHandler:@"modalHandler" data:rDict responseCallback:^(id response) {
+                }];
+            }];
+            
+            [alertItemArray safetyAddObject:item];
+        }
+        
+        NSString * imageName = @"mins_bulb";
+        if ([type isEqualToString:@"1"])
+        {
+            imageName = @"mins_ok";
+        }
+        else if ([type isEqualToString:@"2"])
+        {
+            imageName = @"mins_error";
+        }
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:title ImageName:imageName Message:text ActionItems:alertItemArray];
+        [alert show];
+        
+        responseCallback(nil);
+    }];
+}
+
+
+
+#pragma mark - Utilitly
 - (void)showImages:(NSString *)urlStr
 {
     UIWindow * window = [UIApplication sharedApplication].keyWindow;

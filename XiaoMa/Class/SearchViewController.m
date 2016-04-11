@@ -296,8 +296,7 @@
         self.isLoading = NO;
         self.resultArray = nil;
         @weakify(self);
-        [self.tableView showDefaultEmptyViewWithText:error.domain tapBlock:^{
-            
+        [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:error.domain tapBlock:^{
             @strongify(self);
             [self searchShops];
         }];
@@ -759,9 +758,7 @@
         
         if (shop.shopPhone.length == 0)
         {
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-            }];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
             [alert show];
             return ;

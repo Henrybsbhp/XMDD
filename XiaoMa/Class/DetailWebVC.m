@@ -37,6 +37,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:@"UIWindowDidRotateNotification"];
     [[NSURLCache sharedURLCache] removeCachedResponseForRequest:self.request];
     DebugLog(@"DetailWebVC dealloc ~");
 }
@@ -50,6 +51,15 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 {
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:_progressView];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"UIWindowDidRotateNotification" object:nil queue:nil usingBlock:^(NSNotification *note) {
+        
+        if ([note.userInfo[@"UIWindowOldOrientationUserInfoKey"] intValue] >= 3) {
+            [self.navigationController.navigationBar sizeToFit];
+            self.navigationController.navigationBar.frame = (CGRect){0, 0, self.view.frame.size.width, 64};
+        }
+        
+    }];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -127,6 +137,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     //上传单张图片
     [self.bridge uploadImage];
+    
+    //设置导航
+    [self.bridge registerNavigation];
+    
+    //设置提示框
+    [self.bridge registerAlertVC];
 }
 
 - (void)setupRightItems

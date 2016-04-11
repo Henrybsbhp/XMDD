@@ -44,6 +44,7 @@
     
     self.contactname = self.contract.insurancedname;
     self.contactphone = gAppMgr.myUser.userID;
+    self.area = [[gAppMgr.addrComponent.province append:gAppMgr.addrComponent.city] append:gAppMgr.addrComponent.district];
     
     [self setupDatasource];
 }
@@ -57,6 +58,15 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.navigationItem.leftBarButtonItem = back;
+    
+    if (self.isFromOrderInfoVC)
+    {
+        self.navigationItem.title = @"寄送地址";
+    }
+    else
+    {
+        self.navigationItem.title = @"支付成功";
+    }
 }
 
 - (void)setupDatasource
@@ -70,8 +80,17 @@
     CKDict * districtDict = [self textinputDataForDistrict];
     CKDict * detailAddressDict = [self textinputDataForDetailAddress];
     CKDict * tagDict = [self tagData];
-    self.datasource = $($(topDict,infoDict),
+    
+    if (self.isFromOrderInfoVC)
+    {
+        self.datasource = $($(infoDict),
                         $(sectionHeadDict,nameDict,phoneDict,districtDict,detailAddressDict,tagDict));
+    }
+    else
+    {
+        self.datasource = $($(topDict,infoDict),
+                            $(sectionHeadDict,nameDict,phoneDict,districtDict,detailAddressDict,tagDict));
+    }
     [self.tableView reloadData];
 }
 
@@ -273,7 +292,7 @@
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         
-        AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
+        AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCityAndDicstrict fromVC:self];
         
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * disctrictModel) {
             
@@ -304,7 +323,7 @@
         UITextField *textField = [cell viewWithTag:102];
         
         title.text = @"详细地址";
-        textField.placeholder = @"请输入联系人详细地址";
+        textField.placeholder = @"请输入详细地址";
         textField.text = self.address;
         self.view4 = textField;
         
@@ -394,9 +413,6 @@
     alert.imageName = @"mins_bulb";
     alert.message = @"您未提交联系人信息，为保证协议的正常送达，请先完善信息。是否继续完善信息？";
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"执意退出" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-        [alertVC dismiss];
-        
-
         for (UIViewController * vc in self.navigationController.viewControllers)
         {
             if ([vc isKindOfClass:[MutualInsOrderInfoVC class]])
@@ -409,9 +425,7 @@
         [self.navigationController popToRootViewControllerAnimated:YES];
 
     }];
-    HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"继续完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-        [alertVC dismiss];
-    }];
+    HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"继续完善" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
     alert.actionItems = @[cancel, improve];
     [alert show];
 }

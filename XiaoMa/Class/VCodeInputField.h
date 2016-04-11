@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UIButton *rightButton;
 
 - (void)showRightViewAfterInterval:(NSTimeInterval)interval;
+- (void)showRightViewAfterInterval:(NSTimeInterval)interval withFilter:(BOOL(^)(void))filter;
 - (void)hideRightView;
 
 @end

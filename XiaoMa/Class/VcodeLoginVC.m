@@ -15,7 +15,7 @@
 #import "CKLimitTextField.h"
 #import "IQKeyboardManager.h"
 
-@interface VcodeLoginVC ()
+@interface VcodeLoginVC () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
 @property (weak, nonatomic) IBOutlet UIButton *vcodeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet CKLimitTextField *num;
 @property (weak, nonatomic) IBOutlet VCodeInputField *code;
 @property (nonatomic, assign) CGFloat upOffsetY;
+@property (nonatomic, strong) NSString *currentPhone;
 
 @end
 
@@ -68,6 +69,9 @@
 {
     [super viewDidDisappear:animated];
     
+    [self.num resignFirstResponder];
+    [self.code resignFirstResponder];
+    
     [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
@@ -83,11 +87,6 @@
         [MobClick event:@"rp002_1"];
     }];
     
-
-    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#18D06A") forState:UIControlStateNormal];
-    
-    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
-    
     @weakify(self);
     [self.num setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
@@ -98,7 +97,14 @@
                 self.vcodeBtn.enabled = enable;
             }
         }
+        if (self.currentPhone && ![self.currentPhone isEqualToString:field.text]) {
+            [self.code hideRightView];
+        }
     }];
+
+    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#18D06A") forState:UIControlStateNormal];
+    
+    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
     
     self.code.textLimit = 8;
     
@@ -114,17 +120,7 @@
             [self setViewMovedUp:YES];
         }
     }];
-    
-//    [self.code setShouldBeginEditingBlock:^BOOL(CKLimitTextField *textField) {
-//        
-//        if  (self.view.frame.origin.y >= 0) {
-//            [self setViewMovedUp:YES];
-//        }
-//        
-//        return YES;
-//    }];
 }
-
 
 // 点击验证码 textField 后，如登录按钮被遮住，则提升 view 的高度。
 - (void)setViewMovedUp:(BOOL)movedUp
@@ -172,8 +168,9 @@
         return;
     }
 
-    RACSignal *sig = [self.smsModel rac_getSystemVcodeWithType:HKVcodeTypeLogin phone:[self textAtIndex:1]];
-    [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeError:^(NSError *error) {
+    self.currentPhone = [self textAtIndex:1];
+    RACSignal *sig = [self.smsModel rac_getSystemVcodeWithType:HKVcodeTypeLogin phone:self.currentPhone];
+    [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig andPhone:self.currentPhone] subscribeError:^(NSError *error) {
         [gToast showError:error.domain];
     }];
     

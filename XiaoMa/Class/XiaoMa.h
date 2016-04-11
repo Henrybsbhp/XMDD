@@ -55,6 +55,7 @@
 
 //引用
 #import "Constants.h"
+#import "HKUIConstants.h"
 #import "XiaoMaConstants.h"
 
 //常用model

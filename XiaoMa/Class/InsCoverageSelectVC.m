@@ -139,7 +139,7 @@
         
         @strongify(self);
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"保险方案获取失败，点击重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"保险方案获取失败，点击重试" tapBlock:^{
             @strongify(self);
             [self requestInsurancePlans];
         }];
@@ -417,9 +417,7 @@
          //交强险和车船税无法取消
          if ([coverage.insId isEqual:@14] || [coverage.insId isEqual:@15]) {
              
-             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
-                 [alertVC dismiss];
-             }];
+             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
              HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"在线无法单独购买商业险,请拨打4007-111-111, 小马达达车险专员为您服务" ActionItems:@[cancel]];
              [alert show];
              

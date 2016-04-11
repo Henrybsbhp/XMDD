@@ -146,7 +146,7 @@
         }
         else {
             [self.view stopActivityAnimation];
-            [self.view showDefaultEmptyViewWithText:@"获取订单详情失败，点击重试" tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取订单详情失败，点击重试" tapBlock:^{
                 @strongify(self);
                 [[self.insStore getInsOrderByID:self.orderID] send];
             }];
@@ -230,26 +230,21 @@
 
 - (void)actionCancelOrder:(id)sender {
     [MobClick event:@"rp1012_4"];
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了吧" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了吧" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
         [MobClick event:@"rp1012_5"];
-        [alertVC dismiss];
     }];
-    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
-        [alertVC dismiss];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定取消" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [MobClick event:@"rp1012_6"];
         [self requestCancelInsOrder];
     }];
-    HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_ok" Message:@"取消订单后，订单将关闭且无法继续支付您确定现在取消订单？" ActionItems:@[cancel,confirm]];
+    HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"取消订单后，订单将关闭且无法继续支付您确定现在取消订单？" ActionItems:@[cancel,confirm]];
     [alert show];
 }
 
 - (void)actionMakeCall:(id)sender {
     [MobClick event:@"rp1012_3"];
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
-        [alertVC dismiss];
-    }];
-    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
-        [alertVC dismiss];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
     }];
     HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"咨询电话：4007-111-111，是否立即拨打？" ActionItems:@[cancel,confirm]];

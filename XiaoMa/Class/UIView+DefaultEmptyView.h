@@ -56,7 +56,18 @@
  *  @param tapBlock 点击事件
  */
 - (void)showImageEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
-                             centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock;
+                           centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock;
+/**
+ *  显示带点击事件的自定义图片的空页面（可以修改图片位置）
+ *
+ *  @param imgName  图片名
+ *  @param text     提示文案
+ *  @param offset   图片偏移量
+ *  @param tapBlock 点击事件
+ */
+- (void)showEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
+                      centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock;
+
 /**
  *  隐藏空页面
  */

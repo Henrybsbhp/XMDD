@@ -247,11 +247,13 @@
         self.tableView.showBottomLoadingView = NO;
         self.navigationItem.rightBarButtonItem = nil;
         [self refreshBottomView];
-        [self.tableView showDefaultEmptyViewWithText:@"暂无估值记录"];
+        self.tableView.hidden = YES;
+        [self.view showImageEmptyViewWithImageName:@"def_withoutValuationHistory" text:@"暂无估值记录"];
     }
     else
     {
-        [self.tableView hideDefaultEmptyView];
+        self.tableView.hidden = NO;
+        [self.view hideDefaultEmptyView];
     }
     /**
      *  保证在清空历史的时候也能进行一次reloadData操作
@@ -360,11 +362,13 @@
         {
             self.tableView.showBottomLoadingView = YES;
             [self.tableView.bottomLoadingView hideIndicatorText];
-            [self.tableView showDefaultEmptyViewWithText:@"暂无估值记录"];
+            self.tableView.hidden = YES;
+            [self.view showImageEmptyViewWithImageName:@"def_withoutValuationHistory" text:@"暂无估值记录"];
         }
         else
         {
-            [self.tableView hideDefaultEmptyView];
+            self.tableView.hidden = NO;
+            [self.view hideDefaultEmptyView];
             if (op.rsp_dataArr.count >= 10)
             {
                 self.isExist = YES;
@@ -386,7 +390,7 @@
         [self.view stopActivityAnimation];
         
         @weakify(self)
-        [self.view showDefaultEmptyViewWithText:@"估值记录获取失败，请点击屏幕重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"估值记录获取失败，请点击屏幕重试" tapBlock:^{
             @strongify(self);
             [self requestValuationHistory];
         }];
@@ -477,13 +481,11 @@
     self.selectedAllBtn.selected = YES;
     [MobClick event:@"rp603_2"];
     
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
         self.selectedAllBtn.selected = NO;
-        [alertVC dismiss];
     }];
-    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [self uploadDeletaArr:@"all"];
-        [alertVC dismiss];
     }];
     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"请确认是否清空估值记录" ActionItems:@[cancel,confirm]];
     [alert show];

@@ -231,7 +231,9 @@
         
         @strongify(self);
         [gToast showError:error.domain];
-        [self.view showDefaultEmptyViewWithText:@"获取爱车信息失败，点击重试" tapBlock:^{
+        
+        @weakify(self);
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取爱车信息失败，点击重试" tapBlock:^{
             @strongify(self);
             [[self.carStore getAllCars] send];
         }];
@@ -434,7 +436,6 @@
         @weakify(self);
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             @strongify(self);
-            [alertVC dismiss];
             if (self.model.originVC) {
                 [self.navigationController popToViewController:self.model.originVC animated:YES];
             }
@@ -445,7 +446,6 @@
         }];
         HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             @strongify(self);
-            [alertVC dismiss];
             [MobClick event:@"rp104_9"];
             EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
             vc.originCar = self.model.selectedCar;

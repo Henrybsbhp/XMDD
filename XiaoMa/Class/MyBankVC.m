@@ -8,12 +8,11 @@
 
 #import "MyBankVC.h"
 #import "ADViewController.h"
-#import "HKBankCard.h"
 #import "HKConvertModel.h"
 #import "CardDetailVC.h"
 #import "BindBankCardVC.h"
 #import "GetBankcardListOp.h"
-#import "BankCardStore.h"
+#import "BankStore.h"
 #import "BankCardDetailVC.h"
 
 @interface MyBankVC ()<UITableViewDataSource,UITableViewDelegate>
@@ -21,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *advc;
 @property (nonatomic, strong) NSArray *bankCards;
-@property (nonatomic, strong) BankCardStore *bankStore;
+@property (nonatomic, strong) BankStore *bankStore;
 @end
 
 @implementation MyBankVC
@@ -33,10 +32,13 @@
     DebugLog(@"MyBankVC dealloc!");
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
+
 
 - (void)viewDidLoad
 {
@@ -44,7 +46,7 @@
     [self setupAdView];
     [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
     [self setupBankStore];
-    [self.bankStore sendEvent:[self.bankStore getAllBankCards]];
+    [self reloadDataIfNeeded];
 }
 
 - (void)setupAdView
@@ -58,30 +60,43 @@
 
 - (void)setupBankStore
 {
-    self.bankStore = [BankCardStore fetchOrCreateStore];
+    self.bankStore = [BankStore fetchOrCreateStore];
+
     @weakify(self);
-    [self.bankStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.bankStore subscribeWithTarget:self domain:kDomainBankCards receiver:^(id store, CKEvent *evt) {
         @strongify(self);
-        NSArray *codes = @[@(kHKStoreEventAdd),@(kHKStoreEventDelete),@(kHKStoreEventReload),@(kHKStoreEventNone),@(kHKStoreEventGet)];
-        [evt callIfNeededForCodeList:codes object:nil target:self selector:@selector(reloadWithEvent:)];
+        if (![self isEqual:evt.object]) {
+            [self reloadWithSignal:evt.signal];
+        }
     }];
 }
 
-- (void)reloadData
+#pragma mark - Reload
+- (void)reloadDataIfNeeded
 {
-    [self.bankStore sendEvent:[self.bankStore getAllBankCards]];
+    CKEvent *event = [[self.bankStore getAllBankCardsIfNeeded] setObject:self];
+    [self reloadWithSignal:[event sendWithIgnoreError:YES andDelay:0.4]];
 }
 
-- (void)reloadWithEvent:(HKStoreEvent *)event
+
+- (void)reloadData
 {
-    NSInteger code = event.code;
+    CKEvent *event = [[self.bankStore getAllBankCards] setObject:self];
+    [self reloadWithSignal:[event sendWithIgnoreError:YES andDelay:0.4]];
+}
+
+- (void)reloadWithSignal:(RACSignal *)signal
+{
+    if (!signal) {
+        self.bankCards = [self.bankStore.bankCards allObjects];
+        [self.tableView reloadData];
+        return;
+    }
     @weakify(self);
-    [[[[event signal] initially:^{
+    [[[signal initially:^{
 
         @strongify(self);
-        if (code != kHKStoreEventNone) {
-            [self.tableView.refreshView beginRefreshing];
-        }
+        [self.tableView.refreshView beginRefreshing];
     }] finally:^{
         
         @strongify(self);
@@ -89,7 +104,7 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
-        self.bankCards = [self.bankStore.cache allObjects];
+        self.bankCards = [self.bankStore.bankCards allObjects];
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
@@ -110,14 +125,11 @@
     else if (indexPath.row < self.bankCards.count) {
         [MobClick event:@"rp314_2"];
         HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
-        if (self.selectedCardReveicer) {
-            HKStoreEvent *evt = [HKStoreEvent eventWithSignal:[RACSignal return:card] code:kHKStoreEventSelect
-                                                       object:self.selectedCardReveicer];
-            [self.bankStore sendEvent:evt];
-            [self.navigationController popViewControllerAnimated:YES];
+        if (self.didSelectedBlock) {
+            self.didSelectedBlock(card);
+            [self actionBack:nil];
             return;
         }
-        
         BankCardDetailVC *vc = [UIStoryboard vcWithId:@"BankCardDetailVC" inStoryboard:@"Bank"];
         vc.card = card;
         vc.originVC = self;
@@ -176,17 +188,13 @@
     HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
     
     if (indexPath.row % 3 == 0) {
-        
         bgV.image = [UIImage imageNamed:@"Bank_redCardBackground_imageView"];
-        
-    } else if (indexPath.row % 3 == 1) {
-        
+    }
+    else if (indexPath.row % 3 == 1) {
         bgV.image = [UIImage imageNamed:@"Bank_greenCardBackground_imageView"];
-        
-    } else if (indexPath.row % 3 == 2) {
-        
+    }
+    else if (indexPath.row % 3 == 2) {
         bgV.image = [UIImage imageNamed:@"Bank_blueCardBackground_imageView"];
-        
     }
     
     logoV.image = [UIImage imageNamed:@"mb_logo"];
@@ -195,6 +203,7 @@
     numberL.text = [HKConvertModel convertCardNumberForEncryption:card.cardNumber];
     return cell;
 }
+
 
 - (UITableViewCell *)addCellAtIndexPath:(NSIndexPath *)indexPath
 {
