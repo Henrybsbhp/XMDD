@@ -825,6 +825,7 @@
     label.text = data.customInfo[@"title"];
     suffixL.text = data.customInfo[@"suffix"];
     field.rightViewMode = UITextFieldViewModeNever;
+    field.placeholder = data.customInfo[@"placehold"];
     void(^block)(CKLimitTextField *filed, RACSignal *stopSig) = data.customInfo[@"block"] ;
     if (block) {
         block(field, [cell rac_prepareForReuseSignal]);
