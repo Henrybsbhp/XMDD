@@ -11,6 +11,8 @@
 
 @interface MutualInsPayResultVC : UIViewController
 
+@property (nonatomic)BOOL isFromOrderInfoVC;
+
 @property (nonatomic,strong)MutualInsContract * contract;
 
 @end

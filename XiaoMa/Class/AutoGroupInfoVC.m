@@ -298,6 +298,7 @@
     vc.titleStr = @"平台团介绍";
     vc.groupType = MutualGroupTypeSystem;
     NSDictionary * dic = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
+    vc.titleStr = [dic stringParamForName:@"name"] ?: @"平台团介绍";
     //团介绍页底部按钮标题
     if ([dic stringParamForName:@"tip"].length == 0) {
         vc.btnType = BtnTypeEnded;

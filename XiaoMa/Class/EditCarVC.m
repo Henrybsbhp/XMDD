@@ -298,7 +298,7 @@
         }
     }];
     
-    return @[cell1_0,cell1_1,cell1_2,cell1_3,cell1_4];
+    return @[cell1_0,cell1_1,cell1_3,cell1_4,cell1_2];
 }
 
 - (NSArray *)dataListForSection2
@@ -825,6 +825,7 @@
     label.text = data.customInfo[@"title"];
     suffixL.text = data.customInfo[@"suffix"];
     field.rightViewMode = UITextFieldViewModeNever;
+    field.placeholder = data.customInfo[@"placehold"];
     void(^block)(CKLimitTextField *filed, RACSignal *stopSig) = data.customInfo[@"block"] ;
     if (block) {
         block(field, [cell rac_prepareForReuseSignal]);
