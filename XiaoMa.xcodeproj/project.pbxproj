@@ -149,7 +149,6 @@
 		18804AAE1B280E3C00E7E764 /* HKLoadingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18804AAD1B280E3C00E7E764 /* HKLoadingModel.m */; };
 		1883D8FF1ACB99AC002A4D19 /* XiaoMaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */; };
 		1883D9101ACBBE30002A4D19 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D90F1ACBBE30002A4D19 /* main.m */; };
-		1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1883D9131ACBBE5E002A4D19 /* Images.xcassets */; };
 		1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9181ACBC2E0002A4D19 /* AppDelegate.m */; };
 		1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9261ACCD6C0002A4D19 /* MainTabBarVC.m */; };
 		1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */; };
@@ -693,6 +692,7 @@
 		C23FCAB81AF8B8C900E04BEB /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */; };
 		C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */; };
 		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
+		C35803051CBB79600002808D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35803041CBB79600002808D /* Images.xcassets */; };
 		C35E37671CAA7ED2008E536D /* UIView+HKLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C35E37661CAA7ED2008E536D /* UIView+HKLine.m */; };
 		C36B8A9F1CB3526100BC2487 /* GetSystemHomeModuleOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */; };
 		FA024A321CAE500500481F59 /* BankCardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA024A311CAE500500481F59 /* BankCardDetailVC.m */; };
@@ -1049,7 +1049,6 @@
 		1883D8FD1ACB99AC002A4D19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1883D8FE1ACB99AC002A4D19 /* XiaoMaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XiaoMaTests.m; sourceTree = "<group>"; };
 		1883D90F1ACBBE30002A4D19 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Misc/main.m; sourceTree = "<group>"; };
-		1883D9131ACBBE5E002A4D19 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1883D9171ACBC2E0002A4D19 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Class/AppDelegate.h; sourceTree = "<group>"; };
 		1883D9181ACBC2E0002A4D19 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Class/AppDelegate.m; sourceTree = "<group>"; };
 		1883D9231ACBC4A9002A4D19 /* XiaoMa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XiaoMa.h; path = Class/XiaoMa.h; sourceTree = "<group>"; };
@@ -2161,6 +2160,7 @@
 		C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCouponVC.h; sourceTree = "<group>"; };
 		C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCouponVC.m; sourceTree = "<group>"; };
 		C26489B31AF8A70A00F1E318 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		C35803041CBB79600002808D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C35E37651CAA7ED2008E536D /* UIView+HKLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+HKLine.h"; path = "Class/UIView+HKLine.h"; sourceTree = "<group>"; };
 		C35E37661CAA7ED2008E536D /* UIView+HKLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+HKLine.m"; path = "Class/UIView+HKLine.m"; sourceTree = "<group>"; };
 		C36B8A9D1CB3526100BC2487 /* GetSystemHomeModuleOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemHomeModuleOp.h; path = Class/GetSystemHomeModuleOp.h; sourceTree = "<group>"; };
@@ -3058,7 +3058,7 @@
 		1883D9121ACBBE5E002A4D19 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				1883D9131ACBBE5E002A4D19 /* Images.xcassets */,
+				C35803041CBB79600002808D /* Images.xcassets */,
 				6BD293BA1B943EF1006482A4 /* Storyboard */,
 				1851F4221B0C29A500241A01 /* CoreData */,
 				6BBAB9581ADE724300EC342F /* Other */,
@@ -5163,6 +5163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				182BEF0B1CA0F65200D67C18 /* JCAlertView.bundle in Resources */,
+				C35803051CBB79600002808D /* Images.xcassets in Resources */,
 				6BB61B9A1AEF5350004F39AA /* MapBottomView.xib in Resources */,
 				504FFEA21C05D48E002D7D6D /* city.plist in Resources */,
 				6BEA56C01AE24DCE000D19C1 /* AlipaySDK.bundle in Resources */,
@@ -5204,7 +5205,6 @@
 				6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */,
 				18CECC291C30F8890075B7F9 /* LICENSE in Resources */,
 				6BD293C81B943EF1006482A4 /* About.storyboard in Resources */,
-				1883D9141ACBBE5E002A4D19 /* Images.xcassets in Resources */,
 				18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */,
 				6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */,
 				18E28A261B954F4E0070E759 /* Car.storyboard in Resources */,
