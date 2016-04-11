@@ -33,7 +33,14 @@
 
 - (void)showImageEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
 {
-    [self showEmptyViewWithImageName:imgName text:text centerOffset:-20 tapBlock:nil];
+    if (imgName.length && [UIImage imageNamed:imgName])
+    {
+        [self showEmptyViewWithImageName:imgName text:text centerOffset:-20 tapBlock:nil];
+    }
+    else
+    {
+        [self showEmptyViewWithImageName:@"cm_blank" text:text centerOffset:-20 tapBlock:nil];
+    }
 }
 - (void)showImageEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text tapBlock:(void(^)(void))tapBlock
 {
@@ -44,6 +51,19 @@
     else
     {
         [self showEmptyViewWithImageName:@"cm_blank" text:text centerOffset:-20 tapBlock:tapBlock];
+    }
+}
+
+- (void)showImageEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
+                           centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock
+{
+    if (imgName.length && [UIImage imageNamed:imgName])
+    {
+        [self showEmptyViewWithImageName:imgName text:text centerOffset:offset tapBlock:tapBlock];
+    }
+    else
+    {
+        [self showEmptyViewWithImageName:@"cm_blank" text:text centerOffset:offset tapBlock:tapBlock];
     }
 }
 

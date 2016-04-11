@@ -94,6 +94,8 @@
     if (self.actionHandler) {
         self.actionHandler(sender.tag, self);
     }
+    [self dismiss];
+    
 }
 
 #pragma mark - Private

@@ -273,9 +273,7 @@
     [[op rac_postRequest] subscribeNext:^(GetCityInfoByNameOp * op) {
         if ([op.rsp_sellerCityId intValue] == 0) {
             
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-            }];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"抱歉，您所在的城市未开通此项服务，敬请期待" ActionItems:@[cancel]];
             [alert show];
             

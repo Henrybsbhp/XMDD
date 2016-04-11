@@ -114,13 +114,10 @@
         @weakify(self);
         HKAlertActionItem *leftItem = [HKAlertActionItem itemWithTitle:@"放弃支付" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
             @strongify(self);
-            [alertVC dismiss];
             [self requestCancelOrderWithTradeNumber:self.orderInfo.rsp_tradeid gasCardID:self.orderInfo.req_gid];
             [self.navigationController popViewControllerAnimated:YES];
         }];
-        HKAlertActionItem *rightItem = [HKAlertActionItem itemWithTitle:@"继续支付" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-            [alertVC dismiss];
-        }];
+        HKAlertActionItem *rightItem = [HKAlertActionItem itemWithTitle:@"继续支付" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
         alert.actionItems = @[leftItem, rightItem];
         [alert show];
     }

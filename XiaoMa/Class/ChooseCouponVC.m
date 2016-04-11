@@ -55,11 +55,15 @@
 - (void)reloadData
 {
     [self.tableView reloadData];
-    if (self.couponArray.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"暂无优惠券"];
+    if (self.couponArray.count == 0)
+    {
+        self.tableView.hidden = YES;
+        [self.view showImageEmptyViewWithImageName:@"def_withoutCoupon" text:@"暂无优惠券"];
     }
-    else {
-        [self.tableView hideDefaultEmptyView];
+    else
+    {
+        self.tableView.hidden = NO;
+        [self.view hideDefaultEmptyView];
     }
 }
 

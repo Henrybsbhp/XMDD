@@ -60,6 +60,7 @@
     rect.size.height = ceil(size.height);
     
     UILabel *messageL = [[UILabel alloc] initWithFrame:rect];
+    messageL.lineBreakMode = NSLineBreakByWordWrapping;
     messageL.font = [UIFont systemFontOfSize:14];
     messageL.textAlignment = NSTextAlignmentCenter;
     messageL.textColor = HEXCOLOR(@"#888888");

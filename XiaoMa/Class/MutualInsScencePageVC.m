@@ -114,8 +114,7 @@
     [self addCorner:self.lastStepBtn];
     [self addBorder:self.lastStepBtn];
     
-    UIBarButtonItem *backBtnItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
-    self.navigationItem.leftBarButtonItem = backBtnItem;
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(back)];
 }
 
 -(void)setSelectedIndex
@@ -181,12 +180,9 @@
     {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
             [self.scencePhotoVM deleteAllInfo];
-            [alertVC dismiss];
             [self.navigationController popViewControllerAnimated:YES];
         }];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续上传" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
-            [alertVC dismiss];
-        }];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续上传" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您还未保存照片，现在返回将导致照片无法保存，是否现在返回？" ActionItems:@[confirm,cancel]];
         [alert show];
     }
@@ -236,17 +232,14 @@
                 [self.scencePhotoVM deleteAllInfo];
                 NSArray *viewControllers = self.navigationController.viewControllers;
                 [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:2] animated:YES];
-                [alertVC dismiss];
             }];
             HKAlertVC *alert = [self alertWithTopTitle:@"提交成功" ImageName:@"mins_ok" Message:@"恭喜，照片提交成功，理赔记录已生成，请等待车险专员为您服务，谢谢～" ActionItems:@[cancel]];
             [alert show];
             NSArray *viewControllers = self.navigationController.viewControllers;
             [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
         }error:^(NSError *error) {
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
-                [alertVC dismiss];
-            }];
-            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提醒" ImageName:@"mins_error" Message:error.domain ActionItems:@[cancel]];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提醒" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel]];
             [alert show];
             [self.view stopActivityAnimation];
         }];

@@ -101,7 +101,7 @@
                                                               selectedColor:kDefTintColor];
     self.tabView.items = @[item1, item2];
     [self.headerView addSubview:self.tabView];
-
+    
     @weakify(self);
     [self.tabView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
@@ -110,7 +110,7 @@
         make.height.mas_equalTo(44);
         make.bottom.equalTo(self.headerView);
     }];
-
+    
     [self.tabView setTabBlock:^(NSInteger index) {
         @strongify(self);
         if (index ==0) {
@@ -284,7 +284,7 @@
         [self.tabBarController.delegate tabBarController:self.tabBarController didSelectViewController:firstTabVC];
         
         [self.navigationController popToRootViewControllerAnimated:YES];
-
+        
         return;
     }
     [self.navigationController popViewControllerAnimated:YES];

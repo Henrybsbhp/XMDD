@@ -137,6 +137,7 @@
 -(void)loadData
 {
     GetCooperationClaimsListOp *op = [GetCooperationClaimsListOp new];
+    @weakify(self)
     [[[[op rac_postRequest] initially:^{
     
         [self.view hideDefaultEmptyView];
@@ -154,8 +155,8 @@
         self.dataArr = op.rsp_claimlist;
         if (self.dataArr.count == 0)
         {
-            @weakify(self)
-            [self.view showDefaultEmptyViewWithText:@"暂无理赔记录,点击重新获取" tapBlock:^{
+            
+            [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"暂无理赔记录,点击重新获取" tapBlock:^{
                 @strongify(self)
                 [self loadData];
             }];
@@ -163,8 +164,7 @@
         [self.tableView reloadData];
     }error:^(NSError *error) {
         [self.view stopActivityAnimation];
-        @weakify(self)
-        [self.view showDefaultEmptyViewWithText:@"暂无理赔记录,点击重新获取" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取理赔记录失败,点击重新获取" tapBlock:^{
             @strongify(self)
             [self loadData];
         }];
@@ -175,11 +175,8 @@
 #pragma mark Action
 
 - (IBAction)callAction:(id)sender {
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-        [alertVC dismiss];
-    }];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-        [alertVC dismiss];
         [gPhoneHelper makePhone:@"4007111111"];
     }];
     HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"如有任何疑问，可拨打客服电话：4007-111-111" ActionItems:@[cancel,confirm]];

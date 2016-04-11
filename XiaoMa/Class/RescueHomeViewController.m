@@ -103,12 +103,9 @@
             {
                 if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
                 {
-                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-                        [alertVC dismiss];
-                    }];
+                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
                     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"前往设置" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                        [alertVC dismiss];
                     }];
                     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"请允许小马达达访问您的位置，进入系统-[设置]-[小马达达]-[位置]-使用期间" ActionItems:@[cancel,confirm]];
                     [alert show];
@@ -116,9 +113,7 @@
                 }
                 else
                 {
-                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-                        [alertVC dismiss];
-                    }];
+                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
                     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"请允许小马达达访问您的位置" ActionItems:@[cancel]];
                     [alert show];
                     
@@ -127,9 +122,7 @@
             }
             case LocationFail:
             {
-                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-                    [alertVC dismiss];
-                }];
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
                 HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"城市定位失败,请重试" ActionItems:@[cancel]];
                 [alert show];
             }
