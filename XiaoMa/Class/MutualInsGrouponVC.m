@@ -302,6 +302,7 @@ typedef enum : NSInteger
 
         @strongify(self);
         [gToast showSuccess:@"删除成功！"];
+        [[self.minsStore reloadSimpleGroups] sendAndIgnoreError];
         [self actionBack:nil];
     } error:^(NSError *error) {
         
