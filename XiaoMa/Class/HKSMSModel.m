@@ -12,7 +12,7 @@
 #import "GetUnbindBankcardVcodeOp.h"
 
 ///短信60秒冷却时间
-#define kMaxVcodeInterval        60
+#define kMaxVcodeInterval        30
 /// 手机号码长度（11位）
 #define kPhoneNumberLength      11
 
