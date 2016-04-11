@@ -16,6 +16,7 @@
 #import "MutualInsStore.h"
 #import "MutualInsGrouponVC.h"
 #import "MutualInsHomeVC.h"
+#import "PopAnimation.h"
 
 #define ThirdInsArr        @[@50, @100, @150]
 #define ThirdPiceArr       @[@1631, @2124, @2686]
@@ -48,6 +49,8 @@
 
 //是否代理购买交强险
 @property (nonatomic, assign) BOOL isAgent;
+
+@property (nonatomic, assign) CGFloat lastOriginPrice;
 
 - (IBAction)submitAction:(id)sender;
 
@@ -456,7 +459,11 @@
         UILabel *priceL = [cell.contentView viewWithTag:1001];
         UILabel *tipL = [cell.contentView viewWithTag:1002];
         
-        priceL.text = [NSString formatForPrice:self.totalPrice];
+        NSTimeInterval duration = fabs(self.totalPrice - self.lastOriginPrice) / 1500 > 1.5 ? fabs(self.totalPrice - self.lastOriginPrice) / 1500 : 1.5;
+        duration = duration > 3 ? 3 :duration;
+        [PopAnimation animatedForLabel:priceL fromValue:self.lastOriginPrice toValue:self.totalPrice andDuration:duration];
+        self.lastOriginPrice = self.totalPrice;
+//        priceL.text = [NSString formatForPrice:self.totalPrice];
         NSString * tipStr = [NSString stringWithFormat:@"若未出险，车损宝可全额返还%@元", [NSString formatForPrice:self.carPrice]];
         NSMutableAttributedString * attributeStr = [[NSMutableAttributedString alloc] initWithString:tipStr];
         [attributeStr addAttributeForegroundColor:HEXCOLOR(@"#FF7428") range:NSMakeRange(13, tipStr.length - 14)];
