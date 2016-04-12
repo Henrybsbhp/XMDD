@@ -107,10 +107,6 @@
     
     CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
-
-    
-    NSLog(@"viewWillAppear scrollView contentSize %@",NSStringFromCGSize(self.scrollView.contentSize));
-    NSLog(@"viewWillAppear scrollView contentInset %@",NSStringFromUIEdgeInsets(self.scrollView.contentInset));
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -120,10 +116,6 @@
     
     /// 移除右上角菜单栏
     [self.popoverMenu dismissWithAnimated:YES];
-    
-    NSLog(@"viewWillDisappear scrollView contentSize %@",NSStringFromCGSize(self.scrollView.contentSize));
-    NSLog(@"viewWillDisappear scrollView contentInset %@",NSStringFromUIEdgeInsets(self.scrollView.contentInset));
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -136,11 +128,6 @@
         {
             CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
-            self.automaticallyAdjustsScrollViewInsets = NO;
-            
-            NSLog(@"scrollView contentSize %@",NSStringFromCGSize(self.scrollView.contentSize));
-            NSLog(@"scrollView contentInset %@",NSStringFromUIEdgeInsets(self.scrollView.contentInset));
-            
         }
         else
         {
