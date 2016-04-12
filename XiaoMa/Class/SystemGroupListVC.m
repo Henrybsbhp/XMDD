@@ -38,6 +38,11 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 
 @implementation SystemGroupListVC
 
+-(void)dealloc
+{
+    DebugLog(@"SystemGroupListVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -69,7 +74,10 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
     [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     
+    @weakify(self);
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
+        
+        @strongify(self);
         [self requestAutoGroupArray];
     }];
 }
@@ -100,9 +108,11 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     op.city = gMapHelper.addrComponent.city;
     op.province = gMapHelper.addrComponent.province;
     op.district = gMapHelper.addrComponent.district;
+    @weakify(self);
     [[[op rac_postRequest] deliverOn:[RACScheduler mainThreadScheduler]]
      subscribeNext:^(GetCooperationAutoGroupOp * rop) {
          
+        @strongify(self);
         [self.tableView.refreshView endRefreshing];
         self.autoGroupArray = rop.rsp_autoGroupArray;
         if (self.autoGroupArray.count)
@@ -121,11 +131,11 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         self.tableView.hidden = NO;
     } error:^(NSError *error) {
         
+        @strongify(self);
         self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         
-        @weakify(self);
         [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:@"列表请求失败，点击重试" tapBlock:^{
             @strongify(self);
             [self requestAutoGroupArray];
@@ -241,7 +251,10 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     else
     {
         NSTimeInterval leftTime = [groupInfo integerParamForName:@"lefttime"] / 1000;
+        @weakify(self);
         RACDisposable * disp = [[[HKTimer rac_timeCountDownWithOrigin:leftTime andTimeTag:[groupInfo.customObject doubleValue]] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * timeStr) {
+            
+            @strongify(self);
             if (![timeStr isEqualToString:@"end"]) {
                 infoLabel.text = [NSString stringWithFormat:@"%@ %@", [groupInfo stringParamForName:@"tip"], timeStr];
             }
@@ -337,8 +350,10 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         stateLabel.text = @"已过期";
     }
     
+    @weakify(self);
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self);
         if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp && ![groupInfo boolParamForName:@"ingroup"]) {
             [self joinSystemGroupWithGroupID:groupid groupName:groupname];
         }
@@ -409,11 +424,13 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
     op.req_carid = carModel.selectedCar.carId;
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"申请加入中..." inView:view];
     }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
         
+        @strongify(self);
         [gToast dismissInView:view];
         
         MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
@@ -434,7 +451,6 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 //
 //            }];
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
-            @weakify(self);
             HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 @strongify(self);
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
