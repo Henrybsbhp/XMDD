@@ -104,9 +104,6 @@
     [self.scrollView restartRefreshViewAnimatingWhenRefreshing];
     
     [self showSuspendedAdIfNeeded];
-    
-    CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
 }
 
 - (void)viewWillDisappear:(BOOL)animated
