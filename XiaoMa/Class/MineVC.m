@@ -154,15 +154,20 @@
 //设置爱车的store
 - (void)setupMyCarStore
 {
-    self.carStore = [MyCarStore fetchOrCreateStore];
-    @weakify(self);
-    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(id store, CKEvent *evt) {
+    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser *user) {
         
-        @strongify(self);
-        [[evt signal] subscribeNext:^(id x) {
-            @strongify(self);
-            self.myDefaultCar = [self.carStore defalutCar];
-        }];
+        if (user) {
+            self.carStore = [MyCarStore fetchOrCreateStore];
+            @weakify(self);
+            [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(id store, CKEvent *evt) {
+                
+                @strongify(self);
+                [[evt signal] subscribeNext:^(id x) {
+                    @strongify(self);
+                    self.myDefaultCar = [self.carStore defalutCar];
+                }];
+            }];
+        }
     }];
 }
 
