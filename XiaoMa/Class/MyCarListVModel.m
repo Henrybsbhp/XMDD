@@ -47,13 +47,13 @@
             desc = @"已上传行驶证";
             break;
         case 2:
-            desc = @"行驶证已认证通过";
+            desc = @"已认证通过";
             break;
         case 3:
-            desc = @"请重新上传行驶证";
+            desc = @"请重新上传";
             break;
         default: {
-            desc = @"上传行驶证送大礼";
+            desc = @"送千元礼包";
         } break;
     }
     return desc;
