@@ -83,6 +83,9 @@
     UIView *backView = [cell viewWithTag:1000];
     [self addCorner:backView];
     
+    UILabel *plateNum = [cell viewWithTag:1001];
+    plateNum.text = model.licensenum;
+    
     UILabel *detaiLabel = [cell viewWithTag:1002];
     detaiLabel.preferredMaxLayoutWidth = cell.bounds.size.width - 35;
     detaiLabel.text = [NSString stringWithFormat:@"事故概述：%@",model.accidentdesc];
