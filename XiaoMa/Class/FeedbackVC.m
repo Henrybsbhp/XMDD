@@ -12,6 +12,7 @@
 
 @interface FeedbackVC () <UITextViewDelegate>
 //@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
+@property (weak, nonatomic) IBOutlet UITextField *contactField;
 @property (weak, nonatomic) IBOutlet UIAPlaceholderTextView *feedbackTextView;
 @property (weak, nonatomic) IBOutlet UIButton *bottomButton;
 
@@ -26,24 +27,42 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    //设置textField
+    self.contactField.placeholder = @"请输入联系方式，如手机号、qq、email";
+    
+    @weakify(self);
+    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        if (gAppMgr.myUser.phoneNumber) {
+            self.contactField.text = gAppMgr.myUser.phoneNumber;
+        }
+    }];
+    
     //设置textView
     self.feedbackTextView.delegate = self;
     self.feedbackTextView.placeholderString = @"有什么建议或意见,欢迎您提供给我们,谢谢!";
     self.feedbackTextView.placeholderTextView.textColor = HEXCOLOR(@"#c5c5cb");
     
     //设置反馈按钮
-    @weakify(self);
     [[self.feedbackTextView rac_textSignal] subscribeNext:^(NSString *x) {
         
         @strongify(self);
-        self.bottomButton.enabled = self.feedbackTextView.text.length > 0 ;
+        if (self.feedbackTextView.text.length > 0) {
+            self.bottomButton.enabled = YES;
+            [self.bottomButton setBackgroundColor:HEXCOLOR(@"#18D06A")];
+        }
+        else {
+            self.bottomButton.enabled = NO;
+            [self.bottomButton setBackgroundColor:HEXCOLOR(@"#DEDFE0")];
+        }
+        
     }];
 }
 
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
-    //首次编辑会执行两次？  LYW
     [MobClick event:@"rp323_1"];
 }
 
@@ -51,7 +70,7 @@
     [MobClick event:@"rp323_2"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         FeedbackOp *op = [FeedbackOp new];
-        op.req_contactinfo = gAppMgr.myUser.userID;
+        op.req_contactinfo = self.contactField.text.length ? self.contactField.text : gAppMgr.myUser.userID;
         op.req_feedback = self.feedbackTextView.text;
         
         @weakify(self);
@@ -71,9 +90,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([UIScreen mainScreen].bounds.size.height <= 480) {
-        return 116;
+    if (indexPath.row == 0) {
+        return 90;
     }
-    return 146;
+    return 150;
 }
 @end
