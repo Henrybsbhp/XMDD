@@ -154,11 +154,12 @@
 //设置爱车的store
 - (void)setupMyCarStore
 {
+    @weakify(self);
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser *user) {
         
+        @strongify(self);
         if (user) {
             self.carStore = [MyCarStore fetchOrCreateStore];
-            @weakify(self);
             [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(id store, CKEvent *evt) {
                 
                 @strongify(self);
