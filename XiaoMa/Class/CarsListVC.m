@@ -59,7 +59,7 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return self.emptyView.hidden ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)awakeFromNib
@@ -178,9 +178,6 @@
             else {
                 self.tableView.hidden = YES;
                 self.emptyView.hidden = NO;
-            }
-            if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
-                [self setNeedsStatusBarAppearanceUpdate];
             }
             [self.view stopActivityAnimation];
         });
