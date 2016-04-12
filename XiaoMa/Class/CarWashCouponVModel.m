@@ -56,7 +56,7 @@
     else if (self.couponNewType == CouponNewTypeInsurance) {
         return @{@"title":@"您还没有保险优惠券",@"image":@"def_withoutCoupon"};
     }
-    return @{@"title":@"暂无洗车订单",@"image":@"def_withoutCoupon"};
+    return @{@"title":@"您还没有其他优惠券",@"image":@"def_withoutCoupon"};
 }
 
 -(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
