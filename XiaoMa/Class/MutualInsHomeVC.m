@@ -163,12 +163,15 @@
     else if (group.btnStatus == GroupBtnStatusDelete){
     
         //删除我的团操作 团长和团员调用新接口，入参不同
+        @weakify(self);
         DeleteCooperationGroupOp * op = [DeleteCooperationGroupOp operation];
         op.req_memberid = @0;
         op.req_groupid = @256;
         [[[op rac_postRequest] initially:^{
             [gToast showingWithText:@"删除中..."];
         }] subscribeNext:^(id x) {
+            
+            @strongify(self);
             [gToast dismiss];
             [self.myGroupArray safetyRemoveObjectAtIndex:(indexPath.row - 4)];
             if (self.myGroupArray.count == 0) {
@@ -347,7 +350,10 @@
     
     if ([group.leftTime integerValue] != 0)
     {
+        @weakify(self);
         RACDisposable * disp = [[[HKTimer rac_timeCountDownWithOrigin:[group.leftTime integerValue] / 1000 andTimeTag:group.leftTimeTag] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * timeStr) {
+            
+            @strongify(self);
             if (![timeStr isEqualToString:@"end"]) {
                 timeLabel.text = [NSString stringWithFormat:@"%@ \n%@", group.tip, timeStr];
             }
@@ -382,19 +388,15 @@
             [opeBtn setTitle:@"完善资料" forState:UIControlStateNormal];
             [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
         }
-        [opeBtn setTitle:@"删除" forState:UIControlStateNormal];
-        [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
         @weakify(self);
         [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
-            NSIndexPath * cellPath = [self.tableView indexPathForCell:cell];
             @strongify(self);
+            NSIndexPath * cellPath = [self.tableView indexPathForCell:cell];
             [self operationBtnAction:x withGroup:group withIndexPath:cellPath];
         }];
     }
     return cell;
 }
-
-
 
 @end

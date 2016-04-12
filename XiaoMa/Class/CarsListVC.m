@@ -116,6 +116,12 @@
 
 - (void)setUI
 {
+    if (!IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+        self.extendedLayoutIncludesOpaqueBars = NO;
+        self.modalPresentationCapturesStatusBarAppearance = NO;
+    }
     UIButton *addCarButton = [self.emptyContentView viewWithTag:1002];
     @weakify(self);
     [[addCarButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -540,7 +546,7 @@
 - (BOOL)observeScrollViewOffset
 {
     @weakify(self)
-    [RACObserve(self.sliderView.contentScrollView,contentOffset) subscribeNext:^(NSValue * value) {
+    [RACObserve(self.sliderView.contentScrollView, contentOffset) subscribeNext:^(NSValue * value) {
         
         @strongify(self)
         CGPoint p = [value CGPointValue];
