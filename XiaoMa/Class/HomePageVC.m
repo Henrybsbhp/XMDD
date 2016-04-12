@@ -135,6 +135,16 @@
     });
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    // iOS 7 下重新获取 contentSize
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
+        CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+        [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, ceil(size.height))];
+    }
+}
+
 
 #pragma mark - Setup
 - (void)setupScrollView
