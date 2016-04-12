@@ -15,6 +15,8 @@
 @property (nonatomic,assign) float claimfee;
 ///记录最近更新时间
 @property (nonatomic,strong) NSNumber* lstupdatetime;
+///车牌号
+@property (nonatomic,strong) NSString* licensenum;
 
 
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;

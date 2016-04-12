@@ -17,7 +17,7 @@
     self.accidentdesc = dict[@"accidentdesc"];
     self.claimfee = [dict[@"claimfee"] floatValue];
     self.lstupdatetime = dict[@"lstupdatetime"];
-
+    self.licensenum = dict[@"licensenum"];
 }
 
 @end
