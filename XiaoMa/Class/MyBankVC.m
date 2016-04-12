@@ -17,10 +17,14 @@
 
 @interface MyBankVC ()<UITableViewDataSource,UITableViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *advc;
 @property (nonatomic, strong) NSArray *bankCards;
 @property (nonatomic, strong) BankStore *bankStore;
+
+@property (nonatomic, strong) UIButton *btn;
+
 @end
 
 @implementation MyBankVC
@@ -44,7 +48,6 @@
 {
     [super viewDidLoad];
     [self setupAdView];
-    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
     [self setupBankStore];
     [self reloadDataIfNeeded];
 }
@@ -61,7 +64,7 @@
 - (void)setupBankStore
 {
     self.bankStore = [BankStore fetchOrCreateStore];
-
+    
     @weakify(self);
     [self.bankStore subscribeWithTarget:self domain:kDomainBankCards receiver:^(id store, CKEvent *evt) {
         @strongify(self);
@@ -93,25 +96,95 @@
         return;
     }
     @weakify(self);
-    [[[signal initially:^{
-
-        @strongify(self);
-        [self.tableView.refreshView beginRefreshing];
-    }] finally:^{
+    [[signal initially:^{
         
         @strongify(self);
-        [self.tableView.refreshView endRefreshing];
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView beginRefreshing];
+        }
+        else {
+            [self hideContentViews];
+        }
+        [self removeBtn];
     }] subscribeNext:^(id x) {
         
         @strongify(self);
+        if (![self.tableView isRefreshViewExists]) {
+            [self setupRefreshView];
+        }
         self.bankCards = [self.bankStore.bankCards allObjects];
-        [self.tableView reloadData];
+        if (self.bankCards.count > 0)
+        {
+            [self showContentViews];
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self hideContentViews];
+            [self addBtn];
+        }
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView endRefreshing];
+        }
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
-    }];;
+        if (![self.tableView isRefreshViewExists])
+        {
+            [self.view showDefaultEmptyViewWithText:@"获取银行卡信息失败，请点击重试" tapBlock:^{
+                [self reloadData];
+            }];
+        }
+    }];
 }
 
+-(void)setupRefreshView
+{
+    @weakify(self)
+    [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged]subscribeNext:^(id x) {
+        @strongify(self)
+        [self reloadData];
+    }];
+}
+
+-(void)removeBtn
+{
+    NSArray *subViews = self.view.subviews;
+    [self.view hideDefaultEmptyView];
+    if ([subViews containsObject:self.btn])
+    {
+        [self.btn removeFromSuperview];
+    }
+}
+
+-(void)addBtn
+{
+    @weakify(self)
+    [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"添加银行卡" centerOffset:-100 tapBlock:^{
+        @strongify(self)
+        [self reloadData];
+    }];
+    [self.view addSubview:self.btn];
+    [self.btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.centerX.mas_equalTo(self.view);
+        make.top.mas_equalTo(self.view.center.y + 30);
+        make.width.mas_equalTo(180);
+        make.height.mas_equalTo(50);
+    }];
+}
+
+- (void)showContentViews
+{
+    self.bottomView.hidden = NO;
+    self.tableView.hidden = NO;
+}
+
+- (void)hideContentViews
+{
+    self.bottomView.hidden = YES;
+    self.tableView.hidden = YES;
+}
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -150,13 +223,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.bankCards.count + 1;
+    return self.bankCards.count == 0 ? 0 : self.bankCards.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-
+    
     if (indexPath.row == self.bankCards.count) {
         
         cell = [self addCellAtIndexPath:indexPath];
@@ -209,6 +282,26 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"AddCell" forIndexPath:indexPath];
     return cell;
+}
+
+-(UIButton *)btn
+{
+    if (!_btn)
+    {
+        _btn = [[UIButton alloc]init];
+        _btn.backgroundColor = HEXCOLOR(@"#18d06a");
+        [_btn setTitle:@"暂无银行卡" forState:UIControlStateNormal];
+        _btn.layer.cornerRadius = 5;
+        _btn.layer.masksToBounds = YES;
+        @weakify(self);
+        [[_btn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+            @strongify(self);
+            [MobClick event:@"rp314_3"];
+            BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+    }
+    return _btn;
 }
 
 @end
