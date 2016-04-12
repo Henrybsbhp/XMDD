@@ -138,11 +138,14 @@
     });
 }
 
-- (void)viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
-    self.scrollView.contentOffset = CGPointZero;
-    self.scrollView.contentInset = UIEdgeInsetsZero;
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    // iOS 7 下重新获取 contentSize
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
+        CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+        [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, ceil(size.height))];
+    }
 }
 
 
@@ -152,7 +155,6 @@
     UIView *container = [[UIView alloc] initWithFrame:CGRectZero];
     container.backgroundColor = [UIColor colorWithHex:@"#f7f7f8" alpha:1.0f];
     [self.scrollView addSubview:container];
-    self.scrollView.showsVerticalScrollIndicator = YES;
     self.containerView = container;
     
     [container mas_makeConstraints:^(MASConstraintMaker *make) {

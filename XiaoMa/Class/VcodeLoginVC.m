@@ -15,12 +15,6 @@
 #import "CKLimitTextField.h"
 #import "IQKeyboardManager.h"
 
-#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
-#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
-#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
-#define IS_IPHONE_4_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH < 568.0)
-
 @interface VcodeLoginVC () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *checkBox;
 @property (weak, nonatomic) IBOutlet UIButton *vcodeBtn;
@@ -91,7 +85,7 @@
     self.num.textLimit = 11;
     [self.num setDidBeginEditingBlock:^(CKLimitTextField *field) {
         [MobClick event:@"rp002_1"];
-        if (IS_IPHONE_4_OR_LESS) {
+        if ([self isIphone4OrLess]) {
             
         } else if (self.view.frame.origin.y >= 0) {
             [self setViewMovedUp:YES];
@@ -99,7 +93,7 @@
     }];
     
     [self.num setDidEndEditingBlock:^(CKLimitTextField *textField) {
-        if (IS_IPHONE_4_OR_LESS) {
+        if ([self isIphone4OrLess]) {
             
         } else if (self.view.frame.origin.y < 0) {
             [self setViewMovedUp:NO];
@@ -171,6 +165,18 @@
         
     }];
    
+}
+
+// 判断是否为 iPhone 4/4s 或更为早先的设备
+- (BOOL)isIphone4OrLess
+{
+    BOOL isIphone = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone);
+    CGFloat screenWidth =[[UIScreen mainScreen] bounds].size.width;
+    CGFloat screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    CGFloat screenMaxLength = MAX(screenWidth, screenHeight);
+    BOOL isIphone4OrLess = isIphone && screenMaxLength < 568.0;
+    
+    return isIphone4OrLess;
 }
 
 #pragma mark - Action

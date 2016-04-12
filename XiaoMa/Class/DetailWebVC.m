@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:_progressView];
     
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"UIWindowDidRotateNotification" object:nil queue:nil usingBlock:^(NSNotification *note) {
         
