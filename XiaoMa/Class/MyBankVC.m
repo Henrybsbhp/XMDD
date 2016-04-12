@@ -131,6 +131,7 @@
         [gToast showError:error.domain];
         if (![self.tableView isRefreshViewExists])
         {
+            [self.view hideDefaultEmptyView];
             [self.view showDefaultEmptyViewWithText:@"获取银行卡信息失败，请点击重试" tapBlock:^{
                 [self reloadData];
             }];
@@ -165,10 +166,12 @@
         [self reloadData];
     }];
     [self.view addSubview:self.btn];
-    [self.btn mas_makeConstraints:^(MASConstraintMaker *make) {
+    const CGFloat top = gAppMgr.deviceInfo.screenSize.height / 2 + 30;
+    NSLog(@"top top %f",top);
+    [self.btn mas_updateConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.centerX.mas_equalTo(self.view);
-        make.top.mas_equalTo(self.view.center.y + 30);
+        make.top.mas_equalTo(top);
         make.width.mas_equalTo(180);
         make.height.mas_equalTo(50);
     }];
