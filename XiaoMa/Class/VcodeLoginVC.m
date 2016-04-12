@@ -85,6 +85,19 @@
     self.num.textLimit = 11;
     [self.num setDidBeginEditingBlock:^(CKLimitTextField *field) {
         [MobClick event:@"rp002_1"];
+        if ([self isIphone4OrLess]) {
+            
+        } else if (self.view.frame.origin.y >= 0) {
+            [self setViewMovedUp:YES];
+        }
+    }];
+    
+    [self.num setDidEndEditingBlock:^(CKLimitTextField *textField) {
+        if ([self isIphone4OrLess]) {
+            
+        } else if (self.view.frame.origin.y < 0) {
+            [self setViewMovedUp:NO];
+        }
     }];
     
     @weakify(self);
@@ -152,6 +165,18 @@
         
     }];
    
+}
+
+// 判断是否为 iPhone 4/4s 或更为早先的设备
+- (BOOL)isIphone4OrLess
+{
+    BOOL isIphone = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone);
+    CGFloat screenWidth =[[UIScreen mainScreen] bounds].size.width;
+    CGFloat screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    CGFloat screenMaxLength = MAX(screenWidth, screenHeight);
+    BOOL isIphone4OrLess = isIphone && screenMaxLength < 568.0;
+    
+    return isIphone4OrLess;
 }
 
 #pragma mark - Action
