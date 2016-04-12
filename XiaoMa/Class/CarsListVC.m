@@ -54,6 +54,8 @@
 
 - (void)dealloc
 {
+    self.sliderView.delegate = nil;
+    self.sliderView.contentScrollView.delegate = nil;
     DebugLog(@"CarsListVC dealloc");
 }
 
@@ -503,8 +505,8 @@
 }
 
 #pragma mark - UIScrollViewDelegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//}
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
