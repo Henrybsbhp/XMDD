@@ -160,7 +160,7 @@
 -(void)addBtn
 {
     @weakify(self)
-    [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"添加银行卡" centerOffset:-100 tapBlock:^{
+    [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"暂无银行卡" centerOffset:-100 tapBlock:^{
         @strongify(self)
         [self reloadData];
     }];
@@ -290,7 +290,7 @@
     {
         _btn = [[UIButton alloc]init];
         _btn.backgroundColor = HEXCOLOR(@"#18d06a");
-        [_btn setTitle:@"暂无银行卡" forState:UIControlStateNormal];
+        [_btn setTitle:@"添加银行卡" forState:UIControlStateNormal];
         _btn.layer.cornerRadius = 5;
         _btn.layer.masksToBounds = YES;
         @weakify(self);
