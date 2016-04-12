@@ -15,6 +15,7 @@
 @interface SecondCarValuationVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomLayout;
+@property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 
 //服务器下发数据
 @property (strong, nonatomic) NSArray *dataArr;
@@ -67,7 +68,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -106,19 +107,9 @@
             cell = [self tableView:tableView PlatformCellForRowAtIndexPath:indexPath];
         }
     }
-    else if (indexPath.section == 3)
-    {
-            cell = [self tableView:tableView InfoCellForRowAtIndexPath:indexPath];
-    }
     else
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"ButtonCell"];
-        UIButton *btn = [cell viewWithTag:100];
-        btn.layer.cornerRadius = 5;
-        btn.layer.masksToBounds = YES;
-        [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntilForCell:cell]subscribeNext:^(id x) {
-            [self commitDataArr];
-        }];
+            cell = [self tableView:tableView InfoCellForRowAtIndexPath:indexPath];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -218,10 +209,6 @@
     {
         return 140;
     }
-    else if (indexPath.section == 4)
-    {
-        return 60;
-    }
     if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
         return UITableViewAutomaticDimension;
@@ -299,9 +286,45 @@
     
 }
 
-- (void)commitDataArr
+#pragma mark LazyLoad
+
+-(NSMutableArray *)uploadArr
 {
+    if (!_uploadArr)
+    {
+        _uploadArr=[[NSMutableArray alloc]init];
+    }
+    return _uploadArr;
+}
+
+#pragma mark setupUI
+- (void)setupUI
+{
+    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
+                                                                     NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
+                                                                     } forState:UIControlStateNormal];
     
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.tableView.estimatedRowHeight = 44;
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+    }
+    self.commitBtn.layer.cornerRadius = 5;
+    self.commitBtn.layer.masksToBounds = YES;
+}
+
+-(void)addCorner:(UILabel *)label
+{
+    label.layer.cornerRadius = 10;
+    label.layer.masksToBounds = YES;
+}
+
+-(void)setPreferredMaxLayoutWidth:(UILabel *)label
+{
+    label.preferredMaxLayoutWidth = self.view.bounds.size.width - 80;
+}
+- (IBAction)commitAction:(id)sender
+{
     /**
      *  提交卖车意向事件
      */
@@ -346,43 +369,6 @@
             [gToast showError:error.domain];
         }];
     }
-}
-
-
-#pragma mark LazyLoad
-
--(NSMutableArray *)uploadArr
-{
-    if (!_uploadArr)
-    {
-        _uploadArr=[[NSMutableArray alloc]init];
-    }
-    return _uploadArr;
-}
-
-#pragma mark setupUI
-- (void)setupUI
-{
-    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
-                                                                     NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
-                                                                     } forState:UIControlStateNormal];
-    
-    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-    {
-        self.tableView.estimatedRowHeight = 44;
-        self.tableView.rowHeight = UITableViewAutomaticDimension;
-    }
-}
-
--(void)addCorner:(UILabel *)label
-{
-    label.layer.cornerRadius = 10;
-    label.layer.masksToBounds = YES;
-}
-
--(void)setPreferredMaxLayoutWidth:(UILabel *)label
-{
-    label.preferredMaxLayoutWidth = self.view.bounds.size.width - 80;
 }
 
 @end
