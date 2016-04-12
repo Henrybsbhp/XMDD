@@ -188,7 +188,7 @@
         nameLb.text = self.contract.xmddname;
         carLb.text = self.contract.licencenumber;
         
-        CGFloat price = self.contract.total - self.contract.couponmoney;
+        CGFloat price = self.contract.total - self.contract.couponmoney - self.couponmoney;
         priceLb.text =  [NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]];
     });
     return data;

@@ -284,8 +284,15 @@
 
 - (void)gotoPaidSuccessVC
 {
+    CGFloat totalCouponMoney = 0.0;
+    for (HKCoupon * c in couponArray)
+    {
+        totalCouponMoney = totalCouponMoney + c.couponAmount;
+    }
+    totalCouponMoney = MIN(totalAmount, self.maxCouponAmt)
     MutualInsPayResultVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayResultVC"];
     vc.contract = self.contract;
+    vc.couponMoney = totalCouponMoney;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
