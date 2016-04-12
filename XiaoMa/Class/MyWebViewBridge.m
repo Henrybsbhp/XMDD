@@ -15,6 +15,7 @@
 #import "SharedNotifyOp.h"
 #import "AwardOtherSheetVC.h"
 #import "HKImageAlertVC.h"
+#import "HKMessageAlertVC.h"
 
 typedef NS_ENUM(NSInteger, MenuItemsType) {
     menuItemsTypeShare                  = 1,
@@ -255,6 +256,21 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [alertItemArray safetyAddObject:item];
         }
         
+        ///纯文本提示
+        if ([type isEqualToString:@"3"])
+        {
+            HKMessageAlertVC *alert = [[HKMessageAlertVC alloc] init];
+            alert.titleLabel.text = title;
+            alert.messageLabel.text = text;
+            alert.actionItems = alertItemArray;
+            [alert show];
+            
+            responseCallback(nil);
+            
+            return;
+        }
+        
+        ///带图提示
         NSString * imageName = @"mins_bulb";
         if ([type isEqualToString:@"1"])
         {
@@ -264,6 +280,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         {
             imageName = @"mins_error";
         }
+        
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:title ImageName:imageName Message:text ActionItems:alertItemArray];
         [alert show];
         

@@ -54,12 +54,14 @@
 
 - (void)dealloc
 {
+    self.sliderView.delegate = nil;
+    self.sliderView.contentScrollView.delegate = nil;
     DebugLog(@"CarsListVC dealloc");
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return self.emptyView.hidden ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)awakeFromNib
@@ -116,6 +118,12 @@
 
 - (void)setUI
 {
+    if (!IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+        self.extendedLayoutIncludesOpaqueBars = NO;
+        self.modalPresentationCapturesStatusBarAppearance = NO;
+    }
     UIButton *addCarButton = [self.emptyContentView viewWithTag:1002];
     @weakify(self);
     [[addCarButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -172,9 +180,6 @@
             else {
                 self.tableView.hidden = YES;
                 self.emptyView.hidden = NO;
-            }
-            if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
-                [self setNeedsStatusBarAppearanceUpdate];
             }
             [self.view stopActivityAnimation];
         });
@@ -503,8 +508,8 @@
 }
 
 #pragma mark - UIScrollViewDelegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//}
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
@@ -540,7 +545,7 @@
 - (BOOL)observeScrollViewOffset
 {
     @weakify(self)
-    [RACObserve(self.sliderView.contentScrollView,contentOffset) subscribeNext:^(NSValue * value) {
+    [RACObserve(self.sliderView.contentScrollView, contentOffset) subscribeNext:^(NSValue * value) {
         
         @strongify(self)
         CGPoint p = [value CGPointValue];
