@@ -315,7 +315,7 @@
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ProgressCell"];
     HKProgressView * progressView = (HKProgressView *)[cell searchViewWithTag:101];
     progressView.titleArray = @[@"待支付",@"已支付",@"协议已寄送"];
-    NSInteger status = self.contract.status == 3 ? 4 : self.contract.status;
+    NSInteger status = self.contract.status == 4 ? 3 : self.contract.status;
     NSIndexSet *set = [NSIndexSet indexSetWithIndex:status - 1];
     progressView.selectedIndexSet = set;
     return cell;

@@ -26,7 +26,15 @@
         self.messageLabel.font = [UIFont systemFontOfSize:14];
         self.messageLabel.textColor = HEXCOLOR(@"#888888");
         self.messageLabel.numberOfLines = 0;
+        
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.titleLabel.font = [UIFont systemFontOfSize:15];
+        self.titleLabel.textColor = HEXCOLOR(@"#454545");
+        self.titleLabel.numberOfLines = 0;
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
+        
         self.minMessageContentViewHeight = 135;
+        self.verticalSpace = 20;
     }
     return self;
 }
@@ -50,19 +58,31 @@
 - (UIView *)createContentViewWithFrame:(CGRect)frame {
     UIView *contentView = [[UIView alloc] initWithFrame:frame];
     [contentView addSubview:[self getAndSetupSizeForMessageLabelWithContainerBounds:frame]];
+    [contentView addSubview:[self getAndSetupSizeForTitleLabelWithContainerBounds:frame]];
     return contentView;
 }
 
 - (CGFloat)getContentViewHeight {
+    CGFloat titleHeight = [self getTitleLabelSize].height;
     CGFloat msgHeight = [self getMessageLabelSize].height;
-    return MAX(self.minMessageContentViewHeight, msgHeight + self.contentInsets.top + self.contentInsets.bottom);
+    CGFloat contentHeight = self.contentInsets.top + titleHeight + (titleHeight ? self.verticalSpace : 0) + msgHeight + self.contentInsets.bottom;
+    return MAX(self.minMessageContentViewHeight, contentHeight);
+}
+
+- (UILabel *)getAndSetupSizeForTitleLabelWithContainerBounds:(CGRect)bounds {
+    CGSize titleSize = [self getTitleLabelSize];
+    CGFloat y = self.contentInsets.top;
+    self.titleLabel.frame = CGRectMake(self.contentInsets.left, y, kAlertViewWidth - self.contentInsets.left - self.contentInsets.right,titleSize.height );
+    return self.titleLabel;
 }
 
 - (UILabel *)getAndSetupSizeForMessageLabelWithContainerBounds:(CGRect)bounds {
+    CGSize titleSize = [self getTitleLabelSize];
     CGSize msgSize = [self getMessageLabelSize];
-    CGFloat y = self.contentInsets.top;
-    if (bounds.size.height - self.contentInsets.top - self.contentInsets.bottom > msgSize.height) {
-        y = floor((bounds.size.height - msgSize.height)/2);
+    CGFloat boundsHeight = bounds.size.height - self.contentInsets.top - self.contentInsets.bottom - titleSize.height - (titleSize.height > 0 ? self.verticalSpace : 0);
+    CGFloat y = self.contentInsets.top + titleSize.height + (titleSize.height > 0 ? self.verticalSpace : 0);
+    if (boundsHeight > msgSize.height) {
+        y = y + floor((boundsHeight - msgSize.height)/2);
     }
     self.messageLabel.frame = CGRectMake(self.contentInsets.left, y, msgSize.width, msgSize.height);
     return self.messageLabel;
@@ -71,6 +91,12 @@
 - (CGSize)getMessageLabelSize {
     CGFloat labelWidth = kAlertViewWidth - self.contentInsets.left - self.contentInsets.right;
     CGSize labelSize = [self.messageLabel.text labelSizeWithWidth:labelWidth font:self.messageLabel.font];
+    return CGSizeMake(labelSize.width, ceil(labelSize.height));
+}
+
+- (CGSize)getTitleLabelSize {
+    CGFloat labelWidth = kAlertViewWidth - self.contentInsets.left - self.contentInsets.right;
+    CGSize labelSize = [self.titleLabel.text labelSizeWithWidth:labelWidth font:self.titleLabel.font];
     return CGSizeMake(labelSize.width, ceil(labelSize.height));
 }
 

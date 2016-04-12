@@ -772,12 +772,6 @@
     
     HKViolation * violation = [self.model.violationArray safetyObjectAtIndex:indexPath.row - 1];
     
-    ///罚款icon
-    UIImageView * moneyImgV = (UIImageView *)[cell searchViewWithTag:107];
-    
-    ///罚分icon
-    UIImageView * fenImgV = (UIImageView *)[cell searchViewWithTag:108];
-    
     ///罚款标志
     UILabel * moneyLb = (UILabel *)[cell searchViewWithTag:101];
     moneyLb.text = violation.violationMoney.length ? violation.violationMoney : @"未知";

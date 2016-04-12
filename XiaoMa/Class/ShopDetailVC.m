@@ -679,8 +679,6 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ServiceCell"];
     UILabel *titleL = (UILabel*)[cell.contentView viewWithTag:1001];
-    UIImageView *iconV = (UIImageView *)[cell.contentView viewWithTag:1002];
-    UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *introL = (UILabel *)[cell.contentView viewWithTag:1005];
     UIButton *payB = (UIButton*)[cell.contentView viewWithTag:1006];
