@@ -414,18 +414,29 @@
         [self.popoverMenu dismissWithAnimated:YES];
     }
     else if (!closing && !self.popoverMenu) {
-        NSArray * itemsArray = @[[HKPopoverViewItem itemWithTitle:@"添加爱车" imageName:@"mec_addcar"], [HKPopoverViewItem itemWithTitle:@"编辑爱车" imageName:@"mec_edit"]];
+        NSArray * itemsArray;
+        if (self.datasource.count >= 5) {
+            itemsArray = @[[HKPopoverViewItem itemWithTitle:@"编辑爱车" imageName:@"mec_edit"]];
+        }
+        else {
+            itemsArray = @[[HKPopoverViewItem itemWithTitle:@"添加爱车" imageName:@"mec_addcar"], [HKPopoverViewItem itemWithTitle:@"编辑爱车" imageName:@"mec_edit"]];
+        }
         
         HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 160) items:itemsArray];
         @weakify(self);
         [popover setDidSelectedBlock:^(NSUInteger index) {
             @strongify(self);
-            if (index == 0) {
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                [self.navigationController pushViewController:vc animated:YES];
+            if (self.datasource.count >= 5) {
+                [self goToEditCar];
             }
             else {
-                [self goToEditCar];
+                if (index == 0) {
+                    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
+                else {
+                    [self goToEditCar];
+                }
             }
         }];
         
