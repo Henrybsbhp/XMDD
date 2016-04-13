@@ -27,6 +27,8 @@
 
 @property (nonatomic)NSInteger currentIndex;
 
+@property (nonatomic,strong)RACDisposable * offsetDisposable;
+
 /// 用于自动跳转到新添加或默认的爱车页面
 @property (nonatomic,strong)HKMyCar * defaultSelectCar;
 
@@ -99,7 +101,15 @@
     {
         [tArray safetyAddObject:kAddCarTitle];
     }
-    self.pageController = [[HKPageSliderView alloc] initWithFrame:self.headView.frame andTitleArray:tArray andStyle:HKTabBarStyleCleanMenu atIndex:current];
+    
+    self.pageController = nil;
+    self.pageController.delegate = nil;
+    self.pageController.contentScrollView.delegate = nil;
+    [self.offsetDisposable dispose];
+
+    
+    HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:self.headView.frame andTitleArray:tArray andStyle:HKTabBarStyleCleanMenu atIndex:current];
+    self.pageController = pageSliderView;
     self.pageController.delegate = self;
     self.pageController.hidden = total <= 1;
     [self.headView removeSubviews];
@@ -136,9 +146,7 @@
 - (void)refreshPageController
 {
     NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
-    NSInteger current = self.currentIndex;
     self.pageController.hidden = total <= 1;
-    [self.pageController selectAtIndex:current];
 }
 
 
@@ -239,6 +247,7 @@
         
         self.datasource = [self.carStore.cars allObjects];
         self.defaultSelectCar = car;
+        self.currentIndex = [[self.carStore.cars allObjects] indexOfObject:car];
         [self setupPageController];
         [self setupScrollView];
         [self refreshScrollView];
@@ -272,6 +281,7 @@
     NSInteger index = scrollView.contentOffset.x / w;
     self.currentIndex = index;
     [self refreshPageController];
+    [self.pageController selectAtIndex:index];
 }
 
 
@@ -286,7 +296,7 @@
 - (BOOL)observeScrollViewOffset
 {
     @weakify(self)
-    [[RACObserve(self.scrollView,contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * value) {
+    self.offsetDisposable = [[RACObserve(self.scrollView,contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * value) {
         
         @strongify(self)
         CGPoint p = [value CGPointValue];
