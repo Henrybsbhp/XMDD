@@ -7,9 +7,10 @@
 //
 
 #import "InsInputNameVC.h"
+#import "CKLine.h"
 
 @interface InsInputNameVC ()
-
+@property (nonatomic, weak) IBOutlet CKLine *line;
 @end
 
 @implementation InsInputNameVC
@@ -17,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.line.lineAlignment = CKLineAlignmentHorizontalTop;
     [self setupNameField];
 }
 
