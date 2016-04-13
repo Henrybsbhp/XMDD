@@ -273,6 +273,7 @@
 		18D475E21B7C3954000FAF1C /* GetUserCouponV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475E11B7C3954000FAF1C /* GetUserCouponV2Op.m */; };
 		18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475E41B7D9F82000FAF1C /* NSString+PhoneNumber.m */; };
 		18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */; };
+		18D68DBD1CBD26F500D0636E /* DeleteInsCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D68DBC1CBD26F500D0636E /* DeleteInsCarOp.m */; };
 		18D811C61C1EDB5300B6AB04 /* CKDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D811C51C1EDB5300B6AB04 /* CKDispatcher.m */; };
 		18E155811C3E3DA600C1CF87 /* InsLicensePopVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E155801C3E3DA600C1CF87 /* InsLicensePopVC.m */; };
 		18E155841C3E5BE000C1CF87 /* GetInsUserInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E155831C3E5BE000C1CF87 /* GetInsUserInfoOp.m */; };
@@ -296,6 +297,8 @@
 		18E756A41B73335C00874601 /* MyBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756A31B73335C00874601 /* MyBankVC.m */; };
 		18F312DC1C98F90B00992A37 /* MutualInsGrouponContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F312DB1C98F90B00992A37 /* MutualInsGrouponContainerView.m */; };
 		18F312DF1C9977A600992A37 /* MutualInsGrouponMembersVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F312DE1C9977A600992A37 /* MutualInsGrouponMembersVC.m */; };
+		18F362B41CBCB6C200D7F7BA /* HKAlertActionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F362B31CBCB6C200D7F7BA /* HKAlertActionItem.m */; };
+		18F362BE1CBCD68400D7F7BA /* CKList.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F362BD1CBCD68400D7F7BA /* CKList.m */; };
 		18F41DA91B784CD8000409E1 /* GetBankcardListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F41DA81B784CD8000409E1 /* GetBankcardListOp.m */; };
 		18F41DAC1B787F5D000409E1 /* UnbindBankcardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F41DAB1B787F5D000409E1 /* UnbindBankcardOp.m */; };
 		18F41DAF1B788022000409E1 /* GetUnbindBankcardVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F41DAE1B788022000409E1 /* GetUnbindBankcardVcodeOp.m */; };
@@ -1291,6 +1294,8 @@
 		18D475E31B7D9F82000FAF1C /* NSString+PhoneNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+PhoneNumber.h"; path = "Class/NSString+PhoneNumber.h"; sourceTree = "<group>"; };
 		18D475E41B7D9F82000FAF1C /* NSString+PhoneNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+PhoneNumber.m"; path = "Class/NSString+PhoneNumber.m"; sourceTree = "<group>"; };
 		18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 90_0.gpx; sourceTree = "<group>"; };
+		18D68DBB1CBD26F500D0636E /* DeleteInsCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteInsCarOp.h; sourceTree = "<group>"; };
+		18D68DBC1CBD26F500D0636E /* DeleteInsCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteInsCarOp.m; sourceTree = "<group>"; };
 		18D811C41C1EDB5300B6AB04 /* CKDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKDispatcher.h; path = Class/CKDispatcher.h; sourceTree = "<group>"; };
 		18D811C51C1EDB5300B6AB04 /* CKDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKDispatcher.m; path = Class/CKDispatcher.m; sourceTree = "<group>"; };
 		18E1557F1C3E3DA600C1CF87 /* InsLicensePopVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsLicensePopVC.h; sourceTree = "<group>"; };
@@ -1335,6 +1340,10 @@
 		18F312DB1C98F90B00992A37 /* MutualInsGrouponContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponContainerView.m; sourceTree = "<group>"; };
 		18F312DD1C9977A600992A37 /* MutualInsGrouponMembersVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponMembersVC.h; sourceTree = "<group>"; };
 		18F312DE1C9977A600992A37 /* MutualInsGrouponMembersVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponMembersVC.m; sourceTree = "<group>"; };
+		18F362B21CBCB6C200D7F7BA /* HKAlertActionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAlertActionItem.h; path = Class/HKAlertActionItem.h; sourceTree = "<group>"; };
+		18F362B31CBCB6C200D7F7BA /* HKAlertActionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAlertActionItem.m; path = Class/HKAlertActionItem.m; sourceTree = "<group>"; };
+		18F362BC1CBCD68400D7F7BA /* CKList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKList.h; path = Class/CKList.h; sourceTree = "<group>"; };
+		18F362BD1CBCD68400D7F7BA /* CKList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKList.m; path = Class/CKList.m; sourceTree = "<group>"; };
 		18F41DA71B784CD8000409E1 /* GetBankcardListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetBankcardListOp.h; path = Class/GetBankcardListOp.h; sourceTree = "<group>"; };
 		18F41DA81B784CD8000409E1 /* GetBankcardListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetBankcardListOp.m; path = Class/GetBankcardListOp.m; sourceTree = "<group>"; };
 		18F41DAA1B787F5D000409E1 /* UnbindBankcardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnbindBankcardOp.h; path = Class/UnbindBankcardOp.h; sourceTree = "<group>"; };
@@ -2247,6 +2256,8 @@
 			children = (
 				181355911C925FC600894CA1 /* HKAlertVC.h */,
 				181355921C925FC600894CA1 /* HKAlertVC.m */,
+				18F362B21CBCB6C200D7F7BA /* HKAlertActionItem.h */,
+				18F362B31CBCB6C200D7F7BA /* HKAlertActionItem.m */,
 				180539401C9FC0CE00D896A1 /* HKImageAlertVC.h */,
 				180539411C9FC0CE00D896A1 /* HKImageAlertVC.m */,
 				181AA4531CA4D53100ADD50C /* HKMessageAlertVC.h */,
@@ -2514,6 +2525,8 @@
 				18D811C51C1EDB5300B6AB04 /* CKDispatcher.m */,
 				1821C3551C4DD36C00120AF4 /* CKDatasource.h */,
 				1821C3561C4DD36C00120AF4 /* CKDatasource.m */,
+				18F362BC1CBCD68400D7F7BA /* CKList.h */,
+				18F362BD1CBCD68400D7F7BA /* CKList.m */,
 				184F09F91C7B036A00DD6B54 /* CKQueue.h */,
 				184F09FA1C7B036A00DD6B54 /* CKQueue.m */,
 			);
@@ -2572,6 +2585,8 @@
 		1833F5701BCD373B000E1DA1 /* netop */ = {
 			isa = PBXGroup;
 			children = (
+				18D68DBB1CBD26F500D0636E /* DeleteInsCarOp.h */,
+				18D68DBC1CBD26F500D0636E /* DeleteInsCarOp.m */,
 				182BEEFD1CA0EFB000D67C18 /* DeleteCooperationGroupOp.h */,
 				182BEEFE1CA0EFB000D67C18 /* DeleteCooperationGroupOp.m */,
 				182BEEEC1CA0DAE900D67C18 /* CheckCooperationPremiumOp.h */,
@@ -5532,6 +5547,7 @@
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
 				18BF42011BD0D5A20039F210 /* GasAddCardVC.m in Sources */,
 				6BBB084D1B021EA90002C349 /* JTLogModel.m in Sources */,
+				18D68DBD1CBD26F500D0636E /* DeleteInsCarOp.m in Sources */,
 				2E77A4A91C32603800264FC9 /* GetStartHostCarOp.m in Sources */,
 				4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */,
 				6BB9D76E1AF7011C00F7F3F8 /* DeleteUserFavoriteOp.m in Sources */,
@@ -5752,6 +5768,7 @@
 				6BFE6A6B1C03417200EC9766 /* ViolationViewController.m in Sources */,
 				4EF94AFA1C3256330092CB55 /* OETextField.m in Sources */,
 				6B1175321C0D78AC00FC1881 /* ViolationCityModel.m in Sources */,
+				18F362B41CBCB6C200D7F7BA /* HKAlertActionItem.m in Sources */,
 				1851F41E1B0C223A00241A01 /* HKAutoBrand.m in Sources */,
 				2E77A4901C325F2F00264FC9 /* GetRescueCommentOp.m in Sources */,
 				6BC3B6121ADF6205001016A0 /* MapHelper.m in Sources */,
@@ -5790,6 +5807,7 @@
 				6B88C1341C1E943E00BB6071 /* GetInsuranceCalculatorOpV3.m in Sources */,
 				6BD25E8B1B7C41C6008C0080 /* CollectionChooseVC.m in Sources */,
 				505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */,
+				18F362BE1CBCD68400D7F7BA /* CKList.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
 				6B16D63C1C92CD1A00322B70 /* HKMutualGroup.m in Sources */,
 				18E5922A1C1709A4006010D9 /* InsInputNameVC.m in Sources */,
@@ -6010,6 +6028,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				ENABLE_BITCODE = NO;
@@ -6095,7 +6114,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "19b9e532-9495-4943-a7d9-e1846a3e0cf4";
+				PROVISIONING_PROFILE = "49d4298a-4b37-4e47-990c-a2b9eb8e6baa";
 			};
 			name = Debug;
 		};
@@ -6105,6 +6124,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
