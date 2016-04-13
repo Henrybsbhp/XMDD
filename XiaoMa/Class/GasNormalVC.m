@@ -272,7 +272,7 @@
             UILabel *titleL = [cell.contentView viewWithTag:tag*10+1];
             UILabel *discountL = [cell.contentView viewWithTag:tag*10+2];
             
-            titleL.text = pkg.month == 1 ? @"快速到账" : [NSString stringWithFormat:@"分%d个月充值", pkg.month];
+            titleL.text = pkg.month == 1 ? @"快速到账" : [NSString stringWithFormat:@"分%d个月充", pkg.month];
             discountL.text = [NSString stringWithFormat:@"%@折", pkg.discount];
             
             if ([self.curChargePkg.pkgid isEqual:pkg.pkgid]) {
