@@ -335,7 +335,7 @@
     }
     else if ([self.name isEqualToString:@""])
     {
-        [gToast showError:@"车主姓名不能为空"];
+        [gToast showError:@"车主称呼不能为空"];
     }
     else if (self.phoneNumber.length != 11)
     {
