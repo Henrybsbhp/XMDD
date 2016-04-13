@@ -57,7 +57,7 @@
         self.styleModel.menuSelectColorB = 0.4140625f;
     }
     else if (self.style == HKTabBarStyleUnderCorner) {
-        self.styleModel.menuHeight = 38;
+        self.styleModel.menuHeight = self.titles.count > 1 ? 38 : 0;
         self.styleModel.buttonSpacing = 8;
         self.styleModel.menuNormalColor = HEXCOLOR(@"#dbdbdb");
         self.styleModel.menuSelectedColor = HEXCOLOR(@"#ffffff");

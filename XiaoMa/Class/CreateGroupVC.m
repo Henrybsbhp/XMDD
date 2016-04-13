@@ -121,7 +121,6 @@
         [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
         
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
-        [MutualInsStore fetchExistsStore].lastGroupId = rop.rsp_groupid;
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];

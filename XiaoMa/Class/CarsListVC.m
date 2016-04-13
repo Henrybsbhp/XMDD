@@ -31,6 +31,7 @@
 @property (nonatomic, strong) MyCarStore *carStore;
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) HKPageSliderView * sliderView;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (weak, nonatomic) IBOutlet UIView *emptyContentView;
@@ -53,12 +54,14 @@
 
 - (void)dealloc
 {
+    self.sliderView.delegate = nil;
+    self.sliderView.contentScrollView.delegate = nil;
     DebugLog(@"CarsListVC dealloc");
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return self.emptyView.hidden ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)awakeFromNib
@@ -115,6 +118,12 @@
 
 - (void)setUI
 {
+    if (!IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+        self.extendedLayoutIncludesOpaqueBars = NO;
+        self.modalPresentationCapturesStatusBarAppearance = NO;
+    }
     UIButton *addCarButton = [self.emptyContentView viewWithTag:1002];
     @weakify(self);
     [[addCarButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -171,9 +180,6 @@
             else {
                 self.tableView.hidden = YES;
                 self.emptyView.hidden = NO;
-            }
-            if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
-                [self setNeedsStatusBarAppearanceUpdate];
             }
             [self.view stopActivityAnimation];
         });
@@ -333,6 +339,8 @@
         HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:carNumArray andStyle:HKTabBarStyleUnderCorner atIndex:[self.datasource indexOfObject:self.model.currentCar]];
         pageSliderView.contentScrollView.delegate = self;
         pageSliderView.delegate = self;
+        self.tapGesture =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goToEditCar)];
+        [pageSliderView.contentScrollView addGestureRecognizer:self.tapGesture];
         
         if (view.subviews.count != 0) {
             [view removeSubviews];
@@ -357,6 +365,14 @@
         
         [self.sliderView.contentScrollView addSubview:contentVC.view];
     }
+}
+
+- (void)goToEditCar
+{
+    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+    vc.originCar = self.model.currentCar;
+    vc.model = self.model;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (UITableViewCell *)bottomCellAtIndexPath:(NSIndexPath *)indexPath
@@ -398,21 +414,29 @@
         [self.popoverMenu dismissWithAnimated:YES];
     }
     else if (!closing && !self.popoverMenu) {
-        NSArray * itemsArray = @[[HKPopoverViewItem itemWithTitle:@"添加爱车" imageName:@"mec_addcar"], [HKPopoverViewItem itemWithTitle:@"编辑爱车" imageName:@"mec_edit"]];
+        NSArray * itemsArray;
+        if (self.datasource.count >= 5) {
+            itemsArray = @[[HKPopoverViewItem itemWithTitle:@"编辑爱车" imageName:@"mec_edit"]];
+        }
+        else {
+            itemsArray = @[[HKPopoverViewItem itemWithTitle:@"添加爱车" imageName:@"mec_addcar"], [HKPopoverViewItem itemWithTitle:@"编辑爱车" imageName:@"mec_edit"]];
+        }
         
         HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 160) items:itemsArray];
         @weakify(self);
         [popover setDidSelectedBlock:^(NSUInteger index) {
             @strongify(self);
-            if (index == 0) {
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                [self.navigationController pushViewController:vc animated:YES];
+            if (self.datasource.count >= 5) {
+                [self goToEditCar];
             }
             else {
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                vc.originCar = self.model.currentCar;
-                vc.model = self.model;
-                [self.navigationController pushViewController:vc animated:YES];
+                if (index == 0) {
+                    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
+                else {
+                    [self goToEditCar];
+                }
             }
         }];
         
@@ -495,8 +519,8 @@
 }
 
 #pragma mark - UIScrollViewDelegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//}
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
@@ -532,7 +556,7 @@
 - (BOOL)observeScrollViewOffset
 {
     @weakify(self)
-    [RACObserve(self.sliderView.contentScrollView,contentOffset) subscribeNext:^(NSValue * value) {
+    [RACObserve(self.sliderView.contentScrollView, contentOffset) subscribeNext:^(NSValue * value) {
         
         @strongify(self)
         CGPoint p = [value CGPointValue];

@@ -154,15 +154,21 @@
 //设置爱车的store
 - (void)setupMyCarStore
 {
-    self.carStore = [MyCarStore fetchOrCreateStore];
     @weakify(self);
-    [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(id store, CKEvent *evt) {
+    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser *user) {
         
         @strongify(self);
-        [[evt signal] subscribeNext:^(id x) {
-            @strongify(self);
-            self.myDefaultCar = [self.carStore defalutCar];
-        }];
+        if (user) {
+            self.carStore = [MyCarStore fetchOrCreateStore];
+            [self.carStore subscribeWithTarget:self domain:@"cars" receiver:^(id store, CKEvent *evt) {
+                
+                @strongify(self);
+                [[evt signal] subscribeNext:^(id x) {
+                    @strongify(self);
+                    self.myDefaultCar = [self.carStore defalutCar];
+                }];
+            }];
+        }
     }];
 }
 
@@ -178,9 +184,8 @@
     //cell准备重绘
     @weakify(self);
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        HKTableViewCell *hkcell = (HKTableViewCell *)cell;
+
         UIButton *leftBtn = [cell.contentView viewWithTag:1002];
-        UILabel *rightTitleL = [cell.contentView viewWithTag:2001];
         UIButton *rightBtn = [cell.contentView viewWithTag:2002];
         
         [[[leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
@@ -474,6 +479,8 @@
 
 - (void)reloadData
 {
+    [[self.carStore getDefaultCar] send];
+    
     CKDict *top = [self topData];
     
     CKDict *car = [self normalDataWithInfo:@{kCKItemKey:@"car", @"img":@"Mine_myCar_imageView", @"title":@"爱车", @"evt":@"rp301_4",@"isContainLicense":@(YES)}];

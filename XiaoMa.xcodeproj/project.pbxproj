@@ -346,6 +346,7 @@
 		4E043B1A1C9A511200742268 /* MutualInsChooseCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E043B191C9A511200742268 /* MutualInsChooseCarVC.m */; };
 		4E045E731CABD52600F17446 /* NSString+BankNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E045E721CABD52600F17446 /* NSString+BankNumber.m */; };
 		4E045E761CABD55600F17446 /* ConfirmClaimOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E045E751CABD55600F17446 /* ConfirmClaimOp.m */; };
+		4E1FEF321CBB97C100A9BA6F /* PopAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FEF311CBB97C100A9BA6F /* PopAnimation.m */; };
 		4E34529D1C96A9BF00E2AFE2 /* MutualInsScencePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E34529C1C96A9BF00E2AFE2 /* MutualInsScencePageVC.m */; };
 		4E3452D11C96B90500E2AFE2 /* MutualInsClaimDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3452D01C96B90500E2AFE2 /* MutualInsClaimDetailVC.m */; };
 		4E5995681C201C5300686565 /* CommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5995671C201C5300686565 /* CommitSuccessVC.m */; };
@@ -1439,6 +1440,8 @@
 		4E045E721CABD52600F17446 /* NSString+BankNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BankNumber.m"; path = "Class/NSString+BankNumber.m"; sourceTree = "<group>"; };
 		4E045E741CABD55600F17446 /* ConfirmClaimOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfirmClaimOp.h; path = Class/ConfirmClaimOp.h; sourceTree = "<group>"; };
 		4E045E751CABD55600F17446 /* ConfirmClaimOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConfirmClaimOp.m; path = Class/ConfirmClaimOp.m; sourceTree = "<group>"; };
+		4E1FEF301CBB97C100A9BA6F /* PopAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PopAnimation.h; path = Class/PopAnimation.h; sourceTree = "<group>"; };
+		4E1FEF311CBB97C100A9BA6F /* PopAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PopAnimation.m; path = Class/PopAnimation.m; sourceTree = "<group>"; };
 		4E34529B1C96A9BF00E2AFE2 /* MutualInsScencePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsScencePageVC.h; sourceTree = "<group>"; };
 		4E34529C1C96A9BF00E2AFE2 /* MutualInsScencePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsScencePageVC.m; sourceTree = "<group>"; };
 		4E3452CF1C96B90500E2AFE2 /* MutualInsClaimDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsClaimDetailVC.h; sourceTree = "<group>"; };
@@ -2431,6 +2434,7 @@
 		1816F4B51AD36D5100BBCC96 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				4E1FEF281CBB978B00A9BA6F /* PopAnimation */,
 				1805393F1C9FC08B00D896A1 /* AlertView */,
 				180538D91C9BFA2600D896A1 /* TableView */,
 				6BC80D031C9946B000C7BA3D /* View */,
@@ -3939,6 +3943,15 @@
 				18FC01DA1C4E6C6F00FD61BF /* IQKeyboardManager.bundle */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		4E1FEF281CBB978B00A9BA6F /* PopAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				4E1FEF301CBB97C100A9BA6F /* PopAnimation.h */,
+				4E1FEF311CBB97C100A9BA6F /* PopAnimation.m */,
+			);
+			name = PopAnimation;
 			sourceTree = "<group>";
 		};
 		4E97D7121C9000FC00FC418F /* MutualInsClaims */ = {
@@ -5478,6 +5491,7 @@
 				6BBB08501B021EA90002C349 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
 				50F0FF711C9AA446009A94A3 /* MutualInsChooseVC.m in Sources */,
 				C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */,
+				4E1FEF321CBB97C100A9BA6F /* PopAnimation.m in Sources */,
 				18C52C411BA80AC700F6C38B /* GetPicHistoryOp.m in Sources */,
 				18A9E8D21BDF18EA0061D3BC /* HKCellData.m in Sources */,
 				6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */,
