@@ -118,7 +118,7 @@
     alert.actionItems = @[[HKAlertActionItem itemWithTitle:@"确定"]];
     NSArray *items;
     if (op.rsp_sharemoney > 0) {
-        items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber
+        items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_phone
                                           detailColor:MutInsTextDarkGrayColor],
                   [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand.length > 0 ? op.rsp_carbrand : @"暂无"
                                           detailColor:MutInsTextDarkGrayColor],
@@ -134,7 +134,7 @@
                                           detailColor:MutInsOrangeColor]];
     }
     else {
-        items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber
+        items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_phone
                                           detailColor:MutInsTextDarkGrayColor],
                   [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand.length > 0 ? op.rsp_carbrand : @"暂无"
                                           detailColor:MutInsTextDarkGrayColor],
