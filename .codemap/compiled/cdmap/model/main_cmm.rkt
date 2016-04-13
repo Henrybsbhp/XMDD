@@ -1,7 +1,7 @@
 #lang racket
 (require codemap/base)
 (provide node-tree)
-(import "cdmap/model/mutualIns.cmm")
+(import "cdmap/model/insurance.cmm")
 (define node-list
   '(file (id 348da84b-3694-3b75-8fbc-cb65996c30bf) (name "main.cmm")))
 (when (pair? (current-templates))

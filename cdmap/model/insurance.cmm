@@ -181,6 +181,13 @@ class=CancelInsOrder op auth path="/insurance/order/cancel"> {
   }
 }
 
+<"删除核保记录车辆"
+class=DeleteInsCar op auth path="/insurance/premium/car/del"> {
+  <req> {
+     carpremiumid:number                   
+  }
+}
+
 
 <"保险车辆简单信息"
 class=InsSimpleCar data> {
