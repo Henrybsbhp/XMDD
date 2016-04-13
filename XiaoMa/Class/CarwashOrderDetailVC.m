@@ -304,6 +304,8 @@
 #pragma mark - HKLoadingModelDelegate
 - (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
+    //保证动画停止
+    [self.view stopActivityAnimation];
     return @"获取订单信息失败，点击重试";
 }
 

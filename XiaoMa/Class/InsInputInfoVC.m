@@ -424,7 +424,7 @@
     NSMutableAttributedString *attrStr = [NSMutableAttributedString attributedString];
     NSAttributedString *titleStr = [[NSAttributedString alloc] initWithString:data.customInfo[@"title"] attributes:
                                     @{NSFontAttributeName: [UIFont systemFontOfSize:15],
-                                      NSForegroundColorAttributeName: HEXCOLOR(@"#20ab2a")}];
+                                      NSForegroundColorAttributeName: kDefTintColor}];
     [attrStr appendAttributedString:titleStr];
     NSString *subTitle = data.customInfo[@"subTitle"];
     if (subTitle) {

@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-@class HKAlertActionItem;
+#import "HKAlertActionItem.h"
 
 @interface HKAlertVC : UIViewController
 
 @property (nonatomic, strong) NSArray *actionItems;
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic) BOOL isShowing;
+///(default is YES)
+@property (nonatomic, assign) BOOL autoDismiss;
 
 - (void)show;
 - (void)showWithActionHandler:(void(^)(NSInteger index, id alertVC))actionHandler;
@@ -21,14 +23,7 @@
 
 @end
 
-@interface HKAlertActionItem : NSObject
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) UIColor *color;
-@property (nonatomic, copy) void(^clickBlock)(id alertVC);
 
-+ (instancetype)item;
-///(default color is HEXCOLOR(@"#18d06a"), clickBlock is nil)
-+ (instancetype)itemWithTitle:(NSString *)title;
-+ (instancetype)itemWithTitle:(NSString *)title color:(UIColor *)color clickBlock:(void(^)(id alertVC))block;
 
-@end
+
+

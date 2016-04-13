@@ -76,7 +76,7 @@
     
     segctrl.backgroundColor = [UIColor whiteColor];
     UIView * v = [[UIView alloc] initWithFrame:CGRectZero];
-    v.backgroundColor = [UIColor colorWithHex:@"#20ab2a" alpha:1.0f];
+    v.backgroundColor = kDefTintColor;
     segctrl.selectedStainView = v;
     segctrl.selectedSegmentTextColor = [UIColor whiteColor];
     segctrl.segmentTextColor = [UIColor darkGrayColor];
