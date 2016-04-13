@@ -167,7 +167,6 @@
     }];
     [self.view addSubview:self.btn];
     const CGFloat top = gAppMgr.deviceInfo.screenSize.height / 2 + 30;
-    NSLog(@"top top %f",top);
     [self.btn mas_updateConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.centerX.mas_equalTo(self.view);
