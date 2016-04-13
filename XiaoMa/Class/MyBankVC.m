@@ -99,12 +99,15 @@
     [[signal initially:^{
         
         @strongify(self);
-        if ([self.tableView isRefreshViewExists]) {
+        if ([self.tableView isRefreshViewExists])
+        {
             [self.tableView.refreshView beginRefreshing];
         }
-        else {
+        else
+        {
             [self hideContentViews];
         }
+        //hideDefaultEmptyView 写在了这里
         [self removeBtn];
     }] subscribeNext:^(id x) {
         
@@ -121,9 +124,11 @@
         else
         {
             [self hideContentViews];
+            // 暂停动画写在了这里
             [self addBtn];
         }
-        if ([self.tableView isRefreshViewExists]) {
+        if ([self.tableView isRefreshViewExists])
+        {
             [self.tableView.refreshView endRefreshing];
         }
     } error:^(NSError *error) {
@@ -131,8 +136,9 @@
         [gToast showError:error.domain];
         if (![self.tableView isRefreshViewExists])
         {
-            [self.view hideDefaultEmptyView];
+            [self.view stopActivityAnimation];
             [self.view showDefaultEmptyViewWithText:@"获取银行卡信息失败，请点击重试" tapBlock:^{
+                [self.view hideDefaultEmptyView];
                 [self reloadData];
             }];
         }
@@ -160,7 +166,9 @@
 
 -(void)addBtn
 {
+    //暂停动画并且显示缺省页
     @weakify(self)
+    [self.view stopActivityAnimation];
     [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"暂无银行卡" centerOffset:-100 tapBlock:^{
         @strongify(self)
         [self reloadData];
