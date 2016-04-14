@@ -177,13 +177,7 @@
     
         @strongify(self);
         [gToast showSuccess:@"删除成功"];
-        [self.datasource removeObjectForKey:car.licenseno];
-        if ([self checkInsCarsEditable]) {
-            [self deleteItem:data];
-        }
-        else {
-            [self endEditing];
-        }
+        [self deleteItem:data];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
