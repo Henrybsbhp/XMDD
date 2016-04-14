@@ -361,31 +361,49 @@
         UITableViewCell *cell4 = [tableView dequeueReusableCellWithIdentifier:@"EvaluationContent" forIndexPath:indexPath];
         UILabel *textLb = (UILabel *)[cell4 searchViewWithTag:1004];
         textLb.text = [self.evaluationArray safetyObjectAtIndex:3];
+        textLb.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 20;
         return cell4;
     }
 }
 
 #pragma mark - UITableViewdelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < 3) {
+    if (indexPath.row < 3)
+    {
         return 25;
-    }else if (indexPath.row < 4){
-        if (self.evaluationArray.count != 0) {
+    }
+    else if (indexPath.row < 4)
+    {
+        if (self.evaluationArray.count != 0)
+        {
             return 36;
-        }else{
+        }
+        else
+        {
             return 50;
         }
-    }else if (indexPath.row == 7){
-        if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0){
+    }
+    else if (indexPath.row == 7)
+    {
+        if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0)
+        {
             NSString * str = [self.evaluationArray safetyObjectAtIndex:3];
             CGFloat width = kWidth - 20;
             CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
             return size.height;
-        }else{
+        }
+        else
+        {
             return 36;
         }
-    }else {
-        return 36;
+    }else
+    {
+        UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+        [cell layoutIfNeeded];
+        [cell setNeedsUpdateConstraints];
+        [cell updateConstraintsIfNeeded];
+        CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+        return ceil(size.height);
     }
 }
 #pragma mark - lazyLoading
