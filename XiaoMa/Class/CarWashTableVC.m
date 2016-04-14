@@ -43,7 +43,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.carwashLoadingModel = [[HKLoadingModel alloc] initWithTargetView:self.carwashTableView delegate:self];
     self.withheartLoadingModel = [[HKLoadingModel alloc] initWithTargetView:self.withheartTableView delegate:self];
     self.carwashLoadingModel.isSectionLoadMore = YES;
