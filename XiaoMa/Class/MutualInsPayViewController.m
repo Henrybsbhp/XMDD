@@ -150,7 +150,16 @@
         {
             totalAmount = totalAmount + c.couponAmount;
         }
-        NSString * string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:MIN(totalAmount, self.maxCouponAmt)]];
+        
+        NSString * string;
+        if (totalAmount >= self.maxCouponAmt)
+        {
+            string =  [NSString stringWithFormat:@"最高可使用%@元代金券",[NSString formatForPrice:self.maxCouponAmt]];
+        }
+        else
+        {
+            string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
+        }
         return string;
     }
 }
@@ -270,6 +279,7 @@
         [self gotoPaidSuccessVC];
         
         [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] sendAndIgnoreError];
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 5;
         iop.req_tradeno = op.rsp_tradeno;

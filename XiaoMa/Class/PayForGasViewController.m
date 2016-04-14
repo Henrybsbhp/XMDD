@@ -136,11 +136,11 @@
     
     NSDictionary * dict2_1 = @{@"title":@"支付宝支付",@"subtitle":@"推荐支付宝用户使用",
                                @"payment":@(PaymentChannelAlipay),@"recommend":@(YES),
-                               @"cellname":@"PaymentPlatformCell",@"icon":@"cw_alipay"};
+                               @"cellname":@"PaymentPlatformCell",@"icon":@"alipay_logo_66"};
     
     NSDictionary * dict2_2 = @{@"title":@"微信支付",@"subtitle":@"推荐微信用户使用",
                                @"payment":@(PaymentChannelWechat),@"recommend":@(NO),
-                               @"cellname":@"PaymentPlatformCell",@"icon":@"cw_wechat"};
+                               @"cellname":@"PaymentPlatformCell",@"icon":@"wechat_logo_66"};
     
     NSDictionary * dict2_3 = @{@"title":@"银联支付",@"subtitle":@"推荐银联用户使用",
                                @"payment":@(PaymentChannelUPpay),@"recommend":@(NO),

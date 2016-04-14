@@ -27,6 +27,12 @@
 
 @implementation HKPageSliderView
 
+
+- (void)dealloc
+{
+    DebugLog(@"HKPageSliderView dealloc");
+}
+
 - (instancetype)initWithFrame:(CGRect)frame andTitleArray:(NSArray *)titles andStyle:(HKTabBarStyle)style atIndex:(NSInteger)index;
 {
     if (self = [super init]) {
@@ -121,8 +127,7 @@
             button.titleLabel.font = [UIFont systemFontOfSize:21];
             [button sizeToFit];
             [button.titleLabel setTextAlignment:NSTextAlignmentCenter];
-            // 一开始全设置为最小的
-            CGFloat r = HKTabBarStyleCleanMenuScale;
+            CGFloat r = self.currentIndex == i ? 1.0f : HKTabBarStyleCleanMenuScale;
             button.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, r, r);
         }
         button.backgroundColor = [UIColor clearColor];
@@ -215,9 +220,27 @@
     if (totalWidth <= self.menuScrollView.bounds.size.width) {
         self.styleModel.buttonSpacing = 0;
         CGFloat averageWidth = self.menuScrollView.bounds.size.width / self.buttons.count;
-        for (int i = 0; i < self.buttons.count; i ++) {
+        for (int i = 0; i < self.buttons.count; i ++)
+        {
             UIButton * button = self.buttons[i];
             button.frame = CGRectMake(averageWidth * i, 0, averageWidth, self.menuScrollView.bounds.size.height);
+            
+            CGFloat r = 1.0f;
+            if (self.style != HKTabBarStyleUnderline)
+            {
+                if (self.style == HKTabBarStyleUnderCorner)
+                {
+                    r = self.currentIndex == i ? 1.0f : HKTabBarStyleUnderCornerScale;
+                    button.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, r, r);
+                }
+                else if (self.style == HKTabBarStyleCleanMenu)
+                {
+                    r = self.currentIndex == i ? 1.0f : HKTabBarStyleCleanMenuScale;
+                    button.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, r, r);
+                }
+            }
+
+            [button setTitleColor:self.currentIndex == i ? self.styleModel.menuSelectedColor  : self.styleModel.menuNormalColor forState:UIControlStateNormal];
         }
         [self.menuScrollView setContentSize:CGSizeMake(self.menuScrollView.bounds.size.width, self.styleModel.menuHeight)];
         
@@ -357,9 +380,10 @@
     UIButton * nextBtn = [self.buttons safetyObjectAtIndex:index + 1];
     if (!nextBtn)
     {
-        return;
+        /// 说明移到最后一栏
+//        return;
     }
-    CGFloat space = nextBtn.center.x - btn.center.x;
+    CGFloat space = ABS(nextBtn.center.x - btn.center.x);
     CGFloat percent = 1.0 * remainder / pageWidth;
     CGFloat offset = 1.0 * space * percent;
     
@@ -388,11 +412,20 @@
         [nextBtn setTitleColor:[self getSmallGradualColor:percent] forState:UIControlStateNormal];
         
         // 违章页面，会出现先刷到第一栏，然后刷到第x（默认爱车）栏（导致第一栏缩放为1）
-        UIButton * firstBtn = [self.buttons safetyObjectAtIndex:0];
-        if (firstBtn != btn && firstBtn != nextBtn)
+        for (UIButton * item in self.buttons)
         {
-            firstBtn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, HKTabBarStyleCleanMenuScale, HKTabBarStyleCleanMenuScale);
+            if ((item != btn) && (item != nextBtn))
+            {
+                item.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, HKTabBarStyleCleanMenuScale, HKTabBarStyleCleanMenuScale);
+                [item setTitleColor:self.styleModel.menuNormalColor forState:UIControlStateNormal];
+            }
         }
+//        UIButton * firstBtn = [self.buttons safetyObjectAtIndex:0];
+//        if ((firstBtn != btn) && (firstBtn != nextBtn))
+//        {
+//            firstBtn.titleLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, HKTabBarStyleCleanMenuScale, HKTabBarStyleCleanMenuScale);
+//            [firstBtn setTitleColor:self.styleModel.menuNormalColor forState:UIControlStateNormal];
+//        }
     }
 }
 

@@ -293,6 +293,7 @@
 		18E592351C193C6D006010D9 /* InsBuyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E592341C193C6D006010D9 /* InsBuyVC.m */; };
 		18E592381C1A5CEE006010D9 /* InsPayResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E592371C1A5CEE006010D9 /* InsPayResultVC.m */; };
 		18E5923B1C1A7C27006010D9 /* InsSubmitResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E5923A1C1A7C27006010D9 /* InsSubmitResultVC.m */; };
+		18E7309F1CBF2E08005C9590 /* CKEventPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E7309E1CBF2E08005C9590 /* CKEventPromise.m */; };
 		18E7565A1B69D696001B0869 /* InsuranceOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756591B69D696001B0869 /* InsuranceOrderVC.m */; };
 		18E756A41B73335C00874601 /* MyBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756A31B73335C00874601 /* MyBankVC.m */; };
 		18F312DC1C98F90B00992A37 /* MutualInsGrouponContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F312DB1C98F90B00992A37 /* MutualInsGrouponContainerView.m */; };
@@ -1335,6 +1336,8 @@
 		18E592371C1A5CEE006010D9 /* InsPayResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsPayResultVC.m; sourceTree = "<group>"; };
 		18E592391C1A7C27006010D9 /* InsSubmitResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsSubmitResultVC.h; sourceTree = "<group>"; };
 		18E5923A1C1A7C27006010D9 /* InsSubmitResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsSubmitResultVC.m; sourceTree = "<group>"; };
+		18E7309D1CBF2E08005C9590 /* CKEventPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKEventPromise.h; path = Class/CKEventPromise.h; sourceTree = "<group>"; };
+		18E7309E1CBF2E08005C9590 /* CKEventPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKEventPromise.m; path = Class/CKEventPromise.m; sourceTree = "<group>"; };
 		18E756581B69D696001B0869 /* InsuranceOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceOrderVC.h; sourceTree = "<group>"; };
 		18E756591B69D696001B0869 /* InsuranceOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceOrderVC.m; sourceTree = "<group>"; };
 		18E756A21B73335C00874601 /* MyBankVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBankVC.h; sourceTree = "<group>"; };
@@ -2529,6 +2532,8 @@
 			children = (
 				186F2FB31C155FA5005CF051 /* CKStore.h */,
 				186F2FB41C155FA5005CF051 /* CKStore.m */,
+				18E7309D1CBF2E08005C9590 /* CKEventPromise.h */,
+				18E7309E1CBF2E08005C9590 /* CKEventPromise.m */,
 				186F2FB61C156FF6005CF051 /* CKEvent.h */,
 				186F2FB71C156FF6005CF051 /* CKEvent.m */,
 				18D811C41C1EDB5300B6AB04 /* CKDispatcher.h */,
@@ -5420,6 +5425,7 @@
 				6BCF62471B1737980064AE32 /* GetUserCouponByTypeOp.m in Sources */,
 				6B8D47561BEA03C900706989 /* GetCarwashOrderV2Op.m in Sources */,
 				50AC2B501C8D737400620551 /* MutualInsPicUpdateVC.m in Sources */,
+				18E7309F1CBF2E08005C9590 /* CKEventPromise.m in Sources */,
 				6B50127E1C59F5F000267DCB /* UIViewController+Swizzling.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
 				6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */,

@@ -542,7 +542,7 @@
     
     
     if (indexPath.row == 1) {
-        iconImgV.image = [UIImage imageNamed:@"cw_alipay"];
+        iconImgV.image = [UIImage imageNamed:@"alipay_logo_66"];
         titleLb.text = @"支付宝支付";
         recommendLB.hidden = NO;
         tickImgV.hidden = self.paymentChannel != PaymentChannelAlipay;
@@ -550,20 +550,20 @@
     else if (indexPath.row == 2) {
         if (gPhoneHelper.exsitWechat)
         {
-            iconImgV.image = [UIImage imageNamed:@"cw_wechat"];
+            iconImgV.image = [UIImage imageNamed:@"wechat_logo_66"];
             titleLb.text = @"微信支付";
             tickImgV.hidden = self.paymentChannel != PaymentChannelWechat;
         }
         else
         {
-            iconImgV.image = [UIImage imageNamed:@"ins_uppay"];
+            iconImgV.image = [UIImage imageNamed:@"uppay_logo_66"];
             titleLb.text = @"银联支付";
             tickImgV.hidden = self.paymentChannel != PaymentChannelUPpay;
         }
         recommendLB.hidden = YES;
     }
     else if (indexPath.row == 3) {
-        iconImgV.image = [UIImage imageNamed:@"ins_uppay"];
+        iconImgV.image = [UIImage imageNamed:@"uppay_logo_66"];
         titleLb.text = @"银联支付";
         recommendLB.hidden = YES;
         tickImgV.hidden = self.paymentChannel != PaymentChannelUPpay;
