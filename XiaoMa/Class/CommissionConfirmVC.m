@@ -153,7 +153,7 @@
                 vc.url = kMoneySavingStrategiesUrl;
                 [self.navigationController pushViewController:vc animated:YES];
             }];
-            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel,confirm]];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel,confirm]];
             [alert show];
             
         }

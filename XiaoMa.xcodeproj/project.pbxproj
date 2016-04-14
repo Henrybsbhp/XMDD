@@ -365,6 +365,8 @@
 		4EF94AF21C321D020092CB55 /* RescueCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF01C321D020092CB55 /* RescueCommentsVC.m */; };
 		4EF94AF31C321D020092CB55 /* RescueHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF11C321D020092CB55 /* RescueHistoryViewController.m */; };
 		4EF94AFA1C3256330092CB55 /* OETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF91C3256330092CB55 /* OETextField.m */; };
+		4EF98F361CBF4D0900408CFA /* CheckPaymentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF98F351CBF4D0900408CFA /* CheckPaymentModel.m */; };
+		4EF98F401CBF65F500408CFA /* GetPayStatusOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF98F3F1CBF65F500408CFA /* GetPayStatusOp.m */; };
 		50094B431C1144640069683C /* GetAreaInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B421C1144640069683C /* GetAreaInfoOp.m */; };
 		50094B461C117CE80069683C /* AreaTablePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B451C117CE80069683C /* AreaTablePickerVC.m */; };
 		5014B6571C07041B00DFAB18 /* GetShareButtonOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5014B6561C07041B00DFAB18 /* GetShareButtonOp.m */; };
@@ -1475,6 +1477,10 @@
 		4EF94AF41C321EFD0092CB55 /* RescueHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueHistoryViewController.h; sourceTree = "<group>"; };
 		4EF94AF81C3256330092CB55 /* OETextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OETextField.h; path = Class/OETextField.h; sourceTree = "<group>"; };
 		4EF94AF91C3256330092CB55 /* OETextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OETextField.m; path = Class/OETextField.m; sourceTree = "<group>"; };
+		4EF98F341CBF4D0900408CFA /* CheckPaymentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckPaymentModel.h; sourceTree = "<group>"; };
+		4EF98F351CBF4D0900408CFA /* CheckPaymentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckPaymentModel.m; sourceTree = "<group>"; };
+		4EF98F3E1CBF65F500408CFA /* GetPayStatusOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetPayStatusOp.h; sourceTree = "<group>"; };
+		4EF98F3F1CBF65F500408CFA /* GetPayStatusOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetPayStatusOp.m; sourceTree = "<group>"; };
 		50094B411C1144640069683C /* GetAreaInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAreaInfoOp.h; path = Class/GetAreaInfoOp.h; sourceTree = "<group>"; };
 		50094B421C1144640069683C /* GetAreaInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaInfoOp.m; path = Class/GetAreaInfoOp.m; sourceTree = "<group>"; };
 		50094B441C117CE80069683C /* AreaTablePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaTablePickerVC.h; sourceTree = "<group>"; };
@@ -4388,6 +4394,8 @@
 				6B11752B1C0C73D900FC1881 /* ViolationCityInfo.m */,
 				6B50127F1C59FC6500267DCB /* UMLogHelper.h */,
 				6B5012801C59FC6500267DCB /* UMLogHelper.m */,
+				4EF98F341CBF4D0900408CFA /* CheckPaymentModel.h */,
+				4EF98F351CBF4D0900408CFA /* CheckPaymentModel.m */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -4720,6 +4728,8 @@
 				6BC80D2A1C9AA52300C7BA3D /* GetCooperationResourcesOp.m */,
 				C36B8A9D1CB3526100BC2487 /* GetSystemHomeModuleOp.h */,
 				C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */,
+				4EF98F3E1CBF65F500408CFA /* GetPayStatusOp.h */,
+				4EF98F3F1CBF65F500408CFA /* GetPayStatusOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -5076,7 +5086,7 @@
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 7A3B9332PS;
+						DevelopmentTeam = EN3DUNUW7P;
 					};
 					1883D8F71ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
@@ -5440,6 +5450,7 @@
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
 				507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */,
 				6BEC3FC91C1122B40046F11D /* GetCityInfoByNameOp.m in Sources */,
+				4EF98F361CBF4D0900408CFA /* CheckPaymentModel.m in Sources */,
 				6B5E0C1A1BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m in Sources */,
 				4EF94AF21C321D020092CB55 /* RescueCommentsVC.m in Sources */,
 				6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */,
@@ -5462,6 +5473,7 @@
 				18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */,
 				FA958E281C9BFE6E00E89180 /* MutualInsGroupInfoVC.m in Sources */,
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
+				4EF98F401CBF65F500408CFA /* GetPayStatusOp.m in Sources */,
 				181355931C925FC600894CA1 /* HKAlertVC.m in Sources */,
 				18273F281C7FEE70004192B3 /* GasNormalVC.m in Sources */,
 				189371361B0F592F0030FDE1 /* JTQueue.m in Sources */,
@@ -6044,8 +6056,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6129,7 +6141,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "49d4298a-4b37-4e47-990c-a2b9eb8e6baa";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
