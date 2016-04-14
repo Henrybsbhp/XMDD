@@ -581,7 +581,7 @@
     
     if (price2) {
         NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
-                                NSForegroundColorAttributeName:HEXCOLOR(@"#ff7428")};
+                                NSForegroundColorAttributeName:kOrangeColor};
         NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price2 floatValue]]];
         NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:p attributes:attr2];
         [str appendAttributedString:attrStr2];

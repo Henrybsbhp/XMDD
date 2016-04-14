@@ -84,13 +84,13 @@
     
     if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
         self.favorite = NO;
-        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
-        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
+        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star_300"] forState:UIControlStateNormal];
+        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star_300"] forState:UIControlStateNormal];
     }
     else {
         self.favorite = YES;
-        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar"] forState:UIControlStateNormal];
-        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar"] forState:UIControlStateNormal];
+        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar_300"] forState:UIControlStateNormal];
+        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar_300"] forState:UIControlStateNormal];
     }
     
     if (self.needRequestShopComments)
@@ -235,8 +235,8 @@
                 @strongify(self);
                 [gToast dismiss];
                 self.favorite = NO;
-                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
-                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star_300"] forState:UIControlStateNormal];
+                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star_300"] forState:UIControlStateNormal];
                 
                 NSArray * array = self.navigationController.viewControllers;
                 UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
@@ -261,8 +261,8 @@
                 @strongify(self);
                 [gToast dismiss];
                 self.favorite = YES;
-                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar"] forState:UIControlStateNormal];
-                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar"] forState:UIControlStateNormal];
+                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar_300"] forState:UIControlStateNormal];
+                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar_300"] forState:UIControlStateNormal];
                 NSArray * array = self.navigationController.viewControllers;
                 UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
                 if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
@@ -276,8 +276,8 @@
                 if (error.code == 7002)
                 {
                     self.favorite = YES;
-                    [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
-                    [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+                    [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star_300"] forState:UIControlStateNormal];
+                    [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star_300"] forState:UIControlStateNormal];
                     [gToast dismiss];
                 }
                 else {
@@ -461,12 +461,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return section == 0 ? CGFLOAT_MIN : 9;
+    return section == 0 ? CGFLOAT_MIN : 6;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 9;
+    return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -517,11 +517,6 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    JTTableViewCell *jtcell = (JTTableViewCell *)cell;
-    [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -609,7 +604,7 @@
     {
         if ([self isBetween:shop.openHour and:shop.closeHour]) {
             statusL.text = @"营业中";
-            statusL.backgroundColor = HEXCOLOR(@"#1bb745");
+            statusL.backgroundColor = kDefTintColor;
         }
         else {
             statusL.text = @"已休息";
@@ -877,7 +872,7 @@
     
     if (price2) {
         NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
-                                NSForegroundColorAttributeName:HEXCOLOR(@"#ff7428")};
+                                NSForegroundColorAttributeName:kOrangeColor};
         NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price2 floatValue]]];
         NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:p attributes:attr2];
         [str appendAttributedString:attrStr2];

@@ -536,7 +536,7 @@
         recommendLB.layer.masksToBounds = YES;
         
         if (payChannel == PaymentChannelAlipay) {
-            iconImgV.image = [UIImage imageNamed:@"cw_alipay"];
+            iconImgV.image = [UIImage imageNamed:@"alipay_logo_66"];
             titleLb.text = @"支付宝支付";
             recommendLB.hidden = NO;
             tickImgV.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelAlipay;
@@ -550,7 +550,7 @@
             }
         }
         else if (payChannel == PaymentChannelWechat) {
-            iconImgV.image = [UIImage imageNamed:@"cw_wechat"];
+            iconImgV.image = [UIImage imageNamed:@"wechat_logo_66"];
             titleLb.text = @"微信支付";
             recommendLB.hidden = YES;
             tickImgV.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelWechat;
@@ -1279,11 +1279,17 @@
         {
             totalAmount = totalAmount + c.couponAmount;
         }
+        NSString * string;
         if (totalAmount >= self.service.origprice)
         {
-            totalAmount = self.service.origprice - 0.01;
+            string =  [NSString stringWithFormat:@"最高可使用%@元代金券",[NSString formatForPrice:totalAmount]];
         }
-        NSString * string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
+        else
+        {
+            totalAmount = self.service.origprice - 0.01;
+            string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
+        }
+        
         return string;
     }
 }

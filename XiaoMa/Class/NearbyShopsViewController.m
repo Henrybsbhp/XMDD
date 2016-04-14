@@ -370,7 +370,7 @@
         bottomView.tag = 1001;
         bottomView.backgroundColor = [UIColor whiteColor];
         bottomView.borderWidth = 0.5f;
-        bottomView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        bottomView.layer.borderColor = kLightLineColor.CGColor;
         bottomView.layer.cornerRadius = 5.0f;
         
         [pageView addSubview:bottomView];
@@ -399,7 +399,7 @@
     JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
     
     BOOL favorite = [gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID] ? YES : NO;
-    UIImage * image = [UIImage imageNamed:favorite ? @"nb_collected" : @"nb_collection"];
+    UIImage * image = [UIImage imageNamed:favorite ? @"nb_collected_300" : @"nb_collection_300"];
     [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
     
     
@@ -470,12 +470,12 @@
                     [gToast dismiss];
                 }] subscribeNext:^(id x) {
                     
-                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected_300"] forState:UIControlStateNormal];
                 } error:^(NSError *error) {
                     
                     if (error.code == 7002)
                     {
-                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected_300"] forState:UIControlStateNormal];
                     }
                     else
                     {
