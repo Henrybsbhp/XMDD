@@ -66,7 +66,7 @@
     }
     else
     {
-        self.navigationItem.title = @"支付成功";
+        self.navigationItem.title = @"支付结果";
     }
 }
 

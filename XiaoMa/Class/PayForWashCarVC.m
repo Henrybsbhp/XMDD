@@ -46,10 +46,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
 @property (weak, nonatomic) IBOutlet CBAutoScrollLabel *bottomScrollLb;
-@property (nonatomic,strong)UIView * drawerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeightConstraint;
 
-@property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 @property (nonatomic)BOOL isLoadingResourse;
 
 @property (nonatomic,strong) MyCarStore *carStore;
@@ -74,7 +72,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupCheckBoxHelper];
     [self setupBottomView];
     [self setupCarStore];
     
@@ -139,10 +136,6 @@
 }
 
 
-- (void)setupCheckBoxHelper
-{
-    self.checkBoxHelper = [CKSegmentHelper new];
-}
 
 - (void)setupBottomView
 {
@@ -393,6 +386,7 @@
             /// 如果是浙商，无法选择
             if (self.couponType == CouponTypeCZBankCarWash)
             {
+                [gToast showText:@"您正在使用浙商优惠券，务必用浙商信用卡支付"];
                 return;
             }
             
@@ -501,10 +495,8 @@
 - (UITableViewCell *)paymentPlatformACellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    UIImageView *iconImgV,*drawerImgV,*tickImgV;
+    UIImageView *iconImgV,*tickImgV;
     UILabel *titleLb,*numberLb,*recommendLB;
-    UIView * drawerV;// 抽屉视图用户浙商信用卡支付;
-    
     
     PaymentChannelType payChannel = [[self.paymentArray safetyObjectAtIndex:indexPath.row - 1] integerValue];
     if (payChannel == PaymentChannelCZBCreditCard)
@@ -512,17 +504,13 @@
         cell = [self.tableView dequeueReusableCellWithIdentifier:@"PayPlatformCellB"];
         iconImgV = (UIImageView *)[cell searchViewWithTag:101];
         titleLb = (UILabel *)[cell searchViewWithTag:102];
-        drawerV = (UIView *)[cell searchViewWithTag:103];
-        self.drawerView = drawerV;
-        tickImgV = (UIImageView *)[cell searchViewWithTag:20301];
-        drawerImgV = (UIImageView *)[cell  searchViewWithTag:20302];
-        numberLb = (UILabel *)[cell searchViewWithTag:20303];
-        drawerImgV.image = [UIImage imageNamed:@"mini_card"];
-        
+        numberLb = (UILabel *)[cell searchViewWithTag:103];
+        tickImgV = (UIImageView *)[cell searchViewWithTag:104];
+
         iconImgV.image = [UIImage imageNamed:@"cw_creditcard"];
         titleLb.text = @"信用卡支付";
-        numberLb.text = [self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4];
-        drawerImgV.hidden = !self.getUserResourcesV2Op.rsp_czBankCreditCard.count;
+        numberLb.text =  [NSString stringWithFormat:@"尾号:%@",[self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4]];
+        numberLb.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelCZBCreditCard;
         tickImgV.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelCZBCreditCard;
     }
     else
@@ -631,38 +619,6 @@
         }
     }
     self.checkoutServiceOrderV4Op.couponArray = coupons;
-    
-    //支付方式
-    NSArray * array = [[self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup] sortedArrayUsingComparator:^NSComparisonResult(UIButton * obj1, UIButton * obj2) {
-        
-        NSIndexPath * path1 = (NSIndexPath *)obj1.customObject;
-        NSIndexPath * path2 = (NSIndexPath *)obj2.customObject;
-        return path1.row > path2.row;
-    }];
-    for (NSInteger i = 0 ; i < array.count ; i++)
-    {
-        UIButton * btn = [array safetyObjectAtIndex:i];
-        BOOL s = btn.selected;
-        if (s == YES)
-        {
-            PaymentChannelType paychannel = [[self.paymentArray safetyObjectAtIndex:i] integerValue];
-            if (paychannel == PaymentChannelCZBCreditCard)
-            {
-                self.checkoutServiceOrderV4Op.paychannel = PaymentChannelCZBCreditCard;
-            }
-            else if (paychannel == PaymentChannelAlipay)
-            {
-                self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
-                bandCard = nil;
-            }
-            else if (paychannel == PaymentChannelWechat)
-            {
-                self.checkoutServiceOrderV4Op.paychannel = PaymentChannelWechat;
-                bandCard = nil;
-            }
-        }
-    }
-    
     self.checkoutServiceOrderV4Op.serviceid = self.service.serviceID;
     self.checkoutServiceOrderV4Op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
     self.checkoutServiceOrderV4Op.carMake = self.defaultCar.brand;
@@ -1094,42 +1050,10 @@
 
 - (void)tableViewReloadData
 {
-    [self.checkBoxHelper cancelSelectedForGroupName:CheckBoxCouponGroup];
     [self.tableView reloadData];
     [self refreshPriceLb];
 }
 
-- (void)popBankCardNumberAnimation:(BOOL)flag
-{
-    if (flag)
-    {
-        POPSpringAnimation * anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
-        
-        CGFloat centerX = self.view.frame.size.width - 45;
-        CGFloat centerY = 25;
-        
-        anim.toValue = [NSValue valueWithCGPoint:CGPointMake(centerX, centerY)];
-        anim.springBounciness = 16;
-        anim.springSpeed = 6;
-        //    anim.dynamicsTension = 100;
-        anim.dynamicsMass = 2;
-        [self.drawerView pop_addAnimation:anim forKey:@"center"];
-    }
-    else
-    {
-        POPSpringAnimation * anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
-        
-        CGFloat centerX = self.view.frame.size.width + 5;
-        CGFloat centerY = 25;
-        
-        anim.toValue = [NSValue valueWithCGPoint:CGPointMake(centerX, centerY)];
-        anim.springBounciness = 16;
-        anim.springSpeed = 6;
-        //    anim.dynamicsTension = 100;
-        anim.dynamicsMass = 2;
-        [self.drawerView pop_addAnimation:anim forKey:@"center"];
-    }
-}
 
 
 - (void)chooseResource
