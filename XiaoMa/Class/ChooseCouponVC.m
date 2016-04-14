@@ -241,8 +241,18 @@
     HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.row];
     if (self.type == CouponTypeCarWash)
     {
-        self.type = coupon.conponType;
+        // 洗车券只会出现1张
+        for (HKCoupon * c in self.selectedCouponArray)
+        {
+            if ([c.couponId isEqualToNumber:coupon.couponId])
+            {
+                [self.selectedCouponArray safetyRemoveObject:c];
+                [self.tableView reloadData];
+                return;
+            }
+        }
         
+        self.type = coupon.conponType;
         [self.selectedCouponArray removeAllObjects];
         [self.selectedCouponArray addObject:coupon];
         
@@ -250,6 +260,16 @@
     }
     else if (self.type == CouponTypeCZBankCarWash)
     {
+        // 浙商洗车券只会出现1张
+        for (HKCoupon * c in self.selectedCouponArray)
+        {
+            if ([c.couponId isEqualToNumber:coupon.couponId])
+            {
+                [self.selectedCouponArray safetyRemoveObject:c];
+                [self.tableView reloadData];
+                return;
+            }
+        }
         self.type = coupon.conponType;
         
         [self.selectedCouponArray removeAllObjects];

@@ -93,7 +93,7 @@
         make.width.equalTo(mapBottomView).offset(-20);
     }];
     
-    UIImage * image = [UIImage imageNamed:self.favorite ? @"nb_collected" : @"nb_collection"];
+    UIImage * image = [UIImage imageNamed:self.favorite ? @"nb_collected_300" : @"nb_collection_300"];
     [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
     
     @weakify(self)
@@ -164,13 +164,13 @@
                 }] subscribeNext:^(id x) {
                     
                     self.favorite = YES;
-                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected_300"] forState:UIControlStateNormal];
                 } error:^(NSError *error) {
                     
                     if (error.code == 7002)
                     {
                         self.favorite = YES;
-                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected_300"] forState:UIControlStateNormal];
                     }
                     else
                     {
