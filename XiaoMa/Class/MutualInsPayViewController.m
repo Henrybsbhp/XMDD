@@ -279,6 +279,7 @@
         [self gotoPaidSuccessVC];
         
         [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] sendAndIgnoreError];
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 5;
         iop.req_tradeno = op.rsp_tradeno;
