@@ -1279,11 +1279,17 @@
         {
             totalAmount = totalAmount + c.couponAmount;
         }
+        NSString * string;
         if (totalAmount >= self.service.origprice)
         {
-            totalAmount = self.service.origprice - 0.01;
+            string =  [NSString stringWithFormat:@"最高可使用%@元代金券",[NSString formatForPrice:totalAmount]];
         }
-        NSString * string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
+        else
+        {
+            totalAmount = self.service.origprice - 0.01;
+            string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
+        }
+        
         return string;
     }
 }
