@@ -33,6 +33,7 @@
 #import "MyCouponVC.h"
 #import "CouponPkgViewController.h"
 #import "GetSystemHomeModuleOp.h"
+#import "GetSystemHomeModuleNoLoginOp.h"
 #import "AdListData.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
@@ -61,8 +62,7 @@
 @property (nonatomic, assign) BOOL isShowSuspendedAd;
 // 九宫格按钮的dispoable数据，控制点击事件释放
 @property (nonatomic, strong)NSMutableArray * disposableArray;
-// 右上角菜单栏是否打开
-@property (nonatomic, assign) BOOL isMenuViewOpen;
+
 @end
 
 
@@ -91,6 +91,7 @@
     [self setupWeatherView];
     
     [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
+    
     CKAsyncMainQueue(^{
         [self reloadDatasource];
     });
@@ -391,7 +392,7 @@
     {
         HomeItem *item = [gAppMgr.homePicModel.homeItemArray safetyObjectAtIndex:i];
         
-        [self mainButtonWithImageName:item.defaultImageName index:i jumpUrl:item.homeItemRedirect inContainer:squaresView andPicUrl:item.homeItemPicUrl width:squqresWidth/3.0 height:squaresHeight/3.0];
+        [self mainButtonWithImageName:item.defaultImageName index:i jumpUrl:item.homeItemRedirect inContainer:squaresView andPicUrl:item.homeItemPicUrl width:squqresWidth/3.0 height:squaresHeight/3.0 isNewFlag:item.isNewFlag];
     }
 }
 
@@ -448,44 +449,11 @@
 }
 
 #pragma mark - Action
-- (IBAction)actionShowOrHideMenu:(id)sender
-{
-    if (self.isMenuViewOpen) {
-        [self.popoverMenu dismissWithAnimated:YES];
-        self.isMenuViewOpen = NO;
-    }
-    else if (!self.isMenuViewOpen) {
-        
-        CKList * menuList = $([self menuItemCoupon], [self menuItemCouponPkg], [self menuItemCallService]);
-        NSArray *items = [menuList.allObjects arrayByMappingOperator:^id(CKDict *obj) {
-            return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
-        }];
-        
-        
-        HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 160) items:items];
-        @weakify(self)
-        [popover setDidSelectedBlock:^(NSUInteger index) {
-            
-            @strongify(self)
-            CKDict *dict = menuList[index];
-            CKCellSelectedBlock block = dict[kCKCellSelected];
-            if (block) {
-                block(dict, [NSIndexPath indexPathForRow:index inSection:0]);
-            }
-            
-            self.isMenuViewOpen = NO;
-        }];
-        
-        [popover setDidDismissedBlock:^(BOOL animated) {
-            @strongify(self);
-            self.isMenuViewOpen = NO;
-        }];
-        
-        [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
-                            inView:self.navigationController.view dismissTargetView:self.view animated:YES];
-        self.isMenuViewOpen = YES;
-        self.popoverMenu = popover;
-    }
+- (IBAction)actionCallService:(id)sender {
+    
+    [MobClick event:@"rp101_2"];
+    NSString * number = @"4007111111";
+    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 }
 
 
@@ -570,16 +538,26 @@
     }] subscribeNext:^(id x) {
         
     }];
+
+    RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
     
-//    GetSystemHomeModuleOp * op = [[GetSystemHomeModuleOp alloc] init];
-//    [[op rac_postRequest] subscribeNext:^(GetSystemHomeModuleOp * rop) {
-//        
-//        gAppMgr.homePicModel = [gAppMgr.homePicModel analyzeHomePicModel:op.homeModel];
-//        [gAppMgr saveHomePicInfo];
-//        [self refreshSquareView];
-//    } error:^(NSError *error) {
-//        
-//    }];
+    RACSignal * combineSignal = [RACSignal combineLatest:@[sig1,userSignal] reduce:^(AMapReGeocode *regeo, JTUser * user) {
+        return RACTuplePack(regeo,user);
+    }];
+    
+    RACSignal * homeSubmudleSignal = [combineSignal flattenMap:^RACStream *(RACTuple *tuple) {
+        
+        AMapReGeocode *regeo = tuple.first;
+        JTUser * user = tuple.second;
+        return [self rac_requestHomeSubmuduleWithUser:user andReGeocode:regeo];
+    }];
+    
+    [homeSubmudleSignal subscribeNext:^(GetSystemHomeModuleOp * op) {
+        
+        gAppMgr.homePicModel = [gAppMgr.homePicModel analyzeHomePicModel:op.homeModel];
+        [gAppMgr saveHomePicInfo];
+        [self refreshSquareView];
+    }];
 }
 
 - (RACSignal *)rac_getWeatherInfoWithReGeocode:(AMapReGeocode *)regeo
@@ -634,7 +612,7 @@
     return btn;
 }
 
-- (UIButton *)mainButtonWithImageName:(NSString *)imgName index:(NSInteger)index jumpUrl:(NSString *)url inContainer:(UIView *)container andPicUrl:(NSString *)picUrl width:(CGFloat)width height:(CGFloat)height
+- (UIButton *)mainButtonWithImageName:(NSString *)imgName index:(NSInteger)index jumpUrl:(NSString *)url inContainer:(UIView *)container andPicUrl:(NSString *)picUrl width:(CGFloat)width height:(CGFloat)height isNewFlag:(BOOL)flag
 {
     NSInteger tag = 20101;
     UIButton * btn = [self functionalButtonWithImageName:imgName action:nil inContainer:container andPicUrl:picUrl];
@@ -655,6 +633,21 @@
         make.top.equalTo(container).offset(height * quotient);
         make.left.equalTo(container).offset(width * remiainder);
     }];
+    
+    NSInteger iconTag = 2010101 + index;
+    UIImageView * iconNewImageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp_new_icon"]];
+    iconNewImageV.tag = iconTag;
+    [btn addSubview:iconNewImageV];
+    
+    [iconNewImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(40);
+        make.top.equalTo(btn);
+        make.right.equalTo(btn);
+    }];
+    
+    iconNewImageV.hidden = !flag;
     
     return btn;
 }
@@ -716,6 +709,10 @@
         NSInteger btnTag = 20101 + i;
         UIButton * btn = (UIButton *)[firstView searchViewWithTag:btnTag];
         
+        NSInteger iconNewTag = 2010101 + i;
+        UIImageView * imageView = (UIImageView *)[btn searchViewWithTag:iconNewTag];
+        imageView.hidden = item.isNewFlag;
+        
         [self requestHomePicWithBtn:btn andUrl:item.homeItemPicUrl andDefaultPic:nil errPic:nil];
         
         RACDisposable * disposable = [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -755,6 +752,28 @@
 - (void)jumpToViewControllerByUrl:(NSString *)url
 {
     [gAppMgr.navModel pushToViewControllerByUrl:url];
+}
+
+- (RACSignal *)rac_requestHomeSubmuduleWithUser:(JTUser *)user andReGeocode:(AMapReGeocode *)code
+{
+    RACSignal * signal;
+    if (user)
+    {
+        GetSystemHomeModuleOp * op = [[GetSystemHomeModuleOp alloc] init];
+        op.province = code.addressComponent.province;
+        op.city = code.addressComponent.city;
+        op.district = code.addressComponent.district;
+        signal = [op rac_postRequest];
+    }
+    else
+    {
+        GetSystemHomeModuleNoLoginOp * op = [[GetSystemHomeModuleNoLoginOp alloc] init];
+        op.province = code.addressComponent.province;
+        op.city = code.addressComponent.city;
+        op.district = code.addressComponent.district;
+        signal = [op rac_postRequest];
+    }
+    return signal;
 }
 
 #pragma mark - MenuItems

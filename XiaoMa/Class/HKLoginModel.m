@@ -114,7 +114,7 @@ typedef enum : NSInteger {
                 return [RACSignal return:ad];
             }
             return [RACSignal error:[NSError errorWithDomain:@"自动登录失败，用户密码缺失" code:0 userInfo:0]];
-        }] deliverOn:[RACScheduler mainThreadScheduler]];
+        }]  deliverOn:[RACScheduler mainThreadScheduler]];
     }
     return [RACSignal error:[NSError errorWithDomain:@"自动登录失败，无用户信息" code:0 userInfo:0]];
 }
