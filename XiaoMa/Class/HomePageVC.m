@@ -784,7 +784,15 @@
             if ([x isKindOfClass:[NSData class]])
             {
                 FLAnimatedImage * animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:x];
-                imageView.animatedImage = animatedImage;
+                [UIView transitionWithView:imageView
+                                  duration:1.0
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{
+                                    
+                                    imageView.animatedImage = animatedImage;
+                                    imageView.alpha = 1.0;
+                                } completion:nil];
+//                imageView.animatedImage = animatedImage;
             }
             else if ([x isKindOfClass:[UIImage class]])
             {
