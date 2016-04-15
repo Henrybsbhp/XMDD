@@ -39,4 +39,6 @@
 
 - (void)requestGetUserResource:(BOOL)needAutoSelect;
 
+@property (nonatomic, strong) NSString *tradeno;
+
 @end
