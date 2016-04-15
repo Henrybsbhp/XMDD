@@ -158,14 +158,20 @@
 }
 
 #pragma mark - Table view data source
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 15;
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.couponArray.count;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.couponArray.count;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -199,7 +205,7 @@
     UIImage *img = [[UIImage imageNamed:@"coupon_sawtooth"]resizableImageWithCapInsets:UIEdgeInsetsMake(0.5, -1, -0.5, 0) resizingMode:UIImageResizingModeTile];
     sawtoothImg.image = img;
     
-    HKCoupon * couponDic = [self.couponArray safetyObjectAtIndex:indexPath.row];
+    HKCoupon * couponDic = [self.couponArray safetyObjectAtIndex:indexPath.section];
     
     UIImage *bgImg = [UIImage imageNamed:@"coupon_background"];
     if (couponDic.rgbColor.length > 0) {
@@ -246,7 +252,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [MobClick event:@"rp109_1"];
-    HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.row];
+    HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.section];
     if (self.type == CouponTypeCarWash)
     {
         // 洗车券只会出现1张

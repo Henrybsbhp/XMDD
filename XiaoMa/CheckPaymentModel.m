@@ -10,6 +10,8 @@
 #import "PayForWashCarVC.h"
 #import "PaymentSuccessVC.h"
 #import "GetPayStatusOp.h"
+#import "PayForInsuranceVC.h"
+#import "PayForGasViewController.h"
 #import <NSObject+Notify.h>
 
 @interface CheckPaymentModel()
@@ -21,18 +23,10 @@
 
 -(void)checkPaymentIsSuccess
 {
-    if ([gAppMgr.navModel.curNavCtrl.topViewController isKindOfClass:[PayForWashCarVC class]])
+    if ([gAppMgr.navModel.curNavCtrl.topViewController isKindOfClass:[PayForWashCarVC class]] || [gAppMgr.navModel.curNavCtrl.topViewController isKindOfClass:[PayForInsuranceVC class]] || [gAppMgr.navModel.curNavCtrl.topViewController isKindOfClass:[PayForGasViewController class]])
     {
         [self postCustomNotificationName:NSStringFromClass([gAppMgr.navModel.curNavCtrl.topViewController class]) object:nil];
     }
-}
-
--(void)getPayStatusWithTradeno:(NSString *)tradeno andTradetype:(NSString *)tradetype andVC:(UIViewController *)vc
-{
-    @weakify(self)
-    
-    
-    
 }
 
 

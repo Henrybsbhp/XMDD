@@ -20,9 +20,6 @@
 @property (nonatomic, strong) HKMyCar * defaultCar;
 @property (nonatomic, weak) UIViewController *originVC;
 
-// 判断是否是通过支付app进入
-@property (nonatomic,assign) BOOL isPaid;
-
 /// 为优惠劵选择服务
 @property (nonatomic)CouponType couponType;
 @property (nonatomic)HKBankCard * selectBankCard;

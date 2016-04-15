@@ -153,20 +153,19 @@
     titleLb.text = history.serviceName;
     timeLb.text = [[NSDate dateWithUTS:history.applyTime] dateFormatForYYMMdd2];
     
-    evaluationBtn.layer.borderWidth = 1;
-    evaluationBtn.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
-    evaluationBtn.layer.cornerRadius = 4;
-    evaluationBtn.layer.masksToBounds = YES;
+    
     plateLb.text = [NSString stringWithFormat:@"服务车辆: %@", history.licenceNumber];
-    if (history.commentStatus  == HKCommentStatusNo) {
-        
-        [evaluationBtn setTitle:@"去评价" forState:UIControlStateNormal];
-        if (history.rescueStatus == HKRescueStateCancel || history.rescueStatus == HKRescueStateProcessing) {
+    if (history.commentStatus  == HKCommentStatusNo)
+    {
+        [self setButton:evaluationBtn ByEvaluated:NO];
+        if (history.rescueStatus == HKRescueStateCancel || history.rescueStatus == HKRescueStateProcessing)
+        {
             evaluationBtn.hidden = YES;
         }
-    }else{
-        [evaluationBtn setTitle:@"已评价" forState:UIControlStateNormal];
-        [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#bfbfbf" alpha:1.0] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self setButton:evaluationBtn ByEvaluated:YES];
     }
     
     if (history.rescueStatus == HKRescueStateAlready) {
@@ -360,6 +359,25 @@
         [self.tableView.bottomLoadingView stopActivityAnimation];
         [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
     }];
+}
+
+-(void)setButton:(UIButton *)btn ByEvaluated:(BOOL)hasEvaluated
+{
+    btn.layer.borderWidth = 1;
+    btn.layer.cornerRadius = 4;
+    btn.layer.masksToBounds = YES;
+    if (hasEvaluated)
+    {
+        btn.layer.borderColor = [UIColor colorWithHex:@"#888888" alpha:1].CGColor;
+        [btn setTitle:@"已评价" forState:UIControlStateNormal];
+        [btn setTitleColor:HEXCOLOR(@"#888888") forState:UIControlStateNormal];
+    }
+    else
+    {
+        btn.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
+        [btn setTitle:@"去评价" forState:UIControlStateNormal];
+        [btn setTitleColor:HEXCOLOR(@"#fe4a00") forState:UIControlStateNormal];
+    }
 }
 
 
