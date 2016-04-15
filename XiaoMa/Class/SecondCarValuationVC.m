@@ -13,6 +13,7 @@
 #import "IQKeyboardManager.h"
 #import "OETextField.h"
 @interface SecondCarValuationVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topLayout;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomLayout;
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
@@ -43,11 +44,17 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [IQKeyboardManager sharedManager].enable=NO;
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(openKeyboard:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(closeKeyboard:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [IQKeyboardManager sharedManager].enable=YES;
+    [[NSNotificationCenter defaultCenter]removeObserver:UIKeyboardWillShowNotification];
+    [[NSNotificationCenter defaultCenter]removeObserver:UIKeyboardWillHideNotification];
 }
 
 - (void)viewDidLoad {
@@ -62,6 +69,49 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark KeyBoard
+
+- (void)openKeyboard:(NSNotification *)notification
+{
+    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
+    
+    NSTimeInterval duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    
+    UIViewAnimationOptions options = [notification.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+    
+    //    CGFloat height = keyboardFrame.size.height;
+    self.bottomLayout.constant = keyboardFrame.size.height;
+//    self.topLayout.constant =  - (keyboardFrame.size.height);
+    
+    //让输入框架和键盘做完全一样的动画效果
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:options
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+                     } completion:nil];
+}
+
+//让输入框回到下边
+- (void)closeKeyboard:(NSNotification *)notification
+{
+    NSTimeInterval duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    
+    UIViewAnimationOptions options = [notification.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+    
+    self.bottomLayout.constant = 0;
+    
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:options
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                         
+                     } completion:nil];
 }
 
 #pragma mark TableViewDelegate
@@ -169,10 +219,10 @@
     UITextView *name = (UITextView *)[cell searchViewWithTag:1001];
     UITextView *phoneNumber = (UITextView *)[cell searchViewWithTag:1002];
     phoneNumber.text = self.phoneNumber;
-    [name.rac_textSignal subscribeNext:^(id x) {
+    [[name.rac_textSignal takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         self.name = name.text;
     }];
-    [phoneNumber.rac_textSignal subscribeNext:^(id x) {
+    [[phoneNumber.rac_textSignal takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         if (phoneNumber.text.length > 11) {
             phoneNumber.text = [phoneNumber.text substringToIndex:11];

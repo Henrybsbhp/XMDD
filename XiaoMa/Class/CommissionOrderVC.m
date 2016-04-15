@@ -70,7 +70,7 @@
                     EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                     [self.navigationController pushViewController:vc animated:YES];
                 }];
-                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您还没有添加爱车, 请先添加爱车" ActionItems:@[cancel,confirm]];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您还没有添加爱车, 请先添加爱车" ActionItems:@[cancel,confirm]];
                 [alert show];
             }
             else {
@@ -111,7 +111,7 @@
                 vc.url = kMoneySavingStrategiesUrl;
                 [self.navigationController pushViewController:vc animated:YES];
             }];
-            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"亲,暂时只支持协办券办理哦!\n点击省钱攻略免费获取协办券" ActionItems:@[cancel,confirm]];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"亲,暂时只支持协办券办理哦!\n点击省钱攻略免费获取协办券!" ActionItems:@[cancel,confirm]];
             [alert show];
         }
     }];
@@ -142,7 +142,7 @@
         [self.tableView reloadData];
     } error:^(NSError *error) {
         if (self.dataSourceArray.count == 0) {
-            [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
                 [self actionNetwork];
             }];
         }
