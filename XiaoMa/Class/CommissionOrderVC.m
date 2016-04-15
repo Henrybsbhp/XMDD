@@ -142,7 +142,7 @@
         [self.tableView reloadData];
     } error:^(NSError *error) {
         if (self.dataSourceArray.count == 0) {
-            [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
                 [self actionNetwork];
             }];
         }

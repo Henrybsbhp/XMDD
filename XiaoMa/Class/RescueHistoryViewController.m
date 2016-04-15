@@ -143,18 +143,16 @@
     UILabel *titleLb = (UILabel *)[cell searchViewWithTag:1004];
     UIImageView *image = (UIImageView *)[cell searchViewWithTag:1005];
     UIButton *evaluationBtn = (UIButton *)[cell searchViewWithTag:1010];
-    if (self.type ==2) {
+    if (self.type ==2)
+    {
         UILabel *tempTimeLb = (UILabel *)[cell searchViewWithTag:1009];
         tempTimeLb.text = [NSString stringWithFormat:@"预约时间: %@", [[NSDate dateWithUTS:history.appointTime] dateFormatForYYMMdd2]];
-    }else {
-        
     }
     
     titleLb.text = history.serviceName;
     timeLb.text = [[NSDate dateWithUTS:history.applyTime] dateFormatForYYMMdd2];
-    
-    
     plateLb.text = [NSString stringWithFormat:@"服务车辆: %@", history.licenceNumber];
+    
     if (history.commentStatus  == HKCommentStatusNo)
     {
         [self setButton:evaluationBtn ByEvaluated:NO];
@@ -168,47 +166,64 @@
         [self setButton:evaluationBtn ByEvaluated:YES];
     }
     
-    if (history.rescueStatus == HKRescueStateAlready) {
+    if (history.rescueStatus == HKRescueStateAlready)
+    {
         stateLb.text = @"已申请";
         evaluationBtn.hidden = YES;
-        if (self.type == 2) {
+        if (self.type == 2)
+        {
             evaluationBtn.hidden  = NO;
             evaluationBtn.layer.borderColor = [UIColor colorWithHex:@"#bfbfbf" alpha:1.0].CGColor;
-            evaluationBtn.titleLabel.textColor = [UIColor colorWithHex:@"#bfbfbf" alpha:1.0];
             [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#bfbfbf" alpha:1.0] forState:UIControlStateNormal];
             [evaluationBtn setTitle:@"取消" forState:UIControlStateNormal];
         }
-    }else if (history.rescueStatus == HKRescueStateComplete){
+    }
+    else if (history.rescueStatus == HKRescueStateComplete)
+    {
         evaluationBtn.hidden = NO;
         stateLb.text = @"已完成";
         [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#fe4a00" alpha:1.0] forState:UIControlStateNormal];
-    }else if (history.rescueStatus  == HKRescueStateCancel){
-        stateLb.text = @"已取消";
+    }
+    else if (history.rescueStatus  == HKRescueStateCancel)
+    {
         evaluationBtn.hidden = YES;
-        
-    }else {
+        stateLb.text = @"已取消";
+    }
+    else
+    {
         evaluationBtn.hidden = YES;
         stateLb.text = @"处理中";
     }
     
-    if (history.type == HKRescueAnnual) {
+    if (history.type == HKRescueAnnual)
+    {
         image.image = [UIImage imageNamed:@"commission_annual"];
-    }else if (history.type  == HKRescueTrailer) {
+    }
+    else if (history.type  == HKRescueTrailer)
+    {
         image.image = [UIImage imageNamed:@"rescue_trailer"];
-    }else if (history.type  == HKRescuePumpPower){
+    }
+    else if (history.type  == HKRescuePumpPower)
+    {
         image.image = [UIImage imageNamed:@"pump_power"];
-    }else {
+    }
+    else
+    {
         image.image = [UIImage imageNamed:@"rescue_tire"];
     }
     
-    [RACObserve(history, commentStatus) subscribeNext:^(NSNumber *num) {
-        if ([num integerValue] == 1) {
+    [RACObserve(history, commentStatus) subscribeNext:^(NSNumber *num)
+    {
+        if ([num integerValue] == 1)
+        {
             [evaluationBtn setTitle:@"已评价" forState:UIControlStateNormal];
         }
     }];
     
-    [RACObserve(history, rescueStatus) subscribeNext:^(NSNumber *num) {
-        if ([num integerValue] == 4) {
+    [RACObserve(history, rescueStatus) subscribeNext:^(NSNumber *num)
+    {
+        if ([num integerValue] == 4)
+        {
             stateLb.text = @"已取消";
             evaluationBtn.hidden = YES;
             [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#fe4a00" alpha:1.0] forState:UIControlStateNormal];
