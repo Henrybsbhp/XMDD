@@ -191,18 +191,19 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"暂无商铺";
+    return @{@"title":@"暂无商铺",@"image":@"def_withoutShop"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     //定位失败
     if (error.customTag == 1) {
-        return @"定位失败";
+        return @{@"title":@"定位失败",@"image":@"def_withoutShop"};
     }
-    return @"获取商铺失败，点击重试";
+    return @{@"title":@"获取商铺失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingFailWithType:(HKLoadingTypeMask)type error:(NSError *)error

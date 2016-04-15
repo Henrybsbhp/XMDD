@@ -38,6 +38,9 @@
 #import "GainUserAwardOp.h"
 #import "FMDeviceManager.h"
 
+#import <NSObject+Notify.h>
+#import "GetPayStatusOp.h"
+
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
 
@@ -59,6 +62,9 @@
 
 ///支付数据源
 @property (nonatomic,strong)NSArray * paymentArray;
+
+// 判断是否是通过支付app进入
+@property (nonatomic,assign) BOOL isPaid;
 
 @end
 
@@ -99,6 +105,8 @@
     }
     
     self.isAutoCouponSelect = NO;
+    
+    [self setupNotification];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -115,6 +123,19 @@
 
 
 #pragma mark - Setup
+
+-(void)setupNotification
+{
+    @weakify(self)
+    [self listenNotificationByName:NSStringFromClass([self class]) withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        if (!self.isPaid)
+        {
+            @strongify(self)
+            [self checkPayment];
+        }
+    }];
+}
+
 - (void)setupPaymentArray
 {
     
@@ -696,6 +717,8 @@
         
         [self requestCommentlist];
         [self paySuccess:op];
+        // 在这里获取交易号
+        self.tradeno = op.rsp_tradeId;
     } error:^(NSError *error) {
         
         [self handerOrderError:error forOp:self.checkoutServiceOrderV4Op];
@@ -824,6 +847,7 @@
              andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time andGasCouponAmout:(CGFloat)couponAmt
 
 {
+    self.isPaid = YES;
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     
     [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
@@ -838,7 +862,6 @@
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"洗车已通知服务器支付成功!");
         }];
-        
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
         vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
@@ -874,7 +897,8 @@
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"洗车已通知服务器支付成功!");
         }];
-        
+        // 支付成功。避免应用进入前台后重复请求
+        self.isPaid = YES;
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
         vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
@@ -1310,5 +1334,29 @@
     return string;
 }
 
+-(void)checkPayment
+{
+    @weakify(self)
+    GetPayStatusOp *op = [[GetPayStatusOp alloc]init];
+    if (self.tradeno.length != 0)
+    {
+        op.req_tradeno = self.tradeno;
+        op.req_tradetype = @"2";
+        
+        [[[op rac_postRequest]initially:^{
+            [gToast showingWithText:@"订单信息查询中"];
+        }]subscribeNext:^(id x) {
+            [gToast dismiss];
+            @strongify(self)
+            if (op.rsp_status)
+            {
+                PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }error:^(NSError *error) {
+            [gToast showText:error.domain];
+        }];
+    }
+}
 
 @end
