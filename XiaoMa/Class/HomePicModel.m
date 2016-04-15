@@ -30,7 +30,7 @@
     [coder encodeObject:self.homeItemPicUrl forKey:@"pic"];
     [coder encodeObject:self.homeItemRedirect forKey:@"url"];
     [coder encodeObject:self.homeItemId forKey:@"itemid"];
-    [coder encodeObject:@(self.isNewFlag) forKey:@"newflag"];
+    [coder encodeBool:self.isNewFlag forKey:@"newflag"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -58,7 +58,7 @@
         return nil;
     }
     HomePicModel * homePicModel = [[HomePicModel alloc] init];
-    NSArray * tArray = [rsp objectForKey:@"toppics"];
+    NSArray * tArray = [rsp objectForKey:@"modules"];
     NSMutableArray * mutableArray = [NSMutableArray array];
     for (NSDictionary * dict in tArray)
     {
@@ -66,8 +66,8 @@
         item.homeItemTitle = [dict stringParamForName:@"title"];
         item.homeItemPicUrl = [dict stringParamForName:@"pic"];
         item.homeItemRedirect = [dict stringParamForName:@"url"];
-        item.homeItemId = [dict numberParamForName:@"id"];
-        item.isNewFlag = [dict boolParamForName:@"newflag"];
+        item.homeItemId = [dict stringParamForName:@"moduleid"];
+        item.isNewFlag = [dict boolParamForName:@"isnewflag"];
         [mutableArray safetyAddObject:item];
     }
     homePicModel.homeItemArray = [NSArray arrayWithArray:mutableArray];
@@ -99,18 +99,17 @@
         else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=ast"])
             item.defaultImageName = @"hp_assist_300";
         
-        //找到id一样的,且newflag不一样.设为和本地一样
-        [self.homeItemArray firstObjectByFilteringOperatorWithIndex:^BOOL(HomeItem * selfItem, NSUInteger index) {
+        //找到id一样的,且newflag不一样.设为和本地一样        
+        [self.homeItemArray enumerateObjectsUsingBlock:^(HomeItem * selfItem, NSUInteger index, BOOL * _Nonnull stop) {
             
-            if (selfItem.homeItemId && [selfItem.homeItemId isEqualToNumber:item.homeItemId])
+            if (selfItem.homeItemId && item.homeItemId && [selfItem.homeItemId isEqualToString:item.homeItemId])
             {
                 if (selfItem.isNewFlag != item.isNewFlag)
                 {
                     item.isNewFlag = selfItem.isNewFlag;
-                    return YES;
+                    *stop = YES;
                 }
             }
-            return NO;
         }];
     }
     

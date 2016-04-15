@@ -24,4 +24,18 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }
 
+- (instancetype)parseResponseObject:(id)rspObj
+{
+    if ([rspObj isKindOfClass:[NSDictionary class]])
+    {
+        self.homeModel = [HomePicModel homeWithJSONResponse:rspObj];
+    }
+    else
+    {
+        NSString * errorInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
+        NSAssert(NO,errorInfo);
+    }
+    return self;
+}
+
 @end

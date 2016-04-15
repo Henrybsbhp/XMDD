@@ -592,41 +592,44 @@
 
 
 
-- (UIButton *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container andPicUrl:(NSString *)picUrl
+- (UIImageView *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container andPicUrl:(NSString *)picUrl
 {
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
-    btn.backgroundColor = [UIColor whiteColor];
-    [btn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-    btn.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [container addSubview:btn];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.backgroundColor = [UIColor whiteColor];
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [container addSubview:imageView];
     
     if (picUrl)
     {
-        [self requestHomePicWithBtn:btn andUrl:picUrl andDefaultPic:imgName errPic:imgName];
+        [self requestHomePicWithBtn:imageView andUrl:picUrl andDefaultPic:imgName errPic:imgName];
     }
     else
     {
         UIImage *img = [UIImage imageNamed:imgName];
-        [btn setBackgroundImage:img forState:UIControlStateNormal];
+        [imageView setImage:img];
     }
-    return btn;
+    return imageView;
 }
 
-- (UIButton *)mainButtonWithImageName:(NSString *)imgName index:(NSInteger)index jumpUrl:(NSString *)url inContainer:(UIView *)container andPicUrl:(NSString *)picUrl width:(CGFloat)width height:(CGFloat)height isNewFlag:(BOOL)flag
+- (UIImageView *)mainButtonWithImageName:(NSString *)imgName index:(NSInteger)index jumpUrl:(NSString *)url inContainer:(UIView *)container andPicUrl:(NSString *)picUrl width:(CGFloat)width height:(CGFloat)height isNewFlag:(BOOL)flag
 {
     NSInteger tag = 20101;
-    UIButton * btn = [self functionalButtonWithImageName:imgName action:nil inContainer:container andPicUrl:picUrl];
-    RACDisposable * disposable = [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+    UIImageView * itemView = [self functionalButtonWithImageName:imgName action:nil inContainer:container andPicUrl:picUrl];
+    itemView.userInteractionEnabled = YES;
+    itemView.animationRepeatCount = 3;
+    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] init];
+    [itemView addGestureRecognizer:tapGesture];
+    RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
         [self jumpToViewControllerByUrl:url];
     }];
+    
     [self.disposableArray safetyAddObject:disposable];
-    btn.tag = tag + index;
+    itemView.tag = tag + index;
     
     NSInteger quotient = index / ItemCount;
     NSInteger remiainder = index % ItemCount;
     
-    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [itemView mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.width.mas_equalTo(width);
         make.height.mas_equalTo(height);
@@ -637,19 +640,19 @@
     NSInteger iconTag = 2010101 + index;
     UIImageView * iconNewImageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp_new_icon"]];
     iconNewImageV.tag = iconTag;
-    [btn addSubview:iconNewImageV];
+    [itemView addSubview:iconNewImageV];
     
     [iconNewImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.width.mas_equalTo(40);
         make.height.mas_equalTo(40);
-        make.top.equalTo(btn);
-        make.right.equalTo(btn);
+        make.top.equalTo(itemView);
+        make.right.equalTo(itemView);
     }];
     
     iconNewImageV.hidden = !flag;
     
-    return btn;
+    return itemView;
 }
 
 - (void)setupLineSpace:(UILabel *)label withText:(NSString *)text
@@ -706,44 +709,50 @@
     for (NSInteger i = 0; i < gAppMgr.homePicModel.homeItemArray.count; i++)
     {
         HomeItem *item = [gAppMgr.homePicModel.homeItemArray safetyObjectAtIndex:i];
-        NSInteger btnTag = 20101 + i;
-        UIButton * btn = (UIButton *)[firstView searchViewWithTag:btnTag];
+        NSInteger itemTag = 20101 + i;
+        UIImageView * itemView = (UIImageView *)[firstView searchViewWithTag:itemTag];
         
         NSInteger iconNewTag = 2010101 + i;
-        UIImageView * imageView = (UIImageView *)[btn searchViewWithTag:iconNewTag];
-        imageView.hidden = item.isNewFlag;
+        UIImageView * iconImageView = (UIImageView *)[itemView searchViewWithTag:iconNewTag];
+        iconImageView.hidden = !item.isNewFlag;
         
-        [self requestHomePicWithBtn:btn andUrl:item.homeItemPicUrl andDefaultPic:nil errPic:nil];
+        [self requestHomePicWithBtn:itemView andUrl:item.homeItemPicUrl andDefaultPic:item.defaultImageName errPic:item.defaultImageName];
         
-        RACDisposable * disposable = [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            
+        //先移除手势
+        for (UIGestureRecognizer *recognizer in itemView.gestureRecognizers) {
+            [itemView removeGestureRecognizer:recognizer];
+        }
+        UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] init];
+        RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
             [self jumpToViewControllerByUrl:item.homeItemRedirect];
+            
             // 把new标签设置回去
             if (item.isNewFlag)
             {
                 item.isNewFlag = NO;
+                iconImageView.hidden = YES;
             }
             [gAppMgr saveHomePicInfo];
         }];
+        [itemView addGestureRecognizer:tapGesture];
         [self.disposableArray safetyAddObject:disposable];
     }
 }
 
 
-- (void)requestHomePicWithBtn:(UIButton *)btn andUrl:(NSString *)url andDefaultPic:(NSString *)pic1 errPic:(NSString *)pic2
+- (void)requestHomePicWithBtn:(UIImageView *)imageView andUrl:(NSString *)url andDefaultPic:(NSString *)pic1 errPic:(NSString *)pic2
 {
     [[gMediaMgr rac_getImageByUrl:url withType:ImageURLTypeOrigin defaultPic:pic1 errorPic:pic2] subscribeNext:^(id x) {
         
         if (![x isKindOfClass:[UIImage class]])
             return ;
-        [UIView transitionWithView:btn
+        [UIView transitionWithView:imageView
                           duration:1.0
                            options:UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{
                             
-                            [btn setBackgroundImage:x forState:UIControlStateNormal];
-                            [btn setBackgroundImage:x forState:UIControlStateHighlighted];
-                            btn.alpha = 1.0;
+                            [imageView setImage:x];
+                            imageView.alpha = 1.0;
                         } completion:nil];
     }];
 }
