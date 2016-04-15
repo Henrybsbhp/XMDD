@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -607,7 +607,7 @@
                                                         <constraint firstAttribute="height" constant="55" id="iaY-gA-pab"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" tag="1003" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cm_dot" translatesAutoresizingMaskIntoConstraints="NO" id="7gs-mc-Twm">
+                                                <imageView userInteractionEnabled="NO" tag="1003" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="cm_dot_300" translatesAutoresizingMaskIntoConstraints="NO" id="7gs-mc-Twm">
                                                     <rect key="frame" x="583" y="32" width="9" height="9"/>
                                                 </imageView>
                                             </subviews>
@@ -1412,7 +1412,7 @@ DYoNjQ2SAAAAAAAAAgEAAAAAAAAAQQAAAAAAAAAAAAAAAAAADZQ
 </mutableData>
         </image>
         <image name="Verticalline" width="1" height="82"/>
-        <image name="cm_dot" width="9" height="9"/>
+        <image name="cm_dot_300" width="10" height="10"/>
         <image name="hp_service_300" width="20" height="20"/>
         <image name="hp_weather" width="28" height="22"/>
         <image name="me_active_icon" width="116" height="55"/>
