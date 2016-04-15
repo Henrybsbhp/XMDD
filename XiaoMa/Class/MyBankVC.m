@@ -142,6 +142,10 @@
                 [self reloadData];
             }];
         }
+        else
+        {
+            [self.tableView.refreshView endRefreshing];
+        }
     }];
 }
 
