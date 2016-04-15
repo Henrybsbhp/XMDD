@@ -128,10 +128,10 @@
     timeL.text = [order.txtime dateFormatForYYYYMMddHHmm2];
     priceL.text = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:order.fee]];
     paymentL.text = order.paydesc;
-    [[RACObserve(order, ratetime) takeUntilForCell:cell] subscribeNext:^(id x) {
+    [[RACObserve(order, ratetime) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         [bottomB setTitle:order.ratetime ? @"已评价" : @"去评价" forState:UIControlStateNormal];
-        bottomB.layer.borderColor = order.ratetime ? HEXCOLOR(@"#888888").CGColor : HEXCOLOR(@"18d06a").CGColor;
-        UIColor *textColor = order.ratetime ? HEXCOLOR(@"#888888") : HEXCOLOR(@"18d06a");
+        bottomB.layer.borderColor = order.ratetime ? HEXCOLOR(@"#888888").CGColor : HEXCOLOR(@"#18d06a").CGColor;
+        UIColor *textColor = order.ratetime ? HEXCOLOR(@"#888888") : HEXCOLOR(@"#18d06a");
         [bottomB setTitleColor:textColor forState:UIControlStateNormal];
         bottomB.userInteractionEnabled = !order.ratetime;
     }];
