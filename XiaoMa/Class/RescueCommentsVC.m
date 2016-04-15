@@ -339,7 +339,7 @@
         
         if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0) {
             [ratingView setUserInteractionEnabled:NO];
-            if (indexPath.row == 4) {
+            if (indexPath.row == 4){
                 ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:0] floatValue];
             }else if (indexPath.row == 5){
                 ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:1] floatValue];
@@ -372,40 +372,23 @@
     {
         return 25;
     }
-    else if (indexPath.row < 4)
+    else if (indexPath.row == 3 && self.evaluationArray.count == 0)
     {
-        if (self.evaluationArray.count != 0)
-        {
-            return 36;
-        }
-        else
-        {
-            return 50;
-        }
+        return 50;
     }
-    else if (indexPath.row == 7)
+    else if (indexPath.row == 7 && self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0)
     {
-        if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0)
-        {
-            NSString * str = [self.evaluationArray safetyObjectAtIndex:3];
-            CGFloat width = kWidth - 20;
-            CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
-            return size.height;
-        }
-        else
-        {
-            return 36;
-        }
-    }else
+        NSString * str = [self.evaluationArray safetyObjectAtIndex:3];
+        CGFloat width = kWidth - 20;
+        CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
+        return (size.height + 10);
+    }
+    else
     {
-        UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-        [cell layoutIfNeeded];
-        [cell setNeedsUpdateConstraints];
-        [cell updateConstraintsIfNeeded];
-        CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-        return ceil(size.height);
+        return 36;
     }
 }
+
 #pragma mark - lazyLoading
 - (NSMutableArray *)dataSourceArray {
     if (!_dataSourceArray) {
