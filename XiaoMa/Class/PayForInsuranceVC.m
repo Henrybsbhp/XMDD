@@ -27,7 +27,7 @@
 #import "DetailWebVC.h"
 #import "CouponModel.h"
 
-
+#import "GetPayStatusOp.h"
 
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
@@ -46,6 +46,12 @@
 @property (nonatomic,strong)NSArray * validInsuranceCouponArray;
 
 @property (nonatomic)PaymentChannelType paymentChannel;
+
+// 判断是否是通过支付app进入
+@property (nonatomic,assign) BOOL isPaid;
+
+@property (nonatomic,strong) NSString *tradeno;
+
 @end
 
 @implementation PayForInsuranceVC
@@ -69,10 +75,24 @@
     
     [self reloadLicenseData];
     [self requestGetUserInsCoupon];
+    
+    [self setupNotification];
 }
 
 
 #pragma mark - Setup
+-(void)setupNotification
+{
+    @weakify(self)
+    [self listenNotificationByName:NSStringFromClass([self class]) withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        if (!self.isPaid)
+        {
+            @strongify(self)
+            [self checkPayment];
+        }
+    }];
+}
+
 - (void)setupBottomView
 {
     //label
@@ -172,7 +192,7 @@
     if (op.rsp_total == 0) {
         return NO;
     }
-    
+    self.tradeno = op.rsp_tradeno;
     CGFloat price = op.rsp_total;
 #if DEBUG
     price = 0.01;
@@ -216,6 +236,7 @@
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"已通知服务器支付成功!");
         }];
+        self.isPaid = YES;
     } error:^(NSError *error) {
 
         @strongify(self);
@@ -263,8 +284,9 @@
         
         [gToast showingWithText:@"订单生成中..."];
     }] subscribeNext:^(InsuranceOrderPayOp * op) {
-        
         @strongify(self);
+        self.tradeno = nil;
+        
         if (![self callPaymentHelperWithPayOp:op]) {
             
             [gToast dismiss];
@@ -542,7 +564,7 @@
     
     
     if (indexPath.row == 1) {
-        iconImgV.image = [UIImage imageNamed:@"cw_alipay"];
+        iconImgV.image = [UIImage imageNamed:@"alipay_logo_66"];
         titleLb.text = @"支付宝支付";
         recommendLB.hidden = NO;
         tickImgV.hidden = self.paymentChannel != PaymentChannelAlipay;
@@ -550,20 +572,20 @@
     else if (indexPath.row == 2) {
         if (gPhoneHelper.exsitWechat)
         {
-            iconImgV.image = [UIImage imageNamed:@"cw_wechat"];
+            iconImgV.image = [UIImage imageNamed:@"wechat_logo_66"];
             titleLb.text = @"微信支付";
             tickImgV.hidden = self.paymentChannel != PaymentChannelWechat;
         }
         else
         {
-            iconImgV.image = [UIImage imageNamed:@"ins_uppay"];
+            iconImgV.image = [UIImage imageNamed:@"uppay_logo_66"];
             titleLb.text = @"银联支付";
             tickImgV.hidden = self.paymentChannel != PaymentChannelUPpay;
         }
         recommendLB.hidden = YES;
     }
     else if (indexPath.row == 3) {
-        iconImgV.image = [UIImage imageNamed:@"ins_uppay"];
+        iconImgV.image = [UIImage imageNamed:@"uppay_logo_66"];
         titleLb.text = @"银联支付";
         recommendLB.hidden = YES;
         tickImgV.hidden = self.paymentChannel != PaymentChannelUPpay;
@@ -822,4 +844,34 @@
         _selectInsuranceCoupouArray = [NSMutableArray array];
     return _selectInsuranceCoupouArray;
 }
+
+#pragma mark Utility
+-(void)checkPayment
+{
+    @weakify(self)
+    GetPayStatusOp *op = [[GetPayStatusOp alloc]init];
+    if (self.tradeno.length != 0)
+    {
+        op.req_tradeno = self.tradeno;
+        op.req_tradetype = @"1";
+        
+        [[[op rac_postRequest]initially:^{
+            [gToast showingWithText:@"订单信息查询中"];
+        }]subscribeNext:^(id x) {
+            [gToast dismiss];
+            @strongify(self)
+            if (op.rsp_status)
+            {
+                [self gotoPaidSuccessVC];
+            }
+            else
+            {
+                [self gotoPaidFailVC];
+            }
+        }error:^(NSError *error) {
+            [gToast showText:error.domain];
+        }];
+    }
+}
+
 @end

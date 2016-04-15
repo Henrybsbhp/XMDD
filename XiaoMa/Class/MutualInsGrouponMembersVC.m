@@ -73,9 +73,7 @@
                                           detailColor:MutInsTextDarkGrayColor]];
     }
     alert.items = items;
-    [alert showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-        [alertView dismiss];
-    }];
+    [alert show];
 }
 
 #pragma mark - Request

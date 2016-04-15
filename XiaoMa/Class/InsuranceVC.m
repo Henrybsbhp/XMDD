@@ -9,7 +9,7 @@
 #import "InsuranceVC.h"
 #import "XiaoMa.h"
 #import "ADViewController.h"
-#import "HKCellData.h"
+#import "CKDatasource.h"
 #import "NSString+RectSize.h"
 #import <MZFormSheetController.h>
 #import "InsuranceStore.h"
@@ -21,6 +21,7 @@
 #import "MyCarStore.h"
 #import "IQKeyboardManager.h"
 #import "OETextField.h"
+#import "DeleteInsCarOp.h"
 
 #import "InsInputNameVC.h"
 #import "InsInputInfoVC.h"
@@ -31,9 +32,12 @@
 @interface InsuranceVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *advc;
-@property (nonatomic, strong) NSArray *datasource;
+@property (nonatomic, strong) CKList *datasource;
 @property (nonatomic, strong) InsuranceStore *insStore;
+@property (nonatomic, assign) BOOL isEditing;
 @property (nonatomic, strong) InsuranceVM *insModel;
+@property (nonatomic, strong) CKDict *addCarItem;
+
 @end
 
 @implementation InsuranceVC
@@ -153,70 +157,112 @@
 
 - (void)reloadData
 {
-    NSMutableArray *datasource = [NSMutableArray array];
-    //标题
-    HKCellData *promptCell = [HKCellData dataWithCellID:@"Prompt" tag:nil];
-    NSString *title = @"请选择或添加一辆爱车，保险到期日前60天内，可进行核保。";
-    promptCell.object = title;
+    self.datasource = $([self promptItem], CKJoin([self carItemList]), self.isEditing ? CKNULL : [self addCarItem]);
+    [self.tableView reloadData];
+    [self resetRightNavigationItemWithHidden:![self checkInsCarsEditable]];
+    [self.view endEditing:YES];
+}
+
+#pragma mark - Request
+- (void)requestDeleteInsCarWithData:(CKDict *)data
+{
+    InsSimpleCar *car = data[@"car"];
+    DeleteInsCarOp *op = [DeleteInsCarOp operation];
+    op.req_carpremiumid = car.carpremiumid;
     @weakify(self);
-    [promptCell setHeightBlock:^CGFloat(UITableView *tableView) {
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"正在删除..."];
+    }] subscribeNext:^(id x) {
+    
         @strongify(self);
+        [gToast showSuccess:@"删除成功"];
+        [self deleteItem:data];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
+}
+
+#pragma mark - Cell Items
+- (CKDict *)promptItem
+{
+    CKDict *item = [CKDict dictWith:@{kCKCellID:@"Prompt", kCKItemKey:@"Prompt",
+                                      @"title":@"请选择或添加一辆爱车，保险到期日前60天内，可进行核保。"}];
+    @weakify(self);
+    item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        NSString *title = item[@"title"];
         CGSize fz = [title labelSizeWithWidth:self.tableView.frame.size.width - 28 font:[UIFont systemFontOfSize:13]];
         return ceil(fz.height) + 10;
-    }];
-    [datasource addObject:promptCell];
+    });
     
-    //车牌
-    NSArray *carCells = [self.insStore.simpleCars.allObjects arrayByMappingOperator:^id(id obj) {
+    item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath){
+        UILabel *label = [cell.contentView viewWithTag:1001];
+        label.text = data[@"title"];
         
+    });
+    return item;
+}
+
+- (NSArray *)carItemList
+{
+    NSMutableArray *cars = [NSMutableArray array];
+    for (InsSimpleCar *car in self.insStore.simpleCars.allObjects) {
+        [cars addObject:[self carItemWithInsCar:car]];
+    }
+    return cars;
+}
+
+- (CKDict *)carItemWithInsCar:(InsSimpleCar *)car
+{
+    CKDict *item = [CKDict dictWith:@{kCKCellID:@"Car", kCKItemKey:car.licenseno, @"car":car}];
+    @weakify(self);
+    item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        HKCellData *cell = [HKCellData dataWithCellID:@"Car" tag:nil];
-        cell.object = obj;
-        [cell setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
-            
-            @strongify(self);
-            [MobClick event:@"rp1002_2"];
-            InsSimpleCar *car = obj;
-            if (car.status == 0 || [car.carpremiumid integerValue] == 0) {
-                [self actionInputOwnerNameForSimpleCar:car];
-            }
-            //核保记录
-            else if (car.status == 2) {
-                InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
-                vc.insModel = [self.insModel copy];
-                vc.insModel.simpleCar = car;
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-            //有保单
-            else if (car.status == 1 || car.status == 4 || car.status == 5) {
-                InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
-                vc.insModel = [self.insModel copy];
-                vc.orderID = car.refid;
-                vc.originVC = self;
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-            //填写信息
-            else {
-                InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
-                infoVC.insModel = [self.insModel copy];
-                infoVC.insModel.simpleCar = car;
-                [self.navigationController pushViewController:infoVC animated:YES];
-            }
-        }];
-        return cell;
-    }];
-    [datasource safetyAddObjectsFromArray:carCells];
-    
-    //添加车辆
-    HKCellData *addCell = [HKCellData dataWithCellID:@"Add" tag:nil];
-    addCell.customInfo[@"province"] = [self.insStore.insProvinces objectAtIndex:0];
-    [addCell setHeightBlock:^CGFloat(UITableView *tableView) {
-        return 50;
-    }];
-    [datasource addObject:addCell];
-    
-    self.datasource = datasource;
-    [self.tableView reloadData];
+        if (self.isEditing) {
+            return ;
+        }
+        [self.view endEditing:YES];
+        [MobClick event:@"rp1002_2"];
+        InsSimpleCar *car = data[@"car"];
+        if (car.status == 0 || [car.carpremiumid integerValue] == 0) {
+            [self actionInputOwnerNameForSimpleCar:car];
+        }
+        //核保记录
+        else if (car.status == 2) {
+            InsCheckResultsVC *vc = [UIStoryboard vcWithId:@"InsCheckResultsVC" inStoryboard:@"Insurance"];
+            vc.insModel = [self.insModel copy];
+            vc.insModel.simpleCar = car;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        //有保单
+        else if (car.status == 1 || car.status == 4 || car.status == 5) {
+            InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
+            vc.insModel = [self.insModel copy];
+            vc.orderID = car.refid;
+            vc.originVC = self;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        //填写信息
+        else {
+            InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+            infoVC.insModel = [self.insModel copy];
+            infoVC.insModel.simpleCar = car;
+            [self.navigationController pushViewController:infoVC animated:YES];
+        }
+    });
+    return item;
+}
+
+- (CKDict *)addCarItem
+{
+    if (!_addCarItem) {
+        CKDict *item = [CKDict dictWith:@{kCKCellID:@"Add", kCKItemKey:@"Add"}];
+        item[@"province"] = [self.insStore.insProvinces objectAtIndex:0];
+        _addCarItem = item;
+    }
+    return _addCarItem;
 }
 
 #pragma mark - Action
@@ -227,6 +273,7 @@
 
 - (void)actionInputOwnerNameForSimpleCar:(InsSimpleCar *)car
 {
+    [self.view endEditing:YES];
     InsInputNameVC *vc = [UIStoryboard vcWithId:@"InsInputNameVC" inStoryboard:@"Insurance"];
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(270, 160) viewController:vc];
     sheet.shouldCenterVertically = YES;
@@ -237,11 +284,9 @@
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
     //确定
-    @weakify(self);
-    @weakify(vc);
+    @weakify(vc, self);
     [[vc.ensureButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        @strongify(vc);
+        @strongify(vc, self);
         [vc.nameField endEditing:YES];
         [sheet dismissAnimated:YES completionHandler:nil];
         
@@ -253,23 +298,116 @@
     }];
 }
 
+#pragma mark - Edit
+- (BOOL)checkInsCarsEditable
+{
+    for (CKDict *data in self.datasource.allObjects) {
+        InsSimpleCar *car = data[@"car"];
+        if ([self isInsCarEditable:car]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)isInsCarEditable:(InsSimpleCar *)car
+{
+    int status = car.status;
+    return [car.carpremiumid integerValue] > 0 && (status == 0 || status == 2 || status == 3);
+}
+
+- (void)deleteItem:(CKDict *)item
+{
+    NSInteger index = [self.datasource indexOfObjectForKey:item.key];
+    [self.datasource removeObjectAtIndex:index];
+    NSIndexSet *indexSet1 = [NSIndexSet indexSetWithIndex:index];
+    NSIndexSet *indexSet2;
+
+    if (![self checkInsCarsEditable]) {
+        [self.datasource addObject:[self addCarItem] forKey:nil];
+        indexSet2 = [NSIndexSet indexSetWithIndex:self.datasource.count-1];
+        [self endEditing];
+    }
+    
+    [self.tableView beginUpdates];
+    [self.tableView deleteSections:indexSet1 withRowAnimation:UITableViewRowAnimationAutomatic];
+    if (indexSet2) {
+        [self.tableView insertSections:indexSet2 withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    [self.tableView endUpdates];
+}
+
+- (void)endEditing
+{
+    self.isEditing = NO;
+    if (![self.datasource objectForKey:@"Add"]) {
+        [self.datasource addObject:self.addCarItem forKey:@"Add"];
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:self.datasource.count-1];
+        [self.tableView beginUpdates];
+        [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView endUpdates];
+    }
+    [self resetRightNavigationItemWithHidden:![self checkInsCarsEditable]];
+}
+
+- (void)beginEditing
+{
+    self.isEditing = YES;
+    NSInteger index = [self.datasource indexOfObjectForKey:@"Add"];
+    if (index != NSNotFound) {
+        [self.datasource removeObjectAtIndex:index];
+        [self.tableView beginUpdates];
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView endUpdates];
+    }
+    [self resetRightNavigationItemWithHidden:NO];
+}
+
+- (void)resetRightNavigationItemWithHidden:(BOOL)hidden
+{
+    if (!hidden) {
+        if (self.isEditing) {
+            self.navigationItem.rightBarButtonItem = [self barButtonItemWithTitle:@"取消" selector:@selector(endEditing)];
+        }
+        else {
+            self.navigationItem.rightBarButtonItem = [self barButtonItemWithTitle:@"编辑" selector:@selector(beginEditing)];
+        }
+    }
+    else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+}
+
+
+- (UIBarButtonItem *)barButtonItemWithTitle:(NSString *)title selector:(SEL)selector
+{
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [button setTitleColor:kDefTintColor forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:15];
+    [button setTitle:title forState:UIControlStateNormal];
+    [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
+    return [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+
 #pragma mark - UITableViewDelegate and datasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.section];
-    if (data.selectedBlock) {
-        data.selectedBlock(tableView, indexPath);
+    CKDict *item = self.datasource[indexPath.section];
+    if (item[kCKCellSelected]) {
+        CKCellSelectedBlock block = item[kCKCellSelected];
+        block(item, indexPath);
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.section];
-    if (data.heightBlock) {
-        return data.heightBlock(tableView);
+    CKDict *item = self.datasource[indexPath.section];
+    if (item[kCKCellGetHeight]) {
+        CKCellGetHeightBlock block = item[kCKCellGetHeight];
+        return block(item, indexPath);
     }
-    return 65;
+    return 73;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -279,7 +417,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 6;
+    return 10;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -294,35 +432,45 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.section];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data.cellID forIndexPath:indexPath];
-    if ([data equalByCellID:@"Prompt" tag:nil]) {
-        [self resetPromptCell:cell withData:data];
+    CKDict *item = self.datasource[indexPath.section];
+    NSString *cellid = item[kCKCellID];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellid forIndexPath:indexPath];
+    if (item[kCKCellPrepare]) {
+        CKCellPrepareBlock block = item[kCKCellPrepare];
+        block(item, cell, indexPath);
     }
-    else if ([data equalByCellID:@"Car" tag:nil]) {
-        [self resetCarCell:cell withData:data atIndexPath:indexPath];
+    if ([@"Add" isEqualToString:cellid]) {
+        [self resetAddCarCell:cell withData:item];
     }
-    else if ([data equalByCellID:@"Add" tag:nil]) {
-        [self resetAddCarCell:cell withData:data];
+    else if ([@"Car" isEqualToString:cellid]) {
+        [self resetCarCell:cell withData:item];
     }
-    
     return cell;
 }
 
 #pragma mark - Cell
-- (void)resetPromptCell:(UITableViewCell *)cell withData:(HKCellData *)data
-{
-    UILabel *label = [cell.contentView viewWithTag:1001];
-    label.text = data.object;
-    
-}
-
-- (void)resetCarCell:(UITableViewCell *)cell withData:(HKCellData *)data atIndexPath:(NSIndexPath *)indexPath
+- (void)resetCarCell:(UITableViewCell *)cell withData:(CKDict *)data
 {
     UILabel *numberL = [cell viewWithTag:1001];
     UIButton *rightB = [cell viewWithTag:1002];
+    UIImageView *arrowV = [cell viewWithTag:1003];
+    UIButton *trashB = [cell viewWithTag:1004];
     
-    InsSimpleCar *car = data.object;
+    InsSimpleCar *car = data[@"car"];
+    
+    @weakify(self);
+    [[[RACObserve(self, isEditing) distinctUntilChanged] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        arrowV.hidden = self.isEditing;
+        trashB.hidden = !(self.isEditing && [self isInsCarEditable:car]);
+        rightB.hidden = self.isEditing || (car.status != 1 && car.status != 2);
+    }];
+
+    [[[trashB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+     subscribeNext:^(id x) {
+        @strongify(self);
+        [self requestDeleteInsCarWithData:data];
+    }];
     
     NSString *licenseno = [car.licenseno splitByStep:2 replacement:@" " count:1];
     NSString *statusdesc = [self.insModel simpleCarStatusDesc:car.status];
@@ -338,12 +486,12 @@
         [attstr appendAttributedString:[[NSAttributedString alloc] initWithString:statusdesc attributes:attr2]];
     }
     numberL.attributedText = attstr;
-    rightB.hidden = car.status != 1 && car.status != 2;
+
 //#if DEBUG
 //    rightB.hidden = car.status == 0 || car.status == 3;
 //#endif
     [rightB setTitle:car.status == 1 ? @"核保结果" : @"重新核保" forState:UIControlStateNormal];
-    @weakify(self);
+
     [[[rightB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
 
@@ -366,7 +514,7 @@
     }];
 }
 
-- (void)resetAddCarCell:(UITableViewCell *)cell withData:(HKCellData *)data
+- (void)resetAddCarCell:(UITableViewCell *)cell withData:(CKDict *)data
 {
     UILabel *provinceL = [cell viewWithTag:10011];
     UIButton *provinceB = [cell viewWithTag:10013];
@@ -375,7 +523,7 @@
     
     [textF setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
     
-    Area *province = data.customInfo[@"province"];
+    Area *province = data[@"province"];
     provinceL.text = province.abbr;
     
     @weakify(self);
@@ -383,21 +531,22 @@
      subscribeNext:^(id x) {
          @strongify(self);
          [MobClick event:@"rp1000_3"];
+         [self.view endEditing:YES];
          if (self.insStore.insProvinces.count == 1) {
              Area *province = [self.insStore.insProvinces objectAtIndex:0];
              [gToast showText:[NSString stringWithFormat:@"当前只支持%@", province.name]];
          }
          else if (self.insStore.insProvinces.count > 0) {
-             [[self pickProvinceFrom:[self.insStore.insProvinces allObjects] curProvince:data.customInfo[@"province"]]
+             [[self pickProvinceFrom:[self.insStore.insProvinces allObjects] curProvince:data[@"province"]]
               subscribeNext:^(Area *curProvince) {
-                  data.customInfo[@"province"] = curProvince;
+                  data[@"province"] = curProvince;
                   provinceL.text = curProvince.abbr;
               }];
          }
      }];
     
     textF.textLimit = 6;
-    textF.text = data.customInfo[@"suffix"];
+    textF.text = data[@"suffix"];
     
     [textF setDidBeginEditingBlock:^(CKLimitTextField *field) {
         field.placeholder = nil;
@@ -409,15 +558,16 @@
     
     [textF setTextDidChangedBlock:^(CKLimitTextField *field) {
         field.text = [field.text uppercaseString];
-        data.customInfo[@"suffix"] = field.text;
+        data[@"suffix"] = field.text;
     }];
     
     [[[addB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self);
-        NSString *prefix = [(Area *)data.customInfo[@"province"] abbr];
-        NSString *licenseno = [prefix append:data.customInfo[@"suffix"]];
-        data.customInfo[@"licenseno"] = licenseno;
+        [self.view endEditing:YES];
+        NSString *prefix = [(Area *)data[@"province"] abbr];
+        NSString *licenseno = [prefix append:data[@"suffix"]];
+        data[@"licenseno"] = licenseno;
         if (![MyCarStore verifiedLicenseNumberFrom:licenseno]) {
             [gToast showText:@"请输入正确的车牌号码"];
             return ;

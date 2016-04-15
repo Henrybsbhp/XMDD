@@ -147,7 +147,7 @@
         }
         if ([data[@"error"] boolValue]) {
             [cell.contentView stopActivityAnimation];
-            [cell.contentView showDefaultEmptyViewWithText:@"刷新失败，点击重试" tapBlock:^{
+            [cell.contentView showImageEmptyViewWithImageName:@"def_failConnect" text:@"刷新失败，点击重试" tapBlock:^{
                 [self reloadData];
             }];
         }

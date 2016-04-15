@@ -21,6 +21,7 @@
 #import "CancelGaschargeOp.h"
 #import "FMDeviceManager.h"
 #import "CKDatasource.h"
+#import "GetPayStatusOp.h"
 
 @interface PayForGasViewController ()
 
@@ -38,6 +39,13 @@
 @property (nonatomic,strong)NSArray * gasCouponArray;
 ///支付渠道
 @property (nonatomic)PaymentChannelType  paychannel;
+
+///订单号
+@property (nonatomic,strong) NSString *tradeID;
+// 判断是否是通过支付app进入
+@property (nonatomic,assign) BOOL isPaid;
+
+@property (nonatomic,strong) GascardChargeOp *op;
 
 @end
 
@@ -61,6 +69,8 @@
     [self refreshBottomView];
     
     [self requestGetGasResource];
+    
+    [self setupNotification];
 }
 
 
@@ -70,6 +80,19 @@
 }
 
 #pragma mark - Setup
+
+-(void)setupNotification
+{
+    @weakify(self)
+    [self listenNotificationByName:NSStringFromClass([self class]) withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        if (!self.isPaid)
+        {
+            @strongify(self)
+            [self checkPayment];
+        }
+    }];
+}
+
 - (void)setupNavigationBar
 {
     self.navigationItem.title = @"支付确认";
@@ -136,11 +159,11 @@
     
     NSDictionary * dict2_1 = @{@"title":@"支付宝支付",@"subtitle":@"推荐支付宝用户使用",
                                @"payment":@(PaymentChannelAlipay),@"recommend":@(YES),
-                               @"cellname":@"PaymentPlatformCell",@"icon":@"cw_alipay"};
+                               @"cellname":@"PaymentPlatformCell",@"icon":@"alipay_logo_66"};
     
     NSDictionary * dict2_2 = @{@"title":@"微信支付",@"subtitle":@"推荐微信用户使用",
                                @"payment":@(PaymentChannelWechat),@"recommend":@(NO),
-                               @"cellname":@"PaymentPlatformCell",@"icon":@"cw_wechat"};
+                               @"cellname":@"PaymentPlatformCell",@"icon":@"wechat_logo_66"};
     
     NSDictionary * dict2_3 = @{@"title":@"银联支付",@"subtitle":@"推荐银联用户使用",
                                @"payment":@(PaymentChannelUPpay),@"recommend":@(NO),
@@ -261,6 +284,7 @@
         op.req_gid = card.gid;
         op.req_amount = (int)self.gasNormalVC.rechargeAmount;
     }
+    self.op = op;
     op.req_gid = card.gid;
     op.req_paychannel = self.paychannel;
     op.req_bill = [self.gasNormalVC needInvoice];
@@ -279,6 +303,7 @@
         [gToast showingWithText:@"订单生成中..."];
     }] subscribeNext:^(GascardChargeOp *op) {
         
+        self.tradeID = nil;
         @strongify(self);
         if (![self callPaymentHelperWithPayOp:op gasCard:card]) {
             [gToast dismiss];
@@ -297,6 +322,8 @@
 }
 
 - (BOOL)callPaymentHelperWithPayOp:(GascardChargeOp *)paidop gasCard:(GasCard *)card {
+    
+    self.tradeID = paidop.rsp_tradeid;
     if (paidop.rsp_total == 0) {
         return NO;
     }
@@ -307,6 +334,7 @@
     NSString *text;
     switch (paidop.req_paychannel) {
         case PaymentChannelAlipay: {
+            self.isPaid = YES;
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
             [helper resetForAlipayWithTradeNumber:paidop.rsp_tradeid productName:info productDescription:info price:paidop.rsp_total];
         } break;
@@ -333,6 +361,8 @@
         [[op rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"已通知服务器支付成功!");
         }];
+        // 支付成功
+        self.isPaid = YES;
         paidSuccess = YES;
         [[GasStore fetchOrCreateStore] saverecentlyUsedGasCardID:paidop.req_gid];
         [self pushToPaymentResultWithPaidOp:paidop andGasCard:card];
@@ -364,6 +394,31 @@
 }
 
 #pragma mark - Util
+
+-(void)checkPayment
+{
+    @weakify(self)
+    GetPayStatusOp *op = [[GetPayStatusOp alloc]init];
+    if (self.tradeID.length != 0)
+    {
+        op.req_tradeno = self.tradeID;
+        op.req_tradetype = [self.gasNormalVC isRechargeForInstalment] ? @"4" : @"3";
+        
+        [[[op rac_postRequest]initially:^{
+            [gToast showingWithText:@"订单信息查询中"];
+        }]subscribeNext:^(id x) {
+            [gToast dismiss];
+            @strongify(self)
+            if (op.rsp_status)
+            {
+                [self pushToPaymentResultWithPaidOp:self.op andGasCard:self.gasNormalVC.curGasCard];
+            }
+        }error:^(NSError *error) {
+            [gToast showText:error.domain];
+        }];
+    }
+}
+
 - (void)selectedCouponCell {
     [MobClick event:@"rp508_1"];
     [self jumpToChooseCouponVC];

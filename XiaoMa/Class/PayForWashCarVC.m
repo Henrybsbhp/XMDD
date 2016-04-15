@@ -38,6 +38,9 @@
 #import "GainUserAwardOp.h"
 #import "FMDeviceManager.h"
 
+#import <NSObject+Notify.h>
+#import "GetPayStatusOp.h"
+
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
 #define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
 
@@ -46,10 +49,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
 @property (weak, nonatomic) IBOutlet CBAutoScrollLabel *bottomScrollLb;
-@property (nonatomic,strong)UIView * drawerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeightConstraint;
 
-@property (nonatomic,strong) CKSegmentHelper *checkBoxHelper;
 @property (nonatomic)BOOL isLoadingResourse;
 
 @property (nonatomic,strong) MyCarStore *carStore;
@@ -59,6 +60,9 @@
 
 ///支付数据源
 @property (nonatomic,strong)NSArray * paymentArray;
+
+// 判断是否是通过支付app进入
+@property (nonatomic,assign) BOOL isPaid;
 
 @end
 
@@ -74,7 +78,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupCheckBoxHelper];
     [self setupBottomView];
     [self setupCarStore];
     
@@ -99,6 +102,8 @@
     }
     
     self.isAutoCouponSelect = NO;
+    
+    [self setupNotification];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -115,6 +120,19 @@
 
 
 #pragma mark - Setup
+
+-(void)setupNotification
+{
+    @weakify(self)
+    [self listenNotificationByName:NSStringFromClass([self class]) withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        if (!self.isPaid)
+        {
+            @strongify(self)
+            [self checkPayment];
+        }
+    }];
+}
+
 - (void)setupPaymentArray
 {
     
@@ -139,10 +157,6 @@
 }
 
 
-- (void)setupCheckBoxHelper
-{
-    self.checkBoxHelper = [CKSegmentHelper new];
-}
 
 - (void)setupBottomView
 {
@@ -393,6 +407,7 @@
             /// 如果是浙商，无法选择
             if (self.couponType == CouponTypeCZBankCarWash)
             {
+                [gToast showText:@"您正在使用浙商优惠券，务必用浙商信用卡支付"];
                 return;
             }
             
@@ -501,10 +516,8 @@
 - (UITableViewCell *)paymentPlatformACellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    UIImageView *iconImgV,*drawerImgV,*tickImgV;
+    UIImageView *iconImgV,*tickImgV;
     UILabel *titleLb,*numberLb,*recommendLB;
-    UIView * drawerV;// 抽屉视图用户浙商信用卡支付;
-    
     
     PaymentChannelType payChannel = [[self.paymentArray safetyObjectAtIndex:indexPath.row - 1] integerValue];
     if (payChannel == PaymentChannelCZBCreditCard)
@@ -512,17 +525,13 @@
         cell = [self.tableView dequeueReusableCellWithIdentifier:@"PayPlatformCellB"];
         iconImgV = (UIImageView *)[cell searchViewWithTag:101];
         titleLb = (UILabel *)[cell searchViewWithTag:102];
-        drawerV = (UIView *)[cell searchViewWithTag:103];
-        self.drawerView = drawerV;
-        tickImgV = (UIImageView *)[cell searchViewWithTag:20301];
-        drawerImgV = (UIImageView *)[cell  searchViewWithTag:20302];
-        numberLb = (UILabel *)[cell searchViewWithTag:20303];
-        drawerImgV.image = [UIImage imageNamed:@"mini_card"];
-        
+        numberLb = (UILabel *)[cell searchViewWithTag:103];
+        tickImgV = (UIImageView *)[cell searchViewWithTag:104];
+
         iconImgV.image = [UIImage imageNamed:@"cw_creditcard"];
         titleLb.text = @"信用卡支付";
-        numberLb.text = [self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4];
-        drawerImgV.hidden = !self.getUserResourcesV2Op.rsp_czBankCreditCard.count;
+        numberLb.text =  [NSString stringWithFormat:@"尾号:%@",[self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4]];
+        numberLb.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelCZBCreditCard;
         tickImgV.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelCZBCreditCard;
     }
     else
@@ -536,7 +545,7 @@
         recommendLB.layer.masksToBounds = YES;
         
         if (payChannel == PaymentChannelAlipay) {
-            iconImgV.image = [UIImage imageNamed:@"cw_alipay"];
+            iconImgV.image = [UIImage imageNamed:@"alipay_logo_66"];
             titleLb.text = @"支付宝支付";
             recommendLB.hidden = NO;
             tickImgV.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelAlipay;
@@ -550,7 +559,7 @@
             }
         }
         else if (payChannel == PaymentChannelWechat) {
-            iconImgV.image = [UIImage imageNamed:@"cw_wechat"];
+            iconImgV.image = [UIImage imageNamed:@"wechat_logo_66"];
             titleLb.text = @"微信支付";
             recommendLB.hidden = YES;
             tickImgV.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelWechat;
@@ -631,38 +640,6 @@
         }
     }
     self.checkoutServiceOrderV4Op.couponArray = coupons;
-    
-    //支付方式
-    NSArray * array = [[self.checkBoxHelper itemsForGroupName:CheckBoxPlatformGroup] sortedArrayUsingComparator:^NSComparisonResult(UIButton * obj1, UIButton * obj2) {
-        
-        NSIndexPath * path1 = (NSIndexPath *)obj1.customObject;
-        NSIndexPath * path2 = (NSIndexPath *)obj2.customObject;
-        return path1.row > path2.row;
-    }];
-    for (NSInteger i = 0 ; i < array.count ; i++)
-    {
-        UIButton * btn = [array safetyObjectAtIndex:i];
-        BOOL s = btn.selected;
-        if (s == YES)
-        {
-            PaymentChannelType paychannel = [[self.paymentArray safetyObjectAtIndex:i] integerValue];
-            if (paychannel == PaymentChannelCZBCreditCard)
-            {
-                self.checkoutServiceOrderV4Op.paychannel = PaymentChannelCZBCreditCard;
-            }
-            else if (paychannel == PaymentChannelAlipay)
-            {
-                self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
-                bandCard = nil;
-            }
-            else if (paychannel == PaymentChannelWechat)
-            {
-                self.checkoutServiceOrderV4Op.paychannel = PaymentChannelWechat;
-                bandCard = nil;
-            }
-        }
-    }
-    
     self.checkoutServiceOrderV4Op.serviceid = self.service.serviceID;
     self.checkoutServiceOrderV4Op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
     self.checkoutServiceOrderV4Op.carMake = self.defaultCar.brand;
@@ -696,6 +673,8 @@
         
         [self requestCommentlist];
         [self paySuccess:op];
+        // 在这里获取交易号
+        self.tradeno = op.rsp_tradeId;
     } error:^(NSError *error) {
         
         [self handerOrderError:error forOp:self.checkoutServiceOrderV4Op];
@@ -824,6 +803,7 @@
              andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time andGasCouponAmout:(CGFloat)couponAmt
 
 {
+    self.isPaid = YES;
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     
     [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
@@ -838,7 +818,6 @@
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"洗车已通知服务器支付成功!");
         }];
-        
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
         vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
@@ -874,7 +853,8 @@
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"洗车已通知服务器支付成功!");
         }];
-        
+        // 支付成功。避免应用进入前台后重复请求
+        self.isPaid = YES;
         PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
         vc.originVC = self.originVC;
         vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
@@ -1094,42 +1074,10 @@
 
 - (void)tableViewReloadData
 {
-    [self.checkBoxHelper cancelSelectedForGroupName:CheckBoxCouponGroup];
     [self.tableView reloadData];
     [self refreshPriceLb];
 }
 
-- (void)popBankCardNumberAnimation:(BOOL)flag
-{
-    if (flag)
-    {
-        POPSpringAnimation * anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
-        
-        CGFloat centerX = self.view.frame.size.width - 45;
-        CGFloat centerY = 25;
-        
-        anim.toValue = [NSValue valueWithCGPoint:CGPointMake(centerX, centerY)];
-        anim.springBounciness = 16;
-        anim.springSpeed = 6;
-        //    anim.dynamicsTension = 100;
-        anim.dynamicsMass = 2;
-        [self.drawerView pop_addAnimation:anim forKey:@"center"];
-    }
-    else
-    {
-        POPSpringAnimation * anim = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
-        
-        CGFloat centerX = self.view.frame.size.width + 5;
-        CGFloat centerY = 25;
-        
-        anim.toValue = [NSValue valueWithCGPoint:CGPointMake(centerX, centerY)];
-        anim.springBounciness = 16;
-        anim.springSpeed = 6;
-        //    anim.dynamicsTension = 100;
-        anim.dynamicsMass = 2;
-        [self.drawerView pop_addAnimation:anim forKey:@"center"];
-    }
-}
 
 
 - (void)chooseResource
@@ -1279,11 +1227,17 @@
         {
             totalAmount = totalAmount + c.couponAmount;
         }
+        NSString * string;
         if (totalAmount >= self.service.origprice)
         {
-            totalAmount = self.service.origprice - 0.01;
+            string =  [NSString stringWithFormat:@"最高可使用%@元代金券",[NSString formatForPrice:totalAmount]];
         }
-        NSString * string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
+        else
+        {
+            totalAmount = self.service.origprice - 0.01;
+            string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
+        }
+        
         return string;
     }
 }
@@ -1304,5 +1258,29 @@
     return string;
 }
 
+-(void)checkPayment
+{
+    @weakify(self)
+    GetPayStatusOp *op = [[GetPayStatusOp alloc]init];
+    if (self.tradeno.length != 0)
+    {
+        op.req_tradeno = self.tradeno;
+        op.req_tradetype = @"2";
+        
+        [[[op rac_postRequest]initially:^{
+            [gToast showingWithText:@"订单信息查询中"];
+        }]subscribeNext:^(id x) {
+            [gToast dismiss];
+            @strongify(self)
+            if (op.rsp_status)
+            {
+                PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }error:^(NSError *error) {
+            [gToast showText:error.domain];
+        }];
+    }
+}
 
 @end

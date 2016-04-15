@@ -302,9 +302,12 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
-    return @"获取订单信息失败，点击重试";
+    //保证动画停止
+    [self.view stopActivityAnimation];
+    return @{@"title":@"获取订单信息失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type

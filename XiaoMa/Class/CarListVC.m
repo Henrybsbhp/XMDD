@@ -220,9 +220,9 @@
             [self.navigationItem setRightBarButtonItem:right animated:YES]; //解决添加按钮的抖动
         }
         if (self.datasource.count == 0) {
-            [self.view showImageEmptyViewWithImageName:@"def_withoutCar" text:@"暂无爱车，快去添加一辆吧" tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_withoutCar" text:@"12312321" tapBlock:^{
                 @strongify(self);
-                [self actionAddCar:nil];
+                [self actionAddCar:nil];//暂无爱车，快去添加一辆吧
             }];
         }
         else {

@@ -28,6 +28,18 @@
 
 @implementation CouponDetailsVC
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
 - (void)dealloc
 {
     self.tableView.delegate = nil;
@@ -37,7 +49,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
         self.tableView.rowHeight = UITableViewAutomaticDimension;
@@ -372,10 +383,20 @@
 
 #pragma mark Utility
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 -(void)setButton:(UIButton *)button
 {
     button.layer.cornerRadius = 5;
     button.layer.masksToBounds = YES;
+}
+
+- (IBAction)backAction:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

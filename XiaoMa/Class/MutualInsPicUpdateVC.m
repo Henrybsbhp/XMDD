@@ -539,6 +539,55 @@
      }];
 }
 
+-(void)back
+{
+    //刷新团列表信息
+    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
+    [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] sendAndIgnoreError];
+    
+    MutualInsGrouponVC *grouponvc;
+    MutualInsHomeVC *homevc;
+    NSInteger homevcIndex = NSNotFound;
+    for (NSInteger i=0; i<self.navigationController.viewControllers.count; i++) {
+        UIViewController *vc = self.navigationController.viewControllers[i];
+        if ([vc isKindOfClass:[MutualInsGrouponVC class]]) {
+            grouponvc = (MutualInsGrouponVC *)vc;
+            break;
+        }
+        if ([vc isKindOfClass:[MutualInsHomeVC class]]) {
+            homevc = (MutualInsHomeVC *)vc;
+            homevcIndex = i;
+        }
+    }
+    if (grouponvc) {
+        [self.navigationController popToViewController:grouponvc animated:YES];
+        return;
+    }
+    //创建团详情视图
+    grouponvc  = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+    HKMutualGroup * group = [[HKMutualGroup alloc] init];
+    group.groupId = self.groupId;
+    group.groupName = self.groupName;
+    group.memberId = self.memberId;
+    grouponvc.group = group;
+    
+    NSMutableArray *vcs = [NSMutableArray array];
+    if (homevcIndex != NSNotFound) {
+        NSArray *subvcs = [self.navigationController.viewControllers subarrayToIndex:homevcIndex+1];
+        [vcs addObjectsFromArray:subvcs];
+    }
+    else {
+        //创建团root视图
+        homevc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
+        [vcs addObject:self.navigationController.viewControllers[0]];
+        [vcs addObject:homevc];
+    }
+    [vcs addObject:grouponvc];
+    [vcs addObject:self];
+    self.navigationController.viewControllers = vcs;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 - (void)actionBack:(id)sender {
     
@@ -547,58 +596,14 @@
     {
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
-            [self.navigationController popViewControllerAnimated:YES];
+            [self back];
         }];
         HKImageAlertVC *alertVC = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您有未保存的信息，是否在当前页面继续编辑？" ActionItems:@[cancel,confirm]];
         [alertVC show];
     }
     else
     {
-        //刷新团列表信息
-        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
-        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] sendAndIgnoreError];
-        
-        MutualInsGrouponVC *grouponvc;
-        MutualInsHomeVC *homevc;
-        NSInteger homevcIndex = NSNotFound;
-        for (NSInteger i=0; i<self.navigationController.viewControllers.count; i++) {
-            UIViewController *vc = self.navigationController.viewControllers[i];
-            if ([vc isKindOfClass:[MutualInsGrouponVC class]]) {
-                grouponvc = (MutualInsGrouponVC *)vc;
-                break;
-            }
-            if ([vc isKindOfClass:[MutualInsHomeVC class]]) {
-                homevc = (MutualInsHomeVC *)vc;
-                homevcIndex = i;
-            }
-        }
-        if (grouponvc) {
-            [self.navigationController popToViewController:grouponvc animated:YES];
-            return;
-        }
-        //创建团详情视图
-        grouponvc  = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-        HKMutualGroup * group = [[HKMutualGroup alloc] init];
-        group.groupId = self.groupId;
-        group.groupName = self.groupName;
-        group.memberId = self.memberId;
-        grouponvc.group = group;
-        
-        NSMutableArray *vcs = [NSMutableArray array];
-        if (homevcIndex != NSNotFound) {
-            NSArray *subvcs = [self.navigationController.viewControllers subarrayToIndex:homevcIndex+1];
-            [vcs addObjectsFromArray:subvcs];
-        }
-        else {
-            //创建团root视图
-            homevc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
-            [vcs addObject:self.navigationController.viewControllers[0]];
-            [vcs addObject:homevc];
-        }
-        [vcs addObject:grouponvc];
-        [vcs addObject:self];
-        self.navigationController.viewControllers = vcs;
-        [self.navigationController popViewControllerAnimated:YES];
+        [self back];
     }
 }
 

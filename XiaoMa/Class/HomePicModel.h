@@ -10,7 +10,7 @@
 
 @interface HomeItem : NSObject<NSCoding>
 
-@property (nonatomic,strong)NSNumber * homeItemId;
+@property (nonatomic,copy)NSString * homeItemId;
 
 @property (nonatomic,copy)NSString * homeItemTitle;
 @property (nonatomic,copy)NSString * homeItemPicUrl;

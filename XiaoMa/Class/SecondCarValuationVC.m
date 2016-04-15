@@ -13,8 +13,10 @@
 #import "IQKeyboardManager.h"
 #import "OETextField.h"
 @interface SecondCarValuationVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topLayout;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomLayout;
+@property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 
 //服务器下发数据
 @property (strong, nonatomic) NSArray *dataArr;
@@ -42,11 +44,17 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [IQKeyboardManager sharedManager].enable=NO;
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(openKeyboard:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(closeKeyboard:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [IQKeyboardManager sharedManager].enable=YES;
+    [[NSNotificationCenter defaultCenter]removeObserver:UIKeyboardWillShowNotification];
+    [[NSNotificationCenter defaultCenter]removeObserver:UIKeyboardWillHideNotification];
 }
 
 - (void)viewDidLoad {
@@ -63,11 +71,54 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+#pragma mark KeyBoard
+
+- (void)openKeyboard:(NSNotification *)notification
+{
+    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
+    
+    NSTimeInterval duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    
+    UIViewAnimationOptions options = [notification.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+    
+    //    CGFloat height = keyboardFrame.size.height;
+    self.bottomLayout.constant = keyboardFrame.size.height;
+//    self.topLayout.constant =  - (keyboardFrame.size.height);
+    
+    //让输入框架和键盘做完全一样的动画效果
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:options
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+                     } completion:nil];
+}
+
+//让输入框回到下边
+- (void)closeKeyboard:(NSNotification *)notification
+{
+    NSTimeInterval duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    
+    UIViewAnimationOptions options = [notification.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+    
+    self.bottomLayout.constant = 0;
+    
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:options
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                         
+                     } completion:nil];
+}
+
 #pragma mark TableViewDelegate
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -106,19 +157,9 @@
             cell = [self tableView:tableView PlatformCellForRowAtIndexPath:indexPath];
         }
     }
-    else if (indexPath.section == 3)
-    {
-            cell = [self tableView:tableView InfoCellForRowAtIndexPath:indexPath];
-    }
     else
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"ButtonCell"];
-        UIButton *btn = [cell viewWithTag:100];
-        btn.layer.cornerRadius = 5;
-        btn.layer.masksToBounds = YES;
-        [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntilForCell:cell]subscribeNext:^(id x) {
-            [self commitDataArr];
-        }];
+            cell = [self tableView:tableView InfoCellForRowAtIndexPath:indexPath];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -178,10 +219,10 @@
     UITextView *name = (UITextView *)[cell searchViewWithTag:1001];
     UITextView *phoneNumber = (UITextView *)[cell searchViewWithTag:1002];
     phoneNumber.text = self.phoneNumber;
-    [name.rac_textSignal subscribeNext:^(id x) {
+    [[name.rac_textSignal takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         self.name = name.text;
     }];
-    [phoneNumber.rac_textSignal subscribeNext:^(id x) {
+    [[phoneNumber.rac_textSignal takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         if (phoneNumber.text.length > 11) {
             phoneNumber.text = [phoneNumber.text substringToIndex:11];
@@ -217,10 +258,6 @@
     else if(indexPath.section == 3)
     {
         return 140;
-    }
-    else if (indexPath.section == 4)
-    {
-        return 60;
     }
     if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
@@ -299,9 +336,45 @@
     
 }
 
-- (void)commitDataArr
+#pragma mark LazyLoad
+
+-(NSMutableArray *)uploadArr
 {
+    if (!_uploadArr)
+    {
+        _uploadArr=[[NSMutableArray alloc]init];
+    }
+    return _uploadArr;
+}
+
+#pragma mark setupUI
+- (void)setupUI
+{
+    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
+                                                                     NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
+                                                                     } forState:UIControlStateNormal];
     
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.tableView.estimatedRowHeight = 44;
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+    }
+    self.commitBtn.layer.cornerRadius = 5;
+    self.commitBtn.layer.masksToBounds = YES;
+}
+
+-(void)addCorner:(UILabel *)label
+{
+    label.layer.cornerRadius = 10;
+    label.layer.masksToBounds = YES;
+}
+
+-(void)setPreferredMaxLayoutWidth:(UILabel *)label
+{
+    label.preferredMaxLayoutWidth = self.view.bounds.size.width - 80;
+}
+- (IBAction)commitAction:(id)sender
+{
     /**
      *  提交卖车意向事件
      */
@@ -312,7 +385,7 @@
     }
     else if ([self.name isEqualToString:@""])
     {
-        [gToast showError:@"车主姓名不能为空"];
+        [gToast showError:@"车主称呼不能为空"];
     }
     else if (self.phoneNumber.length != 11)
     {
@@ -346,43 +419,6 @@
             [gToast showError:error.domain];
         }];
     }
-}
-
-
-#pragma mark LazyLoad
-
--(NSMutableArray *)uploadArr
-{
-    if (!_uploadArr)
-    {
-        _uploadArr=[[NSMutableArray alloc]init];
-    }
-    return _uploadArr;
-}
-
-#pragma mark setupUI
-- (void)setupUI
-{
-    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
-                                                                     NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
-                                                                     } forState:UIControlStateNormal];
-    
-    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-    {
-        self.tableView.estimatedRowHeight = 44;
-        self.tableView.rowHeight = UITableViewAutomaticDimension;
-    }
-}
-
--(void)addCorner:(UILabel *)label
-{
-    label.layer.cornerRadius = 10;
-    label.layer.masksToBounds = YES;
-}
-
--(void)setPreferredMaxLayoutWidth:(UILabel *)label
-{
-    label.preferredMaxLayoutWidth = self.view.bounds.size.width - 80;
 }
 
 @end

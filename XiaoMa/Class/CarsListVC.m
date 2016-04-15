@@ -42,6 +42,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *carStateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *defaultLabel;
 
+@property (nonatomic,strong)RACDisposable * offsetDisposable;
+
 @property (nonatomic, weak) HKPopoverView *popoverMenu;
 
 - (IBAction)editAction:(id)sender;
@@ -266,7 +268,7 @@
         @strongify(self);
         self.carNumberLabel.text = car.licencenumber;
         self.defaultLabel.hidden = !car.isDefault;
-        self.carStateLabel.text= [self.model descForCarStatus:car];
+        self.carStateLabel.text = [self.model descForCarStatus:car];
     }];
     
     NSInteger index = NSNotFound;
@@ -346,6 +348,13 @@
             [view removeSubviews];
         }
         [view addSubview:pageSliderView];
+        
+        // 先清空
+        self.sliderView = nil;
+        self.sliderView.delegate = nil;
+        self.sliderView.contentScrollView.delegate = nil;
+        [self.offsetDisposable dispose];
+        
         self.sliderView = pageSliderView;//赋值全局
         [self observeScrollViewOffset];
         [self addContentView];
@@ -414,18 +423,29 @@
         [self.popoverMenu dismissWithAnimated:YES];
     }
     else if (!closing && !self.popoverMenu) {
-        NSArray * itemsArray = @[[HKPopoverViewItem itemWithTitle:@"添加爱车" imageName:@"mec_addcar"], [HKPopoverViewItem itemWithTitle:@"编辑爱车" imageName:@"mec_edit"]];
+        NSArray * itemsArray;
+        if (self.datasource.count >= 5) {
+            itemsArray = @[[HKPopoverViewItem itemWithTitle:@"编辑爱车" imageName:@"mec_edit"]];
+        }
+        else {
+            itemsArray = @[[HKPopoverViewItem itemWithTitle:@"添加爱车" imageName:@"mec_addcar"], [HKPopoverViewItem itemWithTitle:@"编辑爱车" imageName:@"mec_edit"]];
+        }
         
         HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 160) items:itemsArray];
         @weakify(self);
         [popover setDidSelectedBlock:^(NSUInteger index) {
             @strongify(self);
-            if (index == 0) {
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                [self.navigationController pushViewController:vc animated:YES];
+            if (self.datasource.count >= 5) {
+                [self goToEditCar];
             }
             else {
-                [self goToEditCar];
+                if (index == 0) {
+                    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
+                else {
+                    [self goToEditCar];
+                }
             }
         }];
         
@@ -545,7 +565,7 @@
 - (BOOL)observeScrollViewOffset
 {
     @weakify(self)
-    [RACObserve(self.sliderView.contentScrollView, contentOffset) subscribeNext:^(NSValue * value) {
+    self.offsetDisposable = [RACObserve(self.sliderView.contentScrollView, contentOffset) subscribeNext:^(NSValue * value) {
         
         @strongify(self)
         CGPoint p = [value CGPointValue];

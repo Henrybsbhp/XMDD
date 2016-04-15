@@ -79,7 +79,7 @@
 - (UIView *)createItemViewWithBounds:(CGRect)bounds atIndex:(NSInteger)index
 {
     NSInteger count = floor(bounds.size.width / kItemWidth);
-    CGFloat spacing = ceil((bounds.size.width - count*kItemWidth)/(1 + count));
+    CGFloat spacing = (bounds.size.width - count*kItemWidth)/(1 + count);
     CGRect rect = CGRectMake(spacing*(1+index)+kItemWidth*index, kMarginTop,
                              kItemWidth, bounds.size.height - kMarginBottom - kMarginTop);
 

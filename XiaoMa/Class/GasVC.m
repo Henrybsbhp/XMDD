@@ -258,7 +258,7 @@
     }
 }
 
-- (IBAction)actionPay:(id)sender
+- (IBAction)actionStartPay:(id)sender
 {
     [self.curSubVC actionPay];
 }
