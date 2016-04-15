@@ -98,19 +98,6 @@
             item.defaultImageName = @"hp_rescue_300";
         else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=ast"])
             item.defaultImageName = @"hp_assist_300";
-        
-        //找到id一样的,且newflag不一样.设为和本地一样        
-        [self.homeItemArray enumerateObjectsUsingBlock:^(HomeItem * selfItem, NSUInteger index, BOOL * _Nonnull stop) {
-            
-            if (selfItem.homeItemId && item.homeItemId && [selfItem.homeItemId isEqualToString:item.homeItemId])
-            {
-                if (selfItem.isNewFlag != item.isNewFlag)
-                {
-                    item.isNewFlag = selfItem.isNewFlag;
-                    *stop = YES;
-                }
-            }
-        }];
     }
     
     return model;

@@ -36,8 +36,13 @@
 #import "GetSystemHomeModuleNoLoginOp.h"
 #import "AdListData.h"
 
+#import "FLAnimatedImage.h"
+#import "FLAnimatedImageView.h"
+
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3
+
+#define HomeSubmuduleReadedKey @"HomeSubmuduleReadedKey_"
 
 @interface HomePageVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
@@ -392,7 +397,7 @@
     {
         HomeItem *item = [gAppMgr.homePicModel.homeItemArray safetyObjectAtIndex:i];
         
-        [self mainButtonWithImageName:item.defaultImageName index:i jumpUrl:item.homeItemRedirect inContainer:squaresView andPicUrl:item.homeItemPicUrl width:squqresWidth/3.0 height:squaresHeight/3.0 isNewFlag:item.isNewFlag];
+        [self mainButtonWithSubmudule:item index:i inContainer:squaresView width:squqresWidth/3.0 height:squaresHeight/3.0];
     }
 }
 
@@ -592,9 +597,9 @@
 
 
 
-- (UIImageView *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container andPicUrl:(NSString *)picUrl
+- (FLAnimatedImageView *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container andPicUrl:(NSString *)picUrl
 {
-    UIImageView *imageView = [[UIImageView alloc] init];
+    FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
     imageView.backgroundColor = [UIColor whiteColor];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     [container addSubview:imageView];
@@ -611,16 +616,15 @@
     return imageView;
 }
 
-- (UIImageView *)mainButtonWithImageName:(NSString *)imgName index:(NSInteger)index jumpUrl:(NSString *)url inContainer:(UIView *)container andPicUrl:(NSString *)picUrl width:(CGFloat)width height:(CGFloat)height isNewFlag:(BOOL)flag
+- (UIImageView *)mainButtonWithSubmudule:(HomeItem *)item index:(NSInteger)index inContainer:(UIView *)container width:(CGFloat)width height:(CGFloat)height
 {
     NSInteger tag = 20101;
-    UIImageView * itemView = [self functionalButtonWithImageName:imgName action:nil inContainer:container andPicUrl:picUrl];
+    FLAnimatedImageView * itemView = [self functionalButtonWithImageName:item.defaultImageName action:nil inContainer:container andPicUrl:item.homeItemPicUrl];
     itemView.userInteractionEnabled = YES;
-    itemView.animationRepeatCount = 3;
     UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] init];
     [itemView addGestureRecognizer:tapGesture];
     RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
-        [self jumpToViewControllerByUrl:url];
+        [self jumpToViewControllerByUrl:item.homeItemRedirect];
     }];
     
     [self.disposableArray safetyAddObject:disposable];
@@ -650,7 +654,8 @@
         make.right.equalTo(itemView);
     }];
     
-    iconNewImageV.hidden = !flag;
+    BOOL isnewflag = (![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]]) && item.isNewFlag;
+    iconNewImageV.hidden = !isnewflag;
     
     return itemView;
 }
@@ -710,11 +715,12 @@
     {
         HomeItem *item = [gAppMgr.homePicModel.homeItemArray safetyObjectAtIndex:i];
         NSInteger itemTag = 20101 + i;
-        UIImageView * itemView = (UIImageView *)[firstView searchViewWithTag:itemTag];
+        FLAnimatedImageView * itemView = (FLAnimatedImageView *)[firstView searchViewWithTag:itemTag];
+        itemView.hidden = NO;
         
         NSInteger iconNewTag = 2010101 + i;
         UIImageView * iconImageView = (UIImageView *)[itemView searchViewWithTag:iconNewTag];
-        iconImageView.hidden = !item.isNewFlag;
+        iconImageView.hidden = !((![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]]) && item.isNewFlag);
         
         [self requestHomePicWithBtn:itemView andUrl:item.homeItemPicUrl andDefaultPic:item.defaultImageName errPic:item.defaultImageName];
         
@@ -727,34 +733,72 @@
             [self jumpToViewControllerByUrl:item.homeItemRedirect];
             
             // 把new标签设置回去
-            if (item.isNewFlag)
+            if (![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]] && item.isNewFlag)
             {
-                item.isNewFlag = NO;
+                [gAppMgr saveElementReaded:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]];
                 iconImageView.hidden = YES;
             }
-            [gAppMgr saveHomePicInfo];
         }];
         [itemView addGestureRecognizer:tapGesture];
         [self.disposableArray safetyAddObject:disposable];
     }
+    /// 如果只有7个或者8个，把多余的隐藏
+    for (UIView * view in firstView.subviews)
+    {
+        if ([view isKindOfClass:[FLAnimatedImageView class]])
+        {
+            NSInteger itemTag = view.tag;
+            if ((itemTag - 20101) >= gAppMgr.homePicModel.homeItemArray.count)
+            {
+                view.hidden = YES;
+            }
+        }
+    }
 }
 
 
-- (void)requestHomePicWithBtn:(UIImageView *)imageView andUrl:(NSString *)url andDefaultPic:(NSString *)pic1 errPic:(NSString *)pic2
+- (void)requestHomePicWithBtn:(FLAnimatedImageView *)imageView andUrl:(NSString *)url andDefaultPic:(NSString *)pic1 errPic:(NSString *)pic2
 {
-    [[gMediaMgr rac_getImageByUrl:url withType:ImageURLTypeOrigin defaultPic:pic1 errorPic:pic2] subscribeNext:^(id x) {
-        
-        if (![x isKindOfClass:[UIImage class]])
-            return ;
-        [UIView transitionWithView:imageView
-                          duration:1.0
-                           options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:^{
-                            
-                            [imageView setImage:x];
-                            imageView.alpha = 1.0;
-                        } completion:nil];
-    }];
+    if (![url hasSuffix:@"gif"])
+    {
+        [[gMediaMgr rac_getImageByUrl:url withType:ImageURLTypeOrigin defaultPic:pic1 errorPic:pic2] subscribeNext:^(id x) {
+            
+            if (![x isKindOfClass:[UIImage class]])
+                return ;
+            
+                [UIView transitionWithView:imageView
+                                  duration:1.0
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{
+                                    
+                                    [imageView setImage:x];
+                                    imageView.alpha = 1.0;
+                                } completion:nil];
+            
+        }];
+    }
+    else
+    {
+        [[gMediaMgr rac_getGifImageDataByUrl:url defaultPic:pic1 errorPic:pic2] subscribeNext:^(id x) {
+            
+            if ([x isKindOfClass:[NSData class]])
+            {
+                FLAnimatedImage * animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:x];
+                imageView.animatedImage = animatedImage;
+            }
+            else if ([x isKindOfClass:[UIImage class]])
+            {
+                [UIView transitionWithView:imageView
+                                  duration:1.0
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{
+                                    
+                                    [imageView setImage:x];
+                                    imageView.alpha = 1.0;
+                                } completion:nil];
+            }
+        }];
+    }
 }
 
 
@@ -784,40 +828,5 @@
     }
     return signal;
 }
-
-#pragma mark - MenuItems
-- (CKDict *)menuItemCoupon {
-    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"优惠券",@"img":@"hp_coupon_300"}];
-    @weakify(self);
-    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        @strongify(self);
-        MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
-        vc.jumpType = CouponNewTypeCarWash;
-        [self.navigationController pushViewController:vc animated:YES];
-    });
-    return dict;
-}
-
-- (CKDict *)menuItemCouponPkg {
-    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"兑换礼包",@"img":@"hp_pkg_300"}];
-    @weakify(self);
-    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        @strongify(self);
-        CouponPkgViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"CouponPkgViewController"];
-        [self.navigationController pushViewController:vc animated:YES];
-    });
-    return dict;
-}
-
-- (CKDict *)menuItemCallService {
-    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Invite",@"title":@"咨询客服",@"img":@"hp_service_300"}];
-    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        [MobClick event:@"rp101_2"];
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
-    });
-    return dict;
-}
-
 
 @end
