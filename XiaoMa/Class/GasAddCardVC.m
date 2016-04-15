@@ -13,7 +13,6 @@
 #import "NSString+Split.h"
 #import "CKLimitTextField.h"
 #import "UIView+Shake.h"
-#import "KeyboardManager.h"
 
 @interface GasAddCardVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -23,6 +22,7 @@
 @property (nonatomic, strong) GasCard *cnpcCard;
 ///当前选择的油卡
 @property (nonatomic, weak) GasCard *curCard;
+
 @end
 
 @implementation GasAddCardVC
@@ -56,13 +56,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

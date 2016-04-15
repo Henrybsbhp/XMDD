@@ -697,6 +697,7 @@
 		C35E37671CAA7ED2008E536D /* UIView+HKLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C35E37661CAA7ED2008E536D /* UIView+HKLine.m */; };
 		C36B8A9F1CB3526100BC2487 /* GetSystemHomeModuleOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */; };
 		FA024A321CAE500500481F59 /* BankCardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA024A311CAE500500481F59 /* BankCardDetailVC.m */; };
+		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
 		FA93A7B41C9961ED00CBD565 /* CreateGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */; };
 		FA93A7BE1C9978AB00CBD565 /* CreateGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7BD1C9978AB00CBD565 /* CreateGroupVC.m */; };
 		FA958E251C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E241C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m */; };
@@ -2171,6 +2172,8 @@
 		CA94042FD235B5154105FE58 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FA024A301CAE500500481F59 /* BankCardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardDetailVC.h; sourceTree = "<group>"; };
 		FA024A311CAE500500481F59 /* BankCardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankCardDetailVC.m; sourceTree = "<group>"; };
+		FA8496601CBE367700631062 /* SJKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJKeyboardManager.h; sourceTree = "<group>"; };
+		FA8496611CBE367700631062 /* SJKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJKeyboardManager.m; sourceTree = "<group>"; };
 		FA93A7B21C9961ED00CBD565 /* CreateGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateGroupOp.h; path = Class/CreateGroupOp.h; sourceTree = "<group>"; };
 		FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateGroupOp.m; path = Class/CreateGroupOp.m; sourceTree = "<group>"; };
 		FA93A7BC1C9978AB00CBD565 /* CreateGroupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupVC.h; sourceTree = "<group>"; };
@@ -2289,6 +2292,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				FA84965F1CBE367700631062 /* SJKeyboardManager */,
 				508F652F1CACC8AE00F88744 /* HKPageSliderView */,
 				182BEF071CA0F65200D67C18 /* JCAlertView */,
 				184453281C8FEE81007B895D /* JMRoundedCorner */,
@@ -5008,6 +5012,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FA84965F1CBE367700631062 /* SJKeyboardManager */ = {
+			isa = PBXGroup;
+			children = (
+				FA8496601CBE367700631062 /* SJKeyboardManager.h */,
+				FA8496611CBE367700631062 /* SJKeyboardManager.m */,
+			);
+			path = SJKeyboardManager;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -5874,6 +5887,7 @@
 				182C50D51C27D326004ED5D1 /* InsuranceAppointmentV3Op.m in Sources */,
 				18A15A6A1C225E3F00D7B5DF /* GetPremiumByIdOp.m in Sources */,
 				189C698C1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m in Sources */,
+				FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */,
 				2E52F24B1C2032BB00D94F68 /* RescueDetailsVC.m in Sources */,
 				1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */,
 				50DD1BC51BFB019300349A70 /* GetOtherOrderListOp.m in Sources */,

@@ -9,12 +9,18 @@
 #import "MutualInsRequestJoinGroupVC.h"
 #import "MutualInsGroupInfoVC.h"
 #import "SearchCooperationGroupOp.h"
+#import "SJKeyboardManager.h"
+#import "IQKeyboardManager.h"
 
-@interface MutualInsRequestJoinGroupVC ()
+@interface MutualInsRequestJoinGroupVC () <UITextFieldDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIView *bottomView;
 @property (nonatomic, copy) NSString *textFieldString;
+
+@property (nonatomic, strong) UITextField *groupTextField;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *bottomConstraint;
+
 
 @end
 
@@ -37,6 +43,25 @@
     }
     
     [self setupBottomView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [IQKeyboardManager sharedManager].enable = NO;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [IQKeyboardManager sharedManager].enable = YES;
 }
 
 - (void)setupBottomView
@@ -179,7 +204,9 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CipherBannerCell"];
     
     UITextField *cipherTextField = (UITextField *)[cell.contentView viewWithTag:101];
-    [cipherTextField becomeFirstResponder];
+    self.groupTextField = cipherTextField;
+//    [cipherTextField becomeFirstResponder];
+    cipherTextField.delegate = self;
     // 设置 cipherTextField 左侧留白
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 19, 20)];
     cipherTextField.leftView = paddingView;
@@ -232,6 +259,11 @@
     NSAttributedString *attrText = [[NSAttributedString alloc] initWithString:string attributes:@{ NSParagraphStyleAttributeName : style}];
     
     return attrText;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [[SJKeyboardManager sharedManager] initWithViewController:self view:self.view textField:textField bottomLayoutConstraint:self.bottomConstraint bottomView:self.bottomView];
 }
 
 
