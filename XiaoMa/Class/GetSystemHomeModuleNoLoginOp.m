@@ -1,30 +1,18 @@
 //
-//  GetSystemHomeModuleOp.m
+//  GetSystemHomeModuleNoLoginOp.m
 //  XiaoMa
 //
-//  Created by fuqi on 16/4/5.
+//  Created by fuqi on 16/4/15.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "GetSystemHomeModuleOp.h"
+#import "GetSystemHomeModuleNoLoginOp.h"
 
-@implementation GetSystemHomeModuleOp
-
-- (instancetype)init
-{
-    self  = [super init];
-    if (self)
-    {
-        NSString * version = gAppMgr.clientInfo.clientVersion;
-        self.appid = IOSAPPID;
-        self.version = version;
-    }
-    return self;
-}
+@implementation GetSystemHomeModuleNoLoginOp
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/system/home/module/get";
+    self.req_method = @"/system/home/nologin/module/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:@(self.appid) forName:@"os"];
@@ -33,7 +21,7 @@
     [params addParam:self.city forName:@"city"];
     [params addParam:self.district forName:@"district"];
     
-    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
+    return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj
@@ -49,6 +37,5 @@
     }
     return self;
 }
-
 
 @end
