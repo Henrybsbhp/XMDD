@@ -11,5 +11,5 @@
 @interface GetRescueHistoryOp : BaseOp
 @property (nonatomic, assign) long long  applytime;
 @property (nonatomic, assign) NSInteger  type;
-@property (nonatomic, strong) NSArray *req_applysecueArray;
+@property (nonatomic, strong) NSArray *rsp_applysecueArray;
 @end
