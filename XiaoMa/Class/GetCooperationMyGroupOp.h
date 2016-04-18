@@ -13,6 +13,12 @@
  */
 @interface GetCooperationMyGroupOp : BaseOp
 
-@property (nonatomic,strong)NSArray * rsp_groupArray;
+@property (nonatomic, strong)NSArray *rsp_groupArray;
+
+@property (nonatomic, strong)NSArray *rsp_carArray;
+
+@property (nonatomic, assign)BOOL isShowPlanButton;
+
+@property (nonatomic, assign)BOOL isShowRegistButton;
 
 @end
