@@ -170,6 +170,27 @@
     return YES;
 }
 
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UIImageView *checkboxV = [cell viewWithTag:1004];
+    if (!checkboxV.hidden) {
+        [checkboxV setHidden:YES animated:YES];
+    }
+}
+
+
+- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    GasCard *card = [self.gasStore.gasCards objectAtIndex:indexPath.row];
+    if ([card.gid isEqual:self.selectedGasCardID]) {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        UIImageView *checkboxV = [cell viewWithTag:1004];
+        [checkboxV setHidden:NO animated:YES];
+    }
+}
+
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GasCard *card = [self.gasStore.gasCards objectAtIndex:indexPath.row];
