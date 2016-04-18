@@ -12,13 +12,19 @@
 #import "HKConvertModel.h"
 #import "PayForWashCarVC.h"
 #import "BindBankCardVC.h"
+#import "GetBankcardListOp.h"
+#import "BankStore.h"
 #import "GetUserResourcesV2Op.h"
 #import "CouponModel.h"
+#import "Masonry.h"
 
 @interface ChooseBankCardVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *advc;
+
+@property (nonatomic, strong) UIButton *defaultButton;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
 
 @end
 
@@ -40,6 +46,7 @@
 {
     [super viewDidLoad];
     [self setupAdView];
+    [self reloadData];
     @weakify(self);
     [self listenNotificationByName:kNotifyRefreshMyBankcardList withNotifyBlock:^(NSNotification *note, id weakSelf) {
         @strongify(self);
@@ -69,16 +76,50 @@
 - (void)reloadData
 {
     CouponModel * couponModel = [[CouponModel alloc] init];
+    
+    @weakify(self);
     [[[[couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
         
-        [self.tableView.refreshView beginRefreshing];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - 60)];
+        
+        @strongify(self);
+        if ([self.tableView isRefreshViewExists]) {
+            
+            [self.tableView.refreshView beginRefreshing];
+            
+        } else {
+            [self hideContentViews];
+        }
+        
+        [self removeButton];
+        
     }] finally:^{
         
         [self.tableView.refreshView endRefreshing];
     }] subscribeNext:^(GetUserResourcesV2Op * op) {
         
+        @strongify(self);
+        
+        [self.view stopActivityAnimation];
+        
+        if (![self.tableView isRefreshViewExists]) {
+            [self setupRefreshView];
+        }
+        
         self.bankCards = op.rsp_czBankCreditCard;
-        [self.tableView reloadData];
+        if (self.bankCards.count > 0) {
+            
+            [self showContentViews];
+            [self.tableView reloadData];
+            
+        } else {
+            [self hideContentViews];
+            [self addButton];
+        }
+        
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView endRefreshing];
+        }
         
         NSArray * viewcontroller = self.navigationController.viewControllers;
         UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
@@ -88,6 +129,15 @@
             [payVc chooseResource];
         }
     } error:^(NSError *error) {
+        [self.view stopActivityAnimation];
+        
+        if (![self.tableView isRefreshViewExists]) {
+            [self.view stopActivityAnimation];
+            [self.view showDefaultEmptyViewWithText:@"获取银行卡信息失败，请点击重试" tapBlock:^{
+                [self.view hideDefaultEmptyView];
+                [self reloadData];
+            }];
+        }
         
     }];
 }
@@ -101,6 +151,16 @@
         PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
         [payVc requestGetUserResource:YES];
     }
+}
+
+- (void)showContentViews
+{
+    self.tableView.hidden = NO;
+}
+
+- (void)hideContentViews
+{
+    self.tableView.hidden = YES;
 }
 
 #pragma mark - UITableViewDelegate
@@ -208,6 +268,64 @@
     return cell;
 }
 
+- (void)setupRefreshView
+{
+    @weakify(self)
+    [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged]subscribeNext:^(id x) {
+        @strongify(self)
+        [self reloadData];
+    }];
+}
+
+- (void)addButton
+{
+    @weakify(self);
+    [self.view stopActivityAnimation];
+    [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"暂无银行卡" centerOffset:-100 tapBlock:^{
+        @strongify(self);
+        [self reloadData];
+    }];
+    
+    [self.view addSubview:self.defaultButton];
+    const CGFloat top = gAppMgr.deviceInfo.screenSize.height / 2 + 30;
+    [self.defaultButton mas_updateConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.centerX.mas_equalTo(self.view);
+        make.top.mas_equalTo(top);
+        make.width.mas_equalTo(180);
+        make.height.mas_equalTo(50);
+    }];
+}
+
+- (void)removeButton
+{
+    NSArray *subviews = self.view.subviews;
+    [self.view hideDefaultEmptyView];
+    
+    if ([subviews containsObject:self.defaultButton]) {
+        [self.defaultButton removeFromSuperview];
+    }
+}
+
+- (UIButton *)defaultButton
+{
+    if (!_defaultButton) {
+        _defaultButton = [[UIButton alloc] init];
+        [_defaultButton setTitle:@"添加银行卡" forState:UIControlStateNormal];
+        _defaultButton.backgroundColor = HEXCOLOR(@"#18D06A");
+        _defaultButton.layer.cornerRadius = 5.0f;
+        _defaultButton.layer.masksToBounds = YES;
+        @weakify(self);
+        [[_defaultButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(self);
+            [MobClick event:@"rp314_3"];
+            BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+    }
+    
+    return _defaultButton;
+}
 
 
 

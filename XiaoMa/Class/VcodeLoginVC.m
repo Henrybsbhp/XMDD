@@ -62,7 +62,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -72,7 +72,7 @@
     [self.num resignFirstResponder];
     [self.code resignFirstResponder];
     
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)dealloc
@@ -247,6 +247,7 @@
     }] subscribeNext:^(id x) {
         @strongify(self);
         [gToast dismiss];
+        [self.navigationController setNavigationBarHidden:NO animated:NO];
         [self.model dismissForTargetVC:self forSucces:YES];
     } error:^(NSError *error) {
         [gToast showError:error.domain];
