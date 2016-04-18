@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -5600,7 +5600,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zJh-nK-zws">
-                                <rect key="frame" x="5" y="0.0" width="589" height="466"/>
+                                <rect key="frame" x="5" y="0.0" width="589" height="473"/>
                                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProgressCell" id="9ak-gk-QUR">
@@ -5658,7 +5658,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="589" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="x20-yt-yA3">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="x20-yt-yA3">
                                                     <rect key="frame" x="15" y="24" width="219" height="1"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="6Fn-q0-iFM"/>
@@ -5670,19 +5670,19 @@
                                                         </mask>
                                                     </variation>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="fdv-Ub-9bw">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" misplaced="YES" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="fdv-Ub-9bw">
                                                     <rect key="frame" x="354" y="24" width="220" height="1"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="qMo-Ha-rrW"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请确认保单" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="baX-tB-L20">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="请确认保单" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="baX-tB-L20">
                                                     <rect key="frame" x="249" y="14" width="90" height="21.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="150" id="Vbp-NJ-loo"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -5817,7 +5817,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="589" height="30"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="服务项目" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MKu-2X-3um">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="承保险种" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MKu-2X-3um">
                                                     <rect key="frame" x="10" y="4" width="284.5" height="26"/>
                                                     <color key="backgroundColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -5955,13 +5955,13 @@
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="机动车损失险" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Bo-9b-2RN">
                                                     <rect key="frame" x="20" y="0.0" width="265" height="26"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="359,555.00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qB6-e5-bEf">
                                                     <rect key="frame" x="304" y="0.0" width="265" height="26"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -6075,7 +6075,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GhR-09-1DU">
-                                <rect key="frame" x="0.0" y="466" width="600" height="70"/>
+                                <rect key="frame" x="0.0" y="473" width="600" height="63"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="uog-3s-Ibb">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
@@ -6091,7 +6091,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" tag="1006" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HmK-UR-Isc">
-                                        <rect key="frame" x="10" y="10" width="580" height="50"/>
+                                        <rect key="frame" x="10" y="8" width="580" height="47"/>
                                         <color key="backgroundColor" red="1" green="0.35294117650000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="72" id="7pG-Zk-ccP"/>
@@ -6122,13 +6122,13 @@
                                     <constraint firstAttribute="trailing" secondItem="uog-3s-Ibb" secondAttribute="trailing" id="G7Y-5i-Wbg"/>
                                     <constraint firstItem="uog-3s-Ibb" firstAttribute="leading" secondItem="GhR-09-1DU" secondAttribute="leading" id="T8X-1f-P4u"/>
                                     <constraint firstItem="HmK-UR-Isc" firstAttribute="width" secondItem="GhR-09-1DU" secondAttribute="width" multiplier="22/75" id="eGu-9Q-N3g"/>
-                                    <constraint firstItem="HmK-UR-Isc" firstAttribute="top" secondItem="GhR-09-1DU" secondAttribute="top" constant="10" id="hy0-CJ-sTh"/>
+                                    <constraint firstItem="HmK-UR-Isc" firstAttribute="top" secondItem="GhR-09-1DU" secondAttribute="top" constant="8" id="hy0-CJ-sTh"/>
                                     <constraint firstItem="JiO-3L-257" firstAttribute="leading" secondItem="GhR-09-1DU" secondAttribute="leading" id="iTC-lR-Yk7"/>
                                     <constraint firstItem="uog-3s-Ibb" firstAttribute="top" secondItem="GhR-09-1DU" secondAttribute="top" id="jL9-4F-OLm"/>
                                     <constraint firstItem="HmK-UR-Isc" firstAttribute="leading" secondItem="GhR-09-1DU" secondAttribute="leading" constant="10" id="kJy-aU-JFp"/>
-                                    <constraint firstAttribute="bottom" secondItem="HmK-UR-Isc" secondAttribute="bottom" constant="10" id="qmb-c0-4Va"/>
+                                    <constraint firstAttribute="bottom" secondItem="HmK-UR-Isc" secondAttribute="bottom" constant="8" id="qmb-c0-4Va"/>
                                     <constraint firstAttribute="trailing" secondItem="HmK-UR-Isc" secondAttribute="trailing" constant="10" id="uIZ-Mb-Hpt"/>
-                                    <constraint firstAttribute="height" constant="70" id="vat-aQ-AVf"/>
+                                    <constraint firstAttribute="height" constant="63" id="vat-aQ-AVf"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">

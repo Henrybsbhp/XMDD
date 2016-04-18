@@ -195,9 +195,12 @@
     @weakify(self)
     [[[op rac_postRequest]initially:^{
         @strongify(self)
+        self.tableView.hidden = YES;
+        [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }]subscribeNext:^(GetCooperationClaimDetailOp *op) {
         @strongify(self)
+        self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
         self.statusdesc = op.rsp_statusdesc;
         self.status = op.rsp_status;
@@ -209,12 +212,18 @@
         self.claimfee = op.rsp_claimfee;
         self.insurancename = op.rsp_insurancename;
         self.cardno = op.rsp_cardno;
+        // 设置底部按钮
         [self setBottomViewStatus:self.status.integerValue];
+        // 更新约束
         [self.view layoutIfNeeded];
         [self.tableView reloadData];
     }error:^(NSError *error) {
         @strongify(self)
         [self.view stopActivityAnimation];
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败，请重试" tapBlock:^{
+            [self loadData];
+        }];
+        
     }];
 }
 
