@@ -1411,6 +1411,13 @@ AMIA2QDbAN0MxwzMDNcM4AzzDPcNAg0LDRANGA0bDSANLw0zDToNQg1PDVQNVg1YDV0NZQ1oDW0NdQ14
 DYoNjQ2SAAAAAAAAAgEAAAAAAAAAQQAAAAAAAAAAAAAAAAAADZQ
 </mutableData>
         </image>
+        <image name="Common_Avatar_imageView" width="66" height="66"/>
+        <image name="Common_coupon_imageView" width="30" height="30"/>
+        <image name="Common_giftPackage_imageView" width="30" height="30"/>
+        <image name="Common_loginPointer_imageView" width="18" height="18"/>
+        <image name="Common_messages_button" width="21" height="21"/>
+        <image name="Common_pointer_imageView" width="12" height="12"/>
+        <image name="Common_unreadMessages_button" width="24" height="24"/>
         <image name="Verticalline" width="1" height="82"/>
         <image name="cm_dot_300" width="10" height="10"/>
         <image name="hp_service_300" width="20" height="20"/>

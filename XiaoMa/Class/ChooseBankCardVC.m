@@ -107,15 +107,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //点击“添加银行卡”
-    if (indexPath.row == 0) {
-        
-    }
-    else if (indexPath.row > self.bankCards.count) {
+    if (indexPath.row == self.bankCards.count) {
         [MobClick event:@"rp314_3"];
         BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
         [self.navigationController pushViewController:vc animated:YES];
     }
-    else {
+    else if (indexPath.row < self.bankCards.count) {
         [MobClick event:@"rp314_4"];
         NSArray * viewcontroller = self.navigationController.viewControllers;
         UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
@@ -145,27 +142,23 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        return 28;
-    }
-    else if (indexPath.row > self.bankCards.count) {
+    if (indexPath.row == self.bankCards.count) {
+        
         return 114;
+        
     }
-    return 104;
-}
+    
+    return 104;}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.bankCards.count + 2;
+    return self.bankCards.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    if (indexPath.row == 0) {
-        cell = [self promptCellAtIndexPath:indexPath];
-    }
-    else if (indexPath.row > self.bankCards.count) {
+    if (indexPath.row == self.bankCards.count) {
         cell = [self addCellAtIndexPath:indexPath];
     }
     else {
@@ -190,9 +183,18 @@
     UILabel *cardTypeL = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *numberL = (UILabel *)[cell.contentView viewWithTag:1004];
     
-    HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row-1];
+    HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
     
-    bgV.image = [[UIImage imageNamed:@"mb_bg_czb"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 140)];
+    if (indexPath.row % 3 == 0) {
+        bgV.image = [UIImage imageNamed:@"Bank_redCardBackground_imageView"];
+    }
+    else if (indexPath.row % 3 == 1) {
+        bgV.image = [UIImage imageNamed:@"Bank_greenCardBackground_imageView"];
+    }
+    else if (indexPath.row % 3 == 2) {
+        bgV.image = [UIImage imageNamed:@"Bank_blueCardBackground_imageView"];
+    }
+    
     logoV.image = [UIImage imageNamed:@"mb_logo"];
     titleL.text = card.cardName;
     cardTypeL.text = card.cardType == HKBankCardTypeCredit ? @"信用卡" : @"储蓄卡";
