@@ -78,8 +78,8 @@
         @strongify(self);
         self.tableView.hidden = YES;
         [self.view hideDefaultEmptyView];
-        
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        [self removeEmptyBtn];
     }] finally:^{
         [self.view stopActivityAnimation];
     }] subscribeNext:^(id x) {
