@@ -10,7 +10,7 @@
 #import "HKMutualGroup.h"
 
 @implementation GetCooperationMyGroupOp
-
+;
 - (RACSignal *)rac_postRequest
 {
     self.req_method = @"/cooperation/mygroup/get";
@@ -21,7 +21,7 @@
 - (instancetype)parseResponseObject:(id)rspObj
 {
     NSArray * grouplist = rspObj[@"grouplist"];
-    NSMutableArray * array = [NSMutableArray array];
+    NSMutableArray * groupArray = [NSMutableArray array];
     for (NSDictionary * groupDict in grouplist)
     {
         HKMutualGroup * group = [[HKMutualGroup alloc] init];
@@ -35,9 +35,29 @@
         group.memberId = groupDict[@"memberid"];
         group.statusDesc  = [groupDict stringParamForName:@"statusdesc"];
         group.leftTimeTag = [[NSDate date] timeIntervalSince1970]; //数据初始化时记录时间戳
-        [array safetyAddObject:group];
+        [groupArray safetyAddObject:group];
     }
-    self.rsp_groupArray = array;
+    self.rsp_groupArray = groupArray;
+    
+    NSArray * carList = rspObj[@"carlist"];
+    NSMutableArray * carArray = [NSMutableArray array];
+    for (NSDictionary * carDict in carList)
+    {
+        HKMutualCar * car = [[HKMutualCar alloc] init];
+        car.brandLogo = [carDict stringParamForName:@"brandlogo"];
+        car.licenseNum = [carDict stringParamForName:@"licensenum"];
+        car.premiumPrice = [carDict stringParamForName:@"premiumprice"];
+        car.couponMoney = [carDict stringParamForName:@"couponmoney"];
+        car.carId = [carDict numberParamForName:@"carid"];
+        
+        [carArray safetyAddObject:car];
+    }
+    self.rsp_carArray = carArray;
+    
+    self.isShowPlanButton = [rspObj boolParamForName:@"showplanbtn"];
+    
+    self.isShowRegistButton = [rspObj boolParamForName:@"showregistbtn"];
+    
     return self;
 }
 
