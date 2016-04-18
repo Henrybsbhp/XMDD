@@ -119,11 +119,23 @@
         [section2 safetyAddObject:[self celldataFor1_2]];
     }
     
-    NSArray * section3 = @[[self celldataFor2_0],
+    NSArray * section3;
+    if (gPhoneHelper.exsitWechat)
+    {
+        section3 = @[[self celldataFor2_0],
                            [self celldataFor2_1],
                            [self celldataFor2_2],
                            [self celldataFor2_3],
                            [self celldataFor2_4]];
+    }
+    else
+    {
+        section3 = @[[self celldataFor2_0],
+                     [self celldataFor2_1],
+                     [self celldataFor2_3],
+                     [self celldataFor2_4]];
+    }
+    
     
     self.datasource = @[section1,section2,section3];
 }
@@ -267,6 +279,7 @@
     NSString * cids =  coupons.count ? [coupons componentsJoinedByString:@","] : @"";
     self.payOp.req_contractid = self.contract.contractid;
     self.payOp.req_proxybuy = self.proxybuy;
+    self.payOp.req_inscomp = self.proxyInsCompany;
     self.payOp.req_cids = cids;
     @weakify(self);
     [[[self.payOp rac_postRequest] initially:^{

@@ -17,6 +17,8 @@
 @property (nonatomic, strong) HKMutualGroup *group;
 ///是否代买交强险
 @property (nonatomic)BOOL proxybuy;
+///是否代买交强险
+@property (nonatomic,copy)NSString * proxyInsCompany;
 
 - (void)tableViewReloadData;
 

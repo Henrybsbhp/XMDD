@@ -9,6 +9,7 @@
     [params safetySetObject:self.req_proxybuy ? @(1):@(0) forKey:@"proxybuy"];
     [params safetySetObject:self.req_cids forKey:@"cid"];
     [params safetySetObject:@(self.req_paychannel) forKey:@"paychannel"];
+    [params safetySetObject:self.req_inscomp forKey:@"inscomp"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
