@@ -205,7 +205,7 @@
     self.titles = titles;
     self.coverages = self.order.policy.subInsuranceArray;
     [self resetBottomButton];
-    [self.tableView reloadData];
+    [self reloadData];
 }
 
 #pragma mark - Action
@@ -319,11 +319,12 @@
 
 #pragma mark - About Cell
 
+// 进度条cell
 -(CKDict *)progressCellData
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"ProgressCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 54;
+        return 44;
     });
     @weakify(self)
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -335,11 +336,12 @@
     return data;
 }
 
+// 保单状态cell
 -(CKDict *)headCellData
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"HeadCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 30;
+        return 25;
     });
     @weakify(self)
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -350,6 +352,7 @@
     return data;
 }
 
+// 用户信息cell
 -(CKList *)infoCellData
 {
     NSMutableArray *array = [[NSMutableArray alloc]init];
@@ -381,22 +384,24 @@
     return [CKList listWithArray:array];
 }
 
+// 服务项目标题cell
 -(CKDict *)itemHeaderCellData
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"ItemHeaderCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        NSString * title = @"服务项目";
+        NSString * title = @"承保险种";
         NSString * detail = @"保险金额/责任限额（元）";
         CGFloat width = gAppMgr.deviceInfo.screenSize.width / 2 - 40;
         CGSize size1 = [title labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
         CGSize size2 = [detail labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
         // 20 = 10 + 10 文字和上下边界的距离
         CGFloat height = MAX(size1.height + 10, size2.height + 10);
-        return height;
+        return height + 8;
     });
     return data;
 }
 
+// 服务项目cell
 -(CKList *)itemCellData
 {
     NSMutableArray *array = [[NSMutableArray alloc]init];
@@ -431,6 +436,7 @@
     return [CKList listWithArray:array];
 }
 
+// 锯齿cell
 -(CKDict *)sawtoothCellData
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"SawtoothCell"}];
@@ -442,26 +448,24 @@
 
 #pragma mark LazyLoad
 
--(CKList *)dataSource
+-(void)reloadData
 {
-    if (!_dataSource)
-    {
-        _dataSource = [CKList list];
-        CKDict *progressData = [self progressCellData];
-        CKDict *headerData = [self headCellData];
-        CKList *infoData = [self infoCellData];
-        CKDict *itemHeaderData = [self itemHeaderCellData];
-        CKList *itemData = [self itemCellData];
-        CKDict *sawtoothData = [self sawtoothCellData];
-        [_dataSource addObject:progressData forKey:@"progressData"];
-        [_dataSource addObject:headerData forKey:@"headerData"];
-        [_dataSource addObjectsFromQueue:infoData];
-        [_dataSource addObject:itemHeaderData forKey:@"itemHeaderData"];
-        [_dataSource addObjectsFromQueue:itemData];
-        [_dataSource addObject:sawtoothData forKey:@"sawtoothData"];
-    }
-    return _dataSource;
+    self.dataSource = [CKList list];
+    CKDict *progressData = [self progressCellData];
+    CKDict *headerData = [self headCellData];
+    CKList *infoData = [self infoCellData];
+    CKDict *itemHeaderData = [self itemHeaderCellData];
+    CKList *itemData = [self itemCellData];
+    CKDict *sawtoothData = [self sawtoothCellData];
+    [self.dataSource addObject:progressData forKey:@"progressData"];
+    [self.dataSource addObject:headerData forKey:@"headerData"];
+    [self.dataSource addObjectsFromQueue:infoData];
+    [self.dataSource addObject:itemHeaderData forKey:@"itemHeaderData"];
+    [self.dataSource addObjectsFromQueue:itemData];
+    [self.dataSource addObject:sawtoothData forKey:@"sawtoothData"];
+    [self.tableView reloadData];
 }
+
 
 #pragma mark Utility
 

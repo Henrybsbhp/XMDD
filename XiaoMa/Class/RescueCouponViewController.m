@@ -14,7 +14,7 @@
 #import "CouponDetailsVC.h"
 #import "DetailWebVC.h"
 
-@interface RescueCouponViewController ()<HKLoadingModelDelegate>
+@interface RescueCouponViewController ()<HKLoadingModelDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 
@@ -101,17 +101,30 @@
     return 90;
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.loadingModel.datasource.count;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.loadingModel.datasource.count;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TicketCell"];
     
+    //backgroundViwe
+    UIView *backgroundView = [cell viewWithTag:100];
+    backgroundView.layer.cornerRadius = 5;
+    backgroundView.layer.masksToBounds = YES;
+    
     //背景图片
     UIImageView *backgroundImg = (UIImageView *)[cell searchViewWithTag:1001];
+    
+    UIImageView *imgView = [cell viewWithTag:10101];
+    imgView.image = [[UIImage imageNamed:@"coupon_sawtooth"]resizableImageWithCapInsets:UIEdgeInsetsMake(0.5, -1, -0.5, 0) resizingMode:UIImageResizingModeTile];
     
     //优惠名称
     UILabel *name = (UILabel *)[cell searchViewWithTag:1002];
@@ -122,20 +135,21 @@
     //logo
     UIImageView *logoV = (UIImageView *)[cell searchViewWithTag:1005];
     
-    HKCoupon * couponDic = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+    UIImageView *sawtoothImg = [cell viewWithTag:10101];
+    UIImage *img = [[UIImage imageNamed:@"coupon_sawtooth"]resizableImageWithCapInsets:UIEdgeInsetsMake(0.5, -1, -0.5, 0) resizingMode:UIImageResizingModeTile];
+    sawtoothImg.image = img;
+    
     UIImage *bgImg = [UIImage imageNamed:@"coupon_background"];
-    if (couponDic.rgbColor.length > 0) {
-        NSString *strColor = [NSString stringWithFormat:@"#%@", couponDic.rgbColor];
-        UIColor *color = HEXCOLOR(strColor);
-        bgImg = [bgImg imageByFilledWithColor:color];
-    }
     backgroundImg.image = bgImg;
+    
+    HKCoupon * couponDic = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     [logoV setImageByUrl:couponDic.logo
                 withType:ImageURLTypeThumbnail defImage:@"coupon_logo" errorImage:@"coupon_logo"];
     
     logoV.layer.cornerRadius = 22.0F;
     [logoV.layer setMasksToBounds:YES];
     name.text = couponDic.couponName;
+    
     description.text = [NSString stringWithFormat:@"%@", couponDic.subname];
     validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@",[couponDic.validsince dateFormatForYYMMdd2],[couponDic.validthrough dateFormatForYYMMdd2]];
 
@@ -146,9 +160,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
+    if (indexPath.row == 0) {
         CouponDetailsVC *vc = [UIStoryboard vcWithId:@"CouponDetailsVC" inStoryboard:@"Mine"];
-        HKCoupon *hkcoupon = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
+        HKCoupon *hkcoupon = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
         vc.couponId = hkcoupon.couponId;
         vc.isShareble = hkcoupon.isshareble;
         vc.oldType = hkcoupon.conponType;
