@@ -377,8 +377,6 @@
             else
             {
                 self.isExist = NO;
-                self.tableView.showBottomLoadingView = YES;
-                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
             }
         }
         [self.tableView reloadData];

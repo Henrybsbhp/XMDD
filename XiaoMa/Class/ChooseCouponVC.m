@@ -183,6 +183,9 @@
     //背景图片
     UIImageView *backgroundImg = (UIImageView *)[cell searchViewWithTag:1001];
     
+    UIImageView *imgView = [cell viewWithTag:10101];
+    imgView.image = [[UIImage imageNamed:@"coupon_sawtooth"]resizableImageWithCapInsets:UIEdgeInsetsMake(0.5, -1, -0.5, 0) resizingMode:UIImageResizingModeTile];
+    
     //优惠名称
     UILabel *name = (UILabel *)[cell searchViewWithTag:1002];
     //优惠描述
@@ -205,11 +208,6 @@
     HKCoupon * couponDic = [self.couponArray safetyObjectAtIndex:indexPath.section];
     
     UIImage *bgImg = [UIImage imageNamed:@"coupon_background"];
-    if (couponDic.rgbColor.length > 0) {
-        NSString *strColor = [NSString stringWithFormat:@"#%@", couponDic.rgbColor];
-        UIColor *color = HEXCOLOR(strColor);
-        bgImg = [bgImg imageByFilledWithColor:color];
-    }
     backgroundImg.image = bgImg;
     
     [logoV setImageByUrl:couponDic.logo

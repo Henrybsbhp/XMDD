@@ -179,7 +179,7 @@
         if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
         {
             PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
-            HKBankCard * card = [self.bankCards safetyObjectAtIndex:indexPath.row - 1];
+            HKBankCard * card = [self.bankCards safetyObjectAtIndex:indexPath.row];
             payVc.selectBankCard = card;
             if (card.couponIds.count)
             {

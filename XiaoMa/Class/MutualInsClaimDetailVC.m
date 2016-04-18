@@ -15,6 +15,7 @@
 #import "HKImageAlertVC.h"
 #import "NSString+BankNumber.h"
 #import "HKImageAlertVC.h"
+#import "MutualInsScencePageVC.h"
 
 @interface MutualInsClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *agreeBtn;
@@ -35,6 +36,7 @@
 @property (nonatomic,strong) NSString *bankcardno;
 @property (nonatomic,strong) NSString *insurancename;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
+@property (weak, nonatomic) IBOutlet UIButton *takePhotoBtn;
 
 
 
@@ -193,9 +195,12 @@
     @weakify(self)
     [[[op rac_postRequest]initially:^{
         @strongify(self)
+        self.tableView.hidden = YES;
+        [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }]subscribeNext:^(GetCooperationClaimDetailOp *op) {
         @strongify(self)
+        self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
         self.statusdesc = op.rsp_statusdesc;
         self.status = op.rsp_status;
@@ -207,21 +212,18 @@
         self.claimfee = op.rsp_claimfee;
         self.insurancename = op.rsp_insurancename;
         self.cardno = op.rsp_cardno;
-        if (self.status.integerValue == 1)
-        {
-            self.bottomView.hidden = NO;
-            self.bottomViewHeight.constant = 65;
-        }
-        else
-        {
-            self.bottomView.hidden = YES;
-            self.bottomViewHeight.constant = 0;
-        }
+        // 设置底部按钮
+        [self setBottomViewStatus:self.status.integerValue];
+        // 更新约束
         [self.view layoutIfNeeded];
         [self.tableView reloadData];
     }error:^(NSError *error) {
         @strongify(self)
         [self.view stopActivityAnimation];
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败，请重试" tapBlock:^{
+            [self loadData];
+        }];
+        
     }];
 }
 
@@ -240,6 +242,7 @@
 
 -(void)setupUI
 {
+    [self addCorner:self.takePhotoBtn];
     [self addCorner:self.agreeBtn];
     [self addCorner:self.disagreeBtn];
     [self addBorder:self.disagreeBtn WithColor:@"#18D06A"];
@@ -253,6 +256,11 @@
     [[self.disagreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
         [self confirmClaimWithAgreement:@1];
+    }];
+    [[self.takePhotoBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+        @strongify(self)
+        MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
+        [self.navigationController pushViewController:scencePageVC animated:YES];
     }];
     
 }
@@ -282,6 +290,32 @@
 }
 
 #pragma mark Utility
+
+-(void)setBottomViewStatus:(NSInteger)status
+{
+    if (status != 0 && status!= 1)
+    {
+        self.bottomView.hidden = YES;
+        self.bottomViewHeight.constant = 0;
+    }
+    else
+    {
+        self.bottomView.hidden = NO;
+        self.bottomViewHeight.constant = 65;
+        if (status == 1)
+        {
+            self.disagreeBtn.hidden = NO;
+            self.agreeBtn.hidden = NO;
+            self.takePhotoBtn.hidden = YES;
+        }
+        else
+        {
+            self.disagreeBtn.hidden = YES;
+            self.agreeBtn.hidden = YES;
+            self.takePhotoBtn.hidden = NO;
+        }
+    }
+}
 
 -(void)addCorner:(UIView *)view
 {

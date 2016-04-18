@@ -246,7 +246,7 @@
         
         if (!self.isAnimation) {
             //若无需滚动，则选中标识view绘制不含按钮间隔
-            UIButton * selectButton = [self.buttons objectAtIndex:self.currentIndex];
+            UIButton * selectButton = [self.buttons safetyObjectAtIndex:self.currentIndex];
             self.cursorView.frame = CGRectMake(selectButton.center.x - selectButton.bounds.size.width / 2, 0, selectButton.bounds.size.width, self.styleModel.menuHeight);
         }
     }
