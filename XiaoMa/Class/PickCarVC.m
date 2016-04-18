@@ -23,6 +23,9 @@
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, assign) NSInteger checkIndex;
 
+
+@property (nonatomic, strong) UIButton *addCarBtn;
+
 @end
 
 @implementation PickCarVC
@@ -86,8 +89,15 @@
         
         if (self.datasource.count ==0) {
             self.carNumLabel.text = @"";
+            self.tableView.hidden = YES;
+            [self addEmptyBtn];
+            self.isShowBottomView = NO;
+            [self setUpUI];
         }
         else {
+            [self removeEmptyBtn];
+            self.isShowBottomView = YES;
+            [self setUpUI];
             if (self.defaultCar){
                 self.checkIndex = [self.datasource indexOfObject:self.defaultCar];
                 self.carNumLabel.text = self.defaultCar.licencenumber;
@@ -97,8 +107,8 @@
                 self.checkIndex = 100;
                 self.carNumLabel.text = @"";
             }
+            self.tableView.hidden = NO;
         }
-        self.tableView.hidden = NO;
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
@@ -205,6 +215,59 @@
     else {
         [gToast showText:@"请先选择爱车"];
     }
+}
+
+-(void)removeEmptyBtn
+{
+    NSArray *subViews = self.view.subviews;
+    [self.view hideDefaultEmptyView];
+    if ([subViews containsObject:self.btn])
+    {
+        [self.btn removeFromSuperview];
+    }
+}
+
+-(void)addEmptyBtn
+{
+    //暂停动画并且显示缺省页
+    @weakify(self)
+    [self.view stopActivityAnimation];
+    [self.view showEmptyViewWithImageName:@"def_withoutCar" text:@"暂无爱车" centerOffset:-100 tapBlock:nil];
+    [self.view addSubview:self.btn];
+    const CGFloat top = gAppMgr.deviceInfo.screenSize.height / 2 + 30;
+    [self.btn mas_updateConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.centerX.mas_equalTo(self.view);
+        make.top.mas_equalTo(top);
+        make.width.mas_equalTo(180);
+        make.height.mas_equalTo(50);
+    }];
+}
+
+-(UIButton *)btn
+{
+    if (!_addCarBtn)
+    {
+        _addCarBtn = [[UIButton alloc]init];
+        _addCarBtn.backgroundColor = HEXCOLOR(@"#18d06a");
+        [_addCarBtn setTitle:@"添加爱车" forState:UIControlStateNormal];
+        _addCarBtn.layer.cornerRadius = 5;
+        _addCarBtn.layer.masksToBounds = YES;
+        @weakify(self);
+        [[_addCarBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+            @strongify(self);
+            
+            EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+            [vc.model setFinishBlock:^(HKMyCar *car) {
+                self.checkIndex = [self.datasource indexOfObject:car];
+                self.carNumLabel.text = car.licencenumber;
+                self.model.selectedCar = car;
+                [self.tableView reloadData];
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+    }
+    return _addCarBtn;
 }
 
 @end
