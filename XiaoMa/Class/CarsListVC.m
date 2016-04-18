@@ -167,7 +167,12 @@
         @strongify(self);
         self.tableView.hidden = YES;
         self.emptyView.hidden = NO;
-        self.emptyContentView.hidden = YES;
+        UIImageView *emptyImage = [self.emptyContentView viewWithTag:1000];
+        UIButton *emptyLabel = [self.emptyContentView viewWithTag:1001];
+        UIButton *addCarButton = [self.emptyContentView viewWithTag:1002];
+        emptyImage.hidden = YES;
+        emptyLabel.hidden = YES;
+        addCarButton.hidden = YES;
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
@@ -228,7 +233,12 @@
 
         if (self.datasource.count == 0) {
             CKAfter(0.5, ^{
-                self.emptyContentView.hidden = NO;
+                UIImageView *emptyImage = [self.emptyContentView viewWithTag:1000];
+                UIButton *emptyLabel = [self.emptyContentView viewWithTag:1001];
+                UIButton *addCarButton = [self.emptyContentView viewWithTag:1002];
+                emptyImage.hidden = NO;
+                emptyLabel.hidden = NO;
+                addCarButton.hidden = NO;
             });
         }
         else {
@@ -237,14 +247,16 @@
         _originCarID = nil;
     } error:^(NSError *error) {
         
-        @strongify(self);
         [gToast showError:error.domain];
         
         @weakify(self);
-        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取爱车信息失败，点击重试" tapBlock:^{
+        CKAfter(0.5, ^{
             @strongify(self);
-            [[self.carStore getAllCars] send];
-        }];
+            [self.emptyContentView showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取爱车信息失败，点击重试" tapBlock:^{
+                @strongify(self);
+                [[self.carStore getAllCars] send];
+            }];
+        });
     }];
 }
 

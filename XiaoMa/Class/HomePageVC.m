@@ -457,8 +457,13 @@
 - (IBAction)actionCallService:(id)sender {
     
     [MobClick event:@"rp101_2"];
-    NSString * number = @"4007111111";
-    [gPhoneHelper makePhone:number andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        [gPhoneHelper makePhone:@"4007111111"];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
+    [alert show];
 }
 
 
@@ -784,7 +789,15 @@
             if ([x isKindOfClass:[NSData class]])
             {
                 FLAnimatedImage * animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:x];
-                imageView.animatedImage = animatedImage;
+                [UIView transitionWithView:imageView
+                                  duration:1.0
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{
+                                    
+                                    imageView.animatedImage = animatedImage;
+                                    imageView.alpha = 1.0;
+                                } completion:nil];
+//                imageView.animatedImage = animatedImage;
             }
             else if ([x isKindOfClass:[UIImage class]])
             {

@@ -9,13 +9,13 @@
 #import "MutualInsStore.h"
 #import "HKMutualGroup.h"
 #import "GetCooperationMygroupDetailOp.h"
-#import "GetCooperationMyGroupOp.h"
 
 @implementation MutualInsStore
 
 - (void)reloadForUserChanged:(JTUser *)user
 {
     self.simpleGroups = nil;
+    self.unMutuanlCarList = nil;
     self.detailGroups = nil;
     [[self reloadSimpleGroups] send];
 }
@@ -42,11 +42,20 @@
     }
     else {
         RACSignal *signal = [[[[GetCooperationMyGroupOp operation] rac_postRequest] doNext:^(GetCooperationMyGroupOp *op) {
+            
+            self.rsp_mygroupOp = op;
+            
             JTQueue *groupList = [[JTQueue alloc] init];
             for (HKMutualGroup *group in op.rsp_groupArray) {
                 [groupList addObject:group forKey:[group identify]];
             }
             self.simpleGroups = groupList;
+            
+            JTQueue *carList = [[JTQueue alloc] init];
+            for (HKMutualCar *car in op.rsp_carArray) {
+                [carList addObject:car forKey:[NSString stringWithFormat:@"%@", car.carId]];
+            }
+            self.unMutuanlCarList = carList;
         }] replayLast];
         event = [signal eventWithName:@"getSimpleGroups" object:nil];
     }

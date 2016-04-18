@@ -22,9 +22,11 @@
     self.couponmoney = [dict[@"couponmoney"] floatValue];
     self.inslist = dict[@"inslist"];
     self.insperiod = dict[@"insperiod"];
+    self.insperiod = @"2016-10-10";
     self.forcefee = [dict[@"forcefee"] floatValue];
     self.taxshipfee = [dict[@"taxshipfee"] floatValue];
     self.inscomp = dict[@"inscomp"];
+    self.inscomp = @[@"天安保险",@"人民保险",@"太平保险"];
     self.totalmonth = dict[@"totalmonth"];
     self.xmddlogo = dict[@"xmddlogo"];
     self.xmddname = dict[@"xmddname"];
@@ -32,6 +34,7 @@
     self.couponname = dict[@"couponname"];
     self.couponlist = dict[@"couponlist"];
     self.finishaddress = [dict boolParamForName:@"finishaddress"];
+    self.insnotes = dict[@"insnotes"];
 }
 
 @end
