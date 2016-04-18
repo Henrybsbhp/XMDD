@@ -174,7 +174,12 @@
         @strongify(self)
         if (self.selectSet.count)
         {
-            [self requestDeleteFavorites];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                [self requestDeleteFavorites];
+            }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确定删除收藏的店铺?" ActionItems:@[cancel,confirm]];
+            [alert show];
         }
         else
         {

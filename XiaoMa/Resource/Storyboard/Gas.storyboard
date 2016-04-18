@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -150,9 +150,15 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="6Q9-sl-uIT" firstAttribute="top" secondItem="0Hm-7P-Dk9" secondAttribute="top" constant="12" id="BvN-cz-5Ap"/>
+                                        <constraint firstAttribute="bottom" secondItem="6Q9-sl-uIT" secondAttribute="bottom" constant="13" id="RWM-9h-DNF"/>
                                         <constraint firstItem="6Q9-sl-uIT" firstAttribute="leading" secondItem="0Hm-7P-Dk9" secondAttribute="leading" constant="18" id="yCR-A3-cOn"/>
                                         <constraint firstAttribute="trailing" secondItem="6Q9-sl-uIT" secondAttribute="trailing" constant="18" id="yP7-Tk-icX"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="BvN-cz-5Ap"/>
+                                        </mask>
+                                    </variation>
                                 </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BrandCell" rowHeight="154" id="Hvr-Qa-BQJ" customClass="HKTableViewCell">
@@ -2015,7 +2021,7 @@
                                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="actionPay:" destination="KLc-Zl-QEW" eventType="touchUpInside" id="18x-B0-uCe"/>
+                                                    <action selector="actionStartPay:" destination="KLc-Zl-QEW" eventType="touchUpInside" id="NIo-Ag-nyz"/>
                                                 </connections>
                                             </button>
                                         </subviews>

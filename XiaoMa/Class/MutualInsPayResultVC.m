@@ -66,7 +66,7 @@
     }
     else
     {
-        self.navigationItem.title = @"支付成功";
+        self.navigationItem.title = @"支付结果";
     }
 }
 
@@ -188,7 +188,7 @@
         nameLb.text = self.contract.xmddname;
         carLb.text = self.contract.licencenumber;
         
-        CGFloat price = self.contract.total - self.contract.couponmoney;
+        CGFloat price = self.contract.total - self.contract.couponmoney - self.couponMoney;
         priceLb.text =  [NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]];
     });
     return data;
@@ -408,6 +408,8 @@
 
 - (void)actionBack
 {
+    [self.view endEditing:YES];
+    
     HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
@@ -427,6 +429,14 @@
     HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"继续完善" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
     alert.actionItems = @[cancel, improve];
     [alert show];
+//    [alert becomeFirstResponder];
+    
+    
+    
+//    UITextField * feild = [[UITextField alloc] init];
+//    [feild resignFirstResponder];
+    
+    
 }
 
 @end

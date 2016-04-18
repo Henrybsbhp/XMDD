@@ -13,6 +13,9 @@
 
 @property (nonatomic)NSInteger appid;
 @property (nonatomic,copy)NSString * version;
+@property (nonatomic,copy)NSString * province;
+@property (nonatomic,copy)NSString * city;
+@property (nonatomic,copy)NSString * district;
 
 @property (nonatomic,strong)HomePicModel * homeModel;
 //@property (nonatomic,strong)NSArray<HomeItem *>* rsp_modulesArray;

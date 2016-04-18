@@ -20,6 +20,15 @@
 
 @implementation HKAlertVC
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _autoDismiss = YES;
+    }
+    return self;
+}
+
 -(BOOL)isShowing
 {
     NSArray *arr = self.view.subviews;
@@ -94,8 +103,9 @@
     if (self.actionHandler) {
         self.actionHandler(sender.tag, self);
     }
-    [self dismiss];
-    
+    if (self.autoDismiss) {
+        [self dismiss];
+    }
 }
 
 #pragma mark - Private
@@ -136,24 +146,3 @@
 
 @end
 
-@implementation HKAlertActionItem
-
-+ (instancetype)item {
-    return [[self alloc] init];
-}
-
-+ (instancetype)itemWithTitle:(NSString *)title
-{
-    return [self itemWithTitle:title color:HEXCOLOR(@"#18d06a") clickBlock:nil];
-}
-
-+ (instancetype)itemWithTitle:(NSString *)title color:(UIColor *)color clickBlock:(void(^)(id alertVC))block {
-    HKAlertActionItem *item = [[self alloc] init];
-    item.title = title;
-    item.color  =color;
-    item.clickBlock = block;
-    return item;
-}
-
-
-@end

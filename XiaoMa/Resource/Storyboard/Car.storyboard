@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -149,26 +149,26 @@
                                             <color key="backgroundColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MJs-KB-7v6">
-                                            <rect key="frame" x="287" y="80" width="27" height="42"/>
+                                            <rect key="frame" x="287" y="79" width="26.5" height="42"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="35"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mec_certificate_tag" translatesAutoresizingMaskIntoConstraints="NO" id="5BT-dW-zg5">
-                                            <rect key="frame" x="287.5" y="52" width="10" height="10"/>
+                                            <rect key="frame" x="288" y="52" width="10" height="10"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="10" id="HJm-Zc-vkm"/>
                                                 <constraint firstAttribute="height" constant="10" id="n8j-sQ-TAl"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QYd-Gv-C3T">
-                                            <rect key="frame" x="299.5" y="50" width="11" height="15"/>
+                                            <rect key="frame" x="300" y="50" width="10.5" height="14.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  默认   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ucX-bp-aCK">
-                                            <rect key="frame" x="321" y="92.5" width="37" height="18"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="  默认   " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ucX-bp-aCK">
+                                            <rect key="frame" x="321" y="92" width="37" height="18"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="37" id="CcX-1c-sg2"/>
                                                 <constraint firstAttribute="height" constant="18" id="dE4-IA-Yci"/>
@@ -251,7 +251,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上传行驶证送大礼" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qsb-cS-kzK">
-                                                                    <rect key="frame" x="118" y="53" width="96" height="15"/>
+                                                                    <rect key="frame" x="118" y="53" width="96" height="14.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -284,7 +284,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="买卖二手车无忧" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ukh-N7-3J5">
-                                                                    <rect key="frame" x="123" y="53" width="84" height="15"/>
+                                                                    <rect key="frame" x="123" y="53" width="84" height="14.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -411,23 +411,24 @@
                                             <imageView userInteractionEnabled="NO" tag="1000" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="def_withoutCar" translatesAutoresizingMaskIntoConstraints="NO" id="EhU-s0-o6G">
                                                 <rect key="frame" x="205" y="73" width="190" height="190"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="190" id="cX2-0f-Np4"/>
-                                                    <constraint firstAttribute="width" constant="190" id="iwX-lv-4sB"/>
+                                                    <constraint firstAttribute="height" constant="160" id="cX2-0f-Np4"/>
+                                                    <constraint firstAttribute="width" constant="160" id="iwX-lv-4sB"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无爱车" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yp4-xn-1Ii">
-                                                <rect key="frame" x="270" y="293" width="60" height="18"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <rect key="frame" x="268" y="228" width="64" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OzY-1h-XN5">
-                                                <rect key="frame" x="188" y="351" width="225" height="50"/>
+                                                <rect key="frame" x="188" y="267.5" width="225" height="50"/>
                                                 <color key="backgroundColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="225" id="KK3-2g-7IM"/>
                                                     <constraint firstAttribute="height" constant="50" id="Zia-A2-KBb"/>
                                                 </constraints>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                                 <state key="normal" title="添加爱车">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -441,8 +442,8 @@
                                             <constraint firstItem="EhU-s0-o6G" firstAttribute="centerX" secondItem="dI9-Gc-eYC" secondAttribute="centerX" id="1mY-nF-0cH"/>
                                             <constraint firstItem="Yp4-xn-1Ii" firstAttribute="centerX" secondItem="dI9-Gc-eYC" secondAttribute="centerX" id="ApX-lv-EbY"/>
                                             <constraint firstItem="Yp4-xn-1Ii" firstAttribute="top" secondItem="EhU-s0-o6G" secondAttribute="bottom" constant="30" id="FKT-rp-541"/>
-                                            <constraint firstItem="EhU-s0-o6G" firstAttribute="centerY" secondItem="dI9-Gc-eYC" secondAttribute="centerY" constant="-100" id="P9E-sj-CLD"/>
-                                            <constraint firstItem="OzY-1h-XN5" firstAttribute="top" secondItem="Yp4-xn-1Ii" secondAttribute="bottom" constant="40" id="b8u-hU-NkH"/>
+                                            <constraint firstItem="EhU-s0-o6G" firstAttribute="centerY" secondItem="dI9-Gc-eYC" secondAttribute="centerY" constant="-150" id="P9E-sj-CLD"/>
+                                            <constraint firstItem="OzY-1h-XN5" firstAttribute="top" secondItem="Yp4-xn-1Ii" secondAttribute="bottom" constant="20" id="b8u-hU-NkH"/>
                                             <constraint firstItem="OzY-1h-XN5" firstAttribute="centerX" secondItem="dI9-Gc-eYC" secondAttribute="centerX" id="tvm-5C-gQS"/>
                                         </constraints>
                                     </view>

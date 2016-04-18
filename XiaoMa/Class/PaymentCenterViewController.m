@@ -403,7 +403,7 @@
                                           @{@"paymentType":@(PaymentChannelAlipay),
                                             @"title":@"支付宝支付",
                                             @"subTitle":@"推荐支付宝用户使用",
-                                            @"logo":@"cw_alipay"}];
+                                            @"logo":@"alipay_logo_66"}];
             [tArray safetyAddObject:dict];
         }
         else if ([paychannelStr isEqualToString:@"3"])
@@ -414,7 +414,7 @@
                                               @{@"paymentType":@(PaymentChannelWechat),
                                                 @"title":@"微信支付",
                                                 @"subTitle":@"推荐微信用户使用",
-                                                @"logo":@"cw_wechat"}];
+                                                @"logo":@"wechat_logo_66"}];
                 [tArray safetyAddObject:dict];
             }
         }

@@ -97,6 +97,10 @@
 ///获取上次首页图片信息
 - (BOOL)saveHomePicInfo;
 
+///保存元素已读
+- (void)saveElementReaded:(NSString *)key;
+- (BOOL)getElementReadStatus:(NSString *)key;
+
 
 - (void)saveInfo:(id <NSCoding>)value forKey:(NSString *)key;
 - (NSString *)getInfo:(NSString *)key;

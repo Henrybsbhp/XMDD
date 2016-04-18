@@ -121,7 +121,6 @@
     [self.globalInfoCache removeObjectForKey:SearchHistory];
 }
 
-
 - (NSArray *)getProvinceArray
 {
     NSArray * array = @[@{@"浙":@"(浙江)"},@{@"沪":@"(上海)"},@{@"京":@"(北京)"},
@@ -150,6 +149,18 @@
 {
     return [self.globalInfoCache objectForKey:key];
 }
+
+- (void)saveElementReaded:(NSString *)key
+{
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:key];
+}
+
+- (BOOL)getElementReadStatus:(NSString *)key
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:key];
+}
+
+
 
 #pragma mark - 升级相关
 - (void)startUpdatingWithURLString:(NSString *)strurl

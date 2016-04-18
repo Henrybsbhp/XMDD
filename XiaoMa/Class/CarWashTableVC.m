@@ -43,7 +43,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.carwashLoadingModel = [[HKLoadingModel alloc] initWithTargetView:self.carwashTableView delegate:self];
     self.withheartLoadingModel = [[HKLoadingModel alloc] initWithTargetView:self.withheartTableView delegate:self];
     self.carwashLoadingModel.isSectionLoadMore = YES;
@@ -192,18 +191,19 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"暂无商铺";
+    return @{@"title":@"暂无商铺",@"image":@"def_withoutShop"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     //定位失败
     if (error.customTag == 1) {
-        return @"定位失败";
+        return @{@"title":@"定位失败",@"image":@"def_withoutShop"};
     }
-    return @"获取商铺失败，点击重试";
+    return @{@"title":@"获取商铺失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingFailWithType:(HKLoadingTypeMask)type error:(NSError *)error
@@ -582,7 +582,7 @@
     
     if (price2) {
         NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
-                                NSForegroundColorAttributeName:HEXCOLOR(@"#ff7428")};
+                                NSForegroundColorAttributeName:kOrangeColor};
         NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price2 floatValue]]];
         NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:p attributes:attr2];
         [str appendAttributedString:attrStr2];

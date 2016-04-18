@@ -487,7 +487,7 @@
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [self uploadDeletaArr:@"all"];
     }];
-    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"请确认是否清空估值记录" ActionItems:@[cancel,confirm]];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否清空估值记录" ActionItems:@[cancel,confirm]];
     [alert show];
 }
 @end

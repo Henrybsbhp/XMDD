@@ -339,7 +339,7 @@
         
         if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0) {
             [ratingView setUserInteractionEnabled:NO];
-            if (indexPath.row == 4) {
+            if (indexPath.row == 4){
                 ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:0] floatValue];
             }else if (indexPath.row == 5){
                 ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:1] floatValue];
@@ -361,33 +361,34 @@
         UITableViewCell *cell4 = [tableView dequeueReusableCellWithIdentifier:@"EvaluationContent" forIndexPath:indexPath];
         UILabel *textLb = (UILabel *)[cell4 searchViewWithTag:1004];
         textLb.text = [self.evaluationArray safetyObjectAtIndex:3];
+        textLb.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 20;
         return cell4;
     }
 }
 
 #pragma mark - UITableViewdelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < 3) {
+    if (indexPath.row < 3)
+    {
         return 25;
-    }else if (indexPath.row < 4){
-        if (self.evaluationArray.count != 0) {
-            return 36;
-        }else{
-            return 50;
-        }
-    }else if (indexPath.row == 7){
-        if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0){
-            NSString * str = [self.evaluationArray safetyObjectAtIndex:3];
-            CGFloat width = kWidth - 20;
-            CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
-            return size.height;
-        }else{
-            return 36;
-        }
-    }else {
+    }
+    else if (indexPath.row == 3 && self.evaluationArray.count == 0)
+    {
+        return 50;
+    }
+    else if (indexPath.row == 7 && self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0)
+    {
+        NSString * str = [self.evaluationArray safetyObjectAtIndex:3];
+        CGFloat width = kWidth - 20;
+        CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
+        return (size.height + 10);
+    }
+    else
+    {
         return 36;
     }
 }
+
 #pragma mark - lazyLoading
 - (NSMutableArray *)dataSourceArray {
     if (!_dataSourceArray) {
