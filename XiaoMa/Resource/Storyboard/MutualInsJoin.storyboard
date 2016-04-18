@@ -1760,6 +1760,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="bottomConstraint" destination="XEW-an-utz" id="yOH-bO-a2P"/>
                         <outlet property="bottomView" destination="haM-3w-LLi" id="3VH-9C-gzl"/>
                         <outlet property="tableView" destination="bOr-Al-mHE" id="5pX-UF-ngg"/>
                     </connections>
@@ -2213,6 +2214,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="bottomConstraint" destination="3hn-mi-XKm" id="yQv-2s-HyV"/>
                         <outlet property="bottomView" destination="12a-3D-Q3B" id="8XP-Yj-7DY"/>
                         <outlet property="tableView" destination="5ok-L4-8d6" id="rG2-ZK-fox"/>
                     </connections>

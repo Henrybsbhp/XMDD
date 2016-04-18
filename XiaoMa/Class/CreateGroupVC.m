@@ -20,6 +20,8 @@
 #import "EditCarVC.h"
 #import "HKImageAlertVC.h"
 #import "MutualInsStore.h"
+#import "SJKeyboardManager.h"
+#import "IQKeyboardManager.h"
 
 @interface CreateGroupVC () <UITextFieldDelegate>
 
@@ -28,6 +30,10 @@
 
 @property (nonatomic, copy) NSString *textFieldString;
 @property (nonatomic, copy) NSString *groupNameString;
+@property (nonatomic, strong) UITextField *groupTextField;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *bottomConstraint;
+@property (nonatomic, assign) CGFloat upOffsetY;
+@property (nonatomic, assign) CGRect originRect;
 
 @property (nonatomic)BOOL isLoadingGroupName;
 
@@ -55,7 +61,35 @@
     [self setupButtomView];
     
     [self requestGetGroupName];
+    
+    self.originRect = self.view.frame;
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [IQKeyboardManager sharedManager].enable = NO;
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+}
+
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [IQKeyboardManager sharedManager].enable = YES;
+}
+
 
 - (void)setupButtomView
 {
@@ -67,6 +101,7 @@
 - (IBAction)confirmButtonDidClick:(id)sender
 {
     if (self.textFieldString.length)
+        [self.groupTextField resignFirstResponder];
         [self requestCreateGroup:self.textFieldString];
 }
 
@@ -348,7 +383,8 @@
     
     UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:101];
     UITextField *groupTextField = (UITextField *)[cell.contentView viewWithTag:102];
-    [groupTextField becomeFirstResponder];
+    self.groupTextField = groupTextField;
+    groupTextField.delegate = self;
     UIActivityIndicatorView * indicatorView = (UIActivityIndicatorView *)[cell.contentView viewWithTag:103];
     UIButton *diceButton = (UIButton *)[cell.contentView viewWithTag:112];
 
@@ -435,6 +471,12 @@
     NSAttributedString *attrText = [[NSAttributedString alloc] initWithString:string attributes:@{ NSParagraphStyleAttributeName : style}];
     
     return attrText;
+}
+
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [[SJKeyboardManager sharedManager] initWithViewController:self view:self.view textField:textField bottomLayoutConstraint:self.bottomConstraint bottomView:self.bottomView];
 }
 
 
