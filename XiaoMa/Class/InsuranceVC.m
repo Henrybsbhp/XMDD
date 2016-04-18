@@ -287,14 +287,22 @@
     @weakify(vc, self);
     [[vc.ensureButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(vc, self);
-        [vc.nameField endEditing:YES];
-        [sheet dismissAnimated:YES completionHandler:nil];
+        if (vc.nameField.text.length != 0 )
+        {
+            [vc.nameField endEditing:YES];
+            [sheet dismissAnimated:YES completionHandler:nil];
+            
+            InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
+            infoVC.insModel = [self.insModel copy];
+            infoVC.insModel.realName = vc.nameField.text;
+            infoVC.insModel.simpleCar = car;
+            [self.navigationController pushViewController:infoVC animated:YES];
+        }
+        else
+        {
+            [vc.nameField shake];
+        }
         
-        InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
-        infoVC.insModel = [self.insModel copy];
-        infoVC.insModel.realName = vc.nameField.text;
-        infoVC.insModel.simpleCar = car;
-        [self.navigationController pushViewController:infoVC animated:YES];
     }];
 }
 
