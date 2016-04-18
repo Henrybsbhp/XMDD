@@ -106,10 +106,7 @@
         }
         else
         {
-            if (payVc.couponType  == self.type)
-            {
-                [payVc setCouponType:0];
-            }
+            [payVc setCouponType:0];
         }
         [payVc tableViewReloadData];
     }

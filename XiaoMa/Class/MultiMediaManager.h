@@ -28,4 +28,6 @@ typedef enum : NSInteger
 - (NSString *)urlWith:(NSString *)url scaleSize:(CGSize)size;
 - (RACSignal *)rac_getImageByUrl:(NSString *)strurl withType:(ImageURLType)type
                       defaultPic:(NSString *)defName errorPic:(NSString *)errName;
+///获取gif数据
+- (RACSignal *)rac_getGifImageDataByUrl:(NSString *)strurl defaultPic:(NSString *)defName errorPic:(NSString *)errName;
 @end

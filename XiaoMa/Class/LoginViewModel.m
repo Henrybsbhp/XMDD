@@ -59,11 +59,12 @@
     VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
     if ([targetVC isKindOfClass:[UINavigationController class]]) {
         vc.model.originVC = originVC;
+        
         [(UINavigationController *)targetVC pushViewController:vc animated:YES];
+        [gAppMgr.navModel.curNavCtrl setNavigationBarHidden:YES animated:NO];
     }
     else {
-        JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
-        [targetVC presentViewController:nav animated:YES completion:nil];
+        [targetVC presentViewController:vc animated:YES completion:nil];
     }
     gAppDelegate.loginVC = vc;
     return NO;
