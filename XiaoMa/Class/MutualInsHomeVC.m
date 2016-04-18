@@ -23,11 +23,13 @@
 #import "DeleteCooperationGroupOp.h"
 #import "AddCloseAnimationButton.h"
 #import "HKPopoverView.h"
+#import "EditCarVC.h"
 
 @interface MutualInsHomeVC ()
 
 @property (nonatomic, strong) AddCloseAnimationButton *menuButton;
 @property (nonatomic, weak) HKPopoverView *popoverMenu;
+@property (nonatomic, strong) CKList *menuItems;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -51,6 +53,7 @@
     [super viewDidLoad];
     
     [self setNavigationBar];
+    [self setItemList];
     [self setupMutualInsStore];
     self.tableView.hidden = YES;
     CKAsyncMainQueue(^{
@@ -80,40 +83,72 @@
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:container]];
 }
 
-- (void)setPopoverMenuWithPlanBool:(BOOL)showPlanBtn registBool:(BOOL)showRegistBtn
+- (void)setItemList
 {
-    NSMutableArray * itemsArray = [[NSMutableArray alloc] init];
-    if (showPlanBtn) {
-        [itemsArray addObject:[HKPopoverViewItem itemWithTitle:@"内测计划" imageName:@"mins_person"]];
-    }
-    if (showRegistBtn) {
-        [itemsArray addObject:[HKPopoverViewItem itemWithTitle:@"内测登记" imageName:@"mec_edit"]];
-    }
-    NSArray *customArray = @[[HKPopoverViewItem itemWithTitle:@"使用帮助" imageName:@"questionMark_300"],
-                             [HKPopoverViewItem itemWithTitle:@"联系客服" imageName:@"mins_phone"]];
-    [itemsArray addObjectsFromArray:customArray];
-    
-    [self setPopoverMenuWithTitleArray:itemsArray];
+    self.menuItems = $([self menuPlanButton],
+                       [self menuRegistButton],
+                       [self menuHelpButton],
+                       [self menuPhoneButton]);
 }
 
-- (void)setPopoverMenuWithTitleArray:(NSArray *)itemsArray
+- (id)menuPlanButton
 {
-    HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 200) items:itemsArray];
-    [popover setDidSelectedBlock:^(NSUInteger index) {
-        CKDict *dict = itemsArray[index];
-        CKCellSelectedBlock block = dict[kCKCellSelected];
-        if (block) {
-            block(dict, [NSIndexPath indexPathForRow:index inSection:0]);
-        }
-    }];
-    
+    if (self.minsStore.rsp_mygroupOp.isShowPlanButton) {
+        return CKNULL;
+    }
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"plan",@"title":@"内测计划",@"img":@"mins_person"}];
     @weakify(self);
-    [popover setDidDismissedBlock:^(BOOL animated) {
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [self.menuButton setClosing:NO WithAnimation:animated];
-    }];
-    
-    self.popoverMenu = popover;
+        GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
+        vc.titleStr = @"自组团介绍";
+        vc.groupType = MutualGroupTypeSelf;
+        vc.originVC = self;
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+- (id)menuRegistButton
+{
+    if (self.minsStore.rsp_mygroupOp.isShowRegistButton) {
+        return CKNULL;
+    }
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"regist",@"title":@"内测登记",@"img":@"mec_edit"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.originVC = self;
+        vc.url = @"http://www.baidu.com";
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+- (id)menuHelpButton
+{
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"help",@"title":@"使用帮助",@"img":@"questionMark_300"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.originVC = self;
+        vc.url = @"http://www.baidu.com";
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+- (id)menuPhoneButton
+{
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"phone",@"title":@"联系客服",@"img":@"mins_phone"}];
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        NSString * number = @"4007111111";
+        [gPhoneHelper makePhone:number andInfo:@"如有任何疑问，可拨打客服电话: 4007-111-111"];
+    });
+    return dict;
 }
 
 - (void)setupMutualInsStore
@@ -147,9 +182,27 @@
     }
     else if (!closing && !self.popoverMenu) {
         
-        [self setPopoverMenuWithPlanBool:self.minsStore.rsp_mygroupOp.isShowPlanButton registBool:self.minsStore.rsp_mygroupOp.isShowRegistButton];
-        [self.popoverMenu showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
+        NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
+            return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
+        }];
+        HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 200) items:items];
+        @weakify(self);
+        [popover setDidSelectedBlock:^(NSUInteger index) {
+            @strongify(self);
+            CKDict *dict = self.menuItems[index];
+            CKCellSelectedBlock block = dict[kCKCellSelected];
+            if (block) {
+                block(dict, [NSIndexPath indexPathForRow:index inSection:0]);
+            }
+        }];
+        
+        [popover setDidDismissedBlock:^(BOOL animated) {
+            @strongify(self);
+            [self.menuButton setClosing:NO WithAnimation:animated];
+        }];
+        [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
                             inView:self.navigationController.view dismissTargetView:self.view animated:YES];
+        self.popoverMenu = popover;
     }
 }
 
@@ -346,23 +399,36 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
-        vc.titleStr = @"自组团介绍";
-        vc.groupType = MutualGroupTypeSelf;
-        vc.originVC = self;
+        vc.url = @"http://www.baidu.com";
         [self.navigationController pushViewController:vc animated:YES];
     }
-    else if (indexPath.row == 1)
-    {
-        
-    }
-    else if (indexPath.row > 3) {
+    else if (indexPath.row > 2 && indexPath.row < (3 + self.myGroupArray.count)) {
         //我的团详情页面
         MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
         vc.routeInfo = [CKDict dictWith:@{}];
-        vc.group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
+        vc.group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 3];
         vc.originVC = self;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (indexPath.row >= (3 + self.myGroupArray.count) && indexPath.row < (3 + self.myGroupArray.count + self.myCarArray.count)){
+        //团列表
+        SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
+        vc.originCar = [self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (indexPath.row == (3 + self.myGroupArray.count + self.myCarArray.count)){
+        //添加爱车
+        @weakify(self);
+        EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+        [vc.model setFinishBlock:^(HKMyCar *car) {
+            
+            @strongify(self);
+            CKEvent *evt = [self.minsStore reloadSimpleGroups];
+            [self reloadFormSignal:evt.signal];
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -371,11 +437,20 @@
 - (UITableViewCell *)helpCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"HelpCell"];
-    UIView *titleLabel = [cell.contentView viewWithTag:1001];
-    UIImageView *descLabel = [cell.contentView viewWithTag:1002];
-    UILabel *feeButton = [cell.contentView viewWithTag:1003];
+    UILabel *titleLabel = [cell.contentView viewWithTag:1001];
+    UILabel *descLabel = [cell.contentView viewWithTag:1002];
+    UIButton *feeButton = [cell.contentView viewWithTag:1003];
     
+    titleLabel.text = self.config.rsp_selfgroupname;
+    descLabel.text = self.config.rsp_selfgroupdesc;
     [feeButton setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    [[[feeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        //费用估算
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.originVC = self;
+        vc.url = @"http://www.baidu.com";
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
     
     return cell;
 }
@@ -399,6 +474,7 @@
     }];
     //去入团
     [[[joinButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
         SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
         vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
