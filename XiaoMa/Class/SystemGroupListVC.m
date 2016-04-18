@@ -399,6 +399,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 
     vc.groupId = [dic numberParamForName:@"groupid"];
     vc.groupName = dic[@"name"];
+    vc.originCar = self.originCar;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

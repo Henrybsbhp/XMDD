@@ -21,16 +21,24 @@
 #import "UIView+JTLoadingView.h"
 #import "UIView+RoundedCorner.h"
 #import "DeleteCooperationGroupOp.h"
+#import "AddCloseAnimationButton.h"
+#import "HKPopoverView.h"
+#import "EditCarVC.h"
 
 @interface MutualInsHomeVC ()
+
+@property (nonatomic, strong) AddCloseAnimationButton *menuButton;
+@property (nonatomic, weak) HKPopoverView *popoverMenu;
+@property (nonatomic, strong) CKList *menuItems;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) GetCooperationConfiOp *config;
 @property (nonatomic, strong) MutualInsStore *minsStore;
-@property (nonatomic, strong)NSMutableArray * myGroupArray;
+@property (nonatomic, strong) NSMutableArray * myGroupArray;
+@property (nonatomic, strong) NSMutableArray * myCarArray;
 
-@property (nonatomic, assign)NSTimeInterval leftTime;
+@property (nonatomic, assign) NSTimeInterval leftTime;
 
 @end
 
@@ -43,7 +51,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    
+    [self setNavigationBar];
+    [self setItemList];
     [self setupMutualInsStore];
     self.tableView.hidden = YES;
     CKAsyncMainQueue(^{
@@ -51,8 +61,94 @@
     });
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.popoverMenu dismissWithAnimated:YES];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)setNavigationBar {
+    
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    
+    UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 35, 40)];
+    AddCloseAnimationButton *button = [[AddCloseAnimationButton alloc] initWithFrame:CGRectMake(0, 0, 35, 40)];
+    [button addTarget:self action:@selector(actionShowOrHideMenu:) forControlEvents:UIControlEventTouchUpInside];
+    [container addSubview:button];
+    self.menuButton = button;
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:container]];
+}
+
+- (void)setItemList
+{
+    self.menuItems = $([self menuPlanButton],
+                       [self menuRegistButton],
+                       [self menuHelpButton],
+                       [self menuPhoneButton]);
+}
+
+- (id)menuPlanButton
+{
+    if (self.minsStore.rsp_mygroupOp.isShowPlanButton) {
+        return CKNULL;
+    }
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"plan",@"title":@"内测计划",@"img":@"mins_person"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
+        vc.titleStr = @"自组团介绍";
+        vc.groupType = MutualGroupTypeSelf;
+        vc.originVC = self;
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+- (id)menuRegistButton
+{
+    if (self.minsStore.rsp_mygroupOp.isShowRegistButton) {
+        return CKNULL;
+    }
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"regist",@"title":@"内测登记",@"img":@"mec_edit"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.originVC = self;
+        vc.url = @"http://www.baidu.com";
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+- (id)menuHelpButton
+{
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"help",@"title":@"使用帮助",@"img":@"questionMark_300"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.originVC = self;
+        vc.url = @"http://www.baidu.com";
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+- (id)menuPhoneButton
+{
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"phone",@"title":@"联系客服",@"img":@"mins_phone"}];
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        NSString * number = @"4007111111";
+        [gPhoneHelper makePhone:number andInfo:@"如有任何疑问，可拨打客服电话: 4007-111-111"];
+    });
+    return dict;
 }
 
 - (void)setupMutualInsStore
@@ -78,6 +174,38 @@
 }
 
 #pragma mark - Action
+- (void)actionShowOrHideMenu:(id)sender {
+    BOOL closing = self.menuButton.closing;
+    [self.menuButton setClosing:!closing WithAnimation:YES];
+    if (closing && self.popoverMenu) {
+        [self.popoverMenu dismissWithAnimated:YES];
+    }
+    else if (!closing && !self.popoverMenu) {
+        
+        NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
+            return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
+        }];
+        HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 200) items:items];
+        @weakify(self);
+        [popover setDidSelectedBlock:^(NSUInteger index) {
+            @strongify(self);
+            CKDict *dict = self.menuItems[index];
+            CKCellSelectedBlock block = dict[kCKCellSelected];
+            if (block) {
+                block(dict, [NSIndexPath indexPathForRow:index inSection:0]);
+            }
+        }];
+        
+        [popover setDidDismissedBlock:^(BOOL animated) {
+            @strongify(self);
+            [self.menuButton setClosing:NO WithAnimation:animated];
+        }];
+        [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
+                            inView:self.navigationController.view dismissTargetView:self.view animated:YES];
+        self.popoverMenu = popover;
+    }
+}
+
 - (void)actionBack:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -102,6 +230,9 @@
         @strongify(self);
         if (self.minsStore.simpleGroups) {
             self.myGroupArray = [NSMutableArray arrayWithArray:self.minsStore.simpleGroups.allObjects];
+        }
+        if (self.minsStore.unMutuanlCarList) {
+            self.myCarArray = [NSMutableArray arrayWithArray:self.minsStore.unMutuanlCarList.allObjects];
         }
         if ([self reloadIfNeeded]) {
             if ([self.tableView isRefreshViewExists]) {
@@ -200,12 +331,21 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3 + (self.myGroupArray.count ? (self.myGroupArray.count + 1) : 0);
+    int groupCount = 0;
+    for (HKMutualGroup * group in self.myGroupArray) {
+        if (group.memberId != 0) {
+            groupCount ++;
+        }
+    }
+    if (groupCount + self.myCarArray.count >= 5) {
+        return 3 + self.myGroupArray.count + self.myCarArray.count;
+    }
+    return 4 + self.myGroupArray.count + self.myCarArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 21;
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -215,33 +355,42 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 2) {
+    if (indexPath.row == 0) {
+        return 120;
+    }
+    else if (indexPath.row == 1) {
         return 60;
     }
-    else if (indexPath.row == 3) {
+    else if (indexPath.row == 2) {
         return 50;
     }
-    else if (indexPath.row > 3) {
+    else if (indexPath.row > 2 && indexPath.row < (3 + self.myGroupArray.count)) {
         return 161;
     }
-    return 110;
+    return 108;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    if (indexPath.row == 0 || indexPath.row == 1)
+    if (indexPath.row == 0)
     {
-        cell = [self groupCellAtIndexPath:indexPath];
+        cell = [self helpCellAtIndexPath:indexPath];
     }
-    else if (indexPath.row == 2) {
+    else if (indexPath.row == 1) {
         cell = [self btnCellAtIndexPath:indexPath];
     }
-    else if (indexPath.row == 3) {
+    else if (indexPath.row == 2) {
         cell = [self sectionCellAtIndexPath:indexPath];
     }
-    else{
-        cell = [self myGroupCellCellAtIndexPath:indexPath];
+    else if (indexPath.row > 2 && indexPath.row < (3 + self.myGroupArray.count)) {
+        cell = [self myGroupCellAtIndexPath:indexPath];
+    }
+    else if (indexPath.row >= (3 + self.myGroupArray.count) && indexPath.row < (3 + self.myGroupArray.count + self.myCarArray.count)){
+        cell = [self myCarCellAtIndexPath:indexPath];
+    }
+    else {
+        cell = [self addCarCellAtIndexPath:indexPath];
     }
     return cell;
 }
@@ -250,50 +399,58 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
-        vc.titleStr = @"自组团介绍";
-        vc.groupType = MutualGroupTypeSelf;
-        vc.originVC = self;
+        vc.url = @"http://www.baidu.com";
         [self.navigationController pushViewController:vc animated:YES];
     }
-    else if (indexPath.row == 1)
-    {
-        SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
-        vc.originVC = self;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-    else if (indexPath.row > 3) {
+    else if (indexPath.row > 2 && indexPath.row < (3 + self.myGroupArray.count)) {
         //我的团详情页面
         MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
         vc.routeInfo = [CKDict dictWith:@{}];
-        vc.group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
+        vc.group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 3];
         vc.originVC = self;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (indexPath.row >= (3 + self.myGroupArray.count) && indexPath.row < (3 + self.myGroupArray.count + self.myCarArray.count)){
+        //团列表
+        SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
+        vc.originCar = [self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (indexPath.row == (3 + self.myGroupArray.count + self.myCarArray.count)){
+        //添加爱车
+        @weakify(self);
+        EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+        [vc.model setFinishBlock:^(HKMyCar *car) {
+            
+            @strongify(self);
+            CKEvent *evt = [self.minsStore reloadSimpleGroups];
+            [self reloadFormSignal:evt.signal];
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
 #pragma mark - About Cell
-- (UITableViewCell *)groupCellAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)helpCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"GroupTypeCell" forIndexPath:indexPath];
-    UIView *leftView = (UIView *)[cell.contentView viewWithTag:1001];
-    UIImageView *logoImgV = (UIImageView *)[cell.contentView viewWithTag:1002];
-    UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:1003];
-    UILabel *detailLabel = (UILabel *)[cell.contentView viewWithTag:1004];
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"HelpCell"];
+    UILabel *titleLabel = [cell.contentView viewWithTag:1001];
+    UILabel *descLabel = [cell.contentView viewWithTag:1002];
+    UIButton *feeButton = [cell.contentView viewWithTag:1003];
     
-    if (indexPath.row == 0) {
-        leftView.backgroundColor = HEXCOLOR(@"#FFBA36");
-        logoImgV.image = [UIImage imageNamed:@"mutualIns_home_self"];
-        titleLabel.text = self.config.rsp_selfgroupname;
-        detailLabel.text = self.config.rsp_selfgroupdesc;
-    }
-    else {
-        leftView.backgroundColor = HEXCOLOR(@"#38B3FF");
-        logoImgV.image = [UIImage imageNamed:@"mutualIns_home_match"];
-        titleLabel.text = self.config.rsp_autogroupname;
-        detailLabel.text = self.config.rsp_autogroupdesc;
-    }
+    titleLabel.text = self.config.rsp_selfgroupname;
+    descLabel.text = self.config.rsp_selfgroupdesc;
+    [feeButton setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    [[[feeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        //费用估算
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.originVC = self;
+        vc.url = @"http://www.baidu.com";
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
     
     return cell;
 }
@@ -301,22 +458,26 @@
 - (UITableViewCell *)btnCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"BtnCell" forIndexPath:indexPath];
-    UIButton *checkBtn = (UIButton *)[cell.contentView viewWithTag:1001];
-    UIButton *payBtn = (UIButton *)[cell.contentView viewWithTag:1002];
+    UIButton *payButton = (UIButton *)[cell.contentView viewWithTag:1001];
+    UIButton *joinButton = (UIButton *)[cell.contentView viewWithTag:1002];
     
-    [checkBtn setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
-    [payBtn setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#18D06A")];
-    //我要核价
-    [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-    }];
-    //我要理赔
+    [payButton setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
+    [joinButton setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+    
+    //我要赔
     @weakify(self);
-    [[[payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+    [[[payButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
         MutualInsAskClaimsVC *vc = [UIStoryboard vcWithId:@"MutualInsAskClaimsVC" inStoryboard:@"MutualInsClaims"];
         [self.navigationController pushViewController:vc animated:YES];
         return;
+    }];
+    //去入团
+    [[[joinButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
+        [self.navigationController pushViewController:vc animated:YES];
     }];
     
     return cell;
@@ -328,21 +489,17 @@
     return cell;
 }
 
-- (UITableViewCell *)myGroupCellCellAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)myGroupCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyGroupCell" forIndexPath:indexPath];
-    UIView *lineView = [cell.contentView viewWithTag:100];
-    UIView *backgroundView = [cell.contentView viewWithTag:101];
-    [lineView setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#EAEAEA")];
-    [backgroundView setCornerRadius:5 withBackgroundColor:[UIColor whiteColor]];
     
-    UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:1001];
-    UILabel *carIdLabel = (UILabel *)[cell.contentView viewWithTag:1002];
-    UILabel *statusLabel = (UILabel *)[cell.contentView viewWithTag:1003];
-    UILabel *timeLabel = (UILabel *)[cell.contentView viewWithTag:1004];
-    UIButton *opeBtn = (UIButton *)[cell.contentView viewWithTag:1005];
+    UILabel *nameLabel = [cell.contentView viewWithTag:1001];
+    UILabel *carIdLabel = [cell.contentView viewWithTag:1002];
+    UILabel *statusLabel = [cell.contentView viewWithTag:1003];
+    UILabel *timeLabel = [cell.contentView viewWithTag:1004];
+    UIButton *opeBtn = [cell.contentView viewWithTag:1005];
     
-    HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 4];
+    HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 3];
     
     nameLabel.text = group.groupName;
     carIdLabel.text = group.licenseNumber;
@@ -396,6 +553,33 @@
             [self operationBtnAction:x withGroup:group withIndexPath:cellPath];
         }];
     }
+    return cell;
+}
+
+- (UITableViewCell *)myCarCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyCarCell" forIndexPath:indexPath];
+    
+    UIImageView *brandImageView = [cell.contentView viewWithTag:1001];
+    UILabel *licensenumLabel = [cell.contentView viewWithTag:1002];
+    UIButton *joinGroup = [cell.contentView viewWithTag:1003];
+    UILabel *mutualPrice = [cell.contentView viewWithTag:1004];
+    UILabel *couponPrice = [cell.contentView viewWithTag:1005];
+
+    HKMutualCar * myCar = [self.myCarArray safetyObjectAtIndex:indexPath.row - 3 - self.myGroupArray.count];
+    
+    [brandImageView setImageByUrl:myCar.brandLogo withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
+    licensenumLabel.text = myCar.licenseNum;
+    [joinGroup setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    mutualPrice.text = myCar.premiumPrice;
+    couponPrice.text = [NSString stringWithFormat:@"已优惠%@元", myCar.couponMoney];
+    
+    return cell;
+}
+
+- (UITableViewCell *)addCarCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"AddCarCell" forIndexPath:indexPath];
     return cell;
 }
 

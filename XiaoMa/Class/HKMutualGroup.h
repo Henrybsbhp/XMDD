@@ -41,3 +41,19 @@ typedef enum : NSUInteger {
 - (NSString *)identify;
 
 @end
+
+@interface HKMutualCar : NSObject
+
+/// 车型logo
+@property (nonatomic, copy)NSString *brandLogo;
+/// 车牌
+@property (nonatomic, copy)NSString *licenseNum;
+/// 互助预估费用
+@property (nonatomic, copy)NSString *premiumPrice;
+/// 优惠金额
+@property (nonatomic, copy)NSString *couponMoney;
+/// 爱车记录ID
+@property (nonatomic, strong)NSNumber *carId;
+
+@end
+
