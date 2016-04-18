@@ -279,6 +279,7 @@
     NSString * cids =  coupons.count ? [coupons componentsJoinedByString:@","] : @"";
     self.payOp.req_contractid = self.contract.contractid;
     self.payOp.req_proxybuy = self.proxybuy;
+    self.payOp.req_inscomp = self.proxyInsCompany;
     self.payOp.req_cids = cids;
     @weakify(self);
     [[[self.payOp rac_postRequest] initially:^{
