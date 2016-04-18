@@ -968,16 +968,23 @@
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jzi-gz-q1Z">
-                                        <rect key="frame" x="307" y="10" width="278" height="45"/>
+                                        <rect key="frame" x="307" y="10" width="277.5" height="45"/>
                                         <color key="backgroundColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="同意理赔">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1dW-My-VFZ">
-                                        <rect key="frame" x="15" y="10" width="278" height="45"/>
+                                        <rect key="frame" x="15" y="10" width="277.5" height="45"/>
                                         <state key="normal" title="不同意">
                                             <color key="titleColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4oZ-TI-gdD">
+                                        <rect key="frame" x="15" y="11" width="570" height="44"/>
+                                        <color key="backgroundColor" red="0.094117647058823528" green="0.81568627450980391" blue="0.41568627450980389" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="现场拍照">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                 </subviews>
@@ -989,11 +996,15 @@
                                     <constraint firstAttribute="bottom" secondItem="1dW-My-VFZ" secondAttribute="bottom" constant="10" id="ALr-3z-o3O"/>
                                     <constraint firstItem="jzi-gz-q1Z" firstAttribute="leading" secondItem="1dW-My-VFZ" secondAttribute="trailing" constant="15" id="Et5-YJ-dqf"/>
                                     <constraint firstItem="1dW-My-VFZ" firstAttribute="leading" secondItem="cpL-le-zoo" secondAttribute="leading" constant="15" id="GAZ-QW-Opu"/>
+                                    <constraint firstItem="4oZ-TI-gdD" firstAttribute="leading" secondItem="cpL-le-zoo" secondAttribute="leading" constant="15" id="Ox8-A7-aoV"/>
                                     <constraint firstAttribute="height" constant="65" id="P9J-dd-L6w"/>
                                     <constraint firstAttribute="trailing" secondItem="jzi-gz-q1Z" secondAttribute="trailing" constant="15" id="Q9l-hW-f9F"/>
+                                    <constraint firstItem="4oZ-TI-gdD" firstAttribute="top" secondItem="UgI-ZF-zeJ" secondAttribute="bottom" constant="10" id="T8h-Xw-u2j"/>
                                     <constraint firstAttribute="bottom" secondItem="jzi-gz-q1Z" secondAttribute="bottom" constant="10" id="Y8i-8O-uYG"/>
                                     <constraint firstAttribute="trailing" secondItem="UgI-ZF-zeJ" secondAttribute="trailing" id="b0i-wx-Jy9"/>
+                                    <constraint firstAttribute="trailing" secondItem="4oZ-TI-gdD" secondAttribute="trailing" constant="15" id="gSD-Ut-gWO"/>
                                     <constraint firstItem="1dW-My-VFZ" firstAttribute="top" secondItem="cpL-le-zoo" secondAttribute="top" constant="10" id="u45-rd-gV6"/>
+                                    <constraint firstAttribute="bottom" secondItem="4oZ-TI-gdD" secondAttribute="bottom" constant="10" id="xIV-n9-0Gr"/>
                                     <constraint firstItem="jzi-gz-q1Z" firstAttribute="top" secondItem="cpL-le-zoo" secondAttribute="top" constant="10" id="y3m-LS-a3i"/>
                                 </constraints>
                             </view>
@@ -1161,13 +1172,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="理赔预估费用：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTa-eB-W4R">
-                                                    <rect key="frame" x="15" y="17" width="112" height="20"/>
+                                                    <rect key="frame" x="15" y="17" width="112" height="19.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12000.00元  " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7G6-fp-dp6">
-                                                    <rect key="frame" x="476" y="15" width="109" height="23"/>
+                                                    <rect key="frame" x="475" y="15" width="109.5" height="23"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                     <color key="textColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1293,6 +1304,7 @@
                         <outlet property="bottomViewHeight" destination="P9J-dd-L6w" id="Pjq-Q9-6wr"/>
                         <outlet property="disagreeBtn" destination="1dW-My-VFZ" id="2hm-So-7Hn"/>
                         <outlet property="tableView" destination="OIZ-QW-zkV" id="8z9-kD-5Z3"/>
+                        <outlet property="takePhotoBtn" destination="4oZ-TI-gdD" id="NI2-DY-p4x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m7F-55-W3m" userLabel="First Responder" sceneMemberID="firstResponder"/>

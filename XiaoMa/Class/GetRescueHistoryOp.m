@@ -42,7 +42,7 @@
                 [rArray safetyAddObject:history];
             }
         }
-        self.req_applysecueArray = rArray;
+        self.rsp_applysecueArray = rArray;
     }
     else
     {
