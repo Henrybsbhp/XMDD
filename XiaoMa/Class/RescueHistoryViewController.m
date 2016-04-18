@@ -64,12 +64,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isRemain = YES;
-    if (self.type == 1) {
+    @weakify(self)
+    [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged]subscribeNext:^(id x) {
+        @strongify(self)
+        [self historyNetwork];
+    }];
+    if (self.type == 1)
+    {
         self.navigationItem.title = @"救援记录";
-    }else {
+    }
+    else
+    {
         self.navigationItem.title = @"协办记录";
     }
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+    if ([LoginViewModel loginIfNeededForTargetViewController:self])
+    {
         [self historyNetwork];
     }
 }
@@ -77,20 +86,26 @@
 #pragma mark - network
 - (void)historyNetwork {
     GetRescueHistoryOp *op = [GetRescueHistoryOp operation];
-    op.applytime = self.applyTime;
+    op.applytime = 0;
     op.type = self.type;
     @weakify(self);
     [[[[op rac_postRequest] initially:^{
         @strongify(self)
         [self.view hideDefaultEmptyView];
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        if (self.dataSourceArray.count == 0)
+        {
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        }
     }] finally:^{
         @strongify(self)
         [self.view stopActivityAnimation];
     }] subscribeNext:^(GetRescueHistoryOp *op) {
         @strongify(self)
-        self.dataSourceArray = (NSMutableArray *)op.req_applysecueArray;
-        if (self.dataSourceArray.count == 0) {
+        self.dataSourceArray = (NSMutableArray *)op.rsp_applysecueArray;
+        [self.view stopActivityAnimation];
+        [self.tableView.refreshView endRefreshing];
+        if (self.dataSourceArray.count == 0)
+        {
             if (self.type == 1)
             {
                 [self.view showImageEmptyViewWithImageName:@"def_withoutRescueHistory" text:@"暂无救援记录" tapBlock:^{
@@ -104,11 +119,10 @@
                 }];   
             }
         }
-        
         [self.tableView reloadData];
     } error:^(NSError *error) {
-        
-        [self.tableView.bottomLoadingView stopActivityAnimation];
+        [self.tableView.refreshView endRefreshing];
+        [self.view stopActivityAnimation];
         
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
             @strongify(self);
@@ -118,23 +132,28 @@
 }
 
 #pragma mark - UITableViewDataSource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return self.dataSourceArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HKTableViewCell *cell;
-    if (self.type == 1 ) {
+    if (self.type == 1 )
+    {
         cell = [tableView dequeueReusableCellWithIdentifier:@"RescueHistoryViewController1" forIndexPath:indexPath];
-    }else if (self.type == 2){
+    }
+    else if (self.type == 2)
+    {
         cell = [tableView dequeueReusableCellWithIdentifier:@"RescueHistoryViewController2" forIndexPath:indexPath];
     }
     
-    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(8, 0, 0, 0)];
+//    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 0, 0, 0)];
+//    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(8, 0, 0, 0)];
     
     HKRescueHistory *history = self.dataSourceArray[indexPath.row];
-    if (indexPath.row == self.dataSourceArray.count - 1) {
+    if (indexPath.row == self.dataSourceArray.count - 1)
+    {
         self.applyTime = (long long)history.applyTime;
     }
     UILabel *plateLb = (UILabel *)[cell searchViewWithTag:1000];
@@ -161,7 +180,7 @@
             evaluationBtn.hidden = YES;
         }
     }
-    else
+    else if (history.commentStatus  == HKCommentStatusYes)
     {
         [self setButton:evaluationBtn ByEvaluated:YES];
     }
@@ -173,23 +192,23 @@
         if (self.type == 2)
         {
             evaluationBtn.hidden  = NO;
-            evaluationBtn.layer.borderColor = [UIColor colorWithHex:@"#bfbfbf" alpha:1.0].CGColor;
-            [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#bfbfbf" alpha:1.0] forState:UIControlStateNormal];
+            evaluationBtn.layer.borderColor = [UIColor colorWithHex:@"#888888" alpha:1.0].CGColor;
+            [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#888888" alpha:1.0] forState:UIControlStateNormal];
             [evaluationBtn setTitle:@"取消" forState:UIControlStateNormal];
         }
     }
-    else if (history.rescueStatus == HKRescueStateComplete)
+    else if (history.rescueStatus == HKRescueStateComplete && history.commentStatus != HKCommentStatusYes)
     {
         evaluationBtn.hidden = NO;
         stateLb.text = @"已完成";
-        [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#fe4a00" alpha:1.0] forState:UIControlStateNormal];
+        [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#ff7428" alpha:1.0] forState:UIControlStateNormal];
     }
     else if (history.rescueStatus  == HKRescueStateCancel)
     {
         evaluationBtn.hidden = YES;
         stateLb.text = @"已取消";
     }
-    else
+    else if (history.rescueStatus  == HKRescueStateProcessing)
     {
         evaluationBtn.hidden = YES;
         stateLb.text = @"处理中";
@@ -199,15 +218,15 @@
     {
         image.image = [UIImage imageNamed:@"commission_annual"];
     }
-    else if (history.type  == HKRescueTrailer)
+    else if (history.type == HKRescueTrailer)
     {
         image.image = [UIImage imageNamed:@"rescue_trailer"];
     }
-    else if (history.type  == HKRescuePumpPower)
+    else if (history.type == HKRescuePumpPower)
     {
         image.image = [UIImage imageNamed:@"pump_power"];
     }
-    else
+    else if (history.type == HKRescuetire)
     {
         image.image = [UIImage imageNamed:@"rescue_tire"];
     }
@@ -226,31 +245,36 @@
         {
             stateLb.text = @"已取消";
             evaluationBtn.hidden = YES;
-            [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#fe4a00" alpha:1.0] forState:UIControlStateNormal];
+            [evaluationBtn setTitleColor:[UIColor colorWithHex:@"#ff7428" alpha:1.0] forState:UIControlStateNormal];
         }
     }];
+
     @weakify(self)
     [[[evaluationBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self)
         [x integerValue];
         evaluationBtn.enabled = NO;
-        if (history.rescueStatus == HKRescueStateComplete) {
+        if (history.rescueStatus == HKRescueStateComplete)
+        {
             if (history.commentStatus == HKCommentStatusNo)
             {
                 [MobClick event:@"rp804_2"];
             }
-            else
+            else if (history.commentStatus == HKCommentStatusYes)
             {
                 [MobClick event:@"rp804_3"];
             }
             evaluationBtn.enabled = YES;
-            if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            if ([LoginViewModel loginIfNeededForTargetViewController:self])
+            {
                 RescueCommentsVC *vc = [UIStoryboard vcWithId:@"RescueCommentsVC" inStoryboard:@"Rescue"];
                 vc.history = history;
                 vc.applyType = @(self.type);
                 [self.navigationController pushViewController:vc animated:YES];
             }
-        }else if (history.rescueStatus == HKRescueStateAlready && self.type == 2){
+        }
+        else if (history.rescueStatus == HKRescueStateAlready && self.type == 2)
+        {
             [MobClick event:@"rp804_1"];
             evaluationBtn.enabled = YES;
             
@@ -290,28 +314,26 @@
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!self.isRemain) {
+    if (!self.isRemain)
+    {
         return;
     }
     NSInteger index =  indexPath.row + 1;
-    
-    if ([self.dataSourceArray count] > index) {
+    if ([self.dataSourceArray count] > index)
+    {
         return;
     }
     else
     {
-        
         [self searchMoreHistory];
-        
     }
-    
-    
 }
 
 
 #pragma mark - lazy
 - (NSMutableArray *)dataSourceArray {
-    if (!_dataSourceArray) {
+    if (!_dataSourceArray)
+    {
         _dataSourceArray = [[NSMutableArray alloc] init];
     }
     return _dataSourceArray;
@@ -324,7 +346,6 @@
     {
         return;
     }
-    
     GetRescueHistoryOp *op = [GetRescueHistoryOp operation];
     
     op.applytime = self.applyTime;
@@ -344,7 +365,7 @@
         if(op.rsp_code == 0)
         {
             [self.tableView hideDefaultEmptyView];
-            if (op.req_applysecueArray.count >= PageAmount)
+            if (op.rsp_applysecueArray.count >= PageAmount)
             {
                 self.isRemain = YES;
             }
@@ -359,7 +380,7 @@
             }
             
             NSMutableArray * tArray = [NSMutableArray arrayWithArray:self.dataSourceArray];
-            [tArray addObjectsFromArray:op.req_applysecueArray];
+            [tArray addObjectsFromArray:op.rsp_applysecueArray];
             self.dataSourceArray = tArray;
             
             [self.tableView reloadData];
@@ -389,7 +410,7 @@
     }
     else
     {
-        btn.layer.borderColor = [UIColor colorWithHex:@"#fe4a00" alpha:1].CGColor;
+        btn.layer.borderColor = [UIColor colorWithHex:@"#ff7428" alpha:1].CGColor;
         [btn setTitle:@"去评价" forState:UIControlStateNormal];
         [btn setTitleColor:HEXCOLOR(@"#fe4a00") forState:UIControlStateNormal];
     }
