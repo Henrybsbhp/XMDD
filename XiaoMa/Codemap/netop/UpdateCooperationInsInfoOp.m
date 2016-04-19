@@ -5,7 +5,6 @@
 - (RACSignal *)rac_postRequest {
     self.req_method = @"/cooperation/insurance/info/update";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params safetySetObject:self.req_inslist forKey:@"inslist"];
     [params safetySetObject:self.req_memberid forKey:@"memberid"];
     [params safetySetObject:self.req_proxybuy forKey:@"proxybuy"];
 
