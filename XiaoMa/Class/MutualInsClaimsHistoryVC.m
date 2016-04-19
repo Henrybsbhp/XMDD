@@ -35,11 +35,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadData];
+    
     @weakify(self)
     [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
         @strongify(self);
         [self loadData];
     }];
+    
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(setBackAction)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,6 +107,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0018"}];
     MutualInsClaimInfo *model = [self.dataArr safetyObjectAtIndex:indexPath.section];
     MutualInsClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimDetailVC"];
     detailVC.claimid = model.claimid;
@@ -177,7 +181,14 @@
 
 #pragma mark Action
 
+-(void)setBackAction
+{
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0017"}];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)callAction:(id)sender {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0016"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];

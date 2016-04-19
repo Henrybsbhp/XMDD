@@ -29,7 +29,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(setBackAction)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -110,6 +110,13 @@
 -(void)setupUI
 {
     self.tableView.tableFooterView = [UIView new];
+}
+
+#pragma mark Action
+-(void)setBackAction
+{
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0006"}];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
