@@ -75,9 +75,9 @@
 - (void)setupADView
 {
     self.adctrl = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:self.view.bounds.size.width
-                                        targetVC:self mobBaseEvent:@"rp102_6"];
+                                        targetVC:self mobBaseEvent:@"rp102_6" mobBaseEventDict:nil];
     self.adctrl2 = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:self.view.bounds.size.width
-                                        targetVC:self mobBaseEvent:@"rp102_6"];
+                                        targetVC:self mobBaseEvent:@"rp102_6" mobBaseEventDict:nil];
 }
 
 - (void)reloadAdList

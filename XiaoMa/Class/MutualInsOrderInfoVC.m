@@ -75,6 +75,9 @@
     {
         self.navigationItem.rightBarButtonItem = nil;
     }
+    
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 - (void)setupUI
@@ -126,10 +129,19 @@
 }
 
 #pragma mark - Utilitly
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0001"}];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)nextAction
 {
     if (self.contract.status == 1)
     {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0004"}];
+        
         MutualInsPayViewController * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayViewController"];
         vc.contract = self.contract;
         vc.proxybuy = self.isInsProxy;
@@ -139,6 +151,8 @@
     }
     else
     {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0007"}];
+        
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [gPhoneHelper makePhone:@"4007111111"];
@@ -150,6 +164,8 @@
 
 - (void)jumoToFinishAddressVC
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0005"}];
+    
     MutualInsPayResultVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayResultVC"];
     vc.contract = self.contract;
     vc.isFromOrderInfoVC = YES;
@@ -543,6 +559,7 @@
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0002"}];
         self.isInsProxy = !self.isInsProxy;
         [self setupDateSource];
         [self.tableView reloadData];
@@ -645,6 +662,8 @@
         }];
         
         [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0003"}];
            
             self.proxyInsCompany = insCompany;
             

@@ -57,6 +57,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [MobClick event:@"shouye" attributes:@{@"shouye":@"shouye0001"}];
+    
     [self setNavigationBar];
     [self setItemList];
     [self setupMutualInsStore];
