@@ -34,7 +34,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(setBackAction)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -160,13 +160,16 @@
 
 #pragma mark Action
 
+
+
 -(void)guideSectionAction
 {
-    
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0002"}];
 }
 
 -(void)crimeReportSectionAction
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0003"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
@@ -177,17 +180,25 @@
 
 - (void)scenePageSectionAction
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0004"}];
     [self getNoticeArr];
     [self getCarListData];
 }
 
 -(void)historySectionAction
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0005"}];
     MutualInsClaimsHistoryVC *claimsHistoryVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimsHistoryVC"];
     [self.navigationController pushViewController:claimsHistoryVC animated:YES];
 }
 
 #pragma mark Utility
+
+-(void)setBackAction
+{
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0001"}];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 -(void)getNoticeArr
 {
