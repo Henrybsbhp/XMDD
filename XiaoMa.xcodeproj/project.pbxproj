@@ -391,6 +391,7 @@
 		504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 504FFEA41C05D4C9002D7D6D /* AreaPickerVC.m */; };
 		5050309B1CB5058700AB4D91 /* ValuationHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5050309A1CB5058700AB4D91 /* ValuationHomeVC.m */; };
 		505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 505358F31C0D79640029B5BA /* SharedNotifyOp.m */; };
+		50542B8D1CC6186B0075919B /* MutualInsSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50542B8C1CC6186B0075919B /* MutualInsSuspendedAdVC.m */; };
 		505BC1C21C87D4FA00253F6D /* MutualInsHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
@@ -1533,6 +1534,8 @@
 		5050309A1CB5058700AB4D91 /* ValuationHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationHomeVC.m; sourceTree = "<group>"; };
 		505358F21C0D79640029B5BA /* SharedNotifyOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedNotifyOp.h; path = Class/SharedNotifyOp.h; sourceTree = "<group>"; };
 		505358F31C0D79640029B5BA /* SharedNotifyOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SharedNotifyOp.m; path = Class/SharedNotifyOp.m; sourceTree = "<group>"; };
+		50542B8B1CC6186B0075919B /* MutualInsSuspendedAdVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsSuspendedAdVC.h; sourceTree = "<group>"; };
+		50542B8C1CC6186B0075919B /* MutualInsSuspendedAdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsSuspendedAdVC.m; sourceTree = "<group>"; };
 		505BC1C01C87D4FA00253F6D /* MutualInsHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsHomeVC.h; sourceTree = "<group>"; };
 		505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsHomeVC.m; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
@@ -4059,6 +4062,8 @@
 				502FED111CC4CB2B00FAA75B /* EstimatedPriceVC.m */,
 				5093C9FC1C92A68A006B2258 /* InviteByCodeVC.h */,
 				5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */,
+				50542B8B1CC6186B0075919B /* MutualInsSuspendedAdVC.h */,
+				50542B8C1CC6186B0075919B /* MutualInsSuspendedAdVC.m */,
 				502FED081CC4CA4900FAA75B /* InviteAlertVC */,
 			);
 			name = MutualInsJoin;
@@ -5432,6 +5437,7 @@
 				5029A84F1C9121C2006B3438 /* GroupIntroductionVC.m in Sources */,
 				18FC01DE1C4E6C6F00FD61BF /* IQKeyboardManager.m in Sources */,
 				18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */,
+				50542B8D1CC6186B0075919B /* MutualInsSuspendedAdVC.m in Sources */,
 				18E592351C193C6D006010D9 /* InsBuyVC.m in Sources */,
 				1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */,
 				18FC01E31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m in Sources */,
