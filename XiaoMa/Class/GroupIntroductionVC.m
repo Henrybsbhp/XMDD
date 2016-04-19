@@ -122,7 +122,14 @@
     DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
 }
 
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0009"}];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)joinAction:(id)sender {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0010"}];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
         if (self.originCar) {

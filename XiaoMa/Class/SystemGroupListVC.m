@@ -84,6 +84,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 
 - (void)actionHelp
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0001"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"新手必点";
     vc.url = @"http://www.baidu.com";
@@ -92,6 +93,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 
 - (void)actionBack:(id)sender
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0002"}];
     if (self.originVC) {
         [self.navigationController popToViewController:self.originVC animated:YES];
     }
@@ -353,6 +355,15 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     @weakify(self);
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        
+        if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp) {
+            if ([groupInfo boolParamForName:@"ingroup"]) {
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0005"}];
+            }
+            else {
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0003"}];
+            }
+        }
         @strongify(self);
         if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp && ![groupInfo boolParamForName:@"ingroup"]) {
             [self joinSystemGroupWithGroupID:groupid groupName:groupname];
@@ -391,6 +402,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         
         else {
             vc.btnType = BtnTypeJoinNow;
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0004"}];
         }
     }
     else {
