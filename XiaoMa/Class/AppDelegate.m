@@ -344,54 +344,13 @@
         gAppMgr.province = getInfo.addressComponent.province;
         gAppMgr.city = getInfo.addressComponent.city;
         gAppMgr.district = getInfo.addressComponent.district;
-        /// 硬盘缓存地址信息
-        [gAppMgr saveInfo:getInfo.addressComponent.province forKey:Province];
-        [gAppMgr saveInfo:getInfo.addressComponent.city forKey:City];
-        [gAppMgr saveInfo:getInfo.addressComponent.district forKey:District];
+        /// 存储一下上次定位时间
         NSString * dateStr = [[NSDate date] dateFormatForDT15];
         [gAppMgr saveInfo:dateStr forKey:LastLocationTime];
         
     } error:^(NSError *error) {
         
-        switch (error.code) {
-            case kCLErrorDenied:
-            {
-                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-                {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置进行操作" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
-                    
-                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
-                        
-                        if ([x integerValue] == 1)
-                        {
-                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                        }
-                    }];
-                    [av show];
-                }
-                else
-                {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置进行操作" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
-                    
-                    [av show];
-                }
-                break;
-            }
-            case LocationFail:
-            {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                
-                [av show];
-            }
-            default:
-            {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                
-                [av show];
-                break;
-            }
-        }
-        
+        [gMapHelper handleGPSError:error];
     }];
 }
 
@@ -403,26 +362,15 @@
     op.district = d;
     [[op rac_postRequest] subscribeNext:^(GetSystemTipsOp * op) {
         
-        if(op.rsp_code == 0)
-        {
-            gAppMgr.temperature = op.rsp_temperature;
-            gAppMgr.temperaturepic = op.rsp_temperaturepic;
-            gAppMgr.temperaturetip = op.rsp_temperaturetip;
-            gAppMgr.restriction = op.rsp_restriction;
-            
-            [gAppMgr saveInfo:op.rsp_temperature forKey:Temperature];
-            [gAppMgr saveInfo:op.rsp_temperaturepic forKey:Temperaturepic];
-            [gAppMgr saveInfo:op.rsp_temperaturetip forKey:Temperaturetip];
-            [gAppMgr saveInfo:op.rsp_restriction forKey:Restriction];
-            NSString * dateStr = [[NSDate date] dateFormatForDT15];
-            [gAppMgr saveInfo:dateStr forKey:LastWeatherTime];
-        }
+        gAppMgr.temperatureAndTip = [op.rsp_temperature append:op.rsp_temperaturetip];
+        gAppMgr.temperaturepic = op.rsp_temperaturepic;
+        gAppMgr.restriction = op.rsp_restriction;
     }];
 }
 
 - (void)setupVersionUpdating
 {
-    //TODO:移除2.0版本前缓存的token和密码
+    //移除2.0版本前缓存的token和密码,2.0版本前有密码登录
     if ([gAppMgr.deviceInfo firstAppearAfterVersion:@"2.0" forKey:@"loginInfo"]) {
         [HKLoginModel logout];
     }
@@ -643,6 +591,4 @@
     [self.logModel addToScreen];
 #endif
 }
-
-//.
 @end

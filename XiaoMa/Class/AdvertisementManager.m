@@ -14,7 +14,7 @@
 #define InsuranceAdvertise @"InsuranceAdvertise"
 
 ///每12小时更新广告内容
-#define kUpdateAdTimeInterval       60*60*12
+#define kUpdateAdTimeInterval     10
 ///每5秒钟滚动广告
 #define kScrollAdTimeInterval       5
 
@@ -77,7 +77,6 @@
         else if (type == AdvertisementCarWash)
         {
             self.carwashAdvertiseArray = sortedArray;
-            [[NSNotificationCenter defaultCenter] postNotificationName:CarwashAdvertiseNotification object:nil];
         }
 
         return sortedArray;
@@ -97,7 +96,6 @@
     else if (type == AdvertisementCarWash)
     {
         self.carwashAdvertiseArray = sortedArray;
-        [[NSNotificationCenter defaultCenter] postNotificationName:CarwashAdvertiseNotification object:nil];
     }
     return array;
 }

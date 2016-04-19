@@ -32,10 +32,10 @@
     if (![ac1.district isEqualToString:ac2.district]) {
         return NO;
     }
-    if (![ac1.district isEqualToString:ac2.street]) {
+    if (![ac1.street isEqualToString:ac2.street]) {
         return NO;
     }
-    if (![ac1.district isEqualToString:ac2.number]) {
+    if (![ac1.number isEqualToString:ac2.number]) {
         return NO;
     }
     return YES;
@@ -52,10 +52,10 @@
     if (![ac1.district isEqualToString:ac2.district]) {
         return NO;
     }
-    if (![ac1.district isEqualToString:ac2.streetNumber.street]) {
+    if (![ac1.street isEqualToString:ac2.streetNumber.street]) {
         return NO;
     }
-    if (![ac1.district isEqualToString:ac2.streetNumber.number]) {
+    if (![ac1.number isEqualToString:ac2.streetNumber.number]) {
         return NO;
     }
     return YES;

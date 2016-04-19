@@ -282,6 +282,7 @@
     });
     agentIns[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe" : @"shenhe0009"}];
         @strongify(self);
         UITableViewCell *cell=[self.tableView cellForRowAtIndexPath:indexPath];
         UIButton * selectBtn = [cell.contentView viewWithTag:1001];
@@ -342,7 +343,15 @@
     }
 }
 
-- (IBAction)submitAction:(id)sender {
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe" : @"shenhe0008"}];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)submitAction:(id)sender
+{
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe" : @"shenhe00010"}];
     UpdateCooperationInsInfoOp * op = [UpdateCooperationInsInfoOp operation];
     op.req_memberid = self.memberId;
     op.req_proxybuy = [NSNumber numberWithInteger:self.isAgent];

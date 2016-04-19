@@ -48,7 +48,6 @@
 @property (nonatomic, weak) IBOutlet UIView *bgView;
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, weak) IBOutlet UIView *weatherView;
-@property (nonatomic, weak) HKPopoverView *popoverMenu;
 
 @property (nonatomic, strong) ADViewController *adctrl;
 @property (nonatomic, strong) ADViewController *secondAdCtrl;
@@ -116,9 +115,6 @@
 {
     [super viewWillDisappear:animated];
     self.isViewAppearing = NO;
-    
-    /// 移除右上角菜单栏
-    [self.popoverMenu dismissWithAnimated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -152,7 +148,7 @@
 }
 
 
-#pragma mark - Setup
+#pragma mark - Setup - UI
 - (void)setupScrollView
 {
     UIView *container = [[UIView alloc] initWithFrame:CGRectZero];
@@ -176,13 +172,10 @@
     
     // 九宫格下边的广告
     [self setupSecondADViewInContainer:container withSquaresView:squaresView];
-//    [self setupSecondViewInContainer:container withSquaresView:squaresView];
 }
 
 - (void)setupWeatherViewInContainer:(UIView *)containerView
 {
-    CGFloat dHeight = gAppMgr.deviceInfo.screenSize.height < 568.0 ? 568.0 : gAppMgr.deviceInfo.screenSize.height;
-    
     //天气视图
     self.weatherView.backgroundColor = [UIColor whiteColor];
     [self.weatherView removeFromSuperview];
@@ -196,8 +189,7 @@
         make.right.equalTo(self.scrollView);
         make.width.equalTo(self.scrollView);
         
-        CGFloat height = 92 / 1334.0f * dHeight;
-        make.height.mas_equalTo(@(height));
+        make.height.mas_equalTo(@(46));
     }];
 }
 
@@ -245,46 +237,6 @@
     return squaresView;
 }
 
-
-//- (void)setupSecondViewInContainer:(UIView *)container withSquaresView:(UIView *)squaresView
-//{
-//    UIView * secondaryView = [[UIView alloc] init];
-//    secondaryView.tag = 102;
-//    secondaryView.backgroundColor = [UIColor whiteColor];
-//    [container addSubview:secondaryView];
-//    
-//    CGFloat height = 152.0f / 750.0f * gAppMgr.deviceInfo.screenSize.width;
-//    [secondaryView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        CGFloat space = 12;
-//        make.top.equalTo(squaresView.mas_bottom).offset(space);
-//        make.left.equalTo(self.scrollView);
-//        make.right.equalTo(self.scrollView);
-//        make.height.mas_equalTo(@(height)).priorityHigh();
-//    }];
-//    
-//    HomeItem * bottomItem = gAppMgr.homePicModel.bottomItem;
-//    UIButton * btn = [self functionalButtonWithImageName:bottomItem.defaultImageName action:nil inContainer:secondaryView andPicUrl:bottomItem.homeItemPicUrl];
-//    btn.tag = 20201;
-//    [secondaryView addSubview:btn];
-//    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-//       
-//        make.left.right.top.bottom.equalTo(secondaryView);
-//    }];
-//    RACDisposable * disposable = [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-//        
-//        [self jumpToViewControllerByUrl:bottomItem.homeItemRedirect];
-//    }];
-//    [self.disposableArray safetyAddObject:disposable];
-//    
-//    [squaresView drawLineWithDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
-//    [squaresView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsZero];
-//    
-//    [container mas_updateConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(secondaryView);
-//    }];
-//}
-
 - (void)setupADViewInContainer:(UIView *)container
 {
     self.adctrl = [ADViewController vcWithADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width
@@ -303,7 +255,7 @@
 - (void)setupSecondADViewInContainer:(UIView *)container  withSquaresView:(UIView *)squaresView
 {
     //@fq TODO
-    self.secondAdCtrl = [ADViewController vcWithADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width
+    self.secondAdCtrl = [ADViewController vcWithADType:AdvertisementHomePageBottom boundsWidth:self.view.frame.size.width
                                         targetVC:self mobBaseEvent:@""];
     
     CGFloat height = floor(self.secondAdCtrl.adView.frame.size.height);
@@ -356,31 +308,20 @@
     UIImageView * weatherImage = (UIImageView *)[self.weatherView searchViewWithTag:20201];
     UILabel * tempLb = (UILabel *)[self.weatherView searchViewWithTag:20202];
     UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
-    UILabel * tipLb = (UILabel *)[self.weatherView searchViewWithTag:20206];
     UIView *rightContainerV = (UIView *)[self.weatherView searchViewWithTag:20200];
     
-    RAC(tempLb, text) = RACObserve(gAppMgr, temperature);
     [[RACObserve(gAppMgr, restriction) distinctUntilChanged] subscribeNext:^(NSString *text) {
-        rightContainerV.hidden = text.length == 0;
-        
         rightContainerV.hidden = text.length == 0;
         restrictionLb.text = text;
     }];
     
-    [RACObserve(gAppMgr, temperaturetip) subscribeNext:^(NSString *text) {
+    [RACObserve(gAppMgr, temperatureAndTip) subscribeNext:^(NSString *text) {
         
+        tempLb.text = text;
         if (text.length > 0) {
-            [self setupLineSpace:tipLb withText:text];
+            [self setupLineSpace:tempLb withText:text];
         }
     }];
-    
-    NSString * picName = @"";
-    NSArray * tArray = [gAppMgr.temperaturepic componentsSeparatedByString:@"/"];
-    if (tArray.count)
-    {
-        picName = [tArray lastObject];
-    }
-    weatherImage.image = [UIImage imageNamed:picName];
     
     [[RACObserve(gAppMgr, temperaturepic)distinctUntilChanged] subscribeNext:^(id x) {
         NSString * picName = [[x componentsSeparatedByString:@"/"] lastObject];
@@ -403,7 +344,7 @@
 
 
 
-#pragma mark - Guide
+#pragma mark - Setup Store
 - (void)setupGuideStore
 {
     self.guideStore = [GuideStore fetchOrCreateStore];
@@ -529,9 +470,7 @@
         NSString * cityStr;
         cityStr = regeo.addressComponent.city.length ? regeo.addressComponent.city : regeo.addressComponent.province;
         [self setupNavigationLeftBar:cityStr];
-        if (![HKAddressComponent isEqualAddrComponent:gAppMgr.addrComponent AMapAddrComponent:regeo.addressComponent]) {
-            gAppMgr.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
-        }
+        gAppMgr.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
     }];
     
     // 获取天气信息
@@ -578,17 +517,10 @@
     op.district = regeo.addressComponent.district;
     return [[[[op rac_postRequest] doNext:^(GetSystemTipsOp * op) {
         
-        gAppMgr.temperature = op.rsp_temperature;
+        gAppMgr.temperatureAndTip = [[op.rsp_temperature append:op.rsp_temperaturetip] append:op.rsp_temperaturetip];
         gAppMgr.temperaturepic = op.rsp_temperaturepic;
-        gAppMgr.temperaturetip = op.rsp_temperaturetip;
         gAppMgr.restriction = op.rsp_restriction;
         
-        [gAppMgr saveInfo:op.rsp_temperature forKey:Temperature];
-        [gAppMgr saveInfo:op.rsp_temperaturepic forKey:Temperaturepic];
-        [gAppMgr saveInfo:op.rsp_temperaturetip forKey:Temperaturetip];
-        [gAppMgr saveInfo:op.rsp_restriction forKey:Restriction];
-        NSString * dateStr = [[NSDate date] dateFormatForDT15];
-        [gAppMgr saveInfo:dateStr forKey:LastWeatherTime];
     }] doError:^(NSError *error) {
         
         [gToast showError:@"天气获取失败"];
@@ -669,7 +601,7 @@
 {
     if (IOSVersionGreaterThanOrEqualTo(@"7.0")) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragraphStyle setLineSpacing:5];//调整行间距
+        [paragraphStyle setLineSpacing:2];//调整行间距
         
         NSDictionary *attr = @{NSParagraphStyleAttributeName: paragraphStyle};
         label.attributedText = [[NSAttributedString alloc] initWithString:text attributes:attr];

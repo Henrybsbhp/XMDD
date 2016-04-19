@@ -257,6 +257,7 @@
 		18C52C441BA8118400F6C38B /* DeletePicHistoryOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C52C431BA8118400F6C38B /* DeletePicHistoryOp.m */; };
 		18C52C4D1BA8FE9E00F6C38B /* DrivingLicenseThumbCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C52C4C1BA8FE9E00F6C38B /* DrivingLicenseThumbCell.m */; };
 		18C52C501BA905E600F6C38B /* DrivingLicenseViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C52C4F1BA905E600F6C38B /* DrivingLicenseViewLayout.m */; };
+		18C809D71CC62476001799CB /* XiaoMaUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C809D61CC62476001799CB /* XiaoMaUITests.m */; };
 		18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C81CBB1B17FE7B00B0C292 /* FeedbackVC.m */; };
 		18C81CBF1B18403000B0C292 /* FeedbackOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C81CBE1B18403000B0C292 /* FeedbackOp.m */; };
 		18CECC281C30F8890075B7F9 /* JT3DScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CECC251C30F8890075B7F9 /* JT3DScrollView.m */; };
@@ -391,6 +392,7 @@
 		504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 504FFEA41C05D4C9002D7D6D /* AreaPickerVC.m */; };
 		5050309B1CB5058700AB4D91 /* ValuationHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5050309A1CB5058700AB4D91 /* ValuationHomeVC.m */; };
 		505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 505358F31C0D79640029B5BA /* SharedNotifyOp.m */; };
+		50542B8D1CC6186B0075919B /* MutualInsSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50542B8C1CC6186B0075919B /* MutualInsSuspendedAdVC.m */; };
 		505BC1C21C87D4FA00253F6D /* MutualInsHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
@@ -703,6 +705,7 @@
 		C35803051CBB79600002808D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35803041CBB79600002808D /* Images.xcassets */; };
 		C35E37671CAA7ED2008E536D /* UIView+HKLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C35E37661CAA7ED2008E536D /* UIView+HKLine.m */; };
 		C36B8A9F1CB3526100BC2487 /* GetSystemHomeModuleOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */; };
+		C38A1DFE1CC5D1390085BA4C /* (null) in Resources */ = {isa = PBXBuildFile; };
 		C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */; };
 		C3D9B81F1CC0DBF000B5D2A7 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81D1CC0DBF000B5D2A7 /* FLAnimatedImageView.m */; };
 		FA024A321CAE500500481F59 /* BankCardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA024A311CAE500500481F59 /* BankCardDetailVC.m */; };
@@ -716,6 +719,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		1883D8F91ACB99AC002A4D19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1883D8D71ACB99AC002A4D19 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1883D8DE1ACB99AC002A4D19;
+			remoteInfo = XiaoMa;
+		};
+		18C809D91CC62476001799CB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1883D8D71ACB99AC002A4D19 /* Project object */;
 			proxyType = 1;
@@ -1273,6 +1283,9 @@
 		18C52C4C1BA8FE9E00F6C38B /* DrivingLicenseThumbCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrivingLicenseThumbCell.m; sourceTree = "<group>"; };
 		18C52C4E1BA905E600F6C38B /* DrivingLicenseViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrivingLicenseViewLayout.h; sourceTree = "<group>"; };
 		18C52C4F1BA905E600F6C38B /* DrivingLicenseViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrivingLicenseViewLayout.m; sourceTree = "<group>"; };
+		18C809D41CC62476001799CB /* XiaoMaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XiaoMaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		18C809D61CC62476001799CB /* XiaoMaUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XiaoMaUITests.m; sourceTree = "<group>"; };
+		18C809D81CC62476001799CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18C81CBA1B17FE7B00B0C292 /* FeedbackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackVC.h; sourceTree = "<group>"; };
 		18C81CBB1B17FE7B00B0C292 /* FeedbackVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackVC.m; sourceTree = "<group>"; };
 		18C81CBD1B18403000B0C292 /* FeedbackOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedbackOp.h; path = Class/FeedbackOp.h; sourceTree = "<group>"; };
@@ -1532,6 +1545,8 @@
 		5050309A1CB5058700AB4D91 /* ValuationHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuationHomeVC.m; sourceTree = "<group>"; };
 		505358F21C0D79640029B5BA /* SharedNotifyOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedNotifyOp.h; path = Class/SharedNotifyOp.h; sourceTree = "<group>"; };
 		505358F31C0D79640029B5BA /* SharedNotifyOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SharedNotifyOp.m; path = Class/SharedNotifyOp.m; sourceTree = "<group>"; };
+		50542B8B1CC6186B0075919B /* MutualInsSuspendedAdVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsSuspendedAdVC.h; sourceTree = "<group>"; };
+		50542B8C1CC6186B0075919B /* MutualInsSuspendedAdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsSuspendedAdVC.m; sourceTree = "<group>"; };
 		505BC1C01C87D4FA00253F6D /* MutualInsHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsHomeVC.h; sourceTree = "<group>"; };
 		505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsHomeVC.m; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
@@ -2192,6 +2207,7 @@
 		C35E37661CAA7ED2008E536D /* UIView+HKLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+HKLine.m"; path = "Class/UIView+HKLine.m"; sourceTree = "<group>"; };
 		C36B8A9D1CB3526100BC2487 /* GetSystemHomeModuleOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemHomeModuleOp.h; path = Class/GetSystemHomeModuleOp.h; sourceTree = "<group>"; };
 		C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemHomeModuleOp.m; path = Class/GetSystemHomeModuleOp.m; sourceTree = "<group>"; };
+		C3BA94461CC5F6180053BC96 /* sh.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sh.gpx; sourceTree = "<group>"; };
 		C3D9B81A1CC0DBF000B5D2A7 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = FLAnimatedImage/FLAnimatedImage.h; sourceTree = "<group>"; };
 		C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImage/FLAnimatedImage.m; sourceTree = "<group>"; };
 		C3D9B81C1CC0DBF000B5D2A7 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImage/FLAnimatedImageView.h; sourceTree = "<group>"; };
@@ -2248,6 +2264,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1883D8F51ACB99AC002A4D19 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18C809D11CC62476001799CB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3038,6 +3061,7 @@
 			children = (
 				1883D8E11ACB99AC002A4D19 /* XiaoMa */,
 				1883D8FB1ACB99AC002A4D19 /* XiaoMaTests */,
+				18C809D51CC62476001799CB /* XiaoMaUITests */,
 				1883D8E01ACB99AC002A4D19 /* Products */,
 				C5BD8500918CA8D253037804 /* Pods */,
 				C8447CD201C36C94165168FF /* Frameworks */,
@@ -3049,6 +3073,7 @@
 			children = (
 				1883D8DF1ACB99AC002A4D19 /* XiaoMa.app */,
 				1883D8F81ACB99AC002A4D19 /* XiaoMaTests.xctest */,
+				18C809D41CC62476001799CB /* XiaoMaUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3683,6 +3708,15 @@
 			name = Submit;
 			sourceTree = "<group>";
 		};
+		18C809D51CC62476001799CB /* XiaoMaUITests */ = {
+			isa = PBXGroup;
+			children = (
+				18C809D61CC62476001799CB /* XiaoMaUITests.m */,
+				18C809D81CC62476001799CB /* Info.plist */,
+			);
+			path = XiaoMaUITests;
+			sourceTree = "<group>";
+		};
 		18C81CB81B17FE5800B0C292 /* About */ = {
 			isa = PBXGroup;
 			children = (
@@ -4057,6 +4091,8 @@
 				502FED111CC4CB2B00FAA75B /* EstimatedPriceVC.m */,
 				5093C9FC1C92A68A006B2258 /* InviteByCodeVC.h */,
 				5093C9FD1C92A68A006B2258 /* InviteByCodeVC.m */,
+				50542B8B1CC6186B0075919B /* MutualInsSuspendedAdVC.h */,
+				50542B8C1CC6186B0075919B /* MutualInsSuspendedAdVC.m */,
 				502FED081CC4CA4900FAA75B /* InviteAlertVC */,
 			);
 			name = MutualInsJoin;
@@ -4430,6 +4466,7 @@
 		6BBAB9581ADE724300EC342F /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				C3BA94461CC5F6180053BC96 /* sh.gpx */,
 				6B26EF491C9026BD00428EC4 /* main.jsbundle */,
 				6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */,
 				18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */,
@@ -5124,6 +5161,24 @@
 			productReference = 1883D8F81ACB99AC002A4D19 /* XiaoMaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		18C809D31CC62476001799CB /* XiaoMaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18C809E41CC62476001799CB /* Build configuration list for PBXNativeTarget "XiaoMaUITests" */;
+			buildPhases = (
+				18C809D01CC62476001799CB /* Sources */,
+				18C809D11CC62476001799CB /* Frameworks */,
+				18C809D21CC62476001799CB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				18C809DA1CC62476001799CB /* PBXTargetDependency */,
+			);
+			name = XiaoMaUITests;
+			productName = XiaoMaUITests;
+			productReference = 18C809D41CC62476001799CB /* XiaoMaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -5140,6 +5195,10 @@
 					1883D8F71ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = EN3DUNUW7P;
+						TestTargetID = 1883D8DE1ACB99AC002A4D19;
+					};
+					18C809D31CC62476001799CB = {
+						CreatedOnToolsVersion = 7.2.1;
 						TestTargetID = 1883D8DE1ACB99AC002A4D19;
 					};
 				};
@@ -5189,6 +5248,7 @@
 			targets = (
 				1883D8DE1ACB99AC002A4D19 /* XiaoMa */,
 				1883D8F71ACB99AC002A4D19 /* XiaoMaTests */,
+				18C809D31CC62476001799CB /* XiaoMaUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -5262,6 +5322,7 @@
 				6BD293D31B943EF1006482A4 /* Other.storyboard in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				6BD293D41B943EF1006482A4 /* Rescue.storyboard in Resources */,
+				C38A1DFE1CC5D1390085BA4C /* (null) in Resources */,
 				508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */,
 				18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */,
 				6BC80CF81C99453B00C7BA3D /* MutualInsPay.storyboard in Resources */,
@@ -5300,6 +5361,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1883D8F61ACB99AC002A4D19 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18C809D21CC62476001799CB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -5428,6 +5496,7 @@
 				5029A84F1C9121C2006B3438 /* GroupIntroductionVC.m in Sources */,
 				18FC01DE1C4E6C6F00FD61BF /* IQKeyboardManager.m in Sources */,
 				18C81CBC1B17FE7B00B0C292 /* FeedbackVC.m in Sources */,
+				50542B8D1CC6186B0075919B /* MutualInsSuspendedAdVC.m in Sources */,
 				18E592351C193C6D006010D9 /* InsBuyVC.m in Sources */,
 				1851F4281B0C2A4E00241A01 /* AutoBrand.m in Sources */,
 				18FC01E31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m in Sources */,
@@ -6016,6 +6085,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		18C809D01CC62476001799CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18C809D71CC62476001799CB /* XiaoMaUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -6023,6 +6100,11 @@
 			isa = PBXTargetDependency;
 			target = 1883D8DE1ACB99AC002A4D19 /* XiaoMa */;
 			targetProxy = 1883D8F91ACB99AC002A4D19 /* PBXContainerItemProxy */;
+		};
+		18C809DA1CC62476001799CB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1883D8DE1ACB99AC002A4D19 /* XiaoMa */;
+			targetProxy = 18C809D91CC62476001799CB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -6337,6 +6419,41 @@
 			};
 			name = Release;
 		};
+		18C809DB1CC62476001799CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = XiaoMaUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ck.XiaoMaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "49d4298a-4b37-4e47-990c-a2b9eb8e6baa";
+				TEST_TARGET_NAME = XiaoMa;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		18C809DC1CC62476001799CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = XiaoMaUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ck.XiaoMaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "49d4298a-4b37-4e47-990c-a2b9eb8e6baa";
+				TEST_TARGET_NAME = XiaoMa;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -6363,6 +6480,15 @@
 			buildConfigurations = (
 				1883D9061ACB99AC002A4D19 /* Debug */,
 				1883D9071ACB99AC002A4D19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18C809E41CC62476001799CB /* Build configuration list for PBXNativeTarget "XiaoMaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18C809DB1CC62476001799CB /* Debug */,
+				18C809DC1CC62476001799CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
