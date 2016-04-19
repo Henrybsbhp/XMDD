@@ -124,6 +124,7 @@ typedef enum : NSUInteger {
 
 #define XMINSPrefix @"#小马互助"
 
+#define ScreenWidth     [UIScreen mainScreen].bounds.size.width
 //单例别名
 #define gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)
 #define gAppMgr     [AppManager sharedManager]
