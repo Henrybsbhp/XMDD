@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -185,7 +185,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="每周礼券" id="no9-Rd-L9m">
                         <barButtonItem key="rightBarButtonItem" image="questionMark_300" id="Vvd-sS-PnB">
-                            <color key="tintColor" red="0.1333333333" green="0.6705882353" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="helpAction:" destination="SvX-dZ-aqd" id="lZi-IZ-Yo1"/>
                             </connections>
