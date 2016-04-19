@@ -24,6 +24,9 @@
 #import "AddCloseAnimationButton.h"
 #import "HKPopoverView.h"
 #import "EditCarVC.h"
+#import "MutualInsSuspendedAdVC.h"
+#import "HKAdvertisement.h"
+#import "AdListData.h"
 
 @interface MutualInsHomeVC ()
 
@@ -40,6 +43,8 @@
 
 @property (nonatomic, assign) NSTimeInterval leftTime;
 
+@property (nonatomic, assign) BOOL isViewAppearing;
+@property (nonatomic, assign) BOOL isShowSuspendedAd;
 @end
 
 @implementation MutualInsHomeVC
@@ -61,14 +66,49 @@
     });
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.isViewAppearing = YES;
+    [self showSuspendedAdIfNeeded];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    self.isViewAppearing = NO;
     [self.popoverMenu dismissWithAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+
+- (void)showSuspendedAdIfNeeded
+{
+    if (self.isViewAppearing && !self.isShowSuspendedAd) {
+        
+        self.isShowSuspendedAd = YES;
+        
+        @weakify(self);
+        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementMutualIns];
+        [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
+            
+            @strongify(self);
+            NSMutableArray * mutableArr = [[NSMutableArray alloc] init];
+            for (int i = 0; i < ads.count; i ++) {
+                HKAdvertisement * adDic = ads[i];
+                //广告是否已经看过
+                if (![AdListData checkAdAlreadyAppeard:adDic]) {
+                    [mutableArr addObject:adDic];
+                }
+            }
+            if (mutableArr.count > 0) {
+                [MutualInsSuspendedAdVC presentInTargetVC:self withAdList:mutableArr];
+            }
+        }];
+    }
 }
 
 - (void)setNavigationBar {
@@ -175,6 +215,9 @@
 
 #pragma mark - Action
 - (void)actionShowOrHideMenu:(id)sender {
+    
+    [MobClick event:@"shouye" attributes:@{@"" : @""}];
+    
     BOOL closing = self.menuButton.closing;
     [self.menuButton setClosing:!closing WithAnimation:YES];
     if (closing && self.popoverMenu) {
@@ -497,7 +540,6 @@
     UIButton *opeBtn = [cell.contentView viewWithTag:1005];
     
     HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 3];
-    
     nameLabel.text = group.groupName;
     carIdLabel.text = group.licenseNumber;
     statusLabel.text = group.statusDesc;
