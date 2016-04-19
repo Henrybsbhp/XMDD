@@ -366,8 +366,6 @@
 		4EF94AF21C321D020092CB55 /* RescueCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF01C321D020092CB55 /* RescueCommentsVC.m */; };
 		4EF94AF31C321D020092CB55 /* RescueHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF11C321D020092CB55 /* RescueHistoryViewController.m */; };
 		4EF94AFA1C3256330092CB55 /* OETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF91C3256330092CB55 /* OETextField.m */; };
-		4EF98F361CBF4D0900408CFA /* CheckPaymentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF98F351CBF4D0900408CFA /* CheckPaymentModel.m */; };
-		4EF98F401CBF65F500408CFA /* GetPayStatusOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF98F3F1CBF65F500408CFA /* GetPayStatusOp.m */; };
 		50094B431C1144640069683C /* GetAreaInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B421C1144640069683C /* GetAreaInfoOp.m */; };
 		50094B461C117CE80069683C /* AreaTablePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50094B451C117CE80069683C /* AreaTablePickerVC.m */; };
 		5014B6571C07041B00DFAB18 /* GetShareButtonOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 5014B6561C07041B00DFAB18 /* GetShareButtonOp.m */; };
@@ -704,6 +702,8 @@
 		C35E37671CAA7ED2008E536D /* UIView+HKLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C35E37661CAA7ED2008E536D /* UIView+HKLine.m */; };
 		C36B8A9F1CB3526100BC2487 /* GetSystemHomeModuleOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */; };
 		C38A1DFE1CC5D1390085BA4C /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C3BA94911CC631340053BC96 /* CheckPaymentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BA94901CC631340053BC96 /* CheckPaymentModel.m */; };
+		C3BA94941CC631520053BC96 /* GetPayStatusOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BA94931CC631520053BC96 /* GetPayStatusOp.m */; };
 		C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */; };
 		C3D9B81F1CC0DBF000B5D2A7 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81D1CC0DBF000B5D2A7 /* FLAnimatedImageView.m */; };
 		FA024A321CAE500500481F59 /* BankCardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA024A311CAE500500481F59 /* BankCardDetailVC.m */; };
@@ -1485,10 +1485,6 @@
 		4EF94AF41C321EFD0092CB55 /* RescueHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueHistoryViewController.h; sourceTree = "<group>"; };
 		4EF94AF81C3256330092CB55 /* OETextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OETextField.h; path = Class/OETextField.h; sourceTree = "<group>"; };
 		4EF94AF91C3256330092CB55 /* OETextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OETextField.m; path = Class/OETextField.m; sourceTree = "<group>"; };
-		4EF98F341CBF4D0900408CFA /* CheckPaymentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckPaymentModel.h; sourceTree = "<group>"; };
-		4EF98F351CBF4D0900408CFA /* CheckPaymentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckPaymentModel.m; sourceTree = "<group>"; };
-		4EF98F3E1CBF65F500408CFA /* GetPayStatusOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetPayStatusOp.h; sourceTree = "<group>"; };
-		4EF98F3F1CBF65F500408CFA /* GetPayStatusOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetPayStatusOp.m; sourceTree = "<group>"; };
 		50094B411C1144640069683C /* GetAreaInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAreaInfoOp.h; path = Class/GetAreaInfoOp.h; sourceTree = "<group>"; };
 		50094B421C1144640069683C /* GetAreaInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAreaInfoOp.m; path = Class/GetAreaInfoOp.m; sourceTree = "<group>"; };
 		50094B441C117CE80069683C /* AreaTablePickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaTablePickerVC.h; sourceTree = "<group>"; };
@@ -2194,6 +2190,10 @@
 		C36B8A9D1CB3526100BC2487 /* GetSystemHomeModuleOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemHomeModuleOp.h; path = Class/GetSystemHomeModuleOp.h; sourceTree = "<group>"; };
 		C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemHomeModuleOp.m; path = Class/GetSystemHomeModuleOp.m; sourceTree = "<group>"; };
 		C3BA94461CC5F6180053BC96 /* sh.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sh.gpx; sourceTree = "<group>"; };
+		C3BA948F1CC631340053BC96 /* CheckPaymentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckPaymentModel.h; path = Class/CheckPaymentModel.h; sourceTree = "<group>"; };
+		C3BA94901CC631340053BC96 /* CheckPaymentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckPaymentModel.m; path = Class/CheckPaymentModel.m; sourceTree = "<group>"; };
+		C3BA94921CC631520053BC96 /* GetPayStatusOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetPayStatusOp.h; path = Class/GetPayStatusOp.h; sourceTree = "<group>"; };
+		C3BA94931CC631520053BC96 /* GetPayStatusOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetPayStatusOp.m; path = Class/GetPayStatusOp.m; sourceTree = "<group>"; };
 		C3D9B81A1CC0DBF000B5D2A7 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = FLAnimatedImage/FLAnimatedImage.h; sourceTree = "<group>"; };
 		C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImage/FLAnimatedImage.m; sourceTree = "<group>"; };
 		C3D9B81C1CC0DBF000B5D2A7 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImage/FLAnimatedImageView.h; sourceTree = "<group>"; };
@@ -4413,6 +4413,8 @@
 		6BBAB8C81ADD351800EC342F /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				C3BA948F1CC631340053BC96 /* CheckPaymentModel.h */,
+				C3BA94901CC631340053BC96 /* CheckPaymentModel.m */,
 				18B6E5C51C44D27C00697DAB /* Keyboard */,
 				6B3DAB9D1C3F512D00C783F8 /* DebugLog */,
 				18E28A191B93F0760070E759 /* Payment */,
@@ -4423,8 +4425,6 @@
 				6B11752B1C0C73D900FC1881 /* ViolationCityInfo.m */,
 				6B50127F1C59FC6500267DCB /* UMLogHelper.h */,
 				6B5012801C59FC6500267DCB /* UMLogHelper.m */,
-				4EF98F341CBF4D0900408CFA /* CheckPaymentModel.h */,
-				4EF98F351CBF4D0900408CFA /* CheckPaymentModel.m */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -4510,6 +4510,8 @@
 		6BC220931AD7800D00A4310E /* Op */ = {
 			isa = PBXGroup;
 			children = (
+				C3BA94921CC631520053BC96 /* GetPayStatusOp.h */,
+				C3BA94931CC631520053BC96 /* GetPayStatusOp.m */,
 				4E045E741CABD55600F17446 /* ConfirmClaimOp.h */,
 				4E045E751CABD55600F17446 /* ConfirmClaimOp.m */,
 				4EF4949A1C9A7D8D008A8E4D /* GetSystemTimeOp.h */,
@@ -4760,8 +4762,6 @@
 				C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */,
 				C3396E8D1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.h */,
 				C3396E8E1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.m */,
-				4EF98F3E1CBF65F500408CFA /* GetPayStatusOp.h */,
-				4EF98F3F1CBF65F500408CFA /* GetPayStatusOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -5505,7 +5505,6 @@
 				6BBAB8AD1ADB6A8A00EC342F /* AuthByVcodeOp.m in Sources */,
 				507A4DDF1B74462200E0BF1E /* UnbundlingVC.m in Sources */,
 				6BEC3FC91C1122B40046F11D /* GetCityInfoByNameOp.m in Sources */,
-				4EF98F361CBF4D0900408CFA /* CheckPaymentModel.m in Sources */,
 				6B5E0C1A1BFC1B3B002869D7 /* GetGeneralUnionpayTradenoOp.m in Sources */,
 				4EF94AF21C321D020092CB55 /* RescueCommentsVC.m in Sources */,
 				6BD7AE621AE8A64B00BEF30E /* ApiXml.mm in Sources */,
@@ -5528,7 +5527,6 @@
 				18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */,
 				FA958E281C9BFE6E00E89180 /* MutualInsGroupInfoVC.m in Sources */,
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
-				4EF98F401CBF65F500408CFA /* GetPayStatusOp.m in Sources */,
 				181355931C925FC600894CA1 /* HKAlertVC.m in Sources */,
 				18273F281C7FEE70004192B3 /* GasNormalVC.m in Sources */,
 				189371361B0F592F0030FDE1 /* JTQueue.m in Sources */,
@@ -5754,6 +5752,7 @@
 				6B343C361B0EFFAF0036AED9 /* ShareUserCouponOp.m in Sources */,
 				503B205B1C08337200F396DD /* AwardOtherSheetVC.m in Sources */,
 				6BC80C841C96BD6800C7BA3D /* AddCooperationGroupJoinOp.m in Sources */,
+				C3BA94941CC631520053BC96 /* GetPayStatusOp.m in Sources */,
 				6BCF62501B184AEF0064AE32 /* NJKWebViewProgress.m in Sources */,
 				4E045E731CABD52600F17446 /* NSString+BankNumber.m in Sources */,
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
@@ -5910,6 +5909,7 @@
 				187CC95F1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m in Sources */,
 				C3396E8F1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.m in Sources */,
 				506A30991B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m in Sources */,
+				C3BA94911CC631340053BC96 /* CheckPaymentModel.m in Sources */,
 				189C69891B74ADC700E56E4A /* BindBankCardVC.m in Sources */,
 				18E756A41B73335C00874601 /* MyBankVC.m in Sources */,
 				6BEA56D01AE24DCE000D19C1 /* MD5DataSigner.m in Sources */,
