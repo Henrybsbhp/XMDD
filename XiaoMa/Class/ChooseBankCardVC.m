@@ -81,7 +81,8 @@
     [[[[couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
         
         @strongify(self);
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - 60)];
+        CGFloat reducingY = self.view.frame.size.height * 0.1056;
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
         
         if ([self.tableView isRefreshViewExists]) {
             

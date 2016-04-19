@@ -98,9 +98,10 @@
     @weakify(self);
     [[signal initially:^{
         
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - 60)];
-        
         @strongify(self);
+        CGFloat reducingY = self.view.frame.size.height * 0.1056;
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
+        
         if ([self.tableView isRefreshViewExists])
         {
             [self.tableView.refreshView beginRefreshing];
@@ -137,6 +138,7 @@
             [self.tableView.refreshView endRefreshing];
         }
     } error:^(NSError *error) {
+        @strongify(self);
         [self.view stopActivityAnimation];
         [gToast showError:error.domain];
         if (![self.tableView isRefreshViewExists])
