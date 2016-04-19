@@ -106,8 +106,14 @@
         if ([self.clickDelegate respondsToSelector:@selector(adClick)]) {
             [self.clickDelegate adClick];
             if (self.mobBaseEvent.length != 0) {
-                NSString * eventstr = [NSString stringWithFormat:@"%@_%d", self.mobBaseEvent, (int)pageIndex];
-                [MobClick event:eventstr];
+                if ([self.mobBaseEvent isEqualToString:@"AdvertisementMutualIns"]) {
+                    //互助弹窗广告点击友盟事件
+                    [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0016"}];
+                }
+                else {
+                    NSString * eventstr = [NSString stringWithFormat:@"%@_%d", self.mobBaseEvent, (int)pageIndex];
+                    [MobClick event:eventstr];
+                }
             }
             @strongify(self);
             if (ad.adLink.length > 0) {
