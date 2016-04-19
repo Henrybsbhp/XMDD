@@ -30,7 +30,7 @@
 #import "MutualInsGrouponMembersVC.h"
 #import "MutualInsPicUpdateVC.h"
 #import "MutualInsOrderInfoVC.h"
-#import "MutualInsChooseVC.h"
+#import "EstimatedPriceVC.h"
 #import "EditCarVC.h"
 
 
@@ -177,7 +177,7 @@
 
 - (void)actionImproveCoverageInfo {
     [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0005"}];
-    MutualInsChooseVC * vc = [UIStoryboard vcWithId:@"MutualInsChooseVC" inStoryboard:@"MutualInsJoin"];
+    EstimatedPriceVC * vc = [UIStoryboard vcWithId:@"EstimatedPriceVC" inStoryboard:@"MutualInsJoin"];
     vc.memberId = self.groupDetail.req_memberid;
     vc.groupId = self.groupDetail.req_groupid;
     vc.groupName = self.groupDetail.rsp_groupname;

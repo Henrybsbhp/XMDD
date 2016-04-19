@@ -10,21 +10,17 @@
 
 @interface HKMutualInsList : NSObject
 
-//保险列表
-@property (nonatomic, strong) NSArray * insList;
-//三者险大于此值显示优惠文案
-@property (nonatomic, copy) NSString * minthirdSum;
-//三者险优惠文案
-@property (nonatomic, copy) NSString * thirdsumTip;
-//座位险大于此值显示优惠文案
-@property (nonatomic, copy) NSString * minseatSum;
-//座位险优惠文案
-@property (nonatomic, copy) NSString * seatsumTip;
-//新车购置价
-@property (nonatomic, assign) CGFloat purchasePrice;
+//预估费用
+@property (nonatomic, assign) CGFloat premiumprice;
+//优惠金额
+@property (nonatomic, assign) CGFloat couponMoney;
+//优惠列表
+@property (nonatomic, strong) NSArray *couponList;
 //提醒文案
-@property (nonatomic, copy) NSString * remindTip;
-//小马达达折扣
-@property (nonatomic, assign) CGFloat xmddDiscount;
+@property (nonatomic, copy) NSString *remindTip;
+//会员费
+@property (nonatomic, assign) CGFloat memberFee;
+//预估费用备注
+@property (nonatomic, strong) NSArray *noteList;
 
 @end
