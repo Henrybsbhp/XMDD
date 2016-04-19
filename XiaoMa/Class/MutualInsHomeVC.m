@@ -356,7 +356,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return 120;
+        return 123;
     }
     else if (indexPath.row == 1) {
         return 60;
@@ -571,8 +571,17 @@
     [brandImageView setImageByUrl:myCar.brandLogo withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
     licensenumLabel.text = myCar.licenseNum;
     [joinGroup setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    @weakify(self);
+    [[[joinGroup rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        //团列表
+        SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
+        vc.originCar = [self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
     mutualPrice.text = myCar.premiumPrice;
-    couponPrice.text = [NSString stringWithFormat:@"已优惠%@元", myCar.couponMoney];
+    couponPrice.text = [NSString stringWithFormat:@"%@", myCar.couponMoney];
     
     return cell;
 }

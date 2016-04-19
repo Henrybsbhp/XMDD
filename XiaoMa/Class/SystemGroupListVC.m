@@ -407,16 +407,68 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
-        PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
-        vc.isShowBottomView = YES;
-        @weakify(self);
-        [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
-            @strongify(self);
-            //爱车页面入团按钮委托实现
-            [self requestApplyJoinGroupWithID:groupid groupName:groupname carModel:carModel loadingView:loadingView];
-        }];
-        [self.navigationController pushViewController:vc animated:YES];
+        if (self.originCar) {
+            @weakify(self);
+            ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
+            op.req_groupid = groupid;
+            op.req_carid = self.originCar.carId;
+            [[[op rac_postRequest] initially:^{
+                
+                [gToast showingWithText:@"申请加入中..." inView:self.view];
+            }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
+                
+                @strongify(self);
+                
+                [gToast dismissInView:self.view];
+                
+                MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+                vc.memberId = rop.rsp_memberid;
+                vc.groupId = rop.req_groupid;
+                vc.groupName = groupname;
+                [self.navigationController pushViewController:vc animated:YES];
+            } error:^(NSError *error) {
+                
+                if (error.code == 6115804) {
+                    @strongify(self);
+                    [self showAlertWithError:error.domain car:self.originCar];
+                }
+                else {
+                    [gToast showError:error.domain inView:self.view];
+                }
+            }];
+        }
+        
+        else {
+            PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
+            vc.isShowBottomView = YES;
+            @weakify(self);
+            [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
+                @strongify(self);
+                //爱车页面入团按钮委托实现
+                [self requestApplyJoinGroupWithID:groupid groupName:groupname carModel:carModel loadingView:loadingView];
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
+}
+
+- (void)showAlertWithError:(NSString *)errorString car:(HKMyCar *)car
+{
+    [gToast dismissInView:self.view];
+    HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+    alert.topTitle = @"温馨提示";
+    alert.imageName = @"mins_bulb";
+    alert.message = errorString;
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    @weakify(self);
+    HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        @strongify(self);
+        EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+        vc.originCar = car;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    alert.actionItems = @[cancel, improve];
+    [alert show];
 }
 
 - (void)requestApplyJoinGroupWithID:(NSNumber *)groupId groupName:(NSString *)groupName
