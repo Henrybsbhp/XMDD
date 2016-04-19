@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "Constants.h"
 
-#define CarwashAdvertiseNotification @"CarwashAdvertiseNotification"
 
 @interface AdvertisementManager : NSObject
 

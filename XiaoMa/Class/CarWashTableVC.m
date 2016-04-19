@@ -48,8 +48,6 @@
     self.carwashLoadingModel.isSectionLoadMore = YES;
     self.withheartLoadingModel.isSectionLoadMore = YES;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
-    
     CKAsyncMainQueue(^{
         [self setupTableView];
         [self setupADView];
