@@ -23,6 +23,7 @@
 @interface CouponDetailsVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong ,nonatomic) HKCoupon * couponDic;
+@property (weak, nonatomic) IBOutlet UIView *navigationView;
 
 @end
 
@@ -54,7 +55,7 @@
         self.tableView.rowHeight = UITableViewAutomaticDimension;
         self.tableView.estimatedRowHeight = 44;
     }
-    [self requestDate];
+    [self requestData];
 }
 
 - (void)goToUse:(CouponNewType)newType
@@ -82,26 +83,32 @@
     }
 }
 
-- (void)requestDate {
+- (void)requestData {
     GetCouponDetailsOp * op = [GetCouponDetailsOp operation];
     op.req_cid = self.couponId;
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         self.tableView.hidden = YES;
+        [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        self.navigationView.backgroundColor = [UIColor colorWithHex:@"#18d06a" alpha:1];
     }] subscribeNext:^(GetCouponDetailsOp * op) {
-        
         @strongify(self);
         [self.view stopActivityAnimation];
         self.tableView.hidden = NO;
         self.couponDic = op.rsp_couponDetails;
+        self.navigationView.backgroundColor = [UIColor colorWithHex:@"#18d06a" alpha:0];
         [self.tableView reloadData];
     } error:^(NSError *error) {
         @strongify(self);
         [self.view stopActivityAnimation];
         [gToast showError:error.domain];
         self.tableView.hidden = YES;
-        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"优惠券详情获取失败"];
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"优惠券详情获取失败,点击重试" tapBlock:^{
+            [self requestData];
+        }];
+        self.navigationView.backgroundColor = [UIColor colorWithHex:@"#18d06a" alpha:1];
+        [self.view bringSubviewToFront:self.navigationView];
     }];
 }
 
@@ -307,8 +314,24 @@
     
     nameLabel.text = self.couponDic.couponName;
     subnameLabel.text = [NSString stringWithFormat:@"%@", self.couponDic.subname];
-    describeLabel.text = [NSString stringWithFormat:@"使用说明：%@", self.couponDic.couponDescription];
-    validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@", [self.couponDic.validsince dateFormatForYYMMdd2], [self.couponDic.validthrough dateFormatForYYMMdd2]];
+    if (self.couponDic.couponDescription.length > 0)
+    {
+        describeLabel.hidden = NO;
+        describeLabel.text = [NSString stringWithFormat:@"使用说明：%@", self.couponDic.couponDescription];
+    }
+    else
+    {
+        describeLabel.hidden = YES;
+    }
+    if (self.couponDic.validsince && self.couponDic.validthrough)
+    {
+        validDate.hidden = NO;
+        validDate.text = [NSString stringWithFormat:@"有效期：%@ - %@", [self.couponDic.validsince dateFormatForYYMMdd2], [self.couponDic.validthrough dateFormatForYYMMdd2]];
+    }
+    else
+    {
+        validDate.hidden = YES;
+    }
     return cell;
 }
 
@@ -382,6 +405,7 @@
 }
 
 #pragma mark Utility
+
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
