@@ -139,12 +139,10 @@
 #pragma mark - Utility
 - (void)saveAddressComponent:(AMapAddressComponent *)componet
 {
-    if (![HKAddressComponent isEqualAddrComponent:self.addrComponent AMapAddrComponent:componet]) {
-        HKAddressComponent *hkcomponent = [HKAddressComponent addressComponentWith:componet];
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:hkcomponent];
-        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"HKAddressComponent"];
-        self.addrComponent = hkcomponent;
-    }
+    HKAddressComponent *hkcomponent = [HKAddressComponent addressComponentWith:componet];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:hkcomponent];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"HKAddressComponent"];
+    self.addrComponent = hkcomponent;
 }
 
 - (void)fetchAddressComponetDict

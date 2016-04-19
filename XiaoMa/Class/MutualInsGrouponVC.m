@@ -155,6 +155,10 @@ typedef enum : NSInteger
 #pragma mark - Action
 - (void)actionShowOrHideMenu:(id)sender {
     BOOL closing = self.menuButton.closing;
+    if (!closing) {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0001"}];
+    }
+
     [self.menuButton setClosing:!closing WithAnimation:YES];
     if (closing && self.popoverMenu) {
         [self.popoverMenu dismissWithAnimated:YES];
@@ -185,6 +189,7 @@ typedef enum : NSInteger
 }
 
 - (void)actionBack:(id)sender {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0002"}];
     if (self.originVC) {
         [self.navigationController popToViewController:self.originVC animated:YES];
     }
@@ -319,6 +324,7 @@ typedef enum : NSInteger
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0007"}];
         InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
         vc.groupId = self.groupDetail.rsp_groupid;
         [self.navigationController pushViewController:vc animated:YES];
@@ -337,6 +343,7 @@ typedef enum : NSInteger
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0008"}];
         HKMessageAlertVC *alert = [[HKMessageAlertVC alloc] init];
         alert.messageLabel.text = @"您确认退出该团？退出后将无法查看团内信息。";
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:MutInsTextGrayColor clickBlock:nil];
@@ -353,6 +360,7 @@ typedef enum : NSInteger
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Call",@"title":@"联系客服",@"img":@"mins_phone"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0009"}];
         [gPhoneHelper makePhone:@"4007111111" andInfo:@"如有任何疑问，可拨打客服电话：4007-111-111"];
     });
     return dict;
@@ -364,6 +372,7 @@ typedef enum : NSInteger
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0012"}];
         MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
         vc.contractId = self.groupDetail.rsp_contractid;
         vc.group = self.group;
@@ -404,6 +413,7 @@ typedef enum : NSInteger
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0013"}];
         [self requestDeleteGroup];
     });
     return dict;

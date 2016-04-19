@@ -75,12 +75,12 @@
     }
     else if (status == MutInsStatusPaidForSelf || status == MutInsStatusPaidForAll ||
              status == MutInsStatusGettedAgreement || status == MutInsStatusAgreementTakingEffect) {
-        datasource = $([self carsItem], [self splitLineItem], [self waterWaveItem], [self descItem], [self timeItem],
-                       [self buttonItem], [self bottomItem]);
+        datasource = $([self carsItem], [self splitLineItem], [self arrowItem], [self waterWaveItem], [self descItem],
+                       [self timeItem], [self buttonItem], [self bottomItem]);
     }
     else {
-        datasource = $([self carsItem], [self splitLineItem], [self waterWaveItem], [self descItem], [self timeItem],
-                       [self buttonItem], [self bottomItem]);
+        datasource = $([self carsItem], [self splitLineItem], [self arrowItem], [self waterWaveItem], [self descItem],
+                       [self timeItem], [self buttonItem], [self bottomItem]);
     }
     self.datasource = datasource;
     [self.tableView reloadData];
@@ -154,6 +154,7 @@
 }
 
 - (void)actionImproveCarInfo {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0005"}];
     PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
     vc.isShowBottomView = YES;
     @weakify(self);
@@ -166,6 +167,7 @@
 }
 
 - (void)actionImproveDrivingLicenseInfo {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0005"}];
     MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
     vc.originVC = self.parentViewController;
     vc.memberId = self.groupDetail.req_memberid;
@@ -174,6 +176,7 @@
 }
 
 - (void)actionImproveCoverageInfo {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0005"}];
     EstimatedPriceVC * vc = [UIStoryboard vcWithId:@"EstimatedPriceVC" inStoryboard:@"MutualInsJoin"];
     vc.memberId = self.groupDetail.req_memberid;
     vc.groupId = self.groupDetail.req_groupid;
@@ -213,6 +216,7 @@
 }
 
 - (void)actionPay {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0011"}];
     MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
     vc.contractId = self.groupDetail.rsp_contractid;
     vc.group = self.group;
@@ -385,9 +389,11 @@
         [cardsCell setCarDidSelectedBlock:^(MutualInsMemberInfo *info) {
             @strongify(self);
             if (!info) {
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0003"}];
                 [self actionGotoMembersVCWithMembers:data[@"members"]];
             }
             else {
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0004"}];
                 [self requestDetailInfoForMember:info.memberid];
             }
         }];
@@ -460,7 +466,7 @@
         HKProgressView *arrowV = [cell viewWithTag:1001];
         arrowV.normalTextColor = MutInsTextLightGrayColor;
         arrowV.normalColor = MutInsBgColor;
-        arrowV.titleArray = @[@"上传",@"审核",@"报价",@"支付"];
+        arrowV.titleArray = @[@"上传",@"审核",@"支付"];
         arrowV.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.groupDetail.rsp_barstatus)];
     });
     return item;
@@ -648,6 +654,9 @@
          subscribeNext:^(PullDownAnimationButton *btn) {
              @strongify(self);
              BOOL expanded = !self.isExpanded;
+             if (!expanded) {
+                 [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0006"}];
+             }
              self.isExpanded = expanded;
              if (self.shouldExpandedOrClosed) {
                  self.shouldExpandedOrClosed(expanded);
