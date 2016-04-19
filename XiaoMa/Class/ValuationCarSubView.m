@@ -148,6 +148,10 @@
         textField.text = @"";
         [gToast showText:@"请输入正确的行驶里程"];
     }
+    else if (textField.text.length == 0)
+    {
+        textField.text = @"";
+    }
     else {
         textField.text = [NSString formatForPrice:[textField.text floatValue]];
         CGFloat miles = [textField.text floatValue];
@@ -217,6 +221,15 @@
     self.contentLabel.text = labelString;
     arrowImageView.hidden = YES;
     [self.contentView addSubview:self.contentField];
+    
+    if ([fieldString isEqualToString:@"0"])
+    {
+        self.contentField.placeholder = @"请输入行驶里程  ";
+    }
+    else
+    {
+        self.contentField.placeholder = @"";
+    }
     
     [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.contentView.mas_centerY);

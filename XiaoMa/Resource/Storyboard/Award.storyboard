@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -184,7 +184,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="每周礼券" id="no9-Rd-L9m">
-                        <barButtonItem key="rightBarButtonItem" image="award_item" id="Vvd-sS-PnB">
+                        <barButtonItem key="rightBarButtonItem" image="questionMark_300" id="Vvd-sS-PnB">
                             <color key="tintColor" red="0.1333333333" green="0.6705882353" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="helpAction:" destination="SvX-dZ-aqd" id="lZi-IZ-Yo1"/>
@@ -518,7 +518,6 @@
         <image name="award_bg_6s" width="375" height="603"/>
         <image name="award_btn_carwash" width="142" height="56"/>
         <image name="award_btn_share" width="142" height="56"/>
-        <image name="award_item" width="17" height="17"/>
         <image name="award_logo_arrival" width="176" height="119"/>
         <image name="award_logo_send" width="176" height="173"/>
         <image name="award_logo_unarrival" width="176" height="128"/>
@@ -527,5 +526,6 @@
         <image name="award_sheetbg_new" width="284" height="259"/>
         <image name="award_used_new" width="84" height="36"/>
         <image name="awrad_text" width="231" height="38"/>
+        <image name="questionMark_300" width="15" height="15"/>
     </resources>
 </document>

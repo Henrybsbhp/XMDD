@@ -31,10 +31,12 @@
 
 @property (nonatomic,strong)MutualInsContract * contract;
 
-/**
- *  是否保险公司代购
- */
+///是否保险公司代购
 @property (nonatomic)BOOL isInsProxy;
+///保险公司代购是否展开
+@property (nonatomic)BOOL isInsProxyExpand;
+///代购保险公司
+@property (nonatomic,strong)NSString * proxyInsCompany;
 
 @end
 
@@ -132,12 +134,17 @@
         vc.contract = self.contract;
         vc.proxybuy = self.isInsProxy;
         vc.group = self.group;
+        vc.proxyInsCompany = self.isInsProxy ? self.proxyInsCompany : @"";
         [self.navigationController pushViewController:vc animated:YES];
     }
     else
     {
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"订单查询,小马互助咨询等\n请拨打客服电话: 4007-111-111"];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"订单查询,小马互助咨询等\n请拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
+        [alert show];
     }
 }
 
@@ -189,6 +196,8 @@
 
 - (void)setupDateSource
 {
+    if (!self.proxyInsCompany)
+        self.proxyInsCompany = self.contract.inscomp.firstObject ?: @"";
     NSMutableArray * array = [NSMutableArray array];
     
     [array safetyAddObject:@{@"id":@"ProgressCell"}];
@@ -210,13 +219,29 @@
         [array safetyAddObject:@{@"id":@"ItemCell",@"title":insName,@"content":[NSString formatForPrice:[sum floatValue]]}];
     }
     
+    for (NSDictionary * subinsnote in self.contract.insnotes)
+    {
+        NSString * insNoteTitle = subinsnote[@"title"] ?: @"";
+        NSString * insNote = subinsnote[@"note"] ?: @"";
+        [array safetyAddObject:@{@"id":@"ItemContentCell",@"title":insNoteTitle,@"content":insNote}];
+    }
+    if (self.contract.insnotes.count)
+    {
+        [array safetyAddObject:@{@"id":@"ItemContentBottomCell"}];
+    }
+    
     if (self.contract.insperiod.length)
     {
         [array safetyAddObject:@{@"id":@"SwitchCell",@"insSelected":@(self.isInsProxy),@"content":@"保险公司代购"}];
         
         if (self.isInsProxy)
         {
-            [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保险公司",@"content":self.contract.inscomp.firstObject ?: @""}];
+            [array safetyAddObject:@{@"id":@"InsCompanyCell",@"title":@"保险公司",@"content":self.proxyInsCompany}];
+            
+            if (self.isInsProxyExpand && self.contract.inscomp.count)
+            {
+                [array safetyAddObject:@{@"id":@"InsExpandCell",@"title":@"保险公司",@"content":self.contract.inscomp}];
+            }
             [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保险期限",@"content":self.contract.insperiod ?: @""}];
             
             [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
@@ -271,6 +296,29 @@
         // 20 = 10 + 10 文字和上下边界的距离
         height = MAX(MAX(size1.height + 20, size2.height + 20),30);
     }
+    else if ([cellId isEqualToString:@"ItemContentCell"])
+    {
+        NSString * title = [dict objectForKey:@"title"];
+        NSString * content = [dict objectForKey:@"content"];
+        CGFloat width = gAppMgr.deviceInfo.screenSize.width;
+        CGFloat lbWidth = width - 10 * 4;
+        CGSize size1 = [title labelSizeWithWidth:lbWidth font:[UIFont systemFontOfSize:13]];
+        CGSize size2 = [content labelSizeWithWidth:lbWidth font:[UIFont systemFontOfSize:13]];
+        height = 10 + size1.height + 8 + size2.height;
+    }
+    else if ([cellId isEqualToString:@"ItemContentBottomCell"])
+    {
+        height = 10;
+    }
+    else if ([cellId isEqualToString:@"InsCompanyCell"])
+    {
+        height = 25;
+    }
+    else if ([cellId isEqualToString:@"InsExpandCell"])
+    {
+        NSInteger num = self.contract.inscomp.count / 2 + self.contract.inscomp.count % 2;
+        height = 5 + 6 + 27 * num + 9 * (num + 1);
+    }
     else
     {
         height = 40;
@@ -300,6 +348,22 @@
     {
         cell = [self tableView:tableView itemCellForRowAtIndexPath:indexPath];
     }
+    else if ([cellId isEqualToString:@"ItemContentCell"])
+    {
+        cell = [self tableView:tableView itemContentCellForRowAtIndexPath:indexPath];
+    }
+    else if ([cellId isEqualToString:@"ItemContentBottomCell"])
+    {
+        cell = [self tableView:tableView itemContentBottomCellForRowAtIndexPath:indexPath];
+    }
+    else if ([cellId isEqualToString:@"InsCompanyCell"])
+    {
+        cell = [self tableView:tableView insCompanyCellForRowAtIndexPath:indexPath];
+    }
+    else if ([cellId isEqualToString:@"InsExpandCell"])
+    {
+        cell = [self tableView:tableView insExpandCellForRowAtIndexPath:indexPath];
+    }
     else
     {
         cell = [self tableView:tableView switchCellForRowAtIndexPath:indexPath];
@@ -308,8 +372,43 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary * dict = [self.datasource safetyObjectAtIndex:indexPath.row];
+    NSString * cellId = [dict objectForKey:@"id"];
+    UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    UIImageView * iconView = (UIImageView *)[cell searchViewWithTag:103];
+    if ([cellId isEqualToString:@"InsCompanyCell"])
+    {
+        self.isInsProxyExpand = !self.isInsProxyExpand;
+        [self setupDateSource];
+        if (self.isInsProxyExpand)
+        {
+            NSIndexPath * path = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
+            [self.tableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
+            [UIView animateWithDuration:0.2 animations:^{
+                
+                iconView.transform = CGAffineTransformMakeRotation(180 *M_PI / 180.0);
+            }];
+            
+        }
+        else
+        {
+            NSIndexPath * path = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
+            [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
+            [UIView animateWithDuration:0.2 animations:^{
+                
+                iconView.transform = CGAffineTransformMakeRotation(0);
+            }];
+        }
+        
+    }
+}
 
 
+
+#pragma mark - About Cell
 - (UITableViewCell *)tableView:(UITableView *)tableView progressCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ProgressCell"];
@@ -389,6 +488,44 @@
     return cell;
 }
 
+- (UITableViewCell *)tableView:(UITableView *)tableView itemContentCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ItemContentCell"];
+    
+    CKLine * leftLine = (CKLine *)[cell searchViewWithTag:20101];
+    CKLine * rightLine = (CKLine *)[cell searchViewWithTag:20103];
+    leftLine.lineColor = rightLine.lineColor = HEXCOLOR(@"#d3f0e0");
+    leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
+    rightLine.lineAlignment = CKLineAlignmentVerticalRight;
+    
+    UILabel * lb1 = (UILabel *)[cell searchViewWithTag:102];
+    UILabel * lb2 = (UILabel *)[cell searchViewWithTag:103];
+    
+    
+    NSDictionary * dict = [self.datasource safetyObjectAtIndex:indexPath.row];
+    NSString * title = [dict objectForKey:@"title"];
+    NSString * content = [dict objectForKey:@"content"];
+    
+    
+    lb1.text = title;
+    lb2.text = content;
+    
+    return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView itemContentBottomCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ItemContentBottomCell"];
+    CKLine * leftLine = (CKLine *)[cell searchViewWithTag:20101];
+    CKLine * rightLine = (CKLine *)[cell searchViewWithTag:20103];
+    CKLine * bottomLine = (CKLine *)[cell searchViewWithTag:20104];
+    leftLine.lineColor =  rightLine.lineColor = bottomLine.lineColor  = HEXCOLOR(@"#d3f0e0");
+    leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
+    rightLine.lineAlignment = CKLineAlignmentVerticalRight;
+    bottomLine.lineAlignment = CKLineAlignmentHorizontalBottom;
+    return cell;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView switchCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell"];
@@ -417,6 +554,126 @@
     }];
 
     return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView insCompanyCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"InsCompanyCell"];
+    NSDictionary * dict = [self.datasource safetyObjectAtIndex:indexPath.row];
+    NSString * title = [dict objectForKey:@"title"];
+    NSString * content = [dict objectForKey:@"content"];
+    
+    UILabel * lb1 = (UILabel *)[cell searchViewWithTag:101];
+    UILabel * lb2 = (UILabel *)[cell searchViewWithTag:102];
+    UIImageView * upIcon = (UIImageView *)[cell searchViewWithTag:103];
+    
+    lb1.text = title;
+    lb2.text = content;
+    upIcon.hidden = !(self.contract.inscomp.count > 1);
+    
+    upIcon.transform = CGAffineTransformMakeRotation(self.isInsProxyExpand ? 180 *M_PI / 180.0 : 0);
+    
+    return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView insExpandCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"InsExpandCell"];
+    
+    UIImageView * imageView = (UIImageView *)[cell searchViewWithTag:101];
+    UIImage * image = [[UIImage imageNamed:@"mutualins_sepline"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 60) resizingMode:UIImageResizingModeStretch];
+    imageView.image = image;
+    
+    __block UIView * insCompanysView = [cell searchViewWithTag:102];
+    if (!insCompanysView)
+    {
+        insCompanysView = [self getInsComanysView];
+        insCompanysView.tag = 102;
+        insCompanysView.alpha = 0.0;
+        [cell.contentView addSubview:insCompanysView];
+        
+        [insCompanysView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.height.equalTo(cell.contentView).offset(-12);
+            make.width.equalTo(cell.contentView);
+            make.top.equalTo(cell.contentView).offset(12);
+            make.leading.equalTo(cell.contentView);
+        }];
+    }
+    
+    insCompanysView.alpha = 0.0;
+    CKAfter(0.15, ^{
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            
+            insCompanysView.alpha = 1.0;
+        }];
+    });
+    
+    [cell setNeedsLayout];
+    [cell layoutIfNeeded];
+    
+    return cell;
+}
+
+- (UIView *)getInsComanysView
+{
+    UIView * view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor whiteColor];
+    
+    CGFloat space = 12;
+    CGFloat btnWidth = (gAppMgr.deviceInfo.screenSize.width - 6 * 2 - 12 * 3) / 2;
+    CGFloat btnHeight = 27;
+    for (NSInteger i = 0 ; i < self.contract.inscomp.count ; i++)
+    {
+        NSString * insCompany = [self.contract.inscomp safetyObjectAtIndex:i];
+        UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.backgroundColor = kLightLineColor;
+        [button setTitle:insCompany forState:UIControlStateNormal];
+        [button setTitle:insCompany forState:UIControlStateHighlighted];
+        [button setTitleColor:kGrayTextColor forState:UIControlStateNormal];
+        [button setTitleColor:kGrayTextColor forState:UIControlStateHighlighted];
+        button.titleLabel.font = [UIFont systemFontOfSize:13];
+        button.titleLabel.text = insCompany;
+        [view addSubview:button];
+        
+        [[RACObserve(self, proxyInsCompany) distinctUntilChanged] subscribeNext:^(NSString * name) {
+            
+            button.backgroundColor = [name isEqualToString:insCompany] ? kDefTintColor :kLightLineColor;
+            [button setTitleColor:[name isEqualToString:insCompany] ? [UIColor whiteColor] :kGrayTextColor forState:UIControlStateNormal];
+            [button setTitleColor:[name isEqualToString:insCompany] ? [UIColor whiteColor] :kGrayTextColor forState:UIControlStateHighlighted];
+        }];
+        
+        [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+           
+            self.proxyInsCompany = insCompany;
+            
+            [self setupDateSource];
+            for (NSInteger i = 0 ; i < self.datasource.count ; i++)
+            {
+                NSDictionary * dict = [self.datasource safetyObjectAtIndex:i];
+                NSString * key = dict[@"id"];
+                if ([key isEqualToString:@"InsCompanyCell"])
+                {
+                    NSIndexPath * path = [NSIndexPath indexPathForRow:i inSection:0];
+                    [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
+                    break;
+                }
+            }
+        }];
+        
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            CGFloat offsetX = i % 2 * (btnWidth + space) + space;
+            CGFloat offsetY = i / 2 * (27 + space) + space;
+            make.height.mas_equalTo(btnHeight);
+            make.width.mas_equalTo(btnWidth);
+            make.top.equalTo(view).offset(offsetY);
+            make.leading.equalTo(view).offset(offsetX);
+        }];
+    }
+    
+    return view;
 }
 
 

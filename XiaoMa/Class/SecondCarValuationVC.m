@@ -168,6 +168,8 @@
 -(UITableViewCell *)noticeCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"NoticeCell"];
+    UILabel *tip = [cell viewWithTag:100];
+    tip.text = self.tip;
     [cell layoutIfNeeded];
     return cell;
 }

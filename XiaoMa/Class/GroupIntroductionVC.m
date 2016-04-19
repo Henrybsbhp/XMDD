@@ -250,15 +250,21 @@
 // 创建团
 - (void)selfGroupTour
 {
-    CreateGroupVC * vc = [UIStoryboard vcWithId:@"CreateGroupVC" inStoryboard:@"MutualInsJoin"];
-//    vc.originVC = self.originVC;
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self])
+    {
+        CreateGroupVC * vc = [UIStoryboard vcWithId:@"CreateGroupVC" inStoryboard:@"MutualInsJoin"];
+        //    vc.originVC = self.originVC;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 // 加入团
 - (void)selfGroupJoin
 {
-    MutualInsRequestJoinGroupVC * vc = [UIStoryboard vcWithId:@"MutualInsRequestJoinGroupVC" inStoryboard:@"MutualInsJoin"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self])
+    {
+        MutualInsRequestJoinGroupVC * vc = [UIStoryboard vcWithId:@"MutualInsRequestJoinGroupVC" inStoryboard:@"MutualInsJoin"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 @end

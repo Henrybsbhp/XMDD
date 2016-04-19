@@ -282,7 +282,7 @@
         }
         NSInteger count;
         if (self.dataSource.count >= 5) {
-            count = 5;
+            count = self.dataSource.count;
         }
         else {
             count = self.dataSource.count + 1;

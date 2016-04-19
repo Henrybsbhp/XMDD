@@ -10,6 +10,8 @@
 @property (nonatomic,strong) NSString* req_cids;
 ///支付渠道
 @property (nonatomic)PaymentChannelType req_paychannel;
+///优惠券ID
+@property (nonatomic,strong) NSString* req_inscomp;
 
 ///实付金额
 @property (nonatomic,assign) float rsp_total;

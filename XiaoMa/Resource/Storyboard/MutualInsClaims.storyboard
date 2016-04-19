@@ -976,7 +976,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1dW-My-VFZ">
                                         <rect key="frame" x="15" y="10" width="277.5" height="45"/>
-                                        <state key="normal" title="不同意">
+                                        <state key="normal" title="价格不满意">
                                             <color key="titleColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>

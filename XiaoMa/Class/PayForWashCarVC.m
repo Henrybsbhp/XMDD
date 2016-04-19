@@ -1078,8 +1078,6 @@
     [self refreshPriceLb];
 }
 
-
-
 - (void)chooseResource
 {
     [self selectDefaultCoupon];

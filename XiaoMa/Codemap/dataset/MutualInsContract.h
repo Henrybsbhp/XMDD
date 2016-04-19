@@ -25,7 +25,7 @@
 @property (nonatomic,assign) float forcefee;
 ///车船税
 @property (nonatomic,assign) float taxshipfee;
-///协议期限
+///可以代买的保险公司名字
 @property (nonatomic,strong) NSArray* inscomp;
 ///投保月份数
 @property (nonatomic,strong) NSNumber* totalmonth;
@@ -41,6 +41,8 @@
 @property (nonatomic,strong) NSArray* couponlist;
 ///是否填写了寄送地址
 @property (nonatomic)BOOL finishaddress;
+///协议备注列表{@"title":@"",@"note":@""}
+@property (nonatomic,strong)NSArray * insnotes;
 
 
 
