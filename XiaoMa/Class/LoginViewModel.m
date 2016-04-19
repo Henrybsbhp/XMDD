@@ -59,9 +59,8 @@
     VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
     if ([targetVC isKindOfClass:[UINavigationController class]]) {
         vc.model.originVC = originVC;
-        
+        gAppMgr.isNaviBarHidden = YES;
         [(UINavigationController *)targetVC pushViewController:vc animated:YES];
-        [gAppMgr.navModel.curNavCtrl setNavigationBarHidden:YES animated:NO];
     }
     else {
         [targetVC presentViewController:vc animated:YES completion:nil];

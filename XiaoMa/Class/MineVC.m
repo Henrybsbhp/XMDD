@@ -77,6 +77,7 @@
     [super viewWillAppear:animated];
     self.isViewAppearing = YES;
     self.isCarVC = NO;
+    gAppMgr.isNaviBarHidden = NO;
     [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
@@ -101,7 +102,12 @@
         }
         else {
             if (!self.isCarVC) {
-                [self.navigationController setNavigationBarHidden:NO animated:animated];
+                if (gAppMgr.isNaviBarHidden == YES) {
+                    [self.navigationController setNavigationBarHidden:YES animated:NO];
+                    gAppMgr.isNaviBarHidden = NO;
+                } else {
+                    [self.navigationController setNavigationBarHidden:NO animated:NO];
+                }
             }
             
         }
