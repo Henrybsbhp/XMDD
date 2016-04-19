@@ -75,12 +75,12 @@
     }
     else if (status == MutInsStatusPaidForSelf || status == MutInsStatusPaidForAll ||
              status == MutInsStatusGettedAgreement || status == MutInsStatusAgreementTakingEffect) {
-        datasource = $([self carsItem], [self splitLineItem], [self waterWaveItem], [self descItem], [self timeItem],
-                       [self buttonItem], [self bottomItem]);
+        datasource = $([self carsItem], [self splitLineItem], [self arrowItem], [self waterWaveItem], [self descItem],
+                       [self timeItem], [self buttonItem], [self bottomItem]);
     }
     else {
-        datasource = $([self carsItem], [self splitLineItem], [self waterWaveItem], [self descItem], [self timeItem],
-                       [self buttonItem], [self bottomItem]);
+        datasource = $([self carsItem], [self splitLineItem], [self arrowItem], [self waterWaveItem], [self descItem],
+                       [self timeItem], [self buttonItem], [self bottomItem]);
     }
     self.datasource = datasource;
     [self.tableView reloadData];
@@ -466,7 +466,7 @@
         HKProgressView *arrowV = [cell viewWithTag:1001];
         arrowV.normalTextColor = MutInsTextLightGrayColor;
         arrowV.normalColor = MutInsBgColor;
-        arrowV.titleArray = @[@"上传",@"审核",@"报价",@"支付"];
+        arrowV.titleArray = @[@"上传",@"审核",@"支付"];
         arrowV.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.groupDetail.rsp_barstatus)];
     });
     return item;
