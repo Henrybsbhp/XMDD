@@ -18,15 +18,16 @@
 #import "HKAddressComponent.h"
 #import "HomePicModel.h"
 
-#define Province @"Province"
-#define City @"City"
-#define District @"District"
+//#define Province @"Province"
+//#define City @"City"
+//#define District @"District"
+//#define LastLocationTime @"LastLocationTime"
+//#define Restriction @"Restriction"
+//#define Temperature @"Temperature"
+//#define Temperaturetip @"Temperaturetip"
+//#define Temperaturepic @"Temperaturepic"
+//#define LastWeatherTime @"LastWeatherTime"
 #define LastLocationTime @"LastLocationTime"
-#define Restriction @"Restriction"
-#define Temperature @"Temperature"
-#define Temperaturetip @"Temperaturetip"
-#define Temperaturepic @"Temperaturepic"
-#define LastWeatherTime @"LastWeatherTime"
 #define SearchHistory   @"SearchHistory"
 #define AddrComonpent   @"AddrComonpent"
 #define HomePicKey   @"HomePic_3.0.0"
@@ -53,10 +54,7 @@
 // 是否需要切换到测试环境，用于Debug模式的正式测试环境切换
 @property (nonatomic)BOOL isSwitchToFormalSurrounding;
 
-///全局开放缓存，存有上次的
-///省<Province>市<City>区<District> 上次获取地址成功的时间<LastLocationTime>
-///限行信息<Restriction> 	 温度范围<Temperature>   提示语<Temperaturetip>   图片名称<Temperaturepic> 上次获取天气成功的时间<LastWeatherTime>@fq TODO 集成到一个model
-///首页广告<HomepageAdvertise>,首页图片等
+///全局开放缓存，存有上次的 首页广告<HomepageAdvertise>,首页信息等
 @property (nonatomic, strong, readonly) TMCache *globalInfoCache;
 
 @property (nonatomic)BOOL needRefreshWeather;
@@ -68,9 +66,11 @@
 @property (nonatomic,copy)NSString *city;
 @property (nonatomic,copy)NSString *district;
 
+///限行信息
 @property (nonatomic,copy)NSString *restriction;
-@property (nonatomic,copy)NSString *temperature;
-@property (nonatomic,copy)NSString *temperaturetip;
+///温度
+@property (nonatomic,copy)NSString *temperatureAndTip;
+/// 天气icon
 @property (nonatomic,copy)NSString *temperaturepic;
 
 /// 搜索历史

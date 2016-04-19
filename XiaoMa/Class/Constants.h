@@ -44,6 +44,7 @@ typedef enum : NSUInteger {
 //11-保险广告
 //12-估值广告
 //13-首页悬浮广告
+//14-首页第二栏广告
 //20：活动类
 typedef enum : NSUInteger {
     AdvertisementHomePage = 1,
@@ -57,6 +58,7 @@ typedef enum : NSUInteger {
     AdvertisementInsurance = 11,
     AdvertisementValuation = 12,
     AdvertisementAlert = 13,
+    AdvertisementHomePageBottom = 14,
     AdvertisementMutualIns = 15,
     AdvertisementTypeActivities = 20,
     AdvertisementTypeLeaunch = 30
@@ -125,6 +127,7 @@ typedef enum : NSUInteger {
 
 #define XMINSPrefix @"#小马互助"
 
+#define ScreenWidth     [UIScreen mainScreen].bounds.size.width
 //单例别名
 #define gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)
 #define gAppMgr     [AppManager sharedManager]
