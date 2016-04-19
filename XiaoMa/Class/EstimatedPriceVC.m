@@ -149,12 +149,7 @@
         
         
         //价格器动画
-//        NSTimeInterval duration = fabs(self.totalPrice - self.lastOriginPrice) / 1500 > 1.5 ? fabs(self.totalPrice - self.lastOriginPrice) / 1500 : 1.5;
-//        duration = duration > 3 ? 3 :duration;
-//        [PopAnimation animatedForLabel:priceL fromValue:self.lastOriginPrice toValue:self.totalPrice andDuration:duration];
-//        self.lastOriginPrice = self.totalPrice;
-        totalPriceL.text = [NSString stringWithFormat:@"%.2f", dataModel.premiumprice];
-        
+        [PopAnimation animatedForLabel:totalPriceL fromValue:0 toValue:dataModel.premiumprice andDuration:2];
         membershipPriceL.text = [NSString stringWithFormat:@"%@元", [NSString formatForPrice:dataModel.memberFee]];
         mutualInsPriceL.text = [NSString stringWithFormat:@"%@元", [NSString formatForPrice:(dataModel.premiumprice - dataModel.memberFee)]];
         [mutualInsPriceL adjustsFontSizeToFitWidth];
