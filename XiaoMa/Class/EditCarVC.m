@@ -742,6 +742,7 @@
     ProvinceChooseView *chooseV = (ProvinceChooseView *)[cell.contentView viewWithTag:1002];
     OETextField *field = (OETextField *)[cell.contentView viewWithTag:1003];
     [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
+    field.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
 
     cell.contentView.userInteractionEnabled  = self.curCar.editMask & HKCarEditableEditPlateNumber;
 

@@ -33,7 +33,7 @@
                         @"整车价格", @"当前里程"];
     NSString *brandAndSeries = [NSString stringWithFormat:@"%@ %@", self.car.brand, self.car.seriesModel.seriesname];
     NSString *modelName = [NSString stringWithFormat:@"%@", self.car.detailModel.modelname];
-    NSString *purchaseDate = [NSString stringWithFormat:@"%@", [self.car.purchasedate dateFormatForYYMM]];
+    NSString *purchaseDate = [NSString stringWithFormat:@"%@", [self.car.purchasedate dateFormatForYYMM] ?: @""];
     NSString *cityName = self.car.cityName ? self.car.cityName : @"";
     NSString *classNo = self.car.classno ? self.car.classno : @"";
     NSString *engineNo = self.car.engineno ? self.car.engineno : @"";
