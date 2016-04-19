@@ -62,6 +62,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    // 设置 tableView 的 inset，这样可以让 tableView 和 Status Bar 保持一定距离。
+    [self.tableView setContentInset:UIEdgeInsetsMake(20, 0, 0, 0)];
+    
     [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 

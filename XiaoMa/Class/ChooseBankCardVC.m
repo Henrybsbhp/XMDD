@@ -80,9 +80,9 @@
     @weakify(self);
     [[[[couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
         
+        @strongify(self);
         [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - 60)];
         
-        @strongify(self);
         if ([self.tableView isRefreshViewExists]) {
             
             [self.tableView.refreshView beginRefreshing];
@@ -94,7 +94,7 @@
         [self removeButton];
         
     }] finally:^{
-        
+        @strongify(self);
         [self.tableView.refreshView endRefreshing];
     }] subscribeNext:^(GetUserResourcesV2Op * op) {
         
@@ -129,6 +129,7 @@
             [payVc chooseResource];
         }
     } error:^(NSError *error) {
+        @strongify(self);
         [self.view stopActivityAnimation];
         
         if (![self.tableView isRefreshViewExists]) {

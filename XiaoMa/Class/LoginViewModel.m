@@ -63,8 +63,7 @@
         [(UINavigationController *)targetVC pushViewController:vc animated:YES];
     }
     else {
-        JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
-        [targetVC presentViewController:nav animated:YES completion:nil];
+        [targetVC presentViewController:vc animated:YES completion:nil];
     }
     gAppDelegate.loginVC = vc;
     return NO;
