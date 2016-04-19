@@ -35,8 +35,7 @@
     containerView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:containerView];
     
-    //广告 友盟todo
-    self.adCtrl = [SuspendedAdVC adVCWithBoundsWidth:self.targetVC.view.frame.size.width * 0.84 targetVC:self.targetVC mobBaseEvent:@"rp101_17"];
+    self.adCtrl = [SuspendedAdVC adVCWithBoundsWidth:self.targetVC.view.frame.size.width * 0.84 targetVC:self.targetVC mobBaseEvent:@"AdvertisementMutualIns"];
     self.adCtrl.clickDelegate = self;
     
     self.adCtrl.adList = self.adListArr;
