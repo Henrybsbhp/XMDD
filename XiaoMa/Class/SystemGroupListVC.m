@@ -127,19 +127,23 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         }
         else
         {
-            [self.tableView showDefaultEmptyViewWithText:@"马上推出，敬请期待"];
+            [self.view showDefaultEmptyViewWithText:@"马上推出，敬请期待"];
         }
         [self.view stopActivityAnimation];
+        [self.view hideDefaultEmptyView];
         self.tableView.hidden = NO;
     } error:^(NSError *error) {
         
         @strongify(self);
-        self.tableView.hidden = NO;
+        self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         
-        [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:@"列表请求失败，点击重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"列表请求失败，点击重试" tapBlock:^{
             @strongify(self);
+            [self.view hideDefaultEmptyView];
+            self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
             [self requestAutoGroupArray];
         }];
     }];
