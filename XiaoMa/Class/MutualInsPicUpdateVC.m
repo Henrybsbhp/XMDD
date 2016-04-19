@@ -79,6 +79,8 @@
     @weakify(self);
     [[self.nextBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0007"}];
+        
         @strongify(self)
         if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
         {
@@ -196,11 +198,27 @@
 {
     if (indexPath.section == 0 || indexPath.section == 1)
     {
+        if (indexPath.section == 0)
+        {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0002"}];
+        }
+        else
+        {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0003"}];
+        }
         self.currentRecord = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
         [self pickImageWithIndex:indexPath];
     }
     if (indexPath.section == 2)
     {
+        if (indexPath.row == 0)
+        {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0004"}];
+        }
+        else
+        {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0005"}];
+        }
         @weakify(self)
         [self.pickInsCompanysVC setPickedBlock:^(NSString *name) {
             
@@ -215,6 +233,7 @@
     }
     if (indexPath.section == 3)
     {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0006"}];
         if (self.minInsuranceExpirationDate)
         {
             NSDate *nextDat = [NSDate dateWithTimeInterval:24*60*60 sinceDate:self.minInsuranceExpirationDate];//后一天
@@ -591,6 +610,7 @@
 
 - (void)actionBack:(id)sender {
     
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0001"}];
     
     if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany.length || self.insuranceExpirationDate || self.lastYearInsCompany.length || self.idPictureRecord.url.length || self.drivingLicensePictureRecord.url.length)
     {
