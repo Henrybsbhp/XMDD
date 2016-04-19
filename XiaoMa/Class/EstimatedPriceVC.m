@@ -192,8 +192,8 @@
             
             [refundNoteL mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(refundView).offset(5 + 22 * i);
-                make.left.equalTo(refundView).offset(15);
-                make.right.equalTo(refundView).offset(-15);
+                make.left.equalTo(refundView).offset(5);
+                make.right.equalTo(refundView).offset(-5);
                 make.height.mas_equalTo(22);
             }];
         }
