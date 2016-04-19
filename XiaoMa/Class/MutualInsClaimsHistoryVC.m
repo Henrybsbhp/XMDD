@@ -143,39 +143,48 @@
 
 -(void)loadData
 {
-    GetCooperationClaimsListOp *op = [GetCooperationClaimsListOp new];
-    @weakify(self)
-    [[[[op rac_postRequest] initially:^{
-    
-        [self.view hideDefaultEmptyView];
-        if (!self.dataArr.count)
-        {
-            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-        }
-    }] finally:^{
-        [self.view stopActivityAnimation];
-        [self.tableView.refreshView endRefreshing];
-    }] subscribeNext:^(id x) {
-        
-        [self.view stopActivityAnimation];
-        
-        self.dataArr = op.rsp_claimlist;
-        if (self.dataArr.count == 0)
-        {
+    if(![LoginViewModel loginIfNeededForTargetViewController:self])
+    {
+        return;
+    }
+    else
+    {
+        GetCooperationClaimsListOp *op = [GetCooperationClaimsListOp new];
+        @weakify(self)
+        [[[[op rac_postRequest] initially:^{
+            @strongify(self)
+            [self.view hideDefaultEmptyView];
+            if (!self.dataArr.count)
+            {
+                [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+            }
+        }] finally:^{
+            @strongify(self)
+            [self.view stopActivityAnimation];
+            [self.tableView.refreshView endRefreshing];
+        }] subscribeNext:^(id x) {
+            @strongify(self)
+            [self.view stopActivityAnimation];
             
-            [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"暂无理赔记录,点击重新获取" tapBlock:^{
+            self.dataArr = op.rsp_claimlist;
+            if (self.dataArr.count == 0)
+            {
+                
+                [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"您还没有赔偿记录,点击重新获取" tapBlock:^{
+                    @strongify(self)
+                    [self loadData];
+                }];
+            }
+            [self.tableView reloadData];
+        }error:^(NSError *error) {
+            @strongify(self)
+            [self.view stopActivityAnimation];
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取理赔记录失败,点击重新获取" tapBlock:^{
                 @strongify(self)
                 [self loadData];
             }];
-        }
-        [self.tableView reloadData];
-    }error:^(NSError *error) {
-        [self.view stopActivityAnimation];
-        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取理赔记录失败,点击重新获取" tapBlock:^{
-            @strongify(self)
-            [self loadData];
         }];
-    }];
+    }
 }
 
 
