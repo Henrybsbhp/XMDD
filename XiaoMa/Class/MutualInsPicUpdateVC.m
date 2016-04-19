@@ -13,7 +13,7 @@
 #import "PictureRecord.h"
 #import "HKImageView.h"
 #import "UpdateCooperationIdlicenseInfoOp.h"
-#import "MutualInsChooseVC.h"
+#import "EstimatedPriceVC.h"
 #import "MutualInsHomeVC.h"
 #import "GetCooperationIdlicenseInfoOp.h"
 #import "MutualInsStore.h"
@@ -386,7 +386,7 @@
         
         [gToast dismiss];
         
-        MutualInsChooseVC * vc = [UIStoryboard vcWithId:@"MutualInsChooseVC" inStoryboard:@"MutualInsJoin"];
+        EstimatedPriceVC * vc = [UIStoryboard vcWithId:@"EstimatedPriceVC" inStoryboard:@"MutualInsJoin"];
         vc.memberId = self.memberId;
         vc.groupId = self.groupId;
         vc.groupName = self.groupName;

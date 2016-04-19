@@ -106,10 +106,12 @@
 {
     if (indexPath.section == 2 && self.recordArray.count == 0)
     {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0008"}];
         [self takePhotoWithIndexPath:indexPath];
     }
     else if (self.recordArray.count != 0 && indexPath.section == (self.recordArray.count + 2))
     {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0010"}];
         [self takePhotoWithIndexPath:indexPath];
     }
     else if (self.recordArray.count != 0 && indexPath.section > 1)
@@ -301,6 +303,7 @@
  */
 -(void)deletePhoto:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0009"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [self.recordArray safetyRemoveObjectAtIndex:indexPath.section - 2];

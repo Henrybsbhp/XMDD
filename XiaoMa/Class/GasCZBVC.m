@@ -456,13 +456,15 @@
     @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
-        @strongify(self);
         CGFloat height = [data[@"height"] integerValue];
         if (height == 0) {
+            GasReminderCell *cell = data[@"cell"];
+            if (!cell) {
+                cell = [[GasReminderCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 45)];
+                data[@"cell"] = cell;
+            }
             CKCellPrepareBlock prepare = data[kCKCellPrepare];
-            GasReminderCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"GasReminder"];
             prepare(data, cell, indexPath);
-            cell.frame = CGRectMake(0, 0, self.tableView.frame.size.width, 45);
             height = [cell cellHeight];
             data[@"height"] = @(height);
         }

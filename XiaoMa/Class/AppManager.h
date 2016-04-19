@@ -59,6 +59,8 @@
 
 @property (nonatomic)BOOL needRefreshWeather;
 
+@property (nonatomic) BOOL isNaviBarHidden;
+
 @property (nonatomic, strong) HKAddressComponent *addrComponent;
 @property (nonatomic,copy)NSString *province;
 @property (nonatomic,copy)NSString *city;

@@ -400,15 +400,13 @@
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"GasReminder"}];
     
-    @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
 
-        @strongify(self);
         CGFloat height = [data[@"height"] integerValue];
         if (height == 0) {
             GasReminderCell *cell = data[@"cell"];
             if (!cell) {
-                cell = [[GasReminderCell alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 45)];
+                cell = [[GasReminderCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 45)];
                 data[@"cell"] = cell;
             }
             CKCellPrepareBlock prepare = data[kCKCellPrepare];
@@ -419,6 +417,7 @@
         return height;
     });
     
+    @weakify(self);
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
         @strongify(self);

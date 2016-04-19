@@ -93,7 +93,7 @@
 
 - (id)menuPlanButton
 {
-    if (self.minsStore.rsp_mygroupOp.isShowPlanButton) {
+    if (!self.minsStore.rsp_mygroupOp.isShowPlanButton) {
         return CKNULL;
     }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"plan",@"title":@"内测计划",@"img":@"mins_person"}];
@@ -112,7 +112,7 @@
 
 - (id)menuRegistButton
 {
-    if (self.minsStore.rsp_mygroupOp.isShowRegistButton) {
+    if (!self.minsStore.rsp_mygroupOp.isShowRegistButton) {
         return CKNULL;
     }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"regist",@"title":@"内测登记",@"img":@"mec_edit"}];
@@ -304,13 +304,8 @@
             
             @strongify(self);
             [gToast dismiss];
-            [self.myGroupArray safetyRemoveObjectAtIndex:(indexPath.row - 4)];
-            if (self.myGroupArray.count == 0) {
-                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section], indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            }
-            else {
-                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            }
+            [self.myGroupArray safetyRemoveObjectAtIndex:(indexPath.row - 3)];
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         } error:^(NSError *error) {
             [gToast showError:error.domain];
         }];
@@ -356,7 +351,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return 120;
+        return 123;
     }
     else if (indexPath.row == 1) {
         return 60;
@@ -422,14 +417,16 @@
     else if (indexPath.row == (3 + self.myGroupArray.count + self.myCarArray.count)){
         //添加爱车
         @weakify(self);
-        EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-        [vc.model setFinishBlock:^(HKMyCar *car) {
-            
-            @strongify(self);
-            CKEvent *evt = [self.minsStore reloadSimpleGroups];
-            [self reloadFormSignal:evt.signal];
-        }];
-        [self.navigationController pushViewController:vc animated:YES];
+        if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+            EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+            [vc.model setFinishBlock:^(HKMyCar *car) {
+                
+                @strongify(self);
+                CKEvent *evt = [self.minsStore reloadSimpleGroups];
+                [self reloadFormSignal:evt.signal];
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
 }
 
@@ -571,8 +568,17 @@
     [brandImageView setImageByUrl:myCar.brandLogo withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
     licensenumLabel.text = myCar.licenseNum;
     [joinGroup setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    @weakify(self);
+    [[[joinGroup rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        //团列表
+        SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
+        vc.originCar = [self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
     mutualPrice.text = myCar.premiumPrice;
-    couponPrice.text = [NSString stringWithFormat:@"已优惠%@元", myCar.couponMoney];
+    couponPrice.text = [NSString stringWithFormat:@"%@", myCar.couponMoney];
     
     return cell;
 }
