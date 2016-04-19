@@ -163,8 +163,11 @@
     return estPrice;
 }
 
-- (CKDict *)setNoteCell:(NSArray *)noteList
+- (id)setNoteCell:(NSArray *)noteList
 {
+    if (noteList.count == 0) {
+        return CKNULL;
+    }
     //初始化身份标识
     CKDict * note = [CKDict dictWith:@{kCKCellID:@"NoteCell"}];
     //cell行高

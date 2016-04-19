@@ -198,7 +198,7 @@
         self.order.ratetime = [NSDate date];
         self.collectionView.userInteractionEnabled = NO;
         self.ratingView.userInteractionEnabled = NO;
-        
+
         if (self.commentSuccess)
         {
             [self commentSuccess];

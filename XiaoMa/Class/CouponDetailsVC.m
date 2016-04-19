@@ -19,6 +19,7 @@
 #import "CommissionOrderVC.h"
 #import "RescueHomeViewController.h"
 #import "GasVC.h"
+#import "MutualInsHomeVC.h"
 
 @interface CouponDetailsVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -77,8 +78,12 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
         else if (self.oldType == CouponTypeRescue) {
-            RescueHomeViewController *homeVC = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
-            [self.navigationController pushViewController:homeVC animated:YES];
+            RescueHomeViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else if (self.oldType == CouponTypeXMHZ) {
+            MutualInsHomeVC * vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }
 }
