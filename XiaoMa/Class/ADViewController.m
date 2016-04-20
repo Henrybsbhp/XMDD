@@ -16,19 +16,21 @@
 
 + (instancetype)vcWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
                     targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
+                    mobBaseEventDict:(NSDictionary *)dict
 {
-    ADViewController *adctrl = [[ADViewController alloc] initWithADType:type boundsWidth:width targetVC:vc mobBaseEvent:event];
+    ADViewController *adctrl = [[ADViewController alloc] initWithADType:type boundsWidth:width targetVC:vc mobBaseEvent:event mobBaseEventDict:dict];
     return adctrl;
 }
 
 - (instancetype)initWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
-                      targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
+                      targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
 {
     self = [super init];
     if (self) {
         _targetVC = vc;
         _adType = type;
         _mobBaseEvent = event;
+        _mobBaseEventDict = dict;
         _navModel = [[NavigationModel alloc] init];
         _navModel.curNavCtrl = _targetVC.navigationController;
         CGFloat height = floor(width*184.0/640);
@@ -119,7 +121,14 @@
     @weakify(self);
     [[[tap rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
-        if (self.mobBaseEvent.length != 0) {
+        if (self.mobBaseEventDict)
+        {
+            NSString * key = [self.mobBaseEventDict.allKeys safetyObjectAtIndex:0];
+            NSString * value = [self.mobBaseEventDict objectForKey:key];
+            NSString * valueWithIndex = [NSString stringWithFormat:@"%@_%d", value, (int)pageIndex];
+            [MobClick event:self.mobBaseEvent attributes:@{key:valueWithIndex}];
+        }
+        else if (self.mobBaseEvent.length) {
             NSString * eventstr = [NSString stringWithFormat:@"%@_%d", self.mobBaseEvent, (int)pageIndex];
             [MobClick event:eventstr];
         }

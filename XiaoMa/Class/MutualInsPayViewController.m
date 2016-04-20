@@ -88,12 +88,17 @@
 - (void)setupNavigationBar
 {
     self.navigationItem.title = @"支付确认";
+    
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 - (void)setupUI
 {
     @weakify(self)
     [[self.payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0015"}];
         
         @strongify(self)
         [self requestPay];
@@ -161,6 +166,13 @@
 }
 
 #pragma mark - Utilitly
+
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0008"}];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 -(void)checkPayment
 {
@@ -469,16 +481,32 @@
     HKCellData * data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
     if ([data equalByCellID:@"ActiveCell" tag:nil])
     {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0010"}];
+        
         MutualInsActivityVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsActivityVC"];
         vc.dataArr = self.contract.couponlist;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if ([data equalByCellID:@"PayPlatformCell" tag:nil])
     {
+        if (data.customTag == PaymentChannelAlipay)
+        {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0011"}];
+        }
+        else if (data.customTag == PaymentChannelWechat)
+        {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0012"}];
+        }
+        else if (data.customTag == PaymentChannelUPpay)
+        {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0013"}];
+        }
         self.payOp.req_paychannel = data.customTag;
     }
     else if ([data equalByCellID:@"CouponCell" tag:nil])
     {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0009"}];
+        
         ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
         vc.type = CouponTypeXMHZ;
         vc.selectedCouponArray = self.selectCashCoupouArray;
@@ -594,6 +622,8 @@
     @weakify(checkB);
     [[[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
+         
+         [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0014"}];
          
          @strongify(checkB);
          BOOL checked = ![data.customInfo[@"check"] boolValue];

@@ -240,7 +240,7 @@
 - (void)setupADViewInContainer:(UIView *)container
 {
     self.adctrl = [ADViewController vcWithADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width
-                                        targetVC:self mobBaseEvent:@"rp101_10"];
+                                        targetVC:self mobBaseEvent:@"rp101_10" mobBaseEventDict:nil];
     
     CGFloat height = floor(self.adctrl.adView.frame.size.height);
     [container addSubview:self.adctrl.adView];
@@ -254,9 +254,8 @@
 
 - (void)setupSecondADViewInContainer:(UIView *)container  withSquaresView:(UIView *)squaresView
 {
-    //@fq TODO
     self.secondAdCtrl = [ADViewController vcWithADType:AdvertisementHomePageBottom boundsWidth:self.view.frame.size.width
-                                        targetVC:self mobBaseEvent:@""];
+                                              targetVC:self mobBaseEvent:@"shouye" mobBaseEventDict:@{@"shouye":@"shouye0002"}];
     
     CGFloat height = floor(self.secondAdCtrl.adView.frame.size.height);
     [container addSubview:self.secondAdCtrl.adView];

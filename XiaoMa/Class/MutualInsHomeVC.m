@@ -57,6 +57,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [MobClick event:@"shouye" attributes:@{@"shouye":@"shouye0001"}];
+    
     [self setNavigationBar];
     [self setItemList];
     [self setupMutualInsStore];
@@ -186,8 +188,13 @@
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"phone",@"title":@"联系客服",@"img":@"mins_phone"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0013"}];
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"如有任何疑问，可拨打客服电话: 4007-111-111"];
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"如有任何疑问，可拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
+        [alert show];
     });
     return dict;
 }

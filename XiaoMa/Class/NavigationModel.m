@@ -351,6 +351,7 @@
         //加入小马互助团
         else if ([@"coins" equalByCaseInsensitive:name]) {
             
+            
             UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }

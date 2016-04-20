@@ -134,7 +134,7 @@
 - (void)setupADView
 {
     self.adctrl = [ADViewController vcWithADType:AdvertisementGas boundsWidth:self.view.bounds.size.width
-                                        targetVC:self mobBaseEvent:@"rp501_1"];
+                                        targetVC:self mobBaseEvent:@"rp501_1" mobBaseEventDict:nil];
     @weakify(self);
     [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
         @strongify(self);
