@@ -103,10 +103,10 @@
         else {
             if (!self.isCarVC) {
                 if (gAppMgr.isNaviBarHidden == YES) {
-                    [self.navigationController setNavigationBarHidden:YES animated:NO];
+                    [self.navigationController setNavigationBarHidden:YES animated:YES];
                     gAppMgr.isNaviBarHidden = NO;
                 } else {
-                    [self.navigationController setNavigationBarHidden:NO animated:NO];
+                    [self.navigationController setNavigationBarHidden:NO animated:YES];
                 }
             }
             
