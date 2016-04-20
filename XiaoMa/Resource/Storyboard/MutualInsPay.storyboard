@@ -236,8 +236,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="588" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view tag="101" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EQX-mR-xfq">
-                                                    <rect key="frame" x="10" y="0.0" width="569" height="50"/>
+                                                <view tag="101" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EQX-mR-xfq">
+                                                    <rect key="frame" x="10" y="0.0" width="568" height="50"/>
                                                     <subviews>
                                                         <view tag="20101" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vHF-FA-Kmy" userLabel="LeftLine" customClass="CKLine">
                                                             <rect key="frame" x="0.0" y="0.0" width="1" height="44"/>
@@ -270,7 +270,7 @@
                                                     <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="足额车损保证，三者100万保障，每个座位1万保障" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="suE-Ys-xrV">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="足额车损保证，三者100万保障，每个座位1万保障" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="suE-Ys-xrV">
                                                     <rect key="frame" x="20" y="34" width="288.5" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -285,6 +285,7 @@
                                                 <constraint firstItem="EQX-mR-xfq" firstAttribute="top" secondItem="gFD-ui-yEb" secondAttribute="top" id="Rq9-2q-ca7"/>
                                                 <constraint firstItem="suE-Ys-xrV" firstAttribute="top" secondItem="Oxt-0G-XBZ" secondAttribute="bottom" constant="8" id="fae-jd-QZd"/>
                                                 <constraint firstAttribute="bottom" secondItem="EQX-mR-xfq" secondAttribute="bottom" id="haj-d1-BIb"/>
+                                                <constraint firstItem="suE-Ys-xrV" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="EQX-mR-xfq" secondAttribute="trailing" constant="-10" id="iAV-f9-3s7"/>
                                                 <constraint firstItem="suE-Ys-xrV" firstAttribute="leading" secondItem="Oxt-0G-XBZ" secondAttribute="leading" id="mtY-Ab-jze"/>
                                             </constraints>
                                         </tableViewCellContentView>

@@ -317,7 +317,7 @@
         NSString * title = [dict objectForKey:@"title"];
         NSString * content = [dict objectForKey:@"content"];
         CGFloat width = gAppMgr.deviceInfo.screenSize.width;
-        CGFloat lbWidth = width - 10 * 4;
+        CGFloat lbWidth = width - (10+10+6)*2;
         CGSize size1 = [title labelSizeWithWidth:lbWidth font:[UIFont systemFontOfSize:13]];
         CGSize size2 = [content labelSizeWithWidth:lbWidth font:[UIFont systemFontOfSize:13]];
         height = 10 + size1.height + 8 + size2.height;
