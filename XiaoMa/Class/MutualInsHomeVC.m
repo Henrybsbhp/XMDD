@@ -294,6 +294,7 @@
                 [self.view stopActivityAnimation];
                 [self resetTableView];
             }
+            [self setItemList];
         }
     } error:^(NSError *error) {
         
@@ -348,8 +349,8 @@
         //删除我的团操作 团长和团员调用新接口，入参不同
         @weakify(self);
         DeleteCooperationGroupOp * op = [DeleteCooperationGroupOp operation];
-        op.req_memberid = @0;
-        op.req_groupid = @256;
+        op.req_memberid = group.memberId;
+        op.req_groupid = group.groupId;
         [[[op rac_postRequest] initially:^{
             [gToast showingWithText:@"删除中..."];
         }] subscribeNext:^(id x) {
@@ -499,8 +500,11 @@
     titleLabel.text = self.config.rsp_selfgroupname;
     descLabel.text = self.config.rsp_selfgroupdesc;
     [feeButton setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    
+    @weakify(self);
     [[[feeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self);
         [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0003"}];
         //费用估算
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];

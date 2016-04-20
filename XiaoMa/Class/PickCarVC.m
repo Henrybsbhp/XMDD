@@ -26,6 +26,9 @@
 
 @property (nonatomic, strong) UIButton *addCarBtn;
 
+///是否显示底部区域，和.h文件中的一样。这个是loading的时候用来判断
+@property (nonatomic)BOOL showBottomView;
+
 @end
 
 @implementation PickCarVC
@@ -55,8 +58,8 @@
 
 - (void)setUpUI
 {
-    self.bottomView.hidden = !self.isShowBottomView;
-    self.bottomConstraint.constant = self.isShowBottomView ? 70 : 0;
+    self.bottomView.hidden = !(self.isShowBottomView && self.showBottomView);
+    self.bottomConstraint.constant = (self.isShowBottomView && self.showBottomView) ? 70 : 0;
 }
 
 - (void)setupCarStore
@@ -91,12 +94,12 @@
             self.carNumLabel.text = @"";
             self.tableView.hidden = YES;
             [self addEmptyBtn];
-            self.isShowBottomView = NO;
+            self.showBottomView = NO;
             [self setUpUI];
         }
         else {
             [self removeEmptyBtn];
-            self.isShowBottomView = YES;
+            self.showBottomView = YES;
             [self setUpUI];
             if (self.defaultCar){
                 self.checkIndex = [self.datasource indexOfObject:self.defaultCar];
