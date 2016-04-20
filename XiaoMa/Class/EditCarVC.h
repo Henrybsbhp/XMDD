@@ -13,6 +13,7 @@
 @interface EditCarVC : HKViewController
 
 @property (nonatomic, strong) HKMyCar *originCar;
+@property (nonatomic, strong) NSNumber *originCarId;
 @property (nonatomic, strong) MyCarListVModel *model;
 
 @end

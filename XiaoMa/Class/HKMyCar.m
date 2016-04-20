@@ -220,6 +220,9 @@
     if (self.editMask != another.editMask) {
         return YES;
     }
+    if (self.provinceId != another.provinceId || self.cityId != another.cityId) {
+        return YES;
+    }
     return NO;
 }
 

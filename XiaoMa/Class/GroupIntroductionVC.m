@@ -132,8 +132,8 @@
     [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0010"}];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
-        if (self.originCar) {
-            [self requestApplyJoinGroupWithCar:self.originCar];
+        if (self.originCarId) {
+            [self requestApplyJoinGroupWithCarId:self.originCarId];
         }
         
         else {
@@ -151,12 +151,12 @@
     }
 }
 
-- (void)requestApplyJoinGroupWithCar:(HKMyCar *)car
+- (void)requestApplyJoinGroupWithCarId:(NSNumber *)carId
 {
     @weakify(self);
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = self.groupId;
-    op.req_carid = car.carId;
+    op.req_carid = carId;
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"申请加入中..." inView:self.view];
@@ -175,7 +175,7 @@
         
         if (error.code == 6115804) {
             @strongify(self);
-            [self showAlertWithError:error.domain car:self.originCar];
+            [self showAlertWithError:error.domain carId:self.originCarId];
         }
         else {
             [gToast showError:error.domain inView:self.view];
@@ -183,7 +183,7 @@
     }];
 }
 
-- (void)showAlertWithError:(NSString *)errorString car:(HKMyCar *)car
+- (void)showAlertWithError:(NSString *)errorString carId:(NSNumber *)carId
 {
     [gToast dismissInView:self.view];
     HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
@@ -195,7 +195,7 @@
     HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         @strongify(self);
         EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-        vc.originCar = car;
+        vc.originCarId = carId;
         [self.navigationController pushViewController:vc animated:YES];
     }];
     alert.actionItems = @[cancel, improve];
