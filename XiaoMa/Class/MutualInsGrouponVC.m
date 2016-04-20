@@ -344,13 +344,12 @@ typedef enum : NSInteger
         
         @strongify(self);
         [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0008"}];
-        HKMessageAlertVC *alert = [[HKMessageAlertVC alloc] init];
-        alert.messageLabel.text = @"您确认退出该团？退出后将无法查看团内信息。";
+        
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:MutInsTextGrayColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:MutInsGreenColor clickBlock:^(id alertVC) {
             [self requestExitGroup];
         }];
-        alert.actionItems = @[cancel, confirm];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确认退出该团？退出后将无法查看团内信息。" ActionItems:@[cancel,confirm]];
         [alert show];
     });
     return dict;
@@ -361,7 +360,13 @@ typedef enum : NSInteger
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0009"}];
-        [gPhoneHelper makePhone:@"4007111111" andInfo:@"如有任何疑问，可拨打客服电话：4007-111-111"];
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"如有任何疑问，可拨打客户电话\n 4007-111-111" ActionItems:@[cancel,confirm]];
+        [alert show];
     });
     return dict;
 }
