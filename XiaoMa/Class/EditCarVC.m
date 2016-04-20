@@ -108,7 +108,7 @@
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain
                                                             target:self action:@selector(actionCancel:)];
     self.navigationItem.leftBarButtonItem = left;
-    self.navigationItem.rightBarButtonItem = right;
+    [self.navigationItem setRightBarButtonItem:right animated:YES];//防抖动
 }
 
 - (void)setupTableView

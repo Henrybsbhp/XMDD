@@ -287,6 +287,7 @@
                 [self.view stopActivityAnimation];
                 [self resetTableView];
             }
+            [self setItemList];
         }
     } error:^(NSError *error) {
         
@@ -492,8 +493,11 @@
     titleLabel.text = self.config.rsp_selfgroupname;
     descLabel.text = self.config.rsp_selfgroupdesc;
     [feeButton setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    
+    @weakify(self);
     [[[feeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self);
         [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0003"}];
         //费用估算
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
