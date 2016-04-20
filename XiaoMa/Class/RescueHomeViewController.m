@@ -73,7 +73,7 @@
         self.addressLb.text = @"定位中...";
     }] subscribeNext:^(AMapReGeocode *regeo) {
         
-        gAppMgr.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
+        gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
         
         CGFloat lbWidth = gAppMgr.deviceInfo.screenSize.width - 57;
         CGFloat textWidth = [regeo.formattedAddress labelSizeWithWidth:FLT_MAX font:[UIFont systemFontOfSize:12]].width;

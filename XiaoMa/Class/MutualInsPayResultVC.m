@@ -45,7 +45,7 @@
     
     self.contactname = self.contract.insurancedname;
     self.contactphone = gAppMgr.myUser.userID;
-    self.area = [[gAppMgr.addrComponent.province append:gAppMgr.addrComponent.city] append:gAppMgr.addrComponent.district];
+    self.area = [[gMapHelper.addrComponent.province append:gMapHelper.addrComponent.city] append:gMapHelper.addrComponent.district];
     
     [self setupDatasource];
 }

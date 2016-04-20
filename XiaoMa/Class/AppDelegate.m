@@ -333,17 +333,14 @@
         
     }] subscribeNext:^(AMapReGeocode * getInfo) {
         
-        if (!([getInfo.addressComponent.province isEqualToString:gAppMgr.province] &&
-            [getInfo.addressComponent.city isEqualToString:gAppMgr.city] &&
-            [getInfo.addressComponent.district isEqualToString:gAppMgr.district]))
+        if (![HKAddressComponent isEqualAddrComponent:gMapHelper.addrComponent AMapAddrComponent:getInfo.addressComponent])
         {
             [self requestWeather:getInfo.addressComponent.province andCity:getInfo.addressComponent.city andDistrict:getInfo.addressComponent.district];
         }
         
+        
         /// 内存缓存地址信息
-        gAppMgr.province = getInfo.addressComponent.province;
-        gAppMgr.city = getInfo.addressComponent.city;
-        gAppMgr.district = getInfo.addressComponent.district;
+        gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:getInfo.addressComponent];
         /// 存储一下上次定位时间
         NSString * dateStr = [[NSDate date] dateFormatForDT15];
         [gAppMgr saveInfo:dateStr forKey:LastLocationTime];
@@ -514,7 +511,7 @@
     RACSignal * userSignal = [[RACObserve(gAppMgr, myUser) distinctUntilChanged] filter:^BOOL(JTUser * user) {
         return user.userID.length;
     }];
-    RACSignal * areaSignal = [[RACObserve(gAppMgr, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
+    RACSignal * areaSignal = [[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
         return ac.province.length || ac.city.length || ac.district.length;
     }];
     

@@ -456,6 +456,14 @@
 
 - (void)reloadDatasource
 {
+    [[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] subscribeNext:^(HKAddressComponent * addComponent) {
+        
+        NSString * city;
+        city = addComponent.city.length ? addComponent.city : addComponent.province;
+        [self setupNavigationLeftBar:city];
+    }];
+    
+    
     @weakify(self);
     RACSignal *sig1 = [[[[[gMapHelper rac_getInvertGeoInfo] take:1] initially:^{
         @strongify(self);
@@ -465,11 +473,11 @@
         [self setupNavigationLeftBar:nil];
         [gMapHelper handleGPSError:error];
     }] doNext:^(AMapReGeocode *regeo) {
-        @strongify(self);
-        NSString * cityStr;
-        cityStr = regeo.addressComponent.city.length ? regeo.addressComponent.city : regeo.addressComponent.province;
-        [self setupNavigationLeftBar:cityStr];
-        gAppMgr.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
+//        @strongify(self);
+//        NSString * cityStr;
+//        cityStr = regeo.addressComponent.city.length ? regeo.addressComponent.city : regeo.addressComponent.province;
+//        [self setupNavigationLeftBar:cityStr];
+        gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
     }];
     
     // 获取天气信息
