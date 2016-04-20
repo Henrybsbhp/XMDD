@@ -57,6 +57,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [MobClick event:@"shouye" attributes:@{@"shouye":@"shouye0001"}];
+    
     [self setNavigationBar];
     [self setItemList];
     [self setupMutualInsStore];
@@ -83,7 +85,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 
 - (void)showSuspendedAdIfNeeded
 {
@@ -172,6 +173,7 @@
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"help",@"title":@"使用帮助",@"img":@"questionMark_300"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0012"}];
         @strongify(self);
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
@@ -185,8 +187,14 @@
 {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"phone",@"title":@"联系客服",@"img":@"mins_phone"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"如有任何疑问，可拨打客服电话: 4007-111-111"];
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0013"}];
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"如有任何疑问，可拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
+        [alert show];
     });
     return dict;
 }
@@ -216,7 +224,7 @@
 #pragma mark - Action
 - (void)actionShowOrHideMenu:(id)sender {
     
-    [MobClick event:@"shouye" attributes:@{@"" : @""}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0001"}];
     
     BOOL closing = self.menuButton.closing;
     [self.menuButton setClosing:!closing WithAnimation:YES];
@@ -250,6 +258,7 @@
 }
 
 - (void)actionBack:(id)sender {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0002"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -437,12 +446,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0004"}];
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
         vc.url = @"http://www.baidu.com";
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row > 2 && indexPath.row < (3 + self.myGroupArray.count)) {
+        
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0011"}];
         //我的团详情页面
         MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
         vc.routeInfo = [CKDict dictWith:@{}];
@@ -451,6 +463,8 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row >= (3 + self.myGroupArray.count) && indexPath.row < (3 + self.myGroupArray.count + self.myCarArray.count)){
+        
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0009"}];
         //团列表
         SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
         vc.originVC = self;
@@ -458,6 +472,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row == (3 + self.myGroupArray.count + self.myCarArray.count)){
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0007"}];
         //添加爱车
         @weakify(self);
         if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
@@ -485,6 +500,8 @@
     descLabel.text = self.config.rsp_selfgroupdesc;
     [feeButton setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
     [[[feeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0003"}];
         //费用估算
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
@@ -507,6 +524,8 @@
     //我要赔
     @weakify(self);
     [[[payButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0006"}];
         @strongify(self);
         MutualInsAskClaimsVC *vc = [UIStoryboard vcWithId:@"MutualInsAskClaimsVC" inStoryboard:@"MutualInsClaims"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -514,6 +533,8 @@
     }];
     //去入团
     [[[joinButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0005"}];
         @strongify(self);
         SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
         vc.originVC = self;
@@ -587,6 +608,15 @@
         @weakify(self);
         [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
+            if (group.btnStatus == GroupBtnStatusInvite) {
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0010"}];
+            }
+            else if (group.btnStatus == GroupBtnStatusDelete){
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0014"}];
+            }
+            else if (group.btnStatus == GroupBtnStatusUpdate) {
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0015"}];
+            }
             @strongify(self);
             NSIndexPath * cellPath = [self.tableView indexPathForCell:cell];
             [self operationBtnAction:x withGroup:group withIndexPath:cellPath];
@@ -613,6 +643,7 @@
     @weakify(self);
     [[[joinGroup rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0008"}];
         //团列表
         SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
         vc.originVC = self;

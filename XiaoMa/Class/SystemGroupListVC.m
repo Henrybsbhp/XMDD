@@ -84,6 +84,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 
 - (void)actionHelp
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0001"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"新手必点";
     vc.url = @"http://www.baidu.com";
@@ -92,6 +93,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 
 - (void)actionBack:(id)sender
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0002"}];
     if (self.originVC) {
         [self.navigationController popToViewController:self.originVC animated:YES];
     }
@@ -125,19 +127,23 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         }
         else
         {
-            [self.tableView showDefaultEmptyViewWithText:@"马上推出，敬请期待"];
+            [self.view showDefaultEmptyViewWithText:@"马上推出，敬请期待"];
         }
         [self.view stopActivityAnimation];
+        [self.view hideDefaultEmptyView];
         self.tableView.hidden = NO;
     } error:^(NSError *error) {
         
         @strongify(self);
-        self.tableView.hidden = NO;
+        self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         
-        [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:@"列表请求失败，点击重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"列表请求失败，点击重试" tapBlock:^{
             @strongify(self);
+            [self.view hideDefaultEmptyView];
+            self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
             [self requestAutoGroupArray];
         }];
     }];
@@ -353,6 +359,15 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     @weakify(self);
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        
+        if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp) {
+            if ([groupInfo boolParamForName:@"ingroup"]) {
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0005"}];
+            }
+            else {
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0003"}];
+            }
+        }
         @strongify(self);
         if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp && ![groupInfo boolParamForName:@"ingroup"]) {
             [self joinSystemGroupWithGroupID:groupid groupName:groupname];
@@ -391,6 +406,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         
         else {
             vc.btnType = BtnTypeJoinNow;
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0004"}];
         }
     }
     else {

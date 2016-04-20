@@ -17,11 +17,13 @@
 @property (nonatomic, assign, readonly) AdvertisementType adType;
 @property (nonatomic, strong, readonly) NSArray *adList;
 @property (nonatomic, strong, readonly) NSString *mobBaseEvent;
+@property (nonatomic, strong, readonly) NSDictionary *mobBaseEventDict;
 @property (nonatomic, weak, readonly) UIViewController *targetVC;
 
 
 + (instancetype)vcWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
-                    targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event;
+                    targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
+                    mobBaseEventDict:(NSDictionary *)dict;
 
 ///reload
 - (void)reloadDataWithForce:(BOOL)force completed:(void(^)(ADViewController *ctrl, NSArray *ads))completed;
