@@ -12,6 +12,6 @@
 
 @property (nonatomic, weak) UIViewController *originVC;
 
-@property (nonatomic, strong) HKMyCar *originCar;
+@property (nonatomic, strong) NSNumber *originCarId;
 
 @end

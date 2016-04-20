@@ -84,9 +84,9 @@ typedef enum : NSInteger
 @property (nonatomic,copy)NSString * provinceName;
 ///城市名称
 @property (nonatomic,copy)NSString * cityName;
-///省名称
+///省ID
 @property (nonatomic,strong)NSNumber * provinceId;
-///城市名称
+///城市ID
 @property (nonatomic,strong)NSNumber * cityId;
 ///发动机号
 @property (nonatomic,copy)NSString * engineno;
