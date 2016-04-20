@@ -39,7 +39,7 @@
 @property (nonatomic, strong) GetCooperationConfiOp *config;
 @property (nonatomic, strong) MutualInsStore *minsStore;
 @property (nonatomic, strong) NSMutableArray * myGroupArray;
-@property (nonatomic, strong) NSMutableArray * myCarArray;
+@property (nonatomic, strong) NSMutableArray <HKMutualCar *> *myCarArray;
 
 @property (nonatomic, assign) NSTimeInterval leftTime;
 
@@ -346,22 +346,34 @@
     }
     else if (group.btnStatus == GroupBtnStatusDelete){
     
-        //删除我的团操作 团长和团员调用新接口，入参不同
+        HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+        alert.topTitle = @"温馨提示";
+        alert.imageName = @"mins_bulb";
+        alert.message = @"删除后，您将无法看到该团记录。确定现在删除？";
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
         @weakify(self);
-        DeleteCooperationGroupOp * op = [DeleteCooperationGroupOp operation];
-        op.req_memberid = group.memberId;
-        op.req_groupid = group.groupId;
-        [[[op rac_postRequest] initially:^{
-            [gToast showingWithText:@"删除中..."];
-        }] subscribeNext:^(id x) {
+        HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             
             @strongify(self);
-            [gToast dismiss];
-            [self.myGroupArray safetyRemoveObjectAtIndex:(indexPath.row - 3)];
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        } error:^(NSError *error) {
-            [gToast showError:error.domain];
+            //删除我的团操作 团长和团员调用新接口，入参不同
+            DeleteCooperationGroupOp * op = [DeleteCooperationGroupOp operation];
+            op.req_memberid = group.memberId;
+            op.req_groupid = group.groupId;
+            [[[op rac_postRequest] initially:^{
+                [gToast showingWithText:@"删除中..."];
+            }] subscribeNext:^(id x) {
+                
+                @strongify(self);
+                [gToast dismiss];
+                [self.myGroupArray safetyRemoveObjectAtIndex:(indexPath.row - 3)];
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            } error:^(NSError *error) {
+                [gToast showError:error.domain];
+            }];
         }];
+        alert.actionItems = @[cancel, improve];
+        [alert show];
+        
     }
     else if (group.btnStatus == GroupBtnStatusUpdate) {
         
@@ -469,7 +481,8 @@
         //团列表
         SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
         vc.originVC = self;
-        vc.originCar = [self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        HKMutualCar *mutualCar = [self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        vc.originCarId = mutualCar.carId;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row == (3 + self.myGroupArray.count + self.myCarArray.count)){
@@ -651,7 +664,8 @@
         //团列表
         SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
         vc.originVC = self;
-        vc.originCar = [self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        HKMutualCar *mutualCar =[self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        vc.originCarId = mutualCar.carId;
         [self.navigationController pushViewController:vc animated:YES];
     }];
     mutualPrice.text = myCar.premiumPrice;
