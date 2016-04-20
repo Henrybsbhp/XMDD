@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "小马达达logo－启动图标副本.png"
+      "filename" : "logo140.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "小马达达logo－启动图标.png"
+      "filename" : "logo210.png",
+      "scale" : "3x"
     }
   ],
   "info" : {

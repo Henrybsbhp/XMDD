@@ -53,7 +53,7 @@
                                           detailColor:MutInsOrangeColor],
                   [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:[NSString stringWithFormat:@"%d次", op.rsp_claimcount]
                                           detailColor:MutInsTextDarkGrayColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"理赔金额" detailTitle:[NSString formatForRoundPrice2:op.rsp_claimamount]
+                  [MutualInsAlertVCItem itemWithTitle:@"赔偿金额" detailTitle:[NSString formatForRoundPrice2:op.rsp_claimamount]
                                           detailColor:MutInsOrangeColor]];
     }
     else {
@@ -69,7 +69,7 @@
                                           detailColor:MutInsTextDarkGrayColor],
                   [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:@"暂无"
                                           detailColor:MutInsTextDarkGrayColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"理赔金额" detailTitle:@"暂无"
+                  [MutualInsAlertVCItem itemWithTitle:@"赔偿金额" detailTitle:@"暂无"
                                           detailColor:MutInsTextDarkGrayColor]];
     }
     alert.items = items;

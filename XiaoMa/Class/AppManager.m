@@ -11,7 +11,6 @@
 #define kSharedCacheName    @"AppInfoManager_dataCache"
 
 @implementation AppManager
-@synthesize addrComponent = _addrComponent;
 
 + (AppManager *)sharedManager
 {
@@ -63,20 +62,6 @@
     self.myUser = user;
 }
 
-#pragma mark - Setter And Getter
-- (void)setAddrComponent:(HKAddressComponent *)addrComponent
-{
-    _addrComponent = addrComponent;
-    [self.globalInfoCache setObject:addrComponent forKey:@"addrComponent"];
-}
-
-- (HKAddressComponent *)addrComponent
-{
-    if (!_addrComponent) {
-        _addrComponent = [self.globalInfoCache objectForKey:@"addrComponent"];
-    }
-    return _addrComponent;
-}
 
 #pragma mark - 数据存取
 - (NSArray *)loadSearchHistory

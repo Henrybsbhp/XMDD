@@ -20,6 +20,7 @@
 #import "CarWashTableVC.h"
 #import "DetailWebVC.h"
 #import "GuideStore.h"
+#import "HKAddressComponent.h"
 
 @interface NewGainAwardVC ()
 
@@ -49,6 +50,7 @@
     [super viewDidLoad];
     
     [self requestOperation];
+    [self requestLocation];
 }
 
 
@@ -64,6 +66,14 @@
     vc.title = @"每周礼券";
     vc.url = kMeizhouliquanUrl;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)requestLocation
+{
+    [[gMapHelper rac_getInvertGeoInfo] subscribeNext:^(AMapReGeocode *regeo) {
+        
+        gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
+    }];
 }
 
 
