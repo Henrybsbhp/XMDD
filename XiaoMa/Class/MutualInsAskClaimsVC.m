@@ -107,7 +107,7 @@
             
             imageView.image = [UIImage imageNamed:@"mutualIns_claimsHistory"];
             
-            titleLabel.text = @"理赔记录";
+            titleLabel.text = @"赔偿记录";
             detailLabel.text = @"小马伴您走过的点点滴滴";
             
             hkLabel.hidden = YES;
@@ -232,7 +232,7 @@
         else
         {
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
-            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"未检测到您的爱车有车险报案记录，快速理赔需要先报案后才能进行现场拍照。请先报案，谢谢～" ActionItems:@[cancel]];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"未检测到您的爱车有车险报案记录，快速赔偿需要先报案后才能进行现场拍照。请先报案，谢谢～" ActionItems:@[cancel]];
             [alert show];
         }
         [self.view stopActivityAnimation];

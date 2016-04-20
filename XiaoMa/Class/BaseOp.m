@@ -40,8 +40,8 @@ static int32_t g_requestVid = 1;
 - (RACSignal *)rac_invokeWithRPCClient:(AFHTTPRequestOperationManager *)manager params:(id)params security:(BOOL)security
 {
     [self increaseRequistIDs];
-    if (security)
-    {
+    _security = security;
+    if (security) {
         params = [self addSecurityParamsFrom:params];
     }
     

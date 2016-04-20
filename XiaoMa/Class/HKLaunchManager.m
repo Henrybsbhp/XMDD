@@ -55,7 +55,7 @@
     }
     else {
         HKAddressComponent *ac = [GetLaunchInfoOp parseAddressWithDict:dict];
-        if (![HKAddressComponent isEqualAddrComponent:ac otherAddrComponent:gAppMgr.addrComponent]) {
+        if (![HKAddressComponent isEqualAddrComponent:ac otherAddrComponent:gMapHelper.addrComponent]) {
             signal = [signal concat:[self rac_getLaunchInfo]];
         }
         
@@ -66,9 +66,9 @@
 - (RACSignal *)rac_getLaunchInfo
 {
     GetLaunchInfoOp *op = [[GetLaunchInfoOp alloc] init];
-    op.req_province = gAppMgr.addrComponent.province;
-    op.req_city = gAppMgr.addrComponent.city;
-    op.req_district = gAppMgr.addrComponent.district;
+    op.req_province = gMapHelper.addrComponent.province;
+    op.req_city = gMapHelper.addrComponent.city;
+    op.req_district = gMapHelper.addrComponent.district;
     return [[op rac_postRequest] map:^id(GetLaunchInfoOp *rspop) {
 
         self.timetag = [[NSDate date] timeIntervalSince1970];

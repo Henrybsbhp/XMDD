@@ -57,9 +57,9 @@
     RACSignal * signal;
     GetSystemPromotionOp * op = [GetSystemPromotionOp operation];
     op.type = type;
-    op.province = gAppMgr.addrComponent.province;
-    op.city = gAppMgr.addrComponent.city;
-    op.district = gAppMgr.addrComponent.district;
+    op.province = gMapHelper.addrComponent.province;
+    op.city = gMapHelper.addrComponent.city;
+    op.district = gMapHelper.addrComponent.district;
     op.version = gAppMgr.clientInfo.clientVersion;
     signal = [[op rac_postRequest] map:^id(GetSystemPromotionOp *op) {
         
@@ -68,7 +68,7 @@
         [self saveInfo:op.rsp_advertisementArray forKey:key];
         [self.adInfo setObject:@([[NSDate date] timeIntervalSince1970]) forKey:key];
         NSString *addrKey = [key append:@"_addrComponent"];
-        [self.adInfo safetySetObject:gAppMgr.addrComponent forKey:addrKey];
+        [self.adInfo safetySetObject:gMapHelper.addrComponent forKey:addrKey];
         
         if (type == AdvertisementHomePage)
         {
@@ -119,7 +119,7 @@
     }
     else {
         HKAddressComponent *ac = [self.adInfo objectForKey:[key append:@"_addrComponent"]];
-        if (![HKAddressComponent isEqualAddrComponent:ac otherAddrComponent:gAppMgr.addrComponent]) {
+        if (![HKAddressComponent isEqualAddrComponent:ac otherAddrComponent:gMapHelper.addrComponent]) {
             signal = [signal concat:[self rac_getAdvertisement:type]];
         }
     }

@@ -18,15 +18,6 @@
 #import "HKAddressComponent.h"
 #import "HomePicModel.h"
 
-//#define Province @"Province"
-//#define City @"City"
-//#define District @"District"
-//#define LastLocationTime @"LastLocationTime"
-//#define Restriction @"Restriction"
-//#define Temperature @"Temperature"
-//#define Temperaturetip @"Temperaturetip"
-//#define Temperaturepic @"Temperaturepic"
-//#define LastWeatherTime @"LastWeatherTime"
 #define LastLocationTime @"LastLocationTime"
 #define SearchHistory   @"SearchHistory"
 #define AddrComonpent   @"AddrComonpent"
@@ -60,11 +51,6 @@
 @property (nonatomic)BOOL needRefreshWeather;
 
 @property (nonatomic) BOOL isNaviBarHidden;
-
-@property (nonatomic, strong) HKAddressComponent *addrComponent;
-@property (nonatomic,copy)NSString *province;
-@property (nonatomic,copy)NSString *city;
-@property (nonatomic,copy)NSString *district;
 
 ///限行信息
 @property (nonatomic,copy)NSString *restriction;

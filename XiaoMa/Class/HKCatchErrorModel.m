@@ -69,7 +69,12 @@
 #pragma mark - Utilities
 - (void)clearAllOperations
 {
-    [gNetworkMgr.apiManager.operationQueue cancelAllOperations];
+    for (AFHTTPRequestOperation *afop in [gNetworkMgr.apiManager.operationQueue operations]) {
+        BaseOp *op = afop.customObject;
+        if (op.security) {
+            [op cancel];
+        }
+    }
     [gNetworkMgr.mediaClient.operationQueue cancelAllOperations];
     [gAppMgr resetWithAccount:nil];
     [gToast dismiss];

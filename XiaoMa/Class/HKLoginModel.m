@@ -300,6 +300,7 @@ typedef enum : NSInteger {
 
 + (void)logoutWithoutNetworking
 {
+    [gAppMgr.tokenPool removeToken:gNetworkMgr.token forAccount:gAppMgr.myUser.userID];
     gNetworkMgr.token = nil;
     gNetworkMgr.skey = nil;
     [gAppMgr resetWithAccount:nil];
