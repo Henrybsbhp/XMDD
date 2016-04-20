@@ -349,8 +349,8 @@
         //删除我的团操作 团长和团员调用新接口，入参不同
         @weakify(self);
         DeleteCooperationGroupOp * op = [DeleteCooperationGroupOp operation];
-        op.req_memberid = @0;
-        op.req_groupid = @256;
+        op.req_memberid = group.memberId;
+        op.req_groupid = group.groupId;
         [[[op rac_postRequest] initially:^{
             [gToast showingWithText:@"删除中..."];
         }] subscribeNext:^(id x) {
