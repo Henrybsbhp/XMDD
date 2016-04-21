@@ -522,7 +522,15 @@
         //费用估算
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
+        
+#if XMDDEnvironment==0
+        vc.url = @"http://dev01.xiaomadada.com:5080/xmdd-web/xmdd-app/index.html";
+#elif XMDDEnvironment==1
+        vc.url = @"http://dev01.xiaomadada.com:5080/xmdd-web/xmdd-app/index.html";
+#else
         vc.url = @"http://www.baidu.com";
+#endif
+        
         [self.navigationController pushViewController:vc animated:YES];
     }];
     
