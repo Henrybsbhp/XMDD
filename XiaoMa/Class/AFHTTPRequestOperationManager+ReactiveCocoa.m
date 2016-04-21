@@ -19,7 +19,7 @@
     NSMutableURLRequest *req = [self requestWithMethod:method parameters:parameters requestId:requestId];
     
     NSString *str = [[NSString alloc] initWithData:req.HTTPBody encoding:NSUTF8StringEncoding];
-    DebugGreenLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata = %@ ", req.URL, str);
+    DebugGreenLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata = %@ \n", req.URL, str);
     
     AFHTTPRequestOperation * op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
 //    op.responseSerializer = [AFJSONRequestSerializer serializer];
