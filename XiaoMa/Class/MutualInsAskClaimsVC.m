@@ -210,35 +210,45 @@
 
 -(void)getCarListData
 {
-    GetCooperationMyCarOp *op = [[GetCooperationMyCarOp alloc]init];
-    [[[op rac_postRequest]initially:^{
-        [self.view startActivityAnimationWithType:MONActivityIndicatorType];
-    }]subscribeNext:^(GetCooperationMyCarOp *op) {
-        if (op.rsp_reports.count == 1)
-        {
-            NSDictionary *report = op.rsp_reports.firstObject;
-            MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
-            scencePageVC.noticeArr = self.tempArr;
-            scencePageVC.claimid = report[@"claimid"];
-            [self.navigationController pushViewController:scencePageVC animated:YES];
-        }
-        else if (op.rsp_reports.count > 1)
-        {
-            MutualInsChooseCarVC *chooseVC = [UIStoryboard vcWithId:@"MutualInsChooseCarVC" inStoryboard:@"MutualInsClaims"];
-            chooseVC.noticeArr = self.tempArr;
-            chooseVC.reports = op.rsp_reports;
-            [self.navigationController pushViewController:chooseVC animated:YES];
-        }
-        else
-        {
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
-            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"未检测到您的爱车有车险报案记录，快速赔偿需要先报案后才能进行现场拍照。请先报案，谢谢～" ActionItems:@[cancel]];
-            [alert show];
-        }
-        [self.view stopActivityAnimation];
-    }error:^(NSError *error) {
-        [self.view stopActivityAnimation];
-    }];
+    @weakify(self)
+    if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
+        return;
+    }
+    else
+    {
+        GetCooperationMyCarOp *op = [[GetCooperationMyCarOp alloc]init];
+        [[[op rac_postRequest]initially:^{
+            @strongify(self)
+            [self.view startActivityAnimationWithType:MONActivityIndicatorType];
+        }]subscribeNext:^(GetCooperationMyCarOp *op) {
+            @strongify(self)
+            if (op.rsp_reports.count == 1)
+            {
+                NSDictionary *report = op.rsp_reports.firstObject;
+                MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
+                scencePageVC.noticeArr = self.tempArr;
+                scencePageVC.claimid = report[@"claimid"];
+                [self.navigationController pushViewController:scencePageVC animated:YES];
+            }
+            else if (op.rsp_reports.count > 1)
+            {
+                MutualInsChooseCarVC *chooseVC = [UIStoryboard vcWithId:@"MutualInsChooseCarVC" inStoryboard:@"MutualInsClaims"];
+                chooseVC.noticeArr = self.tempArr;
+                chooseVC.reports = op.rsp_reports;
+                [self.navigationController pushViewController:chooseVC animated:YES];
+            }
+            else
+            {
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"未检测到您的爱车有车险报案记录，快速理赔需要先报案后才能进行现场拍照。请先报案，谢谢～" ActionItems:@[cancel]];
+                [alert show];
+            }
+            [self.view stopActivityAnimation];
+        }error:^(NSError *error) {
+            @strongify(self)
+            [self.view stopActivityAnimation];
+        }];
+    }
 }
 
 
