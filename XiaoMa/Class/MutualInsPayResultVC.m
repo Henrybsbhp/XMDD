@@ -45,7 +45,7 @@
     
     self.contactname = self.contract.insurancedname;
     self.contactphone = gAppMgr.myUser.userID;
-    self.area = [[gAppMgr.addrComponent.province append:gAppMgr.addrComponent.city] append:gAppMgr.addrComponent.district];
+    self.area = [[gMapHelper.addrComponent.province append:gMapHelper.addrComponent.city] append:gMapHelper.addrComponent.district];
     
     [self setupDatasource];
 }
@@ -351,6 +351,8 @@
 #pragma mark Action
 - (IBAction)commitAction:(id)sender {
     
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0017"}];
+    
     if (!self.contactname.length)
     {
         [self.view1 shake];
@@ -408,6 +410,8 @@
 
 - (void)actionBack
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0016"}];
+    
     [self.view endEditing:YES];
     
     HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];

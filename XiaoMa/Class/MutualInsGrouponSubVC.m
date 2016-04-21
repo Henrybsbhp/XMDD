@@ -130,7 +130,7 @@
                                           detailColor:MutInsOrangeColor],
                   [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:[NSString stringWithFormat:@"%d次", op.rsp_claimcount]
                                           detailColor:MutInsTextDarkGrayColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"理赔金额" detailTitle:[NSString formatForRoundPrice2:op.rsp_claimamount]
+                  [MutualInsAlertVCItem itemWithTitle:@"赔偿金额" detailTitle:[NSString formatForRoundPrice2:op.rsp_claimamount]
                                           detailColor:MutInsOrangeColor]];
     }
     else {
@@ -146,7 +146,7 @@
                                           detailColor:MutInsTextDarkGrayColor],
                   [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:@"暂无"
                                           detailColor:MutInsTextDarkGrayColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"理赔金额" detailTitle:@"暂无"
+                  [MutualInsAlertVCItem itemWithTitle:@"赔偿金额" detailTitle:@"暂无"
                                           detailColor:MutInsTextDarkGrayColor]];
     }
     alert.items = items;
@@ -455,7 +455,8 @@
 
 - (id)arrowItem
 {
-    if (self.groupDetail.rsp_barstatus == 0) {
+    NSInteger index = [self indexOfProgressViewForBarStatus:self.groupDetail.rsp_barstatus];
+    if (index == 0) {
         return CKNULL;
     }
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Arrow"}];
@@ -467,10 +468,24 @@
         arrowV.normalTextColor = MutInsTextLightGrayColor;
         arrowV.normalColor = MutInsBgColor;
         arrowV.titleArray = @[@"上传",@"审核",@"支付"];
-        arrowV.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.groupDetail.rsp_barstatus)];
+        NSInteger index = [self indexOfProgressViewForBarStatus:self.groupDetail.rsp_barstatus];
+        arrowV.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, index)];
     });
     return item;
 }
+
+
+- (NSInteger)indexOfProgressViewForBarStatus:(int)status
+{
+    if (status == 3) {
+        return 0;
+    }
+    if (status > 3) {
+        return status - 1;
+    }
+    return status;
+}
+
 
 - (id)waterWaveItem
 {

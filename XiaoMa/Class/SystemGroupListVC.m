@@ -127,19 +127,23 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         }
         else
         {
-            [self.tableView showDefaultEmptyViewWithText:@"马上推出，敬请期待"];
+            [self.view showDefaultEmptyViewWithText:@"马上推出，敬请期待"];
         }
         [self.view stopActivityAnimation];
+        [self.view hideDefaultEmptyView];
         self.tableView.hidden = NO;
     } error:^(NSError *error) {
         
         @strongify(self);
-        self.tableView.hidden = NO;
+        self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         
-        [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:@"列表请求失败，点击重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"列表请求失败，点击重试" tapBlock:^{
             @strongify(self);
+            [self.view hideDefaultEmptyView];
+            self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
             [self requestAutoGroupArray];
         }];
     }];
@@ -411,7 +415,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 
     vc.groupId = [dic numberParamForName:@"groupid"];
     vc.groupName = dic[@"name"];
-    vc.originCar = self.originCar;
+    vc.originCarId = self.originCarId;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -419,11 +423,11 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
-        if (self.originCar) {
+        if (self.originCarId) {
             @weakify(self);
             ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
             op.req_groupid = groupid;
-            op.req_carid = self.originCar.carId;
+            op.req_carid = self.originCarId;
             [[[op rac_postRequest] initially:^{
                 
                 [gToast showingWithText:@"申请加入中..." inView:self.view];
@@ -442,7 +446,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
                 
                 if (error.code == 6115804) {
                     @strongify(self);
-                    [self showAlertWithError:error.domain car:self.originCar];
+                    [self showAlertWithError:error.domain carId:self.originCarId];
                 }
                 else {
                     [gToast showError:error.domain inView:self.view];
@@ -464,7 +468,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     }
 }
 
-- (void)showAlertWithError:(NSString *)errorString car:(HKMyCar *)car
+- (void)showAlertWithError:(NSString *)errorString carId:(NSNumber *)carId
 {
     [gToast dismissInView:self.view];
     HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
@@ -476,7 +480,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         @strongify(self);
         EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-        vc.originCar = car;
+        vc.originCarId = carId;
         [self.navigationController pushViewController:vc animated:YES];
     }];
     alert.actionItems = @[cancel, improve];

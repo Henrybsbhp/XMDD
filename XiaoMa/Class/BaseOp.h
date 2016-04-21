@@ -39,6 +39,7 @@
 @property (nonatomic, copy) NSString *skey;
 @property (nonatomic, strong , readonly) NSString *vkey;
 @property (nonatomic, copy) NSString * sign;
+@property (nonatomic, assign, readonly) BOOL security;
 ///模拟数据回执
 @property (nonatomic, assign) BOOL simulateResponse;
 ///模拟数据回执的延迟

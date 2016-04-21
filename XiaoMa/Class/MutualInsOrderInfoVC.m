@@ -75,6 +75,9 @@
     {
         self.navigationItem.rightBarButtonItem = nil;
     }
+    
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 - (void)setupUI
@@ -126,10 +129,19 @@
 }
 
 #pragma mark - Utilitly
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0001"}];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)nextAction
 {
     if (self.contract.status == 1)
     {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0004"}];
+        
         MutualInsPayViewController * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayViewController"];
         vc.contract = self.contract;
         vc.proxybuy = self.isInsProxy;
@@ -139,17 +151,21 @@
     }
     else
     {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0007"}];
+        
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [gPhoneHelper makePhone:@"4007111111"];
         }];
-        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"订单查询,小马互助咨询等\n请拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"如有任何疑问，可拨打客户电话\n 4007-111-111" ActionItems:@[cancel,confirm]];
         [alert show];
     }
 }
 
 - (void)jumoToFinishAddressVC
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0005"}];
+    
     MutualInsPayResultVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayResultVC"];
     vc.contract = self.contract;
     vc.isFromOrderInfoVC = YES;
@@ -301,7 +317,7 @@
         NSString * title = [dict objectForKey:@"title"];
         NSString * content = [dict objectForKey:@"content"];
         CGFloat width = gAppMgr.deviceInfo.screenSize.width;
-        CGFloat lbWidth = width - 10 * 4;
+        CGFloat lbWidth = width - (10+10+6)*2;
         CGSize size1 = [title labelSizeWithWidth:lbWidth font:[UIFont systemFontOfSize:13]];
         CGSize size2 = [content labelSizeWithWidth:lbWidth font:[UIFont systemFontOfSize:13]];
         height = 10 + size1.height + 8 + size2.height;
@@ -543,6 +559,7 @@
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0002"}];
         self.isInsProxy = !self.isInsProxy;
         [self setupDateSource];
         [self.tableView reloadData];
@@ -645,6 +662,8 @@
         }];
         
         [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0003"}];
            
             self.proxyInsCompany = insCompany;
             

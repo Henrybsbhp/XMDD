@@ -39,7 +39,7 @@
 @property (nonatomic, strong) GetCooperationConfiOp *config;
 @property (nonatomic, strong) MutualInsStore *minsStore;
 @property (nonatomic, strong) NSMutableArray * myGroupArray;
-@property (nonatomic, strong) NSMutableArray * myCarArray;
+@property (nonatomic, strong) NSMutableArray <HKMutualCar *> *myCarArray;
 
 @property (nonatomic, assign) NSTimeInterval leftTime;
 
@@ -56,6 +56,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [MobClick event:@"shouye" attributes:@{@"shouye":@"shouye0001"}];
     
     [self setNavigationBar];
     [self setItemList];
@@ -186,8 +188,13 @@
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"phone",@"title":@"联系客服",@"img":@"mins_phone"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0013"}];
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"如有任何疑问，可拨打客服电话: 4007-111-111"];
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"如有任何疑问，可拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
+        [alert show];
     });
     return dict;
 }
@@ -287,6 +294,7 @@
                 [self.view stopActivityAnimation];
                 [self resetTableView];
             }
+            [self setItemList];
         }
     } error:^(NSError *error) {
         
@@ -338,22 +346,34 @@
     }
     else if (group.btnStatus == GroupBtnStatusDelete){
     
-        //删除我的团操作 团长和团员调用新接口，入参不同
+        HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+        alert.topTitle = @"温馨提示";
+        alert.imageName = @"mins_bulb";
+        alert.message = @"删除后，您将无法看到该团记录。确定现在删除？";
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
         @weakify(self);
-        DeleteCooperationGroupOp * op = [DeleteCooperationGroupOp operation];
-        op.req_memberid = @0;
-        op.req_groupid = @256;
-        [[[op rac_postRequest] initially:^{
-            [gToast showingWithText:@"删除中..."];
-        }] subscribeNext:^(id x) {
+        HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             
             @strongify(self);
-            [gToast dismiss];
-            [self.myGroupArray safetyRemoveObjectAtIndex:(indexPath.row - 3)];
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        } error:^(NSError *error) {
-            [gToast showError:error.domain];
+            //删除我的团操作 团长和团员调用新接口，入参不同
+            DeleteCooperationGroupOp * op = [DeleteCooperationGroupOp operation];
+            op.req_memberid = group.memberId;
+            op.req_groupid = group.groupId;
+            [[[op rac_postRequest] initially:^{
+                [gToast showingWithText:@"删除中..."];
+            }] subscribeNext:^(id x) {
+                
+                @strongify(self);
+                [gToast dismiss];
+                [self.myGroupArray safetyRemoveObjectAtIndex:(indexPath.row - 3)];
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            } error:^(NSError *error) {
+                [gToast showError:error.domain];
+            }];
         }];
+        alert.actionItems = @[cancel, improve];
+        [alert show];
+        
     }
     else if (group.btnStatus == GroupBtnStatusUpdate) {
         
@@ -461,7 +481,8 @@
         //团列表
         SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
         vc.originVC = self;
-        vc.originCar = [self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        HKMutualCar *mutualCar = [self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        vc.originCarId = mutualCar.carId;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row == (3 + self.myGroupArray.count + self.myCarArray.count)){
@@ -492,8 +513,11 @@
     titleLabel.text = self.config.rsp_selfgroupname;
     descLabel.text = self.config.rsp_selfgroupdesc;
     [feeButton setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    
+    @weakify(self);
     [[[feeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self);
         [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0003"}];
         //费用估算
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
@@ -640,7 +664,8 @@
         //团列表
         SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
         vc.originVC = self;
-        vc.originCar = [self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        HKMutualCar *mutualCar =[self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        vc.originCarId = mutualCar.carId;
         [self.navigationController pushViewController:vc animated:YES];
     }];
     mutualPrice.text = myCar.premiumPrice;

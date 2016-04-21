@@ -107,7 +107,7 @@
             
             imageView.image = [UIImage imageNamed:@"mutualIns_claimsHistory"];
             
-            titleLabel.text = @"理赔记录";
+            titleLabel.text = @"赔偿记录";
             detailLabel.text = @"小马伴您走过的点点滴滴";
             
             hkLabel.hidden = YES;

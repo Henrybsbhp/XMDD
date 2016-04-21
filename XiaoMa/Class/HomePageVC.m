@@ -240,7 +240,7 @@
 - (void)setupADViewInContainer:(UIView *)container
 {
     self.adctrl = [ADViewController vcWithADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width
-                                        targetVC:self mobBaseEvent:@"rp101_10"];
+                                        targetVC:self mobBaseEvent:@"rp101_10" mobBaseEventDict:nil];
     
     CGFloat height = floor(self.adctrl.adView.frame.size.height);
     [container addSubview:self.adctrl.adView];
@@ -254,9 +254,8 @@
 
 - (void)setupSecondADViewInContainer:(UIView *)container  withSquaresView:(UIView *)squaresView
 {
-    //@fq TODO
     self.secondAdCtrl = [ADViewController vcWithADType:AdvertisementHomePageBottom boundsWidth:self.view.frame.size.width
-                                        targetVC:self mobBaseEvent:@""];
+                                              targetVC:self mobBaseEvent:@"shouye" mobBaseEventDict:@{@"shouye":@"shouye0002"}];
     
     CGFloat height = floor(self.secondAdCtrl.adView.frame.size.height);
     [container addSubview:self.secondAdCtrl.adView];
@@ -457,6 +456,14 @@
 
 - (void)reloadDatasource
 {
+    [[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] subscribeNext:^(HKAddressComponent * addComponent) {
+        
+        NSString * city;
+        city = addComponent.city.length ? addComponent.city : addComponent.province;
+        [self setupNavigationLeftBar:city];
+    }];
+    
+    
     @weakify(self);
     RACSignal *sig1 = [[[[[gMapHelper rac_getInvertGeoInfo] take:1] initially:^{
         @strongify(self);
@@ -466,11 +473,11 @@
         [self setupNavigationLeftBar:nil];
         [gMapHelper handleGPSError:error];
     }] doNext:^(AMapReGeocode *regeo) {
-        @strongify(self);
-        NSString * cityStr;
-        cityStr = regeo.addressComponent.city.length ? regeo.addressComponent.city : regeo.addressComponent.province;
-        [self setupNavigationLeftBar:cityStr];
-        gAppMgr.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
+//        @strongify(self);
+//        NSString * cityStr;
+//        cityStr = regeo.addressComponent.city.length ? regeo.addressComponent.city : regeo.addressComponent.province;
+//        [self setupNavigationLeftBar:cityStr];
+        gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
     }];
     
     // 获取天气信息

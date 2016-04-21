@@ -72,7 +72,7 @@
 
 - (IBAction)getMoreAction:(id)sender {
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-    vc.url = kGetMoreCouponUrl;
+    vc.url = ADDEFINEWEB;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

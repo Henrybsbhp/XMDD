@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) HKMyCar *curCar;
 @property (nonatomic, assign) BOOL isEditingModel;
+@property (nonatomic, strong) MyCarStore *carStore;
 @property (nonatomic, strong) NSArray *datasource;
 @property (nonatomic, strong) DatePickerVC *datePicker;
 @property (nonatomic, assign) BOOL isDrivingLicenseNeedSave;
@@ -108,7 +109,7 @@
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain
                                                             target:self action:@selector(actionCancel:)];
     self.navigationItem.leftBarButtonItem = left;
-    self.navigationItem.rightBarButtonItem = right;
+    [self.navigationItem setRightBarButtonItem:right animated:YES];//防抖动
 }
 
 - (void)setupTableView
@@ -116,15 +117,54 @@
     if (self.originCar) {
         _curCar = [self.originCar copy];
         _isEditingModel = YES;
+        [self reloadDatasource];
+    }
+    else if (self.originCarId) {
+        _isEditingModel = YES;
+        self.carStore = [MyCarStore fetchOrCreateStore];
+        RACSignal *sig = [[self.carStore getAllCars] send];
+        [self reloadDataWithSignal:sig carId:self.originCarId];
     }
     else {
         _curCar = [[HKMyCar alloc] init];
         _curCar.licenceArea  = [self getCurrentProvince];
         _curCar.isDefault = YES;
         _isEditingModel = NO;
+        [self reloadDatasource];
     }
-    
-    [self reloadDatasource];
+}
+
+#pragma mark - Reload
+
+- (void)reloadDataWithSignal:(RACSignal *)signal carId:(NSNumber *)carId
+{
+    @weakify(self);
+    [[[signal deliverOn:[RACScheduler mainThreadScheduler]] initially:^{
+        
+        @strongify(self);
+        self.tableView.hidden = YES;
+        [self.view hideDefaultEmptyView];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [self.view stopActivityAnimation];
+        self.tableView.hidden = NO;
+        _curCar = [self.carStore carByID:carId];
+        self.originCar = [self.carStore carByID:carId];
+        [self reloadDatasource];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+        [self.view stopActivityAnimation];
+        
+        @weakify(self);
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络连接失败，点击重试" tapBlock:^{
+            @strongify(self);
+            RACSignal *sig = [[self.carStore getAllCars] send];
+            [self reloadDataWithSignal:sig carId:carId];
+        }];
+    }];
 }
 
 - (void)reloadDatasource
