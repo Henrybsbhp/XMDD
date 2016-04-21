@@ -159,10 +159,17 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:section];
+    NSInteger numberOfRow = 5;
     if ([groupInfo stringParamForName:@"tip"].length == 0) {
-        return 4;
+        numberOfRow --;
     }
-    return 5;
+    if ([groupInfo stringParamForName:@"grouprestrict"].length == 0) {
+        numberOfRow --;
+    }
+    if ([groupInfo stringParamForName:@"memberrestrict"].length == 0) {
+        numberOfRow --;
+    }
+    return numberOfRow;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -180,27 +187,32 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //由于倒计时可能不存在，所以根据tip设置section中共有几行
     NSDictionary * dic = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
-    NSInteger numberOfRow = [dic stringParamForName:@"tip"].length == 0 ? 4 : 5;
+    
     NSString * groupTips = [dic stringParamForName:@"grouprestrict"];
     NSString * memberTips = [dic stringParamForName:@"memberrestrict"];
+    NSString * tipStr = [dic stringParamForName:@"tip"];
+    NSMutableArray *tipsArray = [[NSMutableArray alloc] init];
+    if (groupTips.length != 0) {
+        [tipsArray addObject:groupTips];
+    }
+    if (memberTips.length != 0) {
+        [tipsArray addObject:memberTips];
+    }
+    if (tipStr.length != 0) {
+        [tipsArray addObject:tipStr];
+    }
     
     if (indexPath.row == 0) {
         return 42;
     }
-    else if (indexPath.row == numberOfRow - 1) {
+    else if (indexPath.row == tipsArray.count + 1) {
         return 50;
     }
-    else if (indexPath.row == 1){
-        CGFloat height = [groupTips labelSizeWithWidth:(self.tableView.frame.size.width - 66) font:[UIFont systemFontOfSize:12]].height;
-        return height + 9;
+    else {
+        CGFloat height = [tipsArray[indexPath.row - 1] labelSizeWithWidth:(self.tableView.frame.size.width - 66) font:[UIFont systemFontOfSize:12]].height;
+        return ceil(height + 8);
     }
-    else if (indexPath.row == 2){
-        CGFloat height = [memberTips labelSizeWithWidth:(self.tableView.frame.size.width - 66) font:[UIFont systemFontOfSize:12]].height;
-        return height + 9;
-    }
-    return 23;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -246,31 +258,44 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
     UILabel *infoLabel = (UILabel *)[cell.contentView viewWithTag:101];
     
-    if (indexPath.row == 1)
-    {
-        infoLabel.text = [groupInfo stringParamForName:@"grouprestrict"];
+    NSString * groupTips = [groupInfo stringParamForName:@"grouprestrict"];
+    NSString * memberTips = [groupInfo stringParamForName:@"memberrestrict"];
+    NSString * tipStr = [groupInfo stringParamForName:@"tip"];
+    NSMutableArray *tipsArray = [[NSMutableArray alloc] init];
+    if (groupTips.length != 0) {
+        [tipsArray addObject:groupTips];
     }
-    else if (indexPath.row == 2)
-    {
-        infoLabel.text = [groupInfo stringParamForName:@"memberrestrict"];
+    if (memberTips.length != 0) {
+        [tipsArray addObject:memberTips];
     }
-    else
-    {
-        NSTimeInterval leftTime = [groupInfo integerParamForName:@"lefttime"] / 1000;
-        @weakify(self);
-        RACDisposable * disp = [[[HKTimer rac_timeCountDownWithOrigin:leftTime andTimeTag:[groupInfo.customObject doubleValue]] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * timeStr) {
-            
-            @strongify(self);
-            if (![timeStr isEqualToString:@"end"]) {
-                infoLabel.text = [NSString stringWithFormat:@"%@ %@", [groupInfo stringParamForName:@"tip"], timeStr];
-            }
-            else {
-                [disp dispose];
-                [self requestAutoGroupArray];
-            }
-            
-        }];
-        [[self rac_deallocDisposable] addDisposable:disp];
+    if (tipStr.length != 0) {
+        [tipsArray addObject:tipStr];
+    }
+    
+    if (tipStr.length == 0) {
+        infoLabel.text = [tipsArray safetyObjectAtIndex:indexPath.row - 1];
+    }
+    else {
+        if (indexPath.row == tipsArray.count) {
+            NSTimeInterval leftTime = [groupInfo integerParamForName:@"lefttime"] / 1000;
+            @weakify(self);
+            RACDisposable * disp = [[[HKTimer rac_timeCountDownWithOrigin:leftTime andTimeTag:[groupInfo.customObject doubleValue]] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * timeStr) {
+                
+                @strongify(self);
+                if (![timeStr isEqualToString:@"end"]) {
+                    infoLabel.text = [NSString stringWithFormat:@"%@ %@", [groupInfo stringParamForName:@"tip"], timeStr];
+                }
+                else {
+                    [disp dispose];
+                    [self requestAutoGroupArray];
+                }
+                
+            }];
+            [[self rac_deallocDisposable] addDisposable:disp];
+        }
+        else {
+            infoLabel.text = [tipsArray safetyObjectAtIndex:indexPath.row - 1];
+        }
     }
     return cell;
 }
@@ -369,12 +394,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
             }
         }
         @strongify(self);
-        if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp && ![groupInfo boolParamForName:@"ingroup"]) {
-            [self joinSystemGroupWithGroupID:groupid groupName:groupname];
-        }
-        else {
-            [self jumpToGroupDetail:indexPath];
-        }
+        [self jumpToGroupDetail:indexPath];
         
     }];
     return cell;
@@ -419,54 +439,54 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)joinSystemGroupWithGroupID:(NSNumber *)groupid groupName:(NSString *)groupname
-{
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        
-        if (self.originCarId) {
-            @weakify(self);
-            ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
-            op.req_groupid = groupid;
-            op.req_carid = self.originCarId;
-            [[[op rac_postRequest] initially:^{
-                
-                [gToast showingWithText:@"申请加入中..." inView:self.view];
-            }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
-                
-                @strongify(self);
-                
-                [gToast dismissInView:self.view];
-                
-                MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
-                vc.memberId = rop.rsp_memberid;
-                vc.groupId = rop.req_groupid;
-                vc.groupName = groupname;
-                [self.navigationController pushViewController:vc animated:YES];
-            } error:^(NSError *error) {
-                
-                if (error.code == 6115804) {
-                    @strongify(self);
-                    [self showAlertWithError:error.domain carId:self.originCarId];
-                }
-                else {
-                    [gToast showError:error.domain inView:self.view];
-                }
-            }];
-        }
-        
-        else {
-            PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
-            vc.isShowBottomView = YES;
-            @weakify(self);
-            [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
-                @strongify(self);
-                //爱车页面入团按钮委托实现
-                [self requestApplyJoinGroupWithID:groupid groupName:groupname carModel:carModel loadingView:loadingView];
-            }];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    }
-}
+//- (void)joinSystemGroupWithGroupID:(NSNumber *)groupid groupName:(NSString *)groupname
+//{
+//    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+//        
+//        if (self.originCarId) {
+//            @weakify(self);
+//            ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
+//            op.req_groupid = groupid;
+//            op.req_carid = self.originCarId;
+//            [[[op rac_postRequest] initially:^{
+//                
+//                [gToast showingWithText:@"申请加入中..." inView:self.view];
+//            }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
+//                
+//                @strongify(self);
+//                
+//                [gToast dismissInView:self.view];
+//                
+//                MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+//                vc.memberId = rop.rsp_memberid;
+//                vc.groupId = rop.req_groupid;
+//                vc.groupName = groupname;
+//                [self.navigationController pushViewController:vc animated:YES];
+//            } error:^(NSError *error) {
+//                
+//                if (error.code == 6115804) {
+//                    @strongify(self);
+//                    [self showAlertWithError:error.domain carId:self.originCarId];
+//                }
+//                else {
+//                    [gToast showError:error.domain inView:self.view];
+//                }
+//            }];
+//        }
+//        
+//        else {
+//            PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
+//            vc.isShowBottomView = YES;
+//            @weakify(self);
+//            [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
+//                @strongify(self);
+//                //爱车页面入团按钮委托实现
+//                [self requestApplyJoinGroupWithID:groupid groupName:groupname carModel:carModel loadingView:loadingView];
+//            }];
+//            [self.navigationController pushViewController:vc animated:YES];
+//        }
+//    }
+//}
 
 - (void)showAlertWithError:(NSString *)errorString carId:(NSNumber *)carId
 {
