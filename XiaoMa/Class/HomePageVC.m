@@ -257,11 +257,16 @@
     self.secondAdCtrl = [ADViewController vcWithADType:AdvertisementHomePageBottom boundsWidth:self.view.frame.size.width
                                               targetVC:self mobBaseEvent:@"shouye" mobBaseEventDict:@{@"shouye":@"shouye0002"}];
     
-    CGFloat height = floor(self.secondAdCtrl.adView.frame.size.height);
     [container addSubview:self.secondAdCtrl.adView];
     [self.secondAdCtrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
         
         CGFloat space = 12;
+        CGFloat ratio = 152 / 750.0;
+        CGFloat height = ratio * gAppMgr.deviceInfo.screenSize.width;
+        if (gAppMgr.deviceInfo.screenSize.height >= 736)
+        {
+            height = height + 2;
+        }
         make.left.equalTo(container);
         make.right.equalTo(container);
         make.top.equalTo(squaresView.mas_bottom).offset(space);
@@ -473,10 +478,7 @@
         [self setupNavigationLeftBar:nil];
         [gMapHelper handleGPSError:error];
     }] doNext:^(AMapReGeocode *regeo) {
-//        @strongify(self);
-//        NSString * cityStr;
-//        cityStr = regeo.addressComponent.city.length ? regeo.addressComponent.city : regeo.addressComponent.province;
-//        [self setupNavigationLeftBar:cityStr];
+        
         gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
     }];
     
@@ -487,6 +489,7 @@
     }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
         @strongify(self);
         [self.adctrl reloadDataWithForce:YES completed:nil];
+        [self.secondAdCtrl reloadDataWithForce:YES completed:nil];
         return [self rac_getWeatherInfoWithReGeocode:regeo];
     }] finally:^{
         @strongify(self);
