@@ -144,8 +144,20 @@
     DebugFormat *formatter = [[DebugFormat alloc] init];
     
     [[DDTTYLogger sharedInstance] setLogFormatter:formatter];
-    
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    
+    // xcode 控制台日志
+    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+    // 日志输入颜色控制
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor] forFlag:DDLogFlagVerbose];
+
+    [[DDTTYLogger sharedInstance] setForegroundColor:kDefTintColor backgroundColor:[UIColor blackColor] forFlag:DDLogFlagDebug];
+    
+    [[DDTTYLogger sharedInstance] setForegroundColor:kOrangeColor backgroundColor:[UIColor blackColor] forFlag:DDLogFlagInfo];
+    
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor redColor] backgroundColor:[UIColor whiteColor] forFlag:DDLogFlagWarning];
+    
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor redColor] backgroundColor:[UIColor whiteColor] forFlag:DDLogFlagError];
     
     self.fileLogger = [[DDFileLogger alloc] init];
     self.fileLogger.logFileManager.maximumNumberOfLogFiles = 100;
@@ -154,6 +166,7 @@
     [self.fileLogger setLogFormatter:formatter];
     [DDLog addLogger:self.fileLogger];
     
+    /// 苹果系统日志
     [DDLog addLogger:[DDASLLogger sharedInstance]];
 }
 
