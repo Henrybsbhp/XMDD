@@ -689,6 +689,7 @@
     {
         if (op.paychannel == PaymentChannelAlipay)
         {
+            self.isPaid = NO;
             [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
@@ -700,6 +701,7 @@
         }
         else if (op.paychannel == PaymentChannelWechat)
         {
+            self.isPaid = NO;
             [gToast showText:@"订单生成成功,正在跳转到微信平台进行支付"];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
@@ -712,35 +714,14 @@
         else {
             [gToast dismiss];
             [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
-            PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-            vc.originVC = self.originVC;
-            HKServiceOrder * order = [[HKServiceOrder alloc] init];
-            order.orderid = op.rsp_orderid;
-            order.shop = self.shop;
-            order.serviceid = self.service.serviceID;
-            order.servicename = self.service.serviceName;
-            order.fee = op.rsp_price;
-            order.gasCouponAmount =  op.rsp_gasCouponAmount;
-            vc.order = order;
-            
-            [self.navigationController pushViewController:vc animated:YES];
+            [self gotoPaymentSuccessVC];
         }
     }
     else
     {
         [gToast dismiss];
         [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
-        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-        vc.originVC = self.originVC;
-        HKServiceOrder * order = [[HKServiceOrder alloc] init];
-        order.orderid = op.rsp_orderid;
-        order.shop = self.shop;
-        order.serviceid = self.service.serviceID;
-        order.servicename = self.service.serviceName;
-        order.fee = op.rsp_price;
-        order.gasCouponAmount = op.rsp_gasCouponAmount;
-        vc.order = order;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self gotoPaymentSuccessVC];
     }
 }
 
@@ -857,18 +838,6 @@
         }];
         // 支付成功。避免应用进入前台后重复请求
         self.isPaid = YES;
-        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-        vc.originVC = self.originVC;
-        vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
-        HKServiceOrder * order = [[HKServiceOrder alloc] init];
-        order.orderid = orderId;
-        order.serviceid = self.service.serviceID;
-        order.servicename = self.service.serviceName;
-        order.shop = self.shop;
-        order.fee = price;
-        order.gasCouponAmount = couponAmt;
-        vc.order = order;
-        [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
     }];
@@ -1267,29 +1236,58 @@
         op.req_tradeno = self.serviceOp.rsp_tradeId;
         op.req_tradetype = @"2";
         
-        [[[op rac_postRequest]initially:^{
+        RACSignal * statusSignal = [op rac_postRequest];
+        
+        RACSignal * isPaidSignal = [[RACObserve(self , isPaid) distinctUntilChanged] filter:^BOOL(NSNumber * number) {
+            
+            BOOL flag = [number boolValue];
+            return flag;
+        }];
+        
+        RACSignal * siganl = [[statusSignal merge:isPaidSignal] take:1];
+        
+        [[siganl initially:^{
+            
             [gToast showingWithText:@"订单信息查询中"];
-        }]subscribeNext:^(id x) {
+        }] subscribeNext:^(id x) {
             [gToast dismiss];
-            @strongify(self)
-            if (op.rsp_status)
+            if ([x isKindOfClass:[GetPayStatusOp class]])
             {
-                PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-                vc.originVC = self.originVC;
-                HKServiceOrder * order = [[HKServiceOrder alloc] init];
-                order.orderid = self.serviceOp.rsp_orderid;
-                order.shop = self.shop;
-                order.serviceid = self.service.serviceID;
-                order.servicename = self.service.serviceName;
-                order.fee = self.serviceOp.rsp_price;
-                order.gasCouponAmount = self.serviceOp.rsp_gasCouponAmount;
-                vc.order = order;
-                [self.navigationController pushViewController:vc animated:YES];
+                GetPayStatusOp * rop = (GetPayStatusOp *)x;
+                @strongify(self)
+                if (rop.rsp_status)
+                {
+                    [self gotoPaymentSuccessVC];
+                }
             }
-        }error:^(NSError *error) {
+            else if ([x isKindOfClass:[NSNumber class]])
+            {
+                NSNumber * number = (NSNumber *)x;
+                BOOL flag = [number boolValue];
+                if (flag)
+                {
+                    [self gotoPaymentSuccessVC];
+                }
+            }
+        } error:^(NSError *error) {
             [gToast showText:error.domain];
         }];
     }
+}
+
+-(void)gotoPaymentSuccessVC
+{
+    PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
+    vc.originVC = self.originVC;
+    HKServiceOrder * order = [[HKServiceOrder alloc] init];
+    order.orderid = self.serviceOp.rsp_orderid;
+    order.shop = self.shop;
+    order.serviceid = self.service.serviceID;
+    order.servicename = self.service.serviceName;
+    order.fee = self.serviceOp.rsp_price;
+    order.gasCouponAmount = self.serviceOp.rsp_gasCouponAmount;
+    vc.order = order;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
