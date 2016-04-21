@@ -394,12 +394,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
             }
         }
         @strongify(self);
-        if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp && ![groupInfo boolParamForName:@"ingroup"]) {
-            [self joinSystemGroupWithGroupID:groupid groupName:groupname];
-        }
-        else {
-            [self jumpToGroupDetail:indexPath];
-        }
+        [self jumpToGroupDetail:indexPath];
         
     }];
     return cell;
@@ -444,54 +439,54 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)joinSystemGroupWithGroupID:(NSNumber *)groupid groupName:(NSString *)groupname
-{
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        
-        if (self.originCarId) {
-            @weakify(self);
-            ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
-            op.req_groupid = groupid;
-            op.req_carid = self.originCarId;
-            [[[op rac_postRequest] initially:^{
-                
-                [gToast showingWithText:@"申请加入中..." inView:self.view];
-            }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
-                
-                @strongify(self);
-                
-                [gToast dismissInView:self.view];
-                
-                MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
-                vc.memberId = rop.rsp_memberid;
-                vc.groupId = rop.req_groupid;
-                vc.groupName = groupname;
-                [self.navigationController pushViewController:vc animated:YES];
-            } error:^(NSError *error) {
-                
-                if (error.code == 6115804) {
-                    @strongify(self);
-                    [self showAlertWithError:error.domain carId:self.originCarId];
-                }
-                else {
-                    [gToast showError:error.domain inView:self.view];
-                }
-            }];
-        }
-        
-        else {
-            PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
-            vc.isShowBottomView = YES;
-            @weakify(self);
-            [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
-                @strongify(self);
-                //爱车页面入团按钮委托实现
-                [self requestApplyJoinGroupWithID:groupid groupName:groupname carModel:carModel loadingView:loadingView];
-            }];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    }
-}
+//- (void)joinSystemGroupWithGroupID:(NSNumber *)groupid groupName:(NSString *)groupname
+//{
+//    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+//        
+//        if (self.originCarId) {
+//            @weakify(self);
+//            ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
+//            op.req_groupid = groupid;
+//            op.req_carid = self.originCarId;
+//            [[[op rac_postRequest] initially:^{
+//                
+//                [gToast showingWithText:@"申请加入中..." inView:self.view];
+//            }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
+//                
+//                @strongify(self);
+//                
+//                [gToast dismissInView:self.view];
+//                
+//                MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
+//                vc.memberId = rop.rsp_memberid;
+//                vc.groupId = rop.req_groupid;
+//                vc.groupName = groupname;
+//                [self.navigationController pushViewController:vc animated:YES];
+//            } error:^(NSError *error) {
+//                
+//                if (error.code == 6115804) {
+//                    @strongify(self);
+//                    [self showAlertWithError:error.domain carId:self.originCarId];
+//                }
+//                else {
+//                    [gToast showError:error.domain inView:self.view];
+//                }
+//            }];
+//        }
+//        
+//        else {
+//            PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
+//            vc.isShowBottomView = YES;
+//            @weakify(self);
+//            [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
+//                @strongify(self);
+//                //爱车页面入团按钮委托实现
+//                [self requestApplyJoinGroupWithID:groupid groupName:groupname carModel:carModel loadingView:loadingView];
+//            }];
+//            [self.navigationController pushViewController:vc animated:YES];
+//        }
+//    }
+//}
 
 - (void)showAlertWithError:(NSString *)errorString carId:(NSNumber *)carId
 {
