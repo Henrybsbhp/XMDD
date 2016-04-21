@@ -473,10 +473,7 @@
         [self setupNavigationLeftBar:nil];
         [gMapHelper handleGPSError:error];
     }] doNext:^(AMapReGeocode *regeo) {
-//        @strongify(self);
-//        NSString * cityStr;
-//        cityStr = regeo.addressComponent.city.length ? regeo.addressComponent.city : regeo.addressComponent.province;
-//        [self setupNavigationLeftBar:cityStr];
+        
         gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
     }];
     
