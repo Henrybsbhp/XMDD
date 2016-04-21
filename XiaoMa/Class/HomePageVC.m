@@ -263,6 +263,10 @@
         CGFloat space = 12;
         CGFloat ratio = 152 / 750.0;
         CGFloat height = ratio * gAppMgr.deviceInfo.screenSize.width;
+        if (gAppMgr.deviceInfo.screenSize.height >= 736)
+        {
+            height = height + 2;
+        }
         make.left.equalTo(container);
         make.right.equalTo(container);
         make.top.equalTo(squaresView.mas_bottom).offset(space);
