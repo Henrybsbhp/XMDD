@@ -377,8 +377,16 @@
         self.isShowSuspendedAd = YES;
         
         @weakify(self);
-        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementAlert];
-        [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
+        RACSignal * areaSignal = [[[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
+            return ac.province.length || ac.city.length || ac.district.length;
+        }] take:1];
+        
+        RACSignal * adSignal = [areaSignal flattenMap:^RACStream *(id value) {
+            
+            return  [gAdMgr rac_getAdvertisement:AdvertisementAlert];
+        }];
+        
+        [[adSignal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
             
             @strongify(self);
             NSMutableArray * mutableArr = [[NSMutableArray alloc] init];
