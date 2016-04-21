@@ -591,7 +591,6 @@
 - (id)setAddCarCell {
     int groupCount = 0;
     for (HKMutualGroup * group in self.myGroupArray) {
-        DebugLog(@"%@", group.memberId);
         if ([group.memberId intValue] != 0) {
             groupCount ++;
         }

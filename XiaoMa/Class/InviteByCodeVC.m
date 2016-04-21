@@ -153,9 +153,7 @@
             alertVC.alertType = InviteAlertTypeCopyCode;
             HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
             alertVC.actionItems = @[ok];
-            [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
-                [alertView dismiss];
-            }];
+            [alertVC show];
         }];
     });
     return cipherDict;
