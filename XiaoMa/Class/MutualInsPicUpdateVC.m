@@ -496,16 +496,18 @@
         [exampleView setHidden:YES animated:YES];
         [rsheet dismissAnimated:YES];
         if (sheetIndexPath.section != 0) {
-            [MobClick event:@"rp124_6"];
             return ;
         }
         
         //拍照
         if (sheetIndexPath.section == 0 && sheetIndexPath.row == 0)
         {
-            [MobClick event:@"rp124_4"];
             if ([UIImagePickerController isCameraAvailable])
             {
+                if (![gPhoneHelper handleCameraAuthStatusDenied])
+                {
+                    return;
+                }
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
                 controller.delegate = self;
                 controller.allowsEditing = NO;
@@ -526,7 +528,6 @@
         // 从相册中选取
         else if (sheetIndexPath.section == 0 && sheetIndexPath.row == 1)
         {
-            [MobClick event:@"rp124_5"];
             if ([UIImagePickerController isPhotoLibraryAvailable])
             {
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];

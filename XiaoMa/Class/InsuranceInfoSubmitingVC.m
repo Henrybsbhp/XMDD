@@ -252,6 +252,10 @@
             [MobClick event:@"rp124_4"];
             if ([UIImagePickerController isCameraAvailable])
             {
+                if (![gPhoneHelper handleCameraAuthStatusDenied])
+                {
+                    return;
+                }
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
                 controller.delegate = self;
                 controller.allowsEditing = NO;

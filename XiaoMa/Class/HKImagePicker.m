@@ -49,6 +49,10 @@
         {
             if ([UIImagePickerController isCameraAvailable])
             {
+                if (![gPhoneHelper handleCameraAuthStatusDenied])
+                {
+                    return;
+                }
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
                 controller.customObject = subject;
                 controller.customInfo[@"target"] = self;
