@@ -521,9 +521,7 @@
 #pragma mark - JSPatch
 - (void)setupJSPatch
 {
-    RACSignal * userSignal = [[RACObserve(gAppMgr, myUser) distinctUntilChanged] filter:^BOOL(JTUser * user) {
-        return user.userID.length;
-    }];
+    RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
     RACSignal * areaSignal = [[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
         return ac.province.length || ac.city.length || ac.district.length;
     }];
