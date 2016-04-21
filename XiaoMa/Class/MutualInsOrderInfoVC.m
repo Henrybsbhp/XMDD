@@ -157,7 +157,7 @@
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [gPhoneHelper makePhone:@"4007111111"];
         }];
-        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"订单查询,小马互助咨询等\n请拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"如有任何疑问，可拨打客户电话\n 4007-111-111" ActionItems:@[cancel,confirm]];
         [alert show];
     }
 }
@@ -226,7 +226,7 @@
     CGFloat price = self.contract.total - self.contract.couponmoney;
     NSString * tag = self.contract.couponmoney ? [NSString stringWithFormat:@"原价￥%@ 优惠￥%@",[NSString formatForPrice:self.contract.total],[NSString formatForPrice:self.contract.couponmoney]] : @"";
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]],@"tag":tag}];
-    [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"互助项目",@"content":@"各项金额（元）"}];
+    [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"项目",@"content":@"金额（元）"}];
     
     for (NSDictionary * subIns in self.contract.inslist)
     {
