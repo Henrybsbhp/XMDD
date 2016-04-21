@@ -40,7 +40,7 @@
     return [[[[GetUserFavoriteV2Op operation] rac_postRequest] doNext:^(id x) {
         
         /// inject side effect
-        NSLog(@"We are in");
+       
     }] map:^id(GetUserFavoriteV2Op * op) {
         
         // 这里需要对新返回的数据进行处理

@@ -11,9 +11,19 @@
 
 #ifdef DEBUG
 #define DebugLog DDLogVerbose
+#define DebugGreenLog DDLogDebug
+#define DebugInfoLog DDLogInfo
+#define DebugWarningLog DDLogWarn
+#define DebugErrorLog DDLogError
 #else
 #define DebugLog(frmt, ...)
+#define DebugGreenLog(frmt, ...)
+#define DebugInfoLog(frmt, ...)
+#define DebugWarningLog(frmt, ...)
+#define DebugErrorLog(frmt, ...)
 #endif
+
+
 
 #ifdef __OBJC__
 #ifdef DEBUG

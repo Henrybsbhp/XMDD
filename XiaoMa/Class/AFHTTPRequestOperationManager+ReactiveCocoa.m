@@ -19,7 +19,7 @@
     NSMutableURLRequest *req = [self requestWithMethod:method parameters:parameters requestId:requestId];
     
     NSString *str = [[NSString alloc] initWithData:req.HTTPBody encoding:NSUTF8StringEncoding];
-    DebugLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata = %@", req.URL, str);
+    DebugGreenLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata = %@ ", req.URL, str);
     
     AFHTTPRequestOperation * op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
 //    op.responseSerializer = [AFJSONRequestSerializer serializer];
@@ -29,7 +29,7 @@
         
         NSString *unicodeObj = [NSString stringWithUTF8Data:responseObject];
         NSString *chineseObj = [self unicodeToChinese:unicodeObj];
-        DebugLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response = %@\nmethod = %@ (id: %@)\ndata = %@", req.URL, method, requestId, chineseObj);
+        DebugGreenLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response = %@\nmethod = %@ (id: %@)\ndata = %@ \n", req.URL, method, requestId, chineseObj);
         
         NSDictionary *jsonObject =  [NSJSONSerialization
                                   JSONObjectWithData:responseObject
