@@ -43,7 +43,10 @@
 @property (nonatomic)BOOL finishaddress;
 ///协议备注列表{@"title":@"",@"note":@""}
 @property (nonatomic,strong)NSArray * insnotes;
-
+///协议url地址
+@property (nonatomic,strong)NSString * contracturl;
+///支付按钮标签，1可以支付 0不能支付
+@property (nonatomic)BOOL paybtnflag;
 
 
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;

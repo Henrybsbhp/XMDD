@@ -94,10 +94,23 @@
 {
     if (self.contract.status == 1)
     {
-        [self.sureBtn setTitle:@"立即支付" forState:UIControlStateNormal & UIControlStateHighlighted];
+        if (self.contract.paybtnflag)
+        {
+            self.sureBtn.enabled = YES;
+            [self.sureBtn setBackgroundColor:kOrangeColor];
+            [self.sureBtn setTitle:@"立即支付" forState:UIControlStateNormal & UIControlStateHighlighted];
+        }
+        else
+        {
+            self.sureBtn.enabled = NO;
+            [self.sureBtn setBackgroundColor:kLightTextColor];
+            [self.sureBtn setTitle:@"该订单无法支付" forState:UIControlStateNormal & UIControlStateHighlighted];
+        }
     }
     else
     {
+        self.sureBtn.enabled = YES;
+        [self.sureBtn setBackgroundColor:kOrangeColor];
         [self.sureBtn setTitle:@"联系客服" forState:UIControlStateNormal & UIControlStateHighlighted];
     }
     
