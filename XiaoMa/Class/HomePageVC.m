@@ -535,7 +535,7 @@
     op.district = regeo.addressComponent.district;
     return [[[[op rac_postRequest] doNext:^(GetSystemTipsOp * op) {
         
-        gAppMgr.temperatureAndTip = [[op.rsp_temperature append:op.rsp_temperaturetip] append:op.rsp_temperaturetip];
+        gAppMgr.temperatureAndTip = [[op.rsp_temperature append:@"   "] append:op.rsp_temperaturetip];
         gAppMgr.temperaturepic = op.rsp_temperaturepic;
         gAppMgr.restriction = op.rsp_restriction;
         

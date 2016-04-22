@@ -54,8 +54,10 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     
+    @weakify(self)
     [[NSNotificationCenter defaultCenter] addObserverForName:@"UIWindowDidRotateNotification" object:nil queue:nil usingBlock:^(NSNotification *note) {
         
+        @strongify(self)
         if ([note.userInfo[@"UIWindowOldOrientationUserInfoKey"] intValue] >= 3) {
             [self.navigationController.navigationBar sizeToFit];
             self.navigationController.navigationBar.frame = (CGRect){0, 0, self.view.frame.size.width, 64};
