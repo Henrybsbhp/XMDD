@@ -88,7 +88,7 @@ static NSString *s_sendedPhone;
         @strongify(self);
         [gToast dismiss];
         
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
             [MobClick event:@"rp329_4"];
             [self.navigationController popToViewController:self.originVC animated:YES];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
@@ -275,7 +275,7 @@ static NSString *s_sendedPhone;
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"解绑尾号为" attributes:nil];
     [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:last4CardNumber]];
     [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:@"的银行卡，验证码已发送至"]];
-    [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:phone attributes:@{NSForegroundColorAttributeName:HEXCOLOR(@"#18D06A")}]];
+    [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:phone attributes:@{NSForegroundColorAttributeName:kDefTintColor}]];
     
     return attrStr;
 }

@@ -185,7 +185,7 @@
         
 //        TODO @hx
         
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
             
             [MobClick event:@"rp313_6"];
             [self.navigationController popViewControllerAnimated:YES];

@@ -26,6 +26,8 @@
 @property (nonatomic, copy) NSString * cipherForCopy;
 //口令
 @property (nonatomic, copy) NSString * wordForShare;
+//类型
+@property (nonatomic, assign) GroupType groupType;
 
 @end
 
@@ -76,6 +78,8 @@
         
         self.cipherForCopy = rspOp.rsp_groupCipher;
         self.wordForShare = rspOp.rsp_wordForShare;
+        self.groupType = rspOp.rsp_groupType;
+        
         [self setDataSource];
         
     } error:^(NSError *error) {
@@ -151,7 +155,7 @@
             
             InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
             alertVC.alertType = InviteAlertTypeCopyCode;
-            HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+            HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:nil];
             alertVC.actionItems = @[ok];
             [alertVC show];
         }];
@@ -241,8 +245,8 @@
     InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
     alertVC.alertType = InviteAlertTypeGotoWechat;
     alertVC.contentStr = self.wordForShare;
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
-    HKAlertActionItem *goWechat = [HKAlertActionItem itemWithTitle:@"去微信粘贴" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+    HKAlertActionItem *goWechat = [HKAlertActionItem itemWithTitle:@"去微信粘贴" color:kDefTintColor clickBlock:nil];
     alertVC.actionItems = @[cancel, goWechat];
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
         if (index == 1) {
@@ -286,7 +290,13 @@
 - (CKDict *)setAttributedContentCell {
     //初始化身份标识
     CKDict * attributedContentDict = [CKDict dictWith:@{kCKCellID:@"ContentCell"}];
-    NSString * attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→自组互助团→申请加入”后录入您互助团的暗号同样可成功加入您的互助团 \n ";
+    NSString * attributedFooterString = [NSString new];
+    if (self.groupType != GroupTypeByself) {
+        attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→右上角+号→内测计划→申请入团”后录入您互助团的暗号同样可成功加入您的互助团 \n ";
+    }
+    else {
+        attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→去参团→选择团→申请加入”后录入您互助团的暗号同样可成功加入您的互助团 \n ";
+    }
     //cell行高
     attributedContentDict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         CGFloat height = [attributedFooterString labelSizeWithWidth:(self.tableView.frame.size.width - 30) font:[UIFont systemFontOfSize:13]].height;
@@ -298,7 +308,14 @@
         
         @strongify(self);
         UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:1001];
-        contentLabel.attributedText = [self attributedStringWithParticularHighlightString:@"首页→小马互助→自组互助团→申请加入" fromSourceString:attributedFooterString withPositionTag:2];
+        NSString * highLightString = [NSString new];
+        if (self.groupType != GroupTypeByself) {
+            highLightString = @"首页→小马互助→右上角+号→内测计划→申请入团";
+        }
+        else {
+            highLightString = @"首页→小马互助→去参团→选择团→申请加入";
+        }
+        contentLabel.attributedText = [self attributedStringWithParticularHighlightString:highLightString fromSourceString:attributedFooterString withPositionTag:2];
     });
     return attributedContentDict;
 }
@@ -461,34 +478,6 @@
     }
     
     return attributedString;
-}
-
-- (UITableViewCell *)contentCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"ContentCell"];
-    UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:1001];
-    if (indexPath.section == 1) {
-        if (indexPath.row == 1) {
-            contentLabel.text = @"1，您需要通过微信分享入团口令邀请您的好友加入";
-        }
-        else if (indexPath.row == 2) {
-            contentLabel.text = @"2，您的好友复制口令后，打开App即可成功加入您创建的团";
-        }
-        else {
-            contentLabel.attributedText = [self attributedStringWithParticularHighlightString:@"首页→小马互助→自组互助团→申请加入" fromSourceString:@"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→自组互助团→申请加入”后录入您互助团的暗号同样可成功加入您的互助团 \n " withPositionTag:2];
-        }
-    }
-    if (indexPath.section == 2) {
-        if (indexPath.row == 1) {
-            contentLabel.text = @"1，您需要先邀请您的好友下载小马达达App";
-        }
-        else {
-            contentLabel.text = @"2，受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入\n";
-        }
-    }
-    
-    
-    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

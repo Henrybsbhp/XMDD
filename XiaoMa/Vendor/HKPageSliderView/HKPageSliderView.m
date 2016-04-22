@@ -53,8 +53,8 @@
     if (self.style == HKTabBarStyleUnderline) {
         self.styleModel.menuHeight = 46;
         self.styleModel.buttonSpacing = 10;
-        self.styleModel.menuNormalColor = HEXCOLOR(@"#888888"); //todo
-        self.styleModel.menuSelectedColor = HEXCOLOR(@"#18D06A"); //todo
+        self.styleModel.menuNormalColor = kGrayTextColor; //todo
+        self.styleModel.menuSelectedColor = kDefTintColor; //todo
         self.styleModel.menuNormalColorR = 0.53125f;
         self.styleModel.menuNormalColorG = 0.53125f;
         self.styleModel.menuNormalColorB = 0.53125f;
@@ -65,7 +65,7 @@
     else if (self.style == HKTabBarStyleUnderCorner) {
         self.styleModel.menuHeight = self.titles.count > 1 ? 38 : 0;
         self.styleModel.buttonSpacing = 8;
-        self.styleModel.menuNormalColor = HEXCOLOR(@"#dbdbdb");
+        self.styleModel.menuNormalColor = kLightTextColor;
         self.styleModel.menuSelectedColor = HEXCOLOR(@"#ffffff");
         self.styleModel.menuBackgroundColor = HEXCOLOR(@"#12c461");
         self.styleModel.menuNormalColorR = 0.85546875f;
@@ -78,8 +78,8 @@
     else if (self.style == HKTabBarStyleCleanMenu) {
         self.styleModel.menuHeight = 50;
         self.styleModel.buttonSpacing = 5;
-        self.styleModel.menuNormalColor = HEXCOLOR(@"#888888");
-        self.styleModel.menuSelectedColor = HEXCOLOR(@"#18D06A");
+        self.styleModel.menuNormalColor = kGrayTextColor;
+        self.styleModel.menuSelectedColor = kDefTintColor;
         self.styleModel.menuBackgroundColor = [UIColor clearColor];
         
         self.styleModel.menuNormalColorR = 0.53125f;

@@ -614,7 +614,7 @@
     if (self.isEditingModel) {
         [self.view endEditing:YES];
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:kGrayTextColor clickBlock:^(id alertVC) {
             [MobClick event:@"rp312_14"];
             CKAfter(0.1, ^{
                 [self.navigationController popViewControllerAnimated:YES];
@@ -630,7 +630,7 @@
     else {
         [self.view endEditing:YES];
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃添加" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃添加" color:kGrayTextColor clickBlock:^(id alertVC) {
             [MobClick event:@"rp312_16"];
             CKAfter(0.1, ^{
                 [self.navigationController popViewControllerAnimated:YES];
@@ -788,7 +788,7 @@
 
     label.text = data.customInfo[@"title"];
     
-    [chooseV setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    [chooseV setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
     chooseV.displayLb.text = self.curCar.licenceArea.length ? self.curCar.licenceArea : [self getCurrentProvince];
     @weakify(self);
     [[[chooseV rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]

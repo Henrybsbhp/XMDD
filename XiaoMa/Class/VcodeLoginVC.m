@@ -118,7 +118,7 @@
         }
     }];
 
-    [self.vcodeBtn setTitleColor:HEXCOLOR(@"#18D06A") forState:UIControlStateNormal];
+    [self.vcodeBtn setTitleColor:kDefTintColor forState:UIControlStateNormal];
     
     [self.vcodeBtn setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
     

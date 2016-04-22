@@ -47,7 +47,7 @@
     [contentV addSubview:titleL];
     
     CKLine *topLine = [[CKLine alloc] initWithFrame:CGRectMake(0, kTitleViewHeight, kContentViewWidth, 1)];
-    topLine.lineColor = MutInsLineColor;
+    topLine.lineColor = kLightLineColor;
     topLine.lineAlignment = CKLineAlignmentHorizontalTop;
     [contentV addSubview:topLine];
 
@@ -70,7 +70,7 @@
     for (NSInteger i=0; i<self.items.count; i++) {
         MutualInsAlertVCItem *item = self.items[i];
         UILabel *leftL = [[UILabel alloc] initWithFrame:CGRectZero];
-        leftL.textColor = MutInsTextGrayColor;
+        leftL.textColor = kGrayTextColor;
         leftL.font = [UIFont systemFontOfSize:13];
         leftL.text = item.title;
         [containerV addSubview:leftL];
@@ -98,7 +98,7 @@
     }
 
     UILabel *leftL = [[UILabel alloc] initWithFrame:CGRectZero];
-    leftL.textColor = MutInsTextGrayColor;
+    leftL.textColor = kGrayTextColor;
     leftL.font = [UIFont systemFontOfSize:13];
     
 }

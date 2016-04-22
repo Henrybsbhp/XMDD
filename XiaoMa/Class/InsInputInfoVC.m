@@ -431,7 +431,7 @@
     if (subTitle) {
         NSAttributedString *subTitleStr = [[NSAttributedString alloc] initWithString:subTitle attributes:
                                            @{NSFontAttributeName: [UIFont systemFontOfSize:13],
-                                             NSForegroundColorAttributeName: HEXCOLOR(@"#888888")}];
+                                             NSForegroundColorAttributeName: kGrayTextColor}];
         [attrStr appendAttributedString:subTitleStr];
     }
     titleL.attributedText = attrStr;

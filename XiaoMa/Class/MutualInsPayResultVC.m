@@ -418,7 +418,7 @@
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
     alert.message = @"您未提交联系人信息，为保证协议的正常送达，请先完善信息。是否继续完善信息？";
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"执意退出" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"执意退出" color:kGrayTextColor clickBlock:^(id alertVC) {
         for (UIViewController * vc in self.navigationController.viewControllers)
         {
             if ([vc isKindOfClass:[MutualInsGrouponVC class]])

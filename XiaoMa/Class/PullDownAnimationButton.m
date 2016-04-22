@@ -90,7 +90,7 @@
     layer.lineCap = kCALineCapRound;
     layer.fillColor = [[UIColor clearColor] CGColor];
     layer.lineWidth = 2;
-    layer.strokeColor = [MutInsLineColor CGColor];
+    layer.strokeColor = [kLightLineColor CGColor];
     layer.position = CGPointMake(frame.size.width/2, frame.size.height/2);
     [self.layer addSublayer:layer];
     

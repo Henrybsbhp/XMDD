@@ -633,9 +633,9 @@
          checkB.selected = checked;
          self.payBtn.enabled = checked;
          if (checked)
-             [self.payBtn setBackgroundColor:HEXCOLOR(@"#ff7428")];
+             [self.payBtn setBackgroundColor:kOrangeColor];
          else
-             [self.payBtn setBackgroundColor:HEXCOLOR(@"#dbdbdb")];
+             [self.payBtn setBackgroundColor:kLightTextColor];
     }];
 
     //文字和协议链接
@@ -646,7 +646,7 @@
         [richL setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
                                    NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
         [richL setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
-                                         NSForegroundColorAttributeName: HEXCOLOR(@"#888888")}];
+                                         NSForegroundColorAttributeName: kGrayTextColor}];
         [richL addLinkToURL:data.customInfo[@"url1"] withRange:[data.customInfo[@"range1"] rangeValue]];
         if (data.customInfo[@"range2"]) {
             [richL addLinkToURL:data.customInfo[@"url2"] withRange:[data.customInfo[@"range2"] rangeValue]];

@@ -53,7 +53,7 @@
         
         UILabel * groupL = [[UILabel alloc] initWithFrame:CGRectMake(17, 75, 60, 25)];
         groupL.font = [UIFont systemFontOfSize:14];
-        groupL.textColor = HEXCOLOR(@"#888888");
+        groupL.textColor = kGrayTextColor;
         groupL.text = @"团队名称";
         [contentV addSubview:groupL];
         
@@ -61,13 +61,13 @@
         if (self.groupType == GroupTypeByself) {
             UILabel * leaderL = [[UILabel alloc] initWithFrame:CGRectMake(17, 100, 60, 25)];
             leaderL.font = [UIFont systemFontOfSize:14];
-            leaderL.textColor = HEXCOLOR(@"#888888");
+            leaderL.textColor = kGrayTextColor;
             leaderL.text = @"团长名称";
             [contentV addSubview:leaderL];
             
             UILabel * leaderNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 100, kContentViewWidth - 100, 25)];
             leaderNameLabel.font = [UIFont systemFontOfSize:14];
-            leaderNameLabel.textColor = HEXCOLOR(@"#454545");
+            leaderNameLabel.textColor = kDarkTextColor;
             leaderNameLabel.text = self.leaderName;
             leaderNameLabel.textAlignment = NSTextAlignmentRight;
             [contentV addSubview:leaderNameLabel];
@@ -75,7 +75,7 @@
         
         UILabel * groupNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 75, kContentViewWidth - 100, 25)];
         groupNameLabel.font = [UIFont systemFontOfSize:14];
-        groupNameLabel.textColor = HEXCOLOR(@"#454545");
+        groupNameLabel.textColor = kDarkTextColor;
         groupNameLabel.text = self.groupName;
         groupNameLabel.textAlignment = NSTextAlignmentRight;
         [contentV addSubview:groupNameLabel];
@@ -99,7 +99,7 @@
 {
     UILabel * label = [[UILabel alloc] initWithFrame:rect];
     label.font = [UIFont systemFontOfSize:14];
-    label.textColor = HEXCOLOR(@"#888888");
+    label.textColor = kGrayTextColor;
     label.numberOfLines = 0;
     label.attributedText = [self setLineSpacing:text];
     return label;
