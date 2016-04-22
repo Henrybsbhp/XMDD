@@ -244,10 +244,10 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     tagLb.text = [NSString stringWithFormat:@"已有%ld入团",[groupInfo integerParamForName:@"membercnt"]];
     
     if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateNotStart || [groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateEndSign) {
-        tagLb.textColor = HEXCOLOR(@"#454545");
+        tagLb.textColor = kDarkTextColor;
     }
     else {
-        tagLb.textColor = HEXCOLOR(@"#18D06A");
+        tagLb.textColor = kDefTintColor;
     }
     return cell;
 }
@@ -321,10 +321,10 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         btn.hidden = NO;
         stateLabel.hidden = YES;
         
-        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.8];
-        tagLabel.textColor = HEXCOLOR(@"#888888");
+        [tagLabel setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
+        tagLabel.textColor = kGrayTextColor;
         
-        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#dedfe0")];
+        [btn setCornerRadius:3 withBackgroundColor:kLightLineColor];
         [btn setTitle:@"报名未开始" forState:UIControlStateNormal];
     }
     else if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp) {
@@ -332,10 +332,10 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         btn.hidden = NO;
         stateLabel.hidden = YES;
         
-        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.8];
-        tagLabel.textColor = HEXCOLOR(@"#ff7428");
+        [tagLabel setCornerRadius:12 withBorderColor:kOrangeColor borderWidth:0.8];
+        tagLabel.textColor = kOrangeColor;
         
-        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+        [btn setCornerRadius:3 withBackgroundColor:kDefTintColor];
         if ([groupInfo boolParamForName:@"ingroup"]) {
             [btn setTitle:@"已加入" forState:UIControlStateNormal];
         }
@@ -348,10 +348,10 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         btn.hidden = NO;
         stateLabel.hidden = YES;
         
-        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.8];
-        tagLabel.textColor = HEXCOLOR(@"#888888");
+        [tagLabel setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
+        tagLabel.textColor = kGrayTextColor;
         
-        [btn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#dedfe0")];
+        [btn setCornerRadius:3 withBackgroundColor:kLightLineColor];
         if ([groupInfo boolParamForName:@"ingroup"]) {
             [btn setTitle:@"已加入" forState:UIControlStateNormal];
         }
@@ -364,8 +364,8 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         btn.hidden = YES;
         stateLabel.hidden = NO;
         
-        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#ff7428") borderWidth:0.8];
-        tagLabel.textColor = HEXCOLOR(@"#ff7428");
+        [tagLabel setCornerRadius:12 withBorderColor:kOrangeColor borderWidth:0.8];
+        tagLabel.textColor = kOrangeColor;
         
         stateLabel.text = @"开团中";
     }
@@ -373,8 +373,8 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         btn.hidden = YES;
         stateLabel.hidden = NO;
         
-        [tagLabel setCornerRadius:12 withBorderColor:HEXCOLOR(@"#888888") borderWidth:0.8];
-        tagLabel.textColor = HEXCOLOR(@"#888888");
+        [tagLabel setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
+        tagLabel.textColor = kGrayTextColor;
         
         stateLabel.text = @"已过期";
     }
@@ -493,7 +493,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
     alert.message = errorString;
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     @weakify(self);
     HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         @strongify(self);
@@ -534,10 +534,10 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
             alert.imageName = @"mins_bulb";
             alert.message = error.domain;
 //            @rocky
-//            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+//            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
 //
 //            }];
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
             HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 @strongify(self);
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];

@@ -310,7 +310,7 @@
     if (!_btn)
     {
         _btn = [[UIButton alloc]init];
-        _btn.backgroundColor = HEXCOLOR(@"#18d06a");
+        _btn.backgroundColor = kDefTintColor;
         [_btn setTitle:@"添加银行卡" forState:UIControlStateNormal];
         _btn.layer.cornerRadius = 5;
         _btn.layer.masksToBounds = YES;

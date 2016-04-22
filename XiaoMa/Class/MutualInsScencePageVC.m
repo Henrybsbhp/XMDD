@@ -179,12 +179,12 @@
     MutualInsScencePhotoVC *scencePhotoVC = self.viewArr.firstObject;
     if (![[scencePhotoVC canPush] isEqualToString:@"请先拍照"])
     {
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
             [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0014"}];
             [self.scencePhotoVM deleteAllInfo];
             [self.navigationController popViewControllerAnimated:YES];
         }];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续上传" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续上传" color:kDefTintColor clickBlock:^(id alertVC) {
             [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0015"}];
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您还未保存照片，现在返回将导致照片无法保存，是否现在返回？" ActionItems:@[confirm,cancel]];
@@ -236,7 +236,7 @@
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }]subscribeNext:^(id x) {
             [self.view stopActivityAnimation];
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
                 [self.scencePhotoVM deleteAllInfo];
                 NSArray *viewControllers = self.navigationController.viewControllers;
                 [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:2] animated:YES];

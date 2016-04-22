@@ -50,13 +50,13 @@
     for (int i = 0; i < self.titleArray.count; i ++) {
         UILabel *titleLabel = [UILabel new];
         titleLabel.text = self.titleArray[i];
-        titleLabel.textColor = HEXCOLOR(@"#888888");
+        titleLabel.textColor = kGrayTextColor;
         titleLabel.font = [UIFont systemFontOfSize:15];
         [self.view addSubview:titleLabel];
         
         UILabel *contentLabel = [UILabel new];
         contentLabel.text = self.contentArray[i];
-        contentLabel.textColor = HEXCOLOR(@"#454545");
+        contentLabel.textColor = kDarkTextColor;
         contentLabel.font = [UIFont systemFontOfSize:15];
         contentLabel.textAlignment = NSTextAlignmentRight;
         [self.view addSubview:contentLabel];

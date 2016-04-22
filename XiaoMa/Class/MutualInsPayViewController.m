@@ -289,13 +289,13 @@
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
     if (c1.length) {
-        NSDictionary *attr1 = @{NSForegroundColorAttributeName:HEXCOLOR(@"#454545")};
+        NSDictionary *attr1 = @{NSForegroundColorAttributeName:kDarkTextColor};
         NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:c1 attributes:attr1];
         [str appendAttributedString:attrStr1];
     }
     
     if (c2.length) {
-        NSDictionary *attr2 = @{NSForegroundColorAttributeName:HEXCOLOR(@"#ff7428")};
+        NSDictionary *attr2 = @{NSForegroundColorAttributeName:kOrangeColor};
         NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:c2 attributes:attr2];
         [str appendAttributedString:attrStr2];
     }
@@ -561,7 +561,7 @@
     contentLb.text = data.tag;
     NSString * arrowTilte = data.customInfo[@"tag"];
     arrowView.hidden = !arrowTilte;
-    arrowView.bgColor = HEXCOLOR(@"#ff7428");
+    arrowView.bgColor = kOrangeColor;
     arrowView.cornerRadius = 2.0f;
     tagLb.text = arrowTilte;
     
@@ -658,7 +658,7 @@
         [richL setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
                                    NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
         [richL setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
-                                         NSForegroundColorAttributeName: HEXCOLOR(@"#888888")}];
+                                         NSForegroundColorAttributeName: kGrayTextColor}];
         [richL addLinkToURL:data.customInfo[@"url1"] withRange:[data.customInfo[@"range1"] rangeValue]];
     }
 }

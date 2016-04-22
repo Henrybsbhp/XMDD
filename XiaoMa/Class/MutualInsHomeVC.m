@@ -191,7 +191,7 @@
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0013"}];
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [gPhoneHelper makePhone:@"4007111111"];
         }];
@@ -363,7 +363,7 @@
         @strongify(self);
         titleLabel.text = self.config.rsp_selfgroupname;
         descLabel.text = self.config.rsp_selfgroupdesc;
-        [feeButton setCornerRadius:3 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+        [feeButton setCornerRadius:3 withBorderColor:kDefTintColor borderWidth:0.5];
         
         [[[feeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
@@ -395,7 +395,7 @@
         UIButton *joinButton = (UIButton *)[cell.contentView viewWithTag:1002];
         
         [payButton setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
-        [joinButton setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+        [joinButton setCornerRadius:5 withBackgroundColor:kDefTintColor];
         
         //我要赔
         [[[payButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -485,7 +485,7 @@
             {
                 if (group.btnStatus == GroupBtnStatusInvite) {
                     [opeBtn setTitle:@"邀请好友" forState:UIControlStateNormal];
-                    [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+                    [opeBtn setCornerRadius:3 withBackgroundColor:kDefTintColor];
                 }
                 else if (group.btnStatus == GroupBtnStatusDelete){
                     [opeBtn setTitle:@"删除" forState:UIControlStateNormal];
@@ -493,7 +493,7 @@
                 }
                 else if (group.btnStatus == GroupBtnStatusUpdate) {
                     [opeBtn setTitle:@"完善资料" forState:UIControlStateNormal];
-                    [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+                    [opeBtn setCornerRadius:3 withBackgroundColor:kDefTintColor];
                 }
                 [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                     
@@ -550,7 +550,7 @@
             
             [brandImageView setImageByUrl:car.brandLogo withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
             licensenumLabel.text = car.licenseNum;
-            [joinGroup setCornerRadius:3 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+            [joinGroup setCornerRadius:3 withBorderColor:kDefTintColor borderWidth:0.5];
             [[[joinGroup rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
                 [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0008"}];
@@ -629,7 +629,7 @@
         alert.topTitle = @"温馨提示";
         alert.imageName = @"mins_bulb";
         alert.message = @"删除后，您将无法看到该团记录。确定现在删除？";
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         @weakify(self);
         HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             
@@ -740,7 +740,7 @@
     
     titleLabel.text = self.config.rsp_selfgroupname;
     descLabel.text = self.config.rsp_selfgroupdesc;
-    [feeButton setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    [feeButton setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
     
     @weakify(self);
     [[[feeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -772,7 +772,7 @@
     UIButton *joinButton = (UIButton *)[cell.contentView viewWithTag:1002];
     
     [payButton setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
-    [joinButton setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+    [joinButton setCornerRadius:5 withBackgroundColor:kDefTintColor];
     
     //我要赔
     @weakify(self);
@@ -848,7 +848,7 @@
     {
         if (group.btnStatus == GroupBtnStatusInvite) {
             [opeBtn setTitle:@"邀请好友" forState:UIControlStateNormal];
-            [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+            [opeBtn setCornerRadius:3 withBackgroundColor:kDefTintColor];
         }
         else if (group.btnStatus == GroupBtnStatusDelete){
             [opeBtn setTitle:@"删除" forState:UIControlStateNormal];
@@ -856,7 +856,7 @@
         }
         else if (group.btnStatus == GroupBtnStatusUpdate) {
             [opeBtn setTitle:@"完善资料" forState:UIControlStateNormal];
-            [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+            [opeBtn setCornerRadius:3 withBackgroundColor:kDefTintColor];
         }
         @weakify(self);
         [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -892,7 +892,7 @@
     
     [brandImageView setImageByUrl:myCar.brandLogo withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
     licensenumLabel.text = myCar.licenseNum;
-    [joinGroup setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    [joinGroup setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
     @weakify(self);
     [[[joinGroup rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);

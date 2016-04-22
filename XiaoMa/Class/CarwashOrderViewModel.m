@@ -130,8 +130,8 @@
     paymentL.text = order.paydesc;
     [[RACObserve(order, ratetime) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         [bottomB setTitle:order.ratetime ? @"已评价" : @"去评价" forState:UIControlStateNormal];
-        bottomB.layer.borderColor = order.ratetime ? HEXCOLOR(@"#888888").CGColor : HEXCOLOR(@"#18d06a").CGColor;
-        UIColor *textColor = order.ratetime ? HEXCOLOR(@"#888888") : HEXCOLOR(@"#18d06a");
+        bottomB.layer.borderColor = order.ratetime ? kGrayTextColor.CGColor : kDefTintColor.CGColor;
+        UIColor *textColor = order.ratetime ? kGrayTextColor : kDefTintColor;
         [bottomB setTitleColor:textColor forState:UIControlStateNormal];
         bottomB.userInteractionEnabled = !order.ratetime;
     }];

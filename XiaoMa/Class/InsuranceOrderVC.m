@@ -79,13 +79,13 @@
     NSString *title;
     if (self.order.status == InsuranceOrderStatusUnpaid)
     {
-        bgColor = HEXCOLOR(@"#ff7428");
+        bgColor = kOrangeColor;
         title = @"去支付";
         action = @selector(actionPay:);
     }
     else
     {
-        bgColor = HEXCOLOR(@"#18d06a");
+        bgColor = kDefTintColor;
         title = @"联系客服";
         action = @selector(actionMakeCall:);
     }
@@ -230,7 +230,7 @@
 
 - (void)actionCancelOrder:(id)sender {
     [MobClick event:@"rp1012_4"];
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了吧" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了吧" color:kGrayTextColor clickBlock:^(id alertVC) {
         [MobClick event:@"rp1012_5"];
     }];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定取消" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
@@ -243,7 +243,7 @@
 
 - (void)actionMakeCall:(id)sender {
     [MobClick event:@"rp1012_3"];
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
     }];
@@ -374,7 +374,7 @@
             BOOL show = item.third;
             if (show)
             {
-                arrowView.bgColor = HEXCOLOR(@"#ff7428");
+                arrowView.bgColor = kOrangeColor;
                 arrowView.hidden = NO;
                 remarkLabel.text = (NSString *)item.third;
             }

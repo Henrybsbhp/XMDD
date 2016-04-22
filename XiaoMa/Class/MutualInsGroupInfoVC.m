@@ -93,7 +93,7 @@
             alert.topTitle = @"温馨提示";
             alert.imageName = @"mins_bulb";
             alert.message = error.domain;
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
             @weakify(self);
             HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 @strongify(self);
