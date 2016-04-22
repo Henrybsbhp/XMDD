@@ -688,35 +688,14 @@
         else {
             [gToast dismiss];
             [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
-            PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-            vc.originVC = self.originVC;
-            HKServiceOrder * order = [[HKServiceOrder alloc] init];
-            order.orderid = op.rsp_orderid;
-            order.shop = self.shop;
-            order.serviceid = self.service.serviceID;
-            order.servicename = self.service.serviceName;
-            order.fee = op.rsp_price;
-            order.gasCouponAmount =  op.rsp_gasCouponAmount;
-            vc.order = order;
-            
-            [self.navigationController pushViewController:vc animated:YES];
+            [self gotoPaymentSuccessVC];
         }
     }
     else
     {
         [gToast dismiss];
         [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
-        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-        vc.originVC = self.originVC;
-        HKServiceOrder * order = [[HKServiceOrder alloc] init];
-        order.orderid = op.rsp_orderid;
-        order.shop = self.shop;
-        order.serviceid = self.service.serviceID;
-        order.servicename = self.service.serviceName;
-        order.fee = op.rsp_price;
-        order.gasCouponAmount = op.rsp_gasCouponAmount;
-        vc.order = order;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self gotoPaymentSuccessVC];
     }
 }
 
@@ -796,18 +775,7 @@
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"洗车已通知服务器支付成功!");
         }];
-        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-        vc.originVC = self.originVC;
-        vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
-        HKServiceOrder * order = [[HKServiceOrder alloc] init];
-        order.orderid = orderId;
-        order.serviceid = self.service.serviceID;
-        order.servicename = self.service.serviceName;
-        order.fee = price;
-        order.shop = self.shop;
-        order.gasCouponAmount = couponAmt;
-        vc.order = order;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self gotoPaymentSuccessVC];
         
     } error:^(NSError *error) {
         
@@ -833,18 +801,7 @@
         }];
         // 支付成功。避免应用进入前台后重复请求
         self.isPaid = YES;
-        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-        vc.originVC = self.originVC;
-        vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
-        HKServiceOrder * order = [[HKServiceOrder alloc] init];
-        order.orderid = orderId;
-        order.serviceid = self.service.serviceID;
-        order.servicename = self.service.serviceName;
-        order.shop = self.shop;
-        order.fee = price;
-        order.gasCouponAmount = couponAmt;
-        vc.order = order;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self gotoPaymentSuccessVC];
     } error:^(NSError *error) {
         
     }];
@@ -1206,11 +1163,11 @@
         NSString * string;
         if (totalAmount >= self.service.origprice)
         {
+             totalAmount = self.service.origprice - 0.01;
             string =  [NSString stringWithFormat:@"最高可使用%@元代金券",[NSString formatForPrice:totalAmount]];
         }
         else
         {
-            totalAmount = self.service.origprice - 0.01;
             string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
         }
         
@@ -1250,22 +1207,27 @@
             @strongify(self)
             if (op.rsp_status)
             {
-                PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-                vc.originVC = self.originVC;
-                HKServiceOrder * order = [[HKServiceOrder alloc] init];
-                order.orderid = self.serviceOp.rsp_orderid;
-                order.shop = self.shop;
-                order.serviceid = self.service.serviceID;
-                order.servicename = self.service.serviceName;
-                order.fee = self.serviceOp.rsp_price;
-                order.gasCouponAmount = self.serviceOp.rsp_gasCouponAmount;
-                vc.order = order;
-                [self.navigationController pushViewController:vc animated:YES];
+                [self gotoPaymentSuccessVC];
             }
         }error:^(NSError *error) {
             [gToast showText:error.domain];
         }];
     }
+}
+
+-(void)gotoPaymentSuccessVC
+{
+    PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
+    vc.originVC = self.originVC;
+    HKServiceOrder * order = [[HKServiceOrder alloc] init];
+    order.orderid = self.serviceOp.rsp_orderid;
+    order.shop = self.shop;
+    order.serviceid = self.service.serviceID;
+    order.servicename = self.service.serviceName;
+    order.fee = self.serviceOp.rsp_price;
+    order.gasCouponAmount = self.serviceOp.rsp_gasCouponAmount;
+    vc.order = order;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
