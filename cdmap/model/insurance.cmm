@@ -58,7 +58,7 @@ class=UpdateCalculatePremium op auth path="/insurance/car/premium/calculate/upda
     <"记录id">carpremiumid:number
     <"商业险起保日期">mstartdate
     <"交强险起保日期">fstartdate
-    <"车辆信息">brand:dict
+    <"车辆信息">brand
   }
 }
 

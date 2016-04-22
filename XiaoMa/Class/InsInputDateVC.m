@@ -140,7 +140,7 @@
 - (void)requestUpdateCalculatePremium
 {
     UpdateCalculatePremiumOp *op = [UpdateCalculatePremiumOp operation];
-    op.req_brand = self.selectedCarInfo;
+    op.req_brand = [self.selectedCarInfo jsonEncodedString];
     op.req_carpremiumid = self.insModel.simpleCar.carpremiumid;
     op.req_fstartdate = self.datasource[@"ForceDate"][@"date"];
     op.req_mstartdate = self.datasource[@"StartDate"][@"date"];
