@@ -252,7 +252,7 @@
     if (!_addCarBtn)
     {
         _addCarBtn = [[UIButton alloc]init];
-        _addCarBtn.backgroundColor = HEXCOLOR(@"#18d06a");
+        _addCarBtn.backgroundColor = kDefTintColor;
         [_addCarBtn setTitle:@"添加爱车" forState:UIControlStateNormal];
         _addCarBtn.layer.cornerRadius = 5;
         _addCarBtn.layer.masksToBounds = YES;

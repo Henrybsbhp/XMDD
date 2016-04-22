@@ -101,7 +101,7 @@
         [MobClick event:@"rp1013_4"];
         [gPhoneHelper makePhone:@"4007111111"];
     }];
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
         [MobClick event:@"rp1013_5"];
     }];
     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提醒" ImageName:@"mins_bulb" Message:@"交强险与商业险起保日不一致时，默认按照交强险起保日投保。如需不同起保日期投保，请拨打客服电话。是否立即拨打电话咨询？" ActionItems:@[cancel,confirm]];

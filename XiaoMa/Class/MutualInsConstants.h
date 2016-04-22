@@ -9,14 +9,6 @@
 #ifndef MutualInsConstants_h
 #define MutualInsConstants_h
 
-#define MutInsGreenColor            HEXCOLOR(@"#18d06a")
-#define MutInsOrangeColor           HEXCOLOR(@"#ff7428")
-#define MutInsLineColor             HEXCOLOR(@"#dedfe0")
-#define MutInsTextDarkGrayColor     HEXCOLOR(@"#454545")
-#define MutInsTextGrayColor         HEXCOLOR(@"#888888")
-#define MutInsTextLightGrayColor    HEXCOLOR(@"#dbdbdb")
-#define MutInsBgColor               HEXCOLOR(@"#f7f7f8")
-
 
 typedef enum : NSInteger {
     MutInsStatusNeedCar = 0,                //完善爱车信息

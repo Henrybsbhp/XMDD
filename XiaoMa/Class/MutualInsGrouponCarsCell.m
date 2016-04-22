@@ -98,7 +98,7 @@
     rect = CGRectMake(0, view.frame.size.height - kLabelHeight, kItemWidth, kLabelHeight);
     UILabel *label = [[UILabel alloc] initWithFrame:rect];
     label.font = [UIFont systemFontOfSize:9];
-    label.textColor = MutInsTextGrayColor;
+    label.textColor = kGrayTextColor;
     label.textAlignment = NSTextAlignmentCenter;
     label.tag = 1002;
     

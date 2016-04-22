@@ -71,7 +71,7 @@
                       centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock
 {
     UIView *view = self.customInfo[kEmptyView];
-    self.backgroundColor = HEXCOLOR(@"#f7f7f8");
+    self.backgroundColor = kBackgroundColor;
     if (!view) {
         //        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
         view = [[UIView alloc]initWithFrame:self.bounds];

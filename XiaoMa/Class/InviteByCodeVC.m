@@ -155,7 +155,7 @@
             
             InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
             alertVC.alertType = InviteAlertTypeCopyCode;
-            HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+            HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:nil];
             alertVC.actionItems = @[ok];
             [alertVC show];
         }];
@@ -245,8 +245,8 @@
     InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
     alertVC.alertType = InviteAlertTypeGotoWechat;
     alertVC.contentStr = self.wordForShare;
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
-    HKAlertActionItem *goWechat = [HKAlertActionItem itemWithTitle:@"去微信粘贴" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+    HKAlertActionItem *goWechat = [HKAlertActionItem itemWithTitle:@"去微信粘贴" color:kDefTintColor clickBlock:nil];
     alertVC.actionItems = @[cancel, goWechat];
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
         if (index == 1) {

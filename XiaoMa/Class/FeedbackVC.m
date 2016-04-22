@@ -50,11 +50,11 @@
         @strongify(self);
         if (self.feedbackTextView.text.length > 0) {
             self.bottomButton.enabled = YES;
-            [self.bottomButton setBackgroundColor:HEXCOLOR(@"#18D06A")];
+            [self.bottomButton setBackgroundColor:kDefTintColor];
         }
         else {
             self.bottomButton.enabled = NO;
-            [self.bottomButton setBackgroundColor:HEXCOLOR(@"#DEDFE0")];
+            [self.bottomButton setBackgroundColor:kLightLineColor];
         }
         
     }];

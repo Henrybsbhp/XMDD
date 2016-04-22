@@ -78,14 +78,14 @@
             title = @"重新上传";
             btn.userInteractionEnabled = YES;
             enable = YES;
-            [btn setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+            [btn setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
             desc = [NSString stringWithFormat:@"认证未通过，%@", car.failreason.length > 0 ? car.failreason : @"请重新上传行驶证"];
             break;
         default:
             title = @"一键上传";
             btn.userInteractionEnabled = YES;
             enable = YES;
-            [btn setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+            [btn setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
             MyCarStore *store = [MyCarStore fetchExistsStore];
             if (store.defaultTip) {
                 desc = store.defaultTip;

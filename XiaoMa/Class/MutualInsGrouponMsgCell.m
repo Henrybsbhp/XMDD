@@ -48,7 +48,7 @@
     [self.logoView addGestureRecognizer:self.logoViewTapGesture];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.titleLabel.textColor = MutInsTextGrayColor;
+    self.titleLabel.textColor = kGrayTextColor;
     self.titleLabel.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:self.titleLabel];
     
@@ -63,7 +63,7 @@
     self.msgLabel.backgroundColor = [UIColor clearColor];
     self.msgLabel.font = [UIFont systemFontOfSize:14];
     self.msgLabel.numberOfLines = 0;
-    self.msgLabel.textColor = MutInsTextDarkGrayColor;
+    self.msgLabel.textColor = kDarkTextColor;
     [self.msgContainerView addSubview:self.msgLabel];
     
     self.atRightSide = NO;
@@ -75,7 +75,7 @@
     NSString *strimg = atRightSide ? @"mins_bubble_right" : @"mins_bubble_left";
     self.msgBgView.image = [[UIImage imageNamed:strimg] resizableImageWithCapInsets:UIEdgeInsetsMake(22, 8, 5, 8)];
     self.titleLabel.textAlignment = atRightSide ? NSTextAlignmentRight : NSTextAlignmentLeft;
-    self.msgLabel.textColor = atRightSide ? [UIColor whiteColor] : MutInsTextDarkGrayColor;
+    self.msgLabel.textColor = atRightSide ? [UIColor whiteColor] : kDarkTextColor;
 }
 
 - (void)setMessage:(NSString *)message

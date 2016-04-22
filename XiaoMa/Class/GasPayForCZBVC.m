@@ -76,7 +76,7 @@
     NSString *cardno = [self.bankCard.cardNumber substringFromIndex:self.bankCard.cardNumber.length-4 length:4];
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     ps.lineSpacing = 5;
-    NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:13], NSForegroundColorAttributeName:HEXCOLOR(@"#454545"), NSParagraphStyleAttributeName: ps};
+    NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:13], NSForegroundColorAttributeName:kDarkTextColor, NSParagraphStyleAttributeName: ps};
     NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:13], NSForegroundColorAttributeName:HEXCOLOR(@"#f9430a"),NSParagraphStyleAttributeName: ps};
     NSMutableAttributedString *attstr = [NSMutableAttributedString attributedString];
     [attstr appendAttributedString:[[NSAttributedString alloc] initWithString:@"您正在使用浙商银行汽车卡尾号" attributes:attr1]];
@@ -112,7 +112,7 @@
         alert.imageName = @"mins_bulb";
         alert.message = @"您还有订单未支付，是否继续支付？";
         @weakify(self);
-        HKAlertActionItem *leftItem = [HKAlertActionItem itemWithTitle:@"放弃支付" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+        HKAlertActionItem *leftItem = [HKAlertActionItem itemWithTitle:@"放弃支付" color:kGrayTextColor clickBlock:^(id alertVC) {
             @strongify(self);
             [self requestCancelOrderWithTradeNumber:self.orderInfo.rsp_tradeid gasCardID:self.orderInfo.req_gid];
             [self.navigationController popViewControllerAnimated:YES];
