@@ -187,7 +187,12 @@
 
 -(void)historySectionAction
 {
+    
     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0005"}];
+    
+    if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
+        return;
+    }
     MutualInsClaimsHistoryVC *claimsHistoryVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimsHistoryVC"];
     [self.navigationController pushViewController:claimsHistoryVC animated:YES];
 }
