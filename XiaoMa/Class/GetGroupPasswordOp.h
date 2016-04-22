@@ -16,4 +16,6 @@
 
 @property (nonatomic, copy) NSString * rsp_wordForShare;
 
+@property (nonatomic, assign) NSInteger rsp_groupType;
+
 @end
