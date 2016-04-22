@@ -92,7 +92,17 @@
 {
     if (!signal) {
         self.bankCards = [self.bankStore.bankCards allObjects];
-        [self.tableView reloadData];
+        if (self.bankCards.count > 0)
+        {
+            [self showContentViews];
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self hideContentViews];
+            // 暂停动画写在了这里
+            [self addBtn];
+        }
         return;
     }
     @weakify(self);
