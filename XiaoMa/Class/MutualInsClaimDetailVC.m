@@ -304,7 +304,7 @@
 
 -(void)setBottomViewStatus:(NSInteger)status
 {
-    if (status != 0 && status!= 1)
+    if (status != -1 && status != 1)
     {
         self.bottomView.hidden = YES;
         self.bottomViewHeight.constant = 0;
