@@ -287,6 +287,7 @@
             vc.insModel.numOfSeat = op.rsp_seatcount;
             vc.insModel.startDate = op.rsp_mstartdate;
             vc.insModel.forceStartDate = op.rsp_fstartdate;
+            vc.insCarInfo = op;
             [self.navigationController pushViewController:vc animated:YES];
         } error:^(NSError *error) {
             

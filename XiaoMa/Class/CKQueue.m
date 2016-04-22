@@ -136,7 +136,7 @@ static unsigned long long g_queueid = 0;
 - (void)insertObject:(id)object withKey:(id<NSCopying>)key atIndex:(NSInteger)index {
     
     //index超出范围
-    if (index >= self.array.count) {
+    if (index > self.array.count) {
         return;
     }
     CKQueueNode *node = [self createQueueNode];
@@ -146,7 +146,12 @@ static unsigned long long g_queueid = 0;
     if (key) {
         [self.cache setObject:node forKey:key];
     }
-    [self.array insertObject:node atIndex:index];
+    if (index < self.array.count) {
+        [self.array insertObject:node atIndex:index];
+    }
+    else {
+        [self.array addObject:node];
+    }
 }
 
 - (id)keyForObjectAtIndex:(NSUInteger)index {

@@ -7,91 +7,92 @@
 //
 
 #import "InsInputDateVC.h"
-#import "HKCellData.h"
 #import "HKSubscriptInputField.h"
 #import "DatePickerVC.h"
+#import "CKDatasource.h"
+#import "HKTableViewCell.h"
+#import "UpdateCalculatePremiumOp.h"
 
 #import "InsCoverageSelectVC.h"
 
 @interface InsInputDateVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSArray *datasource;
+@property (nonatomic, strong) CKList *datasource;
 @property (nonatomic, strong) DatePickerVC *datePicker;
 @property (nonatomic, assign) BOOL isDateDifferent;
+@property (nonatomic, strong) NSDictionary *selectedCarInfo;
 
 @end
 
 @implementation InsInputDateVC
 
-- (void)viewDidLoad {
+- (void)dealloc
+{
+    
+}
+
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupDatePicker];
     [self reloadData];
+    [self setupSignals];
 }
 
-
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 //设置日期选择控件（主要是为了事先加载，优化性能）
-- (void)setupDatePicker {
+- (void)setupDatePicker
+{
     self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
 }
-#pragma mark - Datasource
-- (void)reloadData
+
+- (void)setupSignals
 {
-    self.isDateDifferent = self.insModel.forceStartDate && self.insModel.startDate &&
-                            ![self.insModel.forceStartDate isEqualToString:self.insModel.startDate];
-    
-    HKCellData *cell1 = [HKCellData dataWithCellID:@"Input" tag:@0];
-    cell1.customInfo[@"title"] = @"商业险起保日";
-    cell1.customInfo[@"placehold"] = @"请输入商业险日期";
-    cell1.customInfo[@"lock"] = @NO;
-    cell1.object = self.insModel.startDate;
-    
-    HKCellData *cell2 = [HKCellData dataWithCellID:@"Input" tag:@1];
-    cell2.customInfo[@"title"] = @"交强险起保日";
-    cell2.customInfo[@"placehold"] = @"请输入交强险日期";
-    cell2.customInfo[@"lock"] = @(self.insModel.forceStartDate.length > 0);
-    cell2.object = self.insModel.forceStartDate;
-    
-    HKCellData *cell3 = [HKCellData dataWithCellID:@"Help" tag:nil];
-    [cell3 setHeightBlock:^CGFloat(UITableView *tableView) {
-        return 51;
-    }];
     @weakify(self);
-    [cell3 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+    [[RACObserve(self, isDateDifferent) distinctUntilChanged] subscribeNext:^(NSNumber *x) {
         @strongify(self);
-        if (self.isDateDifferent) {
-            [self showHelp];
+        if ([x boolValue]) {
+            [self showHelpCell];
+        }
+        else {
+            [self hideHelpCell];
         }
     }];
-    
-    self.datasource = @[cell1, cell2, cell3];
-    [self.tableView reloadData];
 }
-
 #pragma mark - Action
 - (IBAction)actionNext:(id)sender
 {
-    HKCellData *cell1 = self.datasource[0];
-    HKCellData *cell2 = self.datasource[1];
-    if ([cell1.object length] == 0) {
+    NSString *date1 = self.datasource[@"StartDate"][@"date"];
+    NSString *date2 = self.datasource[@"ForceDate"][@"date"];
+    if ([date1 length] == 0) {
         [gToast showText:@"商业险起保日不能为空"];
     }
-    else if ([cell2.object length] == 0) {
+    else if ([date2 length] == 0) {
         [gToast showText:@"交强险起保日不能为空"];
     }
-    else {
-        self.insModel.startDate = cell1.object;
-        self.insModel.forceStartDate = cell2.object;
-        InsCoverageSelectVC *vc = [UIStoryboard vcWithId:@"InsCoverageSelectVC" inStoryboard:@"Insurance"];
-        vc.insModel = self.insModel;
-        [self.navigationController pushViewController:vc animated:YES];
+    else if (self.selectedCarInfo) {
+        //更新核保信息
+        [self requestUpdateCalculatePremium];
     }
+    else {
+        //跳转到选择险种页面
+        [self gotoCoverageSelectVC];
+    }
+}
+
+- (void)gotoCoverageSelectVC
+{
+    self.insModel.startDate = self.datasource[@"StartDate"][@"date"];
+    self.insModel.forceStartDate = self.datasource[@"ForceDate"][@"date"];
+    InsCoverageSelectVC *vc = [UIStoryboard vcWithId:@"InsCoverageSelectVC" inStoryboard:@"Insurance"];
+    vc.insModel = self.insModel;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)showHelp
@@ -108,32 +109,219 @@
     [alert show];
 }
 
+- (void)showHelpCell
+{
+    CKDict *data = self.datasource[@"Help"];
+    if (!data) {
+        data = [self helpItem];
+        NSInteger index = [self.datasource indexOfObjectForKey:@"ForceDate"] + 1;
+        [self.datasource insertObject:data withKey:nil atIndex:index];
+        [self.tableView beginUpdates];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
+    }
+}
+
+- (void)hideHelpCell
+{
+    NSInteger index = [self.datasource indexOfObjectForKey:@"Help"];
+    if (index != NSNotFound) {
+        [self.datasource removeObjectAtIndex:index];
+        [self.tableView beginUpdates];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
+    }
+}
+
+#pragma mark - Request
+///更新核保信息
+- (void)requestUpdateCalculatePremium
+{
+    UpdateCalculatePremiumOp *op = [UpdateCalculatePremiumOp operation];
+    op.req_brand = self.selectedCarInfo;
+    op.req_carpremiumid = self.insModel.simpleCar.carpremiumid;
+    op.req_fstartdate = self.datasource[@"ForceDate"][@"date"];
+    op.req_mstartdate = self.datasource[@"StartDate"][@"date"];
+
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"正在提交..."];
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [gToast dismiss];
+        [self gotoCoverageSelectVC];
+    } error:^(NSError *error) {
+    
+        [gToast showError:error.domain];
+    }];
+}
+
+#pragma mark - Request
+- (void)reloadData
+{
+    _isDateDifferent = self.insModel.forceStartDate && self.insModel.startDate &&
+                       ![self.insModel.forceStartDate isEqualToString:self.insModel.startDate];
+    CKList *datasource = [CKList list];
+    
+    CKDict *dateTitle = [self titleItemWithDict:@{kCKCellID:@"Title", @"title":@"选择起保日"}];
+    CKDict *date1 = [self inputItemWithDict:@{kCKCellID:@"Input", @"title":@"商业险起保日", @"event":@"rp1013_1",
+                                              @"placehold":@"请输入商业险日期", @"lock":@NO, @"date":self.insModel.startDate}];
+    CKDict *data2 = [self inputItemWithDict:@{kCKCellID:@"Input", @"title":@"交强险起保日", @"event":@"rp1013_2",
+                                              @"placehold":@"请输入交强险日期", @"lock":@(self.insModel.forceStartDate.length > 0),
+                                              @"date":self.insModel.forceStartDate}];
+
+    [datasource addObject:dateTitle forKey:@"DateTitle"];
+    [datasource addObject:date1 forKey:@"StartDate"];
+    [datasource addObject:data2 forKey:@"ForceDate"];
+    
+    if (self.isDateDifferent) {
+        [datasource addObject:[self helpItem] forKey:nil];
+    }
+    
+    if (self.insCarInfo.rsp_brandlist.count > 0) {
+        _selectedCarInfo = self.insCarInfo.rsp_brandlist[0];
+        
+        CKDict *carTitle = [self titleItemWithDict:@{kCKCellID:@"Title", @"title":@"选择爱车车型"}];
+        [datasource addObject:carTitle forKey:@"CarTitle"];
+        
+        for (NSDictionary *info in self.insCarInfo.rsp_brandlist) {
+            [datasource addObject:[self carItemWithCarInfo:info] forKey:nil];
+        }
+    }
+ 
+    self.datasource = datasource;
+    [self.tableView reloadData];
+}
+
+#pragma mark - About Cell
+- (CKDict *)inputItemWithDict:(NSDictionary *)dict
+{
+    CKDict *data = [CKDict dictWith:dict];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 60;
+    });
+    
+    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        [MobClick event:data[@"event"]];
+    });
+    
+    @weakify(self);
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        UILabel *titleL = [cell viewWithTag:10011];
+        HKSubscriptInputField *inputF = [cell viewWithTag:10012];
+        UIButton *bgB = [cell viewWithTag:10013];
+        
+        titleL.text = data[@"title"];
+        inputF.subscriptImageName = @"ins_arrow_time";
+        inputF.inputField.placeholder = data[@"placehold"];
+        inputF.inputField.text = data[@"date"];
+        bgB.userInteractionEnabled = ![data.customInfo[@"lock"] boolValue];
+        
+        [[[[bgB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+          flattenMap:^RACStream *(id value) {
+              
+              @strongify(self);
+              return [self rac_pickDateWithNow:data[@"date"]];
+          }] subscribeNext:^(NSString *datetext) {
+              
+              @strongify(self);
+              data[@"date"] = datetext;
+              inputF.inputField.text = datetext;
+              //判断商业险和交强险日期是否相等
+              NSString *data1 = self.datasource[@"StartDate"][@"date"];
+              NSString *data2 = self.datasource[@"ForceDate"][@"date"];
+              self.isDateDifferent = [data1 length] && [data2 length] && ![data1 isEqualToString:data2];
+          }];
+    });
+    return data;
+}
+
+- (CKDict *)titleItemWithDict:(NSDictionary *)dict
+{
+    CKDict *data = [CKDict dictWith:dict];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 42;
+    });
+    
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UILabel *titleL = [cell viewWithTag:1001];
+        titleL.text = data[@"title"];
+    });
+    return data;
+}
+
+- (CKDict *)helpItem
+{
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"Help", kCKItemKey:@"Help"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 51;
+    });
+
+    @weakify(self);
+    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        [MobClick event:@"rp1013_3"];
+        if (self.isDateDifferent) {
+            [self showHelp];
+        }
+    });
+    return data;
+}
+
+- (CKDict *)carItemWithCarInfo:(NSDictionary *)info
+{
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"Car"}];
+    data[kCKItemKey] = [NSString stringWithFormat:@"%p", (__bridge void *)(info)];
+    data[@"info"] = info;
+    
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 44;
+    });
+    
+    @weakify(self);
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        UILabel *titleL = [cell viewWithTag:1001];
+        UIImageView *boxV = [cell viewWithTag:1002];
+        
+        titleL.text = data[@"info"][@"displaycarname"];
+        
+        [[RACObserve(self, selectedCarInfo) takeUntilForCell:cell] subscribeNext:^(NSDictionary *x) {
+            boxV.hidden = ![data[@"info"] isEqual:x];
+        }];
+        HKTableViewCell *hkcell = (HKTableViewCell *)cell;
+        [hkcell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 22, 0, 22)];
+    });
+    
+    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        self.selectedCarInfo = data[@"info"];
+    });
+    return data;
+}
+
 #pragma mark - UITableViewDelegate and datasource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.row];
-    if (data.selectedBlock) {
-        data.selectedBlock(tableView, indexPath);
-    }
-    
-    //友盟 TODO
-    if (indexPath.row == 0) {
-        [MobClick event:@"rp1013_1"];
-    }
-    else if (indexPath.row == 1) {
-        [MobClick event:@"rp1013_2"];
-    }
-    else if (indexPath.row == 2) {
-        [MobClick event:@"rp1013_3"];
+    CKDict *data = self.datasource[indexPath.row];
+    if (data[kCKCellSelected]) {
+        CKCellSelectedBlock block = data[kCKCellSelected];
+        block(data, indexPath);
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.row];
-    if (data.heightBlock) {
-        return data.heightBlock(tableView);
+    CKDict *data = self.datasource[indexPath.row];
+    if (data[kCKCellGetHeight]) {
+        CKCellGetHeightBlock block = data[kCKCellGetHeight];
+        return block(data, indexPath);
     }
     return 60;
 }
@@ -145,57 +333,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKCellData *data = [self.datasource safetyObjectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data.cellID forIndexPath:indexPath];
-    if ([data equalByCellID:@"Input" tag:nil]) {
-        [self resetInputCell:cell data:data];
+    CKDict *data = self.datasource[indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data[kCKCellID] forIndexPath:indexPath];
+    CKCellPrepareBlock block = data[kCKCellPrepare];
+    if (block) {
+        block(data, cell, indexPath);
     }
-    else if ([data equalByCellID:@"Help" tag:nil]) {
-        [self resetHelpCell:cell data:data];
-    }
-
     return cell;
-}
-
-- (void)resetInputCell:(UITableViewCell *)cell data:(HKCellData *)data
-{
-    UILabel *titleL = [cell viewWithTag:10011];
-    HKSubscriptInputField *inputF = [cell viewWithTag:10012];
-    UIButton *bgB = [cell viewWithTag:10013];
-    
-    titleL.text = data.customInfo[@"title"];
-    inputF.subscriptImageName = @"ins_arrow_time";
-    inputF.inputField.placeholder = data.customInfo[@"placehold"];
-    inputF.inputField.text = data.object;
-    bgB.userInteractionEnabled = ![data.customInfo[@"lock"] boolValue];
-    @weakify(self);
-    [[[[bgB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
-     flattenMap:^RACStream *(id value) {
-         @strongify(self);
-         return [self rac_pickDateWithNow:data.object];
-    }] subscribeNext:^(NSString *datetext) {
-        @strongify(self);
-        data.object = datetext;
-        inputF.inputField.text = datetext;
-        //判断商业险和交强险日期是否相等
-        HKCellData *data1 = [self.datasource safetyObjectAtIndex:0];
-        HKCellData *data2 = [self.datasource safetyObjectAtIndex:1];
-        self.isDateDifferent = [data1.object length] && [data2.object length] && ![data1.object isEqualToString:data2.object];
-    }];
-}
-
-- (void)resetHelpCell:(UITableViewCell *)cell data:(HKCellData *)data
-{
-    UIView *containerV = [cell viewWithTag:1000];
-    UILabel *msgL = [cell viewWithTag:1002];
-    
-    msgL.minimumScaleFactor = 0.8;
-    msgL.adjustsFontSizeToFitWidth = YES;
-    msgL.text = @"交强险起保日与商业险起保日不一致？";
-    
-    [[RACObserve(self, isDateDifferent) takeUntilForCell:cell] subscribeNext:^(id x) {
-        containerV.hidden = ![x boolValue];
-    }];
 }
 
 #pragma mark - Utility
@@ -210,5 +354,6 @@
         return [date dateFormatForD10];
     }];
 }
+
 
 @end
