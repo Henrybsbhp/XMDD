@@ -104,7 +104,7 @@
         {
             self.sureBtn.enabled = NO;
             [self.sureBtn setBackgroundColor:kLightTextColor];
-            [self.sureBtn setTitle:@"该订单无法支付" forState:UIControlStateNormal & UIControlStateHighlighted];
+            [self.sureBtn setTitle:@"订单已过期，无法支付" forState:UIControlStateNormal & UIControlStateHighlighted];
         }
     }
     else
