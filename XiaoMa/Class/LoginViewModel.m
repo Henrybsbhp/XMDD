@@ -17,7 +17,6 @@
     self = [super init];
     if (self) {
         _loginModel = [HKLoginModel new];
-        _rac_loginSuccess = [RACSubject subject];
     }
     return self;
 }
@@ -25,22 +24,11 @@
 - (void)dismissForTargetVC:(UIViewController *)targetVC forSucces:(BOOL)success
 {
     if (self.originVC) {
-        NSLog(@"[self.navigationController %@",targetVC.navigationController);
-        
         [targetVC.navigationController popToViewController:self.originVC animated:YES];
-        NSLog(@"[self.navigationController %@",targetVC.navigationController);
-        if (success) {
-            [self.rac_loginSuccess sendNext:@YES];
-            [self.rac_loginSuccess sendCompleted];
-        }
         gAppDelegate.loginVC = nil;
         return;
     }
     [targetVC dismissViewControllerAnimated:YES completion:^{
-        if (success) {
-            [self.rac_loginSuccess sendNext:@YES];
-            [self.rac_loginSuccess sendCompleted];
-        }
         gAppDelegate.loginVC = nil;
     }];
 }
@@ -63,7 +51,9 @@
         [(UINavigationController *)targetVC pushViewController:vc animated:YES];
     }
     else {
-        [targetVC presentViewController:vc animated:YES completion:nil];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [targetVC presentViewController:nav animated:YES completion:nil];
+//        [targetVC presentViewController:vc animated:YES completion:nil];
     }
     gAppDelegate.loginVC = vc;
     return NO;
