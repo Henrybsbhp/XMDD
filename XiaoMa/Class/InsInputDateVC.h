@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "InsuranceVM.h"
+#import "AddInsCarBaseInfoOp.h"
 
 @interface InsInputDateVC : HKViewController
 @property (nonatomic, strong) InsuranceVM *insModel;
+@property (nonatomic, strong) AddInsCarBaseInfoOp *insCarInfo;
 
 @end
