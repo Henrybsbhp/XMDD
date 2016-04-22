@@ -9,7 +9,7 @@
 ///交强险起保日期
 @property (nonatomic,strong) NSString* req_fstartdate;
 ///车辆信息
-@property (nonatomic,assign) NSDictionary* req_brand;
+@property (nonatomic,strong) NSString* req_brand;
 
 
 
