@@ -64,7 +64,7 @@
     {
         [self.selfGroupView removeFromSuperview];
         if (self.btnType == BtnTypeJoinNow) {
-            [self.sysJoinBtn setTitle:@"立即加入" forState:UIControlStateNormal];
+            [self.sysJoinBtn setTitle:@"申请加入" forState:UIControlStateNormal];
         }
         else if (self.btnType == BtnTypeAlready) {
             [self.sysJoinBtn setTitle:@"再加一辆车" forState:UIControlStateNormal];
