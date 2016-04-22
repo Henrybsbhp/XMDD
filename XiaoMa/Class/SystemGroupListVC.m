@@ -314,8 +314,6 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     
     NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
     
-    NSNumber * groupid = groupInfo[@"groupid"];
-    NSString *groupname = groupInfo[@"name"];
     tagLabel.text = [NSString stringWithFormat:@"  %@  ", [groupInfo stringParamForName:@"grouptag"]];
     
     if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateNotStart) {
