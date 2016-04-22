@@ -127,9 +127,10 @@
 {
     @weakify(self)
     [self listenNotificationByName:NSStringFromClass([self class]) withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        
+        @strongify(self)
         if (!self.isPaid)
         {
-            @strongify(self)
             [self checkPayment];
         }
     }];
