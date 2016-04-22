@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -5480,6 +5480,89 @@
                                                         <mask key="constraints">
                                                             <exclude reference="8iq-ZK-Mdp"/>
                                                             <exclude reference="gGj-E9-YG5"/>
+                                                        </mask>
+                                                    </variation>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Title" rowHeight="45" id="ymC-su-dJb">
+                                                <rect key="frame" x="0.0" y="157" width="600" height="45"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ymC-su-dJb" id="5Bd-PX-gdQ">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <view tag="1002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S5K-c1-j1W" customClass="CKLine">
+                                                            <rect key="frame" x="22" y="30.5" width="219" height="1"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="1" id="m4I-t5-ABw"/>
+                                                            </constraints>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选择爱车车型" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hQw-UN-VYH">
+                                                            <rect key="frame" x="255" y="22" width="90" height="18"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <view tag="1003" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hLG-Ng-mio" customClass="CKLine">
+                                                            <rect key="frame" x="359" y="30.5" width="219" height="1"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="1" id="Fbi-q1-dOh"/>
+                                                            </constraints>
+                                                        </view>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="hLG-Ng-mio" firstAttribute="centerY" secondItem="5Bd-PX-gdQ" secondAttribute="centerY" id="2KA-Nx-gWO"/>
+                                                        <constraint firstItem="S5K-c1-j1W" firstAttribute="leading" secondItem="5Bd-PX-gdQ" secondAttribute="leading" constant="22" id="7d1-7S-LA9"/>
+                                                        <constraint firstItem="S5K-c1-j1W" firstAttribute="centerY" secondItem="hQw-UN-VYH" secondAttribute="centerY" id="8GR-Nu-UgL"/>
+                                                        <constraint firstItem="hLG-Ng-mio" firstAttribute="leading" secondItem="hQw-UN-VYH" secondAttribute="trailing" constant="14" id="DKp-wF-xGM"/>
+                                                        <constraint firstItem="S5K-c1-j1W" firstAttribute="centerY" secondItem="5Bd-PX-gdQ" secondAttribute="centerY" id="EJB-HN-s28"/>
+                                                        <constraint firstAttribute="trailing" secondItem="hLG-Ng-mio" secondAttribute="trailing" constant="22" id="EK2-9J-s4M"/>
+                                                        <constraint firstAttribute="bottom" secondItem="hQw-UN-VYH" secondAttribute="bottom" constant="5" id="HNl-bh-Ky6"/>
+                                                        <constraint firstItem="hQw-UN-VYH" firstAttribute="leading" secondItem="S5K-c1-j1W" secondAttribute="trailing" constant="14" id="YKB-gM-kni"/>
+                                                        <constraint firstItem="hLG-Ng-mio" firstAttribute="centerY" secondItem="hQw-UN-VYH" secondAttribute="centerY" id="gaF-XE-e1H"/>
+                                                        <constraint firstItem="hQw-UN-VYH" firstAttribute="centerY" secondItem="5Bd-PX-gdQ" secondAttribute="centerY" id="kw1-R7-Iq6"/>
+                                                        <constraint firstItem="hQw-UN-VYH" firstAttribute="centerX" secondItem="5Bd-PX-gdQ" secondAttribute="centerX" id="mmN-Yg-jde"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="EJB-HN-s28"/>
+                                                            <exclude reference="kw1-R7-Iq6"/>
+                                                            <exclude reference="2KA-Nx-gWO"/>
+                                                        </mask>
+                                                    </variation>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Car" rowHeight="55" id="XX8-4J-TDj" customClass="HKTableViewCell">
+                                                <rect key="frame" x="0.0" y="202" width="600" height="55"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XX8-4J-TDj" id="qc2-Sn-wtn">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="55"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015款 30 TFSI" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KY6-y6-Ana">
+                                                            <rect key="frame" x="22" y="0.0" width="528" height="55"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView userInteractionEnabled="NO" tag="1002" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="251" image="round_tick" translatesAutoresizingMaskIntoConstraints="NO" id="1Pi-Lc-UIl">
+                                                            <rect key="frame" x="555" y="16" width="23" height="23"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="KY6-y6-Ana" secondAttribute="bottom" id="6LR-KV-2yn"/>
+                                                        <constraint firstItem="1Pi-Lc-UIl" firstAttribute="centerY" secondItem="qc2-Sn-wtn" secondAttribute="centerY" id="SrQ-MF-frC"/>
+                                                        <constraint firstItem="KY6-y6-Ana" firstAttribute="top" secondItem="qc2-Sn-wtn" secondAttribute="top" id="YH1-HB-QBP"/>
+                                                        <constraint firstAttribute="trailing" secondItem="1Pi-Lc-UIl" secondAttribute="trailing" constant="22" id="d4v-6n-Y2Z"/>
+                                                        <constraint firstItem="KY6-y6-Ana" firstAttribute="centerY" secondItem="qc2-Sn-wtn" secondAttribute="centerY" id="eY9-Bq-uum"/>
+                                                        <constraint firstItem="1Pi-Lc-UIl" firstAttribute="leading" secondItem="KY6-y6-Ana" secondAttribute="trailing" constant="5" id="phi-UM-uWs"/>
+                                                        <constraint firstItem="KY6-y6-Ana" firstAttribute="leading" secondItem="qc2-Sn-wtn" secondAttribute="leading" constant="22" id="tLu-jg-6cR"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="eY9-Bq-uum"/>
                                                         </mask>
                                                     </variation>
                                                 </tableViewCellContentView>

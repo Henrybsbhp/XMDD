@@ -27,6 +27,7 @@
     self.rsp_seatcount = dict[@"seatcount"];
     self.rsp_mstartdate = dict[@"mstartdate"];
     self.rsp_fstartdate = dict[@"fstartdate"];
+    self.rsp_brandlist = dict[@"brandlist"];
 	
     return self;
 }

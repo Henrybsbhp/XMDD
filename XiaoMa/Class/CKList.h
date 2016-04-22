@@ -22,6 +22,8 @@
 + (instancetype)list;
 + (instancetype)listWithArray:(NSArray *)array;
 
+- (void)addObjectsFromArray:(NSArray *)array;
+
 @end
 
 
