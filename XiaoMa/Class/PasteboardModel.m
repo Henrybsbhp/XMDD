@@ -60,8 +60,8 @@
     self.isAlertShowing = YES;
     InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
     alertVC.alertType = InviteAlertTypeNologin;
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:self.cancelClickBlock];
-    HKAlertActionItem *login = [HKAlertActionItem itemWithTitle:@"去登录" color:HEXCOLOR(@"#18d06a") clickBlock:self.nextClickBlock];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:self.cancelClickBlock];
+    HKAlertActionItem *login = [HKAlertActionItem itemWithTitle:@"去登录" color:kDefTintColor clickBlock:self.nextClickBlock];
     alertVC.actionItems = @[cancel, login];
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
         [alertView dismiss];
@@ -89,8 +89,8 @@
         alertVC.groupName = rop.rsp_name;
         alertVC.groupType = rop.rsp_groupType;
         alertVC.leaderName = rop.rsp_creatorname;
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:self.cancelClickBlock];
-        HKAlertActionItem *join = [HKAlertActionItem itemWithTitle:@"确定加入" color:HEXCOLOR(@"#18d06a") clickBlock:self.nextClickBlock];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:self.cancelClickBlock];
+        HKAlertActionItem *join = [HKAlertActionItem itemWithTitle:@"确定加入" color:kDefTintColor clickBlock:self.nextClickBlock];
         alertVC.actionItems = @[cancel, join];
         [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
             
@@ -121,7 +121,7 @@
             alert.topTitle = @"温馨提示";
             alert.imageName = @"mins_bulb";
             alert.message = error.domain;
-            HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#888888") clickBlock:nil];
+            HKAlertActionItem *ok = [HKAlertActionItem itemWithTitle:@"确定" color:kGrayTextColor clickBlock:nil];
             alert.actionItems = @[ok];
             [alert show];
         }

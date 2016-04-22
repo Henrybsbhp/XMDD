@@ -24,12 +24,12 @@
         self.contentInsets = UIEdgeInsetsMake(30, 25, 30, 25);
         _messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.messageLabel.font = [UIFont systemFontOfSize:14];
-        self.messageLabel.textColor = HEXCOLOR(@"#888888");
+        self.messageLabel.textColor = kGrayTextColor;
         self.messageLabel.numberOfLines = 0;
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.titleLabel.font = [UIFont systemFontOfSize:15];
-        self.titleLabel.textColor = HEXCOLOR(@"#454545");
+        self.titleLabel.textColor = kDarkTextColor;
         self.titleLabel.numberOfLines = 0;
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         

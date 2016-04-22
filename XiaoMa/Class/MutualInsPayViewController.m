@@ -20,6 +20,7 @@
 #import "MutualInsStore.h"
 #import "HKArrowView.h"
 #import "GetPayStatusOp.h"
+#import "InsLicensePopVC.h"
 
 @interface MutualInsPayViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 
@@ -101,7 +102,7 @@
         [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0015"}];
         
         @strongify(self)
-        [self requestPay];
+        [self actionPay:nil];
     }];
 }
 
@@ -282,6 +283,46 @@
     [self.tableView reloadData];
 }
 
+
+
+- (NSAttributedString *)stringWithContent:(NSString *)c1 andContent:(NSString *)c2
+{
+    NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
+    if (c1.length) {
+        NSDictionary *attr1 = @{NSForegroundColorAttributeName:kDarkTextColor};
+        NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:c1 attributes:attr1];
+        [str appendAttributedString:attrStr1];
+    }
+    
+    if (c2.length) {
+        NSDictionary *attr2 = @{NSForegroundColorAttributeName:kOrangeColor};
+        NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:c2 attributes:attr2];
+        [str appendAttributedString:attrStr2];
+    }
+    return str;
+}
+
+- (void)tableViewReloadData
+{
+    [self.tableView reloadData];
+    [self refreshPriceLb];
+}
+
+- (RACSignal *)rac_openLicenseVCWithUrl:(NSString *)url title:(NSString *)title
+{
+    return [InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title];
+}
+
+- (void)actionPay:(id)sender
+{
+    @weakify(self)
+    [[self rac_openLicenseVCWithUrl:self.contract.contracturl
+                             title:[NSString stringWithFormat:@"%@协议",XMINSPrefix]] subscribeNext:^(id x) {
+        @strongify(self);
+        [self requestPay];
+    }];
+}
+
 - (void)requestPay
 {
     NSMutableArray *coupons = [NSMutableArray array];
@@ -303,7 +344,7 @@
         @strongify(self);
         self.tradeno = rop.rsp_tradeno;
         [self callPaymentHelperWithPayOp:rop];
-
+        
     } error:^(NSError *error) {
         
         [self requestMutualResources];
@@ -346,7 +387,7 @@
     @weakify(self);
     [[helper rac_startPay] subscribeNext:^(id x) {
         
-        @strongify(self);        
+        @strongify(self);
         [self gotoPaidSuccessVC];
         
         [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] sendAndIgnoreError];
@@ -376,29 +417,6 @@
     vc.contract = self.contract;
     vc.couponMoney = totalCouponMoney;
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (NSAttributedString *)stringWithContent:(NSString *)c1 andContent:(NSString *)c2
-{
-    NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
-    if (c1.length) {
-        NSDictionary *attr1 = @{NSForegroundColorAttributeName:HEXCOLOR(@"#454545")};
-        NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:c1 attributes:attr1];
-        [str appendAttributedString:attrStr1];
-    }
-    
-    if (c2.length) {
-        NSDictionary *attr2 = @{NSForegroundColorAttributeName:HEXCOLOR(@"#ff7428")};
-        NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:c2 attributes:attr2];
-        [str appendAttributedString:attrStr2];
-    }
-    return str;
-}
-
-- (void)tableViewReloadData
-{
-    [self.tableView reloadData];
-    [self refreshPriceLb];
 }
 
 
@@ -543,7 +561,7 @@
     contentLb.text = data.tag;
     NSString * arrowTilte = data.customInfo[@"tag"];
     arrowView.hidden = !arrowTilte;
-    arrowView.bgColor = HEXCOLOR(@"#ff7428");
+    arrowView.bgColor = kOrangeColor;
     arrowView.cornerRadius = 2.0f;
     tagLb.text = arrowTilte;
     
@@ -640,7 +658,7 @@
         [richL setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
                                    NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
         [richL setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
-                                         NSForegroundColorAttributeName: HEXCOLOR(@"#888888")}];
+                                         NSForegroundColorAttributeName: kGrayTextColor}];
         [richL addLinkToURL:data.customInfo[@"url1"] withRange:[data.customInfo[@"range1"] rangeValue]];
     }
 }
@@ -812,7 +830,7 @@
     NSMutableString *license = [NSMutableString stringWithString:@"我已阅读并同意小马达达《小马互助协议》"];
     
     self.licenseData.customInfo[@"range1"] = [NSValue valueWithRange:NSMakeRange(license.length - 8, 8)];
-    self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:kInsuranceLicenseUrl];
+    self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:self.contract.contracturl ?: @""];
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     ps.lineSpacing = 5;
     NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:license

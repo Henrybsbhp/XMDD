@@ -156,7 +156,7 @@
         
         NSString * tipStr = [NSString stringWithFormat:@"比传统车险省%@元", [NSString formatForPrice:dataModel.couponMoney]];
         NSMutableAttributedString * attributeStr = [[NSMutableAttributedString alloc] initWithString:tipStr];
-        [attributeStr addAttributeForegroundColor:HEXCOLOR(@"#FF7428") range:NSMakeRange(6, tipStr.length - 6)];
+        [attributeStr addAttributeForegroundColor:kOrangeColor range:NSMakeRange(6, tipStr.length - 6)];
         saveMoneyL.attributedText = attributeStr;
         
     });
@@ -178,11 +178,11 @@
     note[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
         UIView *refundView = [cell.contentView viewWithTag:1001];
-        [refundView setCornerRadius:3 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+        [refundView setCornerRadius:3 withBorderColor:kDefTintColor borderWidth:0.5];
         
         for (int i = 0; i < noteList.count; i ++ ) {
             UILabel *refundNoteL = [[UILabel alloc] init];
-            refundNoteL.textColor = HEXCOLOR(@"#18D06A");
+            refundNoteL.textColor = kDefTintColor;
             refundNoteL.font = [UIFont systemFontOfSize:12];
             refundNoteL.textAlignment = NSTextAlignmentCenter;
             refundNoteL.text = [noteList safetyObjectAtIndex:i];
@@ -227,11 +227,11 @@
         
         for (int i = 0; i < couponList.count; i ++ ) {
             UILabel *couponL = [[UILabel alloc] init];
-            couponL.textColor = HEXCOLOR(@"#454545");
+            couponL.textColor = kDarkTextColor;
             couponL.font = [UIFont systemFontOfSize:13];
             couponL.textAlignment = NSTextAlignmentCenter;
             couponL.text = [couponList safetyObjectAtIndex:i];
-            [couponL setCornerRadius:13 withBorderColor:HEXCOLOR(@"#DBDBDB") borderWidth:0.5];
+            [couponL setCornerRadius:13 withBorderColor:kLightTextColor borderWidth:0.5];
             [cell.contentView addSubview:couponL];
             
             [couponL mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -270,14 +270,14 @@
         UILabel * nameL = [cell.contentView viewWithTag:1002];
         
         nameL.text = @"代买车船税/交强险";
-        nameL.textColor = self.isAgent ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#dbdbdb");
+        nameL.textColor = self.isAgent ? kDarkTextColor : kLightTextColor;
         
         [[[selectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
             @strongify(self);
             self.isAgent = !self.isAgent;
             selectBtn.selected = !selectBtn.selected;
-            nameL.textColor = selectBtn.selected ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#dbdbdb");
+            nameL.textColor = selectBtn.selected ? kDarkTextColor : kLightTextColor;
         }];
     });
     agentIns[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -290,7 +290,7 @@
         
         self.isAgent = !self.isAgent;
         selectBtn.selected = !selectBtn.selected;
-        nameL.textColor = selectBtn.selected ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#dbdbdb");
+        nameL.textColor = selectBtn.selected ? kDarkTextColor : kLightTextColor;
         
     });
     return agentIns;

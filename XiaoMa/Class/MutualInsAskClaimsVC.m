@@ -170,7 +170,7 @@
 -(void)crimeReportSectionAction
 {
     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0003"}];
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
     }];
@@ -187,7 +187,12 @@
 
 -(void)historySectionAction
 {
+    
     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0005"}];
+    
+    if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
+        return;
+    }
     MutualInsClaimsHistoryVC *claimsHistoryVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimsHistoryVC"];
     [self.navigationController pushViewController:claimsHistoryVC animated:YES];
 }

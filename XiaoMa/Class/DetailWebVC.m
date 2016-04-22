@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:@"UIWindowDidRotateNotification"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIWindowDidRotateNotification" object:nil];
     [[NSURLCache sharedURLCache] removeCachedResponseForRequest:self.request];
     DebugLog(@"DetailWebVC dealloc ~");
 }

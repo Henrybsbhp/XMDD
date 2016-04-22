@@ -193,7 +193,7 @@
 
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 280, lbh)];
     label.font = [UIFont systemFontOfSize:14];
-    label.textColor = HEXCOLOR(@"#888888");
+    label.textColor = kGrayTextColor;
     label.text = errmsg;
     [vc.view addSubview:label];
 }
@@ -290,7 +290,7 @@
     attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:HEXCOLOR(@"#FFB20C")};
     [text appendAttributedString:[[NSAttributedString alloc] initWithString:@"达达报价" attributes:attr1]];
     if (premium.restriction.length > 0) {
-        attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:12], NSForegroundColorAttributeName:HEXCOLOR(@"#888888")};
+        attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:12], NSForegroundColorAttributeName:kGrayTextColor};
         NSString *str = [NSString stringWithFormat:@"(%@)", premium.restriction];
         [text appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr2]];
     }

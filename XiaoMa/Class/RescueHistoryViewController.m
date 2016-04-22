@@ -278,7 +278,7 @@
             [MobClick event:@"rp804_1"];
             evaluationBtn.enabled = YES;
             
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 RescueCancelHostcarOp *op = [RescueCancelHostcarOp operation];
                 op.applyId = history.applyId;
@@ -406,7 +406,7 @@
     {
         btn.layer.borderColor = [UIColor colorWithHex:@"#888888" alpha:1].CGColor;
         [btn setTitle:@"已评价" forState:UIControlStateNormal];
-        [btn setTitleColor:HEXCOLOR(@"#888888") forState:UIControlStateNormal];
+        [btn setTitleColor:kGrayTextColor forState:UIControlStateNormal];
     }
     else
     {

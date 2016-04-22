@@ -63,7 +63,7 @@
     messageL.lineBreakMode = NSLineBreakByWordWrapping;
     messageL.font = [UIFont systemFontOfSize:14];
     messageL.textAlignment = NSTextAlignmentCenter;
-    messageL.textColor = HEXCOLOR(@"#888888");
+    messageL.textColor = kGrayTextColor;
     messageL.numberOfLines = 0;
     messageL.text = self.message;
     

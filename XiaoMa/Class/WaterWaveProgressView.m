@@ -49,7 +49,7 @@
     _innerView = [[UIView alloc] initWithFrame:rect];
     _innerView.layer.cornerRadius = rect.size.width/2;
     _innerView.layer.masksToBounds = YES;
-    _innerView.layer.borderColor = [MutInsGreenColor CGColor];
+    _innerView.layer.borderColor = [kDefTintColor CGColor];
     _innerView.layer.borderWidth = 1;
     [self addSubview:_innerView];
     
@@ -59,14 +59,14 @@
     _wave1.waveAmplitude = kWaveAmplitude;
     _wave1.waveOffset = kWaveOffset;
     _wave1.waveSpeed = kWaveSpeed;
-    _wave1.waveColor = [MutInsGreenColor colorWithAlpha:0.6];
+    _wave1.waveColor = [kDefTintColor colorWithAlpha:0.6];
     [_innerView addSubview:_wave1];
     
     //波浪线2
     _wave2 = [[AhaWaterWaveView alloc] initWithFrame:rect];
     _wave2.waveAmplitude = kWaveAmplitude;
     _wave2.waveSpeed = kWaveSpeed;
-    _wave2.waveColor = [MutInsGreenColor colorWithAlpha:0.7];
+    _wave2.waveColor = [kDefTintColor colorWithAlpha:0.7];
     [_innerView addSubview:_wave2];
     
     //标题
@@ -74,7 +74,7 @@
     _titleLable.backgroundColor = [UIColor clearColor];
     _titleLable.font = [UIFont systemFontOfSize:13];
     _titleLable.textAlignment = NSTextAlignmentCenter;
-    _titleLable.textColor = MutInsGreenColor;
+    _titleLable.textColor = kDefTintColor;
     [_innerView addSubview:_titleLable];
     
     //副标题
@@ -82,7 +82,7 @@
     _subTitleLabel.backgroundColor = [UIColor clearColor];
     _subTitleLabel.font = [UIFont systemFontOfSize:12];
     _subTitleLabel.textAlignment = NSTextAlignmentCenter;
-    _subTitleLabel.textColor = MutInsGreenColor;
+    _subTitleLabel.textColor = kDefTintColor;
     [_innerView addSubview:_subTitleLabel];
     
     //外面旋转的弧线
@@ -126,8 +126,8 @@
         _wave1.frame = frame;
         _wave2.frame = frame;
     }
-    [self setLabel:self.subTitleLabel color:(y <= frame.size.height/2-20) ? [UIColor whiteColor] : MutInsGreenColor  animate:animate];
-    [self setLabel:self.titleLable color:(y <= frame.size.height/2-40) ? [UIColor whiteColor] : MutInsGreenColor  animate:animate];
+    [self setLabel:self.subTitleLabel color:(y <= frame.size.height/2-20) ? [UIColor whiteColor] : kDefTintColor  animate:animate];
+    [self setLabel:self.titleLable color:(y <= frame.size.height/2-40) ? [UIColor whiteColor] : kDefTintColor  animate:animate];
 }
 
 - (void)startWave

@@ -132,13 +132,13 @@
             CKLine *line = [[CKLine alloc] initWithFrame:CGRectMake(rect.origin.x, kBottomViewLinePadding,
                                                                     1, kBottomViewHeight-2*kBottomViewLinePadding)];
             line.lineAlignment = CKLineAlignmentVerticalLeft;
-            line.lineColor = HEXCOLOR(@"#dedfe0");
+            line.lineColor = kLightLineColor;
             [view addSubview:line];
         }
     }
     CKLine *line = [[CKLine alloc] initWithFrame:CGRectMake(0, 0, bounds.size.width, 1)];
     line.lineAlignment = CKLineAlignmentHorizontalTop;
-    line.lineColor = HEXCOLOR(@"#dedfe0");
+    line.lineColor = kLightLineColor;
     [view addSubview:line];
     
     return view;

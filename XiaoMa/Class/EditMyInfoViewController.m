@@ -53,7 +53,7 @@
 {
     [self.bgView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, -1, 0) forDirectionMask:CKViewBorderDirectionBottom & CKViewBorderDirectionTop];
     [self.bgView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom & CKViewBorderDirectionTop];
-    [self.bgView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:CKViewBorderDirectionBottom & CKViewBorderDirectionTop];
+    [self.bgView setBorderLineColor:kDarkLineColor forDirectionMask:CKViewBorderDirectionBottom & CKViewBorderDirectionTop];
     
     self.textFeild.placeholder = self.placeholder;
     self.textFeild.text = self.content;

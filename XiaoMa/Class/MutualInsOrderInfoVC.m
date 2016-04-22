@@ -94,10 +94,23 @@
 {
     if (self.contract.status == 1)
     {
-        [self.sureBtn setTitle:@"立即支付" forState:UIControlStateNormal & UIControlStateHighlighted];
+        if (self.contract.paybtnflag)
+        {
+            self.sureBtn.enabled = YES;
+            [self.sureBtn setBackgroundColor:kOrangeColor];
+            [self.sureBtn setTitle:@"立即支付" forState:UIControlStateNormal & UIControlStateHighlighted];
+        }
+        else
+        {
+            self.sureBtn.enabled = NO;
+            [self.sureBtn setBackgroundColor:kLightTextColor];
+            [self.sureBtn setTitle:@"该订单无法支付" forState:UIControlStateNormal & UIControlStateHighlighted];
+        }
     }
     else
     {
+        self.sureBtn.enabled = YES;
+        [self.sureBtn setBackgroundColor:kOrangeColor];
         [self.sureBtn setTitle:@"联系客服" forState:UIControlStateNormal & UIControlStateHighlighted];
     }
     
@@ -153,7 +166,7 @@
     {
         [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0007"}];
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [gPhoneHelper makePhone:@"4007111111"];
         }];
@@ -451,9 +464,9 @@
     
     lb1.text = title;
     lb2.text = content;
-    lb2.textColor = tag.length ? HEXCOLOR(@"#ff7428") : HEXCOLOR(@"#454545");
+    lb2.textColor = tag.length ? kOrangeColor : kDarkTextColor;
     arrowView.hidden = !tag.length;
-    arrowView.bgColor = HEXCOLOR(@"#ff7428");
+    arrowView.bgColor = kOrangeColor;
     arrowView.cornerRadius = 2.0f;
     tagLb.text = tag;
     

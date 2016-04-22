@@ -44,7 +44,7 @@
     UILabel * label = [[UILabel alloc] init];
     label.text = @"点击添加您需要评估的车辆";
     label.font = [UIFont systemFontOfSize:12];
-    label.textColor = HEXCOLOR(@"#18D06A");
+    label.textColor = kDefTintColor;
     [self.view addSubview:label];
     
     [addCarButton mas_makeConstraints:^(MASConstraintMaker *make) {
