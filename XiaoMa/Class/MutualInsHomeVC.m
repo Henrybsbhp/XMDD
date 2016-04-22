@@ -369,21 +369,13 @@
             
             @strongify(self);
             [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0003"}];
-            //费用估算
-            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-            vc.originVC = self;
-            vc.url = @"http://www.baidu.com";
-            [self.navigationController pushViewController:vc animated:YES];
+            [self helpAction];
         }];
     });
     help[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0004"}];
-        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-        vc.originVC = self;
-        vc.url = @"http://www.baidu.com";
-        [self.navigationController pushViewController:vc animated:YES];
-        
+        [self helpAction];
     });
     return help;
 }
@@ -529,7 +521,6 @@
             vc.group = group;
             vc.originVC = self;
             [self.navigationController pushViewController:vc animated:YES];
-            
         });
         [groupArr addObject:myGroup];
     }
@@ -675,6 +666,21 @@
     }
 }
 
+//费用估算
+- (void)helpAction
+{
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.originVC = self;
+#if XMDDEnvironment==0
+    vc.url = @"http://dev01.xiaomadada.com:5080/xmdd-web/xmdd-app/index.html";
+#elif XMDDEnvironment==1
+    vc.url = @"http://dev01.xiaomadada.com:5080/xmdd-web/xmdd-app/index.html";
+#else
+    vc.url = @"http://www.baidu.com";
+#endif
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - UITableViewDelegate and datasource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -722,6 +728,192 @@
     if (block) {
         block(data, indexPath);
     }
+}
+
+#pragma mark - About Cell
+- (UITableViewCell *)helpCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"HelpCell"];
+    UILabel *titleLabel = [cell.contentView viewWithTag:1001];
+    UILabel *descLabel = [cell.contentView viewWithTag:1002];
+    UIButton *feeButton = [cell.contentView viewWithTag:1003];
+    
+    titleLabel.text = self.config.rsp_selfgroupname;
+    descLabel.text = self.config.rsp_selfgroupdesc;
+    [feeButton setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    
+    @weakify(self);
+    [[[feeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0003"}];
+        //费用估算
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.originVC = self;
+        
+#if XMDDEnvironment==0
+        vc.url = @"http://dev01.xiaomadada.com:5080/xmdd-web/xmdd-app/index.html";
+#elif XMDDEnvironment==1
+        vc.url = @"http://dev01.xiaomadada.com:5080/xmdd-web/xmdd-app/index.html";
+#else
+        vc.url = @"http://www.baidu.com";
+#endif
+        
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    return cell;
+}
+
+- (UITableViewCell *)btnCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"BtnCell" forIndexPath:indexPath];
+    UIButton *payButton = (UIButton *)[cell.contentView viewWithTag:1001];
+    UIButton *joinButton = (UIButton *)[cell.contentView viewWithTag:1002];
+    
+    [payButton setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
+    [joinButton setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+    
+    //我要赔
+    @weakify(self);
+    [[[payButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0006"}];
+        @strongify(self);
+        MutualInsAskClaimsVC *vc = [UIStoryboard vcWithId:@"MutualInsAskClaimsVC" inStoryboard:@"MutualInsClaims"];
+        [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }];
+    //去入团
+    [[[joinButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0005"}];
+        @strongify(self);
+        SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    return cell;
+}
+
+- (UITableViewCell *)sectionCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"SectionCell" forIndexPath:indexPath];
+    return cell;
+}
+
+- (UITableViewCell *)myGroupCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyGroupCell" forIndexPath:indexPath];
+    
+    UILabel *nameLabel = [cell.contentView viewWithTag:1001];
+    UILabel *carIdLabel = [cell.contentView viewWithTag:1002];
+    UILabel *statusLabel = [cell.contentView viewWithTag:1003];
+    UILabel *timeLabel = [cell.contentView viewWithTag:1004];
+    UIButton *opeBtn = [cell.contentView viewWithTag:1005];
+    
+    HKMutualGroup * group = [self.myGroupArray safetyObjectAtIndex:indexPath.row - 3];
+    nameLabel.text = group.groupName;
+    carIdLabel.text = group.licenseNumber;
+    statusLabel.text = group.statusDesc;
+    
+    if ([group.leftTime integerValue] != 0)
+    {
+        @weakify(self);
+        RACDisposable * disp = [[[HKTimer rac_timeCountDownWithOrigin:[group.leftTime integerValue] / 1000 andTimeTag:group.leftTimeTag] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString * timeStr) {
+            
+            @strongify(self);
+            if (![timeStr isEqualToString:@"end"]) {
+                timeLabel.text = [NSString stringWithFormat:@"%@ \n%@", group.tip, timeStr];
+            }
+            else {
+                [disp dispose];
+                [[self.minsStore reloadSimpleGroups] send];
+            }
+        }];
+        [[self rac_deallocDisposable] addDisposable:disp];
+    }
+    else if (group.contractperiod.length != 0)
+    {
+        timeLabel.text = [NSString stringWithFormat:@"%@ \n%@", group.tip, group.contractperiod];
+    }
+    else {
+        timeLabel.text = @"";
+    }
+    
+    opeBtn.hidden = !(group.btnStatus == GroupBtnStatusInvite || group.btnStatus == GroupBtnStatusDelete || group.btnStatus == GroupBtnStatusUpdate);
+    
+    if (group.btnStatus)
+    {
+        if (group.btnStatus == GroupBtnStatusInvite) {
+            [opeBtn setTitle:@"邀请好友" forState:UIControlStateNormal];
+            [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+        }
+        else if (group.btnStatus == GroupBtnStatusDelete){
+            [opeBtn setTitle:@"删除" forState:UIControlStateNormal];
+            [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#FF4E70")];
+        }
+        else if (group.btnStatus == GroupBtnStatusUpdate) {
+            [opeBtn setTitle:@"完善资料" forState:UIControlStateNormal];
+            [opeBtn setCornerRadius:3 withBackgroundColor:HEXCOLOR(@"#18D06A")];
+        }
+        @weakify(self);
+        [[[opeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            
+            if (group.btnStatus == GroupBtnStatusInvite) {
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0010"}];
+            }
+            else if (group.btnStatus == GroupBtnStatusDelete){
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0014"}];
+            }
+            else if (group.btnStatus == GroupBtnStatusUpdate) {
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0015"}];
+            }
+            @strongify(self);
+            NSIndexPath * cellPath = [self.tableView indexPathForCell:cell];
+            [self operationBtnAction:x withGroup:group withIndexPath:cellPath];
+        }];
+    }
+    return cell;
+}
+
+- (UITableViewCell *)myCarCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyCarCell" forIndexPath:indexPath];
+    
+    UIImageView *brandImageView = [cell.contentView viewWithTag:1001];
+    UILabel *licensenumLabel = [cell.contentView viewWithTag:1002];
+    UIButton *joinGroup = [cell.contentView viewWithTag:1003];
+    UILabel *mutualPrice = [cell.contentView viewWithTag:1004];
+    UILabel *couponPrice = [cell.contentView viewWithTag:1005];
+
+    HKMutualCar * myCar = [self.myCarArray safetyObjectAtIndex:indexPath.row - 3 - self.myGroupArray.count];
+    
+    [brandImageView setImageByUrl:myCar.brandLogo withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
+    licensenumLabel.text = myCar.licenseNum;
+    [joinGroup setCornerRadius:5 withBorderColor:HEXCOLOR(@"#18D06A") borderWidth:0.5];
+    @weakify(self);
+    [[[joinGroup rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0008"}];
+        //团列表
+        SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
+        HKMutualCar *mutualCar =[self.myCarArray safetyObjectAtIndex:(indexPath.row - (3 + self.myGroupArray.count))];
+        vc.originCarId = mutualCar.carId;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    mutualPrice.text = myCar.premiumPrice;
+    couponPrice.text = [NSString stringWithFormat:@"%@", myCar.couponMoney];
+    
+    return cell;
+}
+
+- (UITableViewCell *)addCarCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"AddCarCell" forIndexPath:indexPath];
+    return cell;
 }
 
 @end
