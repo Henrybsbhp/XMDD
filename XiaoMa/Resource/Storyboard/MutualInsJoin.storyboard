@@ -571,10 +571,10 @@
             </objects>
             <point key="canvasLocation" x="2946" y="409"/>
         </scene>
-        <!--平台互助团-->
+        <!--小马互助团-->
         <scene sceneID="Ygk-Tj-dl0">
             <objects>
-                <viewController storyboardIdentifier="SystemGroupListVC" title="平台互助团" id="B7U-LS-wHL" customClass="SystemGroupListVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SystemGroupListVC" title="小马互助团" id="B7U-LS-wHL" customClass="SystemGroupListVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Z3K-Aa-cd0"/>
                         <viewControllerLayoutGuide type="bottom" id="4Ep-7K-Pae"/>
@@ -660,6 +660,7 @@
                                                             <rect key="frame" x="10" y="-3" width="13" height="29"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="29" id="6ga-wA-nGO"/>
+                                                                <constraint firstAttribute="width" constant="13" id="aV5-Qt-p5U"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                                             <color key="textColor" red="0.85882352941176465" green="0.85882352941176465" blue="0.85882352941176465" alpha="1" colorSpace="calibratedRGB"/>
