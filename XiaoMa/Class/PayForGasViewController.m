@@ -332,9 +332,9 @@
                        [self.gasNormalVC isRechargeForInstalment] ? @"分期" : @"普通",
                        card.cardtype == 2 ? @"中石油" : @"中石化"];
     NSString *text;
-    self.isPaid = NO;
     switch (paidop.req_paychannel) {
         case PaymentChannelAlipay: {
+            self.isPaid = YES;
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
             [helper resetForAlipayWithTradeNumber:paidop.rsp_tradeid productName:info productDescription:info price:paidop.rsp_total];
         } break;
@@ -404,40 +404,16 @@
         op.req_tradeno = self.tradeID;
         op.req_tradetype = [self.gasNormalVC isRechargeForInstalment] ? @"4" : @"3";
         
-        RACSignal * statusSignal = [op rac_postRequest];
-        
-        RACSignal * isPaidSignal = [[RACObserve(self , isPaid) distinctUntilChanged] filter:^BOOL(NSNumber * number) {
-            
-            BOOL flag = [number boolValue];
-            return flag;
-        }];
-        
-        RACSignal * siganl = [[statusSignal merge:isPaidSignal] take:1];
-        
-        [[siganl initially:^{
-            
+        [[[op rac_postRequest]initially:^{
             [gToast showingWithText:@"订单信息查询中"];
-        }] subscribeNext:^(id x) {
+        }]subscribeNext:^(id x) {
             [gToast dismiss];
-            if ([x isKindOfClass:[GetPayStatusOp class]])
+            @strongify(self)
+            if (op.rsp_status)
             {
-                GetPayStatusOp * rop = (GetPayStatusOp *)x;
-                @strongify(self)
-                if (rop.rsp_status)
-                {
-                    [self pushToPaymentResultWithPaidOp:self.op andGasCard:self.gasNormalVC.curGasCard];
-                }
+                [self pushToPaymentResultWithPaidOp:self.op andGasCard:self.gasNormalVC.curGasCard];
             }
-            else if ([x isKindOfClass:[NSNumber class]])
-            {
-                NSNumber * number = (NSNumber *)x;
-                BOOL flag = [number boolValue];
-                if (flag)
-                {
-                    [self pushToPaymentResultWithPaidOp:self.op andGasCard:self.gasNormalVC.curGasCard];
-                }
-            }
-        } error:^(NSError *error) {
+        }error:^(NSError *error) {
             [gToast showText:error.domain];
         }];
     }

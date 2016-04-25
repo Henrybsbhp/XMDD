@@ -666,7 +666,6 @@
     {
         if (op.paychannel == PaymentChannelAlipay)
         {
-            self.isPaid = NO;
             [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
@@ -678,7 +677,6 @@
         }
         else if (op.paychannel == PaymentChannelWechat)
         {
-            self.isPaid = NO;
             [gToast showText:@"订单生成成功,正在跳转到微信平台进行支付"];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
@@ -1203,35 +1201,16 @@
         op.req_tradeno = self.serviceOp.rsp_tradeId;
         op.req_tradetype = @"2";
         
-        RACSignal * statusSignal = [op rac_postRequest];
-        
-        RACSignal * isPaidSignal = [[RACObserve(self , isPaid) distinctUntilChanged] filter:^BOOL(NSNumber * number) {
-            
-            BOOL flag = [number boolValue];
-            return flag;
-        }];
-        
-        RACSignal * siganl = [[statusSignal merge:isPaidSignal] take:1];
-        
-        [[siganl initially:^{
-            
+        [[[op rac_postRequest]initially:^{
             [gToast showingWithText:@"订单信息查询中"];
-        }] subscribeNext:^(id x) {
+        }]subscribeNext:^(id x) {
             [gToast dismiss];
-            if ([x isKindOfClass:[GetPayStatusOp class]])
+            @strongify(self)
+            if (op.rsp_status)
             {
                 [self gotoPaymentSuccessVC];
             }
-            else if ([x isKindOfClass:[NSNumber class]])
-            {
-                NSNumber * number = (NSNumber *)x;
-                BOOL flag = [number boolValue];
-                if (flag)
-                {
-                    [self gotoPaymentSuccessVC];
-                }
-            }
-        } error:^(NSError *error) {
+        }error:^(NSError *error) {
             [gToast showText:error.domain];
         }];
     }

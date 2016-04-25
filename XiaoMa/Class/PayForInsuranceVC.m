@@ -201,7 +201,6 @@
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     NSString * info = [NSString stringWithFormat:@"%@-%@的保险订单支付",self.insOrder.inscomp,self.insOrder.licencenumber];
     NSString *text;
-    self.isPaid = NO;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
@@ -856,43 +855,20 @@
         op.req_tradeno = self.tradeno;
         op.req_tradetype = @"1";
         
-        RACSignal * statusSignal = [op rac_postRequest];
-        RACSignal * isPaidSignal = [[RACObserve(self , isPaid) distinctUntilChanged] filter:^BOOL(NSNumber * number) {
-            
-            BOOL flag = [number boolValue];
-            return flag;
-        }];
-        
-        RACSignal * siganl = [[statusSignal merge:isPaidSignal] take:1];
-        
-        [[siganl initially:^{
-            
+        [[[op rac_postRequest]initially:^{
             [gToast showingWithText:@"订单信息查询中"];
-        }] subscribeNext:^(id x) {
+        }]subscribeNext:^(id x) {
             [gToast dismiss];
-            if ([x isKindOfClass:[GetPayStatusOp class]])
+            @strongify(self)
+            if (op.rsp_status)
             {
-                GetPayStatusOp * rop = (GetPayStatusOp *)x;
-                @strongify(self)
-                if (rop.rsp_status)
-                {
-                    [self gotoPaidSuccessVC];
-                }
-                else
-                {
-                    [self gotoPaidFailVC];
-                }
+                [self gotoPaidSuccessVC];
             }
-            else if ([x isKindOfClass:[NSNumber class]])
+            else
             {
-                NSNumber * number = (NSNumber *)x;
-                BOOL flag = [number boolValue];
-                if (flag)
-                {
-                    [self gotoPaidSuccessVC];
-                }
+                [self gotoPaidFailVC];
             }
-        } error:^(NSError *error) {
+        }error:^(NSError *error) {
             [gToast showText:error.domain];
         }];
     }
