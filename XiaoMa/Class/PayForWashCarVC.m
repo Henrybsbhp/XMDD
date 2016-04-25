@@ -63,9 +63,6 @@
 ///支付数据源
 @property (nonatomic,strong)NSArray * paymentArray;
 
-// 判断是否是通过支付app进入
-@property (nonatomic,assign) BOOL isPaid;
-
 @end
 
 @implementation PayForWashCarVC
@@ -104,8 +101,6 @@
     }
     
     self.isAutoCouponSelect = NO;
-    
-    [self setupNotification];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -123,22 +118,8 @@
 
 #pragma mark - Setup
 
--(void)setupNotification
-{
-    @weakify(self)
-    [self listenNotificationByName:NSStringFromClass([self class]) withNotifyBlock:^(NSNotification *note, id weakSelf) {
-        
-        @strongify(self)
-        if (!self.isPaid)
-        {
-            [self checkPayment];
-        }
-    }];
-}
-
 - (void)setupPaymentArray
 {
-    
     if (self.getUserResourcesV2Op.rsp_czBankCreditCard.count)
     {
         if (gPhoneHelper.exsitWechat){
@@ -688,14 +669,12 @@
         }
         else {
             [gToast dismiss];
-            [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
             [self gotoPaymentSuccessVC];
         }
     }
     else
     {
         [gToast dismiss];
-        [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         [self gotoPaymentSuccessVC];
     }
 }
@@ -761,14 +740,11 @@
              andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time andGasCouponAmout:(CGFloat)couponAmt
 
 {
-    self.isPaid = YES;
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     
     [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
     
     [[helper rac_startPay] subscribeNext:^(id x) {
-        
-        [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 2;
@@ -789,10 +765,8 @@
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     
-    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price];
-    [[helper rac_startPay] subscribeNext:^(NSString * info) {
-        
-        [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
+    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price andTradeType:TradeTypeCarwash];
+    [[helper rac_startPay] subscribeNext:^(NSObject *obj) {
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 2;
@@ -800,8 +774,6 @@
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"洗车已通知服务器支付成功!");
         }];
-        // 支付成功。避免应用进入前台后重复请求
-        self.isPaid = YES;
         [self gotoPaymentSuccessVC];
     } error:^(NSError *error) {
         
@@ -1192,29 +1164,6 @@
     return string;
 }
 
--(void)checkPayment
-{
-    @weakify(self)
-    GetPayStatusOp *op = [[GetPayStatusOp alloc]init];
-    if (self.serviceOp.rsp_tradeId.length != 0)
-    {
-        op.req_tradeno = self.serviceOp.rsp_tradeId;
-        op.req_tradetype = @"2";
-        
-        [[[op rac_postRequest]initially:^{
-            [gToast showingWithText:@"订单信息查询中"];
-        }]subscribeNext:^(id x) {
-            [gToast dismiss];
-            @strongify(self)
-            if (op.rsp_status)
-            {
-                [self gotoPaymentSuccessVC];
-            }
-        }error:^(NSError *error) {
-            [gToast showText:error.domain];
-        }];
-    }
-}
 
 -(void)gotoPaymentSuccessVC
 {

@@ -34,7 +34,7 @@
     _price = price;
 }
 
-- (void)resetForWeChatWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price
+- (void)resetForWeChatWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price andTradeType:(TradeType)type
 {
 #ifdef DEBUG
     pn = [@"【测试】" append:pn];
@@ -43,6 +43,7 @@
     _tradeNumber = tn;
     _productName = pn;
     _price = price;
+    _tradeType = type;
 }
 
 - (void)resetForUPPayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc
@@ -93,12 +94,16 @@
     //微信支付
     else if (_platformType == PaymentPlatformTypeWeChat) {
         WeChatHelper *helper = [[WeChatHelper alloc] init];
+        helper.tradeType = self.tradeType;
         signal = [helper rac_payWithTradeNumber:self.tradeNumber productName:self.productName price:self.price];
         self.helper = helper;
     }
     
-    return [signal map:^id(id value) {
+    return [[signal map:^id(id value) {
         return self;
+    }] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal error:error];
     }];
 }
 
