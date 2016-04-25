@@ -35,6 +35,12 @@
 
 @implementation RescueHomeViewController
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"RescueHomeViewController dealloc");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,15 +48,15 @@
     [self setupUI];
     // [self addsubView];
     [self requestGetAddress];
-    [self actionFirstEnterNetwork];
+    
+    @weakify(self)
+    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
+        @strongify(self)
+        [self actionFirstEnterNetwork];
+    }];
+    
 }
 
-- (void)dealloc
-{
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
-    DebugLog(@"RescueHomeViewController dealloc");
-}
 
 #pragma mark - SetupUI
 - (void)setupUI
@@ -68,11 +74,12 @@
 - (void)requestGetAddress {
     RACSignal *sig1 = [[gMapHelper rac_getInvertGeoInfo] take:1];
     
+    @weakify(self)
     [[sig1 initially:^{
-        
+     @strongify(self)
         self.addressLb.text = @"定位中...";
     }] subscribeNext:^(AMapReGeocode *regeo) {
-        
+        @strongify(self)
         gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
         
         CGFloat lbWidth = gAppMgr.deviceInfo.screenSize.width - 57;
@@ -85,17 +92,15 @@
                                  regeo.addressComponent.township,
                                  regeo.addressComponent.streetNumber.street,
                                  regeo.addressComponent.streetNumber.number];
-            
             self.addressLb.text = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
         }
         else
         {
             self.addressLb.text = regeo.formattedAddress;
         }
-        
-        
+
     } error:^(NSError *error) {
-        
+        @strongify(self)
         switch (error.code) {
             case kCLErrorDenied:
             {
@@ -134,50 +139,58 @@
     }];
 }
 - (void)actionFirstEnterNetwork {
-    if (gAppMgr.myUser != nil) {//已登录
+    [self.datasourceArray removeAllObjects];
+    [self.desArray removeAllObjects];
+    
+    @weakify(self)
+    
+    if (gAppMgr.myUser != nil)
+    {//已登录
         GetRescueOp *op = [GetRescueOp operation];
-        [[[[op rac_postRequest] initially:^{
+        [[[op rac_postRequest] initially:^{
+            @strongify(self)
             [self.view hideDefaultEmptyView];
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-        }] finally:^{
-            [self.view stopActivityAnimation];
         }] subscribeNext:^(GetRescueOp *op) {
+            @strongify(self)
             [self.view stopActivityAnimation];
-            [self.datasourceArray safetyAddObjectsFromArray:op.req_resceuArray];
+            [self.datasourceArray safetyAddObjectsFromArray:op.rsp_resceuArray];
             NSString *tempStr;
             NSString *lastStr;
-            for (HKRescue *rescue in op.req_resceuArray) {
+            for (HKRescue *rescue in op.rsp_resceuArray)
+            {
                 tempStr = [NSString stringWithFormat:@"● %@", rescue.rescueDesc];
                 lastStr = [tempStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n● "];
                 [self.desArray safetyAddObject:lastStr];
-                
             }
             [self.tableView reloadData];
         } error:^(NSError *error) {
-            
+            @strongify(self)
+            [self.view stopActivityAnimation];
         }] ;
-        
-    }else {//未登录
+    }
+    else
+    {//未登录
         GetRescueNoLoginOp *op = [GetRescueNoLoginOp operation];
-        [[[[op rac_postRequest] initially:^{
+        [[[op rac_postRequest] initially:^{
+            @strongify(self)
             [self.view hideDefaultEmptyView];
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-        }] finally:^{
-            [self.view stopActivityAnimation];
         }] subscribeNext:^(GetRescueNoLoginOp *op) {
-            
-            
-            [self.datasourceArray safetyAddObjectsFromArray:op.req_resceuArray];
+            @strongify(self)
+            [self.view stopActivityAnimation];
+            [self.datasourceArray safetyAddObjectsFromArray:op.rsp_resceuArray];
             NSString *tempStr;
             NSString *lastStr;
-            for (HKRescueNoLogin *rescue in op.req_resceuArray) {
+            for (HKRescueNoLogin *rescue in op.rsp_resceuArray) {
                 tempStr = [NSString stringWithFormat:@"● %@", rescue.rescueDesc];
                 lastStr = [tempStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n● "];
                 [self.desArray safetyAddObject:lastStr];
             }
             [self.tableView reloadData];
         } error:^(NSError *error) {
-            
+            @strongify(self)
+            [self.view stopActivityAnimation];
         }] ;
     }
 }

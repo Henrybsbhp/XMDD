@@ -35,7 +35,7 @@
             [rArray safetyAddObject:rescue];
         }
         
-        self.req_resceuArray = rArray;
+        self.rsp_resceuArray = rArray;
     }
     else
     {
