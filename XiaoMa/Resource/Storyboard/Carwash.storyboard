@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -1756,7 +1756,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="F2o-kK-xe0">
-                                                    <rect key="frame" x="16" y="0.0" width="576" height="1"/>
+                                                    <rect key="frame" x="16" y="0.0" width="584" height="1"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="PUs-QJ-IG2"/>
                                                     </constraints>
@@ -1776,7 +1776,7 @@
                                                 <constraint firstItem="F2o-kK-xe0" firstAttribute="leading" secondItem="IPL-HK-oxc" secondAttribute="leading" constant="16" id="RiM-M8-NuR"/>
                                                 <constraint firstAttribute="centerY" secondItem="kpX-n1-ICU" secondAttribute="centerY" id="SDz-o9-T9J"/>
                                                 <constraint firstItem="qxE-kO-06x" firstAttribute="trailing" secondItem="kpX-n1-ICU" secondAttribute="leading" constant="-8" id="VYu-sD-bs2"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="F2o-kK-xe0" secondAttribute="trailing" id="nx1-NX-k8q"/>
+                                                <constraint firstAttribute="trailing" secondItem="F2o-kK-xe0" secondAttribute="trailing" id="nx1-NX-k8q"/>
                                                 <constraint firstAttribute="trailing" secondItem="kpX-n1-ICU" secondAttribute="trailing" constant="14" id="pno-dV-Lh4"/>
                                                 <constraint firstItem="EKl-hq-A52" firstAttribute="top" secondItem="IPL-HK-oxc" secondAttribute="centerY" constant="3" id="puW-IT-bMA"/>
                                                 <constraint firstItem="Q1j-j8-5ko" firstAttribute="centerY" secondItem="IPL-HK-oxc" secondAttribute="centerY" id="riA-yj-bnu"/>
@@ -1884,7 +1884,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="0LQ-qq-E6G">
-                                                    <rect key="frame" x="16" y="0.0" width="570" height="1"/>
+                                                    <rect key="frame" x="16" y="0.0" width="584" height="1"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="19h-uI-g4o"/>
                                                     </constraints>
@@ -1904,7 +1904,7 @@
                                                 <constraint firstItem="mUV-DY-wQH" firstAttribute="centerY" secondItem="K30-MG-KfZ" secondAttribute="centerY" id="IB8-wh-eFa"/>
                                                 <constraint firstItem="0LQ-qq-E6G" firstAttribute="leading" secondItem="K30-MG-KfZ" secondAttribute="leading" constant="16" id="IOV-Yr-klV"/>
                                                 <constraint firstItem="iZv-QZ-85o" firstAttribute="centerY" secondItem="K30-MG-KfZ" secondAttribute="centerY" id="RE0-i8-EOW"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="0LQ-qq-E6G" secondAttribute="trailing" constant="6" id="Snt-o7-nt0"/>
+                                                <constraint firstAttribute="trailing" secondItem="0LQ-qq-E6G" secondAttribute="trailing" id="Snt-o7-nt0"/>
                                                 <constraint firstAttribute="centerY" secondItem="8GE-ax-t2p" secondAttribute="centerY" id="hTE-M1-68v"/>
                                                 <constraint firstItem="iZv-QZ-85o" firstAttribute="leading" secondItem="8GE-ax-t2p" secondAttribute="trailing" constant="12" id="jfH-hK-hs1"/>
                                                 <constraint firstItem="H3v-Tc-Gef" firstAttribute="centerY" secondItem="K30-MG-KfZ" secondAttribute="centerY" id="pNd-8R-FiQ"/>
