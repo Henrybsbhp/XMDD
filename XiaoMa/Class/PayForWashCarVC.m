@@ -804,10 +804,7 @@
         }];
         // 支付成功。避免应用进入前台后重复请求
         self.isPaid = YES;
-<<<<<<< HEAD
-=======
         [self gotoPaymentSuccessVC];
->>>>>>> origin/dev
     } error:^(NSError *error) {
         
     }];
@@ -1223,16 +1220,7 @@
             [gToast dismiss];
             if ([x isKindOfClass:[GetPayStatusOp class]])
             {
-<<<<<<< HEAD
-                GetPayStatusOp * rop = (GetPayStatusOp *)x;
-                @strongify(self)
-                if (rop.rsp_status)
-                {
-                    [self gotoPaymentSuccessVC];
-                }
-=======
                 [self gotoPaymentSuccessVC];
->>>>>>> origin/dev
             }
             else if ([x isKindOfClass:[NSNumber class]])
             {
