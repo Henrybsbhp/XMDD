@@ -191,41 +191,44 @@
 
 -(void)loadData
 {
-    GetCooperationClaimDetailOp *op = [[GetCooperationClaimDetailOp alloc]init];
-    op.req_claimid = self.claimid;
-    @weakify(self)
-    [[[op rac_postRequest]initially:^{
-        @strongify(self)
-        self.tableView.hidden = YES;
-        [self.view hideDefaultEmptyView];
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-    }]subscribeNext:^(GetCooperationClaimDetailOp *op) {
-        @strongify(self)
-        self.tableView.hidden = NO;
-        [self.view stopActivityAnimation];
-        self.statusdesc = op.rsp_statusdesc;
-        self.status = op.rsp_status;
-        self.accidenttime = op.rsp_accidenttime;
-        self.accidentaddress = op.rsp_accidentaddress;
-        self.chargepart = op.rsp_chargepart;
-        self.cardmgdesc = op.rsp_cardmgdesc;
-        self.reason = op.rsp_reason;
-        self.claimfee = op.rsp_claimfee;
-        self.insurancename = op.rsp_insurancename;
-        self.cardno = op.rsp_cardno;
-        // 设置底部按钮
-        [self setBottomViewStatus:self.status.integerValue];
-        // 更新约束
-        [self.view layoutIfNeeded];
-        [self.tableView reloadData];
-    }error:^(NSError *error) {
-        @strongify(self)
-        [self.view stopActivityAnimation];
-        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败，请重试" tapBlock:^{
-            [self loadData];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self])
+    {
+        GetCooperationClaimDetailOp *op = [[GetCooperationClaimDetailOp alloc]init];
+        op.req_claimid = self.claimid;
+        @weakify(self)
+        [[[op rac_postRequest]initially:^{
+            @strongify(self)
+            self.tableView.hidden = YES;
+            [self.view hideDefaultEmptyView];
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        }]subscribeNext:^(GetCooperationClaimDetailOp *op) {
+            @strongify(self)
+            self.tableView.hidden = NO;
+            [self.view stopActivityAnimation];
+            self.statusdesc = op.rsp_statusdesc;
+            self.status = op.rsp_status;
+            self.accidenttime = op.rsp_accidenttime;
+            self.accidentaddress = op.rsp_accidentaddress;
+            self.chargepart = op.rsp_chargepart;
+            self.cardmgdesc = op.rsp_cardmgdesc;
+            self.reason = op.rsp_reason;
+            self.claimfee = op.rsp_claimfee;
+            self.insurancename = op.rsp_insurancename;
+            self.cardno = op.rsp_cardno;
+            // 设置底部按钮
+            [self setBottomViewStatus:self.status.integerValue];
+            // 更新约束
+            [self.view layoutIfNeeded];
+            [self.tableView reloadData];
+        }error:^(NSError *error) {
+            @strongify(self)
+            [self.view stopActivityAnimation];
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败，请重试" tapBlock:^{
+                [self loadData];
+            }];
+            
         }];
-        
-    }];
+    }
 }
 
 #pragma mark Action
