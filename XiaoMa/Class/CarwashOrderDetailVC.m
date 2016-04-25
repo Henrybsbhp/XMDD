@@ -174,7 +174,7 @@
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 10)];
-    view.backgroundColor = HEXCOLOR(@"#f7f7f8");
+    view.backgroundColor = kBackgroundColor;
     return view;
 }
 
@@ -219,7 +219,7 @@
     UIButton *btn = [cell viewWithTag:100];
     btn.layer.cornerRadius = 5;
     btn.layer.masksToBounds = YES;
-    btn.layer.borderColor = HEXCOLOR(@"#18d06a").CGColor;
+    btn.layer.borderColor = kDefTintColor.CGColor;
     btn.layer.borderWidth = 0.5;
     @weakify(self)
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {

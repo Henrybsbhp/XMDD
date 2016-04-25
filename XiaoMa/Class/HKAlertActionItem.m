@@ -16,7 +16,7 @@
 
 + (instancetype)itemWithTitle:(NSString *)title
 {
-    return [self itemWithTitle:title color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+    return [self itemWithTitle:title color:kDefTintColor clickBlock:nil];
 }
 
 + (instancetype)itemWithTitle:(NSString *)title color:(UIColor *)color clickBlock:(void(^)(id alertVC))block {

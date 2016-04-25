@@ -285,7 +285,7 @@
         alert.topTitle = @"温馨提示";
         alert.imageName = @"mins_bulb";
         alert.message = @"您的爱车信息不完整，是否现在完善？";
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:kGrayTextColor clickBlock:^(id alertVC) {
             if (self.model.originVC) {
                 [self.navigationController popToViewController:self.model.originVC animated:YES];
             }

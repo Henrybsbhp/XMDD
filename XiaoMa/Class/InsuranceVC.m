@@ -485,11 +485,11 @@
     licenseno = statusdesc ? [licenseno append:@"\n"] : licenseno;
     
     NSMutableAttributedString *attstr = [NSMutableAttributedString attributedString];
-    NSDictionary *attr1 = @{NSForegroundColorAttributeName: HEXCOLOR(@"#454545"),
+    NSDictionary *attr1 = @{NSForegroundColorAttributeName: kDarkTextColor,
                             NSFontAttributeName: [UIFont systemFontOfSize:17]};
     [attstr appendAttributedString:[[NSAttributedString alloc] initWithString:licenseno attributes:attr1]];
     if (statusdesc) {
-        NSDictionary *attr2 = @{NSForegroundColorAttributeName: HEXCOLOR(@"#888888"),
+        NSDictionary *attr2 = @{NSForegroundColorAttributeName: kGrayTextColor,
                                 NSFontAttributeName: [UIFont systemFontOfSize:12]};
         [attstr appendAttributedString:[[NSAttributedString alloc] initWithString:statusdesc attributes:attr2]];
     }

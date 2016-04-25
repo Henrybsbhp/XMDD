@@ -17,7 +17,7 @@
     UIImage *img = [UIImage imageNamed:@"nav_back_300"];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain
                                                             target:target action:action];
-    item.tintColor = HEXCOLOR(@"#18d06a");
+    item.tintColor = kDefTintColor;
     return item;
 }
 
@@ -26,7 +26,7 @@
     UIImage *img = [UIImage imageNamed:@"cm_nav_webback"];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain
                                                             target:target action:action];
-    item.tintColor = HEXCOLOR(@"#18d06a");
+    item.tintColor = kDefTintColor;
     return item;
 }
 

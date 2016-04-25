@@ -134,7 +134,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }];
     
-    [self.defaultLabel setCornerRadius:3 withBorderColor:HEXCOLOR(@"#FDFE28") borderWidth:0.5 backgroundColor:HEXCOLOR(@"#18D06A") backgroundImage:nil contentMode:UIViewContentModeScaleToFill];
+    [self.defaultLabel setCornerRadius:3 withBorderColor:HEXCOLOR(@"#FDFE28") borderWidth:0.5 backgroundColor:kDefTintColor backgroundImage:nil contentMode:UIViewContentModeScaleToFill];
     
     [self.defaultLabel setCornerRadius:3];
     [self.defaultLabel setBorderWidth:0.5];
@@ -482,7 +482,7 @@
         alert.imageName = @"mins_bulb";
         alert.message = @"您的爱车信息不完整，是否现在完善？";
         @weakify(self);
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:kGrayTextColor clickBlock:^(id alertVC) {
             @strongify(self);
             if (self.model.originVC) {
                 [self.navigationController popToViewController:self.model.originVC animated:YES];

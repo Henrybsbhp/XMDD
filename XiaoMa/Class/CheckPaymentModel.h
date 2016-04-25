@@ -10,6 +10,7 @@
 
 @interface CheckPaymentModel : NSObject
 
+
 -(void)checkPaymentIsSuccess;
 
 @end

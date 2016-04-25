@@ -42,35 +42,35 @@
     NSArray *items;
     if (op.rsp_sharemoney > 0) {
         items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:[NSString formatForRoundPrice2:op.rsp_sharemoney]
-                                          detailColor:MutInsOrangeColor],
+                                          detailColor:kOrangeColor],
                   [MutualInsAlertVCItem itemWithTitle:@"所占比例" detailTitle:op.rsp_rate
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"目前可返" detailTitle:[NSString formatForRoundPrice2:op.rsp_returnmoney]
-                                          detailColor:MutInsOrangeColor],
+                                          detailColor:kOrangeColor],
                   [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:[NSString stringWithFormat:@"%d次", op.rsp_claimcount]
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"赔偿金额" detailTitle:[NSString formatForRoundPrice2:op.rsp_claimamount]
-                                          detailColor:MutInsOrangeColor]];
+                                          detailColor:kOrangeColor]];
     }
     else {
         items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_licensenumber
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:@"暂无"
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"所占比例" detailTitle:@"暂无"
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"目前可返" detailTitle:@"暂无"
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:@"暂无"
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"赔偿金额" detailTitle:@"暂无"
-                                          detailColor:MutInsTextDarkGrayColor]];
+                                          detailColor:kDarkTextColor]];
     }
     alert.items = items;
     [alert show];

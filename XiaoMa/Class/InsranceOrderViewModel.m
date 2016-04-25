@@ -125,7 +125,7 @@
     UIImageView *imgView = (UIImageView *)[cell viewWithTag:4000];
     
     imgView.layer.borderWidth = 0.5;
-    imgView.layer.borderColor = HEXCOLOR(@"#888888").CGColor;
+    imgView.layer.borderColor = kGrayTextColor.CGColor;
     
     HKInsuranceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     NSLog(@"%@",order.picUrl);
@@ -142,7 +142,7 @@
     BOOL unpaid = order.status == InsuranceOrderStatusUnpaid;
     [bottomB setTitle:unpaid ? @"买了" : @"联系客服" forState:UIControlStateNormal];
     
-    bottomB.layer.borderColor = HEXCOLOR(@"#18d06a").CGColor;
+    bottomB.layer.borderColor = kDefTintColor.CGColor;
     bottomB.layer.borderWidth = 0.5;
     
     

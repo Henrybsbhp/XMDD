@@ -127,9 +127,10 @@
 {
     @weakify(self)
     [self listenNotificationByName:NSStringFromClass([self class]) withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        
+        @strongify(self)
         if (!self.isPaid)
         {
-            @strongify(self)
             [self checkPayment];
         }
     }];
@@ -222,7 +223,7 @@
             [cell shake];
         });
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"前往添加" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
             [self.navigationController pushViewController:vc animated:YES];
@@ -233,7 +234,7 @@
         return;
     }
     
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [self requestCheckoutWithCouponType:self.couponType];
     }];
@@ -323,30 +324,6 @@
     
     return cell;
 }
-
-//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    JTTableViewCell *jtcell = (JTTableViewCell *)cell;
-//    
-//    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0))
-//    {
-//        [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, 0, 0) forDirectionMask:CKViewBorderDirectionBottom] ;
-//        [cell.contentView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom];
-//        [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:CKViewBorderDirectionBottom];
-//    }
-//    else
-//    {
-//        if (indexPath.section == 0)
-//        {
-//            if (indexPath.row != 3 || indexPath != 0)
-//            {
-//                return;
-//            }
-//        }
-//        jtcell.customSeparatorInset = UIEdgeInsetsMake(-1, 8, 0, 8);
-//        [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
-//    }
-//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -443,12 +420,12 @@
     
     if (indexPath.row == 1) {
         titleL.text = [NSString stringWithFormat:@"服务项目"];
-        infoL.textColor = HEXCOLOR(@"#454545");
+        infoL.textColor = kDarkTextColor;
         infoL.text = self.service.serviceName;
     }
     else if (indexPath.row == 2) {
         titleL.text = [NSString stringWithFormat:@"项目价格"];
-        infoL.textColor = HEXCOLOR(@"#ff7428");
+        infoL.textColor = kOrangeColor;
         infoL.text = [NSString stringWithFormat:@"￥%.2f",self.service.origprice];
     }
     
@@ -463,7 +440,7 @@
     
     [[RACObserve(self, defaultCar) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(HKMyCar *car) {
         titleL.text = [NSString stringWithFormat:@"我的车辆"];
-        infoL.textColor = HEXCOLOR(@"#454545");
+        infoL.textColor = kDarkTextColor;
         infoL.text = car.licencenumber ? car.licencenumber : @"";
     }];
     
@@ -557,7 +534,7 @@
             }
             else
             {
-                titleLb.textColor = HEXCOLOR(@"#454545");
+                titleLb.textColor = kDarkTextColor;
             }
         }
         else if (payChannel == PaymentChannelWechat) {
@@ -571,7 +548,7 @@
             }
             else
             {
-                titleLb.textColor = HEXCOLOR(@"#454545");
+                titleLb.textColor = kDarkTextColor;
             }
         }
     }
@@ -771,7 +748,7 @@
             return ;
         }
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"再试一次" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [self requestGainWeeklyCoupon];
         }];
@@ -801,18 +778,7 @@
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"洗车已通知服务器支付成功!");
         }];
-        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-        vc.originVC = self.originVC;
-        vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
-        HKServiceOrder * order = [[HKServiceOrder alloc] init];
-        order.orderid = orderId;
-        order.serviceid = self.service.serviceID;
-        order.servicename = self.service.serviceName;
-        order.fee = price;
-        order.shop = self.shop;
-        order.gasCouponAmount = couponAmt;
-        vc.order = order;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self gotoPaymentSuccessVC];
         
     } error:^(NSError *error) {
         
@@ -838,6 +804,10 @@
         }];
         // 支付成功。避免应用进入前台后重复请求
         self.isPaid = YES;
+<<<<<<< HEAD
+=======
+        [self gotoPaymentSuccessVC];
+>>>>>>> origin/dev
     } error:^(NSError *error) {
         
     }];
@@ -1129,7 +1099,7 @@
     if (error.code == 615801) {
         [gToast dismiss];
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:kGrayTextColor clickBlock:^(id alertVC) {
             [MobClick event:@"rp108_8"];
         }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"原价支付" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
@@ -1199,11 +1169,11 @@
         NSString * string;
         if (totalAmount >= self.service.origprice)
         {
+             totalAmount = self.service.origprice - 0.01;
             string =  [NSString stringWithFormat:@"最高可使用%@元代金券",[NSString formatForPrice:totalAmount]];
         }
         else
         {
-            totalAmount = self.service.origprice - 0.01;
             string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
         }
         
@@ -1253,12 +1223,16 @@
             [gToast dismiss];
             if ([x isKindOfClass:[GetPayStatusOp class]])
             {
+<<<<<<< HEAD
                 GetPayStatusOp * rop = (GetPayStatusOp *)x;
                 @strongify(self)
                 if (rop.rsp_status)
                 {
                     [self gotoPaymentSuccessVC];
                 }
+=======
+                [self gotoPaymentSuccessVC];
+>>>>>>> origin/dev
             }
             else if ([x isKindOfClass:[NSNumber class]])
             {

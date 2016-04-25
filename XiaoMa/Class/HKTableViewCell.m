@@ -65,7 +65,7 @@
         line = [[CKLine alloc] initWithFrame:CGRectZero];
         line.lineAlignment = alignment;
         line.linePointWidth = 1;
-        line.lineColor = HEXCOLOR(@"#e0e0e0");
+        line.lineColor = kDarkLineColor;
         [self.contentView addSubview:line];
     }
     UIView *contentV = self.contentView;

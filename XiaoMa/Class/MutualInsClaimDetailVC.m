@@ -286,7 +286,7 @@
     alert.imageName = @"mins_ok";
     alert.message = agreement.integerValue == 1 ?  @"客服人员将很快与您取得联系，请留意号码为4007-111-111点来电请耐心等待" : @"系统将在1个工作日内（周末及节假日顺延）内打款至您预留的银行卡，请耐心等待，如有问题请致电4007-111-111";
     @weakify(self)
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18d06a") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
         @strongify(self)
         NSArray *viewControllers = self.navigationController.viewControllers;
         [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
@@ -307,7 +307,7 @@
 
 -(void)setBottomViewStatus:(NSInteger)status
 {
-    if (status != -1 && status!= 1)
+    if (status != -1 && status != 1)
     {
         self.bottomView.hidden = YES;
         self.bottomViewHeight.constant = 0;

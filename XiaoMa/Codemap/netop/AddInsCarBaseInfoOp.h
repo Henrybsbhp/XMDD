@@ -31,6 +31,8 @@
 @property (nonatomic,strong) NSString* rsp_mstartdate;
 ///交强险启保日期
 @property (nonatomic,strong) NSString* rsp_fstartdate;
+///车辆信息列表
+@property (nonatomic,strong) NSArray* rsp_brandlist;
 
 
 @end

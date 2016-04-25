@@ -405,7 +405,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 10)];
-    view.backgroundColor = HEXCOLOR(@"#f7f7f8");
+    view.backgroundColor = kBackgroundColor;
     return view;
 }
 

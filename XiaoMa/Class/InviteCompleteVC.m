@@ -31,7 +31,7 @@
     
     UILabel * titleLb= [[UILabel alloc] init];
     titleLb.font = [UIFont systemFontOfSize:17];
-    titleLb.textColor = HEXCOLOR(@"#888888");
+    titleLb.textColor = kGrayTextColor;
     NSString * labelText = @"本团信息";
     titleLb.text = labelText;
     
@@ -83,7 +83,7 @@
         
         UILabel * titleLb = [[UILabel alloc] init];
         titleLb.font = [UIFont systemFontOfSize:14];
-        titleLb.textColor = HEXCOLOR(@"#888888");
+        titleLb.textColor = kGrayTextColor;
         titleLb.text = title;
         [contentV addSubview:titleLb];
         [titleLb mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -94,7 +94,7 @@
         
         UILabel * contentLb = [[UILabel alloc] init];
         contentLb.font = [UIFont systemFontOfSize:14];
-        contentLb.textColor = color.length ? HEXCOLOR(color) : HEXCOLOR(@"#888888");
+        contentLb.textColor = color.length ? HEXCOLOR(color) : kGrayTextColor;
         contentLb.text = content;
         [contentV addSubview:contentLb];
         
@@ -112,7 +112,7 @@
         CGSize size = [item labelSizeWithWidth:ContentWidth font:[UIFont systemFontOfSize:14]];
         UILabel * contentLb = [[UILabel alloc] init];
         contentLb.font = [UIFont systemFontOfSize:14];
-        contentLb.textColor = HEXCOLOR(@"#888888");
+        contentLb.textColor = kGrayTextColor;
         contentLb.text = item;
         contentLb.numberOfLines = 0;
         [contentV addSubview:contentLb];
