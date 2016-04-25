@@ -42,8 +42,6 @@
 
 ///订单号
 @property (nonatomic,strong) NSString *tradeID;
-// 判断是否是通过支付app进入
-@property (nonatomic,assign) BOOL isPaid;
 
 @property (nonatomic,strong) GascardChargeOp *op;
 
@@ -69,8 +67,6 @@
     [self refreshBottomView];
     
     [self requestGetGasResource];
-    
-    [self setupNotification];
 }
 
 
@@ -80,19 +76,6 @@
 }
 
 #pragma mark - Setup
-
--(void)setupNotification
-{
-    @weakify(self)
-    [self listenNotificationByName:NSStringFromClass([self class]) withNotifyBlock:^(NSNotification *note, id weakSelf) {
-        if (!self.isPaid)
-        {
-            @strongify(self)
-            [self checkPayment];
-        }
-    }];
-}
-
 - (void)setupNavigationBar
 {
     self.navigationItem.title = @"支付确认";
@@ -334,13 +317,12 @@
     NSString *text;
     switch (paidop.req_paychannel) {
         case PaymentChannelAlipay: {
-            self.isPaid = YES;
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
             [helper resetForAlipayWithTradeNumber:paidop.rsp_tradeid productName:info productDescription:info price:paidop.rsp_total];
         } break;
         case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
-            [helper resetForWeChatWithTradeNumber:paidop.rsp_tradeid productName:info price:paidop.rsp_total];
+            [helper resetForWeChatWithTradeNumber:paidop.rsp_tradeid productName:info price:paidop.rsp_total andTradeType:[self.gasNormalVC isRechargeForInstalment] ? TradeTypeStagingRefuel : TradeTypeRefuel];
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
@@ -362,7 +344,6 @@
             DebugLog(@"已通知服务器支付成功!");
         }];
         // 支付成功
-        self.isPaid = YES;
         paidSuccess = YES;
         [[GasStore fetchOrCreateStore] saverecentlyUsedGasCardID:paidop.req_gid];
         [self pushToPaymentResultWithPaidOp:paidop andGasCard:card];

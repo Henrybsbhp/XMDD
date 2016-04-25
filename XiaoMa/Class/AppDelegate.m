@@ -102,8 +102,6 @@
     //设置崩溃捕捉(官方建议放在最后面)
     [self setupCrashlytics];
     
-    [self setupCheckPaymentModel];
-    
     return YES;
 }
 
@@ -218,9 +216,6 @@
         // 不需要更新的情况下去查询小马互助
         [self.pasteboardoModel checkPasteboard];
     }
-    
-    [self.checkPaymentModel checkPaymentIsSuccess];
-    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -561,10 +556,6 @@
     _pasteboardoModel = [[PasteboardModel alloc] init];
 }
 
-- (void)setupCheckPaymentModel
-{
-    _checkPaymentModel = [[CheckPaymentModel alloc]init];
-}
 
 #pragma mark - FPS
 - (void)setupFPSObserver

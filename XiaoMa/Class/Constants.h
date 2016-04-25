@@ -161,8 +161,6 @@ typedef enum : NSUInteger {
 #define WechatPayFail 7002
 
 //通知定义
-#define kNotifyRefreshMyCarList             @"com.huika.xmdd.RefreshMyCarList"
-#define kNotifyRefreshMyCarwashOrders       @"com.huika.xmdd.RefreshMyCarwashOrders"
 #define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
 #define kNotifyRefreshMyCouponList          @"com.huika.xmdd.RefreshMyCouponList"
 
