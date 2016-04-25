@@ -500,7 +500,7 @@
 
         WaterWaveProgressView *waveV = [cell viewWithTag:1001];
         
-        waveV.titleLable.text = @"资金池";
+        waveV.titleLable.text = @"车损宝资金池";
         waveV.subTitleLabel.text = [NSString stringWithFormat:@"%@/%@",
                                     [NSString formatForRoundPrice2:self.groupDetail.rsp_presentpoolamt],
                                     [NSString formatForRoundPrice2:self.groupDetail.rsp_totalpoolamt]];
