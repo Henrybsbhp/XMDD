@@ -134,8 +134,10 @@
         return 44;
     });
     //cell准备重绘
+    @weakify(self);
     cipherDict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self);
         UILabel *codeLabel = (UILabel *)[cell.contentView viewWithTag:1001];
         UIButton *copyBtn = (UIButton *)[cell.contentView viewWithTag:1002];
         codeLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 34;
@@ -146,7 +148,6 @@
         [copyBtn setBorderColor:HEXCOLOR(@"#18d05a")];
         [copyBtn setBorderWidth:1];
         
-        @weakify(self);
         [[[copyBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
             @strongify(self);
@@ -214,12 +215,13 @@
         return 68;
     });
     //cell准备重绘
+    @weakify(self);
     buttonDict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self);
         UIButton *btn = (UIButton *)[cell.contentView viewWithTag:1001];
         if (sectionIndex == 1) {
             [btn setTitle:@"分享入团口令" forState:UIControlStateNormal];
-            @weakify(self);
             [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
                 @strongify(self);
@@ -229,7 +231,6 @@
         }
         else {
             [btn setTitle:@"邀请好友下载小马达达" forState:UIControlStateNormal];
-            @weakify(self);
             [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
                 @strongify(self);
@@ -298,12 +299,14 @@
         attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→去参团→选择团→申请加入”后录入您互助团的暗号同样可成功加入您的互助团 \n ";
     }
     //cell行高
+    @weakify(self);
     attributedContentDict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        @strongify(self);
         CGFloat height = [attributedFooterString labelSizeWithWidth:(self.tableView.frame.size.width - 30) font:[UIFont systemFontOfSize:13]].height;
         return height + 8;
     });
     //cell准备重绘
-    @weakify(self);
     attributedContentDict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
         @strongify(self);
