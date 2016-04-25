@@ -475,7 +475,7 @@
                  andTime:(NSString *)time
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price];
+    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price andTradeType:TradeTypeGeneral];
     [[helper rac_startPay2] subscribeNext:^(NSString * info) {
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];

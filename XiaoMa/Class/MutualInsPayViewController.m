@@ -41,11 +41,6 @@
 ///协议数据源
 @property (nonatomic,strong)HKCellData *licenseData;
 
-// 判断是否是通过支付app进入
-@property (nonatomic,assign) BOOL isPaid;
-
-@property (nonatomic,strong) NSString *tradeno;
-
 @end
 
 @implementation MutualInsPayViewController
@@ -64,7 +59,6 @@
     [self.tableView reloadData];
     
     [self requestMutualResources];
-    [self setupNotification];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,19 +67,6 @@
 }
 
 #pragma mark - Setup
-
--(void)setupNotification
-{
-    @weakify(self)
-    [self listenNotificationByName:NSStringFromClass([self class]) withNotifyBlock:^(NSNotification *note, id weakSelf) {
-        if (!self.isPaid)
-        {
-            @strongify(self)
-            [self checkPayment];
-        }
-    }];
-}
-
 - (void)setupNavigationBar
 {
     self.navigationItem.title = @"支付确认";
@@ -175,29 +156,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)checkPayment
-{
-    @weakify(self)
-    GetPayStatusOp *op = [[GetPayStatusOp alloc]init];
-    if (self.tradeno.length != 0)
-    {
-        op.req_tradeno = self.tradeno;
-        op.req_tradetype = @"1";
-        
-        [[[op rac_postRequest]initially:^{
-            [gToast showingWithText:@"订单信息查询中"];
-        }]subscribeNext:^(id x) {
-            [gToast dismiss];
-            @strongify(self)
-            if (op.rsp_status)
-            {
-                [self gotoPaidSuccessVC];
-            }
-        }error:^(NSError *error) {
-            [gToast showText:error.domain];
-        }];
-    }
-}
 
 ///获取优惠劵title（12元代金劵）
 - (NSString *)calcCouponTitle:(NSArray *)couponArray
@@ -337,12 +295,9 @@
     @weakify(self);
     [[[self.payOp rac_postRequest] initially:^{
         
-        @strongify(self)
         [gToast showingWithText:@"订单生成中..."];
-        self.tradeno = nil;
     }] subscribeNext:^(PayCooperationContractOrderOp * rop) {
         @strongify(self);
-        self.tradeno = rop.rsp_tradeno;
         [self callPaymentHelperWithPayOp:rop];
         
     } error:^(NSError *error) {
@@ -368,13 +323,12 @@
     NSString *text;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
-            self.isPaid = YES;
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
             [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:price];
         } break;
         case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
-            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price];
+            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price andTradeType:TradeTypeXMIns];
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
@@ -395,7 +349,6 @@
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 5;
         iop.req_tradeno = op.rsp_tradeno;
-        self.isPaid = YES;
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"已通知服务器支付成功!");
         }];
