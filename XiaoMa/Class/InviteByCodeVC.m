@@ -98,12 +98,14 @@
 {
     self.datasource = [CKList list];
     
-    CKDict *cipherForCopy = [self setCipherCell];
-    [self.datasource addObject:$(cipherForCopy) forKey:@"copyCipherSection"];
+    if (self.groupType == GroupTypeByself) {
+        CKDict *cipherForCopy = [self setCipherCell];
+        [self.datasource addObject:$(cipherForCopy) forKey:@"copyCipherSection"];
+    }
     
     //已下载
-    NSString * tipOneShareString = @"1，您需要通过微信分享入团口令邀请您的好友加入";
-    NSString * tipTwoShareString = @"2，您的好友复制口令后，打开App即可成功加入您创建的团";
+    NSString * tipOneShareString = @"1、您需要通过微信分享入团口令邀请您的好友加入";
+    NSString * tipTwoShareString = @"2、您的好友复制口令后，打开App即可成功加入您创建的团";
     
     CKDict *titleForAlreadyDownLoad = [self setTitleCellForSectionIndex:1];
     CKDict *contentTipOne = [self setNormalContentCell:tipOneShareString];
@@ -114,8 +116,8 @@
     [self.datasource addObject:$(titleForAlreadyDownLoad, contentTipOne, contentTipTwo, shareButton, contentTipFooter) forKey:@"shareCodeSection"];
     
     //未下载
-    NSString * tipOneInviteString = @"1，您需要先邀请您的好友下载小马达达App";
-    NSString * tipTwoInviteString = @"2，受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入\n";
+    NSString * tipOneInviteString = @"1、您需要先邀请您的好友下载小马达达App";
+    NSString * tipTwoInviteString = @"2、受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入\n";
     
     CKDict *titleForNoDownLoad = [self setTitleCellForSectionIndex:2];
     CKDict *inviteContentTipOne = [self setNormalContentCell:tipOneInviteString];
@@ -292,11 +294,11 @@
     //初始化身份标识
     CKDict * attributedContentDict = [CKDict dictWith:@{kCKCellID:@"ContentCell"}];
     NSString * attributedFooterString = [NSString new];
-    if (self.groupType != GroupTypeByself) {
-        attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→右上角+号→内测计划→申请入团”后录入您互助团的暗号同样可成功加入您的互助团 \n ";
+    if (self.groupType == GroupTypeByself) {
+        attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→右上角+号→内测计划→申请入团”后同样可成功加入您的互助团 \n ";
     }
     else {
-        attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→去参团→选择团→申请加入”后录入您互助团的暗号同样可成功加入您的互助团 \n ";
+        attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→去参团→选择团→申请加入”后同样可成功加入您的互助团 \n ";
     }
     //cell行高
     @weakify(self);
@@ -312,7 +314,7 @@
         @strongify(self);
         UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:1001];
         NSString * highLightString = [NSString new];
-        if (self.groupType != GroupTypeByself) {
+        if (self.groupType == GroupTypeByself) {
             highLightString = @"首页→小马互助→右上角+号→内测计划→申请入团";
         }
         else {

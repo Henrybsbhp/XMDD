@@ -134,9 +134,7 @@
         return 160;
     });
     //cell准备重绘
-    @weakify(self);
     estPrice[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        @strongify(self);
         UILabel *totalPriceL = [cell.contentView viewWithTag:1001];
         UIView *membershipView = [cell.contentView viewWithTag:1002];
         UIView *mutualInsView = [cell.contentView viewWithTag:1003];
@@ -152,7 +150,7 @@
         [PopAnimation animatedForLabel:totalPriceL fromValue:0 toValue:dataModel.premiumprice andDuration:2];
         membershipPriceL.text = [NSString stringWithFormat:@"%@元", [NSString formatForPrice:dataModel.memberFee]];
         mutualInsPriceL.text = [NSString stringWithFormat:@"%@元", [NSString formatForPrice:(dataModel.premiumprice - dataModel.memberFee)]];
-        [mutualInsPriceL adjustsFontSizeToFitWidth];
+        [mutualInsPriceL setAdjustsFontSizeToFitWidth:YES];
         
         NSString * tipStr = [NSString stringWithFormat:@"比传统车险省%@元", [NSString formatForPrice:dataModel.couponMoney]];
         NSMutableAttributedString * attributeStr = [[NSMutableAttributedString alloc] initWithString:tipStr];
