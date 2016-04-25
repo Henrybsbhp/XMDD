@@ -224,7 +224,8 @@
         GetCooperationMyCarOp *op = [[GetCooperationMyCarOp alloc]init];
         [[[op rac_postRequest]initially:^{
             @strongify(self)
-            [self.view startActivityAnimationWithType:MONActivityIndicatorType];
+            
+            [gToast showingWithText:@"" inView:self.view];
         }]subscribeNext:^(GetCooperationMyCarOp *op) {
             @strongify(self)
             if (op.rsp_reports.count == 1)
@@ -248,10 +249,10 @@
                 HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"未检测到您的爱车有车险报案记录，快速理赔需要先报案后才能进行现场拍照。请先报案，谢谢～" ActionItems:@[cancel]];
                 [alert show];
             }
-            [self.view stopActivityAnimation];
+            [gToast dismissInView:self.view];
         }error:^(NSError *error) {
             @strongify(self)
-            [self.view stopActivityAnimation];
+            [gToast dismissInView:self.view];
         }];
     }
 }

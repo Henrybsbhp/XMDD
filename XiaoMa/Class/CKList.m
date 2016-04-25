@@ -52,6 +52,19 @@
     }
 }
 
+- (void)insertObject:(id)object withKey:(id<NSCopying>)key atIndex:(NSInteger)index {
+    if (!key && [self respondsToSelector:@selector(key)]) {
+        key = [object key];
+    }
+    [super insertObject:object withKey:key atIndex:index];
+}
+
+- (void)addObjectsFromArray:(NSArray *)array {
+    for (id obj in array) {
+        [self addObject:obj forKey:nil];
+    }
+}
+
 @end
 
 #pragma mark - CKDict

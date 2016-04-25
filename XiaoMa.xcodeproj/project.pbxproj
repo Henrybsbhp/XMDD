@@ -168,6 +168,7 @@
 		18900B4D1C1EA05E003DA439 /* GetInsProvinceListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18900B4C1C1EA05E003DA439 /* GetInsProvinceListOp.m */; };
 		18900B521C1EA0C2003DA439 /* Area.m in Sources */ = {isa = PBXBuildFile; fileRef = 18900B4F1C1EA0C2003DA439 /* Area.m */; };
 		18900B531C1EA0C2003DA439 /* InsSimpleCar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18900B511C1EA0C2003DA439 /* InsSimpleCar.m */; };
+		1890D79A1CCA05B0000D57CB /* UpdateCalculatePremiumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1890D7991CCA05B0000D57CB /* UpdateCalculatePremiumOp.m */; };
 		189371191B0DA6C00030FDE1 /* MessageListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371181B0DA6C00030FDE1 /* MessageListVC.m */; };
 		1893711C1B0DAC8D0030FDE1 /* GetMessageOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1893711B1B0DAC8D0030FDE1 /* GetMessageOp.m */; };
 		1893711F1B0DAD290030FDE1 /* HKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1893711E1B0DAD290030FDE1 /* HKMessage.m */; };
@@ -1109,6 +1110,8 @@
 		18900B4F1C1EA0C2003DA439 /* Area.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Area.m; sourceTree = "<group>"; };
 		18900B501C1EA0C2003DA439 /* InsSimpleCar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsSimpleCar.h; sourceTree = "<group>"; };
 		18900B511C1EA0C2003DA439 /* InsSimpleCar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsSimpleCar.m; sourceTree = "<group>"; };
+		1890D7981CCA05B0000D57CB /* UpdateCalculatePremiumOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCalculatePremiumOp.h; sourceTree = "<group>"; };
+		1890D7991CCA05B0000D57CB /* UpdateCalculatePremiumOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCalculatePremiumOp.m; sourceTree = "<group>"; };
 		189371171B0DA6C00030FDE1 /* MessageListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListVC.h; sourceTree = "<group>"; };
 		189371181B0DA6C00030FDE1 /* MessageListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListVC.m; sourceTree = "<group>"; };
 		1893711A1B0DAC8D0030FDE1 /* GetMessageOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetMessageOp.h; path = Class/GetMessageOp.h; sourceTree = "<group>"; };
@@ -2637,6 +2640,8 @@
 		1833F5701BCD373B000E1DA1 /* netop */ = {
 			isa = PBXGroup;
 			children = (
+				1890D7981CCA05B0000D57CB /* UpdateCalculatePremiumOp.h */,
+				1890D7991CCA05B0000D57CB /* UpdateCalculatePremiumOp.m */,
 				18D68DBB1CBD26F500D0636E /* DeleteInsCarOp.h */,
 				18D68DBC1CBD26F500D0636E /* DeleteInsCarOp.m */,
 				182BEEFD1CA0EFB000D67C18 /* DeleteCooperationGroupOp.h */,
@@ -5527,6 +5532,7 @@
 				50DD1BCB1BFB093500349A70 /* OthersOrderViewModel.m in Sources */,
 				6B11752F1C0D768500FC1881 /* GetCitysOp.m in Sources */,
 				506008D71B747FED00B8761D /* ResultVC.m in Sources */,
+				1890D79A1CCA05B0000D57CB /* UpdateCalculatePremiumOp.m in Sources */,
 				1837A7601B72130F0006E6C5 /* SDPhotoBrowser.m in Sources */,
 				18D17F7D1B57407900F66F04 /* BindDeviceToken2Op.m in Sources */,
 				1837A7551B70C97A0006E6C5 /* UIImageView+WebImage.m in Sources */,
