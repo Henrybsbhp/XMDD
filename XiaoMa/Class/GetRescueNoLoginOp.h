@@ -9,5 +9,5 @@
 #import "BaseOp.h"
 
 @interface GetRescueNoLoginOp : BaseOp
-@property (nonatomic, strong) NSArray  *req_resceuArray;
+@property (nonatomic, strong) NSArray  *rsp_resceuArray;
 @end

@@ -11,7 +11,6 @@
 #import "VcodeLoginVC.h"
 #import "HKCatchErrorModel.h"
 #import "PasteboardModel.h"
-#import "CheckPaymentModel.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -20,7 +19,6 @@
 @property (nonatomic, weak) VcodeLoginVC *loginVC;
 @property (nonatomic, strong) HKCatchErrorModel *errorModel;
 @property (nonatomic, strong) PasteboardModel *pasteboardoModel;
-@property (nonatomic, strong) CheckPaymentModel *checkPaymentModel;
 ///handleOpenUrl的队列
 @property (nonatomic, strong) JTQueue *openUrlQueue;
 
