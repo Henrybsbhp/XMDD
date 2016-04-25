@@ -5541,13 +5541,14 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="55"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015款 30 TFSI" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KY6-y6-Ana">
-                                                            <rect key="frame" x="22" y="0.0" width="528" height="55"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KY6-y6-Ana">
+                                                            <rect key="frame" x="22" y="0.0" width="523" height="55"/>
+                                                            <string key="text">2015款 30 TFSI2015款 30 TFSI2015款 30 TFSI2015款 30 TFSI2015款 30 TFSI2015款 30 TFSI2015款 30 TFSI2015款 30 TFSI2015款 30 TFSI2015款 30 TFSI</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" tag="1002" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="251" image="round_tick" translatesAutoresizingMaskIntoConstraints="NO" id="1Pi-Lc-UIl">
+                                                        <imageView userInteractionEnabled="NO" tag="1002" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" image="round_tick" translatesAutoresizingMaskIntoConstraints="NO" id="1Pi-Lc-UIl">
                                                             <rect key="frame" x="555" y="16" width="23" height="23"/>
                                                         </imageView>
                                                     </subviews>
@@ -5557,7 +5558,7 @@
                                                         <constraint firstItem="KY6-y6-Ana" firstAttribute="top" secondItem="qc2-Sn-wtn" secondAttribute="top" id="YH1-HB-QBP"/>
                                                         <constraint firstAttribute="trailing" secondItem="1Pi-Lc-UIl" secondAttribute="trailing" constant="22" id="d4v-6n-Y2Z"/>
                                                         <constraint firstItem="KY6-y6-Ana" firstAttribute="centerY" secondItem="qc2-Sn-wtn" secondAttribute="centerY" id="eY9-Bq-uum"/>
-                                                        <constraint firstItem="1Pi-Lc-UIl" firstAttribute="leading" secondItem="KY6-y6-Ana" secondAttribute="trailing" constant="5" id="phi-UM-uWs"/>
+                                                        <constraint firstItem="1Pi-Lc-UIl" firstAttribute="leading" secondItem="KY6-y6-Ana" secondAttribute="trailing" constant="10" id="phi-UM-uWs"/>
                                                         <constraint firstItem="KY6-y6-Ana" firstAttribute="leading" secondItem="qc2-Sn-wtn" secondAttribute="leading" constant="22" id="tLu-jg-6cR"/>
                                                     </constraints>
                                                     <variation key="default">
