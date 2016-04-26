@@ -296,8 +296,8 @@
                                                             <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DYf-kM-IPH">
-                                                            <rect key="frame" x="97" y="81" width="0.0" height="0.0"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" text="元" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DYf-kM-IPH">
+                                                            <rect key="frame" x="97" y="62" width="15" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -315,6 +315,7 @@
                                                         <constraint firstItem="qMc-iU-XGU" firstAttribute="leading" secondItem="glZ-gZ-rK2" secondAttribute="leading" constant="15" id="3CJ-5U-Q3J"/>
                                                         <constraint firstAttribute="bottom" secondItem="XQB-Ml-m6q" secondAttribute="bottom" id="6WO-bi-nqq"/>
                                                         <constraint firstItem="8mg-Zm-oZF" firstAttribute="leading" secondItem="qMc-iU-XGU" secondAttribute="trailing" constant="15" id="8J7-0V-l9T"/>
+                                                        <constraint firstItem="DYf-kM-IPH" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="fkQ-QC-tds" secondAttribute="leading" constant="1" id="ALn-md-wCn"/>
                                                         <constraint firstAttribute="bottom" secondItem="a9t-Pl-aYa" secondAttribute="bottom" constant="20" id="Fvh-rq-LJc"/>
                                                         <constraint firstItem="GUD-Mf-h3n" firstAttribute="top" secondItem="qMc-iU-XGU" secondAttribute="top" id="LNr-Fv-9TV"/>
                                                         <constraint firstItem="8mg-Zm-oZF" firstAttribute="centerY" secondItem="qMc-iU-XGU" secondAttribute="centerY" id="Oer-Ku-RpE"/>

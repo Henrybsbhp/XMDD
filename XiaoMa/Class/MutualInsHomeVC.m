@@ -560,7 +560,7 @@
                 vc.originCarId = car.carId;
                 [self.navigationController pushViewController:vc animated:YES];
             }];
-            mutualPrice.text = car.premiumPrice;
+            mutualPrice.text = [NSString stringWithFormat:@"%@元", car.premiumPrice];
             couponPrice.text = [NSString stringWithFormat:@"%@", car.couponMoney];
         });
         myCar[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
