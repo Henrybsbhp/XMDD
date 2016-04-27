@@ -80,7 +80,16 @@
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     formatter.numberStyle = kCFNumberFormatterDecimalStyle;
-    return [[formatter stringFromNumber:[NSNumber numberWithFloat:price]]append:@".00"];
+    NSString *priceTag = [formatter stringFromNumber:[NSNumber numberWithFloat:price]];
+    if ([priceTag hasSubstring:@"."])
+    {
+        return priceTag;
+    }
+    else
+    {
+        return [priceTag append:@".00"];
+    }
+    
 }
 
 @end

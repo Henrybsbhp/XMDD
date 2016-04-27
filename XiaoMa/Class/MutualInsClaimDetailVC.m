@@ -69,7 +69,7 @@
     {
         return 2;
     }
-    else if (self.status.integerValue == 10 || self.status.integerValue == 0)
+    else if (self.status.integerValue == 10 || self.status.integerValue == -1 || self.status.integerValue == 0)
     {
         return 3;
     }
@@ -103,10 +103,15 @@
         UILabel *reasonLb = [cell viewWithTag:104];
         
         timeLb.text = self.accidenttime.length ? self.accidenttime : @" ";
+        timeLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
         locationLb.text = self.accidentaddress.length ? self.accidentaddress : @" ";
+        locationLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
         dutyLb.text = self.chargepart.length ? self.chargepart : @" ";
+        dutyLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
         conditionLb.text = self.cardmgdesc.length ? self.cardmgdesc : @" ";
+        conditionLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
         reasonLb.text = self.reason.length ? self.reason : @" ";
+        reasonLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
     }
     else if (indexPath.section == 1 && self.status.integerValue != 20)
     {
@@ -119,6 +124,7 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell"];
         UITextField *nameTF = [cell viewWithTag:100];
         UITextField *numTF = [cell viewWithTag:101];
+        numTF.keyboardType = UIKeyboardTypeNumberPad;
         UILabel *label = [cell viewWithTag:102];
         label.preferredMaxLayoutWidth = self.view.bounds.size.width - 30;
         label.hidden = self.status.integerValue == 1 ? NO : YES;
@@ -127,6 +133,7 @@
         @weakify(self);
         [[[[numTF rac_textSignal] takeUntilForCell:cell]skip:1] subscribeNext:^(NSString *x) {
             @strongify(self);
+            
             numTF.text = [self splitCardNumString:x];
         }];
         if (self.status.integerValue == 1)
@@ -159,7 +166,7 @@
         [cell setNeedsUpdateConstraints];
         [cell updateConstraintsIfNeeded];
         CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-        return ceil(size.height);
+        return ceil(size.height + 5);
     }
     else
     {
@@ -263,7 +270,14 @@
     [[self.agreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
         [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0023"}];
-        [self confirmClaimWithAgreement:@2];
+        if (self.bankcardno.length != 0)
+        {
+            [self confirmClaimWithAgreement:@2];
+        }
+        else
+        {
+            [gToast showMistake:@"请输入借记卡卡号"];
+        }
     }];
     [[self.disagreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
@@ -284,7 +298,7 @@
     HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
     alert.topTitle = @"提交成功";
     alert.imageName = @"mins_ok";
-    alert.message = agreement.integerValue == 1 ?  @"客服人员将很快与您取得联系，请留意号码为4007-111-111点来电请耐心等待" : @"系统将在1个工作日内（周末及节假日顺延）内打款至您预留的银行卡，请耐心等待，如有问题请致电4007-111-111";
+    alert.message = agreement.integerValue == 1 ?  @"客服人员将很快与您取得联系，请留意号码为4007-111-111点来电请耐心等待" : @"系统将在1个工作日内（周末及节假日顺延）打款至您预留的银行卡，请耐心等待，如有问题请致电4007-111-111";
     @weakify(self)
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
         @strongify(self)
