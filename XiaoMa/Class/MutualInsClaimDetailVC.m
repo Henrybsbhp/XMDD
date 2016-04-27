@@ -119,6 +119,7 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell"];
         UITextField *nameTF = [cell viewWithTag:100];
         UITextField *numTF = [cell viewWithTag:101];
+        numTF.keyboardType = UIKeyboardTypeNumberPad;
         UILabel *label = [cell viewWithTag:102];
         label.preferredMaxLayoutWidth = self.view.bounds.size.width - 30;
         label.hidden = self.status.integerValue == 1 ? NO : YES;
