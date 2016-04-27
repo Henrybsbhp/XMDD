@@ -24,6 +24,7 @@
             NSString *string = nil;
             string = [NSString stringWithFormat:@"%.2f",values[0]];
             label.text = string;
+            [label setAdjustsFontSizeToFitWidth:YES];
         };
     }];
     POPBasicAnimation *basicAnimation = [POPBasicAnimation easeInEaseOutAnimation];

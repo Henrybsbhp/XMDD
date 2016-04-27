@@ -113,7 +113,9 @@
 }
 
 - (void)setObject:(id)object forKeyedSubscript:(id < NSCopying >)aKey {
-    [_dict setObject:object forKey:aKey];
+    if (object) {
+        [_dict setObject:object forKey:aKey];
+    }
 }
 
 - (id)objectForKeyedSubscript:(id)key {
