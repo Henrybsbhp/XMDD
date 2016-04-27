@@ -58,8 +58,6 @@
 @property (nonatomic,strong)CheckoutServiceOrderV4Op *checkoutServiceOrderV4Op;
 @property (nonatomic,strong)GetUserResourcesV2Op * getUserResourcesV2Op;
 
-@property (nonatomic, strong) CheckoutServiceOrderV4Op *serviceOp;
-
 ///支付数据源
 @property (nonatomic,strong)NSArray * paymentArray;
 
@@ -633,8 +631,6 @@
         
         [self requestCommentlist];
         [self paySuccess:op];
-        // 在这里获取交易号
-        self.serviceOp = op;
     } error:^(NSError *error) {
         
         [self handerOrderError:error forOp:self.checkoutServiceOrderV4Op];
@@ -1170,12 +1166,12 @@
     PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
     vc.originVC = self.originVC;
     HKServiceOrder * order = [[HKServiceOrder alloc] init];
-    order.orderid = self.serviceOp.rsp_orderid;
+    order.orderid = self.checkoutServiceOrderV4Op.rsp_orderid;
     order.shop = self.shop;
     order.serviceid = self.service.serviceID;
     order.servicename = self.service.serviceName;
-    order.fee = self.serviceOp.rsp_price;
-    order.gasCouponAmount = self.serviceOp.rsp_gasCouponAmount;
+    order.fee = self.checkoutServiceOrderV4Op.rsp_price;
+    order.gasCouponAmount = self.checkoutServiceOrderV4Op.rsp_gasCouponAmount;
     vc.order = order;
     [self.navigationController pushViewController:vc animated:YES];
 }

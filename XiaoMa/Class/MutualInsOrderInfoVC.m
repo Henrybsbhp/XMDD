@@ -202,7 +202,6 @@
         [self.view stopActivityAnimation];
         
         self.contract = rop.rsp_contractorder;
-        self.isInsProxy = self.contract.insperiod.length;
         [self setupDateSource];
         
         [self refreshUI];
