@@ -341,6 +341,8 @@
         [self.recordArray insertObject:record atIndex:(indexpath.section - 2)];
         //不能进行单cell刷新。因为每次选择照片会多一个cell
         [self.tableView reloadData];
+    }error:^(NSError *error) {
+        [gToast showMistake:error.domain.length != 0 ? error.domain : @"网络连接失败，请检查你的网络设置"];
     }];
 #else
     
@@ -359,6 +361,8 @@
         [self.recordArray insertObject:record atIndex:(indexpath.section - 2)];
         //不能进行单cell刷新。因为每次选择照片会多一个cell
         [self.tableView reloadData];
+    }error:^(NSError *error) {
+        [gToast showMistake:error.domain.length != 0 ? error.domain : @"网络连接失败，请检查你的网络设置"];
     }];
 #endif
 }

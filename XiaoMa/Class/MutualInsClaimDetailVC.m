@@ -69,7 +69,7 @@
     {
         return 2;
     }
-    else if (self.status.integerValue == 10 || self.status.integerValue == 0)
+    else if (self.status.integerValue == 10 || self.status.integerValue == -1 || self.status.integerValue == 0)
     {
         return 3;
     }
@@ -103,10 +103,15 @@
         UILabel *reasonLb = [cell viewWithTag:104];
         
         timeLb.text = self.accidenttime.length ? self.accidenttime : @" ";
+        timeLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
         locationLb.text = self.accidentaddress.length ? self.accidentaddress : @" ";
+        locationLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
         dutyLb.text = self.chargepart.length ? self.chargepart : @" ";
+        dutyLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
         conditionLb.text = self.cardmgdesc.length ? self.cardmgdesc : @" ";
+        conditionLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
         reasonLb.text = self.reason.length ? self.reason : @" ";
+        reasonLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
     }
     else if (indexPath.section == 1 && self.status.integerValue != 20)
     {
@@ -128,6 +133,7 @@
         @weakify(self);
         [[[[numTF rac_textSignal] takeUntilForCell:cell]skip:1] subscribeNext:^(NSString *x) {
             @strongify(self);
+            
             numTF.text = [self splitCardNumString:x];
         }];
         if (self.status.integerValue == 1)
@@ -160,7 +166,7 @@
         [cell setNeedsUpdateConstraints];
         [cell updateConstraintsIfNeeded];
         CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-        return ceil(size.height);
+        return ceil(size.height + 5);
     }
     else
     {
@@ -264,7 +270,14 @@
     [[self.agreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
         [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0023"}];
-        [self confirmClaimWithAgreement:@2];
+        if (self.bankcardno.length != 0)
+        {
+            [self confirmClaimWithAgreement:@2];
+        }
+        else
+        {
+            [gToast showMistake:@"请输入借记卡卡号"];
+        }
     }];
     [[self.disagreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
