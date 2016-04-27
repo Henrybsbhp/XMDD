@@ -167,7 +167,7 @@ typedef enum : NSInteger
         NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
             return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
         }];
-        HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 160) items:items];
+        HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 320) items:items];
         @weakify(self);
         [popover setDidSelectedBlock:^(NSUInteger index) {
             @strongify(self);
