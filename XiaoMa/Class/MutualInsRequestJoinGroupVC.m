@@ -57,6 +57,13 @@
     [IQKeyboardManager sharedManager].enable = NO;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.groupTextField resignFirstResponder];
+}
+
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
