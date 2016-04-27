@@ -215,6 +215,10 @@
     }
     CGFloat couponAmt = MIN(self.maxCouponAmt, totalCoupon) ;
     CGFloat payfee = self.contract.total - self.contract.couponmoney - couponAmt;
+    if (self.proxybuy)
+    {
+        payfee = payfee + self.contract.forcefee + self.contract.taxshipfee;
+    }
     NSString * str = [NSString stringWithFormat:@"￥%@",[NSString formatForPrice:payfee]];
     self.priceLb.text = str;
 }

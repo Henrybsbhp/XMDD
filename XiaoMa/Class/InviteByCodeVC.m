@@ -305,7 +305,7 @@
     attributedContentDict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        CGFloat height = [attributedFooterString labelSizeWithWidth:(self.tableView.frame.size.width - 30) font:[UIFont systemFontOfSize:13]].height;
+        CGFloat height = [attributedFooterString labelSizeWithWidth:(self.tableView.frame.size.width - 30) font:[UIFont systemFontOfSize:14]].height;
         return height + 8;
     });
     //cell准备重绘
