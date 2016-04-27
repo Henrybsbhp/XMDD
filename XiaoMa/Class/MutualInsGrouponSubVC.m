@@ -531,7 +531,8 @@
 
 - (CKDict *)descItem
 {
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Desc",@"text":self.groupDetail.rsp_selfstatusdesc}];
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Desc"}];
+    item[@"text"] = self.groupDetail.rsp_selfstatusdesc;
     @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);

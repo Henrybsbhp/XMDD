@@ -19,7 +19,7 @@
         
         NSTimeInterval curtimetag = [[NSDate date] timeIntervalSince1970];
         NSTimeInterval leftTime = originTime - (curtimetag - timeTag);
-        if ((NSInteger)leftTime == 0) {
+        if ((NSInteger)leftTime <= 0) {
             return [RACSignal return:@"end"];
         }
         return [RACSignal return:[self ddhhmmssFormatWithTimeInterval:leftTime]];

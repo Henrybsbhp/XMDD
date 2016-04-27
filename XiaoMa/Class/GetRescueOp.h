@@ -10,6 +10,6 @@
 #import "HKRescue.h"
 @interface GetRescueOp : BaseOp
 
-@property (nonatomic, strong) NSArray  *req_resceuArray;
+@property (nonatomic, strong) NSArray  *rsp_resceuArray;
 
 @end

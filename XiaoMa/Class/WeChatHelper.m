@@ -11,6 +11,7 @@
 #import "WXApi.h"
 #import "WXApiObject.h"
 #import "XiaoMa.h"
+#import "GetPayStatusOp.h"
 
 @interface WeChatHelper ()<WXApiDelegate>
 
@@ -70,7 +71,16 @@
         
         return [RACSignal error:[NSError errorWithDomain:@"微信支付失败" code:resp.errCode userInfo:nil]];
     }];
-    return sig;
+    
+    // 微信支付，支付成功后，使用左上角iOS返回键返回，导致不调用微信SDK回调。
+    RACSignal * enterForegroundSign = [[gAppDelegate rac_signalForSelector:@selector(applicationWillEnterForeground:)] flattenMap:^RACStream *(id value) {
+        
+        return  [self rac_getTradeStatus:tn];
+    }];
+    
+    RACSignal * signal = [[sig merge:enterForegroundSign] take:1];
+    
+    return signal;
 }
 
 - (void)startHandleWeChatPaymentOnce
@@ -81,6 +91,19 @@
     }] take:1] subscribeNext:^(id x) {
         DebugLog(@"start Handle WeChatPayment!");
     }];
+}
+
+- (RACSignal *)rac_getTradeStatus:(NSString *)tradeid
+{
+    GetPayStatusOp *op = [[GetPayStatusOp alloc]init];
+    if (tradeid.length && self.tradeType)
+    {
+        op.req_tradeno = tradeid;
+        op.req_tradetype = [NSString stringWithFormat:@"%lu",(unsigned long)self.tradeType];
+        
+        return [op rac_postRequest];
+    }
+    return nil;
 }
 
 #pragma mark - WXApiDelegate
