@@ -25,10 +25,12 @@
     self.imgView.image = self.img;
     self.navigationController.navigationBar.translucent = NO;
     [self setGesture];
+    self.imgView.userInteractionEnabled = YES;
 }
 
 -(void)setGesture
 {
+    
     UIPinchGestureRecognizer *pinchGR = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinch:)];
     pinchGR.delegate = self;
     [self.view addGestureRecognizer:pinchGR];
@@ -43,6 +45,13 @@
     self.imgView.transform  = CGAffineTransformScale(self.imgView.transform, gr.scale, gr.scale);
 
     gr.scale = 1;
+    
+    if (gr.state == UIGestureRecognizerStateEnded)
+    {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.imgView.transform = CGAffineTransformIdentity;
+        }];
+    }
 }
 
 -(void)pan:(UIPanGestureRecognizer *)gr
@@ -50,6 +59,12 @@
     CGPoint translation = [gr translationInView:self.imgView];
     self.imgView.transform = CGAffineTransformTranslate(self.imgView.transform, translation.x, translation.y);
     [gr setTranslation:CGPointZero inView:self.imgView];
+    if (gr.state == UIGestureRecognizerStateEnded)
+    {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.imgView.transform = CGAffineTransformIdentity;
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,7 +75,7 @@
 {
     if (!_imgView)
     {
-        _imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+        _imgView = [[UIImageView alloc]initWithFrame:CGRectMake(100, 100, self.view.bounds.size.width, self.view.bounds.size.height)];
         _imgView.contentMode = UIViewContentModeScaleAspectFit;
         [self.view addSubview:_imgView];
         [_imgView mas_makeConstraints:^(MASConstraintMaker *make) {
