@@ -48,7 +48,18 @@ class=AddInsCarBaseInfo op auth path="/insurance/car/premium/add"> {
     <"车辆座位数量">seatcount:number
     <"商业险启保日期">mstartdate
     <"交强险启保日期">fstartdate
+    <"车辆信息列表">brandlist:array
   }                        
+}
+
+<"更新本地核保信息"
+class=UpdateCalculatePremium op auth path="/insurance/car/premium/calculate/update"> {
+  <req> {
+    <"记录id">carpremiumid:number
+    <"商业险起保日期">mstartdate
+    <"交强险起保日期">fstartdate
+    <"车辆信息">brand
+  }
 }
 
 <"根据id获取保险认证车辆信息"

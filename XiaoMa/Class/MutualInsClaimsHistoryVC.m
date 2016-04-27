@@ -73,13 +73,17 @@
     hkLabel.text = model.statusdesc;
     NSLog(@"%lf",hkLabel.frame.size.width);
     hkLabel.backgroundColor = [UIColor clearColor];
+    UILabel *statusLabel = [cell viewWithTag:1004];
+    statusLabel.text = model.detailstatusdesc;
     if (model.detailstatus < 3)
     {
-        hkLabel.trapeziumColor = [UIColor colorWithHex:@"#ff7428" alpha:1];
+        hkLabel.trapeziumColor = HEXCOLOR(@"#ff7428");
+        statusLabel.textColor = HEXCOLOR(@"#ff7428");
     }
     else
     {
-        hkLabel.trapeziumColor = [UIColor colorWithHex:@"#18D06A" alpha:1];
+        hkLabel.trapeziumColor = HEXCOLOR(@"#18D06A");
+        statusLabel.textColor = HEXCOLOR(@"#18D06A");
     }
     hkLabel.textColor = [UIColor whiteColor];
     
@@ -94,8 +98,8 @@
     detaiLabel.text = [NSString stringWithFormat:@"事故概述：%@",model.accidentdesc];
     UILabel *priceLabel = [cell viewWithTag:1003];
     priceLabel.text = [NSString formatForPriceWithFloat:model.claimfee];
-    UILabel *statusLabel = [cell viewWithTag:1004];
-    statusLabel.text = model.detailstatusdesc;
+    
+    
     
     UILabel *timeLabel = [cell viewWithTag:1005];
     timeLabel.text = [NSString stringWithFormat:@"%@",model.lstupdatetime];
@@ -198,7 +202,7 @@
 
 - (IBAction)callAction:(id)sender {
     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0016"}];
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
     }];

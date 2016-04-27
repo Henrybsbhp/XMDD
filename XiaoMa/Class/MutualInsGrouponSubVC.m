@@ -119,35 +119,35 @@
     NSArray *items;
     if (op.rsp_sharemoney > 0) {
         items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_phone
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand.length > 0 ? op.rsp_carbrand : @"暂无"
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:[NSString formatForRoundPrice2:op.rsp_sharemoney]
-                                          detailColor:MutInsOrangeColor],
+                                          detailColor:kOrangeColor],
                   [MutualInsAlertVCItem itemWithTitle:@"所占比例" detailTitle:op.rsp_rate
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"目前可返" detailTitle:[NSString formatForRoundPrice2:op.rsp_returnmoney]
-                                          detailColor:MutInsOrangeColor],
+                                          detailColor:kOrangeColor],
                   [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:[NSString stringWithFormat:@"%d次", op.rsp_claimcount]
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"赔偿金额" detailTitle:[NSString formatForRoundPrice2:op.rsp_claimamount]
-                                          detailColor:MutInsOrangeColor]];
+                                          detailColor:kOrangeColor]];
     }
     else {
         items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_phone
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand.length > 0 ? op.rsp_carbrand : @"暂无"
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:@"暂无"
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"所占比例" detailTitle:@"暂无"
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"目前可返" detailTitle:@"暂无"
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:@"暂无"
-                                          detailColor:MutInsTextDarkGrayColor],
+                                          detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"赔偿金额" detailTitle:@"暂无"
-                                          detailColor:MutInsTextDarkGrayColor]];
+                                          detailColor:kDarkTextColor]];
     }
     alert.items = items;
     [alert show];
@@ -256,7 +256,7 @@
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
     alert.message = msg;
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"再等一下" color:MutInsTextGrayColor clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"再等一下" color:kGrayTextColor clickBlock:nil];
     @weakify(self);
     HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"直接报价" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         @strongify(self);
@@ -306,7 +306,7 @@
             alert.topTitle = @"温馨提示";
             alert.imageName = @"mins_bulb";
             alert.message = error.domain;
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
             @weakify(self);
             HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 @strongify(self);
@@ -423,7 +423,7 @@
         CKLine *lineV = [cell viewWithTag:1001];
         UIButton *amountB = [cell viewWithTag:1002];
         
-        lineV.lineColor = MutInsLineColor;
+        lineV.lineColor = kLightLineColor;
         [amountB setTitle:[@" " append:item[@"amount"]] forState:UIControlStateNormal];
     });
     return item;
@@ -441,7 +441,7 @@
         UIButton *timeB = [cell viewWithTag:1002];
         UIButton *amountB = [cell viewWithTag:1003];
         
-        lineV.lineColor = MutInsLineColor;
+        lineV.lineColor = kLightLineColor;
         
         timeB.hidden = [item[@"time"] length] == 0;
         [timeB setTitle:[@" " append:item[@"time"]] forState:UIControlStateNormal];
@@ -465,8 +465,8 @@
     });
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         HKProgressView *arrowV = [cell viewWithTag:1001];
-        arrowV.normalTextColor = MutInsTextLightGrayColor;
-        arrowV.normalColor = MutInsBgColor;
+        arrowV.normalTextColor = kLightTextColor;
+        arrowV.normalColor = kBackgroundColor;
         arrowV.titleArray = @[@"上传",@"审核",@"支付"];
         NSInteger index = [self indexOfProgressViewForBarStatus:self.groupDetail.rsp_barstatus];
         arrowV.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, index)];
@@ -500,7 +500,7 @@
 
         WaterWaveProgressView *waveV = [cell viewWithTag:1001];
         
-        waveV.titleLable.text = @"资金池";
+        waveV.titleLable.text = @"车损宝资金池";
         waveV.subTitleLabel.text = [NSString stringWithFormat:@"%@/%@",
                                     [NSString formatForRoundPrice2:self.groupDetail.rsp_presentpoolamt],
                                     [NSString formatForRoundPrice2:self.groupDetail.rsp_totalpoolamt]];
@@ -531,7 +531,8 @@
 
 - (CKDict *)descItem
 {
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Desc",@"text":self.groupDetail.rsp_selfstatusdesc}];
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"Desc"}];
+    item[@"text"] = self.groupDetail.rsp_selfstatusdesc;
     @weakify(self);
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
@@ -562,8 +563,8 @@
         CKLine *leftL = [cell viewWithTag:1002];
         CKLine *rightL = [cell viewWithTag:1003];
         
-        leftL.lineColor = MutInsGreenColor;
-        rightL.lineColor = MutInsGreenColor;
+        leftL.lineColor = kDefTintColor;
+        rightL.lineColor = kDefTintColor;
         if (self.groupDetail.rsp_lefttime <= 0) {
             NSString *text = [HKTimer ddhhmmFormatWithTimeInterval:0];
             text = [NSString stringWithFormat:@" %@%@", self.groupDetail.rsp_timetip, text];

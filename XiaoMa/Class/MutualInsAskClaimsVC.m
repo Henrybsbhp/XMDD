@@ -170,7 +170,7 @@
 -(void)crimeReportSectionAction
 {
     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0003"}];
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
     }];
@@ -187,7 +187,12 @@
 
 -(void)historySectionAction
 {
+    
     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0005"}];
+    
+    if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
+        return;
+    }
     MutualInsClaimsHistoryVC *claimsHistoryVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimsHistoryVC"];
     [self.navigationController pushViewController:claimsHistoryVC animated:YES];
 }
@@ -219,7 +224,8 @@
         GetCooperationMyCarOp *op = [[GetCooperationMyCarOp alloc]init];
         [[[op rac_postRequest]initially:^{
             @strongify(self)
-            [self.view startActivityAnimationWithType:MONActivityIndicatorType];
+            
+            [gToast showingWithText:@"" inView:self.view];
         }]subscribeNext:^(GetCooperationMyCarOp *op) {
             @strongify(self)
             if (op.rsp_reports.count == 1)
@@ -239,14 +245,17 @@
             }
             else
             {
-                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
-                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"未检测到您的爱车有车险报案记录，快速理赔需要先报案后才能进行现场拍照。请先报案，谢谢～" ActionItems:@[cancel]];
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+                HKAlertActionItem *makePhone = [HKAlertActionItem itemWithTitle:@"电话报案" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                    [gPhoneHelper makePhone:@"4007111111"];
+                }];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"未检测到您的爱车有车险报案记录，快速理赔需要先报案后才能进行现场拍照。请先报案，谢谢～" ActionItems:@[cancel,makePhone]];
                 [alert show];
             }
-            [self.view stopActivityAnimation];
+            [gToast dismissInView:self.view];
         }error:^(NSError *error) {
             @strongify(self)
-            [self.view stopActivityAnimation];
+            [gToast dismissInView:self.view];
         }];
     }
 }

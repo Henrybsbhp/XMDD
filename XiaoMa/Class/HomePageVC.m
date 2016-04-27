@@ -377,8 +377,16 @@
         self.isShowSuspendedAd = YES;
         
         @weakify(self);
-        RACSignal *signal = [gAdMgr rac_getAdvertisement:AdvertisementAlert];
-        [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
+        RACSignal * areaSignal = [[[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
+            return ac.province.length || ac.city.length || ac.district.length;
+        }] take:1];
+        
+        RACSignal * adSignal = [areaSignal flattenMap:^RACStream *(id value) {
+            
+            return  [gAdMgr rac_getAdvertisement:AdvertisementAlert];
+        }];
+        
+        [[adSignal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
             
             @strongify(self);
             NSMutableArray * mutableArr = [[NSMutableArray alloc] init];
@@ -403,7 +411,7 @@
     
     [MobClick event:@"rp101_2"];
     
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
     }];
@@ -527,7 +535,7 @@
     op.district = regeo.addressComponent.district;
     return [[[[op rac_postRequest] doNext:^(GetSystemTipsOp * op) {
         
-        gAppMgr.temperatureAndTip = [[op.rsp_temperature append:op.rsp_temperaturetip] append:op.rsp_temperaturetip];
+        gAppMgr.temperatureAndTip = [[op.rsp_temperature append:@"   "] append:op.rsp_temperaturetip];
         gAppMgr.temperaturepic = op.rsp_temperaturepic;
         gAppMgr.restriction = op.rsp_restriction;
         

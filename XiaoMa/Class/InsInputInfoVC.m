@@ -287,6 +287,7 @@
             vc.insModel.numOfSeat = op.rsp_seatcount;
             vc.insModel.startDate = op.rsp_mstartdate;
             vc.insModel.forceStartDate = op.rsp_fstartdate;
+            vc.insCarInfo = op;
             [self.navigationController pushViewController:vc animated:YES];
         } error:^(NSError *error) {
             
@@ -430,7 +431,7 @@
     if (subTitle) {
         NSAttributedString *subTitleStr = [[NSAttributedString alloc] initWithString:subTitle attributes:
                                            @{NSFontAttributeName: [UIFont systemFontOfSize:13],
-                                             NSForegroundColorAttributeName: HEXCOLOR(@"#888888")}];
+                                             NSForegroundColorAttributeName: kGrayTextColor}];
         [attrStr appendAttributedString:subTitleStr];
     }
     titleL.attributedText = attrStr;

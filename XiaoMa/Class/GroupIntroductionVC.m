@@ -64,7 +64,7 @@
     {
         [self.selfGroupView removeFromSuperview];
         if (self.btnType == BtnTypeJoinNow) {
-            [self.sysJoinBtn setTitle:@"立即加入" forState:UIControlStateNormal];
+            [self.sysJoinBtn setTitle:@"申请加入" forState:UIControlStateNormal];
         }
         else if (self.btnType == BtnTypeAlready) {
             [self.sysJoinBtn setTitle:@"再加一辆车" forState:UIControlStateNormal];
@@ -72,7 +72,7 @@
         else if (self.btnType == BtnTypeNotStart) {
             self.sysJoinBtn.enabled = NO;
             [self.sysJoinBtn setTitle:@"未开始" forState:UIControlStateNormal];
-            [self.sysJoinBtn setBackgroundColor:HEXCOLOR(@"#dedfe0")];
+            [self.sysJoinBtn setBackgroundColor:kLightLineColor];
         }
         else {
             self.sysGroupView.hidden = YES;
@@ -190,7 +190,7 @@
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
     alert.message = errorString;
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     @weakify(self);
     HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         @strongify(self);
@@ -240,7 +240,7 @@
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
     alert.message = errorString;
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     @weakify(self);
     HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         @strongify(self);

@@ -172,7 +172,7 @@
     if (self) {
         
         titleLabel = [[UILabel alloc] init];
-        titleLabel.textColor = HEXCOLOR(@"#888888");
+        titleLabel.textColor = kGrayTextColor;
         titleLabel.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -181,12 +181,12 @@
         }];
         
         self.contentField = [[UITextField alloc] init];
-        self.contentField.textColor = HEXCOLOR(@"#454545");
+        self.contentField.textColor = kDarkTextColor;
         self.contentField.font = [UIFont systemFontOfSize:15];
         self.contentField.textAlignment = NSTextAlignmentRight;
         
         self.contentLabel = [[UILabel alloc] init];
-        self.contentLabel.textColor = HEXCOLOR(@"#454545");
+        self.contentLabel.textColor = kDarkTextColor;
         self.contentLabel.font = [UIFont systemFontOfSize:15];
         self.contentLabel.textAlignment = NSTextAlignmentRight;
         [self.contentView addSubview:self.contentLabel];

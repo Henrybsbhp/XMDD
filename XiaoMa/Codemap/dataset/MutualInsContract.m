@@ -33,7 +33,8 @@
     self.couponlist = dict[@"couponlist"];
     self.finishaddress = [dict boolParamForName:@"finishaddress"];
     self.insnotes = dict[@"insnotes"];
-}
+    self.paybtnflag = [dict boolParamForName:@"paybtnflag"];
+    self.contracturl = dict[@"contracturl"];}
 
 @end
 

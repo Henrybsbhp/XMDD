@@ -390,17 +390,27 @@
         [gToast showingWithText:@"信息上传中..."];
     }] subscribeNext:^(id x) {
         
-        [gToast showSuccess:@"联系人信息已提交，请等待车险专员为您服务"];
-        for (UIViewController * vc in self.navigationController.viewControllers)
-        {
-            // 支付结果肯定在团详情-> 订单 —> 支付
-            if ([vc isKindOfClass:[MutualInsGrouponVC class]])
+        [gToast dismiss];
+        HKImageAlertVC * av = [[HKImageAlertVC alloc] init];
+        av.topTitle = @"提交成功";
+        av.imageName = @"mins_ok";
+        av.message = @"联系人信息已提交，请等待车险专员为您服务";
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
+            
+            for (UIViewController * vc in self.navigationController.viewControllers)
             {
-                [self.navigationController popToViewController:vc animated:YES];
-                return;
+                // 支付结果肯定在团详情-> 订单 —> 支付
+                if ([vc isKindOfClass:[MutualInsGrouponVC class]])
+                {
+                    [self.navigationController popToViewController:vc animated:YES];
+                    return;
+                }
             }
-        }
-        [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }];
+        av.actionItems = @[cancel];
+        [av show];
+        
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
@@ -418,7 +428,7 @@
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
     alert.message = @"您未提交联系人信息，为保证协议的正常送达，请先完善信息。是否继续完善信息？";
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"执意退出" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"执意退出" color:kGrayTextColor clickBlock:^(id alertVC) {
         for (UIViewController * vc in self.navigationController.viewControllers)
         {
             if ([vc isKindOfClass:[MutualInsGrouponVC class]])

@@ -175,8 +175,8 @@
         [alertVC dismiss];
         [self jumpToHomePage];
     }];
-    HKAlertActionItem *invite = [HKAlertActionItem itemWithTitle:@"邀请好友" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
-    HKAlertActionItem *complete = [HKAlertActionItem itemWithTitle:@"完善资料" color:HEXCOLOR(@"#18d06a") clickBlock:nil];
+    HKAlertActionItem *invite = [HKAlertActionItem itemWithTitle:@"邀请好友" color:kDefTintColor clickBlock:nil];
+    HKAlertActionItem *complete = [HKAlertActionItem itemWithTitle:@"完善资料" color:kDefTintColor clickBlock:nil];
     alertVC.actionItems = @[invite, complete];
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
         
@@ -268,7 +268,7 @@
             alert.topTitle = @"温馨提示";
             alert.imageName = @"mins_bulb";
             alert.message = error.domain;
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
             @weakify(self);
             HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 @strongify(self);

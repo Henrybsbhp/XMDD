@@ -24,4 +24,9 @@
 
 - (void)makePhone:(NSString *)phoneNumber andInfo:(NSString *)info;
 - (void)makePhone:(NSString *)phoneNumber;
+
+///检查拍照是否被授权
+- (BOOL)isCameraAuthStatusAllowed;
+///处理拍照是否被授权
+- (BOOL)handleCameraAuthStatusDenied;
 @end

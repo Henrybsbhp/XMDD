@@ -47,11 +47,6 @@
 
 @property (nonatomic)PaymentChannelType paymentChannel;
 
-// 判断是否是通过支付app进入
-@property (nonatomic,assign) BOOL isPaid;
-
-@property (nonatomic,strong) NSString *tradeno;
-
 @end
 
 @implementation PayForInsuranceVC
@@ -75,23 +70,9 @@
     
     [self reloadLicenseData];
     [self requestGetUserInsCoupon];
-    
-    [self setupNotification];
 }
 
 
-#pragma mark - Setup
--(void)setupNotification
-{
-    @weakify(self)
-    [self listenNotificationByName:NSStringFromClass([self class]) withNotifyBlock:^(NSNotification *note, id weakSelf) {
-        if (!self.isPaid)
-        {
-            @strongify(self)
-            [self checkPayment];
-        }
-    }];
-}
 
 - (void)setupBottomView
 {
@@ -192,7 +173,6 @@
     if (op.rsp_total == 0) {
         return NO;
     }
-    self.tradeno = op.rsp_tradeno;
     CGFloat price = op.rsp_total;
 #if DEBUG
     price = 0.01;
@@ -208,7 +188,7 @@
         } break;
         case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
-            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price];
+            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price andTradeType:TradeTypeIns];
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
@@ -236,7 +216,6 @@
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"已通知服务器支付成功!");
         }];
-        self.isPaid = YES;
     } error:^(NSError *error) {
 
         @strongify(self);
@@ -285,7 +264,6 @@
         [gToast showingWithText:@"订单生成中..."];
     }] subscribeNext:^(InsuranceOrderPayOp * op) {
         @strongify(self);
-        self.tradeno = nil;
         
         if (![self callPaymentHelperWithPayOp:op]) {
             
@@ -633,9 +611,9 @@
          checkB.selected = checked;
          self.payBtn.enabled = checked;
          if (checked)
-             [self.payBtn setBackgroundColor:HEXCOLOR(@"#ff7428")];
+             [self.payBtn setBackgroundColor:kOrangeColor];
          else
-             [self.payBtn setBackgroundColor:HEXCOLOR(@"#dbdbdb")];
+             [self.payBtn setBackgroundColor:kLightTextColor];
     }];
 
     //文字和协议链接
@@ -646,7 +624,7 @@
         [richL setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
                                    NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
         [richL setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
-                                         NSForegroundColorAttributeName: HEXCOLOR(@"#888888")}];
+                                         NSForegroundColorAttributeName: kGrayTextColor}];
         [richL addLinkToURL:data.customInfo[@"url1"] withRange:[data.customInfo[@"range1"] rangeValue]];
         if (data.customInfo[@"range2"]) {
             [richL addLinkToURL:data.customInfo[@"url2"] withRange:[data.customInfo[@"range2"] rangeValue]];
@@ -844,34 +822,4 @@
         _selectInsuranceCoupouArray = [NSMutableArray array];
     return _selectInsuranceCoupouArray;
 }
-
-#pragma mark Utility
--(void)checkPayment
-{
-    @weakify(self)
-    GetPayStatusOp *op = [[GetPayStatusOp alloc]init];
-    if (self.tradeno.length != 0)
-    {
-        op.req_tradeno = self.tradeno;
-        op.req_tradetype = @"1";
-        
-        [[[op rac_postRequest]initially:^{
-            [gToast showingWithText:@"订单信息查询中"];
-        }]subscribeNext:^(id x) {
-            [gToast dismiss];
-            @strongify(self)
-            if (op.rsp_status)
-            {
-                [self gotoPaidSuccessVC];
-            }
-            else
-            {
-                [self gotoPaidFailVC];
-            }
-        }error:^(NSError *error) {
-            [gToast showText:error.domain];
-        }];
-    }
-}
-
 @end

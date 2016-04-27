@@ -130,7 +130,7 @@
     UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
     view.backgroundColor = [UIColor whiteColor];
     UILabel * headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 12, 0, 0)];
-    headerLabel.textColor = HEXCOLOR(@"#888888");
+    headerLabel.textColor = kGrayTextColor;
     headerLabel.font = [UIFont systemFontOfSize:16];
     if (section == 0) {
         headerLabel.text = @"请上传车主身份证照片";
@@ -364,7 +364,7 @@
             [[RACObserve(self, insCompany) takeUntilForCell:cell] subscribeNext:^(NSString * str) {
                 
                 lb.text = str.length ? str : @"请选择现保险公司";
-                lb.textColor = str.length ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#888888");
+                lb.textColor = str.length ? kDarkTextColor : kGrayTextColor;
             }];
         }
         else
@@ -372,7 +372,7 @@
             [[RACObserve(self, lastYearInsCompany) takeUntilForCell:cell] subscribeNext:^(NSString * str) {
                 
                 lb.text = str.length ? str : @"请选择上一年保险公司";
-                lb.textColor = str.length ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#888888");
+                lb.textColor = str.length ? kDarkTextColor : kGrayTextColor;
             }];
         }
     }
@@ -381,7 +381,7 @@
         [[RACObserve(self, insuranceExpirationDate) takeUntilForCell:cell] subscribeNext:^(NSDate * date) {
             
             lb.text = date ? [date dateFormatForYYMMdd] : @"请选择商业险到期日期";
-            lb.textColor = date ? HEXCOLOR(@"#454545") : HEXCOLOR(@"#888888");
+            lb.textColor = date ? kDarkTextColor : kGrayTextColor;
         }];
     }
     
@@ -496,16 +496,18 @@
         [exampleView setHidden:YES animated:YES];
         [rsheet dismissAnimated:YES];
         if (sheetIndexPath.section != 0) {
-            [MobClick event:@"rp124_6"];
             return ;
         }
         
         //拍照
         if (sheetIndexPath.section == 0 && sheetIndexPath.row == 0)
         {
-            [MobClick event:@"rp124_4"];
             if ([UIImagePickerController isCameraAvailable])
             {
+                if (![gPhoneHelper handleCameraAuthStatusDenied])
+                {
+                    return;
+                }
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
                 controller.delegate = self;
                 controller.allowsEditing = NO;
@@ -526,7 +528,6 @@
         // 从相册中选取
         else if (sheetIndexPath.section == 0 && sheetIndexPath.row == 1)
         {
-            [MobClick event:@"rp124_5"];
             if ([UIImagePickerController isPhotoLibraryAvailable])
             {
                 UIImagePickerController *controller = [[UIImagePickerController alloc] init];
@@ -615,7 +616,7 @@
     if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany.length || self.insuranceExpirationDate || self.lastYearInsCompany.length || self.idPictureRecord.url.length || self.drivingLicensePictureRecord.url.length)
     {
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
             [self back];
         }];
         HKImageAlertVC *alertVC = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您有未保存的信息，是否在当前页面继续编辑？" ActionItems:@[cancel,confirm]];

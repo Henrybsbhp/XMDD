@@ -26,6 +26,7 @@
     
     self.rsp_groupCipher = [dic stringParamForName:@"cipher"];
     self.rsp_wordForShare = [dic stringParamForName:@"word"];
+    self.rsp_groupType = [dic integerParamForName:@"type"];
     
     return self;
 }

@@ -52,6 +52,19 @@
     }
 }
 
+- (void)insertObject:(id)object withKey:(id<NSCopying>)key atIndex:(NSInteger)index {
+    if (!key && [self respondsToSelector:@selector(key)]) {
+        key = [object key];
+    }
+    [super insertObject:object withKey:key atIndex:index];
+}
+
+- (void)addObjectsFromArray:(NSArray *)array {
+    for (id obj in array) {
+        [self addObject:obj forKey:nil];
+    }
+}
+
 @end
 
 #pragma mark - CKDict
@@ -100,7 +113,9 @@
 }
 
 - (void)setObject:(id)object forKeyedSubscript:(id < NSCopying >)aKey {
-    [_dict setObject:object forKey:aKey];
+    if (object) {
+        [_dict setObject:object forKey:aKey];
+    }
 }
 
 - (id)objectForKeyedSubscript:(id)key {

@@ -13,7 +13,6 @@
 
 @interface LoginViewModel : NSObject
 @property (nonatomic, strong) HKLoginModel *loginModel;
-@property (nonatomic, strong, readonly) RACSubject *rac_loginSuccess;
 @property (nonatomic, weak) UIViewController *originVC;
 
 - (void)dismissForTargetVC:(UIViewController *)targetVC forSucces:(BOOL)success;

@@ -58,11 +58,10 @@
 @property (nonatomic,strong)CheckoutServiceOrderV4Op *checkoutServiceOrderV4Op;
 @property (nonatomic,strong)GetUserResourcesV2Op * getUserResourcesV2Op;
 
+@property (nonatomic, strong) CheckoutServiceOrderV4Op *serviceOp;
+
 ///支付数据源
 @property (nonatomic,strong)NSArray * paymentArray;
-
-// 判断是否是通过支付app进入
-@property (nonatomic,assign) BOOL isPaid;
 
 @end
 
@@ -102,8 +101,6 @@
     }
     
     self.isAutoCouponSelect = NO;
-    
-    [self setupNotification];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -121,21 +118,8 @@
 
 #pragma mark - Setup
 
--(void)setupNotification
-{
-    @weakify(self)
-    [self listenNotificationByName:NSStringFromClass([self class]) withNotifyBlock:^(NSNotification *note, id weakSelf) {
-        if (!self.isPaid)
-        {
-            @strongify(self)
-            [self checkPayment];
-        }
-    }];
-}
-
 - (void)setupPaymentArray
 {
-    
     if (self.getUserResourcesV2Op.rsp_czBankCreditCard.count)
     {
         if (gPhoneHelper.exsitWechat){
@@ -220,7 +204,7 @@
             [cell shake];
         });
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"前往添加" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
             [self.navigationController pushViewController:vc animated:YES];
@@ -231,7 +215,7 @@
         return;
     }
     
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [self requestCheckoutWithCouponType:self.couponType];
     }];
@@ -321,30 +305,6 @@
     
     return cell;
 }
-
-//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    JTTableViewCell *jtcell = (JTTableViewCell *)cell;
-//    
-//    if ((indexPath.section == 1 && indexPath.row == 0) || (indexPath.section == 2 && indexPath.row == 0))
-//    {
-//        [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, 0, 0) forDirectionMask:CKViewBorderDirectionBottom] ;
-//        [cell.contentView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom];
-//        [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:CKViewBorderDirectionBottom];
-//    }
-//    else
-//    {
-//        if (indexPath.section == 0)
-//        {
-//            if (indexPath.row != 3 || indexPath != 0)
-//            {
-//                return;
-//            }
-//        }
-//        jtcell.customSeparatorInset = UIEdgeInsetsMake(-1, 8, 0, 8);
-//        [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
-//    }
-//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -441,12 +401,12 @@
     
     if (indexPath.row == 1) {
         titleL.text = [NSString stringWithFormat:@"服务项目"];
-        infoL.textColor = HEXCOLOR(@"#454545");
+        infoL.textColor = kDarkTextColor;
         infoL.text = self.service.serviceName;
     }
     else if (indexPath.row == 2) {
         titleL.text = [NSString stringWithFormat:@"项目价格"];
-        infoL.textColor = HEXCOLOR(@"#ff7428");
+        infoL.textColor = kOrangeColor;
         infoL.text = [NSString stringWithFormat:@"￥%.2f",self.service.origprice];
     }
     
@@ -461,7 +421,7 @@
     
     [[RACObserve(self, defaultCar) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(HKMyCar *car) {
         titleL.text = [NSString stringWithFormat:@"我的车辆"];
-        infoL.textColor = HEXCOLOR(@"#454545");
+        infoL.textColor = kDarkTextColor;
         infoL.text = car.licencenumber ? car.licencenumber : @"";
     }];
     
@@ -555,7 +515,7 @@
             }
             else
             {
-                titleLb.textColor = HEXCOLOR(@"#454545");
+                titleLb.textColor = kDarkTextColor;
             }
         }
         else if (payChannel == PaymentChannelWechat) {
@@ -569,7 +529,7 @@
             }
             else
             {
-                titleLb.textColor = HEXCOLOR(@"#454545");
+                titleLb.textColor = kDarkTextColor;
             }
         }
     }
@@ -674,7 +634,7 @@
         [self requestCommentlist];
         [self paySuccess:op];
         // 在这里获取交易号
-        self.tradeno = op.rsp_tradeId;
+        self.serviceOp = op;
     } error:^(NSError *error) {
         
         [self handerOrderError:error forOp:self.checkoutServiceOrderV4Op];
@@ -709,36 +669,13 @@
         }
         else {
             [gToast dismiss];
-            [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
-            PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-            vc.originVC = self.originVC;
-            HKServiceOrder * order = [[HKServiceOrder alloc] init];
-            order.orderid = op.rsp_orderid;
-            order.shop = self.shop;
-            order.serviceid = self.service.serviceID;
-            order.servicename = self.service.serviceName;
-            order.fee = op.rsp_price;
-            order.gasCouponAmount =  op.rsp_gasCouponAmount;
-            vc.order = order;
-            
-            [self.navigationController pushViewController:vc animated:YES];
+            [self gotoPaymentSuccessVC];
         }
     }
     else
     {
         [gToast dismiss];
-        [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
-        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-        vc.originVC = self.originVC;
-        HKServiceOrder * order = [[HKServiceOrder alloc] init];
-        order.orderid = op.rsp_orderid;
-        order.shop = self.shop;
-        order.serviceid = self.service.serviceID;
-        order.servicename = self.service.serviceName;
-        order.fee = op.rsp_price;
-        order.gasCouponAmount = op.rsp_gasCouponAmount;
-        vc.order = order;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self gotoPaymentSuccessVC];
     }
 }
 
@@ -788,7 +725,7 @@
             return ;
         }
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:HEXCOLOR(@"#888888") clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"再试一次" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [self requestGainWeeklyCoupon];
         }];
@@ -803,14 +740,11 @@
              andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time andGasCouponAmout:(CGFloat)couponAmt
 
 {
-    self.isPaid = YES;
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     
     [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
     
     [[helper rac_startPay] subscribeNext:^(id x) {
-        
-        [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 2;
@@ -818,18 +752,7 @@
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"洗车已通知服务器支付成功!");
         }];
-        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-        vc.originVC = self.originVC;
-        vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
-        HKServiceOrder * order = [[HKServiceOrder alloc] init];
-        order.orderid = orderId;
-        order.serviceid = self.service.serviceID;
-        order.servicename = self.service.serviceName;
-        order.fee = price;
-        order.shop = self.shop;
-        order.gasCouponAmount = couponAmt;
-        vc.order = order;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self gotoPaymentSuccessVC];
         
     } error:^(NSError *error) {
         
@@ -842,10 +765,8 @@
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     
-    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price];
-    [[helper rac_startPay] subscribeNext:^(NSString * info) {
-        
-        [self postCustomNotificationName:kNotifyRefreshMyCarwashOrders object:nil];
+    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price andTradeType:TradeTypeCarwash];
+    [[helper rac_startPay] subscribeNext:^(NSObject *obj) {
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 2;
@@ -853,20 +774,7 @@
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"洗车已通知服务器支付成功!");
         }];
-        // 支付成功。避免应用进入前台后重复请求
-        self.isPaid = YES;
-        PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-        vc.originVC = self.originVC;
-        vc.subtitle = [NSString stringWithFormat:@"我完成了%0.2f元洗车，赶快去告诉好友吧！",price];
-        HKServiceOrder * order = [[HKServiceOrder alloc] init];
-        order.orderid = orderId;
-        order.serviceid = self.service.serviceID;
-        order.servicename = self.service.serviceName;
-        order.shop = self.shop;
-        order.fee = price;
-        order.gasCouponAmount = couponAmt;
-        vc.order = order;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self gotoPaymentSuccessVC];
     } error:^(NSError *error) {
         
     }];
@@ -1158,7 +1066,7 @@
     if (error.code == 615801) {
         [gToast dismiss];
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:HEXCOLOR(@"#888888") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:kGrayTextColor clickBlock:^(id alertVC) {
             [MobClick event:@"rp108_8"];
         }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"原价支付" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
@@ -1228,11 +1136,11 @@
         NSString * string;
         if (totalAmount >= self.service.origprice)
         {
+             totalAmount = self.service.origprice - 0.01;
             string =  [NSString stringWithFormat:@"最高可使用%@元代金券",[NSString formatForPrice:totalAmount]];
         }
         else
         {
-            totalAmount = self.service.origprice - 0.01;
             string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
         }
         
@@ -1256,29 +1164,20 @@
     return string;
 }
 
--(void)checkPayment
+
+-(void)gotoPaymentSuccessVC
 {
-    @weakify(self)
-    GetPayStatusOp *op = [[GetPayStatusOp alloc]init];
-    if (self.tradeno.length != 0)
-    {
-        op.req_tradeno = self.tradeno;
-        op.req_tradetype = @"2";
-        
-        [[[op rac_postRequest]initially:^{
-            [gToast showingWithText:@"订单信息查询中"];
-        }]subscribeNext:^(id x) {
-            [gToast dismiss];
-            @strongify(self)
-            if (op.rsp_status)
-            {
-                PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-        }error:^(NSError *error) {
-            [gToast showText:error.domain];
-        }];
-    }
+    PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
+    vc.originVC = self.originVC;
+    HKServiceOrder * order = [[HKServiceOrder alloc] init];
+    order.orderid = self.serviceOp.rsp_orderid;
+    order.shop = self.shop;
+    order.serviceid = self.service.serviceID;
+    order.servicename = self.service.serviceName;
+    order.fee = self.serviceOp.rsp_price;
+    order.gasCouponAmount = self.serviceOp.rsp_gasCouponAmount;
+    vc.order = order;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

@@ -49,7 +49,7 @@
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     [button setTitle:@"确认以上信息" forState:UIControlStateNormal];
-    [button setTitleColor:HEXCOLOR(@"#20ab2a") forState:UIControlStateNormal];
+    [button setTitleColor:kDefTintColor forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
     [button addTarget:self action:@selector(actionAgreement:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:button];

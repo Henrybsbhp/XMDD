@@ -51,7 +51,7 @@
     [self.leftTab setBackgroundImage:tabbg1 forState:UIControlStateHighlighted];
     [self.leftTab setBackgroundImage:tabbg2 forState:UIControlStateSelected];
     [self.leftTab setTitleColor:HEXCOLOR(@"#15AC1F") forState:UIControlStateSelected];
-    [self.leftTab setTitleColor:HEXCOLOR(@"#888888") forState:UIControlStateNormal];
+    [self.leftTab setTitleColor:kGrayTextColor forState:UIControlStateNormal];
     self.leftTab.titleLabel.font = [UIFont systemFontOfSize:16];
     [self.leftTab setTitle:@"普通充值" forState:UIControlStateNormal];
     [self.leftTab addTarget:self action:@selector(actionTabClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -63,7 +63,7 @@
     [self.rightTab setBackgroundImage:tabbg1 forState:UIControlStateHighlighted];
     [self.rightTab setBackgroundImage:tabbg2 forState:UIControlStateSelected];
     [self.rightTab setTitleColor:HEXCOLOR(@"#15AC1F") forState:UIControlStateSelected];
-    [self.rightTab setTitleColor:HEXCOLOR(@"#888888") forState:UIControlStateNormal];
+    [self.rightTab setTitleColor:kGrayTextColor forState:UIControlStateNormal];
     self.rightTab.titleLabel.font = [UIFont systemFontOfSize:16];
     [self.rightTab setTitle:@"浙商卡充值" forState:UIControlStateNormal];
     [self.rightTab addTarget:self action:@selector(actionTabClick:) forControlEvents:UIControlEventTouchUpInside];

@@ -20,6 +20,7 @@
 #import "MutualInsStore.h"
 #import "HKArrowView.h"
 #import "GetPayStatusOp.h"
+#import "InsLicensePopVC.h"
 
 @interface MutualInsPayViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 
@@ -40,11 +41,6 @@
 ///协议数据源
 @property (nonatomic,strong)HKCellData *licenseData;
 
-// 判断是否是通过支付app进入
-@property (nonatomic,assign) BOOL isPaid;
-
-@property (nonatomic,strong) NSString *tradeno;
-
 @end
 
 @implementation MutualInsPayViewController
@@ -63,7 +59,6 @@
     [self.tableView reloadData];
     
     [self requestMutualResources];
-    [self setupNotification];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,19 +67,6 @@
 }
 
 #pragma mark - Setup
-
--(void)setupNotification
-{
-    @weakify(self)
-    [self listenNotificationByName:NSStringFromClass([self class]) withNotifyBlock:^(NSNotification *note, id weakSelf) {
-        if (!self.isPaid)
-        {
-            @strongify(self)
-            [self checkPayment];
-        }
-    }];
-}
-
 - (void)setupNavigationBar
 {
     self.navigationItem.title = @"支付确认";
@@ -101,7 +83,7 @@
         [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0015"}];
         
         @strongify(self)
-        [self requestPay];
+        [self actionPay:nil];
     }];
 }
 
@@ -174,29 +156,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)checkPayment
-{
-    @weakify(self)
-    GetPayStatusOp *op = [[GetPayStatusOp alloc]init];
-    if (self.tradeno.length != 0)
-    {
-        op.req_tradeno = self.tradeno;
-        op.req_tradetype = @"1";
-        
-        [[[op rac_postRequest]initially:^{
-            [gToast showingWithText:@"订单信息查询中"];
-        }]subscribeNext:^(id x) {
-            [gToast dismiss];
-            @strongify(self)
-            if (op.rsp_status)
-            {
-                [self gotoPaidSuccessVC];
-            }
-        }error:^(NSError *error) {
-            [gToast showText:error.domain];
-        }];
-    }
-}
 
 ///获取优惠劵title（12元代金劵）
 - (NSString *)calcCouponTitle:(NSArray *)couponArray
@@ -282,6 +241,46 @@
     [self.tableView reloadData];
 }
 
+
+
+- (NSAttributedString *)stringWithContent:(NSString *)c1 andContent:(NSString *)c2
+{
+    NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
+    if (c1.length) {
+        NSDictionary *attr1 = @{NSForegroundColorAttributeName:kDarkTextColor};
+        NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:c1 attributes:attr1];
+        [str appendAttributedString:attrStr1];
+    }
+    
+    if (c2.length) {
+        NSDictionary *attr2 = @{NSForegroundColorAttributeName:kOrangeColor};
+        NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:c2 attributes:attr2];
+        [str appendAttributedString:attrStr2];
+    }
+    return str;
+}
+
+- (void)tableViewReloadData
+{
+    [self.tableView reloadData];
+    [self refreshPriceLb];
+}
+
+- (RACSignal *)rac_openLicenseVCWithUrl:(NSString *)url title:(NSString *)title
+{
+    return [InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title];
+}
+
+- (void)actionPay:(id)sender
+{
+    @weakify(self)
+    [[self rac_openLicenseVCWithUrl:self.contract.contracturl
+                             title:[NSString stringWithFormat:@"%@协议",XMINSPrefix]] subscribeNext:^(id x) {
+        @strongify(self);
+        [self requestPay];
+    }];
+}
+
 - (void)requestPay
 {
     NSMutableArray *coupons = [NSMutableArray array];
@@ -296,14 +295,11 @@
     @weakify(self);
     [[[self.payOp rac_postRequest] initially:^{
         
-        @strongify(self)
         [gToast showingWithText:@"订单生成中..."];
-        self.tradeno = nil;
     }] subscribeNext:^(PayCooperationContractOrderOp * rop) {
         @strongify(self);
-        self.tradeno = rop.rsp_tradeno;
         [self callPaymentHelperWithPayOp:rop];
-
+        
     } error:^(NSError *error) {
         
         [self requestMutualResources];
@@ -327,13 +323,12 @@
     NSString *text;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
-            self.isPaid = YES;
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
             [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:price];
         } break;
         case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
-            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price];
+            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price andTradeType:TradeTypeXMIns];
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
@@ -346,7 +341,7 @@
     @weakify(self);
     [[helper rac_startPay] subscribeNext:^(id x) {
         
-        @strongify(self);        
+        @strongify(self);
         [self gotoPaidSuccessVC];
         
         [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] sendAndIgnoreError];
@@ -354,7 +349,6 @@
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 5;
         iop.req_tradeno = op.rsp_tradeno;
-        self.isPaid = YES;
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"已通知服务器支付成功!");
         }];
@@ -376,29 +370,6 @@
     vc.contract = self.contract;
     vc.couponMoney = totalCouponMoney;
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (NSAttributedString *)stringWithContent:(NSString *)c1 andContent:(NSString *)c2
-{
-    NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
-    if (c1.length) {
-        NSDictionary *attr1 = @{NSForegroundColorAttributeName:HEXCOLOR(@"#454545")};
-        NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:c1 attributes:attr1];
-        [str appendAttributedString:attrStr1];
-    }
-    
-    if (c2.length) {
-        NSDictionary *attr2 = @{NSForegroundColorAttributeName:HEXCOLOR(@"#ff7428")};
-        NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:c2 attributes:attr2];
-        [str appendAttributedString:attrStr2];
-    }
-    return str;
-}
-
-- (void)tableViewReloadData
-{
-    [self.tableView reloadData];
-    [self refreshPriceLb];
 }
 
 
@@ -543,7 +514,7 @@
     contentLb.text = data.tag;
     NSString * arrowTilte = data.customInfo[@"tag"];
     arrowView.hidden = !arrowTilte;
-    arrowView.bgColor = HEXCOLOR(@"#ff7428");
+    arrowView.bgColor = kOrangeColor;
     arrowView.cornerRadius = 2.0f;
     tagLb.text = arrowTilte;
     
@@ -640,7 +611,7 @@
         [richL setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
                                    NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
         [richL setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
-                                         NSForegroundColorAttributeName: HEXCOLOR(@"#888888")}];
+                                         NSForegroundColorAttributeName: kGrayTextColor}];
         [richL addLinkToURL:data.customInfo[@"url1"] withRange:[data.customInfo[@"range1"] rangeValue]];
     }
 }
@@ -812,7 +783,7 @@
     NSMutableString *license = [NSMutableString stringWithString:@"我已阅读并同意小马达达《小马互助协议》"];
     
     self.licenseData.customInfo[@"range1"] = [NSValue valueWithRange:NSMakeRange(license.length - 8, 8)];
-    self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:kInsuranceLicenseUrl];
+    self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:self.contract.contracturl ?: @""];
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     ps.lineSpacing = 5;
     NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:license

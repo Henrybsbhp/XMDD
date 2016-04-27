@@ -36,7 +36,7 @@
 {
     self.backgroundColor = [UIColor clearColor];
     _buttonHeight = 25;
-    _buttonTitleColor = HEXCOLOR(@"#888888");
+    _buttonTitleColor = kGrayTextColor;
     _buttonBorderColor = HEXCOLOR(@"#E3E3E3");
 }
 
