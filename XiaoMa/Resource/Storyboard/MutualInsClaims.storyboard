@@ -167,20 +167,20 @@
                                                                 <constraint firstAttribute="height" constant="1" id="a90-O9-qvx"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfa-MV-PPu">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfa-MV-PPu">
                                                             <rect key="frame" x="10" y="65" width="550" height="34"/>
                                                             <string key="text">事故概述：追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，事故概述：追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，事故概述：追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="赔偿金额待确认" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pWo-KB-h2i">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="赔偿金额待确认" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pWo-KB-h2i">
                                                             <rect key="frame" x="479" y="133" width="91" height="16"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,000,000.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vB7-q9-fR9">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="1,000,000.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vB7-q9-fR9">
                                                             <rect key="frame" x="48" y="129" width="124" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                             <color key="textColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -230,10 +230,10 @@
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
+                                                            <exclude reference="tjK-yX-Tvo"/>
                                                             <exclude reference="SGE-JG-2MU"/>
                                                             <exclude reference="VZj-1n-CNB"/>
                                                             <exclude reference="uRE-kc-lhQ"/>
-                                                            <exclude reference="tjK-yX-Tvo"/>
                                                             <exclude reference="KcM-5l-afE"/>
                                                         </mask>
                                                     </variation>
@@ -410,7 +410,19 @@
                                             <subviews>
                                                 <view tag="1000" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SaL-xL-jke">
                                                     <rect key="frame" x="30" y="0.0" width="540" height="63"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="10102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E14-dl-fwd">
+                                                            <rect key="frame" x="525" y="48" width="0.0" height="0.0"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="E14-dl-fwd" secondAttribute="trailing" constant="15" id="9sp-sO-Zb9"/>
+                                                        <constraint firstAttribute="bottom" secondItem="E14-dl-fwd" secondAttribute="bottom" constant="15" id="o1g-ap-B8b"/>
+                                                    </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BiD-Xy-dto">
                                                     <rect key="frame" x="0.0" y="53" width="600" height="10"/>
@@ -502,7 +514,7 @@
             </objects>
             <point key="canvasLocation" x="2477" y="295"/>
         </scene>
-        <!--图片查看器-->
+        <!--现场拍照-->
         <scene sceneID="lvJ-TJ-RcA">
             <objects>
                 <viewController storyboardIdentifier="MutualInsPhotoBrowserVC" id="wVe-OU-nQ1" customClass="MutualInsPhotoBrowserVC" sceneMemberID="viewController">
@@ -513,24 +525,10 @@
                     <view key="view" contentMode="scaleToFill" id="hp3-cD-Mlb">
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2X7-i9-Prn">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
-                            </imageView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="2X7-i9-Prn" secondAttribute="trailing" id="Rgt-u5-1fM"/>
-                            <constraint firstItem="2X7-i9-Prn" firstAttribute="leading" secondItem="hp3-cD-Mlb" secondAttribute="leading" id="h4j-EL-awm"/>
-                            <constraint firstItem="2X7-i9-Prn" firstAttribute="top" secondItem="KR9-tF-y3P" secondAttribute="bottom" id="jzw-Ji-irS"/>
-                            <constraint firstItem="AsB-Wu-Fcq" firstAttribute="top" secondItem="2X7-i9-Prn" secondAttribute="bottom" id="mBO-bk-RLN"/>
-                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="图片查看器" id="kXK-Uh-Wcw"/>
+                    <navigationItem key="navigationItem" title="现场拍照" id="kXK-Uh-Wcw"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <connections>
-                        <outlet property="imgView" destination="2X7-i9-Prn" id="U5M-sI-WOK"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x1V-ll-KRM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
