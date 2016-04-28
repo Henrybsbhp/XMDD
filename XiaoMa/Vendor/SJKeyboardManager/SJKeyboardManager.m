@@ -206,7 +206,6 @@
                              self.tableView.frame = originTableRect;
                              
                          } completion:^(BOOL finished) {
-                             [[NSNotificationCenter defaultCenter] removeObserver:self];
                              _originInfoDict = nil;
                              _targetViewController = nil;
                              _originTextField = nil;
@@ -218,6 +217,7 @@
                              _indexPath = nil;
                              _originBottomLayout = nil;
                              _upOffsetY = 0.0f;
+                             [[NSNotificationCenter defaultCenter] removeObserver:self];
                          }];
         
     } else {
@@ -237,7 +237,6 @@
                              [self.origrinView layoutIfNeeded];
                          
                          } completion:^(BOOL finished) {
-                             [[NSNotificationCenter defaultCenter] removeObserver:self];
                              _originInfoDict = nil;
                              _targetViewController = nil;
                              _originTextField = nil;
@@ -247,6 +246,7 @@
                              CGRectIsEmpty(_originRect);
                              _originBottomLayout = nil;
                              _upOffsetY = 0.0f;
+                             [[NSNotificationCenter defaultCenter] removeObserver:self];
                          }];
     }
     

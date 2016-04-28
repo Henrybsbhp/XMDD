@@ -57,6 +57,13 @@
     [IQKeyboardManager sharedManager].enable = NO;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.groupTextField resignFirstResponder];
+}
+
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
@@ -234,16 +241,13 @@
     UILabel *tipsLabel1 = (UILabel *)[cell.contentView viewWithTag:107];
     UILabel *tipsLabel2 = (UILabel *)[cell.contentView viewWithTag:108];
     UILabel *tipsLabel3 = (UILabel *)[cell.contentView viewWithTag:109];
-    UILabel *tipsLabel4 = (UILabel *)[cell.contentView viewWithTag:110];
     
     [tipsLabel1 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 100];
     [tipsLabel2 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 100];
     [tipsLabel3 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 100];
-    [tipsLabel4 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 100];
     tipsLabel1.attributedText = [self generateAttributedStringWithLineSpacing:@"1、您需要输入正确暗号，并确认团队信息。"];
     tipsLabel2.attributedText = [self generateAttributedStringWithLineSpacing:@"2、确认本团信息后，选择车辆后即可入团。"];
     tipsLabel3.attributedText = [self generateAttributedStringWithLineSpacing:@"3、完善资料，填写信息后我们将对您的信息进行审核。"];
-    tipsLabel4.attributedText = [self generateAttributedStringWithLineSpacing:@"4、选择购买的服务种类，方便我们为您精准报价。"];
     
     return cell;
     
