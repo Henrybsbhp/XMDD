@@ -164,7 +164,16 @@
         @strongify(self);
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
-        vc.url = @"http://www.baidu.com";
+        NSString * urlStr;
+#if XMDDEnvironment==0
+        urlStr = @"http://dev.xiaomadada.com/paaweb/general/neice1035/input?token=";
+#elif XMDDEnvironment==1
+        urlStr = @"http://dev.xiaomadada.com/paaweb/general/neice1035/input?token=";
+#else
+        urlStr = @"http://www.xiaomadada.com/paaweb/general/neice1035/input?token=";
+#endif
+        
+        vc.url = [urlStr append:gNetworkMgr.token];
         [self.navigationController pushViewController:vc animated:YES];
     });
     return dict;
@@ -672,11 +681,11 @@
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.originVC = self;
 #if XMDDEnvironment==0
-    vc.url = @"http://dev01.xiaomadada.com:5080/xmdd-web/xmdd-app/index.html";
+    vc.url = @"http://dev.xiaomadada.com/xmdd-web/xmdd-app/cost.html";
 #elif XMDDEnvironment==1
-    vc.url = @"http://dev01.xiaomadada.com:5080/xmdd-web/xmdd-app/index.html";
+    vc.url = @"http://dev.xiaomadada.com/xmdd-web/xmdd-app/cost.html";
 #else
-    vc.url = @"http://www.baidu.com";
+    vc.url = @"http://www.xiaomadada.com/xmdd-web/xmdd-app/cost.html";
 #endif
     [self.navigationController pushViewController:vc animated:YES];
 }
