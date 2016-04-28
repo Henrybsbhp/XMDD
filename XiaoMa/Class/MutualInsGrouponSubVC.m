@@ -336,8 +336,8 @@
         @strongify(self);
         [gToast showSuccess:@"核价成功"];
         MutualInsStore *store = [MutualInsStore fetchExistsStore];
-        [[store reloadSimpleGroups] sendAndIgnoreError];
-        [[store reloadDetailGroupByMemberID:self.groupDetail.req_memberid andGroupID:self.groupDetail.rsp_groupid] sendAndIgnoreError];
+        [[store reloadSimpleGroups] send];
+        [[store reloadDetailGroupByMemberID:self.groupDetail.req_memberid andGroupID:self.groupDetail.rsp_groupid] send];
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];

@@ -562,8 +562,8 @@
 -(void)back
 {
     //刷新团列表信息
-    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
-    [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] sendAndIgnoreError];
+    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+    [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
     
     MutualInsGrouponVC *grouponvc;
     MutualInsHomeVC *homevc;
