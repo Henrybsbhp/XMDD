@@ -133,6 +133,7 @@ typedef enum : NSInteger
         @strongify(self);
         GetCooperationMygroupDetailOp *op = evt.object;
         if ([self.group.groupId isEqual:op.req_groupid]) {
+            self.group.memberId = op.req_memberid;
             [self reloadFromSignal:evt.signal];
         }
     } ];
