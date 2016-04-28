@@ -241,7 +241,7 @@
                 NSArray *viewControllers = self.navigationController.viewControllers;
                 [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:2] animated:YES];
             }];
-            HKAlertVC *alert = [self alertWithTopTitle:@"提交成功" ImageName:@"mins_ok" Message:@"恭喜，照片提交成功，赔偿记录已生成，请等待车险专员为您服务，谢谢～" ActionItems:@[cancel]];
+            HKAlertVC *alert = [self alertWithTopTitle:@"提交成功" ImageName:@"mins_ok" Message:@"恭喜，照片提交成功，补偿记录已生成，请等待车险专员为您服务，谢谢～" ActionItems:@[cancel]];
             [alert show];
             NSArray *viewControllers = self.navigationController.viewControllers;
             [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];

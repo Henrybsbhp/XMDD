@@ -174,7 +174,7 @@
             if (self.dataArr.count == 0)
             {
                 
-                [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"您还没有赔偿记录,点击重新获取" tapBlock:^{
+                [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"您还没有补偿记录,点击重新获取" tapBlock:^{
                     @strongify(self)
                     [self loadData];
                 }];
@@ -183,7 +183,7 @@
         }error:^(NSError *error) {
             @strongify(self)
             [self.view stopActivityAnimation];
-            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取理赔记录失败,点击重新获取" tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取补偿记录失败,点击重新获取" tapBlock:^{
                 @strongify(self)
                 [self loadData];
             }];
