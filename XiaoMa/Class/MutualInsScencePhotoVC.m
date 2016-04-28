@@ -22,6 +22,8 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) NSInteger maxCount;
 
+@property (strong, nonatomic) NSString *waterMarkStr;
+
 @end
 
 @implementation MutualInsScencePhotoVC
@@ -193,6 +195,12 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"photoCell"];
     UIView *view = [cell viewWithTag:1000];
     [self addBorder:view];
+    UILabel *waterMark = [cell viewWithTag:10102];
+    
+    [[RACObserve(self, waterMarkStr)takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+        waterMark.text = x;
+    }];
+    
     //放弃子视图约束
     [view setTranslatesAutoresizingMaskIntoConstraints:NO];
     PictureRecord * record = [self.recordArray safetyObjectAtIndex:indexPath.section - 2];
@@ -231,6 +239,7 @@
     [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         [self deletePhoto:indexPath];
     }];
+    [view bringSubviewToFront:waterMark];
     return cell;
 }
 
@@ -329,6 +338,7 @@
         
         GetSystemTimeOp *op = [[GetSystemTimeOp alloc]init];
         return [[op rac_postRequest] flattenMap:^id(GetSystemTimeOp *op) {
+            self.waterMarkStr = op.rsp_systime;
             return [self addPrinting:op.rsp_systime InPhoto:img];
         }];
     }] subscribeNext:^(UIImage *img) {
@@ -341,6 +351,8 @@
         [self.recordArray insertObject:record atIndex:(indexpath.section - 2)];
         //不能进行单cell刷新。因为每次选择照片会多一个cell
         [self.tableView reloadData];
+    }error:^(NSError *error) {
+        [gToast showMistake:error.domain.length != 0 ? error.domain : @"网络连接失败，请检查你的网络设置"];
     }];
 #else
     
@@ -359,6 +371,8 @@
         [self.recordArray insertObject:record atIndex:(indexpath.section - 2)];
         //不能进行单cell刷新。因为每次选择照片会多一个cell
         [self.tableView reloadData];
+    }error:^(NSError *error) {
+        [gToast showMistake:error.domain.length != 0 ? error.domain : @"网络连接失败，请检查你的网络设置"];
     }];
 #endif
 }

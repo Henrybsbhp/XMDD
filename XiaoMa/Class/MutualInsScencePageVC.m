@@ -123,7 +123,7 @@
     self.progressView.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, index + 1)];
     if (index == 3)
     {
-        [self.nextStepBtn setTitle:@"提交" forState:UIControlStateNormal];
+        [self.nextStepBtn setTitle:@"提交所有照片" forState:UIControlStateNormal];
     }
     else
     {
