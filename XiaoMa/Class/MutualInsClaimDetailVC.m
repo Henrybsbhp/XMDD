@@ -144,7 +144,7 @@
         {
             numTF.enabled = NO;
         }
-        numTF.text = [self splitCardNumString:[self convertAccount:self.cardno]];
+        numTF.text = [self convertAccount:self.cardno];
         nameTF.text = self.insurancename;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
