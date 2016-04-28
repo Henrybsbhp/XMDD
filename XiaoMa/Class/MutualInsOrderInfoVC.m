@@ -231,9 +231,9 @@
     [array safetyAddObject:@{@"id":@"ProgressCell"}];
     
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"互助团员",@"content":self.contract.insurancedname ?: @""}];
-    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"互助期限",@"content":self.contract.contractperiod ?: @""}];
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保障期限",@"content":self.contract.contractperiod ?: @""}];
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"证件号码",@"content":self.contract.idno ?: @""}];
-    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"互助车辆",@"content":self.contract.licencenumber ?: @""}];
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"被保障车辆",@"content":self.contract.licencenumber ?: @""}];
     
     CGFloat price = self.contract.total - self.contract.couponmoney;
     NSString * tag = self.contract.couponmoney ? [NSString stringWithFormat:@"原价￥%@ 优惠￥%@",[NSString formatForPrice:self.contract.total],[NSString formatForPrice:self.contract.couponmoney]] : @"";
@@ -443,7 +443,8 @@
     HKProgressView * progressView = (HKProgressView *)[cell searchViewWithTag:101];
     progressView.titleArray = @[@"待支付",@"已支付",@"协议已寄送"];
     NSInteger status = self.contract.status == 4 ? 3 : self.contract.status;
-    NSIndexSet *set = [NSIndexSet indexSetWithIndex:status - 1];
+    
+    NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, status)];
     progressView.selectedIndexSet = set;
     return cell;
 }
