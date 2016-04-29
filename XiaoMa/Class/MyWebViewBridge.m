@@ -288,7 +288,21 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-
+- (void)registerShare
+{
+    @weakify(self);
+    [self.myBridge registerHandler:@"callShareAction" handler:^(id data, WVJBResponseCallback responseCallback) {
+        
+        @strongify(self);
+        
+        NSDictionary * dic = data;
+        
+        self.isNeedLogin = [dic boolParamForName:@"isNeedLogin"];
+        [self loginIfNeededShare];
+        
+        responseCallback(nil);
+    }];
+}
 
 #pragma mark - Utilitly
 - (void)showImages:(NSString *)urlStr
@@ -359,6 +373,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
         }
         if ([btnStr integerValue] == 10) {
+            //如果按钮数组中存在类型为10的数据，则表示分享按钮是要登录的
             self.isNeedLogin = YES;
         }
     }
