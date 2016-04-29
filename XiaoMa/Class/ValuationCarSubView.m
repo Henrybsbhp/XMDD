@@ -97,7 +97,11 @@
     [self.view endEditing:YES];
     
     CarInfoCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (indexPath.row == 1) {
+    if (indexPath.row == 0)
+    {
+        [self.cellContentField becomeFirstResponder];
+    }
+    else if (indexPath.row == 1) {
         PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
         vc.originVC = self.parentViewController;
         @weakify(self);
@@ -116,7 +120,6 @@
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
-    
     else if (indexPath.row == 2) {
         [MobClick event:@"rp601_8"];
         self.datePicker.maximumDate = [NSDate date];
