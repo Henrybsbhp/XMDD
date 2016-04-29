@@ -192,13 +192,15 @@
 
 -(UITableViewCell *)photoCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    @weakify(self)
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"photoCell"];
     UIView *view = [cell viewWithTag:1000];
     [self addBorder:view];
     UILabel *waterMark = [cell viewWithTag:10102];
     
     [[RACObserve(self, waterMarkStr)takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
-        waterMark.text = x;
+        @strongify(self)
+        waterMark.text = self.waterMarkStr;
     }];
     
     //放弃子视图约束
