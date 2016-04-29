@@ -84,8 +84,11 @@
     [logoutBtn.layer setMasksToBounds:YES];
     logoutBtn.layer.cornerRadius = 5.0f;
     
+    @weakify(self);
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        
+        @strongify(self);
         [self logoutAction];
     }];
     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确定要退出登录？" ActionItems:@[cancel,confirm]];
@@ -129,17 +132,21 @@
         op.sex = gAppMgr.myUser.sex;
     }
     
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"修改中…"];
     }] subscribeNext:^(UpdateUserInfoOp * op) {
         
+        @strongify(self);
         [gToast showSuccess:@"修改成功"];
         gAppMgr.myUser.sex = self.sex != 0 ? self.sex : gAppMgr.myUser.sex;
         gAppMgr.myUser.birthday = self.birthday ? self.birthday:gAppMgr.myUser.birthday;
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
+        
+        @strongify(self);
         [gToast showError:error.domain];
         [self.tableView reloadData];
     }];
@@ -147,7 +154,10 @@
 
 - (void)requestUserInfo
 {
+    @weakify(self);
     [[GetUserBaseInfoOp rac_fetchUserBaseInfo] subscribeNext:^(GetUserBaseInfoOp *op) {
+        
+        @strongify(self);
         [self.tableView reloadData];
     }];
 }
@@ -329,8 +339,10 @@
             [MobClick event:@"rp302_3"];
             UIActionSheet * sexSheet = [[UIActionSheet alloc]initWithTitle:@"请选择性别" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"男", @"女", nil];
             [sexSheet showInView:self.view];
+            @weakify(self);
             [[sexSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber * number) {
                 
+                @strongify(self);
                 NSInteger btnIndex = [number integerValue];
                 if (btnIndex == 2) {
                     return ;
@@ -347,8 +359,11 @@
         {
             
             [MobClick event:@"rp302_4"];
+            @weakify(self);
             [[DatePickerVC rac_presentPickerVCInView:self.navigationController.view withSelectedDate:self.birthday]
              subscribeNext:^(NSDate *date) {
+                 
+                 @strongify(self);
                  self.birthday = date;
                  [self requestModifyUserInfo:ModifyBirthday];
              }];

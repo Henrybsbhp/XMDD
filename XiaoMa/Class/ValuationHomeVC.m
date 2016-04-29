@@ -388,12 +388,9 @@
 }
 
 #pragma mark - UIScrollViewDelegate
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    [scrollView endEditing:YES];
-}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [scrollView endEditing:YES];
     if (scrollView == self.sliderView.contentScrollView) {
         NSInteger pageIndex = (NSInteger)(scrollView.contentOffset.x / scrollView.bounds.size.width + 0.5); //过半取整
         [self.sliderView selectAtIndex:pageIndex];

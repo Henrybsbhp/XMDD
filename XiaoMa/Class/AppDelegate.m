@@ -118,7 +118,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIViewController *vc;
     
-    if (![gAppMgr.deviceInfo firstAppearAtThisVersionForKey:@"$WelcomeView_300"]) {
+    if ([gAppMgr.deviceInfo firstAppearAtThisVersionForKey:@"$WelcomeView_300"]) {
         
         vc = [[WelcomeVC alloc] init];
     }
