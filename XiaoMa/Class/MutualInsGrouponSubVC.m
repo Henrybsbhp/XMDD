@@ -118,7 +118,7 @@
     alert.actionItems = @[[HKAlertActionItem itemWithTitle:@"确定"]];
     NSArray *items;
     if (op.rsp_sharemoney > 0) {
-        items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_phone
+        items = @[[MutualInsAlertVCItem itemWithTitle:@"车       主" detailTitle:op.rsp_phone
                                           detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand.length > 0 ? op.rsp_carbrand : @"暂无"
                                           detailColor:kDarkTextColor],
@@ -134,7 +134,7 @@
                                           detailColor:kOrangeColor]];
     }
     else {
-        items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_phone
+        items = @[[MutualInsAlertVCItem itemWithTitle:@"车       主" detailTitle:op.rsp_phone
                                           detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand.length > 0 ? op.rsp_carbrand : @"暂无"
                                           detailColor:kDarkTextColor],
@@ -500,7 +500,7 @@
 
         WaterWaveProgressView *waveV = [cell viewWithTag:1001];
         
-        waveV.titleLable.text = @"车损宝资金池";
+        waveV.titleLable.text = @"互助资金池";
         waveV.subTitleLabel.text = [NSString stringWithFormat:@"%@/%@",
                                     [NSString formatForRoundPrice2:self.groupDetail.rsp_presentpoolamt],
                                     [NSString formatForRoundPrice2:self.groupDetail.rsp_totalpoolamt]];
