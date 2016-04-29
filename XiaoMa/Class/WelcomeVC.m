@@ -282,14 +282,14 @@
     self.yellowStarView.frame = CGRectMake(bgImageView.frame.origin.x + 120 * Scale,
                                        (300 - spacing) * Scale,
                                        0, 0);
-    self.yellowStarView.image = [UIImage imageNamed:@"welcome2_yellowStar"];
+    self.yellowStarView.image = [UIImage imageNamed:@"welcome2_yellowstar"];
     [self.welcomeView2 addSubview:self.yellowStarView];
     
     self.whiteStarView = [[UIImageView alloc] init];
     self.whiteStarView.frame = CGRectMake(ScreenWidth - 55 * Scale,
                                       165 * Scale,
                                       0, 0);
-    self.whiteStarView.image = [UIImage imageNamed:@"welcome2_whiteStar"];
+    self.whiteStarView.image = [UIImage imageNamed:@"welcome2_whitestar"];
     [self.welcomeView2 addSubview:self.whiteStarView];
     
     

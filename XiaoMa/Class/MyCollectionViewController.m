@@ -47,7 +47,10 @@
     
     self.selectSet = [[NSMutableIndexSet alloc] init];
     
+    @weakify(self);
     [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged]subscribeNext:^(id x) {
+        
+        @strongify(self);
         [self getData];
     }];
     
@@ -93,7 +96,10 @@
 
 -(void)getData
 {
+    @weakify(self);
     [[gAppMgr.myUser.favorites rac_requestData]subscribeNext:^(id x) {
+        
+        @strongify(self);
         [self.tableView reloadData];
         [self.tableView.refreshView endRefreshing];
     }];
@@ -123,9 +129,10 @@
         offsetY = 0;
     }
     [UIView animateWithDuration:0.5f animations:^{
-        
+        @weakify(self);
         [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
             
+            @strongify(self);
             make.top.mas_equalTo(self.view.mas_bottom).offset(offsetY);
             make.height.mas_equalTo(45);
         }];
@@ -176,6 +183,7 @@
         {
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                @strongify(self);
                 [self requestDeleteFavorites];
             }];
             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确定删除收藏的店铺?" ActionItems:@[cancel,confirm]];
@@ -509,10 +517,12 @@
     
     [checkBtn setSelected:[self.selectSet containsIndex:indexPath.section]];
     @weakify(checkBtn)
+    @weakify(self);
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         [MobClick event:@"rp316_7"];
         @strongify(checkBtn)
+        @strongify(self);
         if ([self.selectSet containsIndex:indexPath.section])
         {
             [self.selectSet removeIndex:indexPath.section];
