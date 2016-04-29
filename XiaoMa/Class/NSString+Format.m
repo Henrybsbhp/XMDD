@@ -64,4 +64,28 @@
     }
     return [NSString stringWithFormat:@"%d", integer];
 }
+
+///(四舍五入小数点后两位)，如果是整数，显示12.00
++ (NSString *)formatForRoundPrice3:(double)price
+{
+    int integer = floor(price);
+    int remain = floor((price - integer) * 1000);
+    if (remain % 10 >= 5) {
+        remain = remain/10 + 1;
+        if (remain >= 100) {
+            remain -= 100;
+            integer += 1;
+        }
+    }
+    else {
+        remain = remain/10;
+    }
+    if (remain > 0) {
+        return [NSString stringWithFormat:@"%d.%02d", integer, remain];
+    }
+    else
+    {
+        return [NSString stringWithFormat:@"%d.00", integer];
+    }
+}
 @end

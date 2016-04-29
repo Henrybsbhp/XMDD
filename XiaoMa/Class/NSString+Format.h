@@ -16,5 +16,7 @@
 + (NSString *)formatForRoundPrice:(double)price;
 ///(四舍五入小数点后两位)
 + (NSString *)formatForRoundPrice2:(double)price;
+///(四舍五入小数点后两位)，如果是整数，显示12.00
++ (NSString *)formatForRoundPrice3:(double)price;
 
 @end

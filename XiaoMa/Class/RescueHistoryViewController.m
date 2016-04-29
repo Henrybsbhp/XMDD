@@ -90,6 +90,7 @@
     op.type = self.type;
     @weakify(self);
     [[[[op rac_postRequest] initially:^{
+        
         @strongify(self)
         [self.view hideDefaultEmptyView];
         if (self.dataSourceArray.count == 0)
@@ -97,9 +98,11 @@
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         }
     }] finally:^{
+        
         @strongify(self)
         [self.view stopActivityAnimation];
     }] subscribeNext:^(GetRescueHistoryOp *op) {
+        
         @strongify(self)
         self.dataSourceArray = (NSMutableArray *)op.rsp_applysecueArray;
         [self.view stopActivityAnimation];
@@ -109,18 +112,22 @@
             if (self.type == 1)
             {
                 [self.view showImageEmptyViewWithImageName:@"def_withoutRescueHistory" text:@"暂无救援记录" tapBlock:^{
+                    @strongify(self);
                     [self historyNetwork];
                 }];
             }
             else
             {
                 [self.view showImageEmptyViewWithImageName:@"def_withoutAssistHistory" text:@"暂无协办记录" tapBlock:^{
+                    @strongify(self);
                     [self historyNetwork];
                 }];   
             }
         }
         [self.tableView reloadData];
     } error:^(NSError *error) {
+        
+        @strongify(self);
         [self.tableView.refreshView endRefreshing];
         [self.view stopActivityAnimation];
         
@@ -353,13 +360,16 @@
     NSString *timeStr = [NSString stringWithFormat:@"%@", his.applyTime];
     op.applytime = [timeStr longLongValue];
     op.type = self.type;
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
         
+        @strongify(self);
         [self.tableView.bottomLoadingView hideIndicatorText];
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
         self.isLoading = YES;
     }] subscribeNext:^(GetRescueHistoryOp * op) {
         
+        @strongify(self);
         [self.tableView.bottomLoadingView stopActivityAnimation];
         self.isLoading = NO;
         if(op.rsp_code == 0)
@@ -390,6 +400,8 @@
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
         }
     } error:^(NSError *error) {
+        
+        @strongify(self);
         self.isLoading = NO;
         self.tableView.showBottomLoadingView = YES;
         [self.tableView.bottomLoadingView stopActivityAnimation];

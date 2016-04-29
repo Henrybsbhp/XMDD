@@ -97,8 +97,10 @@
         self.paySubTitle = @"普通充值";
     }
     self.payBtn.titleLabel.adjustsFontSizeToFitWidth = YES;
+    @weakify(self);
     [[self.payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         //支付确定点击事件
+        @strongify(self);
         [MobClick event:@"rp508_6"];
         [self actionPay:nil];
     }];

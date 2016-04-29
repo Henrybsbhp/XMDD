@@ -27,6 +27,11 @@
     [self setupUI];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.textFeild becomeFirstResponder];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -58,8 +63,6 @@
     self.textFeild.placeholder = self.placeholder;
     self.textFeild.text = self.content;
     self.textFeild.clearButtonMode = UITextFieldViewModeWhileEditing;
-    
-    [self.textFeild becomeFirstResponder];
 }
 
 

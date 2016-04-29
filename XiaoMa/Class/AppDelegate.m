@@ -40,6 +40,7 @@
 
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
+#import "WelcomeVC.h"
 
 
 #ifndef __OPTIMIZE__
@@ -119,17 +120,25 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIViewController *vc;
-    //如果本地没有启动页的相关信息，则直接进入主页，否则进入启动页
-    HKLaunchInfo *info = [self.launchMgr fetchLatestLaunchInfo];
-    NSString *url = [info croppedPicUrl];
-    if (!info || ![gMediaMgr cachedImageExistsForUrl:url]) {
-        vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
+    
+    if ([gAppMgr.deviceInfo firstAppearAtThisVersionForKey:@"$WelcomeView_300"]) {
+        
+        vc = [[WelcomeVC alloc] init];
     }
-    else {
-        LaunchVC *lvc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Launch"];
-        [lvc setImage:[gMediaMgr imageFromDiskCacheForUrl:url]];
-        [lvc setInfo:info];
-        vc = lvc;
+    else
+    {
+        //如果本地没有启动页的相关信息，则直接进入主页，否则进入启动页
+        HKLaunchInfo *info = [self.launchMgr fetchLatestLaunchInfo];
+        NSString *url = [info croppedPicUrl];
+        if (!info || ![gMediaMgr cachedImageExistsForUrl:url]) {
+            vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
+        }
+        else {
+            LaunchVC *lvc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Launch"];
+            [lvc setImage:[gMediaMgr imageFromDiskCacheForUrl:url]];
+            [lvc setInfo:info];
+            vc = lvc;
+        }
     }
     [self resetRootViewController:vc];
 }
