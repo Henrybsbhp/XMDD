@@ -10,7 +10,6 @@
 #import "AreaTablePickerVC.h"
 #import "MyCarStore.h"
 #import "ADViewController.h"
-#import "AreaTablePickerVC.h"
 #import "EditCarVC.h"
 #import "CarEvaluateOp.h"
 #import "ValuationResultVC.h"

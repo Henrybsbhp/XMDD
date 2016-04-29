@@ -53,6 +53,8 @@
 @property (nonatomic)BOOL titleShow;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *roundBgWidth;
 
+@property (nonatomic)BOOL isloadingShopComments;
+
 @end
 
 @implementation ShopDetailVC
@@ -293,8 +295,21 @@
     GetShopRatesOp * op = [GetShopRatesOp operation];
     op.shopId = self.shop.shopID;
     op.pageno = 1;
-    [[op rac_postRequest] subscribeNext:^(GetShopRatesOp * op) {
+    [[[op rac_postRequest] initially:^{
         
+        self.isloadingShopComments = YES;
+    }] subscribeNext:^(id x) {
+        
+        self.isloadingShopComments = NO;
+        self.shop.shopCommentArray = op.rsp_shopCommentArray;
+        self.shop.commentNumber = op.rsp_totalNum;
+        
+        NSIndexSet *indexSet= [[NSIndexSet alloc] initWithIndex:1];
+        
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+    } error:^(NSError *error) {
+        
+        self.isloadingShopComments = NO;
         self.shop.shopCommentArray = op.rsp_shopCommentArray;
         self.shop.commentNumber = op.rsp_totalNum;
         
@@ -726,7 +741,15 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CommentTitleCell"];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
-    label.text = [NSString stringWithFormat:@"商户评价 ( %d )", (int)self.shop.commentNumber];
+    
+    if (self.isloadingShopComments)
+    {
+        label.text = [NSString stringWithFormat:@"商户评价"];
+    }
+    else
+    {
+        label.text = [NSString stringWithFormat:@"商户评价 ( %d )", (int)self.shop.commentNumber];
+    }
     return cell;
 }
 
@@ -757,6 +780,8 @@
 - (UITableViewCell *)shopNoCommentCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"NoCommentCell"];
+    UILabel *titleL = (UILabel*)[cell.contentView viewWithTag:101];
+    titleL.text = self.isloadingShopComments ? @"加载中...":@"暂无评价，您可以成为第一人";
     
     return cell;
 }
