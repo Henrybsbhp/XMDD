@@ -572,6 +572,7 @@
         UIViewController *vc = self.navigationController.viewControllers[i];
         if ([vc isKindOfClass:[MutualInsGrouponVC class]]) {
             grouponvc = (MutualInsGrouponVC *)vc;
+            grouponvc.group.memberId = self.memberId;
             break;
         }
         if ([vc isKindOfClass:[MutualInsHomeVC class]]) {
