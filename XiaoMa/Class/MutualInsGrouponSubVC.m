@@ -118,23 +118,23 @@
     alert.actionItems = @[[HKAlertActionItem itemWithTitle:@"确定"]];
     NSArray *items;
     if (op.rsp_sharemoney > 0) {
-        items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_phone
+        items = @[[MutualInsAlertVCItem itemWithTitle:@"车       主" detailTitle:op.rsp_phone
                                           detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand.length > 0 ? op.rsp_carbrand : @"暂无"
                                           detailColor:kDarkTextColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:[NSString formatForRoundPrice2:op.rsp_sharemoney]
+                  [MutualInsAlertVCItem itemWithTitle:@"互助资金" detailTitle:[NSString formatForRoundPrice3:op.rsp_sharemoney]
                                           detailColor:kOrangeColor],
                   [MutualInsAlertVCItem itemWithTitle:@"所占比例" detailTitle:op.rsp_rate
                                           detailColor:kDarkTextColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"目前可返" detailTitle:[NSString formatForRoundPrice2:op.rsp_returnmoney]
+                  [MutualInsAlertVCItem itemWithTitle:@"目前可返" detailTitle:[NSString formatForRoundPrice3:op.rsp_returnmoney]
                                           detailColor:kOrangeColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:[NSString stringWithFormat:@"%d次", op.rsp_claimcount]
+                  [MutualInsAlertVCItem itemWithTitle:@"事故次数" detailTitle:[NSString stringWithFormat:@"%d次", op.rsp_claimcount]
                                           detailColor:kDarkTextColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"补偿金额" detailTitle:[NSString formatForRoundPrice2:op.rsp_claimamount]
+                  [MutualInsAlertVCItem itemWithTitle:@"补偿金额" detailTitle:[NSString formatForRoundPrice3:op.rsp_claimamount]
                                           detailColor:kOrangeColor]];
     }
     else {
-        items = @[[MutualInsAlertVCItem itemWithTitle:@"车    主" detailTitle:op.rsp_phone
+        items = @[[MutualInsAlertVCItem itemWithTitle:@"车       主" detailTitle:op.rsp_phone
                                           detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"品牌车系" detailTitle:op.rsp_carbrand.length > 0 ? op.rsp_carbrand : @"暂无"
                                           detailColor:kDarkTextColor],
@@ -144,7 +144,7 @@
                                           detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"目前可返" detailTitle:@"暂无"
                                           detailColor:kDarkTextColor],
-                  [MutualInsAlertVCItem itemWithTitle:@"出现次数" detailTitle:@"暂无"
+                  [MutualInsAlertVCItem itemWithTitle:@"事故次数" detailTitle:@"暂无"
                                           detailColor:kDarkTextColor],
                   [MutualInsAlertVCItem itemWithTitle:@"补偿金额" detailTitle:@"暂无"
                                           detailColor:kDarkTextColor]];
@@ -336,8 +336,8 @@
         @strongify(self);
         [gToast showSuccess:@"核价成功"];
         MutualInsStore *store = [MutualInsStore fetchExistsStore];
-        [[store reloadSimpleGroups] sendAndIgnoreError];
-        [[store reloadDetailGroupByMemberID:self.groupDetail.req_memberid andGroupID:self.groupDetail.rsp_groupid] sendAndIgnoreError];
+        [[store reloadSimpleGroups] send];
+        [[store reloadDetailGroupByMemberID:self.groupDetail.req_memberid andGroupID:self.groupDetail.rsp_groupid] send];
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];
@@ -500,10 +500,10 @@
 
         WaterWaveProgressView *waveV = [cell viewWithTag:1001];
         
-        waveV.titleLable.text = @"车损宝资金池";
+        waveV.titleLable.text = @"互助资金池";
         waveV.subTitleLabel.text = [NSString stringWithFormat:@"%@/%@",
-                                    [NSString formatForRoundPrice2:self.groupDetail.rsp_presentpoolamt],
-                                    [NSString formatForRoundPrice2:self.groupDetail.rsp_totalpoolamt]];
+                                    [NSString formatForRoundPrice3:self.groupDetail.rsp_presentpoolamt],
+                                    [NSString formatForRoundPrice3:self.groupDetail.rsp_totalpoolamt]];
         [waveV startWave];
         [waveV showArcLightOnce];
         CGFloat progress = self.groupDetail.rsp_presentpoolamt / MAX(0.01, self.groupDetail.rsp_totalpoolamt);

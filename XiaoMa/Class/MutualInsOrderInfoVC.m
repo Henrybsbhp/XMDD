@@ -470,6 +470,9 @@
     arrowView.cornerRadius = 2.0f;
     tagLb.text = tag;
     
+    /// 需要重新绘制
+    [arrowView setNeedsDisplay];
+    
     return cell;
 }
 

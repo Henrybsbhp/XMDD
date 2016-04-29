@@ -174,7 +174,7 @@
             if (self.dataArr.count == 0)
             {
                 
-                [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"您还没有补偿记录,点击重新获取" tapBlock:^{
+                [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"暂无补偿记录" tapBlock:^{
                     @strongify(self)
                     [self loadData];
                 }];

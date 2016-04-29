@@ -8,6 +8,7 @@
 
 #import "WelcomeVC.h"
 #import <POP.h>
+#import "MainTabBarVC.h"
 
 #define PageNumber 4
 #define ScreenHeight        self.view.frame.size.height
@@ -596,7 +597,9 @@
 
 - (void)sureAction
 {
-    
+    MainTabBarVC * mainTabVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"MainTabBarVC"];
+    [gAppDelegate resetRootViewController:mainTabVC];
+    gAppMgr.clientInfo.lastClientVersion = gAppMgr.clientInfo.clientVersion;
 }
 
 #pragma mark - Lazy
