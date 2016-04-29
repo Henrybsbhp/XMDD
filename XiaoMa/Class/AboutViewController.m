@@ -99,6 +99,8 @@
     {
         @weakify(self)
         self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+            
+            @strongify(self)
             [self gotoInstructions];
         }},
                             
@@ -203,6 +205,8 @@
     {
         @weakify(self)
         self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+            
+            @strongify(self)
             [self gotoInstructions];
         }},
                             
@@ -379,8 +383,9 @@
     textField.text = @"https://";
     [av show];
     
+    @weakify(self);
     [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-        
+        @strongify(self)
         NSInteger i = [n integerValue];
         if (i == 1)
         {
@@ -427,4 +432,5 @@
     vc.modulName = @"helloworld";
     [self.navigationController pushViewController:vc animated:YES];
 }
+
 @end

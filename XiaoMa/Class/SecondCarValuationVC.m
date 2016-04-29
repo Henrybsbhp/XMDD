@@ -38,7 +38,6 @@
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
     DebugLog(@"SecondCarValuationVC dealloc~~~");
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -221,11 +220,14 @@
     UITextView *name = (UITextView *)[cell searchViewWithTag:1001];
     UITextView *phoneNumber = (UITextView *)[cell searchViewWithTag:1002];
     phoneNumber.text = self.phoneNumber;
+    @weakify(self);
     [[name.rac_textSignal takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
         self.name = name.text;
     }];
     [[phoneNumber.rac_textSignal takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self);
         if (phoneNumber.text.length > 11) {
             phoneNumber.text = [phoneNumber.text substringToIndex:11];
         }
@@ -234,6 +236,7 @@
     
     [[RACObserve(gAppMgr.myUser, userID) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self);
         self.phoneNumber = x;
         phoneNumber.text = (NSString *)x;
     }];
@@ -303,11 +306,14 @@
     SecondCarValuationOp *op = [SecondCarValuationOp new];
     op.req_sellerCityId = self.sellercityid;
     [[[op rac_postRequest] initially:^{
+        
+        @strongify(self);
         self.tableView.hidden=YES;
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] subscribeNext:^(SecondCarValuationOp *op) {
         
+        @strongify(self);
         [self.view stopActivityAnimation];
         self.tableView.hidden=NO;
         self.dataArr = op.rsp_dataArr;
@@ -315,6 +321,8 @@
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
+        
+        @strongify(self);
         self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败。点击屏幕重新请求" tapBlock:^{
@@ -410,11 +418,13 @@
         
         uploadOp.req_channelEngs = [tempString componentsJoinedByString:@","];
         
+        @weakify(self);
         [[[uploadOp rac_postRequest] initially:^{
             
             
         }] subscribeNext:^(SecondCarValuationUploadOp *uploadOp) {
             
+            @strongify(self);
             CommitSuccessVC * successVC = [valuationStoryboard instantiateViewControllerWithIdentifier:@"CommitSuccessVC"];
             [self.navigationController pushViewController:successVC animated:YES];
         } error:^(NSError *error) {
