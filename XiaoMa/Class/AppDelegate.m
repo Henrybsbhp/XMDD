@@ -36,6 +36,7 @@
 #import "DeviceInfo.h"
 #import "HKAdvertisement.h"
 #import "FMDeviceManager.h"
+#import "ReactNativeManager.h"
 
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
@@ -98,6 +99,8 @@
     [self setupPasteboard];
     
     [self setupFPSObserver];
+    
+    [self setupReactNativeManager];
     
     //设置崩溃捕捉(官方建议放在最后面)
     [self setupCrashlytics];
@@ -566,6 +569,12 @@
 #endif
 }
 
+
+#pragma mark - ReactNativeManager
+- (void)setupReactNativeManager
+{
+    [[ReactNativeManager sharedManager] loadDefaultBundle];
+}
 
 #pragma mark - 日志
 #pragma mark - UIResponser

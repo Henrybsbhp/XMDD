@@ -177,6 +177,9 @@
 		189371361B0F592F0030FDE1 /* JTQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371351B0F592F0030FDE1 /* JTQueue.m */; };
 		189428B21C1AAD6300E492CA /* GridLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189428B11C1AAD6300E492CA /* GridLabel.m */; };
 		189428B81C1ABA3500E492CA /* InsAppointmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189428B71C1ABA3500E492CA /* InsAppointmentVC.m */; };
+		1895A3E41CD1F29D00E4EF34 /* ReactNativeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1895A3E31CD1F29D00E4EF34 /* ReactNativeManager.m */; };
+		1895A3EF1CD2F43200E4EF34 /* HKRCTPackageConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 1895A3EE1CD2F43200E4EF34 /* HKRCTPackageConfig.m */; };
+		1895A3F31CD2FD7D00E4EF34 /* ReactNativeBundle in Resources */ = {isa = PBXBuildFile; fileRef = 1895A3F21CD2FD7D00E4EF34 /* ReactNativeBundle */; };
 		1897C2FF1C16C319007E394E /* InsInputInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1897C2FE1C16C319007E394E /* InsInputInfoVC.m */; };
 		1897C3051C16CF02007E394E /* HKSubscriptInputField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1897C3041C16CF02007E394E /* HKSubscriptInputField.m */; };
 		18988C441BBAB32F001DECD5 /* OrderPaidSuccessOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18988C431BBAB32F001DECD5 /* OrderPaidSuccessOp.m */; };
@@ -1128,6 +1131,11 @@
 		189428B11C1AAD6300E492CA /* GridLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridLabel.m; path = Class/GridLabel.m; sourceTree = "<group>"; };
 		189428B61C1ABA3500E492CA /* InsAppointmentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsAppointmentVC.h; sourceTree = "<group>"; };
 		189428B71C1ABA3500E492CA /* InsAppointmentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsAppointmentVC.m; sourceTree = "<group>"; };
+		1895A3E21CD1F29D00E4EF34 /* ReactNativeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReactNativeManager.h; path = Class/ReactNativeManager.h; sourceTree = "<group>"; };
+		1895A3E31CD1F29D00E4EF34 /* ReactNativeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReactNativeManager.m; path = Class/ReactNativeManager.m; sourceTree = "<group>"; };
+		1895A3ED1CD2F43200E4EF34 /* HKRCTPackageConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKRCTPackageConfig.h; path = Class/HKRCTPackageConfig.h; sourceTree = "<group>"; };
+		1895A3EE1CD2F43200E4EF34 /* HKRCTPackageConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKRCTPackageConfig.m; path = Class/HKRCTPackageConfig.m; sourceTree = "<group>"; };
+		1895A3F21CD2FD7D00E4EF34 /* ReactNativeBundle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ReactNativeBundle; sourceTree = "<group>"; };
 		1897C2FD1C16C319007E394E /* InsInputInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsInputInfoVC.h; sourceTree = "<group>"; };
 		1897C2FE1C16C319007E394E /* InsInputInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsInputInfoVC.m; sourceTree = "<group>"; };
 		1897C3031C16CF02007E394E /* HKSubscriptInputField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKSubscriptInputField.h; path = Class/HKSubscriptInputField.h; sourceTree = "<group>"; };
@@ -2957,6 +2965,8 @@
 				50F0FF6D1C9A9780009A94A3 /* HKMutualInsList.m */,
 				50BF30141CABEE0100D0FC07 /* AdListData.h */,
 				50BF30151CABEE0100D0FC07 /* AdListData.m */,
+				1895A3ED1CD2F43200E4EF34 /* HKRCTPackageConfig.h */,
+				1895A3EE1CD2F43200E4EF34 /* HKRCTPackageConfig.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -3129,6 +3139,7 @@
 		1883D9121ACBBE5E002A4D19 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				1895A3F21CD2FD7D00E4EF34 /* ReactNativeBundle */,
 				C35803041CBB79600002808D /* Images.xcassets */,
 				6BD293BA1B943EF1006482A4 /* Storyboard */,
 				1851F4221B0C29A500241A01 /* CoreData */,
@@ -3297,6 +3308,8 @@
 				18B78F5E1BA990100061ECAD /* HKLaunchManager.m */,
 				50BA11621C27F42F00EA1E4A /* CarIDCodeCheckModel.h */,
 				50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */,
+				1895A3E21CD1F29D00E4EF34 /* ReactNativeManager.h */,
+				1895A3E31CD1F29D00E4EF34 /* ReactNativeManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -5343,6 +5356,7 @@
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
 				6BB884D31AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.bundle in Resources */,
 				6BD293CD1B943EF1006482A4 /* Common.storyboard in Resources */,
+				1895A3F31CD2FD7D00E4EF34 /* ReactNativeBundle in Resources */,
 				1833F59F1BCD47EB000E1DA1 /* Gas.storyboard in Resources */,
 				50A1E06E1C1EA12800176572 /* Valuation.storyboard in Resources */,
 				18B78F611BAA8CF60061ECAD /* Launch.storyboard in Resources */,
@@ -5947,6 +5961,7 @@
 				18A15A561C214C2200D7B5DF /* InsActivityIndicatorVC.m in Sources */,
 				187CC95C1AEF2023004D1F28 /* UploadFileOp.m in Sources */,
 				18BF41F11BCF6A540039F210 /* GasPickAmountCell.m in Sources */,
+				1895A3EF1CD2F43200E4EF34 /* HKRCTPackageConfig.m in Sources */,
 				1833F58D1BCD373B000E1DA1 /* GetCZBCouponDefInfoOp.m in Sources */,
 				187CC9551AEDD0D1004D1F28 /* MonthPickerVC.m in Sources */,
 				6BD7AE5B1AE8927C00BEF30E /* WeChatHelper.m in Sources */,
@@ -6074,6 +6089,7 @@
 				503C5B1B1CB50E2D00EFCDDA /* ValuationEmptySubView.m in Sources */,
 				1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */,
 				50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */,
+				1895A3E41CD1F29D00E4EF34 /* ReactNativeManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
