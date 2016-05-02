@@ -19,7 +19,7 @@
 @property (nonatomic,copy)NSString * defaultImageName;
 @property (nonatomic)BOOL isNewFlag;
 
-- (instancetype)initWithId:(NSNumber *)itemId titlt:(NSString *)title
+- (instancetype)initWithId:(NSString *)itemId titlt:(NSString *)title
                     picUrl:(NSString *)picurl andUrl:(NSString *)url
                  imageName:(NSString *)imageName isnew:(BOOL)flag;
 

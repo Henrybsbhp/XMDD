@@ -359,9 +359,6 @@
     }] subscribeNext:^(id x) {
         @strongify(self);
         [gToast dismiss];
-        //刷新团列表信息
-        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
-        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
         [self backToMutualInsGrouponVC];
     } error:^(NSError *error) {
         [gToast showText:error.domain];
@@ -371,7 +368,7 @@
 - (void)backToMutualInsGrouponVC
 {
     //刷新团列表信息
-    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
+    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
     [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
     
     MutualInsGrouponVC *grouponvc;
@@ -381,6 +378,7 @@
         UIViewController *vc = self.navigationController.viewControllers[i];
         if ([vc isKindOfClass:[MutualInsGrouponVC class]]) {
             grouponvc = (MutualInsGrouponVC *)vc;
+            grouponvc.group.memberId = self.memberId;
             break;
         }
         if ([vc isKindOfClass:[MutualInsHomeVC class]]) {

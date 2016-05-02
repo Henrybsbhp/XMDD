@@ -16,6 +16,7 @@
 #import "NSString+BankNumber.h"
 #import "HKImageAlertVC.h"
 #import "MutualInsScencePageVC.h"
+#import "NSString+RectSize.h"
 
 @interface MutualInsClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *agreeBtn;
@@ -38,7 +39,7 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
 @property (weak, nonatomic) IBOutlet UIButton *takePhotoBtn;
 
-
+@property (strong, nonatomic) CKList *dataSource;
 
 @end
 
@@ -51,103 +52,53 @@
     DebugLog(@"MutualInsClaimDetailVC dealloc");
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self setupUI];
     [self loadData];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(setBackAction)];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
 }
 
 #pragma mark UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.status.integerValue == 20)
-    {
-        return 2;
-    }
-    else if (self.status.integerValue == 10 || self.status.integerValue == -1 || self.status.integerValue == 0)
-    {
-        return 3;
-    }
-    else
-    {
-        return 4;
-    }
+    //    if (self.status.integerValue == 20)
+    //    {
+    //        return 2;
+    //    }
+    //    else if (self.status.integerValue == 10 || self.status.integerValue == -1 || self.status.integerValue == 0)
+    //    {
+    //        return 3;
+    //    }
+    //    else
+    //    {
+    //        return 4;
+    //    }
+    return self.dataSource.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    CKList *list = self.dataSource[section];
+    return list.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
-    if (indexPath.section == 0)
+    CKDict *data = self.dataSource[indexPath.section][indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data[kCKCellID]];
+    CKCellPrepareBlock block = data[kCKCellPrepare];
+    if (block)
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"noticeCell"];
-        UILabel *label = [cell viewWithTag:100];
-        label.text = self.statusdesc;
+        block(data, cell, indexPath);
     }
-    else if ((indexPath.section == 1 && self.status.integerValue == 20)||indexPath.section == 2)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"detailCell"];
-        UILabel *timeLb = [cell viewWithTag:100];
-        UILabel *locationLb = [cell viewWithTag:101];
-        UILabel *dutyLb = [cell viewWithTag:102];
-        UILabel *conditionLb = [cell viewWithTag:103];
-        UILabel *reasonLb = [cell viewWithTag:104];
-        
-        timeLb.text = self.accidenttime.length ? self.accidenttime : @" ";
-        timeLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
-        locationLb.text = self.accidentaddress.length ? self.accidentaddress : @" ";
-        locationLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
-        dutyLb.text = self.chargepart.length ? self.chargepart : @" ";
-        dutyLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
-        conditionLb.text = self.cardmgdesc.length ? self.cardmgdesc : @" ";
-        conditionLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
-        reasonLb.text = self.reason.length ? self.reason : @" ";
-        reasonLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
-    }
-    else if (indexPath.section == 1 && self.status.integerValue != 20)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"feeCell"];
-        UILabel *feeLb = [cell viewWithTag:100];
-        feeLb.text = self.claimfee != 0 ? [NSString formatForPriceWithFloat:self.claimfee] : @" ";
-    }
-    else
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell"];
-        UITextField *nameTF = [cell viewWithTag:100];
-        UITextField *numTF = [cell viewWithTag:101];
-        numTF.keyboardType = UIKeyboardTypeNumberPad;
-        UILabel *label = [cell viewWithTag:102];
-        label.preferredMaxLayoutWidth = self.view.bounds.size.width - 30;
-        label.hidden = self.status.integerValue == 1 ? NO : YES;
-        [self addBorder:nameTF WithColor:@"#dedfe0"];
-        [self addBorder:numTF WithColor:@"#dedfe0"];
-        @weakify(self);
-        [[[[numTF rac_textSignal] takeUntilForCell:cell]skip:1] subscribeNext:^(NSString *x) {
-            @strongify(self);
-            
-            numTF.text = [self splitCardNumString:x];
-        }];
-        if (self.status.integerValue == 1)
-        {
-            numTF.enabled = YES;
-        }
-        else
-        {
-            numTF.enabled = NO;
-        }
-        numTF.text = [self convertAccount:self.cardno];
-        nameTF.text = self.insurancename;
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     return cell;
 }
 
@@ -155,22 +106,15 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 ||( indexPath.section == 1 && self.status.integerValue != 20))
+    CKDict *data = self.dataSource[indexPath.section][indexPath.row];
+    CKCellGetHeightBlock block = data[kCKCellGetHeight];
+    if (block)
     {
-        return 50;
-    }
-    else if ((indexPath.section == 1 && self.status.integerValue == 20)||indexPath.section == 2 || self.status.integerValue == 1)
-    {
-        UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-        [cell layoutIfNeeded];
-        [cell setNeedsUpdateConstraints];
-        [cell updateConstraintsIfNeeded];
-        CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-        return ceil(size.height + 5);
+        return block(data,indexPath);
     }
     else
     {
-        return 180;
+        return 44;
     }
 }
 
@@ -223,7 +167,9 @@
             self.insurancename = op.rsp_insurancename;
             self.cardno = op.rsp_cardno;
             // 设置底部按钮
-            [self setBottomViewStatus:self.status.integerValue];
+            [self setupBottomViewStatus:self.status.integerValue];
+            // 设置数据源
+            [self setupDataSourceWithStatus:self.status.integerValue];
             // 更新约束
             [self.view layoutIfNeeded];
             [self.tableView reloadData];
@@ -246,7 +192,8 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)call:(id)sender {
+- (IBAction)call:(id)sender
+{
     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0019"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#ff7428") clickBlock:^(id alertVC) {
@@ -282,7 +229,13 @@
     [[self.disagreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
         [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0024"}];
-        [self confirmClaimWithAgreement:@1];
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [self confirmClaimWithAgreement:@1];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确定不同意上述补偿金额？若您不同意，将无法继续快速补偿流程。" ActionItems:@[cancel,confirm]];
+        [alert show];
     }];
     [[self.takePhotoBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
@@ -317,9 +270,9 @@
     }];
 }
 
-#pragma mark Utility
+#pragma mark Setup
 
--(void)setBottomViewStatus:(NSInteger)status
+-(void)setupBottomViewStatus:(NSInteger)status
 {
     if (status != -1 && status != 1)
     {
@@ -344,6 +297,211 @@
         }
     }
 }
+
+-(void)setupDataSourceWithStatus:(NSInteger)status
+{
+    self.dataSource = $($([self noticeCellData]),
+                        $([self feeCellData]),
+                        $([self titleCellData],
+                          [self accidentTimeData],
+                          [self accidentLocationData],
+                          [self accidentDutyData],
+                          [self accidentSituationData],
+                          [self accidentReasonData]),
+                        $([self cardCellData])
+                        );
+}
+
+-(id)noticeCellData
+{
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"noticeCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 50;
+    });
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UILabel *label = [cell viewWithTag:100];
+        label.text = self.statusdesc;
+    });
+    return data;
+}
+
+-(id)feeCellData
+{
+    if (self.claimfee <= 0.001 || self.status.integerValue == 20)
+    {
+        return CKNULL;
+    }
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"feeCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 30;
+    });
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UILabel *feeLb = [cell viewWithTag:100];
+        feeLb.text = self.claimfee != 0 ? [NSString formatForPriceWithFloat:self.claimfee] : @" ";
+    });
+    return data;
+}
+
+-(id)titleCellData
+{
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"titleCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 50;
+    });
+    return data;
+}
+
+-(id)accidentTimeData
+{
+    //    if ([self.accidenttime isEqual:CKNULL])
+    if (!self.accidenttime)
+    {
+        return CKNULL;
+    }
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"detailCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        CGSize size = [self.accidenttime labelSizeWithWidth:self.tableView.frame.size.width - 105 font:[UIFont systemFontOfSize:14]];
+        return size.height + 15;
+    });
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UILabel *title = [cell viewWithTag:100];
+        title.text = @"事故时间：";
+        
+        UILabel *timeLb = [cell viewWithTag:101];
+        timeLb.text = self.accidenttime.length ? self.accidenttime : @" ";
+        timeLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
+    });
+    return data;
+}
+
+-(id)accidentLocationData
+{
+    //    if ([self.accidentaddress isEqual:CKNULL])
+    if (!self.accidentaddress)
+    {
+        return CKNULL;
+    }
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"detailCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        CGSize size = [self.accidentaddress labelSizeWithWidth:self.tableView.frame.size.width - 105 font:[UIFont systemFontOfSize:14]];
+        return size.height + 15;
+    });
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UILabel *title = [cell viewWithTag:100];
+        title.text = @"事故地点：";
+        
+        UILabel *locationLb = [cell viewWithTag:101];
+        locationLb.text = self.accidentaddress.length ? self.accidentaddress : @" ";
+        locationLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
+    });
+    return data;
+}
+
+-(id)accidentDutyData
+{
+    //    if ([self.chargepart isEqual:CKNULL])
+    if (!self.chargepart)
+    {
+        return CKNULL;
+    }
+    
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"detailCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        CGSize size = [self.chargepart labelSizeWithWidth:self.tableView.frame.size.width - 105 font:[UIFont systemFontOfSize:14]];
+        return size.height + 15;
+    });
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UILabel *title = [cell viewWithTag:100];
+        title.text = @"事故责任：";
+        
+        UILabel *dutyLb = [cell viewWithTag:101];
+        dutyLb.text = self.chargepart.length ? self.chargepart : @" ";
+        dutyLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
+    });
+    return data;
+}
+
+-(id)accidentSituationData
+{
+    //    if ([self.cardmgdesc isEqual:CKNULL])
+    if (!self.cardmgdesc)
+    {
+        return CKNULL;
+    }
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"detailCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        CGSize size = [self.cardmgdesc labelSizeWithWidth:self.tableView.frame.size.width - 105 font:[UIFont systemFontOfSize:14]];
+        return size.height + 15;
+    });
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UILabel *title = [cell viewWithTag:100];
+        title.text = @"车损情况：";
+        
+        UILabel *conditionLb = [cell viewWithTag:101];
+        conditionLb.text = self.cardmgdesc.length ? self.cardmgdesc : @" ";
+        conditionLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
+    });
+    return data;
+}
+
+-(id)accidentReasonData
+{
+    //    if ([self.reason isEqual:CKNULL])
+    if (!self.reason)
+    {
+        return CKNULL;
+    }
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"detailCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        CGSize size = [self.reason labelSizeWithWidth:self.tableView.frame.size.width - 105 font:[UIFont systemFontOfSize:14]];
+        return size.height + 15;
+    });
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UILabel *title = [cell viewWithTag:100];
+        title.text = @"事故原因：";
+        
+        UILabel *reasonLb = [cell viewWithTag:101];
+        reasonLb.text = self.reason.length ? self.reason : @" ";
+        reasonLb.preferredMaxLayoutWidth = self.view.bounds.size.width - 110;
+    });
+    return data;
+}
+
+-(id)cardCellData
+{
+    if (self.status.integerValue == 20 || self.status.integerValue == 10 || self.status.integerValue == 0)
+    {
+        return CKNULL;
+    }
+    
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"cardCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 180;
+    });
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UITextField *nameTF = [cell viewWithTag:100];
+        UITextField *numTF = [cell viewWithTag:101];
+        numTF.keyboardType = UIKeyboardTypeNumberPad;
+        UILabel *label = [cell viewWithTag:102];
+        label.preferredMaxLayoutWidth = self.view.bounds.size.width - 30;
+        label.hidden = self.status.integerValue == 1 ? NO : YES;
+        [self addBorder:nameTF WithColor:@"#dedfe0"];
+        [self addBorder:numTF WithColor:@"#dedfe0"];
+        @weakify(self);
+        [[[[numTF rac_textSignal] takeUntilForCell:cell]skip:1] subscribeNext:^(NSString *x) {
+            @strongify(self);
+            
+            numTF.text = [self splitCardNumString:x];
+        }];
+        numTF.enabled = self.status.integerValue == 1 ;
+        numTF.text = [self convertAccount:self.cardno];
+        nameTF.text = self.insurancename;
+    });
+    return data;
+}
+
+#pragma mark - Utility
 
 -(void)addCorner:(UIView *)view
 {

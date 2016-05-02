@@ -155,7 +155,7 @@
         [gToast dismiss];
         [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
         
-        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
@@ -225,7 +225,7 @@
 
 - (void)jumpToHomePage
 {
-    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
+    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
     for (UIViewController * vc in self.navigationController.viewControllers)
     {
         if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])

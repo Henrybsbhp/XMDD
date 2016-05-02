@@ -10,7 +10,7 @@
 
 @implementation HomeItem
 
-- (instancetype)initWithId:(NSNumber *)itemId titlt:(NSString *)title picUrl:(NSString *)picurl andUrl:(NSString *)url imageName:(NSString *)imageName isnew:(BOOL)flag
+- (instancetype)initWithId:(NSString *)itemId titlt:(NSString *)title picUrl:(NSString *)picurl andUrl:(NSString *)url imageName:(NSString *)imageName isnew:(BOOL)flag
 {
     self = [super init];
     if (self) {
@@ -98,6 +98,8 @@
             item.defaultImageName = @"hp_rescue_300";
         else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=ast"])
             item.defaultImageName = @"hp_assist_300";
+        else
+            item.defaultImageName = @"hp_default_300";
     }
     
     return model;

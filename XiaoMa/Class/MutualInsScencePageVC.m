@@ -15,6 +15,7 @@
 #import "ApplyCooperationClaimOp.h"
 #import "MutualInsChooseCarVC.h"
 #import "HKImageAlertVC.h"
+#import "LoginViewModel.h"
 
 
 #define kOneBtnWidth self.view.bounds.size.width - 30
@@ -221,39 +222,48 @@
     }
     else
     {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0013"}];
-        self.scene = [self.scencePhotoVM URLStringForIndex:0];
-        self.cardamage = [self.scencePhotoVM URLStringForIndex:1];
-        self.carinfo = [self.scencePhotoVM URLStringForIndex:2];
-        self.idinfo = [self.scencePhotoVM URLStringForIndex:3];
-        ApplyCooperationClaimOp *op = [[ApplyCooperationClaimOp alloc]init];
-        op.req_claimid = self.claimid;
-        op.req_scene = self.scene;
-        op.req_cardamage = self.cardamage;
-        op.req_carinfo = self.carinfo;
-        op.req_idinfo = self.idinfo;
-        [[[op rac_postRequest]initially:^{
-            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-        }]subscribeNext:^(id x) {
-            [self.view stopActivityAnimation];
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
-                [self.scencePhotoVM deleteAllInfo];
+
+        if (![LoginViewModel loginIfNeededForTargetViewController:self])
+        {
+            return;
+        }
+        else
+        {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0013"}];
+            self.scene = [self.scencePhotoVM URLStringForIndex:0];
+            self.cardamage = [self.scencePhotoVM URLStringForIndex:1];
+            self.carinfo = [self.scencePhotoVM URLStringForIndex:2];
+            self.idinfo = [self.scencePhotoVM URLStringForIndex:3];
+            ApplyCooperationClaimOp *op = [[ApplyCooperationClaimOp alloc]init];
+            op.req_claimid = self.claimid;
+            op.req_scene = self.scene;
+            op.req_cardamage = self.cardamage;
+            op.req_carinfo = self.carinfo;
+            op.req_idinfo = self.idinfo;
+            [[[op rac_postRequest]initially:^{
+                [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+            }]subscribeNext:^(id x) {
+                [self.view stopActivityAnimation];
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
+                    [self.scencePhotoVM deleteAllInfo];
+                    NSArray *viewControllers = self.navigationController.viewControllers;
+                    [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:2] animated:YES];
+                }];
+                HKAlertVC *alert = [self alertWithTopTitle:@"提交成功" ImageName:@"mins_ok" Message:@"恭喜，照片提交成功，补偿记录已生成，请等待车险专员为您服务，谢谢～" ActionItems:@[cancel]];
+                [alert show];
                 NSArray *viewControllers = self.navigationController.viewControllers;
-                [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:2] animated:YES];
+                
+//                @叶志成 返回理赔详情页面
+                [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
+            }error:^(NSError *error) {
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+                NSString *errMsg = error.domain.length == 0 ? @"照片提交失败请重试" : error.domain;
+                HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:errMsg ActionItems:@[cancel]];
+                [alert show];
+                [self.view stopActivityAnimation];
             }];
-            HKAlertVC *alert = [self alertWithTopTitle:@"提交成功" ImageName:@"mins_ok" Message:@"恭喜，照片提交成功，赔偿记录已生成，请等待车险专员为您服务，谢谢～" ActionItems:@[cancel]];
-            [alert show];
-            NSArray *viewControllers = self.navigationController.viewControllers;
-            [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
-        }error:^(NSError *error) {
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
-            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提醒" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel]];
-            [alert show];
-            [self.view stopActivityAnimation];
-        }];
-        
+        }
     }
-    
 }
 
 

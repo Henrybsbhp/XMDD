@@ -115,7 +115,13 @@
     }
     UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
     HKAdvertisement * ad = [self.adList safetyObjectAtIndex:pageIndex];
-    [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:@"ad_default_2_5" errorImage:@"ad_default_2_5"];
+    
+    NSString * defaultImage = @"ad_default_2_5";
+    if (self.adType == AdvertisementHomePageBottom)
+    {
+        defaultImage = @"hp_bottom_ad_default";
+    }
+    [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:defaultImage errorImage:defaultImage];
     
     UITapGestureRecognizer *tap = imgV.customObject;
     @weakify(self);
@@ -137,7 +143,12 @@
             [self.navModel pushToViewControllerByUrl:ad.adLink];
         }
         else {
-            if (_adType != AdvertisementValuation) {
+            if (_adType == AdvertisementHomePageBottom)
+            {
+                UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
+                [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+            }
+            else if (_adType != AdvertisementValuation) {
                 
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.url = ADDEFINEWEB;

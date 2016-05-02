@@ -251,10 +251,12 @@
     [self.tableView hideDefaultEmptyView];
     self.isLoading = YES;
     
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
         
     }] subscribeNext:^(GetShopByNameV2Op * op) {
         
+        @strongify(self);
         self.isLoading = NO;
         [self.searchBar resignFirstResponder];
         if (op.rsp_code == 0)
@@ -292,10 +294,9 @@
             [gToast showError:@"获取失败"];
         }
     } error:^(NSError *error) {
-        
+        @strongify(self);
         self.isLoading = NO;
         self.resultArray = nil;
-        @weakify(self);
         [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:error.domain tapBlock:^{
             @strongify(self);
             [self searchShops];
@@ -320,14 +321,16 @@
     op.shopName = searchInfo;
     op.pageno = self.currentPageIndex;
     op.orderby = 1;
-    
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
         
+        @strongify(self);
         [self.tableView.bottomLoadingView hideIndicatorText];
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
         self.isLoading = YES;
     }] subscribeNext:^(GetShopByNameV2Op * op) {
         
+        @strongify(self);
         self.currentPageIndex = self.currentPageIndex + 1;
         [self.tableView.bottomLoadingView stopActivityAnimation];
         self.isLoading = NO;
@@ -358,6 +361,8 @@
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
         }
     } error:^(NSError *error) {
+        
+        @strongify(self);
         self.isLoading = NO;
         self.tableView.showBottomLoadingView = YES;
         [self.tableView.bottomLoadingView stopActivityAnimation];
@@ -749,8 +754,10 @@
     UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
     UIButton *phoneB = (UIButton *)[cell.contentView viewWithTag:3002];
     
+    @weakify(self);
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
 
+        @strongify(self);
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.tabBarController.view];
     }];
     
@@ -770,9 +777,5 @@
     
     return cell;
 }
-
-
-
-
 
 @end

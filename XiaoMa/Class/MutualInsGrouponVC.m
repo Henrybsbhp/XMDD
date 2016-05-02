@@ -133,9 +133,10 @@ typedef enum : NSInteger
         @strongify(self);
         GetCooperationMygroupDetailOp *op = evt.object;
         if ([self.group.groupId isEqual:op.req_groupid]) {
+            self.group.memberId = op.req_memberid;
             [self reloadFromSignal:evt.signal];
         }
-    }];
+    } ];
 }
 
 - (void)resetNavigationItemWithTitle:(NSString *)title {
@@ -287,7 +288,7 @@ typedef enum : NSInteger
     }] subscribeNext:^(ExitCooperationOp * rop) {
         @strongify(self);
         [gToast dismiss];
-        [[self.minsStore reloadSimpleGroups] sendAndIgnoreError];
+        [[self.minsStore reloadSimpleGroups] send];
         [self actionBack:nil];
     } error:^(NSError *error) {
         
@@ -307,7 +308,7 @@ typedef enum : NSInteger
 
         @strongify(self);
         [gToast showSuccess:@"删除成功！"];
-        [[self.minsStore reloadSimpleGroups] sendAndIgnoreError];
+        [[self.minsStore reloadSimpleGroups] send];
         [self actionBack:nil];
     } error:^(NSError *error) {
         

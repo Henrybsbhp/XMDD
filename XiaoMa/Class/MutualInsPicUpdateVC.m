@@ -174,7 +174,6 @@
 {
     if (indexPath.section == 0 || indexPath.section == 1) {
         
-        PictureRecord * record = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
         CGFloat width = gAppMgr.deviceInfo.screenSize.width - 60;
         CGFloat height = 666.0 / 1024 * width;
         return height;
@@ -275,16 +274,14 @@
         selectImgView.customObject = maskView;
     }
     @weakify(self)
-    @weakify(selectImgView)
-    [[[selectImgView.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntilForCell:cell] subscribeNext:^(id x) {
+    [[[selectImgView.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        @strongify(selectImgView)
         @strongify(self)
         self.currentRecord = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
         [self actionUpload:self.currentRecord withImageView:selectImgView];
     }];
     
-    [[[selectImgView.pickImageButton rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntilForCell:cell] subscribeNext:^(id x) {
+    [[[selectImgView.pickImageButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
         self.currentRecord = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
@@ -424,11 +421,13 @@
         
         self.tableView.hidden = YES;
         self.bottomView.hidden = YES;
+        [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] subscribeNext:^(GetCooperationIdlicenseInfoOp * rop) {
         
         self.tableView.hidden = NO;
         self.bottomView.hidden = NO;
+        [self.view hideDefaultEmptyView];
         [self.view stopActivityAnimation];
         self.idPictureRecord.url = rop.rsp_idnourl;
         self.drivingLicensePictureRecord.url = rop.rsp_licenseurl;
@@ -556,14 +555,15 @@
          imageView.tapGesture.enabled = NO;
      } error:^(NSError *error) {
          
+         record.isUploading = NO;
      }];
 }
 
 -(void)back
 {
     //刷新团列表信息
-    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
-    [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] sendAndIgnoreError];
+    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+    [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
     
     MutualInsGrouponVC *grouponvc;
     MutualInsHomeVC *homevc;
@@ -572,6 +572,7 @@
         UIViewController *vc = self.navigationController.viewControllers[i];
         if ([vc isKindOfClass:[MutualInsGrouponVC class]]) {
             grouponvc = (MutualInsGrouponVC *)vc;
+            grouponvc.group.memberId = self.memberId;
             break;
         }
         if ([vc isKindOfClass:[MutualInsHomeVC class]]) {

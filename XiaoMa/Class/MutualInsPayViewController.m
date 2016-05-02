@@ -348,8 +348,8 @@
         @strongify(self);
         [self gotoPaidSuccessVC];
         
-        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] sendAndIgnoreError];
-        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] sendAndIgnoreError];
+        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] send];
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 5;
         iop.req_tradeno = op.rsp_tradeno;
@@ -651,7 +651,7 @@
 - (HKCellData *)celldataFor0_1
 {
     HKCellData *celldata = [HKCellData dataWithCellID:@"InfoItemCell" tag:nil];
-    celldata.object = @"互助车辆";
+    celldata.object = @"被保障车辆";
     celldata.tag = self.contract.licencenumber;
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 27;
@@ -662,7 +662,7 @@
 - (HKCellData *)celldataFor0_2
 {
     HKCellData *celldata = [HKCellData dataWithCellID:@"InfoItemCell" tag:nil];
-    celldata.object = @"互助期限";
+    celldata.object = @"保障期限";
     celldata.tag = self.contract.contractperiod;
     celldata.customObject = [NSString stringWithFormat:@"(%@个月)",self.contract.totalmonth];
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
@@ -674,7 +674,7 @@
 - (HKCellData *)celldataFor0_3
 {
     HKCellData *celldata = [HKCellData dataWithCellID:@"InfoItemCell" tag:nil];
-    celldata.object = @"共计费用";
+    celldata.object = @"合计费用";
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 27;
     }];
