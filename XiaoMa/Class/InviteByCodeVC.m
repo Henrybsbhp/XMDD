@@ -105,7 +105,7 @@
     
     //已下载
     NSString * tipOneShareString = @"1、您需要通过微信分享入团口令邀请您的好友加入";
-    NSString * tipTwoShareString = @"2、您的好友复制口令后，打开App即可成功加入您创建的团";
+    NSString * tipTwoShareString = @"2、您的好友复制口令后，打开App即可成功加入您参与的团";
     
     CKDict *titleForAlreadyDownLoad = [self setTitleCellForSectionIndex:1];
     CKDict *contentTipOne = [self setNormalContentCell:tipOneShareString];
@@ -117,7 +117,7 @@
     
     //未下载
     NSString * tipOneInviteString = @"1、您需要先邀请您的好友下载小马达达App";
-    NSString * tipTwoInviteString = @"2、受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入\n";
+    NSString * tipTwoInviteString = self.groupType == GroupTypeByself ? @"2、受邀好友下载成功后，告知受邀好友入团暗号或分享入团口令邀请对方加入\n" : @"2、受邀好友下载成功后，分享入团口令邀请对方加入\n";
     
     CKDict *titleForNoDownLoad = [self setTitleCellForSectionIndex:2];
     CKDict *inviteContentTipOne = [self setNormalContentCell:tipOneInviteString];
