@@ -429,6 +429,14 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BlankCell" id="vlm-i2-UwW">
+                                        <rect key="frame" x="0.0" y="328" width="588" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vlm-i2-UwW" id="Zdd-tS-8oJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="588" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="WsZ-8z-hg6" id="6iF-qQ-B8P"/>
@@ -438,7 +446,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VHN-WY-gVd">
                                 <rect key="frame" x="0.0" y="20" width="600" height="40"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MutualIns_warming" translatesAutoresizingMaskIntoConstraints="NO" id="k1C-GH-lmM">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" image="MutualIns_warming" translatesAutoresizingMaskIntoConstraints="NO" id="k1C-GH-lmM">
                                         <rect key="frame" x="272" y="14" width="13" height="13"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbY-0E-jq5">
@@ -459,7 +467,9 @@
                                     <constraint firstItem="k1C-GH-lmM" firstAttribute="centerY" secondItem="cbY-0E-jq5" secondAttribute="centerY" id="4pL-ap-2Pm"/>
                                     <constraint firstItem="cbY-0E-jq5" firstAttribute="centerX" secondItem="VHN-WY-gVd" secondAttribute="centerX" constant="6" id="Cve-UN-8aZ"/>
                                     <constraint firstAttribute="height" constant="40" id="Ipx-VB-fjh"/>
+                                    <constraint firstItem="cbY-0E-jq5" firstAttribute="width" relation="lessThanOrEqual" secondItem="VHN-WY-gVd" secondAttribute="width" constant="-14" id="NqE-4s-eG4"/>
                                     <constraint firstAttribute="bottom" secondItem="f5m-TT-Umc" secondAttribute="bottom" id="RGW-3W-DlL"/>
+                                    <constraint firstItem="k1C-GH-lmM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VHN-WY-gVd" secondAttribute="leading" priority="995" id="e3l-Qi-QjC"/>
                                     <constraint firstAttribute="trailing" secondItem="f5m-TT-Umc" secondAttribute="trailing" id="g4H-Ti-Bzz"/>
                                     <constraint firstItem="f5m-TT-Umc" firstAttribute="leading" secondItem="VHN-WY-gVd" secondAttribute="leading" id="m59-Ec-W0W"/>
                                     <constraint firstItem="k1C-GH-lmM" firstAttribute="trailing" secondItem="cbY-0E-jq5" secondAttribute="leading" constant="-5" id="msG-nK-xsC"/>
@@ -541,6 +551,7 @@
                             <constraint firstAttribute="trailing" secondItem="6Eu-rc-vop" secondAttribute="trailing" id="LV5-9s-tFP"/>
                             <constraint firstItem="81Y-GO-GnL" firstAttribute="top" secondItem="OTx-eh-0kG" secondAttribute="bottom" id="VVm-oj-ri0"/>
                             <constraint firstItem="6Eu-rc-vop" firstAttribute="leading" secondItem="G2I-Db-YYn" secondAttribute="leading" id="ZFU-kE-IQ7"/>
+                            <constraint firstItem="VHN-WY-gVd" firstAttribute="width" relation="lessThanOrEqual" secondItem="G2I-Db-YYn" secondAttribute="width" id="gPZ-RJ-lAl"/>
                             <constraint firstItem="1Fk-AU-wIS" firstAttribute="top" secondItem="6Eu-rc-vop" secondAttribute="bottom" id="nba-Lg-FtE"/>
                         </constraints>
                         <variation key="default">
