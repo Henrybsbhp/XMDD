@@ -254,8 +254,6 @@
                 HKAlertVC *alert = [self alertWithTopTitle:@"提交成功" ImageName:@"mins_ok" Message:@"恭喜，照片提交成功，补偿记录已生成，请等待车险专员为您服务，谢谢～" ActionItems:@[cancel]];
                 [alert show];
                 
-                
-                
             }error:^(NSError *error) {
                 HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
                 NSString *errMsg = error.domain.length == 0 ? @"照片提交失败请重试" : error.domain;
