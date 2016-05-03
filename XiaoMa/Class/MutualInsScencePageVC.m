@@ -247,14 +247,10 @@
                 [self.view stopActivityAnimation];
                 HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
                     [self.scencePhotoVM deleteAllInfo];
-                    MutualInsClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimDetailVC"];
-                    detailVC.claimid = @(self.claimid.integerValue);
-                    [self.navigationController pushViewController:detailVC animated:YES];
+                    [self.navigationController popViewControllerAnimated:YES];
                 }];
                 HKAlertVC *alert = [self alertWithTopTitle:@"提交成功" ImageName:@"mins_ok" Message:@"恭喜，照片提交成功，补偿记录已生成，请等待车险专员为您服务，谢谢～" ActionItems:@[cancel]];
                 [alert show];
-                
-                
                 
             }error:^(NSError *error) {
                 HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
