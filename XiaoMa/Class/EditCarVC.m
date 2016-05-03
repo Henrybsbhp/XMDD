@@ -670,20 +670,24 @@
 - (IBAction)actionUpload:(id)sender
 {
     [MobClick event:@"rp312_1"];
+    [self.model showImagePickerWithTargetVC:self];
     @weakify(self);
-    [[self.model rac_uploadDrivingLicenseWithTargetVC:self initially:^{
-        [gToast showingWithText:@"正在上传..."];
-    }] subscribeNext:^(NSString *url) {
-        @strongify(self);
-        [gToast showSuccess:@"上传成功!"];
-        self.curCar.licenceurl = url;
-        self.curCar.status = 1;
-        self.isDrivingLicenseNeedSave = YES;
-        [self reloadDatasource];
-    } error:^(NSError *error) {
-        [gToast showError:error.domain];
+    [self.model setImagePickerBlock:^(RACSignal *signal) {
+        [[signal initially:^{
+            [gToast showingWithText:@"正在上传..."];
+        }] subscribeNext:^(NSString *url) {
+            @strongify(self);
+            [gToast showSuccess:@"上传成功!"];
+            self.curCar.licenceurl = url;
+            self.curCar.status = 1;
+            self.isDrivingLicenseNeedSave = YES;
+            [self reloadDatasource];
+        } error:^(NSError *error) {
+            [gToast showError:error.domain];
+        }];
     }];
 }
+
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
