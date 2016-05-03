@@ -470,7 +470,7 @@
 
 -(id)cardCellData
 {
-    if (self.status.integerValue == 20 || self.status.integerValue == 10 || self.status.integerValue == 0)
+    if (self.status.integerValue == 20 || self.status.integerValue == 10 || self.status.integerValue == 0 || self.status.integerValue == -1 || self.status.integerValue == -2)
     {
         return CKNULL;
     }

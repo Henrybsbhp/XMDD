@@ -38,6 +38,7 @@
 @property (nonatomic,strong)NSArray * cashCoupouArray;
 @property (nonatomic,strong)NSMutableArray * selectCashCoupouArray;
 
+@property (nonatomic, assign) BOOL isLicenseChecked;
 ///协议数据源
 @property (nonatomic,strong)HKCellData *licenseData;
 
@@ -272,11 +273,21 @@
 
 - (RACSignal *)rac_openLicenseVCWithUrl:(NSString *)url title:(NSString *)title
 {
-    return [InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title];
+    if (self.isLicenseChecked || url.length == 0) {
+        return [RACSubject return:@YES];
+    }
+    
+    @weakify(self);
+    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title] doNext:^(id x) {
+        
+        @strongify(self);
+        self.isLicenseChecked = YES;
+    }];
 }
 
 - (void)actionPay:(id)sender
 {
+    
     @weakify(self)
     [[self rac_openLicenseVCWithUrl:self.contract.contracturl
                              title:[NSString stringWithFormat:@"%@协议",XMINSPrefix]] subscribeNext:^(id x) {

@@ -119,7 +119,7 @@
         {
             [self beginAnimation2Welcome2];
             self.isFirstAppearForWelocome2 = YES;
-            self.scrollView.scrollEnabled = NO;
+//            self.scrollView.scrollEnabled = NO;
         }
     }
     if (originIndex == 2)
@@ -128,7 +128,7 @@
         {
             [self beginAnimation3Welcome3];
             self.isFirstAppearForWelocome3 = YES;
-            self.scrollView.scrollEnabled = NO;
+//            self.scrollView.scrollEnabled = NO;
         }
     }
     if (originIndex == 3)
@@ -137,7 +137,7 @@
         {
             [self beginAnimation4Welcome4];
             self.isFirstAppearForWelocome4 = YES;
-            self.scrollView.scrollEnabled = NO;
+//            self.scrollView.scrollEnabled = NO;
         }
     }
 }
