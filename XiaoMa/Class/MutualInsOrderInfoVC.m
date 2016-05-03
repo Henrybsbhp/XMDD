@@ -238,7 +238,7 @@
     
     CGFloat price = self.contract.total - self.contract.couponmoney;
     NSString * tag = self.contract.couponmoney ? [NSString stringWithFormat:@"原价￥%@ 优惠￥%@",[NSString formatForPrice:self.contract.total],[NSString formatForPrice:self.contract.couponmoney]] : @"";
-    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]],@"tag":tag}];
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"合计费用",@"content":[NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]],@"tag":tag}];
     [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"项目",@"content":@"金额（元）"}];
     
     for (NSDictionary * subIns in self.contract.inslist)
