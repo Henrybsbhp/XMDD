@@ -134,7 +134,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 150;
+    return 180;
 }
 
 #pragma mark Utility
@@ -174,7 +174,7 @@
             if (self.dataArr.count == 0)
             {
                 
-                [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"暂无补偿记录" tapBlock:^{
+                [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"您还没有补偿记录" tapBlock:^{
                     @strongify(self)
                     [self loadData];
                 }];
