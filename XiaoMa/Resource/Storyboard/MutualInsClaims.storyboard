@@ -6,7 +6,7 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--快速赔偿-->
+        <!--快速补偿-->
         <scene sceneID="4z4-c1-884">
             <objects>
                 <viewController storyboardIdentifier="MutualInsAskClaimsVC" hidesBottomBarWhenPushed="YES" id="VE8-in-zv0" customClass="MutualInsAskClaimsVC" sceneMemberID="viewController">
@@ -112,7 +112,7 @@
                             <constraint firstAttribute="trailing" secondItem="1Y5-NA-xkK" secondAttribute="trailing" constant="10" id="zt0-66-Ut2"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="快速赔偿" id="gfa-NF-Icg"/>
+                    <navigationItem key="navigationItem" title="快速补偿" id="gfa-NF-Icg"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="tableView" destination="1Y5-NA-xkK" id="bFn-0N-ENp"/>
@@ -122,7 +122,7 @@
             </objects>
             <point key="canvasLocation" x="1238" y="295"/>
         </scene>
-        <!--赔偿记录-->
+        <!--补偿记录-->
         <scene sceneID="sga-gA-TvG">
             <objects>
                 <viewController storyboardIdentifier="MutualInsClaimsHistoryVC" hidesBottomBarWhenPushed="YES" id="Ph3-MY-GuO" customClass="MutualInsClaimsHistoryVC" sceneMemberID="viewController">
@@ -148,7 +148,7 @@
                                                 <view tag="1000" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LVt-wT-Bh1">
                                                     <rect key="frame" x="0.0" y="0.0" width="580" height="212"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="车损赔偿" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HiF-OA-kDi">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="车损补偿" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HiF-OA-kDi">
                                                             <rect key="frame" x="10" y="15" width="64" height="19.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -174,7 +174,7 @@
                                                             <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="赔偿金额待确认" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pWo-KB-h2i">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="补偿金额待确认" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pWo-KB-h2i">
                                                             <rect key="frame" x="479" y="176" width="91" height="16"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -230,10 +230,10 @@
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="tjK-yX-Tvo"/>
                                                             <exclude reference="SGE-JG-2MU"/>
                                                             <exclude reference="VZj-1n-CNB"/>
                                                             <exclude reference="uRE-kc-lhQ"/>
+                                                            <exclude reference="tjK-yX-Tvo"/>
                                                             <exclude reference="KcM-5l-afE"/>
                                                         </mask>
                                                     </variation>
@@ -263,7 +263,7 @@
                             <constraint firstItem="2wV-fA-c3q" firstAttribute="leading" secondItem="sev-gt-1Te" secondAttribute="leading" constant="10" id="wXm-XD-NVI"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="赔偿记录" id="DA7-07-GIa">
+                    <navigationItem key="navigationItem" title="补偿记录" id="DA7-07-GIa">
                         <barButtonItem key="rightBarButtonItem" title="联系客服" id="axt-H3-Zm4">
                             <color key="tintColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -664,7 +664,7 @@
             </objects>
             <point key="canvasLocation" x="3756" y="295"/>
         </scene>
-        <!--赔偿账户-->
+        <!--补偿账户-->
         <scene sceneID="jXN-Da-y37">
             <objects>
                 <viewController storyboardIdentifier="MutualInsClaimAccountVC" hidesBottomBarWhenPushed="YES" id="oNQ-4D-YcX" customClass="MutualInsClaimAccountVC" sceneMemberID="viewController">
