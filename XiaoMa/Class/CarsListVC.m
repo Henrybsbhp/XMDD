@@ -9,7 +9,6 @@
 #import "CarsListVC.h"
 #import "XiaoMa.h"
 #import "EditCarVC.h"
-#import "CarListSubView.h"
 #import "UIView+JTLoadingView.h"
 #import "MyCarStore.h"
 #import "NSString+Format.h"
@@ -23,7 +22,7 @@
 
 #import "ValuationHomeVC.h"
 
-@interface CarsListVC () <UIScrollViewDelegate,PageSliderDelegate>
+@interface CarsListVC () <UIScrollViewDelegate, PageSliderDelegate>
 
 @property (nonatomic, assign) BOOL isViewAppearing;
 @property (nonatomic, assign) BOOL isBackToMine;
@@ -410,11 +409,20 @@
     [[RACObserve(self.model, selectedCar) distinctUntilChanged] subscribeNext:^(HKMyCar *car) {
         @strongify(self);
         uploadStateLabel.text = [self.model uploadButtonStateForCar:self.model.selectedCar];
+        if (self.model.currentCar.status == 0 || self.model.currentCar.status == 3) {
+            uploadStateLabel.textColor = HEXCOLOR(@"#888888");
+        }
+        else {
+            uploadStateLabel.textColor = HEXCOLOR(@"#18D06A");
+        }
+        
     }];
     
     [[[uploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
-        [self uploadDrivingLicenceWithCar:self.model.currentCar];
+        if (self.model.currentCar.status == 0 || self.model.currentCar.status == 3) {
+            [self uploadDrivingLicenceWithCar:self.model.currentCar];
+        }
     }];
     
     [[[valuationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
