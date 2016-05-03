@@ -15,6 +15,7 @@
 #import "GetSystemTimeOp.h"
 #import "HKImageView.h"
 #import "PictureRecord.h"
+#import "Reachability.h"
 
 @interface MutualInsScencePhotoVC ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
@@ -113,8 +114,16 @@
     }
     else if (self.recordArray.count != 0 && indexPath.section == (self.recordArray.count + 2))
     {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0010"}];
-        [self takePhotoWithIndexPath:indexPath];
+        
+        if ([Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable)
+        {
+            [gToast showMistake:@"请检查网络连接"];
+        }
+        else
+        {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0010"}];
+            [self takePhotoWithIndexPath:indexPath];
+        }
     }
     else if (self.recordArray.count != 0 && indexPath.section > 1)
     {
@@ -192,13 +201,15 @@
 
 -(UITableViewCell *)photoCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    @weakify(self)
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"photoCell"];
     UIView *view = [cell viewWithTag:1000];
     [self addBorder:view];
     UILabel *waterMark = [cell viewWithTag:10102];
     
     [[RACObserve(self, waterMarkStr)takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
-        waterMark.text = x;
+        @strongify(self)
+        waterMark.text = self.waterMarkStr;
     }];
     
     //放弃子视图约束
@@ -318,7 +329,7 @@
         [self.recordArray safetyRemoveObjectAtIndex:indexPath.section - 2];
         [self.tableView reloadData];
     }];
-    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提醒" ImageName:@"mins_bulb" Message:@"请确认是否删除照片?" ActionItems:@[cancel,confirm]];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除照片?" ActionItems:@[cancel,confirm]];
     [alert show];
     
 }
