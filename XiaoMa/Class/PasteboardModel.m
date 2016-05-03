@@ -65,12 +65,10 @@
     alertVC.actionItems = @[cancel, login];
     [alertVC showWithActionHandler:^(NSInteger index, HKAlertVC *alertView) {
         [alertView dismiss];
+        [UIPasteboard generalPasteboard].string = @"";
         self.isAlertShowing = NO;
         if (index == 1) {
             [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=login"];
-        }
-        else {
-            [UIPasteboard generalPasteboard].string = @"";
         }
     }];
 }

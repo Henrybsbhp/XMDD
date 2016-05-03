@@ -294,11 +294,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self.myBridge registerHandler:@"callShareAction" handler:^(id data, WVJBResponseCallback responseCallback) {
         
         @strongify(self);
-        
-        NSDictionary * dic = data;
-        
-        self.isNeedLogin = [dic boolParamForName:@"isNeedLogin"];
-        [self loginIfNeededShare];
+        [self shareAction];
         
         responseCallback(nil);
     }];
@@ -400,7 +396,14 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         NSDictionary *shareDic = response;
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneLocalShare;
-        vc.btnTypeArr = @[@1, @2, @3, @4];
+        NSArray *btnArray = shareDic[@"buttons"];
+        if (btnArray.count == 0) {
+            vc.btnTypeArr =@[@1, @2, @3, @4];
+        }
+        else {
+            vc.btnTypeArr = btnArray;
+        }
+        
         vc.tt = [shareDic stringParamForName:@"title"];
         vc.subtitle = [shareDic stringParamForName:@"desc"];
         
