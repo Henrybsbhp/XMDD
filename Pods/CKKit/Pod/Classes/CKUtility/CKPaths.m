@@ -65,7 +65,7 @@ NSURL *CKURLForDocument(NSString *fileName)
     NSString *path = CKPathForDocument(fileName);
     if (path)
     {
-        return [NSURL URLWithString:path];
+        return [[NSURL alloc] initFileURLWithPath:path];
     }
     return nil;
 }
@@ -75,7 +75,7 @@ NSURL *CKURLForCache(NSString *fileName)
     NSString *path = CKPathForCache(fileName);
     if (path)
     {
-        return [NSURL URLWithString:path];
+        return [[NSURL alloc] initFileURLWithPath:path];
     }
     return nil;
 }

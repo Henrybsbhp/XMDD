@@ -69,10 +69,11 @@
 
 
 
-
 #if XMDDEnvironment==0
 //开发环境
+    #define XmddBaseUrl @"http://dev01.xiaomadada.com"
     #define ApiBaseUrl @"http://dev01.xiaomadada.com/paa/rest/api"
+    #define RCTServerBaseUrl    @"http://dev01.xiaomadada.com/rct/server"
     #define ApiFormalUrl @"https://www.xiaomadada.com/paa/rest/api" //正式
     #define DiscoverUrl @"http://dev01.xiaomadada.com/paaweb/general/discoveryload"//发现地址
     #define PayCenterNotifyUrl @"http://dev01.xiaomadada.com/paaweb/general/order/paynotify"
@@ -84,7 +85,9 @@
 
 #elif XMDDEnvironment==1
 //测试环境
+    #define XmddBaseUrl @"http://dev01.xiaomadada.com"
     #define ApiBaseUrl @"https://dev.xiaomadada.com/paa/rest/api"
+    #define RCTServerBaseUrl    @"http://dev01.xiaomadada.com/rct/server"
     #define ApiFormalUrl @"https://www.xiaomadada.com/paa/rest/api" //正式
     #define DiscoverUrl @"https://dev.xiaomadada.com/paaweb/general/discoveryload"//发现地址
     #define PayCenterNotifyUrl @"https://dev.xiaomadada.com/paaweb/general/order/paynotify"
@@ -95,7 +98,9 @@
     #define ALIPAY_NOTIFY_URL   @"https://dev.xiaomadada.com/paa/alipaynotify"
 #else
 //开发环境
+    #define XmddBaseUrl @"https://www.xiaomadada.com"
     #define ApiBaseUrl @"https://www.xiaomadada.com/paa/rest/api" //正式
+    #define RCTServerBaseUrl    @"http://dev01.xiaomadada.com/rct/server"
     #define ApiFormalUrl @"https://www.xiaomadada.com/paa/rest/api" //正式
     #define DiscoverUrl @"https://www.xiaomadada.com/paaweb/general/discoveryload"//发现地址
     #define PayCenterNotifyUrl @"https://www.xiaomadada.com/paaweb/general/order/paynotify"
