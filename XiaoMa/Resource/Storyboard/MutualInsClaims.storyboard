@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -317,7 +317,7 @@
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="ESa-lI-CJh" secondAttribute="bottom" constant="15" id="Dsv-G0-CyF"/>
+                                                <constraint firstAttribute="bottom" secondItem="ESa-lI-CJh" secondAttribute="bottom" id="Dsv-G0-CyF"/>
                                                 <constraint firstItem="ESa-lI-CJh" firstAttribute="top" secondItem="dVf-7j-RJB" secondAttribute="bottom" constant="23" id="Jfy-Er-IVe"/>
                                                 <constraint firstAttribute="trailing" secondItem="ESa-lI-CJh" secondAttribute="trailing" constant="45" id="KgL-nG-l57"/>
                                                 <constraint firstItem="ESa-lI-CJh" firstAttribute="top" secondItem="J80-7T-ShB" secondAttribute="top" constant="23" id="MnW-pf-EDt"/>
@@ -325,7 +325,7 @@
                                                 <constraint firstItem="ESa-lI-CJh" firstAttribute="leading" secondItem="J80-7T-ShB" secondAttribute="leading" constant="45" id="PRB-QO-Zp7"/>
                                                 <constraint firstItem="dVf-7j-RJB" firstAttribute="leading" secondItem="J80-7T-ShB" secondAttribute="leading" constant="15" id="o6v-6I-8vu"/>
                                                 <constraint firstAttribute="trailing" secondItem="dVf-7j-RJB" secondAttribute="trailing" constant="15" id="rEY-lf-kIw"/>
-                                                <constraint firstItem="dVf-7j-RJB" firstAttribute="top" secondItem="J80-7T-ShB" secondAttribute="top" constant="15" id="vbb-L3-U6f"/>
+                                                <constraint firstItem="dVf-7j-RJB" firstAttribute="top" secondItem="J80-7T-ShB" secondAttribute="top" constant="10" id="vbb-L3-U6f"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -351,7 +351,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="RmF-7X-gMq" firstAttribute="top" secondItem="FPw-SL-qqL" secondAttribute="top" id="ELg-MW-zJy"/>
-                                                <constraint firstAttribute="bottom" secondItem="RmF-7X-gMq" secondAttribute="bottom" constant="15" id="Ium-Lz-bbK"/>
+                                                <constraint firstAttribute="bottom" secondItem="RmF-7X-gMq" secondAttribute="bottom" id="Ium-Lz-bbK"/>
                                                 <constraint firstAttribute="trailing" secondItem="RmF-7X-gMq" secondAttribute="trailing" constant="25" id="nkM-cz-oO2"/>
                                                 <constraint firstItem="RmF-7X-gMq" firstAttribute="leading" secondItem="FPw-SL-qqL" secondAttribute="leading" constant="25" id="sSx-mx-ohQ"/>
                                             </constraints>
@@ -410,26 +410,7 @@
                                             <subviews>
                                                 <view tag="1000" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SaL-xL-jke">
                                                     <rect key="frame" x="30" y="0.0" width="540" height="63"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="10102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2012.12.12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E14-dl-fwd">
-                                                            <rect key="frame" x="450.5" y="30" width="74.5" height="18"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="E14-dl-fwd" secondAttribute="trailing" constant="15" id="9sp-sO-Zb9"/>
-                                                        <constraint firstAttribute="bottom" secondItem="E14-dl-fwd" secondAttribute="bottom" constant="15" id="o1g-ap-B8b"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BiD-Xy-dto">
-                                                    <rect key="frame" x="0.0" y="53" width="600" height="10"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="10" id="NGS-G3-5bQ"/>
-                                                    </constraints>
                                                 </view>
                                                 <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EnA-Ui-Cvr">
                                                     <rect key="frame" x="540" y="10" width="20" height="20"/>
@@ -444,10 +425,7 @@
                                                 <constraint firstItem="EnA-Ui-Cvr" firstAttribute="top" secondItem="lUo-qE-ZIN" secondAttribute="top" constant="10" id="6Wj-9n-oDM"/>
                                                 <constraint firstAttribute="trailing" secondItem="SaL-xL-jke" secondAttribute="trailing" constant="30" id="IW9-bE-aYc"/>
                                                 <constraint firstAttribute="trailing" secondItem="EnA-Ui-Cvr" secondAttribute="trailing" constant="40" id="KCG-Oa-UUb"/>
-                                                <constraint firstAttribute="bottom" secondItem="BiD-Xy-dto" secondAttribute="bottom" id="Mkk-2B-Mlk"/>
-                                                <constraint firstAttribute="trailing" secondItem="BiD-Xy-dto" secondAttribute="trailing" id="OaC-9W-GcA"/>
                                                 <constraint firstAttribute="bottom" secondItem="SaL-xL-jke" secondAttribute="bottom" id="SjC-Xf-I1a"/>
-                                                <constraint firstItem="BiD-Xy-dto" firstAttribute="leading" secondItem="lUo-qE-ZIN" secondAttribute="leading" id="YY8-bW-7wY"/>
                                                 <constraint firstItem="SaL-xL-jke" firstAttribute="leading" secondItem="lUo-qE-ZIN" secondAttribute="leading" constant="30" id="esZ-a2-0Rx"/>
                                                 <constraint firstItem="SaL-xL-jke" firstAttribute="top" secondItem="lUo-qE-ZIN" secondAttribute="top" id="zB9-Mi-lMd"/>
                                             </constraints>
@@ -679,7 +657,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ize-Ve-UdM">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的账户" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9DU-bM-77N">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="我的账户" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9DU-bM-77N">
                                         <rect key="frame" x="30" y="30" width="72" height="22"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -817,7 +795,7 @@
                                                 <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N4t-bl-wJZ">
                                                     <rect key="frame" x="30" y="0.0" width="555" height="69"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1010" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请选择银行" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eel-gB-awg">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1010" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="请选择银行" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eel-gB-awg">
                                                             <rect key="frame" x="235" y="25" width="85" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" red="0.85882352941176465" green="0.85882352941176465" blue="0.85882352941176465" alpha="1" colorSpace="calibratedRGB"/>

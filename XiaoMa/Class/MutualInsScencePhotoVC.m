@@ -74,6 +74,29 @@
     return 1;
 }
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return CGFLOAT_MIN;
+    }
+    return 10.f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView * view = [[UIView alloc] init];
+    view.frame = CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 10);
+    view.backgroundColor = [UIColor clearColor];
+    return view;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0)
@@ -91,15 +114,22 @@
     }
     else if (self.recordArray.count != 0 && indexPath.section == (2 + self.recordArray.count))
     {
+        //加符号
         return 60;
     }
     else if (self.recordArray.count == 0 && indexPath.section == 2)
     {
-        return 200;
+        // 第一张空白图片
+        CGFloat width = gAppMgr.deviceInfo.screenSize.width - 60;
+        CGFloat height = 666.0 / 1024 * width;
+        return height;
     }
     else
     {
-        return 165;
+        // 有照片的cell
+        CGFloat width = gAppMgr.deviceInfo.screenSize.width - 60;
+        CGFloat height = 666.0 / 1024 * width;
+        return height;
     }
 }
 
@@ -136,7 +166,6 @@
 
 
 #pragma mark UITableViewDataSource
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
@@ -201,28 +230,25 @@
 
 -(UITableViewCell *)photoCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    @weakify(self)
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"photoCell"];
     UIView *view = [cell viewWithTag:1000];
     [self addBorder:view];
-    UILabel *waterMark = [cell viewWithTag:10102];
-    
-    [[RACObserve(self, waterMarkStr)takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
-        @strongify(self)
-        waterMark.text = self.waterMarkStr;
-    }];
     
     //放弃子视图约束
     [view setTranslatesAutoresizingMaskIntoConstraints:NO];
     PictureRecord * record = [self.recordArray safetyObjectAtIndex:indexPath.section - 2];
     //初始化hkimageview。如果为nil则手动创建一个。
-    HKImageView * hkimageview  = [view viewWithTag:10101];
+    HKImageView * hkimageview  = view.customObject;
     if (!hkimageview)
     {
-        hkimageview = [[HKImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 60, 165)];
-        hkimageview.contentMode = UIViewContentModeScaleAspectFill;
-        hkimageview.tag = 10101;
+        CGFloat width = gAppMgr.deviceInfo.screenSize.width - 60;
+        CGFloat height = 666.0 / 1024 * width;
+        
+        hkimageview = [[HKImageView alloc]initWithFrame:CGRectMake(1, 1, self.view.bounds.size.width - 62, height-2)];
+        hkimageview.contentMode = UIViewContentModeScaleAspectFit;
         [view addSubview:hkimageview];
+        
+        view.customObject = hkimageview;
         
         //重新上传照片
         [[[hkimageview.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntilForCell:cell] subscribeNext:^(id x) {
@@ -245,12 +271,13 @@
     {
         hkimageview.image = record.image;
     }
+    
     //删除事件
     UIButton *deleteBtn = [cell viewWithTag:101];
-    [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+    [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         [self deletePhoto:indexPath];
     }];
-    [view bringSubviewToFront:waterMark];
+    
     return cell;
 }
 
@@ -325,7 +352,7 @@
 {
     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0009"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
         [self.recordArray safetyRemoveObjectAtIndex:indexPath.section - 2];
         [self.tableView reloadData];
     }];
