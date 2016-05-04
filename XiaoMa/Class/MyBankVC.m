@@ -163,6 +163,10 @@
         {
             [self.tableView.refreshView endRefreshing];
         }
+    } completed:^{
+        
+        [self.view stopActivityAnimation];
+        [self.tableView.refreshView endRefreshing];
     }];
 }
 

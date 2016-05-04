@@ -153,9 +153,9 @@
     }] subscribeNext:^(CreateGroupOp *rop) {
         
         [gToast dismiss];
-        [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
-        
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+        [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
+
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
@@ -225,7 +225,6 @@
 
 - (void)jumpToHomePage
 {
-    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
     for (UIViewController * vc in self.navigationController.viewControllers)
     {
         if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
@@ -455,7 +454,7 @@
     [tipsLabel3 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 106];
     tipsLabel1.attributedText = [self generateAttributedStringWithLineSpacing:@"输入团队名称后，点击下方 “确定” 即可发起组团并获得入团暗号。"];
     tipsLabel2.attributedText = [self generateAttributedStringWithLineSpacing:@"分享暗号可以邀请好友加入。"];
-    tipsLabel3.attributedText = [self generateAttributedStringWithLineSpacing:@"建团后，您也可以选择完善信息、选择购买的小马互助种类后，再去邀请好友入团。"];
+    tipsLabel3.attributedText = [self generateAttributedStringWithLineSpacing:@"建团后，您也可以选择完善信息后，再去邀请好友参团。"];
     
     
     return cell;

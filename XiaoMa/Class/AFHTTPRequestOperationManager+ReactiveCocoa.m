@@ -76,17 +76,11 @@
     }
     
     NSMutableDictionary *payload = [NSMutableDictionary dictionary];
-//    payload[@"jsonrpc"] = @"2.0";
-//    payload[@"method"] = method;
     payload[@"params"] = parameters;
     payload[@"id"] = [requestId description];
-    
-    NSString * serverStr = (!gAppMgr.isSwitchToFormalSurrounding ) ? ApiBaseUrl : ApiFormalUrl;
-    NSString * urlStr = [NSString stringWithFormat:@"%@%@", serverStr,method];
-    NSData *data = [NSJSONSerialization dataWithJSONObject:payload options:0 error:nil];
+
+    NSString * urlStr = [NSString stringWithFormat:@"%@%@", [self.baseURL absoluteString],method];
     return [self.requestSerializer requestWithMethod:@"POST" URLString:urlStr parameters:payload error:nil];
-    
-//    return [self.requestSerializer requestWithMethod:@"POST" URLString:[self.endpointURL absoluteString] parameters:payload error:nil];
 }
 
 - (RACSignal *)rac_invokeMethod:(NSString *)method parameters:(id)parameters
