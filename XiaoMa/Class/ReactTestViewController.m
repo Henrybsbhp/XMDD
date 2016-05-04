@@ -32,7 +32,7 @@
         NSString * urlString = [bundle pathForResource:@"main" ofType:@"jsbundle"];
         
         NSURL * jsURL = [NSURL fileURLWithPath:urlString];
-        [self.rctView rct_requestWithUrl:jsURL andModulName:_modulName];
+        [self.rctView rct_requestWithUrl:strUrl andModulName:_modulName];
         
     });
 }

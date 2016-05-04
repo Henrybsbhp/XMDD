@@ -11,5 +11,7 @@
 @interface CreateGroupVC : HKViewController
 
 @property (nonatomic, weak) UIViewController *originVC;
+@property (nonatomic, strong) NSNumber *originGroupID;
+@property (nonatomic, strong) NSNumber *originMemberID;
 
 @end
