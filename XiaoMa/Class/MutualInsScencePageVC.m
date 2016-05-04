@@ -186,7 +186,7 @@
             [self.scencePhotoVM deleteAllInfo];
             [self.navigationController popViewControllerAnimated:YES];
         }];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续上传" color:kDefTintColor clickBlock:^(id alertVC) {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续上传" color:kGrayTextColor clickBlock:^(id alertVC) {
             [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0015"}];
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您还未保存照片，现在返回将导致照片无法保存，是否现在返回？" ActionItems:@[confirm,cancel]];
