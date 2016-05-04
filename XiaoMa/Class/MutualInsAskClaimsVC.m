@@ -228,7 +228,7 @@
             [gToast showingWithText:@"" inView:self.view];
         }]subscribeNext:^(GetCooperationMyCarOp *op) {
             @strongify(self)
-            if (op.rsp_reports.count != 1)
+            if (op.rsp_reports.count == 1)
             {
                 NSDictionary *report = op.rsp_reports.firstObject;
                 MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
