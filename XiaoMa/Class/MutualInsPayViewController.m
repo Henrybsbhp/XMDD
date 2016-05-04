@@ -334,7 +334,7 @@
 #endif
     
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    NSString * info = [NSString stringWithFormat:@"%@的小马互助订单支付",self.contract.licencenumber];
+    NSString * info = [NSString stringWithFormat:@"小马互助 - %@",self.contract.licencenumber];
     NSString *text;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
