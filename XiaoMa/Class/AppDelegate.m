@@ -583,12 +583,12 @@
 - (void)setupReactNativeManager
 {
     ReactNativeManager *mgr = [ReactNativeManager sharedManager];
-    [mgr loadDefaultBundle];
-    [[mgr rac_checkPackageVersion] subscribeNext:^(id x) {
-        [[mgr rac_downloadPackageWithPackageOp:x] subscribeNext:^(id x) {
-            
-        }];
-    }];
+//    [mgr loadDefaultBundle];
+//    [[mgr rac_checkPackageVersion] subscribeNext:^(id x) {
+//        [[mgr rac_downloadPackageWithPackageOp:x] subscribeNext:^(id x) {
+//            
+//        }];
+//    }];
 }
 
 #pragma mark - 日志
