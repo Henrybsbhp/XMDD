@@ -242,11 +242,13 @@
             op.req_carinfo = self.carinfo;
             op.req_idinfo = self.idinfo;
             [[[op rac_postRequest]initially:^{
-                [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+                
+               [gToast showingWithText:@"记录提交中" inView:self.view];
             }]subscribeNext:^(id x) {
-                [self.view stopActivityAnimation];
+                [gToast dismissInView:self.view];
                 HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
                     [self.scencePhotoVM deleteAllInfo];
+                    
                     MutualInsClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimDetailVC"];
                     detailVC.claimid = @(self.claimid.integerValue);
                     [self.navigationController pushViewController:detailVC animated:YES];
@@ -255,11 +257,9 @@
                 [alert show];
                 
             }error:^(NSError *error) {
-                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
-                NSString *errMsg = error.domain.length == 0 ? @"照片提交失败请重试" : error.domain;
-                HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:errMsg ActionItems:@[cancel]];
-                [alert show];
-                [self.view stopActivityAnimation];
+                
+                NSString *errMsg = error.domain.length ? error.domain : @"记录提交失败";
+                [gToast showError:errMsg inView:self.view];
             }];
         }
     }

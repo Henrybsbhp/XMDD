@@ -17,6 +17,8 @@
 #import "HKImageAlertVC.h"
 #import "MutualInsScencePageVC.h"
 #import "NSString+RectSize.h"
+#import "MutualInsAskClaimsVC.h"
+#import "MutualInsClaimsHistoryVC.h"
 
 @interface MutualInsClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *agreeBtn;
@@ -177,6 +179,17 @@
 -(void)setBackAction
 {
     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0020"}];
+    
+    for (UIViewController * vc in self.navigationController.viewControllers)
+    {
+        if ([vc isKindOfClass:[MutualInsAskClaimsVC class]] ||
+            [vc isKindOfClass:[MutualInsClaimsHistoryVC class]])
+        {
+            [self.navigationController popToViewController:vc animated:YES];
+            return;
+        }
+    }
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -444,12 +457,12 @@
     }
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"detailCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        CGSize size = [self.reason labelSizeWithWidth:self.tableView.frame.size.width - 105 font:[UIFont systemFontOfSize:14]];
+        CGSize size = [self.reason labelSizeWithWidth:self.tableView.frame.size.width - 110 font:[UIFont systemFontOfSize:14]];
         return size.height + 15;
     });
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UILabel *title = [cell viewWithTag:100];
-        title.text = @"事故原因：";
+        title.text = @"事故经过：";
         
         UILabel *reasonLb = [cell viewWithTag:101];
         reasonLb.text = self.reason.length ? self.reason : @" ";
@@ -467,7 +480,7 @@
     
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"cardCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 152;
+        return 164;
     });
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UITextField *nameTF = [cell viewWithTag:100];

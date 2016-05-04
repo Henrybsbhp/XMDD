@@ -230,7 +230,7 @@
         naviButton.selected = NO;
     }
     
-    contentLabel.attributedText = [self generateAttributedString:@"持卡客户指定车辆享受免费年检代办服务，需提前 3 天预约；\n• 车辆年检前客户需准备以下资料：\n• 机动车行驶证（在签证有效期范围内）\n• 有效机动车保险单证\n• 私车需车主身份证复印件，公车需车主单位有效的委托书（盖公章）\n• 非本地区号牌车辆需开具车辆所属地车管部门委托书\n• 具备其他当地行政主管部门要求必备的条件\n汽车卡发行区域内免服务费，检测站需缴纳的行政收费由客户自行承担；\n从客户车辆的安全性出发，年检时客户须把车开至检测站或小马达达指定地点。" lineSpacing:8];
+    contentLabel.attributedText = [self generateAttributedString:@"持卡客户指定车辆享受免费年检协办服务，需提前 3 天预约；\n• 车辆年检前客户需准备以下资料：\n• 机动车行驶证（在签证有效期范围内）\n• 有效机动车保险单证\n• 私车需车主身份证复印件，公车需车主单位有效的委托书（盖公章）\n• 非本地区号牌车辆需开具车辆所属地车管部门委托书\n• 具备其他当地行政主管部门要求必备的条件\n汽车卡发行区域内免服务费，检测站需缴纳的行政收费由客户自行承担；\n从客户车辆的安全性出发，年检时客户须把车开至检测站或小马达达指定地点。" lineSpacing:8];
     contentLabel.textColor = [UIColor colorWithHTMLExpression:@"#888888"];
     contentLabel.preferredMaxLayoutWidth =  gAppMgr.deviceInfo.screenSize.width - 28;
     

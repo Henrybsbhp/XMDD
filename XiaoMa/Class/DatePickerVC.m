@@ -70,11 +70,14 @@
                                                                          targetView:view];
     sheet.shouldDismissOnBackgroundViewTap = NO;
     [sheet presentAnimated:YES completionHandler:nil];
+    
+    self.datePicker.maximumDate = self.maximumDate;
+    self.datePicker.minimumDate = self.minimumDate;
+    
     if (date) {
         self.datePicker.date = date;
     }
-    self.datePicker.maximumDate = self.maximumDate;
-    self.datePicker.minimumDate = self.minimumDate;
+
     [self setupWithTintColor:kDefTintColor];
     
     RACSubject *subject = [RACSubject subject];
