@@ -582,7 +582,13 @@
 #pragma mark - ReactNativeManager
 - (void)setupReactNativeManager
 {
-    [[ReactNativeManager sharedManager] loadDefaultBundle];
+    ReactNativeManager *mgr = [ReactNativeManager sharedManager];
+    [mgr loadDefaultBundle];
+    [[mgr rac_checkPackageVersion] subscribeNext:^(id x) {
+        [[mgr rac_downloadPackageWithPackageOp:x] subscribeNext:^(id x) {
+            
+        }];
+    }];
 }
 
 #pragma mark - 日志

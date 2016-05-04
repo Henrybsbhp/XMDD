@@ -11,6 +11,8 @@
 @interface HKRCTPackageConfig : NSObject
 
 @property (nonatomic, strong, readonly) NSString *bundleVersion;
+@property (nonatomic, strong, readonly) NSString *minAppVersion;
+@property (nonatomic, strong, readonly) NSArray *descList;
 
 + (instancetype)configWithUrl:(NSURL *)url;
 

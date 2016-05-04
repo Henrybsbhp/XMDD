@@ -101,6 +101,9 @@
 		1844532D1C8FEE81007B895D /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844532A1C8FEE81007B895D /* UIImage+RoundedCorner.m */; };
 		1844532E1C8FEE81007B895D /* UIView+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844532C1C8FEE81007B895D /* UIView+RoundedCorner.m */; };
 		184453311C90465F007B895D /* HKTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184453301C90465F007B895D /* HKTableViewController.m */; };
+		1844FADB1CD87BAC0085A0D4 /* GetReactNativePackageOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FADA1CD87BAC0085A0D4 /* GetReactNativePackageOp.m */; };
+		1844FAE11CD889B60085A0D4 /* RCTBundle in Resources */ = {isa = PBXBuildFile; fileRef = 1844FAE01CD889B60085A0D4 /* RCTBundle */; };
+		1844FAE41CD8F9EB0085A0D4 /* DownloadFileOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FAE31CD8F9EB0085A0D4 /* DownloadFileOp.m */; };
 		184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */; };
 		184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C51AD3B58F00EFC3A6 /* UIView+Layer.m */; };
 		184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */; };
@@ -179,7 +182,6 @@
 		189428B81C1ABA3500E492CA /* InsAppointmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189428B71C1ABA3500E492CA /* InsAppointmentVC.m */; };
 		1895A3E41CD1F29D00E4EF34 /* ReactNativeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1895A3E31CD1F29D00E4EF34 /* ReactNativeManager.m */; };
 		1895A3EF1CD2F43200E4EF34 /* HKRCTPackageConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 1895A3EE1CD2F43200E4EF34 /* HKRCTPackageConfig.m */; };
-		1895A3F31CD2FD7D00E4EF34 /* ReactNativeBundle in Resources */ = {isa = PBXBuildFile; fileRef = 1895A3F21CD2FD7D00E4EF34 /* ReactNativeBundle */; };
 		1897C2FF1C16C319007E394E /* InsInputInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1897C2FE1C16C319007E394E /* InsInputInfoVC.m */; };
 		1897C3051C16CF02007E394E /* HKSubscriptInputField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1897C3041C16CF02007E394E /* HKSubscriptInputField.m */; };
 		18988C441BBAB32F001DECD5 /* OrderPaidSuccessOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18988C431BBAB32F001DECD5 /* OrderPaidSuccessOp.m */; };
@@ -973,6 +975,11 @@
 		1844532C1C8FEE81007B895D /* UIView+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RoundedCorner.m"; sourceTree = "<group>"; };
 		1844532F1C90465F007B895D /* HKTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKTableViewController.h; sourceTree = "<group>"; };
 		184453301C90465F007B895D /* HKTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKTableViewController.m; sourceTree = "<group>"; };
+		1844FAD91CD87BAC0085A0D4 /* GetReactNativePackageOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetReactNativePackageOp.h; path = Class/GetReactNativePackageOp.h; sourceTree = "<group>"; };
+		1844FADA1CD87BAC0085A0D4 /* GetReactNativePackageOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetReactNativePackageOp.m; path = Class/GetReactNativePackageOp.m; sourceTree = "<group>"; };
+		1844FAE01CD889B60085A0D4 /* RCTBundle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RCTBundle; sourceTree = "<group>"; };
+		1844FAE21CD8F9EB0085A0D4 /* DownloadFileOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadFileOp.h; path = Class/DownloadFileOp.h; sourceTree = "<group>"; };
+		1844FAE31CD8F9EB0085A0D4 /* DownloadFileOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadFileOp.m; path = Class/DownloadFileOp.m; sourceTree = "<group>"; };
 		184E40C11AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBarButtonItem+CustomStyle.h"; path = "Class/UIBarButtonItem+CustomStyle.h"; sourceTree = "<group>"; };
 		184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBarButtonItem+CustomStyle.m"; path = "Class/UIBarButtonItem+CustomStyle.m"; sourceTree = "<group>"; };
 		184E40C41AD3B58F00EFC3A6 /* UIView+Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Layer.h"; path = "Class/UIView+Layer.h"; sourceTree = "<group>"; };
@@ -1135,7 +1142,6 @@
 		1895A3E31CD1F29D00E4EF34 /* ReactNativeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReactNativeManager.m; path = Class/ReactNativeManager.m; sourceTree = "<group>"; };
 		1895A3ED1CD2F43200E4EF34 /* HKRCTPackageConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKRCTPackageConfig.h; path = Class/HKRCTPackageConfig.h; sourceTree = "<group>"; };
 		1895A3EE1CD2F43200E4EF34 /* HKRCTPackageConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKRCTPackageConfig.m; path = Class/HKRCTPackageConfig.m; sourceTree = "<group>"; };
-		1895A3F21CD2FD7D00E4EF34 /* ReactNativeBundle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ReactNativeBundle; sourceTree = "<group>"; };
 		1897C2FD1C16C319007E394E /* InsInputInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsInputInfoVC.h; sourceTree = "<group>"; };
 		1897C2FE1C16C319007E394E /* InsInputInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsInputInfoVC.m; sourceTree = "<group>"; };
 		1897C3031C16CF02007E394E /* HKSubscriptInputField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKSubscriptInputField.h; path = Class/HKSubscriptInputField.h; sourceTree = "<group>"; };
@@ -2879,6 +2885,17 @@
 			path = JMRoundedCorner;
 			sourceTree = "<group>";
 		};
+		1844FAD11CD879AA0085A0D4 /* ReactNative */ = {
+			isa = PBXGroup;
+			children = (
+				1895A3ED1CD2F43200E4EF34 /* HKRCTPackageConfig.h */,
+				1895A3EE1CD2F43200E4EF34 /* HKRCTPackageConfig.m */,
+				1895A3E21CD1F29D00E4EF34 /* ReactNativeManager.h */,
+				1895A3E31CD1F29D00E4EF34 /* ReactNativeManager.m */,
+			);
+			name = ReactNative;
+			sourceTree = "<group>";
+		};
 		184E40C71AD3B6C700EFC3A6 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -2965,8 +2982,6 @@
 				50F0FF6D1C9A9780009A94A3 /* HKMutualInsList.m */,
 				50BF30141CABEE0100D0FC07 /* AdListData.h */,
 				50BF30151CABEE0100D0FC07 /* AdListData.m */,
-				1895A3ED1CD2F43200E4EF34 /* HKRCTPackageConfig.h */,
-				1895A3EE1CD2F43200E4EF34 /* HKRCTPackageConfig.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -3139,7 +3154,7 @@
 		1883D9121ACBBE5E002A4D19 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				1895A3F21CD2FD7D00E4EF34 /* ReactNativeBundle */,
+				1844FAE01CD889B60085A0D4 /* RCTBundle */,
 				C35803041CBB79600002808D /* Images.xcassets */,
 				6BD293BA1B943EF1006482A4 /* Storyboard */,
 				1851F4221B0C29A500241A01 /* CoreData */,
@@ -3281,6 +3296,7 @@
 		18895B2E1B4CB4D600928F62 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				1844FAD11CD879AA0085A0D4 /* ReactNative */,
 				18895B331B4CB87900928F62 /* Super */,
 				1883D9311ACCDA8B002A4D19 /* DefaultStyleModel.h */,
 				1883D9321ACCDA8B002A4D19 /* DefaultStyleModel.m */,
@@ -3308,8 +3324,6 @@
 				18B78F5E1BA990100061ECAD /* HKLaunchManager.m */,
 				50BA11621C27F42F00EA1E4A /* CarIDCodeCheckModel.h */,
 				50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */,
-				1895A3E21CD1F29D00E4EF34 /* ReactNativeManager.h */,
-				1895A3E31CD1F29D00E4EF34 /* ReactNativeManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -4575,6 +4589,8 @@
 				18B78F691BAAA2100061ECAD /* GetInsuranceCalculatorOpV2.m */,
 				185A527E1B187EFA003515CC /* DownloadOp.h */,
 				6BE2BD601AE6408500A69875 /* DownloadOp.m */,
+				1844FAE21CD8F9EB0085A0D4 /* DownloadFileOp.h */,
+				1844FAE31CD8F9EB0085A0D4 /* DownloadFileOp.m */,
 				6BC220941AD7801C00A4310E /* BaseOp.h */,
 				6BC220951AD7801C00A4310E /* BaseOp.m */,
 				187CC95A1AEF2023004D1F28 /* UploadFileOp.h */,
@@ -4809,6 +4825,8 @@
 				C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */,
 				C3396E8D1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.h */,
 				C3396E8E1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.m */,
+				1844FAD91CD87BAC0085A0D4 /* GetReactNativePackageOp.h */,
+				1844FADA1CD87BAC0085A0D4 /* GetReactNativePackageOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -5335,6 +5353,7 @@
 				6BD293D31B943EF1006482A4 /* Other.storyboard in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				6BD293D41B943EF1006482A4 /* Rescue.storyboard in Resources */,
+				1844FAE11CD889B60085A0D4 /* RCTBundle in Resources */,
 				C38A1DFE1CC5D1390085BA4C /* (null) in Resources */,
 				508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */,
 				18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */,
@@ -5356,7 +5375,6 @@
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
 				6BB884D31AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.bundle in Resources */,
 				6BD293CD1B943EF1006482A4 /* Common.storyboard in Resources */,
-				1895A3F31CD2FD7D00E4EF34 /* ReactNativeBundle in Resources */,
 				1833F59F1BCD47EB000E1DA1 /* Gas.storyboard in Resources */,
 				50A1E06E1C1EA12800176572 /* Valuation.storyboard in Resources */,
 				18B78F611BAA8CF60061ECAD /* Launch.storyboard in Resources */,
@@ -5626,6 +5644,7 @@
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
 				6B26EF071C8EF89B00428EC4 /* ReactTestViewController.m in Sources */,
 				6BE47F951C27F4E600DBD969 /* SecondCarValuationOp.m in Sources */,
+				1844FAE41CD8F9EB0085A0D4 /* DownloadFileOp.m in Sources */,
 				4EF94AF31C321D020092CB55 /* RescueHistoryViewController.m in Sources */,
 				5040B37D1C06D50200ADE77F /* ApplyUnionOp.m in Sources */,
 				6B26EF0C1C8EFA7600428EC4 /* ReactView.m in Sources */,
@@ -6024,6 +6043,7 @@
 				18A9E8CF1BDF15430061D3BC /* EditCarVC.m in Sources */,
 				186A09801CB4BBA500FFB3F8 /* GasStepper.m in Sources */,
 				18C52C3A1BA6CE9400F6C38B /* DAProgressOverlayView.m in Sources */,
+				1844FADB1CD87BAC0085A0D4 /* GetReactNativePackageOp.m in Sources */,
 				50F7F0781C86C49700138947 /* GetShareButtonOpV2.m in Sources */,
 				18B6E5CB1C463D0300697DAB /* CancelInsOrderOp.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,

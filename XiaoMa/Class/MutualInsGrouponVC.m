@@ -397,7 +397,6 @@ typedef enum : NSInteger
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         CreateGroupVC * vc = [UIStoryboard vcWithId:@"CreateGroupVC" inStoryboard:@"MutualInsJoin"];
-        vc.originVC = self.originVC;
         [self.navigationController pushViewController:vc animated:YES];
     });
     return dict;

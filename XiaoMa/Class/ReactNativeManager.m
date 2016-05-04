@@ -7,6 +7,7 @@
 //
 
 #import "ReactNativeManager.h"
+#import "DownloadFileOp.h"
 
 @implementation ReactNativeManager
 
@@ -22,43 +23,66 @@
 
 - (void)loadDefaultBundle
 {
-    //如果不存在最近的版本，将资源里的rct版本链接到最近版本
-    NSURL *latestUrl = [self latestBundleUrl];
-    if (![self bundleExistsAtUrl:[self latestBundleUrl]]) {
-        NSURL *url = CKURLForMainBundle(@"ReactNativeBundle");
-        [self linkFromUrl:CKURLForMainBundle(@"ReactNativeBundle") toUrl:latestUrl];
+    NSURL *defUrl = CKURLForMainBundle(@"RCTBundle");
+    NSURL *latestUrl = CKURLForDocument(@"rct/bundle/latest");
+
+    HKRCTPackageConfig *defConf = [HKRCTPackageConfig configWithUrl:[defUrl URLByAppendingPathComponent:@"config.json"]];
+    HKRCTPackageConfig *latestConf = [HKRCTPackageConfig configWithUrl:[latestUrl URLByAppendingPathComponent:@"config.json"]];
+
+    if ([defConf.bundleVersion compare:latestConf.bundleVersion options:NSCaseInsensitiveSearch] > 0) {
+        [self removeAtUrl:latestUrl];
+        [self makeDirWithUrl:[latestUrl URLByDeletingLastPathComponent]];
+        [self linkFromUrl:defUrl toUrl:latestUrl];
+        latestConf = defConf;
     }
-    if (latestUrl) {
-        _defaultConfig = [HKRCTPackageConfig configWithUrl:latestUrl];
-    }
+    
+    _defaultPackageConfig = defConf;
+    _latestPackageConfig = latestConf;
 }
 
-- (RACSignal *)rac_checkPackageVersionUpdate
+- (RACSignal *)rac_checkPackageVersion
 {
-    return nil;
+    GetReactNativePackageOp *op = [GetReactNativePackageOp operation];
+    op.req_version = self.latestPackageConfig.bundleVersion;
+    op.req_appversion = gAppMgr.deviceInfo.appVersion;
+    return [[op rac_postRequest] catch:^RACSignal *(NSError *error) {
+        if (error.code == 304) {
+            return [RACSignal empty];
+        }
+        return [RACSignal error:error];
+    }];
 }
 
-- (RACSignal *)rac_downloadPackageForUrl:(NSURL *)url
+- (RACSignal *)rac_downloadPackageWithPackageOp:(GetReactNativePackageOp *)pkgop
 {
-    return nil;
+    NSURL *dirUrl = CKURLForDocument([NSString stringWithFormat:@"rct/bundle/%@.temp/", pkgop.rsp_version]);
+    if ([self existsAtUrl:dirUrl]) {
+        [self removeAtUrl:dirUrl];
+    }
+    [self makeDirWithUrl:[dirUrl URLByAppendingPathComponent:@"patch/"]];
+    NSString *patchName = [NSString stringWithFormat:@"patch/%@", [pkgop.rsp_patchurl lastPathComponent]];
+    DownloadFileOp *op = [DownloadFileOp operation];
+    op.req_url = pkgop.rsp_patchurl;
+    op.req_savePath = [[dirUrl URLByAppendingPathComponent:patchName] path];
+    return [op rac_getRequest];
 }
 
 #pragma mark - Util
-- (BOOL)bundleExistsAtUrl:(NSURL *)url
+- (BOOL)existsAtUrl:(NSURL *)url
 {
     BOOL isDir;
     BOOL rst = [[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDir];
     return rst && isDir;
 }
 
-- (NSURL *)latestBundleUrl
+- (BOOL)removeAtUrl:(NSURL *)url
 {
-    return CKURLForDocument(@"rct/bundle/latest");
-}
-
-- (NSURL *)localUrlForConfig:(HKRCTPackageConfig *)config
-{
-    return CKURLForDocument([NSString stringWithFormat:@"rct/bundle/%@", config.bundleVersion]);
+    NSError *error;
+    BOOL rst = [[NSFileManager defaultManager] removeItemAtURL:url error:&error];
+    if (!rst) {
+        DebugErrorLog(@"%@", error);
+    }
+    return rst;
 }
 
 - (BOOL)linkFromUrl:(NSURL *)url1 toUrl:(NSURL *)url2

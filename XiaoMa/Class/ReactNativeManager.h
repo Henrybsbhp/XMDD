@@ -8,12 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "HKRCTPackageConfig.h"
+#import "GetReactNativePackageOp.h"
 
 @interface ReactNativeManager : NSObject
 
-@property (nonatomic, strong, readonly) HKRCTPackageConfig *defaultConfig;
+@property (nonatomic, strong, readonly) HKRCTPackageConfig *defaultPackageConfig;
+@property (nonatomic, strong, readonly) HKRCTPackageConfig *latestPackageConfig;
 
 - (void)loadDefaultBundle;
 + (instancetype)sharedManager;
+- (RACSignal *)rac_checkPackageVersion;
+- (RACSignal *)rac_downloadPackageWithPackageOp:(GetReactNativePackageOp *)pkgop;
 
 @end
