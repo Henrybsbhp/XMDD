@@ -288,7 +288,17 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-
+- (void)registerShare
+{
+    @weakify(self);
+    [self.myBridge registerHandler:@"callShareAction" handler:^(id data, WVJBResponseCallback responseCallback) {
+        
+        @strongify(self);
+        [self shareAction];
+        
+        responseCallback(nil);
+    }];
+}
 
 #pragma mark - Utilitly
 - (void)showImages:(NSString *)urlStr
@@ -359,6 +369,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
         }
         if ([btnStr integerValue] == 10) {
+            //如果按钮数组中存在类型为10的数据，则表示分享按钮是要登录的
             self.isNeedLogin = YES;
         }
     }
@@ -385,7 +396,14 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         NSDictionary *shareDic = response;
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneLocalShare;
-        vc.btnTypeArr = @[@1, @2, @3, @4];
+        NSArray *btnArray = shareDic[@"buttons"];
+        if (btnArray.count == 0) {
+            vc.btnTypeArr =@[@1, @2, @3, @4];
+        }
+        else {
+            vc.btnTypeArr = btnArray;
+        }
+        
         vc.tt = [shareDic stringParamForName:@"title"];
         vc.subtitle = [shareDic stringParamForName:@"desc"];
         

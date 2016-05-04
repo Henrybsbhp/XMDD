@@ -147,6 +147,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     //设置提示框
     [self.bridge registerAlertVC];
+    
+    //设置分享
+    [self.bridge registerShare];
 }
 
 - (void)setupRightItems
@@ -154,7 +157,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     @weakify(self);
     [self.bridge.myBridge registerHandler:@"setOptionMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
         @strongify(self);
-        DebugLog(@"%@", data);
         NSArray * menuArr = data;
         if (menuArr.count == 1) {
             self.navigationItem.rightBarButtonItem = [self.bridge setSingleMenu:[menuArr safetyObjectAtIndex:0]];

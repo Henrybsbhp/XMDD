@@ -119,6 +119,7 @@
     {
         self.topView.hidden = NO;
         self.topLabel.text = topTip;
+        self.topLabel.adjustsFontSizeToFitWidth = YES;
         self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
         @weakify(self)
         [[RACObserve(self.tableView,contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * obj) {
@@ -237,7 +238,7 @@
     
     CGFloat price = self.contract.total - self.contract.couponmoney;
     NSString * tag = self.contract.couponmoney ? [NSString stringWithFormat:@"原价￥%@ 优惠￥%@",[NSString formatForPrice:self.contract.total],[NSString formatForPrice:self.contract.couponmoney]] : @"";
-    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"共计费用",@"content":[NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]],@"tag":tag}];
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"合计费用",@"content":[NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]],@"tag":tag}];
     [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"项目",@"content":@"金额（元）"}];
     
     for (NSDictionary * subIns in self.contract.inslist)
@@ -258,18 +259,33 @@
         [array safetyAddObject:@{@"id":@"ItemContentBottomCell"}];
     }
     
+    /// 交强险存在。如果待支付，用户可选择；如果已支付，说明用户选择了交强险代买
     if (self.contract.insperiod.length)
     {
-        [array safetyAddObject:@{@"id":@"SwitchCell",@"insSelected":@(self.isInsProxy),@"content":@"保险公司代购"}];
-        
-        if (self.isInsProxy)
+        if (self.contract.status == 1)
         {
-            [array safetyAddObject:@{@"id":@"InsCompanyCell",@"title":@"保险公司",@"content":self.proxyInsCompany}];
+            [array safetyAddObject:@{@"id":@"SwitchCell",@"insSelected":@(self.isInsProxy),@"content":@"保险公司代购"}];
             
-            if (self.isInsProxyExpand && self.contract.inscomp.count)
+            if (self.isInsProxy)
             {
-                [array safetyAddObject:@{@"id":@"InsExpandCell",@"title":@"保险公司",@"content":self.contract.inscomp}];
+                [array safetyAddObject:@{@"id":@"InsCompanyCell",@"title":@"保险公司",@"content":self.proxyInsCompany}];
+                
+                if (self.isInsProxyExpand && self.contract.inscomp.count)
+                {
+                    [array safetyAddObject:@{@"id":@"InsExpandCell",@"title":@"保险公司",@"content":self.contract.inscomp}];
+                }
+                [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保险期限",@"content":self.contract.insperiod ?: @""}];
+                
+                [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
+                
+                [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"交强险",@"content":[NSString formatForPrice:self.contract.forcefee]}];
+                [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"车船税",@"content":[NSString formatForPrice:self.contract.taxshipfee]}];
             }
+        }
+        else
+        {
+            [array safetyAddObject:@{@"id":@"BlankCell",@"height":@(10)}];
+            [array safetyAddObject:@{@"id":@"InsCompanyCell",@"title":@"保险公司",@"content":self.proxyInsCompany}];
             [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保险期限",@"content":self.contract.insperiod ?: @""}];
             
             [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
@@ -347,9 +363,14 @@
         NSInteger num = self.contract.inscomp.count / 2 + self.contract.inscomp.count % 2;
         height = 5 + 6 + 27 * num + 9 * (num + 1);
     }
-    else
+    else if ([cellId isEqualToString:@"SwitchCell"])
     {
         height = 40;
+    }
+    else
+    {
+        NSNumber * h = [dict objectForKey:@"height"];
+        height = [h integerValue];
     }
     return height;
 }
@@ -392,9 +413,13 @@
     {
         cell = [self tableView:tableView insExpandCellForRowAtIndexPath:indexPath];
     }
-    else
+    else if ([cellId isEqualToString:@"SwitchCell"])
     {
         cell = [self tableView:tableView switchCellForRowAtIndexPath:indexPath];
+    }
+    else
+    {
+        cell = [self tableView:tableView blankCellForRowAtIndexPath:indexPath];
     }
     
     return cell;
@@ -407,8 +432,10 @@
     NSString * cellId = [dict objectForKey:@"id"];
     UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
     UIImageView * iconView = (UIImageView *)[cell searchViewWithTag:103];
-    if ([cellId isEqualToString:@"InsCompanyCell"])
+    
+    if ([cellId isEqualToString:@"InsCompanyCell"] && self.contract.status == 1)
     {
+        // 点击保险公司按钮，且状态等于待支付，才允许保险公司弹出
         self.isInsProxyExpand = !self.isInsProxyExpand;
         [self setupDateSource];
         if (self.isInsProxyExpand)
@@ -431,6 +458,13 @@
             }];
         }
         
+    }
+    else if ([cellId isEqualToString:@"SwitchCell"])
+    {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0002"}];
+        self.isInsProxy = !self.isInsProxy;
+        [self setupDateSource];
+        [self.tableView reloadData];
     }
 }
 
@@ -646,6 +680,12 @@
     [cell setNeedsLayout];
     [cell layoutIfNeeded];
     
+    return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView blankCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"BlankCell"];
     return cell;
 }
 

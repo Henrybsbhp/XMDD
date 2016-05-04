@@ -37,6 +37,8 @@
 - (void)registerNavigation;
 ///设置提示框
 - (void)registerAlertVC;
+///分享
+- (void)registerShare;
 
 - (UIBarButtonItem *)setSingleMenu:(NSString *)singleBtn;
 
