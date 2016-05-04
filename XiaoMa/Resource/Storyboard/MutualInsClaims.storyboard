@@ -1070,6 +1070,7 @@
                                                 <constraint firstItem="5Mg-AM-gN9" firstAttribute="top" secondItem="2ms-dz-7m1" secondAttribute="top" id="SN8-Cl-vc9"/>
                                                 <constraint firstItem="2ms-dz-7m1" firstAttribute="leading" secondItem="uvt-U8-hbv" secondAttribute="leading" constant="15" id="Voa-VX-nus"/>
                                                 <constraint firstItem="5Mg-AM-gN9" firstAttribute="centerY" secondItem="2ms-dz-7m1" secondAttribute="centerY" id="X9Z-mR-SlV"/>
+                                                <constraint firstItem="5Mg-AM-gN9" firstAttribute="top" secondItem="2ms-dz-7m1" secondAttribute="top" id="i0R-T2-lRn"/>
                                                 <constraint firstItem="2ms-dz-7m1" firstAttribute="top" secondItem="uvt-U8-hbv" secondAttribute="top" id="v1a-AG-Hyx"/>
                                                 <constraint firstAttribute="trailing" secondItem="5Mg-AM-gN9" secondAttribute="trailing" constant="15" id="wht-Hi-CTx"/>
                                             </constraints>
@@ -1077,6 +1078,7 @@
                                                 <mask key="constraints">
                                                     <exclude reference="v1a-AG-Hyx"/>
                                                     <exclude reference="SN8-Cl-vc9"/>
+                                                    <exclude reference="X9Z-mR-SlV"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -1157,7 +1159,7 @@
                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="补偿账户需为开通银联功能的借记卡" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMb-Uf-z8j">
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="补偿账户需为开通银联功能的借记卡" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMb-Uf-z8j">
                                                     <rect key="frame" x="15" y="162" width="570" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.094117647058823528" green="0.81568627450980391" blue="0.41568627450980389" alpha="1" colorSpace="calibratedRGB"/>
