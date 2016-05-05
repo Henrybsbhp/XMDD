@@ -8,7 +8,7 @@
 
 #import "JTTableViewCell.h"
 #import "UIView+Layer.h"
-#import <CKKit.h>
+#import "CKKit.h"
 
 @implementation JTTableViewCell
 

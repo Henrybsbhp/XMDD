@@ -4,13 +4,17 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "16CE14A2D81CCE323D476004724594AEF6B38C0A" : 0,
-    "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0" : 0
+    "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0" : 0,
+    "CC47D41851771809DAACA2A0CE2FC8148D9F2BFD" : 0,
+    "B36F052223C29FCF04CE0CC57E2A66A3F57D8690" : 0,
+    "16CE14A2D81CCE323D476004724594AEF6B38C0A" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "1853EA37-1451-48F4-862A-E08936984257",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "16CE14A2D81CCE323D476004724594AEF6B38C0A" : "XiaoMa\/react-native\/",
-    "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0" : "XiaoMa\/"
+    "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0" : "XiaoMa\/",
+    "CC47D41851771809DAACA2A0CE2FC8148D9F2BFD" : "XiaoMa\/ReactNative\/",
+    "B36F052223C29FCF04CE0CC57E2A66A3F57D8690" : "XiaoMa\/XiaoMa\/ckkit\/",
+    "16CE14A2D81CCE323D476004724594AEF6B38C0A" : "XiaoMa\/react-native\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "XiaoMa",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -25,6 +29,16 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/rm.xiaomadada.com:7999\/xmdd_ios\/xmdd_ios.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/rm.xiaomadada.com:7999\/ckkit\/ckkit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B36F052223C29FCF04CE0CC57E2A66A3F57D8690"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/rm.xiaomadada.com:7999\/xmdd_rct\/rct_client_ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CC47D41851771809DAACA2A0CE2FC8148D9F2BFD"
     }
   ]
 }

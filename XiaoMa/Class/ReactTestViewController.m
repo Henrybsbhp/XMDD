@@ -8,6 +8,7 @@
 
 #import "ReactTestViewController.h"
 #import "ReactView.h"
+#import "ReactNativeManager.h"
 
 @interface ReactTestViewController()
 
@@ -23,16 +24,26 @@
     
     [self setupNavi];
     
-    
+//    [[[[ReactNativeManager sharedManager] rac_checkAndUpdatePackageIfNeeded] initially:^{
+//        
+//        [gToast showingWithText:@"Loading"];
+//    }] subscribeNext:^(id x) {
+//        
+//        [gToast showSuccess:@"更新成功"];
+//        [self.rctView rct_requestWithUrl:[[ReactNativeManager sharedManager] latestJSBundleUrl] andModulName:@"HelloProject"];
+//    } error:^(NSError *error) {
+//        
+//        [gToast showError:error.domain];
+//    } others:^{
+//        
+//        [gToast dismiss];
+//        [self.rctView rct_requestWithUrl:[[ReactNativeManager sharedManager] latestJSBundleUrl] andModulName:@"HelloProject"];
+//    }];
     CKAsyncMainQueue(^{
         
-        NSString * str = @"http://192.168.1.77:8081/index.ios.bundle?platform=ios&dev=true";
+        NSString * str = @"http://localhost:8081/index.ios.bundle?platform=ios&dev=true";
         NSURL * strUrl = [NSURL URLWithString:str];
-        NSBundle * bundle = [NSBundle mainBundle];
-        NSString * urlString = [bundle pathForResource:@"main" ofType:@"jsbundle"];
-        
-        NSURL * jsURL = [NSURL fileURLWithPath:urlString];
-        [self.rctView rct_requestWithUrl:strUrl andModulName:_modulName];
+        [self.rctView rct_requestWithUrl:strUrl andModulName:@"HelloProject"];
         
     });
 }

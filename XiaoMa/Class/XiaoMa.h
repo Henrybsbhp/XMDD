@@ -9,7 +9,7 @@
 #ifndef XiaoMa_XiaoMa_h
 #define XiaoMa_XiaoMa_h
 
-#import <CKKit.h>
+#import "CKKit.h"
 #import <ReactiveCocoa.h>
 #import <RACEXTScope.h>
 #import <FoundationExtension.h> 

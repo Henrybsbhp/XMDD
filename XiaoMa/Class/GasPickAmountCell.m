@@ -7,7 +7,6 @@
 //
 
 #import "GasPickAmountCell.h"
-#import <CKSegmentHelper.h>
 
 @interface GasPickAmountCell ()
 @property (nonatomic, strong) CKSegmentHelper *radioHelper;

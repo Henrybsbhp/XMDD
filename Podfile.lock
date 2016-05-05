@@ -26,7 +26,6 @@ PODS:
   - AMap2DMap (2.4.2)
   - AMapSearch (2.4.1)
   - cdebug (0.1.1)
-  - CKKit (0.1.4)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
     - CocoaLumberjack/Extensions (= 2.0.0)
@@ -50,6 +49,7 @@ PODS:
     - cdebug (~> 0.1)
     - FoundationExtension/FoundationExtension
   - GIKPopoverBackgroundView/Core (0.0.1)
+  - Google-Diff-Match-Patch (0.0.1)
   - JSPatch (0.1.5):
     - JSPatch/Core (= 0.1.5)
   - JSPatch/Core (0.1.5)
@@ -80,15 +80,16 @@ PODS:
     - GIKPopoverBackgroundView/Core
     - SevenSwitch (~> 1.3.0)
   - UMengAnalytics (3.5.8)
+  - ZipArchive (1.4.0)
 
 DEPENDENCIES:
   - AFNetworking (= 2.5.4)
   - AFNetworking2-RACExtensions (= 0.0.1)
   - AMap2DMap (= 2.4.2)
   - AMapSearch (= 2.4.1)
-  - CKKit (from `ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git`)
   - CocoaLumberjack (= 2.0.0)
   - FoundationExtension (= 0.60)
+  - Google-Diff-Match-Patch (= 0.0.1)
   - JSPatch (= 0.1.5)
   - Masonry (= 0.6.1)
   - MZFormSheetController (= 2.4.1)
@@ -99,15 +100,7 @@ DEPENDENCIES:
   - TMCache (= 2.1.0)
   - UI7Kit (= 0.9.22)
   - UMengAnalytics (= 3.5.8)
-
-EXTERNAL SOURCES:
-  CKKit:
-    :git: ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git
-
-CHECKOUT OPTIONS:
-  CKKit:
-    :commit: 74e77d41e0bba29f60525d028380aa9140ca205d
-    :git: ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git
+  - ZipArchive (= 1.4.0)
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
@@ -115,10 +108,10 @@ SPEC CHECKSUMS:
   AMap2DMap: 6f19f93b3410c8105c34ef93dd9dbb537f7ea897
   AMapSearch: e48c562fc7713f7e5f719863a15141a847e16c04
   cdebug: 32bf88e54d22ad187b23122872b3977e5d0c1bde
-  CKKit: deb58335f227e2df2436b9b5e3889d731229e86a
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FoundationExtension: 76157113e6486ad95ea2be32a06f0d3f48172d56
   GIKPopoverBackgroundView: 9cde2752e608df4d1e35ebca12af762b9a7dca3e
+  Google-Diff-Match-Patch: d8d1a2cc3ca2382f4855f0bf05821b91250927ee
   JSPatch: 405b5f5990643e6717dd6715ac60d6a2b582a6ba
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   MZAppearance: 0c06d3fa9cc55142f1da14bc8631fbe8fd6e19d5
@@ -131,5 +124,6 @@ SPEC CHECKSUMS:
   TMCache: 95ebcc9b3c7e90fb5fd8fc3036cba3aa781c9bed
   UI7Kit: a2be10b7ced09944b8d2dca5d373743665d29639
   UMengAnalytics: 020551718ba37da017bd85ac4c38ffba2774f3ce
+  ZipArchive: e25a4373192673e3229ac8d6e9f64a3e5713c966
 
 COCOAPODS: 0.39.0

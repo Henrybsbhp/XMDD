@@ -38,7 +38,6 @@
 #import "GainUserAwardOp.h"
 #import "FMDeviceManager.h"
 
-#import <NSObject+Notify.h>
 #import "GetPayStatusOp.h"
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"

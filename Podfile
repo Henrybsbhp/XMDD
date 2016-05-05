@@ -1,7 +1,6 @@
 platform :ios, '6.0'
 inhibit_all_warnings!
 
-pod 'CKKit', :git => "ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git"
 pod 'AFNetworking', '2.5.4'
 pod 'ReactiveCocoa', '2.3.1'
 pod 'AFNetworking2-RACExtensions', '0.0.1'
@@ -18,3 +17,5 @@ pod 'SDWebImage','3.7.2'
 pod 'TMCache', '2.1.0'
 pod 'pop', '1.0.7'
 pod 'JSPatch','0.1.5'
+pod 'ZipArchive','1.4.0'
+pod 'Google-Diff-Match-Patch', '0.0.1'

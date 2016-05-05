@@ -16,4 +16,6 @@
 @property (nonatomic, strong) NSString *rsp_minappversion;
 @property (nonatomic, strong) NSString *rsp_patchurl;
 @property (nonatomic, strong) NSArray *rsp_desc;
+
+
 @end

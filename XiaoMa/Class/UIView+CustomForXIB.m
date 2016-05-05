@@ -9,7 +9,7 @@
 
 #import "UIView+CustomForXIB.h"
 #import <objc/runtime.h>
-#import <CKKit.h>
+#import "CKKit.h"
 #import <FoundationExtension.h>
 
 static char *s_keyPathKey;
