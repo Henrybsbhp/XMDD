@@ -435,7 +435,15 @@ typedef enum : NSInteger
         @strongify(self);
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
-        vc.url = @"http://xiaomadada.com/apphtml/tuanxiangqing-help.html";
+        NSString * urlStr;
+#if XMDDEnvironment==0
+        urlStr = @"http://dev01.xiaomadada.com/apphtml/tuanxiangqing-help.html";
+#elif XMDDEnvironment==1
+        urlStr = @"http://dev.xiaomadada.com/apphtml/tuanxiangqing-help.html";
+#else
+        urlStr = @"http://www.xiaomadada.com/apphtml/tuanxiangqing-help.html";
+#endif
+        vc.url = urlStr;
         [self.navigationController pushViewController:vc animated:YES];
     });
     return dict;

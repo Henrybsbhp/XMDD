@@ -421,6 +421,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     vc.groupType = MutualGroupTypeSystem;
     NSDictionary * dic = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
     vc.titleStr = [dic stringParamForName:@"name"] ?: @"平台团介绍";
+    vc.groupIntrUrlStr = [dic stringParamForName:@"url"];
     //团介绍页底部按钮标题
     if ([dic integerParamForName:@"groupstatus"] == GroupButtonStateNotStart) {
         vc.btnType = BtnTypeNotStart;

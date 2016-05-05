@@ -40,6 +40,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *carNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *carStateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *defaultLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *carStatusIcon;
 
 @property (nonatomic,strong)RACDisposable * offsetDisposable;
 
@@ -138,6 +139,44 @@
     [self.defaultLabel setCornerRadius:3];
     [self.defaultLabel setBorderWidth:0.5];
     [self.defaultLabel setBorderColor:HEXCOLOR(@"#FDFE28")];
+    
+    
+    // 上滑会导致字体被系统时间遮盖，用了个渐变的效果。
+    [self.carNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.greaterThanOrEqualTo(self.view).offset(22);
+        make.bottom.lessThanOrEqualTo(self.headerBgView);
+    }];
+
+    [[RACObserve(self.tableView, contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * value) {
+        
+        CGPoint p = [value CGPointValue];
+        if (p.y > -20)
+        {
+            CGFloat remind = 10 - p.y;
+            CGFloat percent = remind > 0 ? (remind / 30.0) : 0;
+            self.carStateLabel.alpha = percent;
+            self.carStatusIcon.alpha = percent;
+        }
+        else
+        {
+            self.carStateLabel.alpha = 1.0;
+            self.carStatusIcon.alpha = 1.0;
+        }
+        
+        if (p.y > 20)
+        {
+            CGFloat remind = 90 - p.y;
+            CGFloat percent = remind > 0 ? (remind / 70.0) : 0;
+            self.carNumberLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, percent, percent);
+            self.defaultLabel.alpha = percent;
+        }
+        else
+        {
+            self.carNumberLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+            self.defaultLabel.alpha = 1.0;
+        }
+    }];
 }
 
 - (void)setupCarStore
