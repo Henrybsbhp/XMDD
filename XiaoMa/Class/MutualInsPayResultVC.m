@@ -182,14 +182,15 @@
         UILabel * carLb = (UILabel *)[cell searchViewWithTag:104];
         UILabel * priceLb = (UILabel *)[cell searchViewWithTag:106];
         
-        //@fq TODO
         [imageView setImageByUrl:self.contract.xmddlogo
-                        withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+                        withType:ImageURLTypeThumbnail defImage:@"mutualins_pay_logo" errorImage:@"mutualins_pay_logo"];
         nameLb.text = self.contract.xmddname;
         carLb.text = self.contract.licencenumber;
         
-        CGFloat price = self.contract.total - self.contract.couponmoney - self.couponMoney;
-        priceLb.text =  [NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]];
+        
+        CGFloat price;
+        price = self.contract.total - self.contract.couponmoney - self.couponMoney + self.contract.forcefee + self.contract.taxshipfee;
+        priceLb.text =  [NSString stringWithFormat:@"￥%@",[NSString formatForPriceWithFloat:price]];
     });
     return data;
 }

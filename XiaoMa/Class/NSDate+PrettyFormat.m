@@ -28,12 +28,12 @@
             if (hourComps1.hour >= 13)
             {
                 date = [NSDate dateWithTimeInterval:12*60*60 sinceDate:self];
-                [dateFormatter setDateFormat:@"今天 下午 HH:mm"];
+                [dateFormatter setDateFormat:@"下午 HH:mm"];
             }
             else
             {
                 date = self;
-                [dateFormatter setDateFormat:@"今天 上午 HH:mm"];
+                [dateFormatter setDateFormat:@"上午 HH:mm"];
             }
         }
         else {

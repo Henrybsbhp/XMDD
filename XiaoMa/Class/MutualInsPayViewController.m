@@ -334,7 +334,7 @@
 #endif
     
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    NSString * info = [NSString stringWithFormat:@"%@的小马互助订单支付",self.contract.licencenumber];
+    NSString * info = [NSString stringWithFormat:@"小马互助 - %@",self.contract.licencenumber];
     NSString *text;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
@@ -514,7 +514,7 @@
     UILabel *descL = (UILabel *)[cell.contentView viewWithTag:102];
     
     [imageView setImageByUrl:data.tag
-                    withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+                    withType:ImageURLTypeThumbnail defImage:@"mutualins_pay_logo" errorImage:@"mutualins_pay_logo"];
     descL.text = data.object;
 }
 

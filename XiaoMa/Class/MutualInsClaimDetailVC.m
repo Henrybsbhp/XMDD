@@ -17,6 +17,8 @@
 #import "HKImageAlertVC.h"
 #import "MutualInsScencePageVC.h"
 #import "NSString+RectSize.h"
+#import "MutualInsAskClaimsVC.h"
+#import "MutualInsClaimsHistoryVC.h"
 
 @interface MutualInsClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *agreeBtn;
@@ -68,18 +70,6 @@
 #pragma mark UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    //    if (self.status.integerValue == 20)
-    //    {
-    //        return 2;
-    //    }
-    //    else if (self.status.integerValue == 10 || self.status.integerValue == -1 || self.status.integerValue == 0)
-    //    {
-    //        return 3;
-    //    }
-    //    else
-    //    {
-    //        return 4;
-    //    }
     return self.dataSource.count;
 }
 
@@ -93,12 +83,12 @@
 {
     CKDict *data = self.dataSource[indexPath.section][indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data[kCKCellID]];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     CKCellPrepareBlock block = data[kCKCellPrepare];
     if (block)
     {
         block(data, cell, indexPath);
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     return cell;
 }
 
@@ -189,6 +179,17 @@
 -(void)setBackAction
 {
     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0020"}];
+    
+    for (UIViewController * vc in self.navigationController.viewControllers)
+    {
+        if ([vc isKindOfClass:[MutualInsAskClaimsVC class]] ||
+            [vc isKindOfClass:[MutualInsClaimsHistoryVC class]])
+        {
+            [self.navigationController popToViewController:vc animated:YES];
+            return;
+        }
+    }
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -333,7 +334,9 @@
     }
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"feeCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 30;
+        
+        
+        return 53;
     });
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UILabel *feeLb = [cell viewWithTag:100];
@@ -454,12 +457,12 @@
     }
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"detailCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        CGSize size = [self.reason labelSizeWithWidth:self.tableView.frame.size.width - 105 font:[UIFont systemFontOfSize:14]];
+        CGSize size = [self.reason labelSizeWithWidth:self.tableView.frame.size.width - 110 font:[UIFont systemFontOfSize:14]];
         return size.height + 15;
     });
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UILabel *title = [cell viewWithTag:100];
-        title.text = @"事故原因：";
+        title.text = @"事故经过：";
         
         UILabel *reasonLb = [cell viewWithTag:101];
         reasonLb.text = self.reason.length ? self.reason : @" ";
@@ -477,7 +480,7 @@
     
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"cardCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 180;
+        return 164;
     });
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UITextField *nameTF = [cell viewWithTag:100];
@@ -530,15 +533,20 @@
 
 -(NSString *)convertAccount:(NSString *)account
 {
-    if (account.length > 3)
+    if (account.length > 7)
     {
-        NSString *temp = [account substringWithRange:NSMakeRange(account.length - 4, 4)];
-        NSString *ciphertext = [[NSMutableString alloc]init];
-        for (NSInteger i = 0 ; i < account.length - 4 ; i ++ )
+        NSString *temp1 = [account substringWithRange:NSMakeRange(0, 4)];
+        NSString *temp2 = [account substringWithRange:NSMakeRange(account.length - 4, 4)];
+        
+        NSMutableString *ciphertext = [[NSMutableString alloc] init];
+        [ciphertext appendString:temp1];
+        
+        for (NSInteger i = 4 ; i < account.length - 4 ; i ++ )
         {
-            ciphertext = [ciphertext append:@"*"];
+            [ciphertext appendString:@"*"];
         }
-        ciphertext = [ciphertext append:temp];
+        [ciphertext appendString:temp2];
+        
         return ciphertext;
     }
     return nil;
