@@ -75,6 +75,7 @@
         @strongify(self);
         self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
+        [self.view hideDefaultEmptyView];
         
         self.cipherForCopy = rspOp.rsp_groupCipher;
         self.wordForShare = rspOp.rsp_wordForShare;

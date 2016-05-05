@@ -647,43 +647,54 @@
 - (IBAction)actionDelete:(id)sender
 {
     [MobClick event:@"rp312_11"];
-    //添加模式,点击删除直接返回上一页
-    if (!self.isEditingModel) {
-        [self.navigationController popViewControllerAnimated:YES];
-        return;
-    }
-    MyCarStore *store = [MyCarStore fetchOrCreateStore];
-    [[[[[store removeCar:self.curCar.carId] sendAndIgnoreError] initially:^{
+    
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:kOrangeColor clickBlock:^(id alertVC) {
         
-        [gToast showingWithText:@"正在删除..."];
-    }] delay:0.01] subscribeNext:^(id x) {
-        
-        [gToast showSuccess:@"删除成功!"];
-        [self.navigationController popViewControllerAnimated:YES];
-    } error:^(NSError *error) {
-        
-        [gToast showError:error.domain];
+        //添加模式,点击删除直接返回上一页
+        if (!self.isEditingModel) {
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
+        MyCarStore *store = [MyCarStore fetchOrCreateStore];
+        [[[[[store removeCar:self.curCar.carId] sendAndIgnoreError] initially:^{
+            
+            [gToast showingWithText:@"正在删除..."];
+        }] delay:0.01] subscribeNext:^(id x) {
+            
+            [gToast showSuccess:@"删除成功!"];
+            [self.navigationController popViewControllerAnimated:YES];
+        } error:^(NSError *error) {
+            
+            [gToast showError:error.domain];
+        }];
     }];
     
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确定删除爱车吗？" ActionItems:@[cancel,confirm]];
+    [alert show];
 }
 
 - (IBAction)actionUpload:(id)sender
 {
     [MobClick event:@"rp312_1"];
+    [self.model showImagePickerWithTargetVC:self];
     @weakify(self);
-    [[self.model rac_uploadDrivingLicenseWithTargetVC:self initially:^{
-        [gToast showingWithText:@"正在上传..."];
-    }] subscribeNext:^(NSString *url) {
-        @strongify(self);
-        [gToast showSuccess:@"上传成功!"];
-        self.curCar.licenceurl = url;
-        self.curCar.status = 1;
-        self.isDrivingLicenseNeedSave = YES;
-        [self reloadDatasource];
-    } error:^(NSError *error) {
-        [gToast showError:error.domain];
+    [self.model setImagePickerBlock:^(RACSignal *signal) {
+        [[signal initially:^{
+            [gToast showingWithText:@"正在上传..."];
+        }] subscribeNext:^(NSString *url) {
+            @strongify(self);
+            [gToast showSuccess:@"上传成功!"];
+            self.curCar.licenceurl = url;
+            self.curCar.status = 1;
+            self.isDrivingLicenseNeedSave = YES;
+            [self reloadDatasource];
+        } error:^(NSError *error) {
+            [gToast showError:error.domain];
+        }];
     }];
 }
+
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {

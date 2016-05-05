@@ -144,6 +144,10 @@
         {
             return 60;
         }
+        else
+        {
+            return 60;
+        }
     }
     if (indexPath.section == 1 && indexPath.row == 1)
     {

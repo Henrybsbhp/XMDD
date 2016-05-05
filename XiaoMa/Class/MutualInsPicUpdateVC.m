@@ -244,7 +244,8 @@
         [[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:selectedDate]
          subscribeNext:^(NSDate *date) {
              @strongify(self);
-             self.insuranceExpirationDate = date;
+             
+             self.insuranceExpirationDate = [date laterDate:self.minInsuranceExpirationDate];
          }];
     }
 }

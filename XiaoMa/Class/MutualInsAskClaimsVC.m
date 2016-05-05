@@ -16,6 +16,7 @@
 #import "MutualInsScencePhotoVM.h"
 #import "GetCoorperationClaimConfigOp.h"
 #import "HKImageAlertVC.h"
+
 @interface MutualInsAskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) NSArray *tempArr;

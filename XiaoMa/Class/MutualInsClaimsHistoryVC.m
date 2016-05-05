@@ -95,9 +95,12 @@
     
     UILabel *detaiLabel = [cell viewWithTag:1002];
     detaiLabel.preferredMaxLayoutWidth = cell.bounds.size.width - 35;
-    detaiLabel.text = [NSString stringWithFormat:@"事故概述：%@",model.accidentdesc];
+    detaiLabel.text = [NSString stringWithFormat:@"事故经过：%@",model.accidentdesc];
     UILabel *priceLabel = [cell viewWithTag:1003];
-    priceLabel.text = [NSString formatForPriceWithFloat:model.claimfee];
+    priceLabel.text = model.claimfee > 0 ? [NSString formatForPriceWithFloat:model.claimfee] : @"待估价";
+    
+    UILabel *titleLb = [cell viewWithTag:109];
+    titleLb.text = model.claimfee > 0 ? @"费用":@"";
     
     
     

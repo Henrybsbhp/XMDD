@@ -527,26 +527,29 @@
 
 - (void)uploadDrivingLicenceWithCar:(HKMyCar *)car
 {
-    [[[self.model rac_uploadDrivingLicenseWithTargetVC:self initially:^{
-        
-        [gToast showingWithText:@"正在上传..."];
-    }] flattenMap:^RACStream *(NSString *url) {
-        
-        //更新行驶证的url，如果更新失败，重置为原来的行驶证url
-        NSString *oldurl = car.licenceurl;
-        car.licenceurl = url;
-        MyCarStore *store = [MyCarStore fetchExistsStore];
-        return [[[store updateCar:car] sendAndIgnoreError] catch:^RACSignal *(NSError *error) {
-            car.licenceurl = oldurl;
-            return [RACSignal error:error];
+    [self.model showImagePickerWithTargetVC:self];
+    [self.model setImagePickerBlock:^(RACSignal *signal) {
+        [[[signal initially:^{
+            
+            [gToast showingWithText:@"正在上传..."];
+        }] flattenMap:^RACStream *(NSString *url) {
+            
+            //更新行驶证的url，如果更新失败，重置为原来的行驶证url
+            NSString *oldurl = car.licenceurl;
+            car.licenceurl = url;
+            MyCarStore *store = [MyCarStore fetchExistsStore];
+            return [[[store updateCar:car] sendAndIgnoreError] catch:^RACSignal *(NSError *error) {
+                car.licenceurl = oldurl;
+                return [RACSignal error:error];
+            }];
+        }] subscribeNext:^(id x) {
+            
+            car.status = 1;
+            [gToast showSuccess:@"上传行驶证成功!"];
+        } error:^(NSError *error) {
+            
+            [gToast showError:error.domain];
         }];
-    }] subscribeNext:^(id x) {
-        
-        car.status = 1;
-        [gToast showSuccess:@"上传行驶证成功!"];
-    } error:^(NSError *error) {
-        
-        [gToast showError:error.domain];
     }];
 }
 
