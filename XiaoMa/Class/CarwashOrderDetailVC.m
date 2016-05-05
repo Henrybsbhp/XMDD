@@ -140,9 +140,9 @@
             CGSize size = [self.order.shop.shopName labelSizeWithWidth:self.tableView.frame.size.width - 80 font:[UIFont systemFontOfSize:14]];
             return size.height + 70;
         }
-        else if (indexPath.row == self.detailItems.count && !self.order.ratetime)
+        else if (indexPath.row <= self.detailItems.count)
         {
-            return 60;
+            return 40;
         }
         else
         {

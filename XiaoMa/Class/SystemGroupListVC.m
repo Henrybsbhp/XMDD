@@ -87,7 +87,15 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0001"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"新手必点";
-    vc.url = @"http://www.baidu.com";
+    NSString * urlStr;
+#if XMDDEnvironment==0
+    urlStr = @"http://dev01.xiaomadada.com/apphtml/pingtaituan-help.html";
+#elif XMDDEnvironment==1
+    urlStr = @"http://dev.xiaomadada.com/apphtml/pingtaituan-help.html";
+#else
+    urlStr = @"http://www.xiaomadada.com/apphtml/pingtaituan-help.html";
+#endif
+    vc.url = urlStr;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
