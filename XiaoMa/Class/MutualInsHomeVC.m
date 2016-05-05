@@ -181,7 +181,7 @@
 
 - (id)menuHelpButton
 {
-    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"help",@"title":@"使用帮助",@"img":@"questionMark_300"}];
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"help",@"title":@"使用帮助",@"img":@"mins_question"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0012"}];
