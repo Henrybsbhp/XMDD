@@ -428,7 +428,7 @@ typedef enum : NSInteger
 //使用帮助
 - (id)menuItemUsinghelp
 {
-    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Help",@"title":@"使用帮助",@"img":@"questionMark_300"}];
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Help",@"title":@"使用帮助",@"img":@"mins_question"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
 
