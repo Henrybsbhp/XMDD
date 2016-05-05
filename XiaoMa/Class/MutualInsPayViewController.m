@@ -514,7 +514,7 @@
     UILabel *descL = (UILabel *)[cell.contentView viewWithTag:102];
     
     [imageView setImageByUrl:data.tag
-                    withType:ImageURLTypeThumbnail defImage:@"mutualins_pay_logo" errorImage:@"mutualins_pay_logo"];
+                    withType:ImageURLTypeOrigin defImage:@"mutualins_pay_logo" errorImage:@"mutualins_pay_logo"];
     descL.text = data.object;
 }
 
@@ -703,7 +703,7 @@
     celldata.object = @"车船税/交强险";
     
     CGFloat total = self.contract.forcefee + self.contract.taxshipfee;
-    celldata.tag = [NSString stringWithFormat:@"￥%@",[NSString formatForPrice:total]];
+    celldata.tag = [NSString stringWithFormat:@"￥%@",[NSString formatForPriceWithFloat:total]];
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 27;
     }];

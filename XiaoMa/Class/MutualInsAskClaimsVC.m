@@ -166,6 +166,20 @@
 -(void)guideSectionAction
 {
     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0002"}];
+    
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.originVC = self;
+    NSString * urlStr;
+#if XMDDEnvironment==0
+    urlStr = @"http://dev01.xiaomadada.com/apphtml/woyaopei-help.html";
+#elif XMDDEnvironment==1
+    urlStr = @"http://dev.xiaomadada.com/apphtml/woyaopei-help.html";
+#else
+    urlStr = @"http://www.xiaomadada.com/apphtml/woyaopei-help.html";
+#endif
+    
+    vc.url = urlStr;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)crimeReportSectionAction
