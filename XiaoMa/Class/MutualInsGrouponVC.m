@@ -260,21 +260,22 @@ typedef enum : NSInteger
     
     MutInsStatus status = self.groupDetail.rsp_status;
     if (status == MutInsStatusUnderReview) {
-        self.menuItems = $([self menuItemInvite], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemMakeCall], [self menuItemUsinghelp]);
     }
     else if (status == MutInsStatusAgreementTakingEffect) {
-        self.menuItems = $([self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall], [self menuItemUsinghelp]);
     }
     else if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll ||
              status == MutInsStatusPaidForSelf || status == MutInsStatusGettedAgreement) {
-        self.menuItems = $([self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall], [self menuItemUsinghelp]);
     }
     else if (status == MutInsStatusReviewFailed || status == MutInsStatusGroupDissolved ||
              status == MutInsStatusGroupExpired || status == MutInsStatusJoinFailed) {
-        self.menuItems = $([self menuItemInvite], [self menuItemRegroup], [self menuItemDeleteGroup], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemRegroup], [self menuItemDeleteGroup], [self menuItemMakeCall],
+                           [self menuItemUsinghelp]);
     }
     else {
-        self.menuItems = $([self menuItemInvite], [self menuItemQuit], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemQuit], [self menuItemMakeCall], [self menuItemUsinghelp]);
     }
 }
 
@@ -424,6 +425,21 @@ typedef enum : NSInteger
     return dict;
 }
 
+//使用帮助
+- (id)menuItemUsinghelp
+{
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Help",@"title":@"使用帮助",@"img":@"questionMark_300"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+
+        @strongify(self);
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.originVC = self;
+        vc.url = @"http://xiaomadada.com/apphtml/tuanxiangqing-help.html";
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
 #pragma mark - Animate
 - (void)setExpanded:(BOOL)expanded animated:(BOOL)animated {
     self.isExpandingOrClosing = YES;
