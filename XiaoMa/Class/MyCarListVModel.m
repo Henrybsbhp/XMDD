@@ -72,11 +72,11 @@
     BOOL enable = NO;
     switch (car.status) {
         case 1:
-            title = @"审核中";
-            desc = @"已上传行驶证";
+            title = @"认证审核中...";
+            desc = @"行驶证已提交审核";
             break;
         case 2:
-            title = @"已认证";
+            title = @"认证通过";
             desc = @"行驶证已认证通过";
             break;
         case 3:
