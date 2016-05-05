@@ -514,7 +514,7 @@
     UILabel *descL = (UILabel *)[cell.contentView viewWithTag:102];
     
     [imageView setImageByUrl:data.tag
-                    withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+                    withType:ImageURLTypeThumbnail defImage:@"mutualins_pay_logo" errorImage:@"mutualins_pay_logo"];
     descL.text = data.object;
 }
 
