@@ -1,3 +1,6 @@
 [submodule "XiaoMa/ckkit"]
 	path = XiaoMa/ckkit
 	url = ssh://git@rm.xiaomadada.com:7999/ckkit/ckkit.git
+[submodule "ReactNative"]
+	path = ReactNative
+	url = ssh://git@rm.xiaomadada.com:7999/xmdd_rct/rct_client_ios.git
