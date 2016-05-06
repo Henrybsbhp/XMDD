@@ -399,7 +399,7 @@
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         ///补偿详情
-        else if ([@"coincldtl" equalByCaseInsensitive:name]) {
+        else if ([@"coincldtlo" equalByCaseInsensitive:name]) {
             
             if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
                 return YES;
