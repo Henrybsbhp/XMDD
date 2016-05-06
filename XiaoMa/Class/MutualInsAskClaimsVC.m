@@ -270,7 +270,7 @@
             [gToast dismissInView:self.view];
         }error:^(NSError *error) {
             @strongify(self)
-            [gToast dismissInView:self.view];
+            [gToast showError:error.domain inView:self.view];
         }];
     }
 }

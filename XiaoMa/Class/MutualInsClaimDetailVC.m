@@ -36,8 +36,9 @@
 @property (nonatomic,strong) NSString *reason;
 @property (nonatomic) CGFloat claimfee;
 @property (nonatomic,strong) NSNumber *cardid;
+/// 服务器下发的银行卡号，用于判断是否存在原先的
 @property (nonatomic,strong) NSString *cardno;
-@property (nonatomic,strong) NSString *bankcardno;
+@property (nonatomic,strong) NSString *bankcardnoStr;
 @property (nonatomic,strong) NSString *insurancename;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
 @property (weak, nonatomic) IBOutlet UIButton *takePhotoBtn;
@@ -215,26 +216,39 @@
     [self addBorder:self.disagreeBtn WithColor:@"#18D06A"];
     self.tableView.tableFooterView = [UIView new];
     self.bottomView.hidden = YES;
+    
+    
     @weakify(self)
     [[self.agreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
         [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0023"}];
-        if (self.bankcardno.length != 0)
+        
+        NSString * bankno = [self.bankcardnoStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        if (bankno.length > 0)
         {
-            [self confirmClaimWithAgreement:@2];
+            [self confirmClaimWithAgreement:@2 andBankNo:bankno];
         }
         else
         {
-            [gToast showMistake:@"请输入借记卡卡号"];
+            if (self.cardno.length > 0)
+            {
+                [self confirmClaimWithAgreement:@2 andBankNo:self.cardno];
+            }
+            else
+            {
+                [gToast showMistake:@"请输入借记卡卡号"];
+            }
         }
     }];
     [[self.disagreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
         [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0024"}];
         
+        NSString * bankno = [self.bankcardnoStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-            [self confirmClaimWithAgreement:@1];
+            [self confirmClaimWithAgreement:@1 andBankNo:bankno];
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确定不同意上述补偿金额？若您不同意，将无法继续快速补偿流程。" ActionItems:@[cancel,confirm]];
         [alert show];
@@ -271,27 +285,43 @@
     
 }
 
--(void)confirmClaimWithAgreement:(NSNumber *)agreement
+-(void)confirmClaimWithAgreement:(NSNumber *)agreement andBankNo:(NSString *)bankcardNo
 {
-    HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
-    alert.topTitle = @"提交成功";
-    alert.imageName = @"mins_ok";
-    alert.message = agreement.integerValue == 1 ?  @"客服人员将很快与您取得联系，请留意号码为4007-111-111点来电请耐心等待" : @"系统将在1个工作日内（周末及节假日顺延）打款至您预留的银行卡，请耐心等待，如有问题请致电4007-111-111";
-    @weakify(self)
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
-        @strongify(self)
-        NSArray *viewControllers = self.navigationController.viewControllers;
-        [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
-    }];
-    alert.actionItems = @[cancel];
     ConfirmClaimOp *op = [[ConfirmClaimOp alloc]init];
     op.req_claimid = self.claimid;
     op.req_agreement = agreement;
-    op.req_bankcardno = [NSNumber numberWithInteger:self.bankcardno.integerValue];
-    [[op rac_postRequest]subscribeNext:^(id x) {
-        @strongify(self)
+    op.req_bankcardno = bankcardNo;
+    
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"" inView:self.view];
+    }] subscribeNext:^(id x) {
+        
+        [gToast dismissInView:self.view];
+        
+        HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+        alert.topTitle = @"提交成功";
+        alert.imageName = @"mins_ok";
+        alert.message = agreement.integerValue == 1 ?  @"客服人员将很快与您取得联系，请留意号码为4007-111-111点来电请耐心等待" : @"系统将在1个工作日内（周末及节假日顺延）打款至您预留的银行卡，请耐心等待，如有问题请致电4007-111-111";
+        @weakify(self)
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
+            @strongify(self)
+            NSArray *viewControllers = self.navigationController.viewControllers;
+            UIViewController * vc = [viewControllers safetyObjectAtIndex:2];
+            if ([vc isKindOfClass:[MutualInsAskClaimsVC class]])
+            {
+                [self.navigationController popToViewController:vc animated:YES];
+            }
+            else
+            {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+        alert.actionItems = @[cancel];
         [alert show];
-        [self loadData];
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain inView:self.view];
     }];
 }
 
@@ -380,7 +410,6 @@
 
 -(id)accidentTimeData
 {
-    //    if ([self.accidenttime isEqual:CKNULL])
     if (!self.accidenttime)
     {
         return CKNULL;
@@ -404,7 +433,6 @@
 
 -(id)accidentLocationData
 {
-    //    if ([self.accidentaddress isEqual:CKNULL])
     if (!self.accidentaddress)
     {
         return CKNULL;
@@ -507,22 +535,41 @@
         return 164;
     });
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        UITextField *nameTF = [cell viewWithTag:100];
-        UITextField *numTF = [cell viewWithTag:101];
+        CKLimitTextField *nameTF = [cell viewWithTag:100];
+        CKLimitTextField *numTF = [cell viewWithTag:101];
         numTF.keyboardType = UIKeyboardTypeNumberPad;
+        numTF.textLimit = 30;
         UILabel *label = [cell viewWithTag:102];
         label.preferredMaxLayoutWidth = self.view.bounds.size.width - 30;
         label.hidden = self.status.integerValue == 1 ? NO : YES;
         [self addBorder:nameTF WithColor:@"#dedfe0"];
         [self addBorder:numTF WithColor:@"#dedfe0"];
-        @weakify(self);
-        [[[[numTF rac_textSignal] takeUntilForCell:cell]skip:1] subscribeNext:^(NSString *x) {
-            @strongify(self);
+//        @weakify(numTF);        
+        [numTF setTextChangingBlock:^(CKLimitTextField *textField, NSString *replacement) {
+            NSInteger cursor = [textField offsetFromPosition:textField.beginningOfDocument toPosition:textField.curCursorPosition];
+            NSInteger posOffset = 0;
+            NSInteger partOffset = cursor % 5;
+            //删除空格后一位
+            if (cursor > 0 && partOffset == 0 && replacement.length == 0) {
+                posOffset = -1;
+            }
+            //在空格前插入
+            else if (cursor > 0 && (partOffset == 0) && replacement.length > 0) {
+                posOffset = 1;
+            }
+            if (posOffset != 0) {
+                textField.curCursorPosition = [textField positionFromPosition:textField.curCursorPosition offset:posOffset];
+            }
             
-            numTF.text = [self splitCardNumString:x];
+            NSString *orgText = textField.text.length > 0 ?
+            [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""] : @"";
+            NSString *text = [orgText splitByStep:4 replacement:@" "];
+            textField.text = text;
+            
+            self.bankcardnoStr = text;
         }];
         numTF.enabled = self.status.integerValue == 1 ;
-        numTF.text = [self convertAccount:self.cardno];
+        numTF.text = self.bankcardnoStr.length ? self.bankcardnoStr : [self convertAccount:self.cardno];
         nameTF.text = self.insurancename;
     });
     return data;
@@ -540,19 +587,6 @@
 {
     view.layer.borderColor = [[UIColor colorWithHex:color alpha:1]CGColor];
     view.layer.borderWidth = 1;
-}
-
--(NSString *)splitCardNumString:(NSString *)str
-{
-    if (str.length < 24)
-    {
-        self.bankcardno = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
-        return [self.bankcardno splitByStep:4 replacement:@" "];
-    }
-    else
-    {
-        return [str substringToIndex:23];
-    }
 }
 
 -(NSString *)convertAccount:(NSString *)account
@@ -573,7 +607,7 @@
         
         return ciphertext;
     }
-    return nil;
+    return account;
 }
 
 -(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems
