@@ -420,7 +420,21 @@ typedef enum : NSInteger
         
         @strongify(self);
         [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0013"}];
-        [self requestDeleteGroup];
+        
+        HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+        alert.topTitle = @"温馨提示";
+        alert.imageName = @"mins_bulb";
+        alert.message = @"删除后，您将无法看到该团记录。确定现在删除？";
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        @weakify(self);
+        HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            
+            @strongify(self);
+            
+            [self requestDeleteGroup];
+        }];
+        alert.actionItems = @[cancel, improve];
+        [alert show];
     });
     return dict;
 }
