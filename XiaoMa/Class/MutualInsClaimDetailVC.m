@@ -19,6 +19,7 @@
 #import "NSString+RectSize.h"
 #import "MutualInsAskClaimsVC.h"
 #import "MutualInsClaimsHistoryVC.h"
+#import "GetCoorperationClaimConfigOp.h"
 
 @interface MutualInsClaimDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *agreeBtn;
@@ -241,8 +242,31 @@
     [[self.takePhotoBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
         [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0021"}];
-        MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
-        [self.navigationController pushViewController:scencePageVC animated:YES];
+        
+        GetCoorperationClaimConfigOp *op = [[GetCoorperationClaimConfigOp alloc]init];
+        [[[[op rac_postRequest] delay:10.0] initially:^{
+            
+            [gToast showingWithText:@"" inView:self.view];
+        }] subscribeNext:^(GetCoorperationClaimConfigOp *op) {
+            
+            NSArray * array = @[op.rsp_scenedesc,op.rsp_cardamagedesc,op.rsp_carinfodesc,op.rsp_idinfodesc];
+            MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
+            scencePageVC.claimid = self.claimid;
+            scencePageVC.noticeArr = array;
+            [self.navigationController pushViewController:scencePageVC animated:YES];
+        } error:^(NSError *error) {
+            
+            NSArray * array = @[op.rsp_scenedesc,op.rsp_cardamagedesc,op.rsp_carinfodesc,op.rsp_idinfodesc];
+            MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
+            scencePageVC.claimid = self.claimid;
+            scencePageVC.noticeArr = array;
+            [self.navigationController pushViewController:scencePageVC animated:YES];
+        } completed:^{
+            
+            [gToast dismissInView:self.view];
+        }];
+        
+        
     }];
     
 }
