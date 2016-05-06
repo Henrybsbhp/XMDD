@@ -46,7 +46,7 @@
 + (NSString *)formatForPrice:(CGFloat)price maxPrice:(NSInteger)digit;
 
 /**
- *  将浮点型转化成格式化的字符串
+ *  将浮点型转化成.xx的字符串
  *
  *  @param price price
  *
@@ -55,11 +55,7 @@
 + (NSString *)formatForPriceWithFloat:(CGFloat)price;
 
 /**
- *  将浮点型转化成格式化的字符串
- *
- *  @param price price
- *
- *  @return 格式化后的字符串 1111 => 1,111.00 1111.89 => 1,111.89
+ *  美式计数法 1111 => 1,111.00 1111.89 => 1,111.89
  */
 + (NSString *)formatForPriceWithFloatWithDecimal:(CGFloat)price;
 @end

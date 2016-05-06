@@ -78,17 +78,8 @@
 
 + (NSString *)formatForPriceWithFloat:(CGFloat)price
 {
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-    formatter.numberStyle = kCFNumberFormatterNoStyle;
-    NSString *priceTag = [formatter stringFromNumber:[NSNumber numberWithFloat:price]];
-    if ([priceTag hasSubstring:@"."])
-    {
-        return priceTag;
-    }
-    else
-    {
-        return [priceTag append:@".00"];
-    }
+    NSString * originStr = [NSString stringWithFormat:@"%.2f",price];
+    return originStr;
 }
 
 + (NSString *)formatForPriceWithFloatWithDecimal:(CGFloat)price;
