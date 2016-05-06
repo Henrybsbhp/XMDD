@@ -32,7 +32,7 @@
 
 - (void)loadDefaultBundle
 {
-    NSURL *defUrl = CKURLForMainBundle(@"RCTBundle");
+    NSURL *defUrl = CKURLForMainBundle(@"rctpkg");
     NSURL *latestUrl = CKURLForDocument(@"rct/bundle/latest");
     HKRCTPackageConfig *defConf = [HKRCTPackageConfig configWithUrl:[defUrl URLByAppendingPathComponent:@"config.json"]];
     HKRCTPackageConfig *latestConf = [HKRCTPackageConfig configWithUrl:[latestUrl URLByAppendingPathComponent:@"config.json"]];
