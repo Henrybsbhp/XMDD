@@ -340,7 +340,7 @@
     });
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UILabel *feeLb = [cell viewWithTag:100];
-        feeLb.text = self.claimfee != 0 ? [NSString formatForPriceWithFloat:self.claimfee] : @" ";
+        feeLb.text = self.claimfee != 0 ? [NSString formatForPriceWithFloatWithDecimal:self.claimfee] : @" ";
     });
     return data;
 }

@@ -172,6 +172,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 #pragma mark - NJKWebViewProgressDelegate
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {
+    DebugLog(@"webViewProgress:%f", progress);
+    
     [_progressView setProgress:progress animated:YES];
     
     NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
@@ -182,14 +184,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }
     
     [self.bridge registerGetToken];
-    
-    //返回和关闭按钮的控制 （此种方案是当检测到是第二层的时候就显示返回按钮）
-//    if (self.webView.canGoBack) {
-//        [self setupLeftBtns];
-//    }
-//    else {
-//        [self setupLeftSingleBtn];
-//    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
