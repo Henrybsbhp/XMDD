@@ -10,7 +10,7 @@
 
 @interface MutualInsScencePageVC : UIViewController
 
-@property (nonatomic, strong) NSString *claimid;
+@property (nonatomic, strong) NSNumber *claimid;
 
 @property (nonatomic, strong) NSArray *noticeArr;
 
