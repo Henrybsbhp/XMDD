@@ -703,7 +703,7 @@
     celldata.object = @"车船税/交强险";
     
     CGFloat total = self.contract.forcefee + self.contract.taxshipfee;
-    celldata.tag = [NSString stringWithFormat:@"￥%@",[NSString formatForPriceWithFloat:total]];
+    celldata.customObject = [NSString stringWithFormat:@"￥%@",[NSString formatForPriceWithFloat:total]];
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 27;
     }];
