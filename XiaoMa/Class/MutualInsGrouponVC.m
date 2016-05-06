@@ -260,21 +260,22 @@ typedef enum : NSInteger
     
     MutInsStatus status = self.groupDetail.rsp_status;
     if (status == MutInsStatusUnderReview) {
-        self.menuItems = $([self menuItemInvite], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemMakeCall], [self menuItemUsinghelp]);
     }
     else if (status == MutInsStatusAgreementTakingEffect) {
-        self.menuItems = $([self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall], [self menuItemUsinghelp]);
     }
     else if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll ||
              status == MutInsStatusPaidForSelf || status == MutInsStatusGettedAgreement) {
-        self.menuItems = $([self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall], [self menuItemUsinghelp]);
     }
     else if (status == MutInsStatusReviewFailed || status == MutInsStatusGroupDissolved ||
              status == MutInsStatusGroupExpired || status == MutInsStatusJoinFailed) {
-        self.menuItems = $([self menuItemInvite], [self menuItemRegroup], [self menuItemDeleteGroup], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemRegroup], [self menuItemDeleteGroup], [self menuItemMakeCall],
+                           [self menuItemUsinghelp]);
     }
     else {
-        self.menuItems = $([self menuItemInvite], [self menuItemQuit], [self menuItemMakeCall]);
+        self.menuItems = $([self menuItemInvite], [self menuItemQuit], [self menuItemMakeCall], [self menuItemUsinghelp]);
     }
 }
 
@@ -419,11 +420,48 @@ typedef enum : NSInteger
         
         @strongify(self);
         [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0013"}];
-        [self requestDeleteGroup];
+        
+        HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+        alert.topTitle = @"温馨提示";
+        alert.imageName = @"mins_bulb";
+        alert.message = @"删除后，您将无法看到该团记录。确定现在删除？";
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        @weakify(self);
+        HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            
+            @strongify(self);
+            
+            [self requestDeleteGroup];
+        }];
+        alert.actionItems = @[cancel, improve];
+        [alert show];
     });
     return dict;
 }
 
+//使用帮助
+- (id)menuItemUsinghelp
+{
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Help",@"title":@"使用帮助",@"img":@"mins_question"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+
+        @strongify(self);
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.originVC = self;
+        NSString * urlStr;
+#if XMDDEnvironment==0
+        urlStr = @"http://dev01.xiaomadada.com/apphtml/tuanxiangqing-help.html";
+#elif XMDDEnvironment==1
+        urlStr = @"http://dev.xiaomadada.com/apphtml/tuanxiangqing-help.html";
+#else
+        urlStr = @"http://www.xiaomadada.com/apphtml/tuanxiangqing-help.html";
+#endif
+        vc.url = urlStr;
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
 #pragma mark - Animate
 - (void)setExpanded:(BOOL)expanded animated:(BOOL)animated {
     self.isExpandingOrClosing = YES;

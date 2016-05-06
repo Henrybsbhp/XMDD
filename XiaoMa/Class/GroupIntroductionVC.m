@@ -16,7 +16,6 @@
 #import "HKImageAlertVC.h"
 #import "EditCarVC.h"
 
-#define IntroUrl @"http://www.baidu.com"
 
 @interface GroupIntroductionVC () <UIWebViewDelegate>
 
@@ -48,10 +47,29 @@
     self.webView.delegate = self;
     self.webView.hidden = YES;
     
+    NSString * urlStr;
+    
+    if (self.groupType == MutualGroupTypeSystem)
+    {
+        urlStr = self.groupIntrUrlStr;
+    }
+    else
+    {
+#if XMDDEnvironment==0
+    urlStr = @"http://dev01.xiaomadada.com/apphtml/neicejihua.html";
+#elif XMDDEnvironment==1
+    urlStr = @"http://dev.xiaomadada.com/apphtml/neicejihua.html";
+#else
+    urlStr = @"http://www.xiaomadada.com/apphtml/neicejihua.html";
+#endif
+    }
+    
     CKAsyncMainQueue(^{
         self.webView.scrollView.contentInset = UIEdgeInsetsZero;
         self.webView.scrollView.contentSize = self.webView.frame.size;
-        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:IntroUrl]]];
+        
+        
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
     });
 }
 

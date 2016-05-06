@@ -9,7 +9,6 @@
 #import "MyBankVC.h"
 #import "ADViewController.h"
 #import "HKConvertModel.h"
-#import "CardDetailVC.h"
 #import "BindBankCardVC.h"
 #import "GetBankcardListOp.h"
 #import "BankStore.h"

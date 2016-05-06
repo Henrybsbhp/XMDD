@@ -183,7 +183,7 @@
         UILabel * priceLb = (UILabel *)[cell searchViewWithTag:106];
         
         [imageView setImageByUrl:self.contract.xmddlogo
-                        withType:ImageURLTypeThumbnail defImage:@"mutualins_pay_logo" errorImage:@"mutualins_pay_logo"];
+                        withType:ImageURLTypeOrigin defImage:@"mutualins_pay_logo" errorImage:@"mutualins_pay_logo"];
         nameLb.text = self.contract.xmddname;
         carLb.text = self.contract.licencenumber;
         

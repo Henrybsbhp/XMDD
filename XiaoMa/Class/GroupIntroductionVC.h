@@ -31,6 +31,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSNumber * groupId;
 @property (nonatomic, strong) NSString *memberId;
 @property (nonatomic, strong) NSString *groupName;
+@property (nonatomic, strong) NSString *groupIntrUrlStr;
 
 @property (nonatomic, strong) NSNumber *originCarId;
 

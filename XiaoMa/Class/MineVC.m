@@ -17,7 +17,6 @@
 #import "MyCollectionViewController.h"
 #import "CouponPkgViewController.h"
 #import "UIView+ShowDot.h"
-#import "CardDetailVC.h"
 #import "UnbundlingVC.h"
 #import "CarsListVC.h"
 #import "HKTableViewCell.h"
