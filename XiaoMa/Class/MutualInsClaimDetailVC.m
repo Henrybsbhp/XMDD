@@ -244,7 +244,7 @@
         [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0021"}];
         
         GetCoorperationClaimConfigOp *op = [[GetCoorperationClaimConfigOp alloc]init];
-        [[[[op rac_postRequest] delay:10.0] initially:^{
+        [[[op rac_postRequest] initially:^{
             
             [gToast showingWithText:@"" inView:self.view];
         }] subscribeNext:^(GetCoorperationClaimConfigOp *op) {
