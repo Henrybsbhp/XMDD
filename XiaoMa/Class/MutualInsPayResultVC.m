@@ -371,7 +371,24 @@
     }
     if (!self.address.length)
     {
-         [self.view4 shake];
+        
+        if (gAppMgr.deviceInfo.screenSize.height <= 480)
+        {
+            UIView * sview = self.view4;
+            for (NSInteger i = 0 ; i < 10 ; i++)
+            {
+                sview = sview.superview;
+                if ([sview isKindOfClass:[UITableViewCell class]])
+                {
+                    NSIndexPath * indexPath = [self.tableView indexPathForCell:(UITableViewCell *)sview];
+                    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                    break;
+                }
+            }
+        }
+        
+        [self.view4 shake];
+        
         return;
     }
     
