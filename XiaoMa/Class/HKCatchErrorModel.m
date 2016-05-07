@@ -96,7 +96,7 @@
             }
             CKAfter(0.1, ^{
                 UIViewController *orginVC = [gAppMgr.navModel.curNavCtrl.viewControllers safetyObjectAtIndex:0];
-                [LoginViewModel loginIfNeededForTargetViewController:gAppMgr.navModel.curNavCtrl originVC:orginVC];
+                [LoginViewModel loginIfNeededForTargetViewController:gAppMgr.navModel.curNavCtrl originVC:orginVC withLoginSuccessAction:nil];
             });
             self.alertView = nil;
         }
