@@ -316,7 +316,7 @@
         UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:1001];
         NSString * highLightString = [NSString new];
         if (self.groupType == GroupTypeByself) {
-            highLightString = @"首页→小马互助→右上角+号→内测计划→申请加入";
+            highLightString = @"首页→小马互助→右上角+号→内测计划→申请入团";
         }
         else {
             highLightString = @"首页→小马互助→去参团→选择团→申请加入";
