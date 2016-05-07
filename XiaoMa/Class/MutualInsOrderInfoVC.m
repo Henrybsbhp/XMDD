@@ -196,11 +196,13 @@
         self.bottomView.hidden = YES;
         self.topView.hidden = YES;
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        [self.view hideDefaultEmptyView];
     }] subscribeNext:^(GetCooperationContractDetailOp * rop) {
         
         self.tableView.hidden = NO;
         self.bottomView.hidden = NO;
         [self.view stopActivityAnimation];
+        [self.view hideDefaultEmptyView];
         
         self.contract = rop.rsp_contractorder;
         [self setupDateSource];

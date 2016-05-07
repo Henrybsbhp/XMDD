@@ -249,7 +249,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     [backgroundView setCornerRadius:3 withBackgroundColor:[UIColor whiteColor]];
     
     titleLb.text = [groupInfo stringParamForName:@"name"];
-    tagLb.text = [NSString stringWithFormat:@"已有%ld入团",[groupInfo integerParamForName:@"membercnt"]];
+    tagLb.text = [NSString stringWithFormat:@"已有%ld人入团",[groupInfo integerParamForName:@"membercnt"]];
     
     if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateNotStart || [groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateEndSign) {
         tagLb.textColor = kDarkTextColor;

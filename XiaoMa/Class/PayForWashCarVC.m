@@ -1062,15 +1062,18 @@
     if (error.code == 615801) {
         [gToast dismiss];
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:kGrayTextColor clickBlock:^(id alertVC) {
-            [MobClick event:@"rp108_8"];
-        }];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"原价支付" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-            [MobClick event:@"rp108_9"];
-            [self requestCheckoutWithCouponType:CouponTypeNone];
-        }];
-        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您不在该商户服务范围内，请刷新或者到店后洗完车后再支付或者原价支付。" ActionItems:@[cancel,confirm]];
-        [alert show];
+        CKAfter(0.3, ^{
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:kGrayTextColor clickBlock:^(id alertVC) {
+                 [MobClick event:@"rp108_8"];
+            }];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"原价支付" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                [MobClick event:@"rp108_9"];
+                [self requestCheckoutWithCouponType:CouponTypeNone];
+            }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您不在该商户服务范围内，请刷新或者到店后洗完车后再支付或者原价支付。" ActionItems:@[cancel,confirm]];
+            [alert show];
+        });
+       
         
     }
     else if (error.code == 5003 || error.code == 615805)

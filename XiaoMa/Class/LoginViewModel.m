@@ -36,15 +36,25 @@
 ///判断是否登录，如果未登录直接进入登录流程
 + (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC
 {
-    return [LoginViewModel loginIfNeededForTargetViewController:targetVC originVC:nil];
+    return [LoginViewModel loginIfNeededForTargetViewController:targetVC originVC:nil withLoginSuccessAction:nil];
 }
 
-+ (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC originVC:(UIViewController *)originVC
+///判断是否登录，如果未登录直接进入登录流程,登录成功后的操作
++ (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC withLoginSuccessAction:(void (^)(void))successBlock
+{
+    return [LoginViewModel loginIfNeededForTargetViewController:targetVC originVC:nil withLoginSuccessAction:successBlock];
+}
+
++ (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC originVC:(UIViewController *)originVC withLoginSuccessAction:(void (^)(void))successBlock
 {
     if (gAppMgr.myUser) {
         return YES;
     }
     VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
+    if (successBlock)
+    {
+        vc.loginSuccessAction = successBlock;
+    }
     if ([targetVC isKindOfClass:[UINavigationController class]]) {
         vc.model.originVC = originVC;
         gAppMgr.isNaviBarHidden = YES;
@@ -53,10 +63,8 @@
     else {
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [targetVC presentViewController:nav animated:YES completion:nil];
-//        [targetVC presentViewController:vc animated:YES completion:nil];
     }
     gAppDelegate.loginVC = vc;
     return NO;
-
 }
 @end

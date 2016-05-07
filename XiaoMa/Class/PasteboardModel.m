@@ -21,6 +21,7 @@
 
 @implementation PasteboardModel
 
+
 - (void)prepareForShareWhisper:(NSString *)whisper
 {
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
@@ -47,7 +48,7 @@
             }
             else if (!self.isAlertShowing)
             {
-                [self handleNoLogin];
+                [self handleNoLogin:pasteboardStr];
             }
         }
     }];
@@ -55,7 +56,7 @@
     return YES;
 }
 
-- (void)handleNoLogin
+- (void)handleNoLogin:(NSString *)str
 {
     self.isAlertShowing = YES;
     InviteAlertVC * alertVC = [[InviteAlertVC alloc] init];
@@ -68,7 +69,14 @@
         [UIPasteboard generalPasteboard].string = @"";
         self.isAlertShowing = NO;
         if (index == 1) {
-            [gAppMgr.navModel pushToViewControllerByUrl:@"xmdd://j?t=login"];
+            
+            VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
+            __weak PasteboardModel* blockSelf = self;
+            [vc setLoginSuccessAction:^{
+                [blockSelf handleXMInsTag:str];
+            }];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            [gAppMgr.navModel.curNavCtrl presentViewController:nav animated:YES completion:nil];
         }
     }];
 }

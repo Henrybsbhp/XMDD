@@ -46,6 +46,7 @@
         
         @strongify(self);
         [self.collectionView.refreshView beginRefreshing];
+        [self.collectionView hideDefaultEmptyView];
     }] deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(GetInsCompanyListOp *op) {
 
         @strongify(self);
@@ -86,6 +87,10 @@
             @strongify(self);
             [self reloadData];
         }];
+    }
+    else
+    {
+        [self.collectionView hideDefaultEmptyView];
     }
 }
 

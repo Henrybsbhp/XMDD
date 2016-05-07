@@ -224,9 +224,19 @@
         [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0023"}];
         
         NSString * bankno = [self.bankcardnoStr stringByReplacingOccurrencesOfString:@" " withString:@""];
-        if (bankno.length > 0)
+        if (bankno)
         {
-            [self confirmClaimWithAgreement:@2 andBankNo:bankno];
+            if (bankno.length >0)
+            {
+                /// 有且输入过
+                [self confirmClaimWithAgreement:@2 andBankNo:bankno];
+            }
+            else
+            {
+                /// 有但为空，则说明用户自行删除了
+                [gToast showMistake:@"请输入借记卡卡号"];
+            }
+            
         }
         else
         {
@@ -245,6 +255,13 @@
         [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0024"}];
         
         NSString * bankno = [self.bankcardnoStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        if (!bankno)
+        {
+            if (self.cardno.length > 0)
+            {
+                bankno = self.cardno;
+            }
+        }
         
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
@@ -564,6 +581,13 @@
             NSString *orgText = textField.text.length > 0 ?
             [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""] : @"";
             NSString *text = [orgText splitByStep:4 replacement:@" "];
+            
+//            当时可编辑状态，又是星号显示的时候，删一下，输入框内容，清空
+            if (replacement.length == 0 && [textField.text rangeOfString:@"*"].location != NSNotFound)
+            {
+                text = @"";
+            }
+            
             textField.text = text;
             
             self.bankcardnoStr = text;
@@ -605,7 +629,9 @@
         }
         [ciphertext appendString:temp2];
         
-        return ciphertext;
+        NSString * text = [ciphertext splitByStep:4 replacement:@" "];
+        
+        return text;
     }
     return account;
 }

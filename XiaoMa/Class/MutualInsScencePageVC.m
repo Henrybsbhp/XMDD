@@ -249,6 +249,20 @@
                 HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
                     [self.scencePhotoVM deleteAllInfo];
                     
+                    for (UIViewController * vc in self.navigationController.viewControllers)
+                    {
+                        if ([vc isKindOfClass:[MutualInsClaimDetailVC class]])
+                        {
+                            MutualInsClaimDetailVC * detailVC = (MutualInsClaimDetailVC *)vc;
+                            if ([detailVC.claimid isEqualToNumber:self.claimid])
+                            {
+                                // 如果是推送，先找到detail页面
+                                [detailVC loadData];
+                                [self.navigationController popToViewController:vc animated:YES];
+                                return;
+                            }
+                        }
+                    }
                     MutualInsClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimDetailVC"];
                     detailVC.claimid = @(self.claimid.integerValue);
                     [self.navigationController pushViewController:detailVC animated:YES];

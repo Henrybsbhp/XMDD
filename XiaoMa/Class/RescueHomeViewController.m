@@ -214,11 +214,20 @@
         } error:^(NSError *error) {
             
         }] ;
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"救援电话:4007-111-111" ActionItems:@[cancel,confirm]];
+        [alert show];
     }else{
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"救援电话:4007-111-111" ActionItems:@[cancel,confirm]];
+        [alert show];
     }
 }
 
