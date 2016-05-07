@@ -12,4 +12,6 @@
 
 @property (nonatomic,strong) NSNumber *claimid;
 
+-(void)loadData;
+
 @end
