@@ -1063,7 +1063,9 @@
         [gToast dismiss];
         
         CKAfter(0.3, ^{
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:kGrayTextColor clickBlock:nil];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:kGrayTextColor clickBlock:^(id alertVC) {
+                 [MobClick event:@"rp108_8"];
+            }];
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"原价支付" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 [MobClick event:@"rp108_9"];
                 [self requestCheckoutWithCouponType:CouponTypeNone];
