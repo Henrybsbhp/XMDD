@@ -150,18 +150,11 @@
     self.bottomBtn.enabled = [item[@"agree"] boolValue];
     
     NSString *title;
-    float couponlimit = 0, discount = 0, percent = 0;
-
-    if (self.curBankCard.gasInfo) {
-        couponlimit = self.curBankCard.gasInfo.rsp_couponupplimit;
-        percent = self.curBankCard.gasInfo.rsp_discountrate;
-        couponlimit = MAX(0, self.curBankCard.gasInfo.rsp_couponupplimit - self.curBankCard.gasInfo.rsp_czbcouponedmoney);
-    }
-    discount = MIN(couponlimit, self.rechargeAmount * percent / 100.0);
-    //生成文案
-    if (discount > 0) {
+    float discountAmount = [self discountAmount];
+       //生成文案
+    if (discountAmount > self.rechargeAmount) {
         title = [NSString stringWithFormat:@"充值%@元，只需支付%@元，现在支付",
-                 [NSString formatForRoundPrice:(self.rechargeAmount + discount)],
+                 [NSString formatForRoundPrice:discountAmount],
                  [NSString formatForRoundPrice:self.rechargeAmount]];
     }
     else {
@@ -234,7 +227,8 @@
         GasPayForCZBVC *vc = [UIStoryboard vcWithId:@"GasPayForCZBVC" inStoryboard:@"Gas"];
         vc.bankCard = self.curBankCard;
         vc.gasCard = self.curGasCard;
-        vc.chargeamt = self.rechargeAmount;
+        vc.rechargeAmount = self.rechargeAmount;
+        vc.discountAmount = [self discountAmount];
         vc.payTitle = [self.bottomBtn titleForState:UIControlStateNormal];
         vc.needInvoice = [self.datasource[0][@"WantInvoiceCell"][@"bill"] boolValue];
         vc.originVC = self.targetVC;
@@ -242,7 +236,7 @@
         [vc setDidPaidSuccessBlock:^{
             @strongify(self);
             self.rechargeAmount = 500;
-            [self.gasStore updateCZBCardInfoByCID:self.curBankCard.cardID];
+            [[self.gasStore updateCZBCardInfoByCID:self.curBankCard.cardID] send];
         }];
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
@@ -511,6 +505,20 @@
 }
 
 #pragma mark - Abount Recharge Amount
+- (float)discountAmount
+{
+    float couponlimit = 0, discount = 0, percent = 0;
+    
+    if (self.curBankCard.gasInfo) {
+        couponlimit = self.curBankCard.gasInfo.rsp_couponupplimit;
+        percent = self.curBankCard.gasInfo.rsp_discountrate;
+        couponlimit = MAX(0, self.curBankCard.gasInfo.rsp_couponupplimit - self.curBankCard.gasInfo.rsp_czbcouponedmoney);
+    }
+    discount = MIN(couponlimit, self.rechargeAmount * percent / 100.0);
+
+    return discount + self.rechargeAmount;
+}
+
 - (NSString *)stepperTitleWithValue:(float)value {
     return [NSString stringWithFormat:@"%d元", (int)value];
 }

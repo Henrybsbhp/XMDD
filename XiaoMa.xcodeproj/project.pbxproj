@@ -6391,7 +6391,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9df2c481-f7b2-4061-bf66-32967e913518";
+				PROVISIONING_PROFILE = "073eea9f-00f7-40b1-90a6-8a41460e066c";
 			};
 			name = Release;
 		};

@@ -106,7 +106,7 @@
         }
         else
         {
-//            [payVc setCouponType:0];
+            [payVc setCouponType:0];
         }
         [payVc tableViewReloadData];
     }
