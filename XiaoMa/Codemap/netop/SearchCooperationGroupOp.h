@@ -15,5 +15,7 @@
 @property (nonatomic,strong) NSString* rsp_cipher;
 ///团类型
 @property (nonatomic,assign) NSInteger rsp_groupType;
+///团介绍url
+@property (nonatomic,strong) NSString* rsp_urlStr;
 
 @end

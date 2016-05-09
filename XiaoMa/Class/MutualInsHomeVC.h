@@ -10,4 +10,6 @@
 
 @interface MutualInsHomeVC : UIViewController
 
+- (BOOL)reloadIfNeeded;
+
 @end

@@ -26,6 +26,7 @@
 #import "MutualInsOrderInfoVC.h"
 #import "MutualInsGrouponVC.h"
 #import "MutualInsClaimDetailVC.h"
+#import "MutualInsHomeVC.h"
 
 #import "AppDelegate.h"
 
@@ -365,7 +366,15 @@
         //加入小马互助团
         else if ([@"coins" equalByCaseInsensitive:name]) {
             
-            
+            for (UIViewController * vc in self.curNavCtrl.viewControllers)
+            {
+                if ([vc isKindOfClass:[MutualInsHomeVC class]])
+                {
+                    [((MutualInsHomeVC *)vc) reloadIfNeeded];
+                    [self.curNavCtrl popViewControllerAnimated:YES];
+                    return YES;
+                }
+            }
             UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
