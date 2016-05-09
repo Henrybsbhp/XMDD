@@ -898,7 +898,7 @@
     UISwitch *switchV = (UISwitch *)[cell.contentView viewWithTag:1002];
     
     label.text = data.customInfo[@"title"];
-    switchV.on = [data.object boolValue];
+    switchV.on = self.curCar.isDefault;
     @weakify(self);
     [[switchV rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(UISwitch *sw) {
         @strongify(self);
