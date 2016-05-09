@@ -189,7 +189,14 @@
         
         
         CGFloat price;
-        price = self.contract.total - self.contract.couponmoney - self.couponMoney + self.contract.forcefee + self.contract.taxshipfee;
+        if (self.totalMoney > 0)
+        {
+            price = self.totalMoney;
+        }
+        else
+        {
+            price = self.contract.total - self.contract.couponmoney - self.couponMoney + self.contract.forcefee + self.contract.taxshipfee;
+        }
         priceLb.text =  [NSString stringWithFormat:@"￥%@",[NSString formatForPriceWithFloat:price]];
     });
     return data;

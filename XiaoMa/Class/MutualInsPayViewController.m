@@ -373,6 +373,7 @@
     return YES;
 }
 
+
 - (void)gotoPaidSuccessVC
 {
     CGFloat totalCouponMoney = 0.0;
@@ -381,9 +382,18 @@
         totalCouponMoney = totalCouponMoney + c.couponAmount;
     }
     totalCouponMoney = MIN(totalCouponMoney, self.maxCouponAmt);
+    
+    CGFloat payfee = self.contract.total - self.contract.couponmoney - totalCouponMoney;
+    if (self.proxybuy)
+    {
+        payfee = payfee + self.contract.forcefee + self.contract.taxshipfee;
+    }
+    
     MutualInsPayResultVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayResultVC"];
     vc.contract = self.contract;
     vc.couponMoney = totalCouponMoney;
+    vc.totalMoney = payfee;
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
 
