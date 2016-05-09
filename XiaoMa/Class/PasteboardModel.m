@@ -117,6 +117,7 @@
                     vc.btnType = BtnTypeJoinNow;
                     vc.groupId = rop.rsp_groupid;
                     vc.groupName = rop.rsp_name;
+                    vc.groupIntrUrlStr = rop.rsp_urlStr;
                     [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
                 }
             }

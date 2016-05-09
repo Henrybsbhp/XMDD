@@ -18,6 +18,7 @@
     self.rsp_groupid = dict[@"groupid"];
     self.rsp_cipher = dict[@"cipher"];
     self.rsp_groupType = [dict[@"type"] integerValue];
+    self.rsp_urlStr = dict[@"url"];
     return self;
 }
 
