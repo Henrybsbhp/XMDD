@@ -278,7 +278,7 @@
     }
     
     @weakify(self);
-    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title] doNext:^(id x) {
+    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title andLicensePopVCType:InsLicensePopVCTypeXMIns] doNext:^(id x) {
         
         @strongify(self);
         self.isLicenseChecked = YES;
@@ -290,7 +290,7 @@
     
     @weakify(self)
     [[self rac_openLicenseVCWithUrl:self.contract.contracturl
-                             title:[NSString stringWithFormat:@"%@协议",XMINSPrefix]] subscribeNext:^(id x) {
+                             title:[NSString stringWithFormat:@"%@协议",@"小马互助"]] subscribeNext:^(id x) {
         @strongify(self);
         [self requestPay];
     }];

@@ -649,7 +649,7 @@
         return [RACSubject return:@YES];
     }
     @weakify(self);
-    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title] doNext:^(id x) {
+    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title andLicensePopVCType:InsLicensePopVCTypeNormal] doNext:^(id x) {
         @strongify(self);
         self.isLicenseChecked = YES;
     }];
