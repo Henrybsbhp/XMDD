@@ -295,7 +295,7 @@
     
     logoV.image = [UIImage imageNamed:self.gasCard.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
     cardnoL.text = [self.gasCard.gascardno splitByStep:4 replacement:@" "];
-    priceL.text = [NSString formatForRoundPrice2:self.discountAmount];
+    priceL.text = [NSString stringWithFormat:@"￥%.2f", self.discountAmount];
 }
 
 - (void)resetPromptCell:(UITableViewCell *)cell forData:(HKCellData *)data
