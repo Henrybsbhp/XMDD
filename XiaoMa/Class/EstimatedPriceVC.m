@@ -152,9 +152,9 @@
         mutualInsPriceL.text = [NSString stringWithFormat:@"%@元", [NSString formatForPrice:(dataModel.premiumprice - dataModel.memberFee)]];
         [mutualInsPriceL setAdjustsFontSizeToFitWidth:YES];
         
-        NSString * tipStr = [NSString stringWithFormat:@"比传统车险省%@元", [NSString formatForPrice:dataModel.couponMoney]];
+        NSString * tipStr = [NSString stringWithFormat:@"省%@元", [NSString formatForPrice:dataModel.couponMoney]];
         NSMutableAttributedString * attributeStr = [[NSMutableAttributedString alloc] initWithString:tipStr];
-        [attributeStr addAttributeForegroundColor:kOrangeColor range:NSMakeRange(6, tipStr.length - 6)];
+        [attributeStr addAttributeForegroundColor:kOrangeColor range:NSMakeRange(1, tipStr.length - 1)];
         saveMoneyL.attributedText = attributeStr;
         
     });
