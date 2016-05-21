@@ -10,7 +10,6 @@
 #import "GetRescueDetailOp.h"
 #import "HKRescueDetail.h"
 #import "RescueCouponViewController.h"
-#import "GetSystemPromotionOp.h"
 #import "RescueApplyOp.h"
 #import "ADViewController.h"
 #import "NSString+RectSize.h"
