@@ -11,7 +11,7 @@
 #import "GetUserBaseInfoOp.h"
 #import "MyOrderListVC.h"
 #import "MyCouponVC.h"
-#import "MyInfoViewController.h"
+//#import "MyInfoViewController.h"
 #import "AboutViewController.h"
 #import "MessageListVC.h"
 #import "MyCollectionViewController.h"
@@ -26,6 +26,7 @@
 #import "MyCarStore.h"
 #import "HKMyCar.h"
 #import "CarsListVC.h"
+#import "ReactNativeViewController.h"
 
 #import "ShopDetailVC.h"
 
@@ -123,22 +124,9 @@
         make.top.equalTo(self.view.mas_top).offset(0);
     }];
     
-    UITapGestureRecognizer * gesture = [[UITapGestureRecognizer alloc] init];
+    UITapGestureRecognizer * gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionPushToMyInfo:)];
     [self.bgView addGestureRecognizer:gesture];
     self.bgView.userInteractionEnabled = YES;
-    [[gesture rac_gestureSignal] subscribeNext:^(id x) {
-        
-        if([LoginViewModel loginIfNeededForTargetViewController:self])
-        {
-            [MobClick event:@"rp301_9"];
-            MyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyInfoViewController"];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-        else
-        {
-            [MobClick event:@"rp301_1"];
-        }
-    }];
 }
 
 //设置新手引导的store
@@ -320,6 +308,21 @@
 }
 
 #pragma mark - Action
+- (void)actionPushToMyInfo:(UITapGestureRecognizer *)tap
+{
+    if([LoginViewModel loginIfNeededForTargetViewController:self])
+    {
+        [MobClick event:@"rp301_9"];
+        ReactNativeViewController *vc = [[ReactNativeViewController alloc] initWithModuleName:@"MyInfoView"
+                                                                                   properties:@{@"title":@"个人信息"}];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else
+    {
+        [MobClick event:@"rp301_1"];
+    }
+}
+
 -(void)actionPushToTickets
 {
     [MobClick event:@"rp301_2"];
@@ -431,7 +434,8 @@
 - (void)observeUserInfo
 {
     @weakify(self);
-    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser *user) {
+    [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] deliverOn:[RACScheduler mainThreadScheduler]]
+     subscribeNext:^(JTUser *user) {
         
         @strongify(self);
         if (!user) {

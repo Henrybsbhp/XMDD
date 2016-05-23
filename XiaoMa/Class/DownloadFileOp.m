@@ -27,17 +27,14 @@
     AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
     [op setOutputStream:[NSOutputStream outputStreamToFileAtPath:self.req_savePath append:self.req_appendData]];
     
-    @weakify(self);
     [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        @strongify(self);
         self.rsp_statusCode = operation.response.statusCode;
         self.rsp_code = 0;
         DebugLog(@"%@(id:%u) %@", kRspPrefix, self.req_id, urlstr);
         [subject sendNext:self];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
-        @strongify(self);
         self.rsp_prompt = error.domain;
         self.rsp_code = error.code;
         self.rsp_statusCode = error.code;

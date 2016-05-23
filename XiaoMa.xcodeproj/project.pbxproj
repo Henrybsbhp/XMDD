@@ -15,6 +15,12 @@
 		180539461C9FCDE600D896A1 /* MutualInsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 180539451C9FCDE600D896A1 /* MutualInsStore.m */; };
 		18088D8B1B1DC921007438FC /* UsedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18088D8A1B1DC921007438FC /* UsedCouponVModel.m */; };
 		18088D8E1B1DC938007438FC /* UnusedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18088D8D1B1DC938007438FC /* UnusedCouponVModel.m */; };
+		1809C1211CEAA9CD00AE56EB /* RCTNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1201CEAA9CD00AE56EB /* RCTNetworkManager.m */; };
+		1809C1241CEAB3D100AE56EB /* ReactNativeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1231CEAB3D100AE56EB /* ReactNativeOp.m */; };
+		1809C1441CEC498F00AE56EB /* RCTLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1431CEC498F00AE56EB /* RCTLoginManager.m */; };
+		1809C1481CEC4AD700AE56EB /* RCTNavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1471CEC4AD700AE56EB /* RCTNavigationManager.m */; };
+		1809C14F1CEEDF8600AE56EB /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1809C14E1CEEDF6D00AE56EB /* libRNImagePicker.a */; };
+		1809C1531CEF111400AE56EB /* RCTAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1521CEF111400AE56EB /* RCTAppManager.m */; };
 		180AD8351BD88CB700E608F9 /* BankCardStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 180AD8341BD88CB700E608F9 /* BankCardStore.m */; };
 		180F4A471CAA63F800EB73B0 /* NSDate+PrettyFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 180F4A461CAA63F800EB73B0 /* NSDate+PrettyFormat.m */; };
 		181355931C925FC600894CA1 /* HKAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181355921C925FC600894CA1 /* HKAlertVC.m */; };
@@ -264,6 +270,10 @@
 		18B62C921CDC516D00E5AE48 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C601CDC511600E5AE48 /* libRCTText.a */; };
 		18B62C931CDC516D00E5AE48 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C721CDC513300E5AE48 /* libRCTVibration.a */; };
 		18B62C941CDC516D00E5AE48 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C781CDC513D00E5AE48 /* libRCTWebSocket.a */; };
+		18B62CAC1CE089A200E5AE48 /* HKSecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B62CAB1CE089A200E5AE48 /* HKSecurityManager.m */; };
+		18B62CBC1CE1AA1C00E5AE48 /* NSData+MD5Digest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B62CBB1CE1AA1C00E5AE48 /* NSData+MD5Digest.m */; };
+		18B62CBE1CE31DAF00E5AE48 /* xmddrct_public_key.der in Resources */ = {isa = PBXBuildFile; fileRef = 18B62CBD1CE31DAF00E5AE48 /* xmddrct_public_key.der */; };
+		18B62CCC1CE338A800E5AE48 /* ReactNativeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B62CCB1CE338A800E5AE48 /* ReactNativeViewController.m */; };
 		18B6E5C81C44D2A000697DAB /* KeyboardHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6E5C71C44D2A000697DAB /* KeyboardHelper.m */; };
 		18B6E5CB1C463D0300697DAB /* CancelInsOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6E5CA1C463D0300697DAB /* CancelInsOrderOp.m */; };
 		18B6E5CE1C47361A00697DAB /* GuideStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6E5CD1C47361A00697DAB /* GuideStore.m */; };
@@ -745,6 +755,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1809C14D1CEEDF6D00AE56EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1809C1491CEEDF6D00AE56EB /* RNImagePicker.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
+			remoteInfo = RNImagePicker;
+		};
 		1883D8F91ACB99AC002A4D19 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1883D8D71ACB99AC002A4D19 /* Project object */;
@@ -853,6 +870,17 @@
 		18088D8A1B1DC921007438FC /* UsedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsedCouponVModel.m; sourceTree = "<group>"; };
 		18088D8C1B1DC938007438FC /* UnusedCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnusedCouponVModel.h; sourceTree = "<group>"; };
 		18088D8D1B1DC938007438FC /* UnusedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnusedCouponVModel.m; sourceTree = "<group>"; };
+		1809C11F1CEAA9CD00AE56EB /* RCTNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTNetworkManager.h; path = Class/RCTNetworkManager.h; sourceTree = "<group>"; };
+		1809C1201CEAA9CD00AE56EB /* RCTNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTNetworkManager.m; path = Class/RCTNetworkManager.m; sourceTree = "<group>"; };
+		1809C1221CEAB3D100AE56EB /* ReactNativeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReactNativeOp.h; path = Class/ReactNativeOp.h; sourceTree = "<group>"; };
+		1809C1231CEAB3D100AE56EB /* ReactNativeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReactNativeOp.m; path = Class/ReactNativeOp.m; sourceTree = "<group>"; };
+		1809C1421CEC498F00AE56EB /* RCTLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTLoginManager.h; path = Class/RCTLoginManager.h; sourceTree = "<group>"; };
+		1809C1431CEC498F00AE56EB /* RCTLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTLoginManager.m; path = Class/RCTLoginManager.m; sourceTree = "<group>"; };
+		1809C1461CEC4AD700AE56EB /* RCTNavigationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTNavigationManager.h; path = Class/RCTNavigationManager.h; sourceTree = "<group>"; };
+		1809C1471CEC4AD700AE56EB /* RCTNavigationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTNavigationManager.m; path = Class/RCTNavigationManager.m; sourceTree = "<group>"; };
+		1809C1491CEEDF6D00AE56EB /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "ReactNative/node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		1809C1511CEF111400AE56EB /* RCTAppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTAppManager.h; path = Class/RCTAppManager.h; sourceTree = "<group>"; };
+		1809C1521CEF111400AE56EB /* RCTAppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTAppManager.m; path = Class/RCTAppManager.m; sourceTree = "<group>"; };
 		180AD8331BD88CB700E608F9 /* BankCardStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BankCardStore.h; path = Class/BankCardStore.h; sourceTree = "<group>"; };
 		180AD8341BD88CB700E608F9 /* BankCardStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BankCardStore.m; path = Class/BankCardStore.m; sourceTree = "<group>"; };
 		180F4A451CAA63F800EB73B0 /* NSDate+PrettyFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+PrettyFormat.h"; path = "Class/NSDate+PrettyFormat.h"; sourceTree = "<group>"; };
@@ -1349,6 +1377,13 @@
 		18B62C791CDC514200E5AE48 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		18B62C7F1CDC515200E5AE48 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		18B62C851CDC515600E5AE48 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		18B62CAA1CE089A200E5AE48 /* HKSecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKSecurityManager.h; path = Class/HKSecurityManager.h; sourceTree = "<group>"; };
+		18B62CAB1CE089A200E5AE48 /* HKSecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKSecurityManager.m; path = Class/HKSecurityManager.m; sourceTree = "<group>"; };
+		18B62CBA1CE1AA1C00E5AE48 /* NSData+MD5Digest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MD5Digest.h"; path = "Class/NSData+MD5Digest.h"; sourceTree = "<group>"; };
+		18B62CBB1CE1AA1C00E5AE48 /* NSData+MD5Digest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+MD5Digest.m"; path = "Class/NSData+MD5Digest.m"; sourceTree = "<group>"; };
+		18B62CBD1CE31DAF00E5AE48 /* xmddrct_public_key.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = xmddrct_public_key.der; sourceTree = "<group>"; };
+		18B62CCA1CE338A800E5AE48 /* ReactNativeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactNativeViewController.h; sourceTree = "<group>"; };
+		18B62CCB1CE338A800E5AE48 /* ReactNativeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactNativeViewController.m; sourceTree = "<group>"; };
 		18B6E5C61C44D2A000697DAB /* KeyboardHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyboardHelper.h; path = Class/KeyboardHelper.h; sourceTree = "<group>"; };
 		18B6E5C71C44D2A000697DAB /* KeyboardHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeyboardHelper.m; path = Class/KeyboardHelper.m; sourceTree = "<group>"; };
 		18B6E5C91C463D0300697DAB /* CancelInsOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelInsOrderOp.h; sourceTree = "<group>"; };
@@ -2344,6 +2379,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1809C14F1CEEDF8600AE56EB /* libRNImagePicker.a in Frameworks */,
 				18B62C8C1CDC516D00E5AE48 /* libRCTActionSheet.a in Frameworks */,
 				18B62C8D1CDC516D00E5AE48 /* libRCTGeolocation.a in Frameworks */,
 				18B62C8E1CDC516D00E5AE48 /* libRCTImage.a in Frameworks */,
@@ -2455,6 +2491,63 @@
 			name = Coupon;
 			sourceTree = "<group>";
 		};
+		1809C1131CEAA98D00AE56EB /* ReactNativeBridge */ = {
+			isa = PBXGroup;
+			children = (
+				1809C1501CEF10CB00AE56EB /* AppManager */,
+				1809C1451CEC4ABF00AE56EB /* Navigation */,
+				1809C1411CEC497A00AE56EB /* Login */,
+				1809C1281CEB009900AE56EB /* Networking */,
+			);
+			name = ReactNativeBridge;
+			sourceTree = "<group>";
+		};
+		1809C1281CEB009900AE56EB /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				1809C11F1CEAA9CD00AE56EB /* RCTNetworkManager.h */,
+				1809C1201CEAA9CD00AE56EB /* RCTNetworkManager.m */,
+				1809C1221CEAB3D100AE56EB /* ReactNativeOp.h */,
+				1809C1231CEAB3D100AE56EB /* ReactNativeOp.m */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		1809C1411CEC497A00AE56EB /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				1809C1421CEC498F00AE56EB /* RCTLoginManager.h */,
+				1809C1431CEC498F00AE56EB /* RCTLoginManager.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		1809C1451CEC4ABF00AE56EB /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				1809C1461CEC4AD700AE56EB /* RCTNavigationManager.h */,
+				1809C1471CEC4AD700AE56EB /* RCTNavigationManager.m */,
+			);
+			name = Navigation;
+			sourceTree = "<group>";
+		};
+		1809C14A1CEEDF6D00AE56EB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1809C14E1CEEDF6D00AE56EB /* libRNImagePicker.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1809C1501CEF10CB00AE56EB /* AppManager */ = {
+			isa = PBXGroup;
+			children = (
+				1809C1511CEF111400AE56EB /* RCTAppManager.h */,
+				1809C1521CEF111400AE56EB /* RCTAppManager.m */,
+			);
+			name = AppManager;
+			sourceTree = "<group>";
+		};
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -2560,6 +2653,8 @@
 				6BBAB8D31ADE3CBC00EC342F /* NSDate+DateForText.m */,
 				6BC2209D1AD7AC9D00A4310E /* NSString+MD5.h */,
 				6BC2209E1AD7AC9D00A4310E /* NSString+MD5.m */,
+				18B62CBA1CE1AA1C00E5AE48 /* NSData+MD5Digest.h */,
+				18B62CBB1CE1AA1C00E5AE48 /* NSData+MD5Digest.m */,
 				6BC220971AD7804800A4310E /* NSMutableDictionary+AddParams.h */,
 				6BC220981AD7804800A4310E /* NSMutableDictionary+AddParams.m */,
 				189B31041AD7B7F5001D7288 /* UIView+Shake.h */,
@@ -3509,6 +3604,8 @@
 				18B78F5E1BA990100061ECAD /* HKLaunchManager.m */,
 				50BA11621C27F42F00EA1E4A /* CarIDCodeCheckModel.h */,
 				50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */,
+				18B62CAA1CE089A200E5AE48 /* HKSecurityManager.h */,
+				18B62CAB1CE089A200E5AE48 /* HKSecurityManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -3811,6 +3908,7 @@
 		18B62B061CDB332E00E5AE48 /* ReactNative */ = {
 			isa = PBXGroup;
 			children = (
+				1809C1491CEEDF6D00AE56EB /* RNImagePicker.xcodeproj */,
 				18B62C851CDC515600E5AE48 /* RCTGeolocation.xcodeproj */,
 				18B62C7F1CDC515200E5AE48 /* RCTGeolocation.xcodeproj */,
 				18B62C791CDC514200E5AE48 /* RCTNetwork.xcodeproj */,
@@ -4109,6 +4207,8 @@
 			children = (
 				18E28A031B8AFBB70070E759 /* HKNavigationHiddenVC.h */,
 				18E28A041B8AFBB70070E759 /* HKNavigationHiddenVC.m */,
+				18B62CCA1CE338A800E5AE48 /* ReactNativeViewController.h */,
+				18B62CCB1CE338A800E5AE48 /* ReactNativeViewController.m */,
 			);
 			name = Super;
 			sourceTree = "<group>";
@@ -4695,6 +4795,7 @@
 		6BBAB8C81ADD351800EC342F /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				1809C1131CEAA98D00AE56EB /* ReactNativeBridge */,
 				18B6E5C51C44D27C00697DAB /* Keyboard */,
 				6B3DAB9D1C3F512D00C783F8 /* DebugLog */,
 				18E28A191B93F0760070E759 /* Payment */,
@@ -4712,6 +4813,7 @@
 		6BBAB9581ADE724300EC342F /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				18B62CBD1CE31DAF00E5AE48 /* xmddrct_public_key.der */,
 				C3BA94461CC5F6180053BC96 /* sh.gpx */,
 				6B26EF491C9026BD00428EC4 /* main.jsbundle */,
 				6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */,
@@ -5508,6 +5610,10 @@
 					ProductGroup = 18B62C4A1CDC510000E5AE48 /* Products */;
 					ProjectRef = 18B62C491CDC510000E5AE48 /* React.xcodeproj */;
 				},
+				{
+					ProductGroup = 1809C14A1CEEDF6D00AE56EB /* Products */;
+					ProjectRef = 1809C1491CEEDF6D00AE56EB /* RNImagePicker.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -5519,6 +5625,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		1809C14E1CEEDF6D00AE56EB /* libRNImagePicker.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNImagePicker.a;
+			remoteRef = 1809C14D1CEEDF6D00AE56EB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		18B62C4E1CDC510000E5AE48 /* libReact.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -5651,6 +5764,7 @@
 				18B62C271CDC42AD00E5AE48 /* rctpkg in Resources */,
 				6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */,
 				18E28A261B954F4E0070E759 /* Car.storyboard in Resources */,
+				18B62CBE1CE31DAF00E5AE48 /* xmddrct_public_key.der in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5766,6 +5880,7 @@
 				6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
 				6BC80C881C96BD6800C7BA3D /* ExitCooperationOp.m in Sources */,
+				1809C1211CEAA9CD00AE56EB /* RCTNetworkManager.m in Sources */,
 				6BC80C831C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				1818D8F51C22845A0078C329 /* PayForPremiumOp.m in Sources */,
@@ -5829,16 +5944,19 @@
 				6B50127E1C59F5F000267DCB /* UIViewController+Swizzling.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
 				6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */,
+				1809C1241CEAB3D100AE56EB /* ReactNativeOp.m in Sources */,
 				6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */,
 				18A30E401BD472E800521411 /* GasPayForCZBVC.m in Sources */,
 				18895B2A1B4A136100928F62 /* HKStore.m in Sources */,
 				18B7A2771C203B5E00865A99 /* GetAreaByIdOp.m in Sources */,
 				189B30BD1AD524EC001D7288 /* AppManager.m in Sources */,
 				6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */,
+				1809C1441CEC498F00AE56EB /* RCTLoginManager.m in Sources */,
 				5078E4CF1B93F04000E3B198 /* GetInsuranceDiscountOp.m in Sources */,
 				6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */,
 				1818D8F81C2293600078C329 /* NSString+Format.m in Sources */,
 				508F65351CACDD0F00F88744 /* CarsListVC.m in Sources */,
+				18B62CBC1CE1AA1C00E5AE48 /* NSData+MD5Digest.m in Sources */,
 				50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				181355991C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m in Sources */,
@@ -6077,6 +6195,7 @@
 				2E3EEBC31C224DD20010E34F /* CommissionOrderVC.m in Sources */,
 				4EF4949C1C9A7D8D008A8E4D /* GetSystemTimeOp.m in Sources */,
 				508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */,
+				1809C1531CEF111400AE56EB /* RCTAppManager.m in Sources */,
 				6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */,
 				18A15A691C225E3F00D7B5DF /* CalculatePremiumOp.m in Sources */,
 				1844FB351CD9C8880085A0D4 /* NSDictionary+Encoding.m in Sources */,
@@ -6226,6 +6345,7 @@
 				186984E81B005A86000A182A /* CarwashOrderViewModel.m in Sources */,
 				189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */,
 				6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */,
+				18B62CCC1CE338A800E5AE48 /* ReactNativeViewController.m in Sources */,
 				6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */,
 				181F6D931B15773600D38555 /* BeInterestedInInsuranceOp.m in Sources */,
 				6B65A76C1B856C9E00439228 /* CouponModel.m in Sources */,
@@ -6241,6 +6361,7 @@
 				50FAC2591C23A66900F8990F /* GetAutomobileBrandV2Op.m in Sources */,
 				C36B8A9F1CB3526100BC2487 /* GetSystemHomeModuleOp.m in Sources */,
 				18F41DA91B784CD8000409E1 /* GetBankcardListOp.m in Sources */,
+				1809C1481CEC4AD700AE56EB /* RCTNavigationManager.m in Sources */,
 				18A15A561C214C2200D7B5DF /* InsActivityIndicatorVC.m in Sources */,
 				187CC95C1AEF2023004D1F28 /* UploadFileOp.m in Sources */,
 				18BF41F11BCF6A540039F210 /* GasPickAmountCell.m in Sources */,
@@ -6351,6 +6472,7 @@
 				18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */,
 				18804AAB1B27DD3C00E7E764 /* GifActivityIndicatorView.m in Sources */,
 				18900B531C1EA0C2003DA439 /* InsSimpleCar.m in Sources */,
+				18B62CAC1CE089A200E5AE48 /* HKSecurityManager.m in Sources */,
 				6B5B78171BA7CC6000295B77 /* ProvinceChooseView.m in Sources */,
 				1833F53F1BCCB680000E1DA1 /* HKLoginModel.m in Sources */,
 				189B394F1AF8576600B83F1B /* GetUserBaseInfoOp.m in Sources */,
@@ -6532,6 +6654,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"${SRCROOT}/ReactNative/node_modules/react-native/Libraries/Image/**",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -6628,6 +6751,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"${SRCROOT}/ReactNative/node_modules/react-native/Libraries/Image/**",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;

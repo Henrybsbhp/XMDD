@@ -13,5 +13,6 @@
 @interface ReactView : HKView
 
 - (void)rct_requestWithUrl:(NSURL *)url andModulName:(NSString *)model;
+- (void)rct_requestWithUrl:(NSURL *)url modulName:(NSString *)model properties:(NSDictionary *)properties;
 
 @end

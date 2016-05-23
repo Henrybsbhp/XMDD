@@ -89,7 +89,6 @@
     //设置启动页管理器
     [self setupLaunchManager];
     [self setupRootView];
-    
     //设置同盾
     [self setFMDeviceManager];
     
