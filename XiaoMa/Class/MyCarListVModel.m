@@ -74,6 +74,8 @@
         case 1:
             title = @"认证审核中...";
             desc = @"行驶证已提交审核";
+            // 防止一键上传 -》审核中，边线还在的情况
+            [btn setCornerRadius:0 withBorderColor:[UIColor clearColor] borderWidth:0.5];
             break;
         case 2:
             title = @"认证通过";

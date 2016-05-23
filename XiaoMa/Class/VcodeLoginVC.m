@@ -86,7 +86,10 @@
 - (void)setupUI
 {
     self.num.textLimit = 11;
+    @weakify(self);
     [self.num setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        
+         @strongify(self);
         [MobClick event:@"rp002_1"];
         if ([self isIphone4OrLess]) {
             
@@ -96,6 +99,8 @@
     }];
     
     [self.num setDidEndEditingBlock:^(CKLimitTextField *textField) {
+        
+        @strongify(self);
         if ([self isIphone4OrLess]) {
             
         } else if (self.view.frame.origin.y < 0) {
@@ -103,7 +108,7 @@
         }
     }];
     
-    @weakify(self);
+    
     [self.num setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
         NSString *title = [self.vcodeBtn titleForState:UIControlStateNormal];
@@ -124,13 +129,18 @@
     
     self.code.textLimit = 8;
     
+    
     [self.code setDidEndEditingBlock:^(CKLimitTextField *textField) {
+        
+        @strongify(self);
         if (self.view.frame.origin.y < 0) {
             [self setViewMovedUp:NO];
         }
     }];
     
     [self.code setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        
+        @strongify(self);
         [MobClick event:@"rp002_3"];
         if  (self.view.frame.origin.y >= 0) {
             [self setViewMovedUp:YES];
@@ -186,6 +196,7 @@
 - (IBAction)actionCloseButton:(id)sender
 {
     [self.navigationController setNavigationBarHidden:NO animated:NO];
+    self.loginSuccessAction = nil;
     [self.model dismissForTargetVC:self forSucces:NO];
 }
 
@@ -199,6 +210,7 @@
     self.currentPhone = [self textAtIndex:1];
     RACSignal *sig = [self.smsModel rac_getSystemVcodeWithType:HKVcodeTypeLogin phone:self.currentPhone];
     [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig andPhone:self.currentPhone] subscribeError:^(NSError *error) {
+        
         [gToast showError:error.domain];
     }];
     
@@ -252,6 +264,13 @@
         [gToast dismiss];
         [self.navigationController setNavigationBarHidden:NO animated:NO];
         [self.model dismissForTargetVC:self forSucces:YES];
+        
+        if (self.loginSuccessAction)
+        {
+            self.loginSuccessAction();
+        }
+    
+        self.loginSuccessAction = nil;
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];

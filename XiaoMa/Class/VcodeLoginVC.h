@@ -11,4 +11,7 @@
 
 @interface VcodeLoginVC : UITableViewController
 @property (nonatomic, strong) LoginViewModel *model;
+
+@property (copy, nonatomic)void(^loginSuccessAction)(void);
+
 @end

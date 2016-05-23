@@ -15,7 +15,8 @@
 @property (nonatomic, strong) HKBankCard *bankCard;
 @property (nonatomic, strong) GasCard *gasCard;
 @property (nonatomic, strong) NSString *payTitle;
-@property (nonatomic, assign) NSInteger chargeamt;
+@property (nonatomic, assign) float rechargeAmount;
+@property (nonatomic, assign) float discountAmount;
 @property (nonatomic, assign) BOOL needInvoice;
 @property (nonatomic, weak) UIViewController *originVC;
 @property (nonatomic, copy) void(^didPaidSuccessBlock)();

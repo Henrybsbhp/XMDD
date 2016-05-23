@@ -472,7 +472,6 @@
 		50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BE7C911B6716B500675887 /* SelectScrollView.m */; };
 		50BF30161CABEE0100D0FC07 /* AdListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BF30151CABEE0100D0FC07 /* AdListData.m */; };
 		50BF301A1CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */; };
-		50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */; };
 		50DD1BC51BFB019300349A70 /* GetOtherOrderListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC41BFB019300349A70 /* GetOtherOrderListOp.m */; };
 		50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BC71BFB023800349A70 /* HKOtherOrder.m */; };
 		50DD1BCB1BFB093500349A70 /* OthersOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD1BCA1BFB093500349A70 /* OthersOrderViewModel.m */; };
@@ -1743,8 +1742,6 @@
 		50BF30151CABEE0100D0FC07 /* AdListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdListData.m; path = Class/AdListData.m; sourceTree = "<group>"; };
 		50BF30181CABF0E600D0FC07 /* FMDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDeviceManager.h; sourceTree = "<group>"; };
 		50BF30191CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFMDeviceManager_without_IDFA.a; sourceTree = "<group>"; };
-		50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardDetailVC.h; sourceTree = "<group>"; };
-		50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDetailVC.m; sourceTree = "<group>"; };
 		50DD1BC31BFB019300349A70 /* GetOtherOrderListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetOtherOrderListOp.h; path = Class/GetOtherOrderListOp.h; sourceTree = "<group>"; };
 		50DD1BC41BFB019300349A70 /* GetOtherOrderListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetOtherOrderListOp.m; path = Class/GetOtherOrderListOp.m; sourceTree = "<group>"; };
 		50DD1BC61BFB023800349A70 /* HKOtherOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKOtherOrder.h; path = Class/HKOtherOrder.h; sourceTree = "<group>"; };
@@ -4187,8 +4184,6 @@
 				18E756A31B73335C00874601 /* MyBankVC.m */,
 				FA024A301CAE500500481F59 /* BankCardDetailVC.h */,
 				FA024A311CAE500500481F59 /* BankCardDetailVC.m */,
-				50C6BF4B1B7341B800A5E021 /* CardDetailVC.h */,
-				50C6BF4C1B7341B800A5E021 /* CardDetailVC.m */,
 				507A4DDD1B74462200E0BF1E /* UnbundlingVC.h */,
 				507A4DDE1B74462200E0BF1E /* UnbundlingVC.m */,
 				506008D21B74631800B8761D /* DrawingBoardView.h */,
@@ -6368,7 +6363,6 @@
 				2EB0DA5C1C325CA900D9A5B2 /* RescueCancelHostcarOp.m in Sources */,
 				503C5B1B1CB50E2D00EFCDDA /* ValuationEmptySubView.m in Sources */,
 				1883D9271ACCD6C0002A4D19 /* MainTabBarVC.m in Sources */,
-				50C6BF4D1B7341B800A5E021 /* CardDetailVC.m in Sources */,
 				1895A3E41CD1F29D00E4EF34 /* ReactNativeManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6526,7 +6520,7 @@
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6622,7 +6616,7 @@
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6669,7 +6663,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9df2c481-f7b2-4061-bf66-32967e913518";
+				PROVISIONING_PROFILE = "073eea9f-00f7-40b1-90a6-8a41460e066c";
 			};
 			name = Release;
 		};
