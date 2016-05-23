@@ -422,7 +422,7 @@
 - (void)actionRCT
 {
     ReactTestViewController * vc = [aboutStoryboard instantiateViewControllerWithIdentifier:@"ReactTestViewController"];
-    vc.modulName = @"AwesomeProject";
+    vc.modulName = @"MyInfoView";
     [self.navigationController pushViewController:vc animated:YES];
 }
 

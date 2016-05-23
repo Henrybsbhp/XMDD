@@ -19,3 +19,4 @@ pod 'pop', '1.0.7'
 pod 'JSPatch','0.1.5'
 pod 'ZipArchive','1.4.0'
 pod 'Google-Diff-Match-Patch', '0.0.1'
+

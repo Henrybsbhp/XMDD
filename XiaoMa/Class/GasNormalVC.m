@@ -70,12 +70,15 @@
 }
 
 #pragma Getter
-- (float)rechargeAmount {
+
+- (float)rechargeAmount
+{
     return [self isRechargeForInstalment] ? self.instalmentRechargeAmount : self.normalRechargeAmount;
 }
 
 #pragma mark - Reload
-- (void)reloadData {
+- (void)reloadData
+{
     [[self.gasStore getAllGasCards] send];
 }
 

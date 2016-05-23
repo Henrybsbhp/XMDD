@@ -10,6 +10,8 @@
 #import "DownloadFileOp.h"
 #import <ZipArchive/ZipArchive.h>
 #import <Google-Diff-Match-Patch/DiffMatchPatch.h>
+#import "HKSecurityManager.h"
+#import "NSData+MD5Digest.h"
 
 //更新间隔暂定为6小时
 #define kUpdateTimeInterval         6 * 60 * 60
@@ -32,7 +34,7 @@
 
 - (void)loadDefaultBundle
 {
-    NSURL *defUrl = CKURLForMainBundle(@"RCTBundle");
+    NSURL *defUrl = CKURLForMainBundle(@"rctpkg");
     NSURL *latestUrl = CKURLForDocument(@"rct/bundle/latest");
     HKRCTPackageConfig *defConf = [HKRCTPackageConfig configWithUrl:[defUrl URLByAppendingPathComponent:@"config.json"]];
     HKRCTPackageConfig *latestConf = [HKRCTPackageConfig configWithUrl:[latestUrl URLByAppendingPathComponent:@"config.json"]];
@@ -61,16 +63,26 @@
 - (RACSignal *)rac_checkAndUpdatePackage
 {
     @weakify(self);
-    RACSignal *signal = [[[[[self rac_checkPackageVersion] flattenMap:^RACStream *(GetReactNativePackageOp *op) {
+    RACSignal *signal = [[[[[[self rac_checkPackageVersion] flattenMap:^RACStream *(GetReactNativePackageOp *op) {
 
         @strongify(self);
         return [self rac_downloadPackageWithPackageOp:op];
-    }] filter:^BOOL(GetReactNativePackageOp *op) {
-        
+    }] filter:^BOOL(RACTuple *tuple) {
+
+        //验证增量签名，防止包被篡改
         @strongify(self);
+        GetReactNativePackageOp *op1 = tuple.first;
+        DownloadFileOp *op2 = tuple.second;
+        return [self verifyPackageAtPath:op2.req_savePath withSignature:op1.rsp_patchsign];
+    }] filter:^BOOL(RACTuple *tuple) {
+        
+        //解压并合并增量包
+        @strongify(self);
+        GetReactNativePackageOp *op = [tuple first];
         return [self unzipFileWithPackageOp:op] && [self applyPatchWithPackageOp:op];
     }] doNext:^(id x) {
         
+        //刷新版本配置信息
         @strongify(self);
         self->_latestPackageConfig = [HKRCTPackageConfig configWithUrl:CKURLForDocument(@"rct/bundle/latest/config.json")];
     }] deliverOn:[RACScheduler mainThreadScheduler]];
@@ -101,12 +113,19 @@
     DownloadFileOp *op = [DownloadFileOp operation];
     op.req_url = pkgop.rsp_patchurl;
     op.req_savePath = [[dirUrl URLByAppendingPathComponent:patchName] path];
-    return [[op rac_getRequest] map:^id(id value) {
-        return pkgop;
+    return [[op rac_getRequest] map:^id(DownloadFileOp *op) {
+        return RACTuplePack(pkgop, op);
     }];
 }
 
 #pragma mark - Patch
+- (BOOL)verifyPackageAtPath:(NSString *)path withSignature:(NSString *)sign
+{
+    NSData *patchData = [NSData dataWithContentsOfFile:path];
+    NSString *strmd5 = [patchData MD5HexDigest];
+    return [[HKSecurityManager sharedManager] verifyWithRSASignature:sign forMessage:strmd5];
+}
+
 - (BOOL)unzipFileWithPackageOp:(GetReactNativePackageOp *)op
 {
     NSString *path = CKPathForDocument([NSString stringWithFormat:@"rct/bundle/%@.temp/patch/%@",

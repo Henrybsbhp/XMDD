@@ -117,7 +117,7 @@ SPEC CHECKSUMS:
   MZAppearance: 0c06d3fa9cc55142f1da14bc8631fbe8fd6e19d5
   MZFormSheetController: bcc262cb8b682bdc17fa88177b4f34ac26f0dcbe
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
-  ReactiveCocoa: 334468a83b2c5f669f7cfb9a084415ee23219b4f
+  ReactiveCocoa: 3fe9b233ca6db810e86681b5749488564c1179a1
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SevenSwitch: 4faf7584ea9fcfa053ab0375353531c402ed2bf0
   SFHFKeychainUtils: 9576b411a79a058f4d5381ace6f3242b9a62e664
