@@ -206,7 +206,7 @@
 
 
 - (BOOL)needInvoice {
-    return self.datasource[0][@"WantInvoiceCell"][@"bill"];
+    return [self.datasource[0][@"WantInvoiceCell"][@"bill"] boolValue];
 }
 
 #pragma mark - Cell

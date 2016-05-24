@@ -27,6 +27,7 @@
 /// 当前位置
 @property (nonatomic)CLLocationCoordinate2D coordinate;
 
+///有值说明定位过，不管成功失败
 @property (nonatomic, strong) HKAddressComponent *addrComponent;
 
 - (void)startLocation;

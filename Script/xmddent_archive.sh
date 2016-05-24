@@ -1,16 +1,8 @@
 ##################################################################################
 
-# adhoc－xmdd对应的信息
-adhoc_provisioning_id='2e1ee95d-0c71-455c-a3b9-613059936363'
-adhoc_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)'
-
 # inhouse－xmdd对应的信息
-inhouse_provisioning_id='d80498c3-937b-401e-98aa-3e66f4699d8f'
+inhouse_provisioning_id='e99ef683-8fb8-416a-b8dd-f7628eafec24'
 inhouse_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co., Ltd.'
-
-# appstore－xmdd对应的信息
-appstore_provisioning_id='0b097263-ee87-4d3e-a27d-1c4766c784b5'
-appstore_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)'
 
 #############################################################í#####################
 #脚本目录
@@ -75,7 +67,7 @@ echo "**************switch script Inhouse - 正式环境**************"
 cd $script_path
 
 sh $project_path"/Script/project_replace.sh" "$inhouse_code_sign_id" "$inhouse_provisioning_id" "$project_pbxproj_path"
-sed -i  '' "s/XMDDENT=0/XMDDENT=1/" $project_pbxproj_path
+sed -i  '' "s/XMDDENT=./XMDDENT=1/" $project_pbxproj_path
 #切换到正式环境
 sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
 
