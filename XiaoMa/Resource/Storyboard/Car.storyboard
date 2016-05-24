@@ -1,129 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--我的爱车-->
-        <scene sceneID="YBB-hI-1Ip">
-            <objects>
-                <viewController storyboardIdentifier="CarListVC" hidesBottomBarWhenPushed="YES" id="Kga-6a-mRu" customClass="CarListVC" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="FxP-a9-O3B"/>
-                        <viewControllerLayoutGuide type="bottom" id="vPt-aD-Nnl"/>
-                    </layoutGuides>
-                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="e57-az-gLj">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GuI-jf-ZZh" customClass="JT3DScrollView">
-                                <rect key="frame" x="32" y="40" width="536" height="376"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="360" id="0Da-Ki-TC5"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="0Da-Ki-TC5"/>
-                                    </mask>
-                                </variation>
-                            </scrollView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2x0-tf-Byt">
-                                <rect key="frame" x="0.0" y="461" width="600" height="75"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="500" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MI5-Vr-LCx">
-                                        <rect key="frame" x="14" y="10" width="572" height="55"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="MI5-Vr-LCx" firstAttribute="leading" secondItem="2x0-tf-Byt" secondAttribute="leading" constant="14" id="1ju-Ht-Xgp"/>
-                                    <constraint firstAttribute="height" constant="75" id="Riy-od-ZXb"/>
-                                    <constraint firstItem="MI5-Vr-LCx" firstAttribute="top" secondItem="2x0-tf-Byt" secondAttribute="top" constant="10" id="TKk-eC-QBR"/>
-                                    <constraint firstAttribute="trailing" secondItem="MI5-Vr-LCx" secondAttribute="trailing" constant="14" id="nZd-XE-pi4"/>
-                                    <constraint firstAttribute="bottom" secondItem="MI5-Vr-LCx" secondAttribute="bottom" constant="10" id="yXp-ZS-O75"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LFs-Ud-rrr" userLabel="Bottom View2">
-                                <rect key="frame" x="0.0" y="461" width="600" height="75"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="48X-Kh-hEL">
-                                        <rect key="frame" x="15" y="8" width="440" height="59"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GsZ-Sm-w6e">
-                                        <rect key="frame" x="465" y="13" width="120" height="50"/>
-                                        <color key="backgroundColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="CtN-kw-rEr"/>
-                                            <constraint firstAttribute="width" constant="120" id="ucb-K4-wGn"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <state key="normal" title="确定加入">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="CR_5"/>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="bottomJoinAction:" destination="Kga-6a-mRu" eventType="touchUpInside" id="J2l-o3-I2o"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="48X-Kh-hEL" secondAttribute="trailing" constant="145" id="9Ou-jP-MRL"/>
-                                    <constraint firstItem="48X-Kh-hEL" firstAttribute="top" secondItem="LFs-Ud-rrr" secondAttribute="top" constant="8" id="ATI-vm-R42"/>
-                                    <constraint firstAttribute="trailing" secondItem="GsZ-Sm-w6e" secondAttribute="trailing" constant="15" id="D3H-Ul-Lve"/>
-                                    <constraint firstItem="GsZ-Sm-w6e" firstAttribute="top" secondItem="LFs-Ud-rrr" secondAttribute="top" constant="13" id="VKB-Fw-6Mb"/>
-                                    <constraint firstAttribute="bottom" secondItem="48X-Kh-hEL" secondAttribute="bottom" constant="8" id="bNT-Ab-EcN"/>
-                                    <constraint firstItem="48X-Kh-hEL" firstAttribute="leading" secondItem="LFs-Ud-rrr" secondAttribute="leading" constant="15" id="m7o-ui-dAo"/>
-                                    <constraint firstAttribute="height" constant="75" id="qvu-90-bQ2"/>
-                                    <constraint firstItem="48X-Kh-hEL" firstAttribute="centerY" secondItem="LFs-Ud-rrr" secondAttribute="centerY" id="xtL-jv-1OB"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="2x0-tf-Byt" secondAttribute="bottom" id="2ca-we-yQj"/>
-                            <constraint firstItem="GuI-jf-ZZh" firstAttribute="top" secondItem="FxP-a9-O3B" secondAttribute="bottom" constant="40" id="5jf-nB-gh3"/>
-                            <constraint firstAttribute="trailing" secondItem="2x0-tf-Byt" secondAttribute="trailing" id="BPG-63-22c"/>
-                            <constraint firstItem="vPt-aD-Nnl" firstAttribute="top" secondItem="GuI-jf-ZZh" secondAttribute="bottom" constant="120" id="HLG-hi-F4Y"/>
-                            <constraint firstItem="vPt-aD-Nnl" firstAttribute="top" secondItem="LFs-Ud-rrr" secondAttribute="bottom" id="IAt-k0-bOv"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="GuI-jf-ZZh" secondAttribute="trailing" constant="12" id="Xo6-k3-hDa"/>
-                            <constraint firstItem="LFs-Ud-rrr" firstAttribute="leading" secondItem="e57-az-gLj" secondAttribute="leading" id="gqB-nc-6lT"/>
-                            <constraint firstItem="2x0-tf-Byt" firstAttribute="leading" secondItem="e57-az-gLj" secondAttribute="leading" id="nGg-Sy-cMH"/>
-                            <constraint firstAttribute="trailing" secondItem="LFs-Ud-rrr" secondAttribute="trailing" id="okZ-hq-HOZ"/>
-                            <constraint firstItem="GuI-jf-ZZh" firstAttribute="leading" secondItem="e57-az-gLj" secondAttribute="leadingMargin" constant="12" id="qRp-GR-TMP"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="我的爱车" id="v4b-R6-Zh2">
-                        <barButtonItem key="rightBarButtonItem" title="添加" id="TeI-fO-WEY">
-                            <connections>
-                                <action selector="actionAddCar:" destination="Kga-6a-mRu" id="r1L-ND-2Th"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <connections>
-                        <outlet property="bottomTitleLabel" destination="MI5-Vr-LCx" id="BhJ-pk-pFt"/>
-                        <outlet property="bottomTitleLabel2" destination="48X-Kh-hEL" id="7h3-9e-X5l"/>
-                        <outlet property="bottomView" destination="2x0-tf-Byt" id="hMN-VW-mjD"/>
-                        <outlet property="bottomView2" destination="LFs-Ud-rrr" id="aBd-s7-IrD"/>
-                        <outlet property="scrollView" destination="GuI-jf-ZZh" id="hND-uz-Aup"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PK0-7B-H4j" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="144" y="327"/>
-        </scene>
         <!--Cars ListVC-->
         <scene sceneID="FaM-N0-R2X">
             <objects>
@@ -408,7 +290,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dI9-Gc-eYC">
                                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" tag="1000" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="def_withoutCar" translatesAutoresizingMaskIntoConstraints="NO" id="EhU-s0-o6G">
+                                            <imageView userInteractionEnabled="NO" tag="1000" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="def_withoutCar" translatesAutoresizingMaskIntoConstraints="NO" id="EhU-s0-o6G">
                                                 <rect key="frame" x="205" y="73" width="190" height="190"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="160" id="cX2-0f-Np4"/>
@@ -480,6 +362,7 @@
                     <connections>
                         <outlet property="carNumberLabel" destination="MJs-KB-7v6" id="2OR-or-5a1"/>
                         <outlet property="carStateLabel" destination="QYd-Gv-C3T" id="t8j-9V-Bu1"/>
+                        <outlet property="carStatusIcon" destination="5BT-dW-zg5" id="vzb-bh-0S3"/>
                         <outlet property="defaultLabel" destination="ucX-bp-aCK" id="bJX-hN-dwz"/>
                         <outlet property="emptyContentView" destination="dI9-Gc-eYC" id="cAS-gD-knz"/>
                         <outlet property="emptyView" destination="o78-Xt-bsF" id="TeA-sM-zLg"/>
@@ -489,7 +372,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KfN-5G-ZBS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="144" y="1048"/>
+            <point key="canvasLocation" x="124" y="327"/>
         </scene>
         <!--保险公司-->
         <scene sceneID="CZp-KA-qqR">

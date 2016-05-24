@@ -9,7 +9,6 @@
 #import "MyBankVC.h"
 #import "ADViewController.h"
 #import "HKConvertModel.h"
-#import "CardDetailVC.h"
 #import "BindBankCardVC.h"
 #import "GetBankcardListOp.h"
 #import "BankStore.h"
@@ -109,15 +108,14 @@
     [[signal initially:^{
         
         @strongify(self);
-        CGFloat reducingY = self.view.frame.size.height * 0.1056;
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
-        
         if ([self.tableView isRefreshViewExists])
         {
             [self.tableView.refreshView beginRefreshing];
         }
         else
         {
+            CGFloat reducingY = self.view.frame.size.height * 0.1056;
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
             [self hideContentViews];
         }
         //hideDefaultEmptyView 写在了这里
@@ -163,6 +161,10 @@
         {
             [self.tableView.refreshView endRefreshing];
         }
+    } completed:^{
+        
+        [self.view stopActivityAnimation];
+        [self.tableView.refreshView endRefreshing];
     }];
 }
 

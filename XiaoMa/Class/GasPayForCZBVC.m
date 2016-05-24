@@ -22,8 +22,9 @@
 #import "CKLimitTextField.h"
 #import "IQKeyboardManager.h"
 #import "GasStore.h"
-#import "HKImageAlertVC.h"
+#import "NSString+Format.h"
 
+#import "HKImageAlertVC.h"
 #import "GasPaymentResultVC.h"
 
 @interface GasPayForCZBVC ()<UITableViewDataSource, UITableViewDelegate>
@@ -132,7 +133,7 @@
     @weakify(self);
     GetCzbpayVcodeOp *op = [GetCzbpayVcodeOp operation];
     op.req_cardid = self.bankCard.cardID;
-    op.req_chargeamt = (int)self.chargeamt;
+    op.req_chargeamt = (int)self.rechargeAmount;
     op.req_gid = self.gasCard.gid;
     RACSignal *sig = [self.smsModel rac_getVcodeWithType:HKVcodeTypeCZBGasCharge fromSignal:[op rac_postRequest]];
     [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeNext:^(id x) {
@@ -294,7 +295,7 @@
     
     logoV.image = [UIImage imageNamed:self.gasCard.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
     cardnoL.text = [self.gasCard.gascardno splitByStep:4 replacement:@" "];
-    priceL.text = [NSString stringWithFormat:@"￥%.2f", (float)self.chargeamt];
+    priceL.text = [NSString stringWithFormat:@"￥%.2f", self.discountAmount];
 }
 
 - (void)resetPromptCell:(UITableViewCell *)cell forData:(HKCellData *)data

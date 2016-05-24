@@ -278,7 +278,7 @@
     }
     
     @weakify(self);
-    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title] doNext:^(id x) {
+    return [[InsLicensePopVC rac_showInView:self.navigationController.view withLicenseUrl:url title:title andLicensePopVCType:InsLicensePopVCTypeXMIns] doNext:^(id x) {
         
         @strongify(self);
         self.isLicenseChecked = YES;
@@ -290,7 +290,7 @@
     
     @weakify(self)
     [[self rac_openLicenseVCWithUrl:self.contract.contracturl
-                             title:[NSString stringWithFormat:@"%@协议",XMINSPrefix]] subscribeNext:^(id x) {
+                             title:[NSString stringWithFormat:@"%@协议",@"小马互助"]] subscribeNext:^(id x) {
         @strongify(self);
         [self requestPay];
     }];
@@ -334,7 +334,7 @@
 #endif
     
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    NSString * info = [NSString stringWithFormat:@"%@的小马互助订单支付",self.contract.licencenumber];
+    NSString * info = [NSString stringWithFormat:@"小马互助 - %@",self.contract.licencenumber];
     NSString *text;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
@@ -373,6 +373,7 @@
     return YES;
 }
 
+
 - (void)gotoPaidSuccessVC
 {
     CGFloat totalCouponMoney = 0.0;
@@ -381,9 +382,18 @@
         totalCouponMoney = totalCouponMoney + c.couponAmount;
     }
     totalCouponMoney = MIN(totalCouponMoney, self.maxCouponAmt);
+    
+    CGFloat payfee = self.contract.total - self.contract.couponmoney - totalCouponMoney;
+    if (self.proxybuy)
+    {
+        payfee = payfee + self.contract.forcefee + self.contract.taxshipfee;
+    }
+    
     MutualInsPayResultVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayResultVC"];
     vc.contract = self.contract;
     vc.couponMoney = totalCouponMoney;
+    vc.totalMoney = payfee;
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -514,7 +524,7 @@
     UILabel *descL = (UILabel *)[cell.contentView viewWithTag:102];
     
     [imageView setImageByUrl:data.tag
-                    withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
+                    withType:ImageURLTypeOrigin defImage:@"mutualins_pay_logo" errorImage:@"mutualins_pay_logo"];
     descL.text = data.object;
 }
 
@@ -703,7 +713,7 @@
     celldata.object = @"车船税/交强险";
     
     CGFloat total = self.contract.forcefee + self.contract.taxshipfee;
-    celldata.tag = [NSString stringWithFormat:@"￥%@",[NSString formatForPrice:total]];
+    celldata.customObject = [NSString stringWithFormat:@"￥%@",[NSString formatForPriceWithFloat:total]];
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 27;
     }];

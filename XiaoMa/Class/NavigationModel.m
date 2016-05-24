@@ -23,6 +23,10 @@
 #import "InsSimpleCar.h"
 #import "InsCheckResultsVC.h"
 #import "ValuationHomeVC.h"
+#import "MutualInsOrderInfoVC.h"
+#import "MutualInsGrouponVC.h"
+#import "MutualInsClaimDetailVC.h"
+#import "MutualInsHomeVC.h"
 
 #import "AppDelegate.h"
 
@@ -37,6 +41,7 @@
         NSDictionary *params = [self getActionParamsFromUrl:url];
         NSString *name = params[@"t"];
         NSString *value = params[@"id"];
+        NSString *value2 = params[@"mid"];
         
         UIViewController * topVC = self.curNavCtrl.topViewController;
         
@@ -348,13 +353,6 @@
             }
             flag = YES;
         }
-        //加入小马互助团
-        else if ([@"coins" equalByCaseInsensitive:name]) {
-            
-            
-            UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
-            [self.curNavCtrl pushViewController:vc animated:YES];
-        }
         //协办
         else if ([@"ast" equalByCaseInsensitive:name]) {
             UIViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
@@ -363,6 +361,60 @@
         //救援
         else if ([@"rescue" equalByCaseInsensitive:name]) {
             UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        //加入小马互助团
+        else if ([@"coins" equalByCaseInsensitive:name]) {
+            
+            for (UIViewController * vc in self.curNavCtrl.viewControllers)
+            {
+                if ([vc isKindOfClass:[MutualInsHomeVC class]])
+                {
+                    [((MutualInsHomeVC *)vc) reloadIfNeeded];
+                    [self.curNavCtrl popViewControllerAnimated:YES];
+                    return YES;
+                }
+            }
+            UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        //加入小马互助团系统团
+        else if ([@"cosys" equalByCaseInsensitive:name]) {
+            
+            UIViewController *vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        /// 小马互助订单详情
+        else if ([@"coinso" equalByCaseInsensitive:name]) {
+            
+            if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
+                return YES;
+            
+            MutualInsOrderInfoVC *vc = [UIStoryboard vcWithId:@"MutualInsOrderInfoVC" inStoryboard:@"MutualInsPay"];
+            vc.contractId = @([value integerValue]);
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        /// 小马互助团详情
+        else if ([@"coinsdtl" equalByCaseInsensitive:name]) {
+            
+            if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
+                return YES;
+            
+            MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+            HKMutualGroup * group = [[HKMutualGroup alloc] init];
+            group.groupId = @([value integerValue]);
+            group.memberId = @([value2 integerValue]);
+            vc.group = group;
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        ///补偿详情
+        else if ([@"coincldtlo" equalByCaseInsensitive:name]) {
+            
+            if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
+                return YES;
+            
+            MutualInsClaimDetailVC *vc =  [UIStoryboard vcWithId:@"MutualInsClaimDetailVC" inStoryboard:@"MutualInsClaims"];
+            vc.claimid = @([value integerValue]);;
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
     }

@@ -98,7 +98,7 @@
                                                 <constraint firstItem="EZh-9E-Wbi" firstAttribute="leading" secondItem="QQl-Zc-1qx" secondAttribute="leading" constant="10" id="OhW-lv-kPk"/>
                                                 <constraint firstItem="N0S-Gb-vJ2" firstAttribute="centerY" secondItem="QQl-Zc-1qx" secondAttribute="centerY" id="dn7-CP-rIq"/>
                                                 <constraint firstItem="EZh-9E-Wbi" firstAttribute="centerY" secondItem="QQl-Zc-1qx" secondAttribute="centerY" id="e5w-YA-hMT"/>
-                                                <constraint firstItem="N0S-Gb-vJ2" firstAttribute="leading" secondItem="jXn-V9-rym" secondAttribute="trailing" constant="10" id="eBg-Me-zUm"/>
+                                                <constraint firstItem="N0S-Gb-vJ2" firstAttribute="leading" secondItem="jXn-V9-rym" secondAttribute="trailing" constant="5" id="eBg-Me-zUm"/>
                                                 <constraint firstAttribute="trailing" secondItem="N0S-Gb-vJ2" secondAttribute="trailing" constant="10" id="w6H-hb-cX0"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -351,12 +351,12 @@
                                             <rect key="frame" x="0.0" y="0.0" width="588" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jHy-cu-a61">
+                                                <button opaque="NO" tag="101" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jHy-cu-a61">
                                                     <rect key="frame" x="10" y="11" width="16" height="22"/>
                                                     <state key="normal" image="cm_box3"/>
                                                     <state key="selected" image="cm_box4"/>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="保险公司代购" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mzx-FI-xsu">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="保险公司代购" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mzx-FI-xsu">
                                                     <rect key="frame" x="31" y="14" width="84" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
@@ -662,22 +662,22 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="101" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fUH-lK-uun">
-                                                    <rect key="frame" x="12" y="13" width="50" height="40"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="40" id="s96-i4-usu"/>
-                                                        <constraint firstAttribute="width" constant="50" id="zJj-Qm-x8i"/>
-                                                    </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_5"/>
-                                                    </userDefinedRuntimeAttributes>
-                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="太平保险" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rv-jf-mxJ">
                                                     <rect key="frame" x="516" y="25" width="64" height="16"/>
                                                     <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" tag="101" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mutualins_pay_logo" translatesAutoresizingMaskIntoConstraints="NO" id="fUH-lK-uun">
+                                                    <rect key="frame" x="12" y="13" width="112" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="s96-i4-usu"/>
+                                                        <constraint firstAttribute="width" constant="112" id="zJj-Qm-x8i"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_5"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="fUH-lK-uun" firstAttribute="top" secondItem="bEo-yo-Osd" secondAttribute="top" constant="50" id="Kfd-u0-h5g"/>
@@ -1117,7 +1117,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="108"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="101" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="794-Jb-DWc">
+                                                <imageView userInteractionEnabled="NO" tag="101" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mutualins_pay_logo" translatesAutoresizingMaskIntoConstraints="NO" id="794-Jb-DWc">
                                                     <rect key="frame" x="12" y="12" width="112" height="38"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="112" id="NnR-pq-7VH"/>
@@ -1148,7 +1148,7 @@
                                                     <color key="textColor" red="1" green="0.45490196078431372" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="105" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="合计费用" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U2p-DM-03U">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="105" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="总计金额" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U2p-DM-03U">
                                                     <rect key="frame" x="12" y="83" width="56" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -1465,6 +1465,7 @@
         <image name="cm_box4" width="16" height="16"/>
         <image name="mutualIns_coupon" width="30" height="30"/>
         <image name="mutualins_down_icon" width="11" height="5"/>
+        <image name="mutualins_pay_logo" width="107" height="39"/>
         <image name="mutualins_sepline" width="58" height="4"/>
         <image name="round_tick" width="23" height="23"/>
         <image name="square_tick" width="18" height="17"/>

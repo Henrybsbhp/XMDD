@@ -75,6 +75,7 @@
         @strongify(self);
         self.tableView.hidden = NO;
         [self.view stopActivityAnimation];
+        [self.view hideDefaultEmptyView];
         
         self.cipherForCopy = rspOp.rsp_groupCipher;
         self.wordForShare = rspOp.rsp_wordForShare;
@@ -295,7 +296,7 @@
     CKDict * attributedContentDict = [CKDict dictWith:@{kCKCellID:@"ContentCell"}];
     NSString * attributedFooterString = [NSString new];
     if (self.groupType == GroupTypeByself) {
-        attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→右上角+号→内测计划→申请加入”后同样可成功加入您的互助团 \n ";
+        attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→右上角+号→内测计划→申请入团”后同样可成功加入您的互助团 \n ";
     }
     else {
         attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→去参团→选择团→申请加入”后同样可成功加入您的互助团 \n ";
@@ -315,7 +316,7 @@
         UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:1001];
         NSString * highLightString = [NSString new];
         if (self.groupType == GroupTypeByself) {
-            highLightString = @"首页→小马互助→右上角+号→内测计划→申请加入";
+            highLightString = @"首页→小马互助→右上角+号→内测计划→申请入团";
         }
         else {
             highLightString = @"首页→小马互助→去参团→选择团→申请加入";

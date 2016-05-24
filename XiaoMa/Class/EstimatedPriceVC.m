@@ -152,9 +152,9 @@
         mutualInsPriceL.text = [NSString stringWithFormat:@"%@元", [NSString formatForPrice:(dataModel.premiumprice - dataModel.memberFee)]];
         [mutualInsPriceL setAdjustsFontSizeToFitWidth:YES];
         
-        NSString * tipStr = [NSString stringWithFormat:@"比传统车险省%@元", [NSString formatForPrice:dataModel.couponMoney]];
+        NSString * tipStr = [NSString stringWithFormat:@"省%@元", [NSString formatForPrice:dataModel.couponMoney]];
         NSMutableAttributedString * attributeStr = [[NSMutableAttributedString alloc] initWithString:tipStr];
-        [attributeStr addAttributeForegroundColor:kOrangeColor range:NSMakeRange(6, tipStr.length - 6)];
+        [attributeStr addAttributeForegroundColor:kOrangeColor range:NSMakeRange(1, tipStr.length - 1)];
         saveMoneyL.attributedText = attributeStr;
         
     });
@@ -369,25 +369,26 @@
 {
     //刷新团列表信息
     [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
-    [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
     
     MutualInsGrouponVC *grouponvc;
     MutualInsHomeVC *homevc;
     NSInteger homevcIndex = NSNotFound;
     for (NSInteger i=0; i<self.navigationController.viewControllers.count; i++) {
         UIViewController *vc = self.navigationController.viewControllers[i];
-        if ([vc isKindOfClass:[MutualInsGrouponVC class]]) {
+        if ([vc isKindOfClass:[MutualInsGrouponVC class]] &&
+            [[(MutualInsGrouponVC *)vc group].groupId isEqual:self.groupId]) {
             grouponvc = (MutualInsGrouponVC *)vc;
-            grouponvc.group.memberId = self.memberId;
             break;
         }
-        if ([vc isKindOfClass:[MutualInsHomeVC class]]) {
+        else if ([vc isKindOfClass:[MutualInsHomeVC class]]) {
             homevc = (MutualInsHomeVC *)vc;
             homevcIndex = i;
         }
     }
     if (grouponvc) {
         [self.navigationController popToViewController:grouponvc animated:YES];
+        //刷新团详情
+        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
         return;
     }
     //创建团详情视图

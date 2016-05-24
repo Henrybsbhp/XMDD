@@ -196,11 +196,13 @@
         self.bottomView.hidden = YES;
         self.topView.hidden = YES;
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        [self.view hideDefaultEmptyView];
     }] subscribeNext:^(GetCooperationContractDetailOp * rop) {
         
         self.tableView.hidden = NO;
         self.bottomView.hidden = NO;
         [self.view stopActivityAnimation];
+        [self.view hideDefaultEmptyView];
         
         self.contract = rop.rsp_contractorder;
         [self setupDateSource];
@@ -237,15 +239,15 @@
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"被保障车辆",@"content":self.contract.licencenumber ?: @""}];
     
     CGFloat price = self.contract.total - self.contract.couponmoney;
-    NSString * tag = self.contract.couponmoney ? [NSString stringWithFormat:@"原价￥%@ 优惠￥%@",[NSString formatForPrice:self.contract.total],[NSString formatForPrice:self.contract.couponmoney]] : @"";
-    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"合计费用",@"content":[NSString stringWithFormat:@"￥%@",[NSString formatForPrice:price]],@"tag":tag}];
-    [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"项目",@"content":@"金额（元）"}];
+    NSString * tag = self.contract.couponmoney ? [NSString stringWithFormat:@"原价￥%@ 优惠￥%@",[NSString formatForPriceWithFloat:self.contract.total],[NSString formatForPriceWithFloat:self.contract.couponmoney]] : @"";
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"合计费用",@"content":[NSString stringWithFormat:@"￥%@",[NSString formatForPriceWithFloat:price]],@"tag":tag}];
+    [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"项目",@"content":@"金额(元)"}];
     
     for (NSDictionary * subIns in self.contract.inslist)
     {
         NSString * insName = subIns[@"insname"] ?: @"";
         NSNumber * sum = subIns[@"sum"] ?: @"";
-        [array safetyAddObject:@{@"id":@"ItemCell",@"title":insName,@"content":[NSString formatForPrice:[sum floatValue]]}];
+        [array safetyAddObject:@{@"id":@"ItemCell",@"title":insName,@"content":[NSString formatForPriceWithFloat:[sum floatValue]]}];
     }
     
     for (NSDictionary * subinsnote in self.contract.insnotes)
@@ -276,10 +278,10 @@
                 }
                 [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保险期限",@"content":self.contract.insperiod ?: @""}];
                 
-                [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
+                [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额(元)"}];
                 
-                [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"交强险",@"content":[NSString formatForPrice:self.contract.forcefee]}];
-                [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"车船税",@"content":[NSString formatForPrice:self.contract.taxshipfee]}];
+                [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"交强险",@"content":[NSString formatForPriceWithFloat:self.contract.forcefee]}];
+                [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"车船税",@"content":[NSString formatForPriceWithFloat:self.contract.taxshipfee]}];
             }
         }
         else
@@ -288,10 +290,10 @@
             [array safetyAddObject:@{@"id":@"InsCompanyCell",@"title":@"保险公司",@"content":self.proxyInsCompany}];
             [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保险期限",@"content":self.contract.insperiod ?: @""}];
             
-            [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额"}];
+            [array safetyAddObject:@{@"id":@"ItemHeaderCell",@"title":@"服务项目",@"content":@"保险金额(元)"}];
             
-            [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"交强险",@"content":[NSString formatForPrice:self.contract.forcefee]}];
-            [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"车船税",@"content":[NSString formatForPrice:self.contract.taxshipfee]}];
+            [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"交强险",@"content":[NSString formatForPriceWithFloat:self.contract.forcefee]}];
+            [array safetyAddObject:@{@"id":@"ItemCell",@"title":@"车船税",@"content":[NSString formatForPriceWithFloat:self.contract.taxshipfee]}];
         }
     }
     

@@ -38,6 +38,7 @@
     _buttonHeight = 25;
     _buttonTitleColor = kGrayTextColor;
     _buttonBorderColor = HEXCOLOR(@"#E3E3E3");
+    [self setup];
 }
 
 - (void)setup

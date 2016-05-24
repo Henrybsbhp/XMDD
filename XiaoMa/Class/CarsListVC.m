@@ -9,7 +9,6 @@
 #import "CarsListVC.h"
 #import "XiaoMa.h"
 #import "EditCarVC.h"
-#import "CarListSubView.h"
 #import "UIView+JTLoadingView.h"
 #import "MyCarStore.h"
 #import "NSString+Format.h"
@@ -23,7 +22,7 @@
 
 #import "ValuationHomeVC.h"
 
-@interface CarsListVC () <UIScrollViewDelegate,PageSliderDelegate>
+@interface CarsListVC () <UIScrollViewDelegate, PageSliderDelegate>
 
 @property (nonatomic, assign) BOOL isViewAppearing;
 @property (nonatomic, assign) BOOL isBackToMine;
@@ -41,6 +40,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *carNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *carStateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *defaultLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *carStatusIcon;
 
 @property (nonatomic,strong)RACDisposable * offsetDisposable;
 
@@ -139,6 +139,44 @@
     [self.defaultLabel setCornerRadius:3];
     [self.defaultLabel setBorderWidth:0.5];
     [self.defaultLabel setBorderColor:HEXCOLOR(@"#FDFE28")];
+    
+    
+    // 上滑会导致字体被系统时间遮盖，用了个渐变的效果。
+    [self.carNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.greaterThanOrEqualTo(self.view).offset(22);
+        make.bottom.lessThanOrEqualTo(self.headerBgView);
+    }];
+
+    [[RACObserve(self.tableView, contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * value) {
+        
+        CGPoint p = [value CGPointValue];
+        if (p.y > -20)
+        {
+            CGFloat remind = 10 - p.y;
+            CGFloat percent = remind > 0 ? (remind / 30.0) : 0;
+            self.carStateLabel.alpha = percent;
+            self.carStatusIcon.alpha = percent;
+        }
+        else
+        {
+            self.carStateLabel.alpha = 1.0;
+            self.carStatusIcon.alpha = 1.0;
+        }
+        
+        if (p.y > 20)
+        {
+            CGFloat remind = 90 - p.y;
+            CGFloat percent = remind > 0 ? (remind / 70.0) : 0;
+            self.carNumberLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, percent, percent);
+            self.defaultLabel.alpha = percent;
+        }
+        else
+        {
+            self.carNumberLabel.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+            self.defaultLabel.alpha = 1.0;
+        }
+    }];
 }
 
 - (void)setupCarStore
@@ -410,11 +448,20 @@
     [[RACObserve(self.model, selectedCar) distinctUntilChanged] subscribeNext:^(HKMyCar *car) {
         @strongify(self);
         uploadStateLabel.text = [self.model uploadButtonStateForCar:self.model.selectedCar];
+        if (self.model.currentCar.status == 0 || self.model.currentCar.status == 3) {
+            uploadStateLabel.textColor = HEXCOLOR(@"#888888");
+        }
+        else {
+            uploadStateLabel.textColor = HEXCOLOR(@"#18D06A");
+        }
+        
     }];
     
     [[[uploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         @strongify(self);
-        [self uploadDrivingLicenceWithCar:self.model.currentCar];
+        if (self.model.currentCar.status == 0 || self.model.currentCar.status == 3) {
+            [self uploadDrivingLicenceWithCar:self.model.currentCar];
+        }
     }];
     
     [[[valuationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -519,26 +566,29 @@
 
 - (void)uploadDrivingLicenceWithCar:(HKMyCar *)car
 {
-    [[[self.model rac_uploadDrivingLicenseWithTargetVC:self initially:^{
-        
-        [gToast showingWithText:@"正在上传..."];
-    }] flattenMap:^RACStream *(NSString *url) {
-        
-        //更新行驶证的url，如果更新失败，重置为原来的行驶证url
-        NSString *oldurl = car.licenceurl;
-        car.licenceurl = url;
-        MyCarStore *store = [MyCarStore fetchExistsStore];
-        return [[[store updateCar:car] sendAndIgnoreError] catch:^RACSignal *(NSError *error) {
-            car.licenceurl = oldurl;
-            return [RACSignal error:error];
+    [self.model showImagePickerWithTargetVC:self];
+    [self.model setImagePickerBlock:^(RACSignal *signal) {
+        [[[signal initially:^{
+            
+            [gToast showingWithText:@"正在上传..."];
+        }] flattenMap:^RACStream *(NSString *url) {
+            
+            //更新行驶证的url，如果更新失败，重置为原来的行驶证url
+            NSString *oldurl = car.licenceurl;
+            car.licenceurl = url;
+            MyCarStore *store = [MyCarStore fetchExistsStore];
+            return [[[store updateCar:car] sendAndIgnoreError] catch:^RACSignal *(NSError *error) {
+                car.licenceurl = oldurl;
+                return [RACSignal error:error];
+            }];
+        }] subscribeNext:^(id x) {
+            
+            car.status = 1;
+            [gToast showSuccess:@"上传行驶证成功!"];
+        } error:^(NSError *error) {
+            
+            [gToast showError:error.domain];
         }];
-    }] subscribeNext:^(id x) {
-        
-        car.status = 1;
-        [gToast showSuccess:@"上传行驶证成功!"];
-    } error:^(NSError *error) {
-        
-        [gToast showError:error.domain];
     }];
 }
 

@@ -303,7 +303,7 @@
                     [gToast showText:@"取消失败, 请重试"];
                 }] ;
             }];
-            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您确定要取消本次协办服务吗？" ActionItems:@[cancel,confirm]];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确定要取消本次协办服务吗？" ActionItems:@[cancel,confirm]];
             [alert show];
         }
     }];

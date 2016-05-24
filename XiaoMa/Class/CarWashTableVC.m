@@ -446,7 +446,12 @@
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
-    if (shop.ratenumber)
+    
+    if (shop.ratenumber >= 10000)
+    {
+        commentNumL.text = [NSString stringWithFormat:@"%ld万", (long)(shop.ratenumber / 10000)];
+    }
+    else if (shop.ratenumber > 0)
     {
         commentNumL.text = [NSString stringWithFormat:@"%ld", (long)shop.ratenumber];
     }

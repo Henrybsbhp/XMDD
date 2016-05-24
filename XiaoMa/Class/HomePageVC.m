@@ -378,7 +378,7 @@
         
         @weakify(self);
         RACSignal * areaSignal = [[[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
-            return ac.province.length || ac.city.length || ac.district.length;
+            return ac;
         }] take:1];
         
         RACSignal * adSignal = [areaSignal flattenMap:^RACStream *(id value) {
@@ -485,27 +485,37 @@
         @strongify(self);
         [self setupNavigationLeftBar:nil];
         [gMapHelper handleGPSError:error];
+        gMapHelper.addrComponent = [[HKAddressComponent alloc] init];
     }] doNext:^(AMapReGeocode *regeo) {
         
         gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
     }];
     
     // 获取天气信息
-    [[[[sig1 initially:^{
+    [[[[[sig1 initially:^{
         @strongify(self);
         [self.scrollView.refreshView beginRefreshing];
+    }]catch:^RACSignal *(NSError *error) {
+        
+        //失败也要获取广告
+        @strongify(self);
+        [self.adctrl reloadDataWithForce:YES completed:nil];
+        [self.secondAdCtrl reloadDataWithForce:YES completed:nil];
+        return [RACSignal error:error];
     }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
         @strongify(self);
         [self.adctrl reloadDataWithForce:YES completed:nil];
         [self.secondAdCtrl reloadDataWithForce:YES completed:nil];
         return [self rac_getWeatherInfoWithReGeocode:regeo];
-    }] finally:^{
+    }]  finally:^{
         @strongify(self);
         [self.scrollView.refreshView endRefreshing];
     }] subscribeNext:^(id x) {
         
     }];
 
+    
+    /// 九宫格数据
     RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
     
     RACSignal * combineSignal = [RACSignal combineLatest:@[sig1,userSignal] reduce:^(AMapReGeocode *regeo, JTUser * user) {

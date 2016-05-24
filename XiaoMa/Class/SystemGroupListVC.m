@@ -87,7 +87,15 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0001"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"新手必点";
-    vc.url = @"http://www.baidu.com";
+    NSString * urlStr;
+#if XMDDEnvironment==0
+    urlStr = @"http://dev01.xiaomadada.com/apphtml/pingtaituan-help.html";
+#elif XMDDEnvironment==1
+    urlStr = @"http://dev.xiaomadada.com/apphtml/pingtaituan-help.html";
+#else
+    urlStr = @"http://www.xiaomadada.com/apphtml/pingtaituan-help.html";
+#endif
+    vc.url = urlStr;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -241,7 +249,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     [backgroundView setCornerRadius:3 withBackgroundColor:[UIColor whiteColor]];
     
     titleLb.text = [groupInfo stringParamForName:@"name"];
-    tagLb.text = [NSString stringWithFormat:@"已有%ld入团",[groupInfo integerParamForName:@"membercnt"]];
+    tagLb.text = [NSString stringWithFormat:@"已有%ld人入团",[groupInfo integerParamForName:@"membercnt"]];
     
     if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateNotStart || [groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateEndSign) {
         tagLb.textColor = kDarkTextColor;
@@ -413,6 +421,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     vc.groupType = MutualGroupTypeSystem;
     NSDictionary * dic = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
     vc.titleStr = [dic stringParamForName:@"name"] ?: @"平台团介绍";
+    vc.groupIntrUrlStr = [dic stringParamForName:@"url"];
     //团介绍页底部按钮标题
     if ([dic integerParamForName:@"groupstatus"] == GroupButtonStateNotStart) {
         vc.btnType = BtnTypeNotStart;

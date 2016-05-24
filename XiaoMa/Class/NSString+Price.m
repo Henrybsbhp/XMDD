@@ -78,6 +78,12 @@
 
 + (NSString *)formatForPriceWithFloat:(CGFloat)price
 {
+    NSString * originStr = [NSString stringWithFormat:@"%.2f",price];
+    return originStr;
+}
+
++ (NSString *)formatForPriceWithFloatWithDecimal:(CGFloat)price;
+{
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     formatter.numberStyle = kCFNumberFormatterDecimalStyle;
     NSString *priceTag = [formatter stringFromNumber:[NSNumber numberWithFloat:price]];
@@ -89,7 +95,6 @@
     {
         return [priceTag append:@".00"];
     }
-    
 }
 
 @end

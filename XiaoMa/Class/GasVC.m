@@ -65,7 +65,7 @@
     
     [self.roundLb refreshLabels];
     //IOS 8.1.3下面有RTLabel消失的bug，需要重新刷一下页面
-    if (IOSVersionGreaterThanOrEqualTo(@"8.1.3") && !IOSVersionGreaterThanOrEqualTo(@"8.4")) {
+    if (IOSVersionGreaterThanOrEqualTo(@"8.1") && !IOSVersionGreaterThanOrEqualTo(@"8.4")) {
         [self.curSubVC refreshViewWithForce:YES];
     }
     [self.navigationController setNavigationBarHidden:NO animated:animated];

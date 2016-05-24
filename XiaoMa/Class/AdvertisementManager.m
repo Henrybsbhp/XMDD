@@ -58,7 +58,8 @@
     GetSystemPromotionOp * op = [GetSystemPromotionOp operation];
     op.type = type;
     op.province = gMapHelper.addrComponent.province;
-    op.city = gMapHelper.addrComponent.city;
+    //如果地理位置在上海，高德返回“上海” “（空字符）”“松江”
+    op.city = gMapHelper.addrComponent.city.length ? gMapHelper.addrComponent.city :gMapHelper.addrComponent.province;
     op.district = gMapHelper.addrComponent.district;
     op.version = gAppMgr.clientInfo.clientVersion;
     signal = [[op rac_postRequest] map:^id(GetSystemPromotionOp *op) {
