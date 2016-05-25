@@ -40,6 +40,8 @@ typedef enum : NSUInteger {
 @property (nonatomic)CGFloat contractprice;
 ///原价
 @property (nonatomic)CGFloat origprice;
+/// 原始原价
+@property (nonatomic) CGFloat oldOriginPrice;
 
 + (instancetype)shopServiceWithJSONResponse:(NSDictionary *)rsp;
 
