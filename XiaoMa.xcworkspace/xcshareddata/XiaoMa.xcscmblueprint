@@ -4,11 +4,13 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "912EA88EEBF83933726C69DF40244E4329CB7123" : 0,
     "16CE14A2D81CCE323D476004724594AEF6B38C0A" : 0,
     "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "1853EA37-1451-48F4-862A-E08936984257",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "912EA88EEBF83933726C69DF40244E4329CB7123" : "",
     "16CE14A2D81CCE323D476004724594AEF6B38C0A" : "XiaoMa\/react-native\/",
     "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0" : "XiaoMa\/"
   },
@@ -25,6 +27,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/rm.xiaomadada.com:7999\/xmdd_ios\/xmdd_ios.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/www.xiaomadada.com\/stash\/scm\/xmddproxy\/xmddproxy.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "912EA88EEBF83933726C69DF40244E4329CB7123"
     }
   ]
 }

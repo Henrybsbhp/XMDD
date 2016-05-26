@@ -123,17 +123,42 @@
     }
 }
 
+// 判断已输入文本是否为中文
+- (BOOL)isHasZhhansCharacter:(NSString *)aString
+{
+    NSInteger a;
+    
+    for (NSInteger i = 0; i < aString.length; i++) {
+        
+        a = [aString characterAtIndex:i];
+        
+        if (!(a >= 0x4e00 && a <= 0x9fff)) {
+            
+            return NO;
+            
+        }
+    }
+    
+    return YES;
+}
+
 - (IBAction)applyAction:(id)sender {
     /**
      *  申请加盟点击事件
      */
     [MobClick event:@"rp333_1"];
+    
     if (self.phoneField.text.length != 11) {
         [self shakeCellAtIndex:0];
         return;
     }
     if (self.nameField.text.length == 0) {
         [self shakeCellAtIndex:1];
+        return;
+    } else if ([self isHasZhhansCharacter:self.nameField.text] == NO) {
+        // 判断已输入文本是否为中文后触发的事件
+        [self shakeCellAtIndex:1];
+        [gToast showText:@"姓名只能输入中文"];
         return;
     }
     if (self.cityField.text.length == 0) {
