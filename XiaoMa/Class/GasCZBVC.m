@@ -435,7 +435,7 @@
         [[RACObserve(item, forceReload) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             BOOL bill = [data[@"bill"] boolValue];
             tagLb.hidden = !bill;
-            UIImage * image = bill ? [UIImage imageNamed:@"checkbox_selected"] : [UIImage imageNamed:@"checkbox_normal"];
+            UIImage * image = bill ? [UIImage imageNamed:@"checkbox_selected"] : [UIImage imageNamed:@"checkbox_normal_301"];
             [invoiceBtn setImage:image forState:UIControlStateNormal];
         }];
     });
