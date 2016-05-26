@@ -515,6 +515,8 @@
     
     [titleString appendAttributedString:originalPrice];
     
+    originalPriceLabel.hidden = service.oldOriginPrice <= service.origprice ? YES : NO;
+    
     integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
     originalPriceLabel.attributedText = titleString;

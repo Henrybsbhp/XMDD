@@ -408,7 +408,7 @@
         NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"原价" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
         [titleString appendAttributedString:originalPrice];
         
-        originalPriceLabel.hidden = self.service.oldOriginPrice == 0 ? YES : NO;
+        originalPriceLabel.hidden = self.service.oldOriginPrice <= self.service.origprice ? YES : NO;
         
         titleL.text = [NSString stringWithFormat:@"项目价格"];
         infoL.textColor = kOrangeColor;
