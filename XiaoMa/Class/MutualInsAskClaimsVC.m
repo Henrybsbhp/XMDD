@@ -189,7 +189,7 @@
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
     }];
-    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"快速报案可拨打客服电话：4007-111-111，是否立即拨打？" ActionItems:@[cancel,confirm]];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"报案可拨打客服电话：4007-111-111，是否立即拨打？" ActionItems:@[cancel,confirm]];
     [alert show];
 }
 
