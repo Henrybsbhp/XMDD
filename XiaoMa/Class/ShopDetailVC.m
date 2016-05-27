@@ -709,7 +709,7 @@
         payB.enabled = YES;
     }
     
-    originalPriceLabel.hidden = service.oldOriginPrice == 0 ? YES : NO;
+    originalPriceLabel.hidden = service.oldOriginPrice <= service.origprice ? YES : NO;
     
     NSAttributedString *originalPrice = [self priceStringWithOldPrice:@(service.oldOriginPrice) curPrice:nil];
     NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"原价" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13], NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
