@@ -16,6 +16,8 @@
 
 + (instancetype)closeButtonItemWithTarget:(id)target action:(SEL)action;
 
++ (instancetype)barButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)action;
+
 //- (void)setTarget:(id)target withAction:(SEL)action;
 
 @end

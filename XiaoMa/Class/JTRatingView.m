@@ -8,7 +8,7 @@
 
 #import "JTRatingView.h"
 #import <ReactiveCocoa.h>
-#import <CKKit.h>
+#import "CKKit.h"
 
 
 

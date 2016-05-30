@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CKKit.h>
+#import "CKKit.h"
 
 @interface NSDictionary (GetParams)
 - (id<NSObjectAutoConvertValueDelegate>)paramForName:(NSString *)name;

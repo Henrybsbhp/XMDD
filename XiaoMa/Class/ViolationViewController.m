@@ -41,6 +41,10 @@
     DebugLog(@"ViolationViewController dealloc");
 }
 
+- (void)awakeFromNib {
+    self.router.disableInteractivePopGestureRecognizer = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -49,18 +53,6 @@
     // 设置数据源&获取所有爱车
     [self setupCarStore];
     [[self.carStore getAllCars] send];
-}
-
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
 - (void)didReceiveMemoryWarning {

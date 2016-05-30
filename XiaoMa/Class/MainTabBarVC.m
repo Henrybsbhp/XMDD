@@ -96,7 +96,6 @@
     else {
         gAppMgr.navModel.curNavCtrl = viewController.navigationController;
     }
-    [self.customNavCtrl setNeedsStatusBarAppearanceUpdate];
 }
 
 

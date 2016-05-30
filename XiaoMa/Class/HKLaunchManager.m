@@ -65,12 +65,20 @@
 
 - (RACSignal *)rac_getLaunchInfo
 {
-    GetLaunchInfoOp *op = [[GetLaunchInfoOp alloc] init];
-    op.req_province = gMapHelper.addrComponent.province;
-    op.req_city = gMapHelper.addrComponent.city;
-    op.req_district = gMapHelper.addrComponent.district;
-    return [[op rac_postRequest] map:^id(GetLaunchInfoOp *rspop) {
-
+    @weakify(self);
+    return [[[[gMapHelper rac_getInvertGeoInfo] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal return:nil];
+    }] flattenMap:^RACStream *(AMapReGeocode *reGeocode) {
+        
+        GetLaunchInfoOp *op = [GetLaunchInfoOp operation];
+        op.req_province = reGeocode.addressComponent.province;
+        op.req_city = reGeocode.addressComponent.city;
+        op.req_district = reGeocode.addressComponent.district;
+        return [op rac_postRequest];
+    }]  map:^id(GetLaunchInfoOp *rspop) {
+        
+        @strongify(self);
         self.timetag = [[NSDate date] timeIntervalSince1970];
         return rspop.rsp_infoList;
     }];
