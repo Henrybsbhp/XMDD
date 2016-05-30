@@ -19,13 +19,11 @@
 #import "HKPopoverView.h"
 #import "UpdateCarOp.h"
 #import "UIView+RoundedCorner.h"
+#import "HKNavigationController.h"
 
 #import "ValuationHomeVC.h"
 
 @interface CarsListVC () <UIScrollViewDelegate, PageSliderDelegate>
-
-@property (nonatomic, assign) BOOL isViewAppearing;
-@property (nonatomic, assign) BOOL isBackToMine;
 
 @property (nonatomic, strong) MyCarStore *carStore;
 @property (nonatomic, strong) NSArray *datasource;
@@ -69,39 +67,8 @@
 - (void)awakeFromNib
 {
     _model = [[MyCarListVModel alloc] init];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.isViewAppearing = YES;
-    self.isBackToMine = NO;
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    self.isViewAppearing = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    if (![self.navigationController.topViewController isEqual:self]) {
-        if (self.isViewAppearing) {
-            CKAsyncMainQueue(^{
-                if (!self.isBackToMine) {
-                    [self.navigationController setNavigationBarHidden:NO animated:NO];
-                }
-            });
-        }
-        else {
-            if (!self.isBackToMine) {
-                [self.navigationController setNavigationBarHidden:NO animated:animated];
-            }
-        }
-    }
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
+    self.router.navigationBarHidden = YES;
+    self.router.disableInteractivePopGestureRecognizer = YES;
 }
 
 - (void)viewDidLoad {
@@ -535,7 +502,6 @@
                 [self.navigationController popToViewController:self.model.originVC animated:YES];
             }
             else {
-                self.isBackToMine = YES;
                 [self.navigationController popViewControllerAnimated:YES];
             }
         }];
@@ -555,7 +521,6 @@
             [self.navigationController popToViewController:self.model.originVC animated:YES];
         }
         else {
-            self.isBackToMine = YES;
             [self.navigationController popViewControllerAnimated:YES];
         }
         if (self.model.finishBlock) {

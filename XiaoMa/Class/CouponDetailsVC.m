@@ -30,16 +30,8 @@
 
 @implementation CouponDetailsVC
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
+- (void)awakeFromNib {
+    self.router.navigationBarHidden = YES;
 }
 
 - (void)dealloc

@@ -242,12 +242,6 @@
     
 
 }
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
 
 
 - (void)dealloc
@@ -406,7 +400,7 @@
 - (void)actionRCT
 {
     ReactTestViewController * vc = [aboutStoryboard instantiateViewControllerWithIdentifier:@"ReactTestViewController"];
-    vc.modulName = @"AwesomeProject";
+    vc.modulName = @"MyInfoView";
     [self.navigationController pushViewController:vc animated:YES];
 }
 

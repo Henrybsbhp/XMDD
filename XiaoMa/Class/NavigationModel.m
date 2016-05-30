@@ -48,7 +48,7 @@
         //登录 (针对根据网页中url跳转登录//口令入团也用到了)
         if ([@"login" equalByCaseInsensitive:name] && !gAppMgr.myUser) {
             VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
-            JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
+            HKNavigationController *nav = [[HKNavigationController alloc] initWithRootViewController:vc];
             [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
         }
         //领取礼券
@@ -83,6 +83,13 @@
                 return YES;
             if (![self popToViewControllerIfNeededByIdentify:@"InsuranceVC"]) {
                 InsuranceVC *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+        }
+        //保险介绍
+        else if ([@"insi" equalByCaseInsensitive:name]) {
+            if (![self popToViewControllerIfNeededByIdentify:@"InsIntroVC"]) {
+                UIViewController *vc = [UIStoryboard vcWithId:@"InsIntroVC" inStoryboard:@"Insurance"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
         }
@@ -180,7 +187,7 @@
             vc.tradeNo = traderNo;
             vc.tradeType = traderType;
             vc.originVc = self.curNavCtrl;
-            JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
+            HKNavigationController *nav = [[HKNavigationController alloc] initWithRootViewController:vc];
             [self.curNavCtrl presentViewController:nav animated:YES completion:nil];
         }
         //加油首页
@@ -474,6 +481,22 @@
         value = gNetworkMgr.token;
     }
     return value.length > 0 ? value : @"null";
+}
+
++ (NSString *)appendParams:(NSDictionary *)params forUrl:(NSString *)url
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:params];
+    [dict setObject:gAppMgr.deviceInfo.appVersion forKey:@"version"];
+    NSArray *kvs = [[dict allKeys] arrayByMappingOperator:^id(NSString *key) {
+        NSString *value = dict[key];
+        return [NSString stringWithFormat:@"%@=%@", key, value];
+    }];
+    
+    NSString *strParams = [kvs componentsJoinedByString:@"&"];
+    NSString *linkSymbol = [url rangeOfString:@"?"].location == NSNotFound ? @"?" : @"&";
+    url = [NSString stringWithFormat:@"%@%@%@", url, linkSymbol, strParams];
+    
+    return url;
 }
 
 + (NSString *)appendStaticParam:(NSString *)url

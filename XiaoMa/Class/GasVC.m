@@ -68,7 +68,6 @@
     if (IOSVersionGreaterThanOrEqualTo(@"8.1") && !IOSVersionGreaterThanOrEqualTo(@"8.4")) {
         [self.curSubVC refreshViewWithForce:YES];
     }
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 

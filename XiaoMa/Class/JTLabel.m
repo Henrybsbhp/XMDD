@@ -7,7 +7,7 @@
 //
 
 #import "JTLabel.h"
-#import <CKKit.h>
+#import "CKKit.h"
 @implementation JTLabel
 
 /*

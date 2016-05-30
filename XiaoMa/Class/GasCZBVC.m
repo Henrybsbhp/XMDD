@@ -151,7 +151,7 @@
     
     NSString *title;
     float discountAmount = [self discountAmount];
-       //生成文案
+    //生成文案
     if (discountAmount > self.rechargeAmount) {
         title = [NSString stringWithFormat:@"充值%@元，只需支付%@元，现在支付",
                  [NSString formatForRoundPrice:discountAmount],
@@ -227,8 +227,8 @@
         GasPayForCZBVC *vc = [UIStoryboard vcWithId:@"GasPayForCZBVC" inStoryboard:@"Gas"];
         vc.bankCard = self.curBankCard;
         vc.gasCard = self.curGasCard;
-        vc.rechargeAmount = self.rechargeAmount;
         vc.discountAmount = [self discountAmount];
+        vc.rechargeAmount = self.rechargeAmount;
         vc.payTitle = [self.bottomBtn titleForState:UIControlStateNormal];
         vc.needInvoice = [self.datasource[0][@"WantInvoiceCell"][@"bill"] boolValue];
         vc.originVC = self.targetVC;
@@ -238,6 +238,7 @@
             self.rechargeAmount = 500;
             [[self.gasStore updateCZBCardInfoByCID:self.curBankCard.cardID] send];
         }];
+        
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
 }

@@ -12,5 +12,15 @@
 
 - (RACSignal *)takeUntilForCell:(id)cell;
 - (RACSignal *)ignoreError;
+- (RACSignal *)doEmpty:(void(^)(void))emptyBlock;
+
+- (RACDisposable *)subscribeNext:(void (^)(id x))nextBlock
+                           error:(void (^)(NSError *error))errorBlock
+                          others:(void (^)(void))otherBlock;
+
+- (RACDisposable *)subscribeNext:(void (^)(id x))nextBlock
+                           error:(void (^)(NSError *error))errorBlock
+                         success:(void (^)(BOOL isEmpty))successBlock;
+
 
 @end

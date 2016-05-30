@@ -56,6 +56,10 @@
     DebugLog(@"MutualInsHomeVC dealloc");
 }
 
+- (void)awakeFromNib {
+    self.router.key = @"MutualInsHomeVC";
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

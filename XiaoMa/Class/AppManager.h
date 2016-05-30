@@ -50,8 +50,6 @@
 
 @property (nonatomic)BOOL needRefreshWeather;
 
-@property (nonatomic) BOOL isNaviBarHidden;
-
 ///限行信息
 @property (nonatomic,copy)NSString *restriction;
 ///温度

@@ -38,7 +38,6 @@
 #import "GainUserAwardOp.h"
 #import "FMDeviceManager.h"
 
-#import <NSObject+Notify.h>
 #import "GetPayStatusOp.h"
 
 #define CheckBoxCouponGroup @"CheckBoxCouponGroup"
@@ -104,7 +103,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
     if (self.needChooseResource)
     {
         [self requestGetUserResource:YES];

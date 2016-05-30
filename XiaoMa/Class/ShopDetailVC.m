@@ -59,6 +59,10 @@
 
 @implementation ShopDetailVC
 
+- (void)awakeFromNib {
+    self.router.navigationBarHidden = YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

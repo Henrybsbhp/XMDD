@@ -68,7 +68,6 @@
 #endif
 
 
-
 #if XMDDEnvironment==0
 //开发环境
     #define XmddBaseUrl @"http://dev01.xiaomadada.com"
@@ -109,4 +108,5 @@
 
     #define WECHAT_NOTIFY_URL   @"https://www.xiaomadada.com/paa/weichatpaynotify"
     #define ALIPAY_NOTIFY_URL   @"https://www.xiaomadada.com/paa/alipaynotify"
+
 #endif

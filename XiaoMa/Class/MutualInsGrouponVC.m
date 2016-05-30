@@ -260,22 +260,25 @@ typedef enum : NSInteger
     
     MutInsStatus status = self.groupDetail.rsp_status;
     if (status == MutInsStatusUnderReview) {
-        self.menuItems = $([self menuItemInvite], [self menuItemMakeCall], [self menuItemUsinghelp]);
+        self.menuItems = $([self menuItemClaim], [self menuItemInvite], [self menuItemMakeCall], [self menuItemUsinghelp]);
     }
     else if (status == MutInsStatusAgreementTakingEffect) {
-        self.menuItems = $([self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall], [self menuItemUsinghelp]);
+        self.menuItems = $([self menuItemClaim], [self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall],
+                           [self menuItemUsinghelp]);
     }
     else if (status == MutInsStatusToBePaid || status == MutInsStatusPaidForAll ||
              status == MutInsStatusPaidForSelf || status == MutInsStatusGettedAgreement) {
-        self.menuItems = $([self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall], [self menuItemUsinghelp]);
+        self.menuItems = $([self menuItemClaim], [self menuItemInvite], [self menuItemMyOrder], [self menuItemMakeCall],
+                           [self menuItemUsinghelp]);
     }
     else if (status == MutInsStatusReviewFailed || status == MutInsStatusGroupDissolved ||
              status == MutInsStatusGroupExpired || status == MutInsStatusJoinFailed) {
-        self.menuItems = $([self menuItemInvite], [self menuItemRegroup], [self menuItemDeleteGroup], [self menuItemMakeCall],
-                           [self menuItemUsinghelp]);
+        self.menuItems = $([self menuItemClaim], [self menuItemInvite], [self menuItemRegroup], [self menuItemDeleteGroup],
+                           [self menuItemMakeCall], [self menuItemUsinghelp]);
     }
     else {
-        self.menuItems = $([self menuItemInvite], [self menuItemQuit], [self menuItemMakeCall], [self menuItemUsinghelp]);
+        self.menuItems = $([self menuItemClaim], [self menuItemInvite], [self menuItemQuit], [self menuItemMakeCall],
+                           [self menuItemUsinghelp]);
     }
 }
 
@@ -318,6 +321,22 @@ typedef enum : NSInteger
 }
 
 #pragma mark - MenuItems
+///补偿记录
+- (id)menuItemClaim {
+    if (self.groupDetail.rsp_claimbtnflag == 0) {
+        return CKNULL;
+    }
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Claim",@"title":@"补偿记录",@"img":@"mins_person"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsAskClaimsVC" inStoryboard:@"MutualInsClaims"];
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    
+    return dict;
+}
+
 - (id)menuItemInvite {
     if (self.groupDetail.rsp_invitebtnflag == 0) {
         return CKNULL;

@@ -18,6 +18,8 @@
 #import "PayForInsuranceVC.h"
 #import "HKArrowView.h"
 #import "NSString+RectSize.h"
+#import "GetShareButtonOpV2.h"
+#import "SocialShareViewController.h"
 
 @interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -51,7 +53,6 @@
 {
     [super viewDidLoad];
     self.insModel.orderVC = self;
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     if (self.order) {
         self.orderID = self.order.orderid;
         [self setupRefreshView];
@@ -74,22 +75,19 @@
 
 - (void)resetBottomButton
 {
-    UIColor *bgColor;
     SEL action;
     NSString *title;
     if (self.order.status == InsuranceOrderStatusUnpaid)
     {
-        bgColor = kOrangeColor;
         title = @"去支付";
         action = @selector(actionPay:);
     }
     else
     {
-        bgColor = kDefTintColor;
-        title = @"联系客服";
-        action = @selector(actionMakeCall:);
+        title = @"晒单炫耀";
+        action = @selector(actionShare:);
     }
-    [self.bottomButton setBackgroundColor:bgColor];
+    [self.bottomButton setBackgroundColor:kOrangeColor];
     self.bottomButton.layer.cornerRadius = 5.0;
     self.bottomButton.layer.masksToBounds = YES;
     [self.bottomButton setTitle:title forState:UIControlStateNormal];
@@ -157,12 +155,15 @@
 - (void)reloadNavBarWithOrderStatus:(InsuranceOrderStatus)status
 {
     if (status == InsuranceOrderStatusUnpaid) {
-        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:@"取消订单" style:UIBarButtonItemStylePlain
-                                                                  target:self action:@selector(actionCancelOrder:)];
+        UIBarButtonItem *cancel = [UIBarButtonItem barButtonItemWithTitle:@"取消订单" target:self
+                                                                   action:@selector(actionCancelOrder:)];
         self.navigationItem.rightBarButtonItem = cancel;
     }
     else {
-        self.navigationItem.rightBarButtonItem = nil;
+        UIBarButtonItem *call = [UIBarButtonItem barButtonItemWithTitle:@"联系客服" target:self
+                                                                 action:@selector(actionMakeCall:)];
+
+        self.navigationItem.rightBarButtonItem = call;
     }
 }
 
@@ -218,6 +219,31 @@
     else {
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+- (void)actionShare:(id)sender {
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
+    op.pagePosition = ShareSceneInsurance;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
+        
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneInsurance;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"分享信息拉取失败，请重试"];
+    }];
 }
 
 - (void)actionPay:(id)sender {

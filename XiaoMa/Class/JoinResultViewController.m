@@ -17,16 +17,8 @@
 
 @implementation JoinResultViewController
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
+- (void)awakeFromNib {
+    self.router.disableInteractivePopGestureRecognizer = YES;
 }
 
 - (void)viewDidLoad {

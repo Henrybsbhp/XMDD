@@ -111,6 +111,8 @@ class=GetCooperationMygroupDetail op auth path="/cooperation/mygroup/detail/get"
     <"是否显示邀请好友(1：显示，0：不显示)">invitebtnflag:int
     <"团名">groupname
     <"团类型(1：自助，2：匹配)">type:int
+    <"显示补偿记录按钮标志(0：不显示，1：显示)">claimbtnflag:int
+    <"我的协议地址(只有status为7，8时有效)">contracturl
   }
 }
 

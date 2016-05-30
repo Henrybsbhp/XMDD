@@ -20,7 +20,7 @@
 #import "InsInputInfoVC.h"
 #import "InsAlertVC.h"
 
-@interface InsCheckResultsVC ()
+@interface InsCheckResultsVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIView *containerView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;

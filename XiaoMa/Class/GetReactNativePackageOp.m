@@ -27,8 +27,8 @@
     self.rsp_version = dict[@"version"];
     self.rsp_minappversion = dict[@"min-app-version"];
     self.rsp_desc = dict[@"desc"];
-    self.rsp_patchurl = dict[@"patch"];
-    
+    self.rsp_patchurl = dict[@"patchurl"];
+    self.rsp_patchsign = dict[@"patchsign"];
     return self;
 }
 

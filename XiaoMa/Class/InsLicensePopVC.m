@@ -121,7 +121,7 @@
     vc.title = title;
     vc.licenseUrl = url;
     vc.licensePopVCType = type;
-    JTNavigationController *nvc = [[JTNavigationController alloc] initWithRootViewController:vc];
+    HKNavigationController *nvc = [[HKNavigationController alloc] initWithRootViewController:vc];
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:size viewController:nvc];
     sheet.cornerRadius = 2.5;
     sheet.shadowRadius = 0;

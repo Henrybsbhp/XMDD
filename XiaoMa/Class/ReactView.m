@@ -40,7 +40,7 @@
     return self;
 }
 
-- (void)rct_requestWithUrl:(NSURL *)url andModulName:(NSString *)model;
+- (void)rct_requestWithUrl:(NSURL *)url modulName:(NSString *)model properties:(NSDictionary *)properties
 {
     if (self.rctRootView)
     {
@@ -48,14 +48,19 @@
     }
     
     RCTRootView * rootView = [[RCTRootView alloc] initWithBundleURL:url
-                                                   moduleName:model
-                                                  initialProperties:nil
+                                                         moduleName:model
+                                                  initialProperties:properties
                                                       launchOptions:nil];
     [self addSubview:rootView];
     rootView.frame = self.bounds;
     
     
     self.rctRootView = rootView;
+}
+
+- (void)rct_requestWithUrl:(NSURL *)url andModulName:(NSString *)model
+{
+    [self rct_requestWithUrl:url modulName:model properties:nil];
 }
 
 
