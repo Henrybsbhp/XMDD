@@ -693,6 +693,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ServiceCell"];
     UILabel *titleL = (UILabel*)[cell.contentView viewWithTag:1001];
+    UILabel *originalPriceLabel = (UILabel *)[cell.contentView viewWithTag:1009];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *introL = (UILabel *)[cell.contentView viewWithTag:1005];
     UIButton *payB = (UIButton*)[cell.contentView viewWithTag:1006];
@@ -711,7 +712,15 @@
     {
         payB.enabled = YES;
     }
+    
+    originalPriceLabel.hidden = service.oldOriginPrice <= service.origprice ? YES : NO;
+    
+    NSAttributedString *originalPrice = [self priceStringWithOldPrice:@(service.oldOriginPrice) curPrice:nil];
+    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"原价" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13], NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+    [titleString appendAttributedString:originalPrice];
+    
     titleL.text = service.serviceName;
+    originalPriceLabel.attributedText = titleString;
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
     introL.text = service.serviceDescription;
     
@@ -891,7 +900,7 @@
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
     if (price1) {
-        NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
+        NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:13],
                                 NSForegroundColorAttributeName:[UIColor lightGrayColor],
                                 NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
         NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price1 floatValue]]];

@@ -446,7 +446,12 @@
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
-    if (shop.ratenumber)
+    
+    if (shop.ratenumber >= 10000)
+    {
+        commentNumL.text = [NSString stringWithFormat:@"%ld万", (long)(shop.ratenumber / 10000)];
+    }
+    else if (shop.ratenumber > 0)
     {
         commentNumL.text = [NSString stringWithFormat:@"%ld", (long)shop.ratenumber];
     }
@@ -495,6 +500,7 @@
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
+    UILabel *originalPriceLabel = (UILabel *)[cell.contentView viewWithTag:2004];
     
     JTShopService * service = [serviceArray safetyObjectAtIndex:indexPath.row - 1];
     
@@ -504,8 +510,16 @@
         return tcc.paymentChannelType == PaymentChannelABCIntegral;
     }];
     
+    NSAttributedString *originalPrice = [self priceStringWithOldPrice:@(service.oldOriginPrice) curPrice:nil];
+    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"原价" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+    
+    [titleString appendAttributedString:originalPrice];
+    
+    originalPriceLabel.hidden = service.oldOriginPrice <= service.origprice ? YES : NO;
+    
     integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
+    originalPriceLabel.attributedText = titleString;
     
     return cell;
 }

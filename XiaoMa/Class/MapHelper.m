@@ -31,7 +31,7 @@
 {
     self = [super init];
     if (self) {
-        [self fetchAddressComponetDict];
+//        [self fetchAddressComponetDict];
     }
     return self;
 }

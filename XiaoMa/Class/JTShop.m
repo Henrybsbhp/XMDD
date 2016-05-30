@@ -48,6 +48,7 @@
     service.chargeArray = [NSArray arrayWithArray:t];
     service.contractprice = [rsp floatParamForName:@"contractprice"];
     service.origprice = [rsp floatParamForName:@"origprice"];
+    service.oldOriginPrice = [rsp floatParamForName:@"oldoriginprice"];
     
     return service;
 }

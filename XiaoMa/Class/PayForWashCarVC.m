@@ -394,6 +394,7 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ShopItemCell"];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *infoL = (UILabel *)[cell.contentView viewWithTag:1002];
+    UILabel *originalPriceLabel = (UILabel *)[cell.contentView viewWithTag:1004];
     
     if (indexPath.row == 1) {
         titleL.text = [NSString stringWithFormat:@"服务项目"];
@@ -401,9 +402,16 @@
         infoL.text = self.service.serviceName;
     }
     else if (indexPath.row == 2) {
+        NSAttributedString *originalPrice = [self priceStringWithOldPrice:@(self.service.oldOriginPrice) curPrice:nil];
+        NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"原价" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+        [titleString appendAttributedString:originalPrice];
+        
+        originalPriceLabel.hidden = self.service.oldOriginPrice <= self.service.origprice ? YES : NO;
+        
         titleL.text = [NSString stringWithFormat:@"项目价格"];
         infoL.textColor = kOrangeColor;
         infoL.text = [NSString stringWithFormat:@"￥%.2f",self.service.origprice];
+        originalPriceLabel.attributedText = titleString;
     }
     
     return cell;
@@ -1175,6 +1183,28 @@
     order.gasCouponAmount = self.checkoutServiceOrderV4Op.rsp_gasCouponAmount;
     vc.order = order;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
+{
+    NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
+    if (price1) {
+        NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
+                                NSForegroundColorAttributeName:[UIColor lightGrayColor],
+                                NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
+        NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price1 floatValue]]];
+        NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:p attributes:attr1];
+        [str appendAttributedString:attrStr1];
+    }
+    
+    if (price2) {
+        NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
+                                NSForegroundColorAttributeName:kOrangeColor};
+        NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price2 floatValue]]];
+        NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:p attributes:attr2];
+        [str appendAttributedString:attrStr2];
+    }
+    return str;
 }
 
 @end

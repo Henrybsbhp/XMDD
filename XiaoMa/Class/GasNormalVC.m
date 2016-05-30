@@ -209,7 +209,7 @@
 
 
 - (BOOL)needInvoice {
-    return self.datasource[0][@"WantInvoiceCell"][@"bill"];
+    return [self.datasource[0][@"WantInvoiceCell"][@"bill"] boolValue];
 }
 
 #pragma mark - Cell
@@ -391,7 +391,7 @@
 
             BOOL bill = [data[@"bill"] boolValue];
             tagLb.hidden = !bill;
-            UIImage * image = bill ? [UIImage imageNamed:@"checkbox_selected"] : [UIImage imageNamed:@"checkbox_normal"];
+            UIImage * image = bill ? [UIImage imageNamed:@"checkbox_selected"] : [UIImage imageNamed:@"checkbox_normal_301"];
             [invoiceBtn setImage:image forState:UIControlStateNormal];
         }];
     });
