@@ -287,9 +287,8 @@
 
 - (void)actionPay:(id)sender
 {
-    
     @weakify(self)
-    [[self rac_openLicenseVCWithUrl:self.contract.contracturl
+    [[self rac_openLicenseVCWithUrl:self.contract.payContracturl
                              title:[NSString stringWithFormat:@"%@协议",@"小马互助"]] subscribeNext:^(id x) {
         @strongify(self);
         [self requestPay];
@@ -805,10 +804,10 @@
     self.licenseData = [HKCellData dataWithCellID:@"LicenseCell" tag:nil];
     self.licenseData.customInfo[@"check"] = @YES;
     
-    NSMutableString *license = [NSMutableString stringWithString:@"我已阅读并同意小马达达《小马互助协议》"];
+    NSMutableString *license = [NSMutableString stringWithString:@"我已阅读并同意小马达达《小马互助公约》"];
     
     self.licenseData.customInfo[@"range1"] = [NSValue valueWithRange:NSMakeRange(license.length - 8, 8)];
-    self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:self.contract.contracturl ?: @""];
+    self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:self.contract.conventionurl ?: @""];
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     ps.lineSpacing = 5;
     NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:license

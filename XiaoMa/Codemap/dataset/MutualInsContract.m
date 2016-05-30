@@ -34,7 +34,9 @@
     self.finishaddress = [dict boolParamForName:@"finishaddress"];
     self.insnotes = dict[@"insnotes"];
     self.paybtnflag = [dict boolParamForName:@"paybtnflag"];
-    self.contracturl = dict[@"contracturl"];}
+    self.conventionurl = dict[@"conventioncontracturl"];
+    self.payContracturl = dict[@"paycontracturl"];
+}
 
 @end
 

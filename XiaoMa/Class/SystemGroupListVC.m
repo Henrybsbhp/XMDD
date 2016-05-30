@@ -345,7 +345,15 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         
         [btn setCornerRadius:3 withBackgroundColor:kDefTintColor];
         if ([groupInfo boolParamForName:@"ingroup"]) {
-            [btn setTitle:@"已加入" forState:UIControlStateNormal];
+            if (self.originCarId)
+            {
+                /// 如果小马互助首页有爱车带入。
+                [btn setTitle:@"申请加入" forState:UIControlStateNormal];
+            }
+            else
+            {
+                [btn setTitle:@"已加入" forState:UIControlStateNormal];
+            }
         }
         else {
             [btn setTitle:@"申请加入" forState:UIControlStateNormal];
@@ -428,9 +436,16 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     }
     else if ([dic integerParamForName:@"groupstatus"] == GroupButtonStateSignUp) {
         if ([dic boolParamForName:@"ingroup"]) {
-            vc.btnType = BtnTypeAlready;
+            if (self.originCarId)
+            {
+                /// 如果小马互助首页有爱车带入。
+                vc.btnType = BtnTypeJoinNow;
+            }
+            else
+            {
+                vc.btnType = BtnTypeAlready;
+            }
         }
-        
         else {
             vc.btnType = BtnTypeJoinNow;
             [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0004"}];
