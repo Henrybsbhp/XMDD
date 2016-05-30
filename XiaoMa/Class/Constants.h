@@ -73,7 +73,10 @@ typedef enum : NSUInteger {
 //7-爱车估值结果分享
 //8-提交卖车app分享
 //9-app分享
+//10: 在互助团里的APP分享
+//11:小马互助晒单炫耀
 //100-其他分享（jsbridge中的分享）
+
 typedef enum : NSUInteger {
     ShareSceneCarwash = 2,
     ShareSceneGain = 3,
@@ -84,6 +87,7 @@ typedef enum : NSUInteger {
     ShareSceneAppCarSell = 8,
     ShareSceneAppAbout = 9,
     ShareSceneCipher = 10,
+    ShareSceneShowXmddIns = 11,
     ShareSceneLocalShare = 100
 } ShareSceneType;
 

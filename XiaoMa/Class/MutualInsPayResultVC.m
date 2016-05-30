@@ -12,6 +12,9 @@
 #import "UpdateCooperationContractDeliveryinfoOp.h"
 #import "MutualInsOrderInfoVC.h"
 #import "MutualInsGrouponVC.h"
+#import "GetShareButtonOpV2.h"
+#import "SocialShareViewController.h"
+#import "ShareResponeManager.h"
 
 @interface MutualInsPayResultVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
@@ -422,22 +425,16 @@
         av.message = @"联系人信息已提交，请等待车险专员为您服务";
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
             
-            for (UIViewController * vc in self.navigationController.viewControllers)
-            {
-                // 支付结果肯定在团详情-> 订单 —> 支付
-                if ([vc isKindOfClass:[MutualInsGrouponVC class]])
-                {
-                    [self.navigationController popToViewController:vc animated:YES];
-                    return;
-                }
-            }
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self actionPop];
         }];
-        av.actionItems = @[cancel];
+        HKAlertActionItem *share = [HKAlertActionItem itemWithTitle:@"晒单炫耀" color:kOrangeColor clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        av.actionItems = @[cancel,share];
         [av show];
         
     } error:^(NSError *error) {
-        
+
         [gToast showError:error.domain];
     }];
 }
@@ -454,28 +451,63 @@
     alert.imageName = @"mins_bulb";
     alert.message = @"您未提交联系人信息，为保证协议的正常送达，请先完善信息。是否继续完善信息？";
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"执意退出" color:kGrayTextColor clickBlock:^(id alertVC) {
-        for (UIViewController * vc in self.navigationController.viewControllers)
-        {
-            if ([vc isKindOfClass:[MutualInsGrouponVC class]])
-            {
-                [self.navigationController popToViewController:vc animated:YES];
-                return;
-            }
-        }
-        [self.navigationController popToRootViewControllerAnimated:YES];
-
+        
+        [self actionPop];
     }];
     HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"继续完善" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
     alert.actionItems = @[cancel, improve];
     [alert show];
-//    [alert becomeFirstResponder];
-    
-    
-    
-//    UITextField * feild = [[UITextField alloc] init];
-//    [feild resignFirstResponder];
-    
-    
 }
+
+- (void)actionShare
+{
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
+    op.pagePosition = ShareSceneShowXmddIns;
+    
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"分享信息拉取中..."];
+    }] subscribeNext:^(GetShareButtonOpV2 * op) {
+        
+        [gToast dismiss];
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneShowXmddIns;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
+            
+            [self actionPop];
+        }];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"分享信息拉取失败，请重试"];
+    }];
+}
+
+- (void)actionPop
+{
+    for (UIViewController * vc in self.navigationController.viewControllers)
+    {
+        if ([vc isKindOfClass:[MutualInsGrouponVC class]])
+        {
+            [self.navigationController popToViewController:vc animated:YES];
+            return;
+        }
+    }
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 
 @end

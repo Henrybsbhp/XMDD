@@ -15,6 +15,8 @@
 #import "MutualInsContract.h"
 #import "MutualInsPayViewController.h"
 #import "MutualInsPayResultVC.h"
+#import "GetShareButtonOpV2.h"
+#import "SocialShareViewController.h"
 
 
 @interface MutualInsOrderInfoVC ()<UIScrollViewDelegate>
@@ -25,7 +27,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *topLabel;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *sureBtn;
+@property (weak, nonatomic) IBOutlet UIButton *addressBtn;
 @property (weak, nonatomic) IBOutlet CKLine *bottomLine;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sureBtnLeadingConstraint;
 
 @property (nonatomic,strong)NSArray * datasource;
 
@@ -50,7 +55,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"订单详情";
+    [self setupNavigationBar];
     [self setupUI];
     [self requestContractDetail];
 }
@@ -65,16 +70,12 @@
 {
     self.navigationItem.title = @"订单详情";
     
-    if (self.contract.status == 2 && !self.contract.finishaddress)
-    {
-        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"寄送地址" style:UIBarButtonItemStylePlain target:self action:@selector(jumoToFinishAddressVC)];
-        [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
-        self.navigationItem.rightBarButtonItem = right;
-    }
-    else
-    {
-        self.navigationItem.rightBarButtonItem = nil;
-    }
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"联系客服" style:UIBarButtonItemStylePlain
+                                                             target:self action:@selector(actionCallService:)];
+    [right setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                    } forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem = right;
     
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     self.navigationItem.leftBarButtonItem = back;
@@ -86,11 +87,17 @@
     [[self.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
        
         @strongify(self);
-        [self nextAction];
+        [self actionNext];
+    }];
+    
+    [[self.addressBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [self actionJumpToFinishAddressVC];
     }];
 }
 
-- (void)refreshUI
+- (void)refreshBottomView
 {
     if (self.contract.status == 1)
     {
@@ -111,8 +118,29 @@
     {
         self.sureBtn.enabled = YES;
         [self.sureBtn setBackgroundColor:kOrangeColor];
-        [self.sureBtn setTitle:@"联系客服" forState:UIControlStateNormal & UIControlStateHighlighted];
+        [self.sureBtn setTitle:@"晒单炫耀" forState:UIControlStateNormal & UIControlStateHighlighted];
     }
+    
+    
+    if (self.contract.status == 2 && !self.contract.finishaddress)
+    {
+        CGFloat btnWidth = (gAppMgr.deviceInfo.screenSize.width - 10 * 3) / 2;
+        self.sureBtnLeadingConstraint.constant = btnWidth + (10 * 2);
+        
+        self.addressBtn.hidden = NO;
+        [self.addressBtn setTitle:@"寄送地址" forState:UIControlStateNormal & UIControlStateHighlighted];
+
+    }
+    else
+    {
+        self.sureBtnLeadingConstraint.constant = 10;
+        self.addressBtn.hidden = YES;
+    }
+}
+
+- (void)refreshUI
+{
+    [self refreshBottomView];
     
     NSString * topTip = self.contract.remindtip;
     if (topTip.length)
@@ -150,7 +178,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)nextAction
+- (void)actionNext
 {
     if (self.contract.status == 1)
     {
@@ -165,18 +193,11 @@
     }
     else
     {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0007"}];
-        
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-            [gPhoneHelper makePhone:@"4007111111"];
-        }];
-        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"如有任何疑问，可拨打客户电话\n 4007-111-111" ActionItems:@[cancel,confirm]];
-        [alert show];
+        [self actionShare];
     }
 }
 
-- (void)jumoToFinishAddressVC
+- (void)actionJumpToFinishAddressVC
 {
     [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0005"}];
     
@@ -184,6 +205,50 @@
     vc.contract = self.contract;
     vc.isFromOrderInfoVC = YES;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionCallService:(id)sender {
+    
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0007"}];
+    
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        [gPhoneHelper makePhone:@"4007111111"];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"如有任何疑问，可拨打客户电话\n 4007-111-111" ActionItems:@[cancel,confirm]];
+    [alert show];
+}
+
+- (void)actionShare
+{
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
+    op.pagePosition = ShareSceneShowXmddIns;
+    
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"分享信息拉取中..."];
+    }] subscribeNext:^(GetShareButtonOpV2 * op) {
+        
+        [gToast dismiss];
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneShowXmddIns;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"分享信息拉取失败，请重试"];
+    }];
 }
 
 - (void)requestContractDetail
@@ -224,6 +289,8 @@
         }];
     }];
 }
+
+
 
 - (void)setupDateSource
 {

@@ -8,7 +8,6 @@
 
 #import "ChooseCouponVC.h"
 #import "XiaoMa.h"
-#import "PaymentSuccessVC.h"
 #import "HKCoupon.h"
 #import "PayForWashCarVC.h"
 #import "UIBarButtonItem+CustomStyle.h"
