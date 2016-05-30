@@ -14,4 +14,5 @@
 - (BOOL)pushToViewControllerByUrl:(NSString *)url;
 
 + (NSString *)appendStaticParam:(NSString *)url;
++ (NSString *)appendParams:(NSDictionary *)params forUrl:(NSString *)url;
 @end

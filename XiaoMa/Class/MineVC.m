@@ -11,7 +11,7 @@
 #import "GetUserBaseInfoOp.h"
 #import "MyOrderListVC.h"
 #import "MyCouponVC.h"
-//#import "MyInfoViewController.h"
+#import "MyInfoViewController.h"
 #import "AboutViewController.h"
 #import "MessageListVC.h"
 #import "MyCollectionViewController.h"
@@ -25,9 +25,10 @@
 #import "CKDatasource.h"
 #import "MyCarStore.h"
 #import "HKMyCar.h"
+
+#import "HKNavigationController.h"
 #import "CarsListVC.h"
 #import "ReactNativeViewController.h"
-
 #import "ShopDetailVC.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
@@ -45,9 +46,6 @@
 @property (nonatomic, strong) HKMyCar *myDefaultCar;
 @property (nonatomic, assign) BOOL shouldShowNewbieDot;
 
-@property (nonatomic, assign) BOOL isViewAppearing;
-@property (nonatomic, assign) BOOL isCarVC;
-
 @end
 
 @implementation MineVC
@@ -57,6 +55,10 @@
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
     DebugLog(@"MineVC dealloc");
+}
+
+- (void)awakeFromNib {
+    self.router.navigationBarHidden = YES;
 }
 
 - (void)viewDidLoad {
@@ -71,48 +73,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.isViewAppearing = YES;
-    self.isCarVC = NO;
-    gAppMgr.isNaviBarHidden = NO;
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    self.isViewAppearing = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    //    //如果当前视图的导航条没有发生跳转，则不做处理
-    if (![self.navigationController.topViewController isEqual:self]) {
-        //如果当前视图的viewWillAppear和viewWillDisappear的间隔太短会导致navigationBar隐藏显示不正常
-        //所以此时应该禁止navigationBar的动画,并在主线程中进行
-        if (self.isViewAppearing) {
-            CKAsyncMainQueue(^{
-                if (!self.isCarVC) {
-                    [self.navigationController setNavigationBarHidden:NO animated:NO];
-                }
-            });
-        }
-        else {
-            if (!self.isCarVC) {
-                if (gAppMgr.isNaviBarHidden == YES) {
-                    [self.navigationController setNavigationBarHidden:YES animated:YES];
-                    gAppMgr.isNaviBarHidden = NO;
-                } else {
-                    [self.navigationController setNavigationBarHidden:NO animated:YES];
-                }
-            }
-            
-        }
-        self.isCarVC = NO;
-    }
 }
 
 #pragma mark - Setup
@@ -313,8 +273,9 @@
     if([LoginViewModel loginIfNeededForTargetViewController:self])
     {
         [MobClick event:@"rp301_9"];
-        ReactNativeViewController *vc = [[ReactNativeViewController alloc] initWithModuleName:@"MyInfoView"
-                                                                                   properties:@{@"title":@"个人信息"}];
+        MyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyInfoViewController"];
+//        ReactNativeViewController *vc = [[ReactNativeViewController alloc] initWithModuleName:@"MyInfoView"
+//                                                                                   properties:@{@"title":@"个人信息"}];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else
@@ -496,7 +457,6 @@
     car[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         CarsListVC *vc = [UIStoryboard vcWithId:@"CarsListVC" inStoryboard:@"Car"];
         vc.model.allowAutoChangeSelectedCar = YES;
-        self.isCarVC = YES;
         [self.navigationController pushViewController:vc animated:YES];
     });
     

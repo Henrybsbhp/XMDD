@@ -46,8 +46,7 @@
 #import "HKImageAlertVC.h"
 
 //常用vc&View
-#import "CKNavigationController.h"
-#import "JTNavigationController.h"
+#import "HKNavigationController.h"
 #import "JTTableViewCell.h"
 #import "JTTableView.h"
 #import "DetailWebVC.h"
@@ -70,7 +69,6 @@
 #import "UIView+Layer.h"
 #import "RACSignal+Extension.h"
 #import "UIScrollView+RefreshView.h"
-#import "CKNavigationController+Expansion.h"
 
 
 #endif

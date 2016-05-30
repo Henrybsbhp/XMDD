@@ -55,14 +55,12 @@
     {
         vc.loginSuccessAction = successBlock;
     }
-    if ([targetVC isKindOfClass:[UINavigationController class]]) {
+    if ([targetVC isKindOfClass:[HKNavigationController class]]) {
         vc.model.originVC = originVC;
-        gAppMgr.isNaviBarHidden = YES;
-        [(UINavigationController *)targetVC pushViewController:vc animated:YES];
+        [(HKNavigationController *)targetVC pushViewController:vc animated:YES];
     }
     else {
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-        [targetVC presentViewController:nav animated:YES completion:nil];
+        [targetVC presentViewController:vc animated:YES completion:nil];
     }
     gAppDelegate.loginVC = vc;
     return NO;

@@ -32,6 +32,7 @@
 #import "MutualInsOrderInfoVC.h"
 #import "EstimatedPriceVC.h"
 #import "EditCarVC.h"
+#import "DetailWebVC.h"
 
 
 @interface MutualInsGrouponSubVC ()
@@ -60,28 +61,8 @@
 {
     self.status = status;
     self.sortedMembers = [self sortAndFilterMembers:self.groupDetail.rsp_members];
-    CKList *datasource;
-    if (status == MutInsStatusNeedCar || status == MutInsStatusNeedDriveLicense || status == MutInsStatusNeedInsList ||
-        status == MutInsStatusUnderReview || status == MutInsStatusNeedReviewAgain || status == MutInsStatusReviewFailed ||
-        status == MutInsStatusNeedQuote || status == MutInsStatusAccountingPrice || status == MutInsStatusPeopleNumberUment) {
-        
-        datasource = $([self carsItem],[self splitLineItem], [self arrowItem], [self waterWaveItem], [self descItem],
-                       [self timeItem], [self buttonItem], [self bottomItem]);
-    }
-    else if (status == MutInsStatusToBePaid) {
-        
-        datasource = $([self carsItem], [self splitLineItem], [self arrowItem], [self waterWaveItem], [self descItem],
-                       [self timeItem], [self buttonItem], [self bottomItem]);
-    }
-    else if (status == MutInsStatusPaidForSelf || status == MutInsStatusPaidForAll ||
-             status == MutInsStatusGettedAgreement || status == MutInsStatusAgreementTakingEffect) {
-        datasource = $([self carsItem], [self splitLineItem], [self arrowItem], [self waterWaveItem], [self descItem],
-                       [self timeItem], [self buttonItem], [self bottomItem]);
-    }
-    else {
-        datasource = $([self carsItem], [self splitLineItem], [self arrowItem], [self waterWaveItem], [self descItem],
-                       [self timeItem], [self buttonItem], [self bottomItem]);
-    }
+    CKList *datasource = $([self carsItem], [self splitLineItem], [self arrowItem], [self waterWaveItem], [self descItem],
+                           [self timeItem], [self buttonItem], [self bottomItem]);
     self.datasource = datasource;
     [self.tableView reloadData];
 
@@ -220,6 +201,13 @@
     MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
     vc.contractId = self.groupDetail.rsp_contractid;
     vc.group = self.group;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionCheckAgreement {
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.title = @"我的协议";
+    vc.url = self.groupDetail.rsp_contracturl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -632,6 +620,9 @@
              }
              else if (status == MutInsStatusToBePaid) {
                  [self actionPay];
+             }
+             else if (status == MutInsStatusGettedAgreement || status == MutInsStatusAgreementTakingEffect) {
+                 [self actionCheckAgreement];
              }
         }];
         

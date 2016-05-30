@@ -13,6 +13,7 @@
 #import "NavigationModel.h"
 #import "DetailWebVC.h"
 #import "MyWebViewBridge.h"
+#import "GetAreaByPcdOp.h"
 
 
 @interface ListWebVC () <UIWebViewDelegate, NJKWebViewProgressDelegate>
@@ -26,6 +27,8 @@
 @property (nonatomic, strong) NSURLRequest *request;
 
 @property (nonatomic, strong) MyWebViewBridge* myBridge;
+
+@property (nonatomic, strong) GetAreaByPcdOp *areaInfo;
 
 @end
 
@@ -54,6 +57,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = kBackgroundColor;
     
     [self observeUserInfo];
     [self setupProcessView];
@@ -64,24 +68,23 @@
     
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
-    NSString * discoverUrl = [NavigationModel appendStaticParam:DiscoverUrl];
-    self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:discoverUrl]];
-    CKAsyncMainQueue(^{
-        self.webView.scrollView.contentInset = UIEdgeInsetsZero;
-        self.webView.scrollView.contentSize = self.webView.frame.size;
-        [self.webView loadRequest:self.request];
-    });
+
     
     self.myBridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy withTargetVC:self];
-    
     [self.myBridge registerGetToken];
     [self.myBridge registerToastMsg];
+
+    CKAsyncMainQueue(^{
+        self.webView.scrollView.contentInset = UIEdgeInsetsZero;
+        [self reloadwebView];
+    });
 }
 
 - (void)observeUserInfo
 {
     @weakify(self);
-    [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] skip:1] subscribeNext:^(JTUser *user) {
+    [[[[RACObserve(gAppMgr, myUser) distinctUntilChanged] skip:1] deliverOn:[RACScheduler mainThreadScheduler]]
+     subscribeNext:^(JTUser *user) {
         
         @strongify(self);
         [self reloadwebView];
@@ -104,17 +107,61 @@
 
 - (void)reloadwebView
 {
-    //reload方法在第一次读取失败的时候会reload失败,所以重新调用loadRequest
-    CKAsyncMainQueue(^{
-        self.webView.scrollView.contentSize = CGSizeMake(self.webView.frame.size.width, self.webView.scrollView.contentSize.height);//避免横条滚动  //加上刷新的时候会闪一下(已解决)
+    @weakify(self);
+    //获取反地理位置编码信息
+    [[[[[[gMapHelper rac_getInvertGeoInfo] initially:^{
+        
+        @strongify(self);
+        //设置开始进度到15%
+        [self.progressView setProgress:0.15 animated:YES];
+    }] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal return:nil];
+    }]  flattenMap:^RACStream *(AMapReGeocode *reGeocode) {
+        
+        @strongify(self);
+        //获取到反地理位置信息，设置进度到40%
+        [self.progressView setProgress:0.35 animated:YES];
+        if (!reGeocode) {
+            return [RACSignal return:nil];
+        }
+        //获取区域编码
+        GetAreaByPcdOp *op = [GetAreaByPcdOp operation];
+        op.req_province = reGeocode.addressComponent.province;
+        op.req_city = reGeocode.addressComponent.city;
+        op.req_district = reGeocode.addressComponent.district;
+        return [[op rac_postRequest] catch:^RACSignal *(NSError *error) {
+            return [RACSignal return:nil];
+        }];
+    }] deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(GetAreaByPcdOp *op) {
+        
+        @strongify(self);
+        //从服务器获取到地理位置的编码，设置进度到50%
+        [self.progressView setProgress:0.5 animated:YES];
+        if (op) {
+            self.areaInfo = op;
+        }
+        
+        //拼接url
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:3];
+        [params safetySetObject:self.areaInfo.rsp_province.infoCode forKey:@"provincecode"];
+        [params safetySetObject:self.areaInfo.rsp_city.infoCode forKey:@"citycode"];
+        [params safetySetObject:self.areaInfo.rsp_district.infoCode forKey:@"areacode"];
+        NSString * discoverUrl = [NavigationModel appendParams:params forUrl:DiscoverUrl];
+        self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:discoverUrl]];
+        
+        //reload方法在第一次读取失败的时候会reload失败,所以重新调用loadRequest
+        //避免横条滚动
+        //加上刷新的时候会闪一下(已解决)
+        self.webView.scrollView.contentSize = CGSizeMake(self.webView.frame.size.width, self.webView.scrollView.contentSize.height);
         [self.webView loadRequest:self.request];
-    });
+    }];
 }
 
 #pragma mark - NJKWebViewProgressDelegate
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {
-    [_progressView setProgress:progress animated:YES];
+    [_progressView setProgress:0.5+progress*0.5 animated:YES];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
