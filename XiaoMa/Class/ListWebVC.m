@@ -144,9 +144,9 @@
         
         //拼接url
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:3];
-        [params safetySetObject:self.areaInfo.rsp_province.infoCode forKey:@"provincecode"];
-        [params safetySetObject:self.areaInfo.rsp_city.infoCode forKey:@"citycode"];
-        [params safetySetObject:self.areaInfo.rsp_district.infoCode forKey:@"areacode"];
+        [params safetySetObject:@(self.areaInfo.rsp_province.infoId) forKey:@"provinceid"];
+        [params safetySetObject:@(self.areaInfo.rsp_city.infoId) forKey:@"cityid"];
+        [params safetySetObject:@(self.areaInfo.rsp_district.infoId) forKey:@"areaid"];
         NSString * discoverUrl = [NavigationModel appendParams:params forUrl:DiscoverUrl];
         self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:discoverUrl]];
         
