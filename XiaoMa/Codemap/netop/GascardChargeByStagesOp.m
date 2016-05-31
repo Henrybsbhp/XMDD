@@ -23,6 +23,7 @@
     self.rsp_total = [dict[@"total"] floatValue];
     self.rsp_couponmoney = [dict[@"couponmoney"] floatValue];
     self.rsp_tip = dict[@"tip"];
+    self.rsp_notifyUrlStr = dict[@"notifyurl"];
 	
     return self;
 }

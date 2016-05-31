@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -492,6 +492,30 @@
                                             <constraint firstAttribute="height" constant="1" id="O4G-yd-e9v"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" tag="1006" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QDv-z3-oLa">
+                                        <rect key="frame" x="-580" y="10" width="580" height="50"/>
+                                        <color key="backgroundColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="2ur-MX-5Zu"/>
+                                            <constraint firstAttribute="height" constant="37" id="ELg-EY-Wps"/>
+                                            <constraint firstAttribute="width" constant="72" id="dmn-Kd-tOC"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <state key="normal" title="支付">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_5"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="ELg-EY-Wps"/>
+                                                <exclude reference="2ur-MX-5Zu"/>
+                                                <exclude reference="dmn-Kd-tOC"/>
+                                            </mask>
+                                        </variation>
+                                    </button>
                                     <button opaque="NO" tag="1006" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fTq-g8-Rqo">
                                         <rect key="frame" x="10" y="10" width="580" height="50"/>
                                         <color key="backgroundColor" red="1" green="0.45490196078431372" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
@@ -527,9 +551,13 @@
                                     <constraint firstItem="rb6-NR-o9v" firstAttribute="top" secondItem="6Eu-rc-vop" secondAttribute="top" id="KOJ-cv-8G0"/>
                                     <constraint firstAttribute="bottom" secondItem="fTq-g8-Rqo" secondAttribute="bottom" constant="10" id="QHF-s1-Xg4"/>
                                     <constraint firstAttribute="trailing" secondItem="fTq-g8-Rqo" secondAttribute="trailing" constant="10" id="VZg-PL-ofc"/>
+                                    <constraint firstItem="QDv-z3-oLa" firstAttribute="centerY" secondItem="fTq-g8-Rqo" secondAttribute="centerY" id="Vwt-so-QZc"/>
+                                    <constraint firstItem="QDv-z3-oLa" firstAttribute="trailing" secondItem="fTq-g8-Rqo" secondAttribute="leading" constant="-10" id="bN9-JI-ZPp"/>
+                                    <constraint firstItem="QDv-z3-oLa" firstAttribute="height" secondItem="fTq-g8-Rqo" secondAttribute="height" id="igi-UB-tcZ"/>
                                     <constraint firstItem="T4G-KI-5aT" firstAttribute="top" secondItem="6Eu-rc-vop" secondAttribute="top" id="lTV-tT-cGE"/>
                                     <constraint firstItem="fTq-g8-Rqo" firstAttribute="leading" secondItem="6Eu-rc-vop" secondAttribute="leading" constant="10" id="pgl-ZP-ooV"/>
                                     <constraint firstItem="fTq-g8-Rqo" firstAttribute="top" secondItem="6Eu-rc-vop" secondAttribute="top" constant="10" id="qNZ-iR-W1T"/>
+                                    <constraint firstItem="QDv-z3-oLa" firstAttribute="width" secondItem="fTq-g8-Rqo" secondAttribute="width" id="qaW-HS-awj"/>
                                     <constraint firstItem="fTq-g8-Rqo" firstAttribute="width" secondItem="6Eu-rc-vop" secondAttribute="width" multiplier="22/75" id="t8b-3Q-S7y"/>
                                 </constraints>
                                 <variation key="default">
@@ -561,9 +589,11 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="addressBtn" destination="QDv-z3-oLa" id="1Yn-tR-sz5"/>
                         <outlet property="bottomLine" destination="rb6-NR-o9v" id="B6O-AV-U5S"/>
                         <outlet property="bottomView" destination="6Eu-rc-vop" id="2fI-rI-Htl"/>
                         <outlet property="sureBtn" destination="fTq-g8-Rqo" id="aWd-s5-yaE"/>
+                        <outlet property="sureBtnLeadingConstraint" destination="pgl-ZP-ooV" id="gBp-k7-tlD"/>
                         <outlet property="tableView" destination="81Y-GO-GnL" id="byj-AB-je5"/>
                         <outlet property="topLabel" destination="cbY-0E-jq5" id="d1B-5u-0x0"/>
                         <outlet property="topView" destination="VHN-WY-gVd" id="Byb-Xb-NfY"/>
@@ -571,7 +601,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lze-7t-Gq8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5542" y="-2002"/>
+            <point key="canvasLocation" x="-5410" y="-2002"/>
         </scene>
         <!--保单支付-->
         <scene sceneID="uI9-eT-xDE">

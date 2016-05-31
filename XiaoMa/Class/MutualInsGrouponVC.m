@@ -326,11 +326,11 @@ typedef enum : NSInteger
     if (self.groupDetail.rsp_claimbtnflag == 0) {
         return CKNULL;
     }
-    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Claim",@"title":@"补偿记录",@"img":@"mins_person"}];
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Claim",@"title":@"补偿记录",@"img":@"mins_history"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsAskClaimsVC" inStoryboard:@"MutualInsClaims"];
+        UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsClaimsHistoryVC" inStoryboard:@"MutualInsClaims"];
         [self.navigationController pushViewController:vc animated:YES];
     });
     

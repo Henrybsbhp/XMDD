@@ -19,6 +19,7 @@
 #import "ShareResponeManager.h"
 #import "GasVC.h"
 #import "GuideStore.h"
+#import "PayForWashCarVC.h"
 
 
 @interface PaymentSuccessVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UITextViewDelegate>
@@ -72,6 +73,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
     
     [self setupStaticInfo];
     [self setupGuideStore];
@@ -289,6 +292,9 @@
 
 - (void)setupNavigationBar
 {
+    UIViewController * lastVC = [self.navigationController.viewControllers safetyObjectAtIndex:self.navigationController.viewControllers.count - 2];
+    BOOL flag = [lastVC isKindOfClass:[PayForWashCarVC class]];
+    self.navigationItem.title = flag ? @"支付成功":@"订单评价";
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"首页" style:UIBarButtonItemStylePlain
                                                              target:self action:@selector(popToHomePage)];
     [right setTitleTextAttributes:@{
@@ -301,7 +307,6 @@
 {
     [self.shopImageView setImageByUrl:[self.order.shop.picArray safetyObjectAtIndex:0]
                              withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
-    [self.shopImageView makeCornerRadius:3.0f];
     self.shopNameLb.text = self.order.shop.shopName;
     self.serviceLb.text = self.order.servicename;
     self.dateLb.text = [[NSDate date] dateFormatForYYYYMMddHHmm];

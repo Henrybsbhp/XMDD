@@ -25,6 +25,8 @@
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
         self.rsp_lefttime = [rspObj integerParamForName:@"lefttime"];
+        self.rsp_notifyUrlStr = rspObj[@"notifyurl"];
+
     }
     else
     {

@@ -14,4 +14,7 @@
 
 @property (nonatomic)NSTimeInterval rsp_lefttime;
 
+///推送地址
+@property (nonatomic,copy) NSString * rsp_notifyUrlStr;
+
 @end

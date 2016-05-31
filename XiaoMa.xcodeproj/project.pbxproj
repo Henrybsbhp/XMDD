@@ -6716,7 +6716,7 @@
 					"\"UIKit\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
+PRODUCT_BUNDLE_IDENTIFIER=com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -6813,7 +6813,7 @@
 					"\"UIKit\"",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
+                PRODUCT_BUNDLE_IDENTIFIER=com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

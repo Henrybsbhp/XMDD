@@ -23,5 +23,6 @@
 @property (nonatomic, assign) CGFloat rsp_total;
 //交易号
 @property (nonatomic, strong) NSString * rsp_tradeno;
-
+///推送地址
+@property (nonatomic,copy) NSString * rsp_notifyUrlStr;
 @end

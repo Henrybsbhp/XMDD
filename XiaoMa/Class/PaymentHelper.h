@@ -35,9 +35,13 @@ typedef enum : NSInteger
 @property (nonatomic, assign) PaymentPlatformType platformType;
 /// 交易类型，用于订单状态查询
 @property (nonatomic)TradeType tradeType;
+///支付宝推送通知url
+@property (nonatomic,copy)NSString * alipayNotifyUrlStr;
+///微信推送通知url
+@property (nonatomic,copy)NSString * wechatNotifyUrlStr;
 
-- (void)resetForAlipayWithTradeNumber:(NSString *)tn productName:(NSString *)pn productDescription:pd price:(CGFloat)price;
-- (void)resetForWeChatWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price andTradeType:(TradeType) type;
+- (void)resetForAlipayWithTradeNumber:(NSString *)tn productName:(NSString *)pn productDescription:pd price:(CGFloat)price notifyUrlStr:(NSString *)notifyUrlStr;;
+- (void)resetForWeChatWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price andTradeType:(TradeType)type notifyUrlStr:(NSString *)notifyUrlStr;
 - (void)resetForUPPayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc;
 
 - (RACSignal *)rac_startPay;
