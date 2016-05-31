@@ -84,7 +84,7 @@
             {
                 [gToast dismiss];
                 @strongify(self)
-                [self actionPay];
+                [self actionPay:rop.rsp_notifyUrlStr];
             }
             else
             {
@@ -142,7 +142,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)actionPay
+- (void)actionPay:(NSString *)notifyUrlStr;
 {
     NSString * tradeno = self.getGeneralOrderdetailOp.tradeNo;
     CGFloat fee = self.getGeneralOrderdetailOp.rsp_fee;
@@ -157,11 +157,11 @@
         }
         else if (self.paychannel == PaymentChannelAlipay)
         {
-            [self requestAliPay:nil andTradeId:tradeno andPrice:fee andProductName:productName andDescription:productName andTime:submitTime];
+            [self requestAliPay:nil andTradeId:tradeno andPrice:fee andProductName:productName andDescription:productName andTime:submitTime andNotifyUrlStr:notifyUrlStr];
         }
         else if (self.paychannel == PaymentChannelWechat)
         {
-            [self requestWechatPay:nil andTradeId:tradeno andPrice:fee andProductName:productName andTime:submitTime];
+            [self requestWechatPay:nil andTradeId:tradeno andPrice:fee andProductName:productName andTime:submitTime andNotifyUrlStr:notifyUrlStr];
         }
     }
     else
@@ -443,10 +443,12 @@
 
 
 - (void)requestAliPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
-             andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
+             andPrice:(CGFloat)price andProductName:(NSString *)name
+       andDescription:(NSString *)desc andTime:(NSString *)time
+      andNotifyUrlStr:(NSString *)notifyUrlStr
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
+    [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price notifyUrlStr:notifyUrlStr];
     
     [[helper rac_startPay2] subscribeNext:^(id x) {
         
@@ -472,10 +474,10 @@
 
 - (void)requestWechatPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
                 andPrice:(CGFloat)price andProductName:(NSString *)name
-                 andTime:(NSString *)time
+                 andTime:(NSString *)time andNotifyUrlStr:(NSString *)notifyUrlStr
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price andTradeType:TradeTypeGeneral];
+    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price andTradeType:TradeTypeGeneral notifyUrlStr:notifyUrlStr];
     [[helper rac_startPay2] subscribeNext:^(NSString * info) {
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];

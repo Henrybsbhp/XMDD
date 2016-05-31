@@ -49,4 +49,7 @@
 ///洗车返加油券
 @property (nonatomic, assign) CGFloat rsp_gasCouponAmount;
 
+///推送地址
+@property (nonatomic,copy) NSString * rsp_notifyUrlStr;
+
 @end

@@ -17,6 +17,6 @@
 /// 交易类型，用于订单状态查询
 @property (nonatomic)TradeType tradeType;
 
-- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price;
+- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price notifyUrlStr:(NSString *)urlStr;
 
 @end
