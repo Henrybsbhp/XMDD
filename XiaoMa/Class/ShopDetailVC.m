@@ -44,6 +44,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *whiteBackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *greenStarBtn;
 @property (weak, nonatomic) IBOutlet UIButton *whiteStarBtn;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 - (IBAction)collectionAction:(id)sender;
 /// 服务列表展开
 @property (nonatomic, assign) BOOL serviceExpanded;
@@ -358,9 +359,7 @@
     if (self.shop.picArray.count > 0)
     {
         SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
-        UIView *sourceImgV1 = self.headImgView;
-        UIView *sourceImgV2 = self.imageCountLabel;
-        browser.sourceImageViews = @[sourceImgV1, sourceImgV2]; // 原图的容器
+        browser.sourceImagesContainerView = self.containerView;// 原图的容器
         browser.imageCount = self.shop.picArray.count; // 图片总数
         browser.currentImageIndex = 0;
         browser.delegate = self;

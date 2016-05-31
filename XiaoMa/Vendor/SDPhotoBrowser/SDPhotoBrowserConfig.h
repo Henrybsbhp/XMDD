@@ -19,16 +19,16 @@ typedef enum {
 #define SDPhotoBrowserSaveImageFailText @" >_< 保存失败 ";
 
 // browser背景颜色
-#define SDPhotoBrowserBackgrounColor [UIColor colorWithRed:0 green:0 blue:0 alpha:0.9]
+#define SDPhotoBrowserBackgrounColor [UIColor colorWithRed:0 green:0 blue:0 alpha:0.95]
 
 // browser中图片间的margin
 #define SDPhotoBrowserImageViewMargin 10
 
 // browser中显示图片动画时长
-#define SDPhotoBrowserShowImageAnimationDuration 0.3f
+#define SDPhotoBrowserShowImageAnimationDuration 0.4f
 
 // browser中显示图片动画时长
-#define SDPhotoBrowserHideImageAnimationDuration 0.3f
+#define SDPhotoBrowserHideImageAnimationDuration 0.4f
 
 // 图片下载进度指示进度显示样式（SDWaitingViewModeLoopDiagram 环形，SDWaitingViewModePieDiagram 饼型）
 #define SDWaitingViewProgressMode SDWaitingViewModeLoopDiagram
