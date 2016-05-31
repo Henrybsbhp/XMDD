@@ -21,7 +21,7 @@
     self.helper = nil;
 }
 
-- (void)resetForAlipayWithTradeNumber:(NSString *)tn productName:(NSString *)pn productDescription:pd price:(CGFloat)price
+- (void)resetForAlipayWithTradeNumber:(NSString *)tn productName:(NSString *)pn productDescription:pd price:(CGFloat)price notifyUrlStr:(NSString *)notifyUrlStr
 {
 #ifdef DEBUG
     pn = [@"【测试】" append:pn];
@@ -32,9 +32,10 @@
     _productName = pn;
     _productDescription = pd;
     _price = price;
+    _alipayNotifyUrlStr = notifyUrlStr;
 }
 
-- (void)resetForWeChatWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price andTradeType:(TradeType)type
+- (void)resetForWeChatWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price andTradeType:(TradeType)type notifyUrlStr:(NSString *)notifyUrlStr
 {
 #ifdef DEBUG
     pn = [@"【测试】" append:pn];
@@ -44,6 +45,7 @@
     _productName = pn;
     _price = price;
     _tradeType = type;
+    _wechatNotifyUrlStr = notifyUrlStr;
 }
 
 - (void)resetForUPPayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc
@@ -88,14 +90,14 @@
     else if (_platformType == PaymentPlatformTypeAlipay) {
         AlipayHelper *helper = [[AlipayHelper alloc] init];
         signal = [helper rac_payWithTradeNumber:self.tradeNumber productName:self.productName
-                    productDescription:self.productDescription price:self.price];
+                    productDescription:self.productDescription price:self.price notifyStrUrl:self.alipayNotifyUrlStr];
         self.helper = helper;
     }
     //微信支付
     else if (_platformType == PaymentPlatformTypeWeChat) {
         WeChatHelper *helper = [[WeChatHelper alloc] init];
         helper.tradeType = self.tradeType;
-        signal = [helper rac_payWithTradeNumber:self.tradeNumber productName:self.productName price:self.price];
+        signal = [helper rac_payWithTradeNumber:self.tradeNumber productName:self.productName price:self.price notifyUrlStr:self.wechatNotifyUrlStr];
         self.helper = helper;
     }
     

@@ -184,11 +184,11 @@
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
-            [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:price];
+            [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:price notifyUrlStr:op.rsp_notifyUrlStr];
         } break;
         case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
-            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price andTradeType:TradeTypeIns];
+            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price andTradeType:TradeTypeIns notifyUrlStr:op.rsp_notifyUrlStr];
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";

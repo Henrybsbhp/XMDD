@@ -320,11 +320,11 @@
     switch (paidop.req_paychannel) {
         case PaymentChannelAlipay: {
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
-            [helper resetForAlipayWithTradeNumber:paidop.rsp_tradeid productName:info productDescription:info price:paidop.rsp_total];
+            [helper resetForAlipayWithTradeNumber:paidop.rsp_tradeid productName:info productDescription:info price:paidop.rsp_total notifyUrlStr:paidop.rsp_notifyUrlStr];
         } break;
         case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
-            [helper resetForWeChatWithTradeNumber:paidop.rsp_tradeid productName:info price:paidop.rsp_total andTradeType:[self.gasNormalVC isRechargeForInstalment] ? TradeTypeStagingRefuel : TradeTypeRefuel];
+            [helper resetForWeChatWithTradeNumber:paidop.rsp_tradeid productName:info price:paidop.rsp_total andTradeType:[self.gasNormalVC isRechargeForInstalment] ? TradeTypeStagingRefuel : TradeTypeRefuel notifyUrlStr:paidop.rsp_notifyUrlStr];
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";

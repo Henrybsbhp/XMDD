@@ -287,9 +287,8 @@
 
 - (void)actionPay:(id)sender
 {
-    
     @weakify(self)
-    [[self rac_openLicenseVCWithUrl:self.contract.contracturl
+    [[self rac_openLicenseVCWithUrl:self.contract.payContracturl
                              title:[NSString stringWithFormat:@"%@协议",@"小马互助"]] subscribeNext:^(id x) {
         @strongify(self);
         [self requestPay];
@@ -339,11 +338,11 @@
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
-            [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:price];
+            [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:price notifyUrlStr:op.rsp_notifyUrlStr];
         } break;
         case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
-            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price andTradeType:TradeTypeXMIns];
+            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price andTradeType:TradeTypeXMIns notifyUrlStr:op.rsp_notifyUrlStr];
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
@@ -805,10 +804,10 @@
     self.licenseData = [HKCellData dataWithCellID:@"LicenseCell" tag:nil];
     self.licenseData.customInfo[@"check"] = @YES;
     
-    NSMutableString *license = [NSMutableString stringWithString:@"我已阅读并同意小马达达《小马互助协议》"];
+    NSMutableString *license = [NSMutableString stringWithString:@"我已阅读并同意小马达达《小马互助公约》"];
     
     self.licenseData.customInfo[@"range1"] = [NSValue valueWithRange:NSMakeRange(license.length - 8, 8)];
-    self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:self.contract.contracturl ?: @""];
+    self.licenseData.customInfo[@"url1"] = [NSURL URLWithString:self.contract.conventionurl ?: @""];
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     ps.lineSpacing = 5;
     NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:license

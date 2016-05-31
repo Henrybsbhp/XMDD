@@ -29,6 +29,7 @@
 @property (nonatomic,assign) CGFloat rsp_total;
 ///优惠金额
 @property (nonatomic,assign) CGFloat rsp_couponmoney;
-
+///推送地址
+@property (nonatomic,copy) NSString * rsp_notifyUrlStr;
 
 @end

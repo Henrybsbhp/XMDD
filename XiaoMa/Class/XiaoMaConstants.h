@@ -79,9 +79,6 @@
     #define OrderDetailsUrl @"http://dev01.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
     #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
 
-    #define WECHAT_NOTIFY_URL   @"http://dev01.xiaomadada.com/paa/weichatpaynotify"
-    #define ALIPAY_NOTIFY_URL   @"http://dev01.xiaomadada.com/paa/alipaynotify"
-
 #elif XMDDEnvironment==1
 //测试环境
     #define XmddBaseUrl @"http://dev01.xiaomadada.com"
@@ -92,9 +89,6 @@
     #define PayCenterNotifyUrl @"https://dev.xiaomadada.com/paaweb/general/order/paynotify"
     #define OrderDetailsUrl @"https://dev.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
     #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
-
-    #define WECHAT_NOTIFY_URL   @"https://dev.xiaomadada.com/paa/weichatpaynotify"
-    #define ALIPAY_NOTIFY_URL   @"https://dev.xiaomadada.com/paa/alipaynotify"
 #else
 //开发环境
     #define XmddBaseUrl @"https://www.xiaomadada.com"
@@ -105,8 +99,4 @@
     #define PayCenterNotifyUrl @"https://www.xiaomadada.com/paaweb/general/order/paynotify"
     #define OrderDetailsUrl @"https://www.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 正式地址
     #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
-
-    #define WECHAT_NOTIFY_URL   @"https://www.xiaomadada.com/paa/weichatpaynotify"
-    #define ALIPAY_NOTIFY_URL   @"https://www.xiaomadada.com/paa/alipaynotify"
-
 #endif

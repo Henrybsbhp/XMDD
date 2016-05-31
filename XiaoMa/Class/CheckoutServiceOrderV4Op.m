@@ -43,6 +43,7 @@
         self.rsp_price = [rspObj floatParamForName:@"total"];
         self.rsp_orderid = rspObj[@"orderid"];
         self.rsp_gasCouponAmount = [rspObj floatParamForName:@"gascouponamt"];
+        self.rsp_notifyUrlStr = rspObj[@"notifyurl"];
     }
     else
     {
