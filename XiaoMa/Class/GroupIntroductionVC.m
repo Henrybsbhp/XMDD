@@ -15,9 +15,10 @@
 #import "MutualInsRequestJoinGroupVC.h"
 #import "HKImageAlertVC.h"
 #import "EditCarVC.h"
+#import "JTAttributedLabel.h"
 
 
-@interface GroupIntroductionVC () <UIWebViewDelegate>
+@interface GroupIntroductionVC () <UIWebViewDelegate,TTTAttributedLabelDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
@@ -28,6 +29,11 @@
 - (IBAction)joinAction:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *selfGroupTourBtn;
 @property (weak, nonatomic) IBOutlet UIButton *selfGroupJoinBtn;
+
+@property (weak, nonatomic) IBOutlet UIButton *checkBtn;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *linsenceLb;
+@property (nonatomic)BOOL linsenceFlag;
+
 
 
 @end
@@ -111,6 +117,51 @@
             [self selfGroupTour];
         }];
     }
+    
+    NSString * linsenceText = @"我已阅读并同意《小马互助公约》";
+    
+#if XMDDEnvironment==0
+    NSString * linsenceUrlStr = @"http://dev01.xiaomadada.com/apphtml/view/agreement-beta1.0/convention.html";
+#elif XMDDEnvironment==1
+    NSString * linsenceUrlStr = @"http://dev.xiaomadada.com/apphtml/view/agreement-beta1.0/convention.html";
+#else
+    NSString * linsenceUrlStr = @"http://www.xiaomadada.com/apphtml/view/agreement-beta1.0/convention.html";
+#endif
+
+    NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:linsenceText
+                                                                 attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12],
+                                                                              NSForegroundColorAttributeName: HEXCOLOR(@"#9a9a9a")}];
+    
+    self.linsenceLb.delegate = self;
+    self.linsenceLb.attributedText = attstr;
+    [self.linsenceLb setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                               NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
+    [self.linsenceLb setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                     NSForegroundColorAttributeName: kGrayTextColor}];
+    [self.linsenceLb addLinkToURL:[NSURL URLWithString:linsenceUrlStr] withRange:NSMakeRange(linsenceText.length - 8, 8)];
+    
+    self.linsenceFlag = YES;
+    
+    @weakify(self)
+    [[self.checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        self.linsenceFlag = !self.linsenceFlag;
+    }];
+    
+    [RACObserve(self, linsenceFlag) subscribeNext:^(NSNumber * number) {
+        
+        BOOL flag = [number boolValue];
+        self.checkBtn.selected = flag;
+        
+        self.sysJoinBtn.enabled = flag;
+        [self.sysJoinBtn setBackgroundColor:flag?kDefTintColor:kLightLineColor];
+        self.selfGroupJoinBtn.enabled = flag;
+        [self.selfGroupJoinBtn setBackgroundColor:flag?kDefTintColor:kLightLineColor];
+        self.selfGroupTourBtn.enabled = flag;
+        [self.selfGroupTourBtn setBackgroundColor:flag?kOrangeColor:kLightLineColor];
+    }];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -291,5 +342,14 @@
         MutualInsRequestJoinGroupVC * vc = [UIStoryboard vcWithId:@"MutualInsRequestJoinGroupVC" inStoryboard:@"MutualInsJoin"];
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+
+#pragma mark - TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url
+{
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.url = [url absoluteString];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

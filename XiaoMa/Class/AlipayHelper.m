@@ -26,7 +26,7 @@
 }
 
 - (RACSignal *)rac_payWithTradeNumber:(NSString *)tn productName:(NSString *)pn
-                   productDescription:(NSString *)pd price:(CGFloat)price
+                   productDescription:(NSString *)pd price:(CGFloat)price notifyStrUrl:(NSString *)notifyUrlStr
 {
     AlixPayOrder *order = [[AlixPayOrder alloc] init];
     order.partner = PartnerID;
@@ -41,7 +41,7 @@
     order.inputCharset = @"utf-8";
     order.itBPay = @"30m";
     order.showUrl = @"m.alipay.com";
-    order.notifyURL = ALIPAY_NOTIFY_URL;
+    order.notifyURL = notifyUrlStr;
     order.amount = [NSString stringWithFormat:@"%.2f", price];
 
     NSString *orderInfo = [order description];

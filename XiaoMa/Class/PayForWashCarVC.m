@@ -655,7 +655,7 @@
                 NSString * submitTime = [[NSDate date] dateFormatForDT8];
                 NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
                 [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                     andProductName:info andDescription:info andTime:submitTime andGasCouponAmout:op.rsp_gasCouponAmount];
+                     andProductName:info andDescription:info andTime:submitTime andGasCouponAmout:op.rsp_gasCouponAmount notifyStrUrl:op.rsp_notifyUrlStr];
             });
         }
         else if (op.paychannel == PaymentChannelWechat)
@@ -666,7 +666,7 @@
                 NSString * submitTime = [[NSDate date] dateFormatForDT8];
                 NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
                 [self requestWechatPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                        andProductName:info andTime:submitTime andGasCouponAmout:op.rsp_gasCouponAmount];
+                        andProductName:info andTime:submitTime andGasCouponAmout:op.rsp_gasCouponAmount notifyStrUrl:op.rsp_notifyUrlStr];
             });
         }
         else {
@@ -739,12 +739,15 @@
 
 #pragma mark - 调用第三方支付
 - (void)requestAliPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
-             andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time andGasCouponAmout:(CGFloat)couponAmt
+             andPrice:(CGFloat)price andProductName:(NSString *)name
+       andDescription:(NSString *)desc andTime:(NSString *)time
+    andGasCouponAmout:(CGFloat)couponAmt notifyStrUrl:(NSString *)notifyStrUrl
+
 
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     
-    [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
+    [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price notifyUrlStr:notifyStrUrl];
     
     [[helper rac_startPay] subscribeNext:^(id x) {
         
@@ -764,10 +767,11 @@
 - (void)requestWechatPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
                 andPrice:(CGFloat)price andProductName:(NSString *)name
                  andTime:(NSString *)time andGasCouponAmout:(CGFloat)couponAmt
+            notifyStrUrl:(NSString *)notifyStrUrl
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     
-    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price andTradeType:TradeTypeCarwash];
+    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price andTradeType:TradeTypeCarwash notifyUrlStr:notifyStrUrl];
     [[helper rac_startPay] subscribeNext:^(NSObject *obj) {
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];

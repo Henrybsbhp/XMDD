@@ -16,23 +16,28 @@
 #import "GetCarwashOrderV2Op.h"
 #import "ShopDetailVC.h"
 #import "PaymentSuccessVC.h"
+#import "GetShareButtonOpV2.h"
+#import "ShareResponeManager.h"
+#import "SocialShareViewController.h"
 
 @interface CarwashOrderDetailVC ()<UITableViewDelegate, UITableViewDataSource, HKLoadingModelDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *detailItems;
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
+
+@property (nonatomic,strong)UIButton * commentBtn;
+@property (nonatomic,strong)UIButton * shareBtn;
 @end
 
 @implementation CarwashOrderDetailVC
-- (void)awakeFromNib
-{
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+    [self setupNavigationBar];
+    
     CKAsyncMainQueue(^{
-        //        self.commentBtn.hidden = (BOOL)self.order.ratetime;
+        
         [self loadOrderInfo];
     });
 }
@@ -50,6 +55,96 @@
     DebugLog(@"CarwashOrderDetailVC dealloc");
 }
 
+#pragma mark - Setup
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"联系客服" style:UIBarButtonItemStylePlain
+                                                             target:self action:@selector(actionCallService:)];
+    [right setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                    } forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem = right;
+}
+
+- (void)setupTableViewFootView
+{
+    [self.tableView.tableFooterView removeSubviews];
+    self.tableView.tableFooterView.backgroundColor = kBackgroundColor;
+    self.tableView.frame = CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 86);
+    if (self.order.ratetime)
+    {
+        self.shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.shareBtn.backgroundColor = kOrangeColor;
+        self.shareBtn.cornerRadius = 5.0f;
+        [self.shareBtn setTitle:@"晒单炫耀" forState:UIControlStateNormal];
+        [self.tableView.tableFooterView addSubview:self.shareBtn];
+        
+        @weakify(self)
+        [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            @strongify(self)
+            [self actionShare];
+        }];
+        
+        
+        [self.shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            @strongify(self)
+            make.height.mas_equalTo(50);
+            make.top.equalTo(self.tableView.tableFooterView).offset(8);
+            make.leading.equalTo(self.tableView.tableFooterView).offset(18);
+            make.trailing.equalTo(self.tableView.tableFooterView).offset(-18);
+        }];
+
+    }
+    else
+    {
+        self.commentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.commentBtn.backgroundColor = kDefTintColor;
+        self.commentBtn.cornerRadius = 5.0f;
+        [self.commentBtn setTitle:@"去评价" forState:UIControlStateNormal];
+        [self.tableView.tableFooterView addSubview:self.commentBtn];
+        @weakify(self)
+        [[self.commentBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+           
+            @strongify(self)
+            [self actionComment];
+        }];
+        
+        self.shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.shareBtn.backgroundColor = kOrangeColor;
+        self.shareBtn.cornerRadius = 5.0f;
+        [self.shareBtn setTitle:@"晒单炫耀" forState:UIControlStateNormal];
+        [self.tableView.tableFooterView addSubview:self.shareBtn];
+        [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            @strongify(self)
+            [self actionShare];
+        }];
+        
+    
+        [self.commentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            @strongify(self)
+            make.height.mas_equalTo(50);
+            make.top.equalTo(self.tableView.tableFooterView).offset(8);
+            make.leading.equalTo(self.tableView.tableFooterView).offset(18);
+            
+        }];
+        
+        [self.shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            @strongify(self)
+            make.height.mas_equalTo(50);
+            make.top.equalTo(self.tableView.tableFooterView).offset(8);
+            make.trailing.equalTo(self.tableView.tableFooterView).offset(-18);
+            make.left.equalTo(self.commentBtn.mas_right).offset(18);
+            make.width.equalTo(self.commentBtn);
+        }];
+    }
+}
+
+#pragma mark - Utilitly
 - (void)loadOrderInfo
 {
     if (self.order) {
@@ -65,6 +160,9 @@
 {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    [self setupTableViewFootView];
+    
     //这一行必须加，否则第一行的section的高度不起作用。
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, CGFLOAT_MIN)];
     NSString *strpirce = [NSString stringWithFormat:@"%.2f", self.order.serviceprice];
@@ -94,18 +192,52 @@
     }];
     [self.navigationController pushViewController:vc animated:YES];
 }
-#pragma mark - UITableViewDelegate and UITableViewDatasource
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+
+- (void)actionShare
 {
-    if (indexPath.section == 0 && indexPath.row == 0 )
-    {
-        ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
-        vc.shop = self.order.shop;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-    [MobClick event:@"rp320_2"];
+//    [MobClick event:@"rp320_1"]; @fq
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
+    op.pagePosition = ShareSceneCarwash;
+    
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"分享信息拉取中..."];
+    }] subscribeNext:^(GetShareButtonOpV2 * op) {
+        
+        [gToast dismiss];
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneCarwash;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"分享信息拉取失败，请重试"];
+    }];
 }
 
+- (void)actionCallService:(id)sender {
+    
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        [gPhoneHelper makePhone:@"4007111111"];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"对订单有疑问？\n请拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
+    [alert show];
+}
+
+
+#pragma mark - UITableViewDelegate and UITableViewDatasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     /**
@@ -116,18 +248,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 1)
+    if (section == 0)
     {
-        return 2;
-    }
-    if(section == 0 && !self.order.ratetime)
-    {
-        NSInteger count = self.detailItems.count + 2;
-        return count;
+        return self.detailItems.count + 1;
     }
     else
     {
-        return self.detailItems.count + 1;
+        // 第二section
+        return 2;
     }
 }
 
@@ -191,10 +319,6 @@
         {
             cell = [self shopCellAtIndexPath:indexPath];
         }
-        else if (indexPath.row == 6)
-        {
-            cell = [self buttonCellAtIndexPath:indexPath];
-        }
         else
         {
             cell = [self detailCellAtIndexPath:indexPath];
@@ -211,28 +335,25 @@
             cell = [self commentCellAtIndexPath:indexPath];
         }
     }
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0 && indexPath.row == 0 )
+    {
+        ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
+        vc.shop = self.order.shop;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    [MobClick event:@"rp320_2"];
 }
 
 #pragma mark - Cell
-
-- (UITableViewCell *)buttonCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ButtonCell"];
-    UIButton *btn = [cell viewWithTag:100];
-    btn.layer.cornerRadius = 5;
-    btn.layer.masksToBounds = YES;
-    btn.layer.borderColor = kDefTintColor.CGColor;
-    btn.layer.borderWidth = 0.5;
-    @weakify(self)
-    [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
-        @strongify(self)
-        [self actionComment];
-    }];
-    return cell;
-}
-
 - (UITableViewCell *)shopCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];

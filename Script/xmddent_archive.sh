@@ -71,6 +71,8 @@ sed -i  '' "s/XMDDENT=./XMDDENT=1/" $project_pbxproj_path
 #切换到正式环境
 sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
 
+sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER=.*/PRODUCT_BUNDLE_IDENTIFIER=com.huika.xmdd.ent;/" $project_pbxproj_path
+
 echo "**************change to ent**************"
 sh $project_path"/Script/change_to_xmddent.sh" $project_path"/XiaoMa/Misc/Info.plist"
 

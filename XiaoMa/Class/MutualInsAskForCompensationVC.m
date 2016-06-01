@@ -69,8 +69,7 @@
         
         int isFastClaimInt = [dict[@"isfastclaim"] intValue];
         int status = [dict[@"status"] intValue];
-        NSDictionary *detailInfoDict = dict[@"detailinfo"];
-        NSArray *keyArray = [detailInfoDict allKeys];
+        NSArray *detailInfoArray = dict[@"detailinfo"];
         
         CKDict *progressCell = [CKDict dictWith:@{kCKItemKey: @"progressCell", kCKCellID: @"ProgressCell"}];
         progressCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -179,6 +178,10 @@
             [cell setNeedsUpdateConstraints];
             [cell updateConstraintsIfNeeded];
             CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+            
+            if (ceil(size.height + 1) < 21) {
+                return 33;
+            }
             return ceil(size.height + 1);
         });
         detailCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -194,8 +197,12 @@
             rightLine.linePixelWidth = 1;
             rightLine.lineAlignment = CKLineAlignmentVerticalRight;
             
-            titleLabel.text = keyArray[indexPath.row - 2];
-            descriptionLabel.text = detailInfoDict[keyArray[indexPath.row - 2]];
+            NSDictionary *dict = detailInfoArray[indexPath.row - 2];
+            NSArray *keyArray = [dict allKeys];
+            if (keyArray.count > 0) {
+            titleLabel.text = keyArray[0];
+            descriptionLabel.text = dict[keyArray[0]];
+            }
         });
         
         
@@ -324,7 +331,7 @@
             CKList *waitingForPhoto = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
             int a;
-            for (a = 0; a < keyArray.count; a++) {
+            for (a = 0; a < detailInfoArray.count; a++) {
                 [detailCellArray addObject:detailCell];
             }
             [waitingForPhoto addObjectsFromArray:detailCellArray];
@@ -337,7 +344,7 @@
             CKList *photoTook = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
             int a;
-            for (a = 0; a < keyArray.count; a++) {
+            for (a = 0; a < detailInfoArray.count; a++) {
                 [detailCellArray addObject:detailCell];
             }
             [photoTook addObjectsFromArray:detailCellArray];
@@ -350,7 +357,7 @@
             CKList *compensatedToConfirm = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
             int a;
-            for (a = 0; a < keyArray.count; a++) {
+            for (a = 0; a < detailInfoArray.count; a++) {
                 [detailCellArray addObject:detailCell];
             }
             [compensatedToConfirm addObjectsFromArray:detailCellArray];
@@ -363,7 +370,7 @@
             CKList *compensating = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
             int a;
-            for (a = 0; a < keyArray.count; a++) {
+            for (a = 0; a < detailInfoArray.count; a++) {
                 [detailCellArray addObject:detailCell];
             }
             [compensating addObjectsFromArray:detailCellArray];
@@ -376,7 +383,7 @@
             CKList *compensationEnded = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
             int a;
-            for (a = 0; a < keyArray.count; a++) {
+            for (a = 0; a < detailInfoArray.count; a++) {
                 [detailCellArray addObject:detailCell];
             }
             [compensationEnded addObjectsFromArray:detailCellArray];
@@ -389,7 +396,7 @@
             CKList *needRetakePhoto = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
             int a;
-            for (a = 0; a < keyArray.count; a++) {
+            for (a = 0; a < detailInfoArray.count; a++) {
                 [detailCellArray addObject:detailCell];
             }
             [needRetakePhoto addObjectsFromArray:detailCellArray];
@@ -402,7 +409,7 @@
             CKList *overtimeTaking = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
             int a;
-            for (a = 0; a < keyArray.count; a++) {
+            for (a = 0; a < detailInfoArray.count; a++) {
                 [detailCellArray addObject:detailCell];
             }
             [overtimeTaking addObjectsFromArray:detailCellArray];
@@ -415,7 +422,7 @@
             CKList *userDeclined = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
             int a;
-            for (a = 0; a < keyArray.count; a++) {
+            for (a = 0; a < detailInfoArray.count; a++) {
                 [detailCellArray addObject:detailCell];
             }
             [userDeclined addObjectsFromArray:detailCellArray];
@@ -428,7 +435,7 @@
             CKList *systemDeclined = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
             int a;
-            for (a = 0; a < keyArray.count; a++) {
+            for (a = 0; a < detailInfoArray.count; a++) {
                 [detailCellArray addObject:detailCell];
             }
             [systemDeclined addObjectsFromArray:detailCellArray];
@@ -479,11 +486,5 @@
     }
     
     return cell;
-}
-
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
 }
 @end

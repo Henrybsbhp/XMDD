@@ -237,11 +237,12 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDI-3Z-VJq">
-                                                    <rect key="frame" x="78" y="13" width="500" height="19"/>
+                                                    <rect key="frame" x="78" y="11" width="500" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="509" id="4uk-xE-atU"/>
                                                         <constraint firstAttribute="width" constant="500" id="Msl-rQ-sWy"/>
                                                         <constraint firstAttribute="height" constant="21" id="iMk-NN-381"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="y4z-67-kaa"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -261,8 +262,8 @@
                                                         <constraint firstAttribute="width" constant="1" id="rs4-N0-7UM"/>
                                                     </constraints>
                                                 </view>
-                                                <view tag="103" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LFk-yq-RZ2" customClass="CKLine">
-                                                    <rect key="frame" x="127" y="0.0" width="1" height="33"/>
+                                                <view tag="103" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LFk-yq-RZ2" customClass="CKLine">
+                                                    <rect key="frame" x="587" y="0.0" width="1" height="33"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="1" id="ZPo-8m-4s3"/>
@@ -296,7 +297,7 @@
                                                 <constraint firstItem="nDI-3Z-VJq" firstAttribute="top" secondItem="Zjj-gK-uXS" secondAttribute="top" id="acR-EL-Frl"/>
                                                 <constraint firstAttribute="bottom" secondItem="nDI-3Z-VJq" secondAttribute="bottom" constant="1" id="b6G-Kb-CBN"/>
                                                 <constraint firstItem="Zjj-gK-uXS" firstAttribute="leading" secondItem="fo5-H0-JqX" secondAttribute="trailing" constant="9" id="bZq-1i-D84"/>
-                                                <constraint firstItem="nDI-3Z-VJq" firstAttribute="top" secondItem="wgV-5q-tKg" secondAttribute="top" constant="13" id="cad-Nn-fGP"/>
+                                                <constraint firstItem="nDI-3Z-VJq" firstAttribute="top" secondItem="wgV-5q-tKg" secondAttribute="top" constant="11" id="cad-Nn-fGP"/>
                                                 <constraint firstItem="nDI-3Z-VJq" firstAttribute="top" secondItem="Zjj-gK-uXS" secondAttribute="top" id="dE3-r5-jVW"/>
                                                 <constraint firstAttribute="trailing" secondItem="nDI-3Z-VJq" secondAttribute="trailing" constant="10" id="f4v-Nr-mUX"/>
                                                 <constraint firstItem="nDI-3Z-VJq" firstAttribute="top" secondItem="Zjj-gK-uXS" secondAttribute="top" id="k18-Ud-XZQ"/>

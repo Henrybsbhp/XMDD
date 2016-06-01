@@ -25,6 +25,7 @@
     self.rsp_orderid = dict[@"orderid"];
     self.rsp_total = [dict floatParamForName:@"total"];
     self.rsp_couponmoney = [dict floatParamForName:@"couponmoney"];
+    self.rsp_notifyUrlStr = dict[@"notifyurl"];
 	
     return self;
 }

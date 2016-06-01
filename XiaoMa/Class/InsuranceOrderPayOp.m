@@ -29,6 +29,8 @@
     NSDictionary *dict = rspObj;
     self.rsp_total = [dict floatParamForName:@"total"];
     self.rsp_tradeno = [dict objectForKey:@"tradeno"];
+    self.rsp_notifyUrlStr = dict[@"notifyurl"];
+    
     return self;
 }
 

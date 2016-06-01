@@ -76,6 +76,9 @@
 -(NSString *)sendPrepay:(NSMutableDictionary *)prePayParams;
 //签名实例测试
 
-- ( NSMutableDictionary *)sendPayWithTradeNo:(NSString *)TradeNO andProductName:(NSString *)pName andPrice:(float_t)price;
+- (NSMutableDictionary *)sendPayWithTradeNo:(NSString *)TradeNO
+                             andProductName:(NSString *)pName
+                                   andPrice:(float_t)price
+                            andNotifyUrlStr:(NSString *)urlStr;
 
 @end

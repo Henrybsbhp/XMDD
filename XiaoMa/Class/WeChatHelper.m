@@ -24,7 +24,7 @@
     NSLog(@"WeChatHelper dealloc");
 }
 
-- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price
+- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price notifyUrlStr:(NSString *)urlStr
 {
     //创建支付签名对象
     payRequsestHandler *reqHandler = [payRequsestHandler alloc];
@@ -33,7 +33,7 @@
     //设置密钥
     [reqHandler setKey:WECHAT_PARTNER_ID];
     //获取到实际调起微信支付的参数后，在app端调起支付
-    NSMutableDictionary *dict = [reqHandler sendPayWithTradeNo:tn andProductName:pn andPrice:price];
+    NSMutableDictionary *dict = [reqHandler sendPayWithTradeNo:tn andProductName:pn andPrice:price andNotifyUrlStr:urlStr];
     if(dict == nil){
         //错误提示
         NSString *debug = [reqHandler getDebugifo];
