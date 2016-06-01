@@ -745,6 +745,8 @@
 		C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */; };
 		C3D9B81F1CC0DBF000B5D2A7 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81D1CC0DBF000B5D2A7 /* FLAnimatedImageView.m */; };
 		FA024A321CAE500500481F59 /* BankCardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA024A311CAE500500481F59 /* BankCardDetailVC.m */; };
+		FA17F4891CFD6C0600E91754 /* AskToCompensationOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA17F4881CFD6C0600E91754 /* AskToCompensationOp.m */; };
+		FA3E5E011CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E5E001CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
 		FA93A7B41C9961ED00CBD565 /* CreateGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */; };
 		FA93A7BE1C9978AB00CBD565 /* CreateGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7BD1C9978AB00CBD565 /* CreateGroupVC.m */; };
@@ -2361,6 +2363,10 @@
 		CA94042FD235B5154105FE58 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FA024A301CAE500500481F59 /* BankCardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardDetailVC.h; sourceTree = "<group>"; };
 		FA024A311CAE500500481F59 /* BankCardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankCardDetailVC.m; sourceTree = "<group>"; };
+		FA17F4871CFD6C0600E91754 /* AskToCompensationOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AskToCompensationOp.h; sourceTree = "<group>"; };
+		FA17F4881CFD6C0600E91754 /* AskToCompensationOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AskToCompensationOp.m; sourceTree = "<group>"; };
+		FA3E5DFF1CF7DE9D005CC988 /* MutualInsAskForCompensationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsAskForCompensationVC.h; sourceTree = "<group>"; };
+		FA3E5E001CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsAskForCompensationVC.m; sourceTree = "<group>"; };
 		FA8496601CBE367700631062 /* SJKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJKeyboardManager.h; sourceTree = "<group>"; };
 		FA8496611CBE367700631062 /* SJKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJKeyboardManager.m; sourceTree = "<group>"; };
 		FA93A7B21C9961ED00CBD565 /* CreateGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateGroupOp.h; path = Class/CreateGroupOp.h; sourceTree = "<group>"; };
@@ -4445,6 +4451,8 @@
 				4E043B191C9A511200742268 /* MutualInsChooseCarVC.m */,
 				4ECF21931C9C0BE5004E76DD /* MutualInsActivityVC.h */,
 				4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */,
+				FA3E5DFF1CF7DE9D005CC988 /* MutualInsAskForCompensationVC.h */,
+				FA3E5E001CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m */,
 			);
 			name = MutualInsClaims;
 			sourceTree = "<group>";
@@ -5141,6 +5149,8 @@
 				C3396E8E1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.m */,
 				1844FAD91CD87BAC0085A0D4 /* GetReactNativePackageOp.h */,
 				1844FADA1CD87BAC0085A0D4 /* GetReactNativePackageOp.m */,
+				FA17F4871CFD6C0600E91754 /* AskToCompensationOp.h */,
+				FA17F4881CFD6C0600E91754 /* AskToCompensationOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -6020,6 +6030,7 @@
 				6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */,
 				1844532E1C8FEE81007B895D /* UIView+RoundedCorner.m in Sources */,
 				18FC01E21C4E6C6F00FD61BF /* IQBarButtonItem.m in Sources */,
+				FA3E5E011CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m in Sources */,
 				180539461C9FCDE600D896A1 /* MutualInsStore.m in Sources */,
 				1884ACE31BA2A59E00E5CACF /* InsuranceInfoSubmitingVC.m in Sources */,
 				1844FB3E1CD9C8880085A0D4 /* UIColor+ColorWithHexString.m in Sources */,
@@ -6352,6 +6363,7 @@
 				181F6DA71B15919900D38555 /* CXAlertView.m in Sources */,
 				1897C2FF1C16C319007E394E /* InsInputInfoVC.m in Sources */,
 				50FAC2591C23A66900F8990F /* GetAutomobileBrandV2Op.m in Sources */,
+				FA17F4891CFD6C0600E91754 /* AskToCompensationOp.m in Sources */,
 				C36B8A9F1CB3526100BC2487 /* GetSystemHomeModuleOp.m in Sources */,
 				18F41DA91B784CD8000409E1 /* GetBankcardListOp.m in Sources */,
 				1809C1481CEC4AD700AE56EB /* RCTNavigationManager.m in Sources */,
