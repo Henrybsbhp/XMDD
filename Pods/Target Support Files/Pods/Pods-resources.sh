@@ -80,7 +80,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "UI7Kit/Resources/UI7SliderThumb@2x.png"
   install_resource "UI7Kit/Resources/UITabBarMostRecentTemplate.png"
   install_resource "UI7Kit/Resources/UITabBarMostRecentTemplate@2x.png"
-  install_resource "${BUILT_PRODUCTS_DIR}/CKKit.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "AMap2DMap/MAMapKit.framework/Versions/2.4.2.19ad4bb/Resources/AMap.bundle"
@@ -105,7 +104,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "UI7Kit/Resources/UI7SliderThumb@2x.png"
   install_resource "UI7Kit/Resources/UITabBarMostRecentTemplate.png"
   install_resource "UI7Kit/Resources/UITabBarMostRecentTemplate@2x.png"
-  install_resource "${BUILT_PRODUCTS_DIR}/CKKit.bundle"
 fi
 
 mkdir -p "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

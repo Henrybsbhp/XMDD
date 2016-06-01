@@ -203,7 +203,7 @@ static int32_t g_requestVid = 1;
 - (id)addSecurityParamsFrom:(id)oldParams
 {
     id params;
-    if ([oldParams isKindOfClass:[NSMutableArray class]] || [oldParams isKindOfClass:[NSMutableDictionary class]])
+    if ([oldParams isMemberOfClass:[NSMutableArray class]] || [oldParams isMemberOfClass:[NSMutableDictionary class]])
     {
         params = oldParams;
     }
@@ -211,9 +211,9 @@ static int32_t g_requestVid = 1;
     {
         params = [NSMutableArray arrayWithArray:oldParams];
     }
-    else if (oldParams)
+    else if ([oldParams isKindOfClass:[NSDictionary class]])
     {
-        params = [NSMutableArray arrayWithObject:oldParams];
+        params = [NSMutableDictionary dictionaryWithDictionary:oldParams];
     }
     else
     {

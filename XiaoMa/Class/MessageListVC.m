@@ -38,12 +38,6 @@
     DebugLog(@"MessageListVC dealloc!");
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
-
 - (void)setupTableView
 {
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];

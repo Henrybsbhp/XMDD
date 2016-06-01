@@ -7,7 +7,7 @@
 //
 
 #import "JTTableViewController.h"
-#import <CKKit.h>
+#import "CKKit.h"
 
 @interface JTTableViewController ()
 @end

@@ -39,6 +39,9 @@
     self.rsp_type = [dict[@"type"] intValue];
     self.rsp_pricebuttonname = dict[@"pricebuttonname"];
     self.rsp_invitebtnflag = [dict[@"invitebtnflag"] intValue];
+    self.rsp_claimbtnflag = [dict[@"claimbtnflag"] intValue];
+    self.rsp_contracturl = dict[@"contracturl"];
+
 
     return self;
 }

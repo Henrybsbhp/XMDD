@@ -57,6 +57,10 @@
     DebugLog(@"MutualInsHomeVC dealloc");
 }
 
+- (void)awakeFromNib {
+    self.router.key = @"MutualInsHomeVC";
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -422,7 +426,7 @@
             
             [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0006"}];
             @strongify(self);
-            MutualInsAskClaimsVC *vc = [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
+            MutualInsAskForCompensationVC *vc = [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
             [self.navigationController pushViewController:vc animated:YES];
             return;
         }];

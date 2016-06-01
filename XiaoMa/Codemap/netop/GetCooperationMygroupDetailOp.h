@@ -64,5 +64,9 @@
 @property (nonatomic,strong) NSString* rsp_groupname;
 ///团类型(1：自助，2：匹配)
 @property (nonatomic,assign) int rsp_type;
+///显示补偿记录按钮标志(0：不显示，1：显示)
+@property (nonatomic,assign) int rsp_claimbtnflag;
+///我的协议地址(只有status为7，8时有效)
+@property (nonatomic,strong) NSString* rsp_contracturl;
 
 @end

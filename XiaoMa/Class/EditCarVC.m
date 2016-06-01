@@ -71,8 +71,6 @@
 {
     [super viewWillAppear:animated];
     
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -807,7 +805,7 @@
 
         @strongify(self);
         CollectionChooseVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"CollectionChooseVC"];
-        JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
+        HKNavigationController *nav = [[HKNavigationController alloc] initWithRootViewController:vc];
         vc.datasource = gAppMgr.getProvinceArray;
         [vc setSelectAction:^(NSDictionary * d) {
 

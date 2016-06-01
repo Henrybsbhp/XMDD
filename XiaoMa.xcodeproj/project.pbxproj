@@ -15,6 +15,24 @@
 		180539461C9FCDE600D896A1 /* MutualInsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 180539451C9FCDE600D896A1 /* MutualInsStore.m */; };
 		18088D8B1B1DC921007438FC /* UsedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18088D8A1B1DC921007438FC /* UsedCouponVModel.m */; };
 		18088D8E1B1DC938007438FC /* UnusedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18088D8D1B1DC938007438FC /* UnusedCouponVModel.m */; };
+		1809C1211CEAA9CD00AE56EB /* RCTNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1201CEAA9CD00AE56EB /* RCTNetworkManager.m */; };
+		1809C1241CEAB3D100AE56EB /* ReactNativeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1231CEAB3D100AE56EB /* ReactNativeOp.m */; };
+		1809C1441CEC498F00AE56EB /* RCTLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1431CEC498F00AE56EB /* RCTLoginManager.m */; };
+		1809C1481CEC4AD700AE56EB /* RCTNavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1471CEC4AD700AE56EB /* RCTNavigationManager.m */; };
+		1809C14F1CEEDF8600AE56EB /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1809C14E1CEEDF6D00AE56EB /* libRNImagePicker.a */; };
+		1809C1531CEF111400AE56EB /* RCTAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1521CEF111400AE56EB /* RCTAppManager.m */; };
+		1809C1D41CF3ED5100AE56EB /* CKList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1D11CF3ED5100AE56EB /* CKList.m */; };
+		1809C1D51CF3ED5100AE56EB /* CKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1D31CF3ED5100AE56EB /* CKQueue.m */; };
+		1809C1DE1CF3F06600AE56EB /* CKDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1D71CF3F06600AE56EB /* CKDispatcher.m */; };
+		1809C1DF1CF3F06600AE56EB /* CKEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1D91CF3F06600AE56EB /* CKEvent.m */; };
+		1809C1E01CF3F06600AE56EB /* CKEventPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1DB1CF3F06600AE56EB /* CKEventPromise.m */; };
+		1809C1E11CF3F06600AE56EB /* CKStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C1DD1CF3F06600AE56EB /* CKStore.m */; };
+		1809C2F61CF57C2A00AE56EB /* CKDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C2F51CF57C2A00AE56EB /* CKDatasource.m */; };
+		1809C2FA1CF581CB00AE56EB /* CKRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C2F91CF581CB00AE56EB /* CKRouter.m */; };
+		1809C2FD1CF5824900AE56EB /* UIViewController+CKNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C2FC1CF5824900AE56EB /* UIViewController+CKNavigator.m */; };
+		1809C3001CF582E300AE56EB /* CKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C2FF1CF582E300AE56EB /* CKNavigationController.m */; };
+		1809C3031CF5900300AE56EB /* HKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C3021CF5900300AE56EB /* HKNavigationController.m */; };
+		1809C3071CF6E5E500AE56EB /* InsIntroVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809C3061CF6E5E500AE56EB /* InsIntroVC.m */; };
 		180AD8351BD88CB700E608F9 /* BankCardStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 180AD8341BD88CB700E608F9 /* BankCardStore.m */; };
 		180F4A471CAA63F800EB73B0 /* NSDate+PrettyFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 180F4A461CAA63F800EB73B0 /* NSDate+PrettyFormat.m */; };
 		181355931C925FC600894CA1 /* HKAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181355921C925FC600894CA1 /* HKAlertVC.m */; };
@@ -32,7 +50,6 @@
 		1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4AF1ACE75FB00BBCC96 /* CarWashTableVC.m */; };
 		1816F4B41ACE767200BBCC96 /* UIStoryboard+Expansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4B31ACE767200BBCC96 /* UIStoryboard+Expansion.m */; };
 		1816F4B81AD36D9E00BBCC96 /* JTRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4B71AD36D9E00BBCC96 /* JTRatingView.m */; };
-		1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4BC1AD3A8AD00BBCC96 /* JTNavigationController.m */; };
 		1818D8F51C22845A0078C329 /* PayForPremiumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818D8F41C22845A0078C329 /* PayForPremiumOp.m */; };
 		1818D8F81C2293600078C329 /* NSString+Format.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818D8F71C2293600078C329 /* NSString+Format.m */; };
 		1818D8FB1C22FB670078C329 /* UpdateDeliveryInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818D8FA1C22FB670078C329 /* UpdateDeliveryInfoOp.m */; };
@@ -51,7 +68,6 @@
 		181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6DA01B15919900D38555 /* LFDisplayBridge.m */; };
 		181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6DA21B15919900D38555 /* LFGlassView.m */; };
 		1821C34D1C4794D800120AF4 /* HomeNewbieGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821C34C1C4794D800120AF4 /* HomeNewbieGuideVC.m */; };
-		1821C3571C4DD36C00120AF4 /* CKDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821C3561C4DD36C00120AF4 /* CKDatasource.m */; };
 		18273F251C7ED1F8004192B3 /* GascardChargeByStagesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F241C7ED1F8004192B3 /* GascardChargeByStagesOp.m */; };
 		18273F281C7FEE70004192B3 /* GasNormalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F271C7FEE70004192B3 /* GasNormalVC.m */; };
 		18273F2B1C7FEE88004192B3 /* GasCZBVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18273F2A1C7FEE88004192B3 /* GasCZBVC.m */; };
@@ -101,14 +117,34 @@
 		1844532E1C8FEE81007B895D /* UIView+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844532C1C8FEE81007B895D /* UIView+RoundedCorner.m */; };
 		184453311C90465F007B895D /* HKTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184453301C90465F007B895D /* HKTableViewController.m */; };
 		1844FADB1CD87BAC0085A0D4 /* GetReactNativePackageOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FADA1CD87BAC0085A0D4 /* GetReactNativePackageOp.m */; };
-		1844FAE11CD889B60085A0D4 /* RCTBundle in Resources */ = {isa = PBXBuildFile; fileRef = 1844FAE01CD889B60085A0D4 /* RCTBundle */; };
 		1844FAE41CD8F9EB0085A0D4 /* DownloadFileOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FAE31CD8F9EB0085A0D4 /* DownloadFileOp.m */; };
+		1844FB321CD9C8880085A0D4 /* NSArray+Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB001CD9C8880085A0D4 /* NSArray+Encoding.m */; };
+		1844FB331CD9C8880085A0D4 /* NSArray+Safety.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB021CD9C8880085A0D4 /* NSArray+Safety.m */; };
+		1844FB341CD9C8880085A0D4 /* NSData+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB041CD9C8880085A0D4 /* NSData+JSON.m */; };
+		1844FB351CD9C8880085A0D4 /* NSDictionary+Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB061CD9C8880085A0D4 /* NSDictionary+Encoding.m */; };
+		1844FB361CD9C8880085A0D4 /* NSMutableDictionary+Safety.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB081CD9C8880085A0D4 /* NSMutableDictionary+Safety.m */; };
+		1844FB371CD9C8880085A0D4 /* NSObject+AutoConvertValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB0A1CD9C8880085A0D4 /* NSObject+AutoConvertValue.m */; };
+		1844FB381CD9C8880085A0D4 /* NSObject+Notify.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB0C1CD9C8880085A0D4 /* NSObject+Notify.m */; };
+		1844FB391CD9C8880085A0D4 /* NSObject+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB0E1CD9C8880085A0D4 /* NSObject+Runtime.m */; };
+		1844FB3A1CD9C8880085A0D4 /* NSString+CKExpansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB101CD9C8880085A0D4 /* NSString+CKExpansion.m */; };
+		1844FB3B1CD9C8880085A0D4 /* NSString+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB121CD9C8880085A0D4 /* NSString+Compare.m */; };
+		1844FB3C1CD9C8880085A0D4 /* NSString+Path.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB141CD9C8880085A0D4 /* NSString+Path.m */; };
+		1844FB3D1CD9C8880085A0D4 /* NSString+Safety.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB161CD9C8880085A0D4 /* NSString+Safety.m */; };
+		1844FB3E1CD9C8880085A0D4 /* UIColor+ColorWithHexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB181CD9C8880085A0D4 /* UIColor+ColorWithHexString.m */; };
+		1844FB3F1CD9C8880085A0D4 /* UIImage+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB1A1CD9C8880085A0D4 /* UIImage+Utility.m */; };
+		1844FB401CD9C8880085A0D4 /* UIImagePickerController+Expansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB1C1CD9C8880085A0D4 /* UIImagePickerController+Expansion.m */; };
+		1844FB411CD9C8880085A0D4 /* UIViewController+Coordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB1E1CD9C8880085A0D4 /* UIViewController+Coordinate.m */; };
+		1844FB421CD9C8880085A0D4 /* CKMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB221CD9C8880085A0D4 /* CKMap.m */; };
+		1844FB431CD9C8880085A0D4 /* CKTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB241CD9C8880085A0D4 /* CKTreeNode.m */; };
+		1844FB441CD9C8880085A0D4 /* CKMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB281CD9C8880085A0D4 /* CKMethods.m */; };
+		1844FB451CD9C8880085A0D4 /* CKPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB2A1CD9C8880085A0D4 /* CKPaths.m */; };
+		1844FB461CD9C8880085A0D4 /* CKSegmentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB2C1CD9C8880085A0D4 /* CKSegmentHelper.m */; };
+		1844FB471CD9C8880085A0D4 /* CKShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844FB301CD9C8880085A0D4 /* CKShadowView.m */; };
 		184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */; };
 		184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C51AD3B58F00EFC3A6 /* UIView+Layer.m */; };
 		184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */; };
 		184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */; };
 		184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40D11AD3D01B00EFC3A6 /* JTShop.m */; };
-		184F09FB1C7B036A00DD6B54 /* CKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 184F09FA1C7B036A00DD6B54 /* CKQueue.m */; };
 		1851F4181B0C1E5400241A01 /* PickAutomobileBrandVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4171B0C1E5400241A01 /* PickAutomobileBrandVC.m */; };
 		1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F41A1B0C210D00241A01 /* GetAutomobileBrandOp.m */; };
 		1851F41E1B0C223A00241A01 /* HKAutoBrand.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F41D1B0C223A00241A01 /* HKAutoBrand.m */; };
@@ -137,8 +173,6 @@
 		186A09621CB3598400FFB3F8 /* GasSubVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A09611CB3598400FFB3F8 /* GasSubVC.m */; };
 		186A096D1CB39CC000FFB3F8 /* HorizontalScrollTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A096C1CB39CC000FFB3F8 /* HorizontalScrollTabView.m */; };
 		186A09801CB4BBA500FFB3F8 /* GasStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = 186A097F1CB4BBA500FFB3F8 /* GasStepper.m */; };
-		186F2FB51C155FA5005CF051 /* CKStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 186F2FB41C155FA5005CF051 /* CKStore.m */; };
-		186F2FB81C156FF6005CF051 /* CKEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 186F2FB71C156FF6005CF051 /* CKEvent.m */; };
 		1873710C1B0AD1D900B8CDCC /* MyCarListVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873710B1B0AD1D900B8CDCC /* MyCarListVModel.m */; };
 		18746B181AEA1BB300D93696 /* UpdateInsuranceOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18746B171AEA1BB300D93696 /* UpdateInsuranceOrderOp.m */; };
 		187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 187532D21ACCDEEF004CB777 /* HomePageVC.m */; };
@@ -232,6 +266,21 @@
 		18AB16A61C1FAE6B0000E718 /* InsBaseCar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB16A51C1FAE6B0000E718 /* InsBaseCar.m */; };
 		18AB16AB1C1FAE810000E718 /* GetInsBaseCarListByIDOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB16A81C1FAE810000E718 /* GetInsBaseCarListByIDOp.m */; };
 		18AB16AC1C1FAE810000E718 /* GetInsBaseCarListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB16AA1C1FAE810000E718 /* GetInsBaseCarListOp.m */; };
+		18B62C271CDC42AD00E5AE48 /* rctpkg in Resources */ = {isa = PBXBuildFile; fileRef = 18B62C261CDC42AD00E5AE48 /* rctpkg */; };
+		18B62C8B1CDC516700E5AE48 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C4E1CDC510000E5AE48 /* libReact.a */; };
+		18B62C8C1CDC516D00E5AE48 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C541CDC510800E5AE48 /* libRCTActionSheet.a */; };
+		18B62C8D1CDC516D00E5AE48 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C8A1CDC515600E5AE48 /* libRCTGeolocation.a */; };
+		18B62C8E1CDC516D00E5AE48 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C5A1CDC511000E5AE48 /* libRCTImage.a */; };
+		18B62C8F1CDC516D00E5AE48 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C6C1CDC512800E5AE48 /* libRCTLinking.a */; };
+		18B62C901CDC516D00E5AE48 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C7E1CDC514300E5AE48 /* libRCTNetwork.a */; };
+		18B62C911CDC516D00E5AE48 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C661CDC511F00E5AE48 /* libRCTSettings.a */; };
+		18B62C921CDC516D00E5AE48 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C601CDC511600E5AE48 /* libRCTText.a */; };
+		18B62C931CDC516D00E5AE48 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C721CDC513300E5AE48 /* libRCTVibration.a */; };
+		18B62C941CDC516D00E5AE48 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B62C781CDC513D00E5AE48 /* libRCTWebSocket.a */; };
+		18B62CAC1CE089A200E5AE48 /* HKSecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B62CAB1CE089A200E5AE48 /* HKSecurityManager.m */; };
+		18B62CBC1CE1AA1C00E5AE48 /* NSData+MD5Digest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B62CBB1CE1AA1C00E5AE48 /* NSData+MD5Digest.m */; };
+		18B62CBE1CE31DAF00E5AE48 /* xmddrct_public_key.der in Resources */ = {isa = PBXBuildFile; fileRef = 18B62CBD1CE31DAF00E5AE48 /* xmddrct_public_key.der */; };
+		18B62CCC1CE338A800E5AE48 /* ReactNativeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B62CCB1CE338A800E5AE48 /* ReactNativeViewController.m */; };
 		18B6E5C81C44D2A000697DAB /* KeyboardHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6E5C71C44D2A000697DAB /* KeyboardHelper.m */; };
 		18B6E5CB1C463D0300697DAB /* CancelInsOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6E5CA1C463D0300697DAB /* CancelInsOrderOp.m */; };
 		18B6E5CE1C47361A00697DAB /* GuideStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6E5CD1C47361A00697DAB /* GuideStore.m */; };
@@ -280,11 +329,9 @@
 		18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D475E41B7D9F82000FAF1C /* NSString+PhoneNumber.m */; };
 		18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */; };
 		18D68DBD1CBD26F500D0636E /* DeleteInsCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D68DBC1CBD26F500D0636E /* DeleteInsCarOp.m */; };
-		18D811C61C1EDB5300B6AB04 /* CKDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D811C51C1EDB5300B6AB04 /* CKDispatcher.m */; };
 		18E155811C3E3DA600C1CF87 /* InsLicensePopVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E155801C3E3DA600C1CF87 /* InsLicensePopVC.m */; };
 		18E155841C3E5BE000C1CF87 /* GetInsUserInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E155831C3E5BE000C1CF87 /* GetInsUserInfoOp.m */; };
 		18E28A011B8AD71F0070E759 /* HKImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A001B8AD71F0070E759 /* HKImagePicker.m */; };
-		18E28A051B8AFBB70070E759 /* HKNavigationHiddenVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A041B8AFBB70070E759 /* HKNavigationHiddenVC.m */; };
 		18E28A0B1B904FF00070E759 /* LaunchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A0A1B904FF00070E759 /* LaunchVC.m */; };
 		18E28A0E1B93E47E0070E759 /* PaymentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E28A0D1B93E47E0070E759 /* PaymentHelper.m */; };
 		18E28A131B93E5880070E759 /* libUPPayPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A101B93E5880070E759 /* libUPPayPlugin.a */; };
@@ -298,21 +345,15 @@
 		18E592351C193C6D006010D9 /* InsBuyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E592341C193C6D006010D9 /* InsBuyVC.m */; };
 		18E592381C1A5CEE006010D9 /* InsPayResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E592371C1A5CEE006010D9 /* InsPayResultVC.m */; };
 		18E5923B1C1A7C27006010D9 /* InsSubmitResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E5923A1C1A7C27006010D9 /* InsSubmitResultVC.m */; };
-		18E7309F1CBF2E08005C9590 /* CKEventPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E7309E1CBF2E08005C9590 /* CKEventPromise.m */; };
 		18E7565A1B69D696001B0869 /* InsuranceOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756591B69D696001B0869 /* InsuranceOrderVC.m */; };
 		18E756A41B73335C00874601 /* MyBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756A31B73335C00874601 /* MyBankVC.m */; };
 		18F312DC1C98F90B00992A37 /* MutualInsGrouponContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F312DB1C98F90B00992A37 /* MutualInsGrouponContainerView.m */; };
 		18F312DF1C9977A600992A37 /* MutualInsGrouponMembersVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F312DE1C9977A600992A37 /* MutualInsGrouponMembersVC.m */; };
 		18F362B41CBCB6C200D7F7BA /* HKAlertActionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F362B31CBCB6C200D7F7BA /* HKAlertActionItem.m */; };
-		18F362BE1CBCD68400D7F7BA /* CKList.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F362BD1CBCD68400D7F7BA /* CKList.m */; };
 		18F41DA91B784CD8000409E1 /* GetBankcardListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F41DA81B784CD8000409E1 /* GetBankcardListOp.m */; };
 		18F41DAC1B787F5D000409E1 /* UnbindBankcardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F41DAB1B787F5D000409E1 /* UnbindBankcardOp.m */; };
 		18F41DAF1B788022000409E1 /* GetUnbindBankcardVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F41DAE1B788022000409E1 /* GetUnbindBankcardVcodeOp.m */; };
 		18F8135F1B5F308D005F49B0 /* HKVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F8135E1B5F308D005F49B0 /* HKVersionManager.m */; };
-		18F813681B5F3561005F49B0 /* CKNavigationController+Expansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813631B5F3561005F49B0 /* CKNavigationController+Expansion.m */; };
-		18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813651B5F3561005F49B0 /* CKNavigationController.m */; };
-		18F8136A1B5F3561005F49B0 /* vertical_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813661B5F3561005F49B0 /* vertical_shadow.png */; };
-		18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */; };
 		18F93CD41B6F044D000325DD /* BorderLineLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F93CD31B6F044D000325DD /* BorderLineLabel.m */; };
 		18F93CD71B6F0A4A000325DD /* DashLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F93CD61B6F0A4A000325DD /* DashLine.m */; };
 		18FB68F01C2A911C00AD7341 /* InsCoverageSelectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FB68EF1C2A911C00AD7341 /* InsCoverageSelectVC.m */; };
@@ -488,13 +529,6 @@
 		6B26EF071C8EF89B00428EC4 /* ReactTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EF061C8EF89B00428EC4 /* ReactTestViewController.m */; };
 		6B26EF091C8EF97E00428EC4 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EF081C8EF97E00428EC4 /* JavaScriptCore.framework */; };
 		6B26EF0C1C8EFA7600428EC4 /* ReactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EF0B1C8EFA7600428EC4 /* ReactView.m */; };
-		6B26EF0D1C8EFBBB00428EC4 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEE61C8EF4E900428EC4 /* libRCTActionSheet.a */; };
-		6B26EF0E1C8EFBBB00428EC4 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEF21C8EF51D00428EC4 /* libRCTImage.a */; };
-		6B26EF0F1C8EFBBB00428EC4 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEEC1C8EF4FF00428EC4 /* libRCTLinking.a */; };
-		6B26EF101C8EFBBB00428EC4 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEF81C8EF55100428EC4 /* libRCTNetwork.a */; };
-		6B26EF111C8EFBBB00428EC4 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEFE1C8EF56500428EC4 /* libRCTText.a */; };
-		6B26EF121C8EFBBB00428EC4 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EF041C8EF57500428EC4 /* libRCTWebSocket.a */; };
-		6B26EF131C8EFBC300428EC4 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EEE01C8EF4D400428EC4 /* libReact.a */; };
 		6B26EF4A1C9026BD00428EC4 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B26EF491C9026BD00428EC4 /* main.jsbundle */; };
 		6B26EF931C91599400428EC4 /* MutualInsPhotoBrowserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EF921C91599400428EC4 /* MutualInsPhotoBrowserVC.m */; };
 		6B2F28F61C8414D80096FD45 /* RRFPSBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28F51C8414D80096FD45 /* RRFPSBar.m */; };
@@ -711,6 +745,7 @@
 		C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */; };
 		C3D9B81F1CC0DBF000B5D2A7 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81D1CC0DBF000B5D2A7 /* FLAnimatedImageView.m */; };
 		FA024A321CAE500500481F59 /* BankCardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA024A311CAE500500481F59 /* BankCardDetailVC.m */; };
+		FA17F4891CFD6C0600E91754 /* AskToCompensationOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA17F4881CFD6C0600E91754 /* AskToCompensationOp.m */; };
 		FA3E5E011CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E5E001CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
 		FA93A7B41C9961ED00CBD565 /* CreateGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */; };
@@ -721,6 +756,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1809C14D1CEEDF6D00AE56EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1809C1491CEEDF6D00AE56EB /* RNImagePicker.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
+			remoteInfo = RNImagePicker;
+		};
 		1883D8F91ACB99AC002A4D19 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1883D8D71ACB99AC002A4D19 /* Project object */;
@@ -728,61 +770,89 @@
 			remoteGlobalIDString = 1883D8DE1ACB99AC002A4D19;
 			remoteInfo = XiaoMa;
 		};
+		18B62C4D1CDC510000E5AE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B62C491CDC510000E5AE48 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
+			remoteInfo = React;
+		};
+		18B62C531CDC510800E5AE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B62C4F1CDC510800E5AE48 /* RCTActionSheet.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTActionSheet;
+		};
+		18B62C591CDC511000E5AE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B62C551CDC511000E5AE48 /* RCTImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
+			remoteInfo = RCTImage;
+		};
+		18B62C5F1CDC511600E5AE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B62C5B1CDC511600E5AE48 /* RCTText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
+			remoteInfo = RCTText;
+		};
+		18B62C651CDC511F00E5AE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B62C611CDC511F00E5AE48 /* RCTSettings.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTSettings;
+		};
+		18B62C6B1CDC512800E5AE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B62C671CDC512800E5AE48 /* RCTLinking.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTLinking;
+		};
+		18B62C711CDC513300E5AE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B62C6D1CDC513300E5AE48 /* RCTVibration.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 832C81801AAF6DEF007FA2F7;
+			remoteInfo = RCTVibration;
+		};
+		18B62C771CDC513D00E5AE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B62C731CDC513D00E5AE48 /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3C86DF461ADF2C930047B81A;
+			remoteInfo = RCTWebSocket;
+		};
+		18B62C7D1CDC514300E5AE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B62C791CDC514200E5AE48 /* RCTNetwork.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B511DB1A9E6C8500147676;
+			remoteInfo = RCTNetwork;
+		};
+		18B62C831CDC515300E5AE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B62C7F1CDC515200E5AE48 /* RCTGeolocation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTGeolocation;
+		};
+		18B62C891CDC515600E5AE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B62C851CDC515600E5AE48 /* RCTGeolocation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTGeolocation;
+		};
 		18C809D91CC62476001799CB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1883D8D71ACB99AC002A4D19 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 1883D8DE1ACB99AC002A4D19;
 			remoteInfo = XiaoMa;
-		};
-		6B26EEDF1C8EF4D400428EC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6B26EEDB1C8EF4D400428EC4 /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
-			remoteInfo = React;
-		};
-		6B26EEE51C8EF4E900428EC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6B26EEE11C8EF4E900428EC4 /* RCTActionSheet.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RCTActionSheet;
-		};
-		6B26EEEB1C8EF4FF00428EC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6B26EEE71C8EF4FF00428EC4 /* RCTLinking.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RCTLinking;
-		};
-		6B26EEF11C8EF51D00428EC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6B26EEED1C8EF51D00428EC4 /* RCTImage.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
-			remoteInfo = RCTImage;
-		};
-		6B26EEF71C8EF55100428EC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6B26EEF31C8EF55100428EC4 /* RCTNetwork.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 58B511DB1A9E6C8500147676;
-			remoteInfo = RCTNetwork;
-		};
-		6B26EEFD1C8EF56500428EC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6B26EEF91C8EF56500428EC4 /* RCTText.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
-			remoteInfo = RCTText;
-		};
-		6B26EF031C8EF57500428EC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6B26EEFF1C8EF57500428EC4 /* RCTWebSocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3C86DF461ADF2C930047B81A;
-			remoteInfo = RCTWebSocket;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -801,6 +871,42 @@
 		18088D8A1B1DC921007438FC /* UsedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsedCouponVModel.m; sourceTree = "<group>"; };
 		18088D8C1B1DC938007438FC /* UnusedCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnusedCouponVModel.h; sourceTree = "<group>"; };
 		18088D8D1B1DC938007438FC /* UnusedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnusedCouponVModel.m; sourceTree = "<group>"; };
+		1809C11F1CEAA9CD00AE56EB /* RCTNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTNetworkManager.h; path = Class/RCTNetworkManager.h; sourceTree = "<group>"; };
+		1809C1201CEAA9CD00AE56EB /* RCTNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTNetworkManager.m; path = Class/RCTNetworkManager.m; sourceTree = "<group>"; };
+		1809C1221CEAB3D100AE56EB /* ReactNativeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReactNativeOp.h; path = Class/ReactNativeOp.h; sourceTree = "<group>"; };
+		1809C1231CEAB3D100AE56EB /* ReactNativeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReactNativeOp.m; path = Class/ReactNativeOp.m; sourceTree = "<group>"; };
+		1809C1421CEC498F00AE56EB /* RCTLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTLoginManager.h; path = Class/RCTLoginManager.h; sourceTree = "<group>"; };
+		1809C1431CEC498F00AE56EB /* RCTLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTLoginManager.m; path = Class/RCTLoginManager.m; sourceTree = "<group>"; };
+		1809C1461CEC4AD700AE56EB /* RCTNavigationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTNavigationManager.h; path = Class/RCTNavigationManager.h; sourceTree = "<group>"; };
+		1809C1471CEC4AD700AE56EB /* RCTNavigationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTNavigationManager.m; path = Class/RCTNavigationManager.m; sourceTree = "<group>"; };
+		1809C1491CEEDF6D00AE56EB /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "ReactNative/node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		1809C1511CEF111400AE56EB /* RCTAppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RCTAppManager.h; path = Class/RCTAppManager.h; sourceTree = "<group>"; };
+		1809C1521CEF111400AE56EB /* RCTAppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RCTAppManager.m; path = Class/RCTAppManager.m; sourceTree = "<group>"; };
+		1809C1D01CF3ED5100AE56EB /* CKList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKList.h; sourceTree = "<group>"; };
+		1809C1D11CF3ED5100AE56EB /* CKList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKList.m; sourceTree = "<group>"; };
+		1809C1D21CF3ED5100AE56EB /* CKQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKQueue.h; sourceTree = "<group>"; };
+		1809C1D31CF3ED5100AE56EB /* CKQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKQueue.m; sourceTree = "<group>"; };
+		1809C1D61CF3F06600AE56EB /* CKDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKDispatcher.h; sourceTree = "<group>"; };
+		1809C1D71CF3F06600AE56EB /* CKDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKDispatcher.m; sourceTree = "<group>"; };
+		1809C1D81CF3F06600AE56EB /* CKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKEvent.h; sourceTree = "<group>"; };
+		1809C1D91CF3F06600AE56EB /* CKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKEvent.m; sourceTree = "<group>"; };
+		1809C1DA1CF3F06600AE56EB /* CKEventPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKEventPromise.h; sourceTree = "<group>"; };
+		1809C1DB1CF3F06600AE56EB /* CKEventPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKEventPromise.m; sourceTree = "<group>"; };
+		1809C1DC1CF3F06600AE56EB /* CKStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKStore.h; sourceTree = "<group>"; };
+		1809C1DD1CF3F06600AE56EB /* CKStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKStore.m; sourceTree = "<group>"; };
+		1809C2F41CF57C2A00AE56EB /* CKDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKDatasource.h; sourceTree = "<group>"; };
+		1809C2F51CF57C2A00AE56EB /* CKDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKDatasource.m; sourceTree = "<group>"; };
+		1809C2F81CF581CB00AE56EB /* CKRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKRouter.h; path = Class/CKRouter.h; sourceTree = "<group>"; };
+		1809C2F91CF581CB00AE56EB /* CKRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKRouter.m; path = Class/CKRouter.m; sourceTree = "<group>"; };
+		1809C2FB1CF5824900AE56EB /* UIViewController+CKNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+CKNavigator.h"; path = "Class/UIViewController+CKNavigator.h"; sourceTree = "<group>"; };
+		1809C2FC1CF5824900AE56EB /* UIViewController+CKNavigator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+CKNavigator.m"; path = "Class/UIViewController+CKNavigator.m"; sourceTree = "<group>"; };
+		1809C2FE1CF582E300AE56EB /* CKNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKNavigationController.h; path = Class/CKNavigationController.h; sourceTree = "<group>"; };
+		1809C2FF1CF582E300AE56EB /* CKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKNavigationController.m; path = Class/CKNavigationController.m; sourceTree = "<group>"; };
+		1809C3011CF5900300AE56EB /* HKNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKNavigationController.h; path = Class/HKNavigationController.h; sourceTree = "<group>"; };
+		1809C3021CF5900300AE56EB /* HKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKNavigationController.m; path = Class/HKNavigationController.m; sourceTree = "<group>"; };
+		1809C3041CF5919800AE56EB /* CKNavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKNavigator.h; path = Class/CKNavigator.h; sourceTree = "<group>"; };
+		1809C3051CF6E5E500AE56EB /* InsIntroVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsIntroVC.h; sourceTree = "<group>"; };
+		1809C3061CF6E5E500AE56EB /* InsIntroVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsIntroVC.m; sourceTree = "<group>"; };
 		180AD8331BD88CB700E608F9 /* BankCardStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BankCardStore.h; path = Class/BankCardStore.h; sourceTree = "<group>"; };
 		180AD8341BD88CB700E608F9 /* BankCardStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BankCardStore.m; path = Class/BankCardStore.m; sourceTree = "<group>"; };
 		180F4A451CAA63F800EB73B0 /* NSDate+PrettyFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+PrettyFormat.h"; path = "Class/NSDate+PrettyFormat.h"; sourceTree = "<group>"; };
@@ -835,8 +941,6 @@
 		1816F4B31ACE767200BBCC96 /* UIStoryboard+Expansion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIStoryboard+Expansion.m"; path = "Class/UIStoryboard+Expansion.m"; sourceTree = "<group>"; };
 		1816F4B61AD36D9E00BBCC96 /* JTRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTRatingView.h; path = Class/JTRatingView.h; sourceTree = "<group>"; };
 		1816F4B71AD36D9E00BBCC96 /* JTRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTRatingView.m; path = Class/JTRatingView.m; sourceTree = "<group>"; };
-		1816F4BB1AD3A8AD00BBCC96 /* JTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTNavigationController.h; path = Class/JTNavigationController.h; sourceTree = "<group>"; };
-		1816F4BC1AD3A8AD00BBCC96 /* JTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTNavigationController.m; path = Class/JTNavigationController.m; sourceTree = "<group>"; };
 		1818D8F31C22845A0078C329 /* PayForPremiumOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForPremiumOp.h; sourceTree = "<group>"; };
 		1818D8F41C22845A0078C329 /* PayForPremiumOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForPremiumOp.m; sourceTree = "<group>"; };
 		1818D8F61C2293600078C329 /* NSString+Format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Format.h"; path = "Class/NSString+Format.h"; sourceTree = "<group>"; };
@@ -874,8 +978,6 @@
 		181F6DA31B15919900D38555 /* LiveFrost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveFrost.h; sourceTree = "<group>"; };
 		1821C34B1C4794D800120AF4 /* HomeNewbieGuideVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeNewbieGuideVC.h; sourceTree = "<group>"; };
 		1821C34C1C4794D800120AF4 /* HomeNewbieGuideVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeNewbieGuideVC.m; sourceTree = "<group>"; };
-		1821C3551C4DD36C00120AF4 /* CKDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKDatasource.h; path = Class/CKDatasource.h; sourceTree = "<group>"; };
-		1821C3561C4DD36C00120AF4 /* CKDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKDatasource.m; path = Class/CKDatasource.m; sourceTree = "<group>"; };
 		18273F231C7ED1F8004192B3 /* GascardChargeByStagesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GascardChargeByStagesOp.h; sourceTree = "<group>"; };
 		18273F241C7ED1F8004192B3 /* GascardChargeByStagesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GascardChargeByStagesOp.m; sourceTree = "<group>"; };
 		18273F261C7FEE70004192B3 /* GasNormalVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasNormalVC.h; sourceTree = "<group>"; };
@@ -973,9 +1075,57 @@
 		184453301C90465F007B895D /* HKTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKTableViewController.m; sourceTree = "<group>"; };
 		1844FAD91CD87BAC0085A0D4 /* GetReactNativePackageOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetReactNativePackageOp.h; path = Class/GetReactNativePackageOp.h; sourceTree = "<group>"; };
 		1844FADA1CD87BAC0085A0D4 /* GetReactNativePackageOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetReactNativePackageOp.m; path = Class/GetReactNativePackageOp.m; sourceTree = "<group>"; };
-		1844FAE01CD889B60085A0D4 /* RCTBundle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RCTBundle; sourceTree = "<group>"; };
 		1844FAE21CD8F9EB0085A0D4 /* DownloadFileOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadFileOp.h; path = Class/DownloadFileOp.h; sourceTree = "<group>"; };
 		1844FAE31CD8F9EB0085A0D4 /* DownloadFileOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadFileOp.m; path = Class/DownloadFileOp.m; sourceTree = "<group>"; };
+		1844FAFE1CD9C8880085A0D4 /* CKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKCategory.h; sourceTree = "<group>"; };
+		1844FAFF1CD9C8880085A0D4 /* NSArray+Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Encoding.h"; sourceTree = "<group>"; };
+		1844FB001CD9C8880085A0D4 /* NSArray+Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Encoding.m"; sourceTree = "<group>"; };
+		1844FB011CD9C8880085A0D4 /* NSArray+Safety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Safety.h"; sourceTree = "<group>"; };
+		1844FB021CD9C8880085A0D4 /* NSArray+Safety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Safety.m"; sourceTree = "<group>"; };
+		1844FB031CD9C8880085A0D4 /* NSData+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+JSON.h"; sourceTree = "<group>"; };
+		1844FB041CD9C8880085A0D4 /* NSData+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+JSON.m"; sourceTree = "<group>"; };
+		1844FB051CD9C8880085A0D4 /* NSDictionary+Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Encoding.h"; sourceTree = "<group>"; };
+		1844FB061CD9C8880085A0D4 /* NSDictionary+Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Encoding.m"; sourceTree = "<group>"; };
+		1844FB071CD9C8880085A0D4 /* NSMutableDictionary+Safety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Safety.h"; sourceTree = "<group>"; };
+		1844FB081CD9C8880085A0D4 /* NSMutableDictionary+Safety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Safety.m"; sourceTree = "<group>"; };
+		1844FB091CD9C8880085A0D4 /* NSObject+AutoConvertValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoConvertValue.h"; sourceTree = "<group>"; };
+		1844FB0A1CD9C8880085A0D4 /* NSObject+AutoConvertValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoConvertValue.m"; sourceTree = "<group>"; };
+		1844FB0B1CD9C8880085A0D4 /* NSObject+Notify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Notify.h"; sourceTree = "<group>"; };
+		1844FB0C1CD9C8880085A0D4 /* NSObject+Notify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Notify.m"; sourceTree = "<group>"; };
+		1844FB0D1CD9C8880085A0D4 /* NSObject+Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Runtime.h"; sourceTree = "<group>"; };
+		1844FB0E1CD9C8880085A0D4 /* NSObject+Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Runtime.m"; sourceTree = "<group>"; };
+		1844FB0F1CD9C8880085A0D4 /* NSString+CKExpansion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CKExpansion.h"; sourceTree = "<group>"; };
+		1844FB101CD9C8880085A0D4 /* NSString+CKExpansion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CKExpansion.m"; sourceTree = "<group>"; };
+		1844FB111CD9C8880085A0D4 /* NSString+Compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Compare.h"; sourceTree = "<group>"; };
+		1844FB121CD9C8880085A0D4 /* NSString+Compare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Compare.m"; sourceTree = "<group>"; };
+		1844FB131CD9C8880085A0D4 /* NSString+Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Path.h"; sourceTree = "<group>"; };
+		1844FB141CD9C8880085A0D4 /* NSString+Path.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Path.m"; sourceTree = "<group>"; };
+		1844FB151CD9C8880085A0D4 /* NSString+Safety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Safety.h"; sourceTree = "<group>"; };
+		1844FB161CD9C8880085A0D4 /* NSString+Safety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Safety.m"; sourceTree = "<group>"; };
+		1844FB171CD9C8880085A0D4 /* UIColor+ColorWithHexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ColorWithHexString.h"; sourceTree = "<group>"; };
+		1844FB181CD9C8880085A0D4 /* UIColor+ColorWithHexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorWithHexString.m"; sourceTree = "<group>"; };
+		1844FB191CD9C8880085A0D4 /* UIImage+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Utility.h"; sourceTree = "<group>"; };
+		1844FB1A1CD9C8880085A0D4 /* UIImage+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Utility.m"; sourceTree = "<group>"; };
+		1844FB1B1CD9C8880085A0D4 /* UIImagePickerController+Expansion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImagePickerController+Expansion.h"; sourceTree = "<group>"; };
+		1844FB1C1CD9C8880085A0D4 /* UIImagePickerController+Expansion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImagePickerController+Expansion.m"; sourceTree = "<group>"; };
+		1844FB1D1CD9C8880085A0D4 /* UIViewController+Coordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Coordinate.h"; sourceTree = "<group>"; };
+		1844FB1E1CD9C8880085A0D4 /* UIViewController+Coordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Coordinate.m"; sourceTree = "<group>"; };
+		1844FB201CD9C8880085A0D4 /* CKDataset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKDataset.h; sourceTree = "<group>"; };
+		1844FB211CD9C8880085A0D4 /* CKMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKMap.h; sourceTree = "<group>"; };
+		1844FB221CD9C8880085A0D4 /* CKMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKMap.m; sourceTree = "<group>"; };
+		1844FB231CD9C8880085A0D4 /* CKTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKTreeNode.h; sourceTree = "<group>"; };
+		1844FB241CD9C8880085A0D4 /* CKTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKTreeNode.m; sourceTree = "<group>"; };
+		1844FB251CD9C8880085A0D4 /* CKKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKKit.h; sourceTree = "<group>"; };
+		1844FB271CD9C8880085A0D4 /* CKMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKMethods.h; sourceTree = "<group>"; };
+		1844FB281CD9C8880085A0D4 /* CKMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKMethods.m; sourceTree = "<group>"; };
+		1844FB291CD9C8880085A0D4 /* CKPaths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKPaths.h; sourceTree = "<group>"; };
+		1844FB2A1CD9C8880085A0D4 /* CKPaths.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKPaths.m; sourceTree = "<group>"; };
+		1844FB2B1CD9C8880085A0D4 /* CKSegmentHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKSegmentHelper.h; sourceTree = "<group>"; };
+		1844FB2C1CD9C8880085A0D4 /* CKSegmentHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKSegmentHelper.m; sourceTree = "<group>"; };
+		1844FB2D1CD9C8880085A0D4 /* CKUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKUtility.h; sourceTree = "<group>"; };
+		1844FB2F1CD9C8880085A0D4 /* CKShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKShadowView.h; sourceTree = "<group>"; };
+		1844FB301CD9C8880085A0D4 /* CKShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKShadowView.m; sourceTree = "<group>"; };
+		1844FB311CD9C8880085A0D4 /* CKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKView.h; sourceTree = "<group>"; };
 		184E40C11AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBarButtonItem+CustomStyle.h"; path = "Class/UIBarButtonItem+CustomStyle.h"; sourceTree = "<group>"; };
 		184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBarButtonItem+CustomStyle.m"; path = "Class/UIBarButtonItem+CustomStyle.m"; sourceTree = "<group>"; };
 		184E40C41AD3B58F00EFC3A6 /* UIView+Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Layer.h"; path = "Class/UIView+Layer.h"; sourceTree = "<group>"; };
@@ -986,8 +1136,6 @@
 		184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailVC.m; sourceTree = "<group>"; };
 		184E40D01AD3D01B00EFC3A6 /* JTShop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JTShop.h; path = Class/JTShop.h; sourceTree = "<group>"; };
 		184E40D11AD3D01B00EFC3A6 /* JTShop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JTShop.m; path = Class/JTShop.m; sourceTree = "<group>"; };
-		184F09F91C7B036A00DD6B54 /* CKQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKQueue.h; path = Class/CKQueue.h; sourceTree = "<group>"; };
-		184F09FA1C7B036A00DD6B54 /* CKQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKQueue.m; path = Class/CKQueue.m; sourceTree = "<group>"; };
 		1851F4161B0C1E5400241A01 /* PickAutomobileBrandVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickAutomobileBrandVC.h; sourceTree = "<group>"; };
 		1851F4171B0C1E5400241A01 /* PickAutomobileBrandVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickAutomobileBrandVC.m; sourceTree = "<group>"; };
 		1851F4191B0C210D00241A01 /* GetAutomobileBrandOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAutomobileBrandOp.h; path = Class/GetAutomobileBrandOp.h; sourceTree = "<group>"; };
@@ -1046,10 +1194,6 @@
 		186A096F1CB3B73400FFB3F8 /* HKUIConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HKUIConstants.h; path = Class/HKUIConstants.h; sourceTree = "<group>"; };
 		186A097E1CB4BBA500FFB3F8 /* GasStepper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasStepper.h; sourceTree = "<group>"; };
 		186A097F1CB4BBA500FFB3F8 /* GasStepper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasStepper.m; sourceTree = "<group>"; };
-		186F2FB31C155FA5005CF051 /* CKStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKStore.h; path = Class/CKStore.h; sourceTree = "<group>"; };
-		186F2FB41C155FA5005CF051 /* CKStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKStore.m; path = Class/CKStore.m; sourceTree = "<group>"; };
-		186F2FB61C156FF6005CF051 /* CKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKEvent.h; path = Class/CKEvent.h; sourceTree = "<group>"; };
-		186F2FB71C156FF6005CF051 /* CKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKEvent.m; path = Class/CKEvent.m; sourceTree = "<group>"; };
 		1873710A1B0AD1D900B8CDCC /* MyCarListVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCarListVModel.h; sourceTree = "<group>"; };
 		1873710B1B0AD1D900B8CDCC /* MyCarListVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCarListVModel.m; sourceTree = "<group>"; };
 		18746B161AEA1BB300D93696 /* UpdateInsuranceOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateInsuranceOrderOp.h; path = Class/UpdateInsuranceOrderOp.h; sourceTree = "<group>"; };
@@ -1237,6 +1381,25 @@
 		18AB16A81C1FAE810000E718 /* GetInsBaseCarListByIDOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetInsBaseCarListByIDOp.m; sourceTree = "<group>"; };
 		18AB16A91C1FAE810000E718 /* GetInsBaseCarListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetInsBaseCarListOp.h; sourceTree = "<group>"; };
 		18AB16AA1C1FAE810000E718 /* GetInsBaseCarListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetInsBaseCarListOp.m; sourceTree = "<group>"; };
+		18B62C261CDC42AD00E5AE48 /* rctpkg */ = {isa = PBXFileReference; lastKnownFileType = folder; name = rctpkg; path = ReactNative/rctpkg; sourceTree = SOURCE_ROOT; };
+		18B62C491CDC510000E5AE48 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "ReactNative/node_modules/react-native/React/React.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		18B62C4F1CDC510800E5AE48 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		18B62C551CDC511000E5AE48 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		18B62C5B1CDC511600E5AE48 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		18B62C611CDC511F00E5AE48 /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		18B62C671CDC512800E5AE48 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		18B62C6D1CDC513300E5AE48 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		18B62C731CDC513D00E5AE48 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		18B62C791CDC514200E5AE48 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		18B62C7F1CDC515200E5AE48 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		18B62C851CDC515600E5AE48 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "ReactNative/node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		18B62CAA1CE089A200E5AE48 /* HKSecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKSecurityManager.h; path = Class/HKSecurityManager.h; sourceTree = "<group>"; };
+		18B62CAB1CE089A200E5AE48 /* HKSecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKSecurityManager.m; path = Class/HKSecurityManager.m; sourceTree = "<group>"; };
+		18B62CBA1CE1AA1C00E5AE48 /* NSData+MD5Digest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MD5Digest.h"; path = "Class/NSData+MD5Digest.h"; sourceTree = "<group>"; };
+		18B62CBB1CE1AA1C00E5AE48 /* NSData+MD5Digest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+MD5Digest.m"; path = "Class/NSData+MD5Digest.m"; sourceTree = "<group>"; };
+		18B62CBD1CE31DAF00E5AE48 /* xmddrct_public_key.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = xmddrct_public_key.der; sourceTree = "<group>"; };
+		18B62CCA1CE338A800E5AE48 /* ReactNativeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactNativeViewController.h; sourceTree = "<group>"; };
+		18B62CCB1CE338A800E5AE48 /* ReactNativeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactNativeViewController.m; sourceTree = "<group>"; };
 		18B6E5C61C44D2A000697DAB /* KeyboardHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyboardHelper.h; path = Class/KeyboardHelper.h; sourceTree = "<group>"; };
 		18B6E5C71C44D2A000697DAB /* KeyboardHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeyboardHelper.m; path = Class/KeyboardHelper.m; sourceTree = "<group>"; };
 		18B6E5C91C463D0300697DAB /* CancelInsOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelInsOrderOp.h; sourceTree = "<group>"; };
@@ -1329,16 +1492,12 @@
 		18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 90_0.gpx; sourceTree = "<group>"; };
 		18D68DBB1CBD26F500D0636E /* DeleteInsCarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteInsCarOp.h; sourceTree = "<group>"; };
 		18D68DBC1CBD26F500D0636E /* DeleteInsCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteInsCarOp.m; sourceTree = "<group>"; };
-		18D811C41C1EDB5300B6AB04 /* CKDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKDispatcher.h; path = Class/CKDispatcher.h; sourceTree = "<group>"; };
-		18D811C51C1EDB5300B6AB04 /* CKDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKDispatcher.m; path = Class/CKDispatcher.m; sourceTree = "<group>"; };
 		18E1557F1C3E3DA600C1CF87 /* InsLicensePopVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsLicensePopVC.h; sourceTree = "<group>"; };
 		18E155801C3E3DA600C1CF87 /* InsLicensePopVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsLicensePopVC.m; sourceTree = "<group>"; };
 		18E155821C3E5BE000C1CF87 /* GetInsUserInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetInsUserInfoOp.h; sourceTree = "<group>"; };
 		18E155831C3E5BE000C1CF87 /* GetInsUserInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetInsUserInfoOp.m; sourceTree = "<group>"; };
 		18E289FF1B8AD71F0070E759 /* HKImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKImagePicker.h; path = Class/HKImagePicker.h; sourceTree = "<group>"; };
 		18E28A001B8AD71F0070E759 /* HKImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKImagePicker.m; path = Class/HKImagePicker.m; sourceTree = "<group>"; };
-		18E28A031B8AFBB70070E759 /* HKNavigationHiddenVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKNavigationHiddenVC.h; sourceTree = "<group>"; };
-		18E28A041B8AFBB70070E759 /* HKNavigationHiddenVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKNavigationHiddenVC.m; sourceTree = "<group>"; };
 		18E28A091B904FF00070E759 /* LaunchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchVC.h; sourceTree = "<group>"; };
 		18E28A0A1B904FF00070E759 /* LaunchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchVC.m; sourceTree = "<group>"; };
 		18E28A0C1B93E47E0070E759 /* PaymentHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentHelper.h; path = Class/PaymentHelper.h; sourceTree = "<group>"; };
@@ -1363,8 +1522,6 @@
 		18E592371C1A5CEE006010D9 /* InsPayResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsPayResultVC.m; sourceTree = "<group>"; };
 		18E592391C1A7C27006010D9 /* InsSubmitResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsSubmitResultVC.h; sourceTree = "<group>"; };
 		18E5923A1C1A7C27006010D9 /* InsSubmitResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsSubmitResultVC.m; sourceTree = "<group>"; };
-		18E7309D1CBF2E08005C9590 /* CKEventPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKEventPromise.h; path = Class/CKEventPromise.h; sourceTree = "<group>"; };
-		18E7309E1CBF2E08005C9590 /* CKEventPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKEventPromise.m; path = Class/CKEventPromise.m; sourceTree = "<group>"; };
 		18E756581B69D696001B0869 /* InsuranceOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceOrderVC.h; sourceTree = "<group>"; };
 		18E756591B69D696001B0869 /* InsuranceOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceOrderVC.m; sourceTree = "<group>"; };
 		18E756A21B73335C00874601 /* MyBankVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBankVC.h; sourceTree = "<group>"; };
@@ -1375,8 +1532,6 @@
 		18F312DE1C9977A600992A37 /* MutualInsGrouponMembersVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponMembersVC.m; sourceTree = "<group>"; };
 		18F362B21CBCB6C200D7F7BA /* HKAlertActionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAlertActionItem.h; path = Class/HKAlertActionItem.h; sourceTree = "<group>"; };
 		18F362B31CBCB6C200D7F7BA /* HKAlertActionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAlertActionItem.m; path = Class/HKAlertActionItem.m; sourceTree = "<group>"; };
-		18F362BC1CBCD68400D7F7BA /* CKList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CKList.h; path = Class/CKList.h; sourceTree = "<group>"; };
-		18F362BD1CBCD68400D7F7BA /* CKList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CKList.m; path = Class/CKList.m; sourceTree = "<group>"; };
 		18F41DA71B784CD8000409E1 /* GetBankcardListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetBankcardListOp.h; path = Class/GetBankcardListOp.h; sourceTree = "<group>"; };
 		18F41DA81B784CD8000409E1 /* GetBankcardListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetBankcardListOp.m; path = Class/GetBankcardListOp.m; sourceTree = "<group>"; };
 		18F41DAA1B787F5D000409E1 /* UnbindBankcardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnbindBankcardOp.h; path = Class/UnbindBankcardOp.h; sourceTree = "<group>"; };
@@ -1385,12 +1540,6 @@
 		18F41DAE1B788022000409E1 /* GetUnbindBankcardVcodeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetUnbindBankcardVcodeOp.m; path = Class/GetUnbindBankcardVcodeOp.m; sourceTree = "<group>"; };
 		18F8135D1B5F308D005F49B0 /* HKVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKVersionManager.h; path = Class/HKVersionManager.h; sourceTree = "<group>"; };
 		18F8135E1B5F308D005F49B0 /* HKVersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKVersionManager.m; path = Class/HKVersionManager.m; sourceTree = "<group>"; };
-		18F813621B5F3561005F49B0 /* CKNavigationController+Expansion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CKNavigationController+Expansion.h"; sourceTree = "<group>"; };
-		18F813631B5F3561005F49B0 /* CKNavigationController+Expansion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CKNavigationController+Expansion.m"; sourceTree = "<group>"; };
-		18F813641B5F3561005F49B0 /* CKNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKNavigationController.h; sourceTree = "<group>"; };
-		18F813651B5F3561005F49B0 /* CKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKNavigationController.m; sourceTree = "<group>"; };
-		18F813661B5F3561005F49B0 /* vertical_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vertical_shadow.png; sourceTree = "<group>"; };
-		18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vertical_shadow@2x.png"; sourceTree = "<group>"; };
 		18F93CD21B6F044D000325DD /* BorderLineLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BorderLineLabel.h; path = Class/BorderLineLabel.h; sourceTree = "<group>"; };
 		18F93CD31B6F044D000325DD /* BorderLineLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BorderLineLabel.m; path = Class/BorderLineLabel.m; sourceTree = "<group>"; };
 		18F93CD51B6F0A4A000325DD /* DashLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashLine.h; path = Class/DashLine.h; sourceTree = "<group>"; };
@@ -1729,13 +1878,6 @@
 		6B26EEAF1C8EC23200428EC4 /* ZFCWanderingCubesActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCWanderingCubesActivityIndicatorView.m; sourceTree = "<group>"; };
 		6B26EEB01C8EC23200428EC4 /* ZFCWaveActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFCWaveActivityIndicatorView.h; sourceTree = "<group>"; };
 		6B26EEB11C8EC23200428EC4 /* ZFCWaveActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFCWaveActivityIndicatorView.m; sourceTree = "<group>"; };
-		6B26EEDB1C8EF4D400428EC4 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "react-native/React/React.xcodeproj"; sourceTree = SOURCE_ROOT; };
-		6B26EEE11C8EF4E900428EC4 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = SOURCE_ROOT; };
-		6B26EEE71C8EF4FF00428EC4 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = SOURCE_ROOT; };
-		6B26EEED1C8EF51D00428EC4 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = SOURCE_ROOT; };
-		6B26EEF31C8EF55100428EC4 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = SOURCE_ROOT; };
-		6B26EEF91C8EF56500428EC4 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = SOURCE_ROOT; };
-		6B26EEFF1C8EF57500428EC4 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		6B26EF051C8EF89B00428EC4 /* ReactTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactTestViewController.h; sourceTree = "<group>"; };
 		6B26EF061C8EF89B00428EC4 /* ReactTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactTestViewController.m; sourceTree = "<group>"; };
 		6B26EF081C8EF97E00428EC4 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -2221,6 +2363,8 @@
 		CA94042FD235B5154105FE58 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FA024A301CAE500500481F59 /* BankCardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardDetailVC.h; sourceTree = "<group>"; };
 		FA024A311CAE500500481F59 /* BankCardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankCardDetailVC.m; sourceTree = "<group>"; };
+		FA17F4871CFD6C0600E91754 /* AskToCompensationOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AskToCompensationOp.h; sourceTree = "<group>"; };
+		FA17F4881CFD6C0600E91754 /* AskToCompensationOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AskToCompensationOp.m; sourceTree = "<group>"; };
 		FA3E5DFF1CF7DE9D005CC988 /* MutualInsAskForCompensationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsAskForCompensationVC.h; sourceTree = "<group>"; };
 		FA3E5E001CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsAskForCompensationVC.m; sourceTree = "<group>"; };
 		FA8496601CBE367700631062 /* SJKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJKeyboardManager.h; sourceTree = "<group>"; };
@@ -2241,13 +2385,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B26EF131C8EFBC300428EC4 /* libReact.a in Frameworks */,
-				6B26EF0D1C8EFBBB00428EC4 /* libRCTActionSheet.a in Frameworks */,
-				6B26EF0E1C8EFBBB00428EC4 /* libRCTImage.a in Frameworks */,
-				6B26EF0F1C8EFBBB00428EC4 /* libRCTLinking.a in Frameworks */,
-				6B26EF101C8EFBBB00428EC4 /* libRCTNetwork.a in Frameworks */,
-				6B26EF111C8EFBBB00428EC4 /* libRCTText.a in Frameworks */,
-				6B26EF121C8EFBBB00428EC4 /* libRCTWebSocket.a in Frameworks */,
+				1809C14F1CEEDF8600AE56EB /* libRNImagePicker.a in Frameworks */,
+				18B62C8C1CDC516D00E5AE48 /* libRCTActionSheet.a in Frameworks */,
+				18B62C8D1CDC516D00E5AE48 /* libRCTGeolocation.a in Frameworks */,
+				18B62C8E1CDC516D00E5AE48 /* libRCTImage.a in Frameworks */,
+				18B62C8F1CDC516D00E5AE48 /* libRCTLinking.a in Frameworks */,
+				18B62C901CDC516D00E5AE48 /* libRCTNetwork.a in Frameworks */,
+				18B62C911CDC516D00E5AE48 /* libRCTSettings.a in Frameworks */,
+				18B62C921CDC516D00E5AE48 /* libRCTText.a in Frameworks */,
+				18B62C931CDC516D00E5AE48 /* libRCTVibration.a in Frameworks */,
+				18B62C941CDC516D00E5AE48 /* libRCTWebSocket.a in Frameworks */,
+				18B62C8B1CDC516700E5AE48 /* libReact.a in Frameworks */,
 				6B26EF091C8EF97E00428EC4 /* JavaScriptCore.framework in Frameworks */,
 				506160BE1BFD76D3003E7F80 /* libresolv.9.tbd in Frameworks */,
 				18E28A171B93E5AF0070E759 /* Security.framework in Frameworks */,
@@ -2349,9 +2497,67 @@
 			name = Coupon;
 			sourceTree = "<group>";
 		};
+		1809C1131CEAA98D00AE56EB /* ReactNativeBridge */ = {
+			isa = PBXGroup;
+			children = (
+				1809C1501CEF10CB00AE56EB /* AppManager */,
+				1809C1451CEC4ABF00AE56EB /* Navigation */,
+				1809C1411CEC497A00AE56EB /* Login */,
+				1809C1281CEB009900AE56EB /* Networking */,
+			);
+			name = ReactNativeBridge;
+			sourceTree = "<group>";
+		};
+		1809C1281CEB009900AE56EB /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				1809C11F1CEAA9CD00AE56EB /* RCTNetworkManager.h */,
+				1809C1201CEAA9CD00AE56EB /* RCTNetworkManager.m */,
+				1809C1221CEAB3D100AE56EB /* ReactNativeOp.h */,
+				1809C1231CEAB3D100AE56EB /* ReactNativeOp.m */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		1809C1411CEC497A00AE56EB /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				1809C1421CEC498F00AE56EB /* RCTLoginManager.h */,
+				1809C1431CEC498F00AE56EB /* RCTLoginManager.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		1809C1451CEC4ABF00AE56EB /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				1809C1461CEC4AD700AE56EB /* RCTNavigationManager.h */,
+				1809C1471CEC4AD700AE56EB /* RCTNavigationManager.m */,
+			);
+			name = Navigation;
+			sourceTree = "<group>";
+		};
+		1809C14A1CEEDF6D00AE56EB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1809C14E1CEEDF6D00AE56EB /* libRNImagePicker.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1809C1501CEF10CB00AE56EB /* AppManager */ = {
+			isa = PBXGroup;
+			children = (
+				1809C1511CEF111400AE56EB /* RCTAppManager.h */,
+				1809C1521CEF111400AE56EB /* RCTAppManager.m */,
+			);
+			name = AppManager;
+			sourceTree = "<group>";
+		};
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				18B62B061CDB332E00E5AE48 /* ReactNative */,
 				FA84965F1CBE367700631062 /* SJKeyboardManager */,
 				C3D9B8201CC0DBFD00B5D2A7 /* FLAnimatedImage */,
 				508F652F1CACC8AE00F88744 /* HKPageSliderView */,
@@ -2371,7 +2577,6 @@
 				6BEDB0431BA666D4009A8C3F /* CCSegmentedControl */,
 				18E28A0F1B93E5880070E759 /* UPPaySDK */,
 				1837A7571B72130F0006E6C5 /* SDPhotoBrowser */,
-				18F813611B5F3561005F49B0 /* CKNavigationController */,
 				18D17F741B53B21E00F66F04 /* MBProgressHUD */,
 				6BCF624B1B184AEF0064AE32 /* NJKWebViewProgress */,
 				181F6D941B15919900D38555 /* CXAlertView */,
@@ -2453,6 +2658,8 @@
 				6BBAB8D31ADE3CBC00EC342F /* NSDate+DateForText.m */,
 				6BC2209D1AD7AC9D00A4310E /* NSString+MD5.h */,
 				6BC2209E1AD7AC9D00A4310E /* NSString+MD5.m */,
+				18B62CBA1CE1AA1C00E5AE48 /* NSData+MD5Digest.h */,
+				18B62CBB1CE1AA1C00E5AE48 /* NSData+MD5Digest.m */,
 				6BC220971AD7804800A4310E /* NSMutableDictionary+AddParams.h */,
 				6BC220981AD7804800A4310E /* NSMutableDictionary+AddParams.m */,
 				189B31041AD7B7F5001D7288 /* UIView+Shake.h */,
@@ -2532,10 +2739,17 @@
 		1816F4BA1AD3A88F00BBCC96 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				1816F4BB1AD3A8AD00BBCC96 /* JTNavigationController.h */,
-				1816F4BC1AD3A8AD00BBCC96 /* JTNavigationController.m */,
 				184E40C11AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.h */,
 				184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */,
+				1809C2F81CF581CB00AE56EB /* CKRouter.h */,
+				1809C2F91CF581CB00AE56EB /* CKRouter.m */,
+				1809C2FB1CF5824900AE56EB /* UIViewController+CKNavigator.h */,
+				1809C2FC1CF5824900AE56EB /* UIViewController+CKNavigator.m */,
+				1809C2FE1CF582E300AE56EB /* CKNavigationController.h */,
+				1809C2FF1CF582E300AE56EB /* CKNavigationController.m */,
+				1809C3011CF5900300AE56EB /* HKNavigationController.h */,
+				1809C3021CF5900300AE56EB /* HKNavigationController.m */,
+				1809C3041CF5919800AE56EB /* CKNavigator.h */,
 			);
 			name = Navigation;
 			sourceTree = "<group>";
@@ -2575,20 +2789,6 @@
 		1821C3541C4DD33800120AF4 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				186F2FB31C155FA5005CF051 /* CKStore.h */,
-				186F2FB41C155FA5005CF051 /* CKStore.m */,
-				18E7309D1CBF2E08005C9590 /* CKEventPromise.h */,
-				18E7309E1CBF2E08005C9590 /* CKEventPromise.m */,
-				186F2FB61C156FF6005CF051 /* CKEvent.h */,
-				186F2FB71C156FF6005CF051 /* CKEvent.m */,
-				18D811C41C1EDB5300B6AB04 /* CKDispatcher.h */,
-				18D811C51C1EDB5300B6AB04 /* CKDispatcher.m */,
-				1821C3551C4DD36C00120AF4 /* CKDatasource.h */,
-				1821C3561C4DD36C00120AF4 /* CKDatasource.m */,
-				18F362BC1CBCD68400D7F7BA /* CKList.h */,
-				18F362BD1CBCD68400D7F7BA /* CKList.m */,
-				184F09F91C7B036A00DD6B54 /* CKQueue.h */,
-				184F09FA1C7B036A00DD6B54 /* CKQueue.m */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -2890,6 +3090,108 @@
 			name = ReactNative;
 			sourceTree = "<group>";
 		};
+		1844FAFC1CD9C8880085A0D4 /* ckkit */ = {
+			isa = PBXGroup;
+			children = (
+				1844FAFD1CD9C8880085A0D4 /* CKCategory */,
+				1844FB1F1CD9C8880085A0D4 /* CKDataset */,
+				1844FB251CD9C8880085A0D4 /* CKKit.h */,
+				1844FB261CD9C8880085A0D4 /* CKUtility */,
+				1844FB2E1CD9C8880085A0D4 /* CKView */,
+			);
+			path = ckkit;
+			sourceTree = "<group>";
+		};
+		1844FAFD1CD9C8880085A0D4 /* CKCategory */ = {
+			isa = PBXGroup;
+			children = (
+				1844FAFE1CD9C8880085A0D4 /* CKCategory.h */,
+				1844FAFF1CD9C8880085A0D4 /* NSArray+Encoding.h */,
+				1844FB001CD9C8880085A0D4 /* NSArray+Encoding.m */,
+				1844FB011CD9C8880085A0D4 /* NSArray+Safety.h */,
+				1844FB021CD9C8880085A0D4 /* NSArray+Safety.m */,
+				1844FB031CD9C8880085A0D4 /* NSData+JSON.h */,
+				1844FB041CD9C8880085A0D4 /* NSData+JSON.m */,
+				1844FB051CD9C8880085A0D4 /* NSDictionary+Encoding.h */,
+				1844FB061CD9C8880085A0D4 /* NSDictionary+Encoding.m */,
+				1844FB071CD9C8880085A0D4 /* NSMutableDictionary+Safety.h */,
+				1844FB081CD9C8880085A0D4 /* NSMutableDictionary+Safety.m */,
+				1844FB091CD9C8880085A0D4 /* NSObject+AutoConvertValue.h */,
+				1844FB0A1CD9C8880085A0D4 /* NSObject+AutoConvertValue.m */,
+				1844FB0B1CD9C8880085A0D4 /* NSObject+Notify.h */,
+				1844FB0C1CD9C8880085A0D4 /* NSObject+Notify.m */,
+				1844FB0D1CD9C8880085A0D4 /* NSObject+Runtime.h */,
+				1844FB0E1CD9C8880085A0D4 /* NSObject+Runtime.m */,
+				1844FB0F1CD9C8880085A0D4 /* NSString+CKExpansion.h */,
+				1844FB101CD9C8880085A0D4 /* NSString+CKExpansion.m */,
+				1844FB111CD9C8880085A0D4 /* NSString+Compare.h */,
+				1844FB121CD9C8880085A0D4 /* NSString+Compare.m */,
+				1844FB131CD9C8880085A0D4 /* NSString+Path.h */,
+				1844FB141CD9C8880085A0D4 /* NSString+Path.m */,
+				1844FB151CD9C8880085A0D4 /* NSString+Safety.h */,
+				1844FB161CD9C8880085A0D4 /* NSString+Safety.m */,
+				1844FB171CD9C8880085A0D4 /* UIColor+ColorWithHexString.h */,
+				1844FB181CD9C8880085A0D4 /* UIColor+ColorWithHexString.m */,
+				1844FB191CD9C8880085A0D4 /* UIImage+Utility.h */,
+				1844FB1A1CD9C8880085A0D4 /* UIImage+Utility.m */,
+				1844FB1B1CD9C8880085A0D4 /* UIImagePickerController+Expansion.h */,
+				1844FB1C1CD9C8880085A0D4 /* UIImagePickerController+Expansion.m */,
+				1844FB1D1CD9C8880085A0D4 /* UIViewController+Coordinate.h */,
+				1844FB1E1CD9C8880085A0D4 /* UIViewController+Coordinate.m */,
+			);
+			path = CKCategory;
+			sourceTree = "<group>";
+		};
+		1844FB1F1CD9C8880085A0D4 /* CKDataset */ = {
+			isa = PBXGroup;
+			children = (
+				1809C2F41CF57C2A00AE56EB /* CKDatasource.h */,
+				1809C2F51CF57C2A00AE56EB /* CKDatasource.m */,
+				1809C1D61CF3F06600AE56EB /* CKDispatcher.h */,
+				1809C1D71CF3F06600AE56EB /* CKDispatcher.m */,
+				1809C1D81CF3F06600AE56EB /* CKEvent.h */,
+				1809C1D91CF3F06600AE56EB /* CKEvent.m */,
+				1809C1DA1CF3F06600AE56EB /* CKEventPromise.h */,
+				1809C1DB1CF3F06600AE56EB /* CKEventPromise.m */,
+				1809C1DC1CF3F06600AE56EB /* CKStore.h */,
+				1809C1DD1CF3F06600AE56EB /* CKStore.m */,
+				1809C1D01CF3ED5100AE56EB /* CKList.h */,
+				1809C1D11CF3ED5100AE56EB /* CKList.m */,
+				1809C1D21CF3ED5100AE56EB /* CKQueue.h */,
+				1809C1D31CF3ED5100AE56EB /* CKQueue.m */,
+				1844FB201CD9C8880085A0D4 /* CKDataset.h */,
+				1844FB211CD9C8880085A0D4 /* CKMap.h */,
+				1844FB221CD9C8880085A0D4 /* CKMap.m */,
+				1844FB231CD9C8880085A0D4 /* CKTreeNode.h */,
+				1844FB241CD9C8880085A0D4 /* CKTreeNode.m */,
+			);
+			path = CKDataset;
+			sourceTree = "<group>";
+		};
+		1844FB261CD9C8880085A0D4 /* CKUtility */ = {
+			isa = PBXGroup;
+			children = (
+				1844FB271CD9C8880085A0D4 /* CKMethods.h */,
+				1844FB281CD9C8880085A0D4 /* CKMethods.m */,
+				1844FB291CD9C8880085A0D4 /* CKPaths.h */,
+				1844FB2A1CD9C8880085A0D4 /* CKPaths.m */,
+				1844FB2B1CD9C8880085A0D4 /* CKSegmentHelper.h */,
+				1844FB2C1CD9C8880085A0D4 /* CKSegmentHelper.m */,
+				1844FB2D1CD9C8880085A0D4 /* CKUtility.h */,
+			);
+			path = CKUtility;
+			sourceTree = "<group>";
+		};
+		1844FB2E1CD9C8880085A0D4 /* CKView */ = {
+			isa = PBXGroup;
+			children = (
+				1844FB2F1CD9C8880085A0D4 /* CKShadowView.h */,
+				1844FB301CD9C8880085A0D4 /* CKShadowView.m */,
+				1844FB311CD9C8880085A0D4 /* CKView.h */,
+			);
+			path = CKView;
+			sourceTree = "<group>";
+		};
 		184E40C71AD3B6C700EFC3A6 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -3098,7 +3400,7 @@
 		1883D8E11ACB99AC002A4D19 /* XiaoMa */ = {
 			isa = PBXGroup;
 			children = (
-				6B26EEDA1C8EF4B000428EC4 /* ReactNative */,
+				1844FAFC1CD9C8880085A0D4 /* ckkit */,
 				1833F56A1BCD373B000E1DA1 /* Codemap */,
 				6BBAB8C81ADD351800EC342F /* Helper */,
 				1816F4B51AD36D5100BBCC96 /* Component */,
@@ -3144,7 +3446,7 @@
 		1883D9121ACBBE5E002A4D19 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				1844FAE01CD889B60085A0D4 /* RCTBundle */,
+				18B62C261CDC42AD00E5AE48 /* rctpkg */,
 				C35803041CBB79600002808D /* Images.xcassets */,
 				6BD293BA1B943EF1006482A4 /* Storyboard */,
 				1851F4221B0C29A500241A01 /* CoreData */,
@@ -3314,6 +3616,8 @@
 				18B78F5E1BA990100061ECAD /* HKLaunchManager.m */,
 				50BA11621C27F42F00EA1E4A /* CarIDCodeCheckModel.h */,
 				50BA11631C27F42F00EA1E4A /* CarIDCodeCheckModel.m */,
+				18B62CAA1CE089A200E5AE48 /* HKSecurityManager.h */,
+				18B62CAB1CE089A200E5AE48 /* HKSecurityManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -3458,6 +3762,8 @@
 				18E756571B69D675001B0869 /* Order */,
 				189B30C51AD664D7001D7288 /* InsuranceVC.h */,
 				189B30C61AD664D7001D7288 /* InsuranceVC.m */,
+				1809C3051CF6E5E500AE56EB /* InsIntroVC.h */,
+				1809C3061CF6E5E500AE56EB /* InsIntroVC.m */,
 				18A15A571C21AF2000D7B5DF /* InsuranceVM.h */,
 				18A15A581C21AF2000D7B5DF /* InsuranceVM.m */,
 			);
@@ -3611,6 +3917,113 @@
 				18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */,
 			);
 			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		18B62B061CDB332E00E5AE48 /* ReactNative */ = {
+			isa = PBXGroup;
+			children = (
+				1809C1491CEEDF6D00AE56EB /* RNImagePicker.xcodeproj */,
+				18B62C851CDC515600E5AE48 /* RCTGeolocation.xcodeproj */,
+				18B62C7F1CDC515200E5AE48 /* RCTGeolocation.xcodeproj */,
+				18B62C791CDC514200E5AE48 /* RCTNetwork.xcodeproj */,
+				18B62C731CDC513D00E5AE48 /* RCTWebSocket.xcodeproj */,
+				18B62C6D1CDC513300E5AE48 /* RCTVibration.xcodeproj */,
+				18B62C671CDC512800E5AE48 /* RCTLinking.xcodeproj */,
+				18B62C611CDC511F00E5AE48 /* RCTSettings.xcodeproj */,
+				18B62C5B1CDC511600E5AE48 /* RCTText.xcodeproj */,
+				18B62C551CDC511000E5AE48 /* RCTImage.xcodeproj */,
+				18B62C4F1CDC510800E5AE48 /* RCTActionSheet.xcodeproj */,
+				18B62C491CDC510000E5AE48 /* React.xcodeproj */,
+			);
+			name = ReactNative;
+			sourceTree = "<group>";
+		};
+		18B62C4A1CDC510000E5AE48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B62C4E1CDC510000E5AE48 /* libReact.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18B62C501CDC510800E5AE48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B62C541CDC510800E5AE48 /* libRCTActionSheet.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18B62C561CDC511000E5AE48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B62C5A1CDC511000E5AE48 /* libRCTImage.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18B62C5C1CDC511600E5AE48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B62C601CDC511600E5AE48 /* libRCTText.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18B62C621CDC511F00E5AE48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B62C661CDC511F00E5AE48 /* libRCTSettings.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18B62C681CDC512800E5AE48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B62C6C1CDC512800E5AE48 /* libRCTLinking.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18B62C6E1CDC513300E5AE48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B62C721CDC513300E5AE48 /* libRCTVibration.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18B62C741CDC513D00E5AE48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B62C781CDC513D00E5AE48 /* libRCTWebSocket.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18B62C7A1CDC514200E5AE48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B62C7E1CDC514300E5AE48 /* libRCTNetwork.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18B62C801CDC515200E5AE48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B62C841CDC515300E5AE48 /* libRCTGeolocation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18B62C861CDC515600E5AE48 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B62C8A1CDC515600E5AE48 /* libRCTGeolocation.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		18B6E5C51C44D27C00697DAB /* Keyboard */ = {
@@ -3806,8 +4219,8 @@
 		18E28A021B8AFB710070E759 /* Super */ = {
 			isa = PBXGroup;
 			children = (
-				18E28A031B8AFBB70070E759 /* HKNavigationHiddenVC.h */,
-				18E28A041B8AFBB70070E759 /* HKNavigationHiddenVC.m */,
+				18B62CCA1CE338A800E5AE48 /* ReactNativeViewController.h */,
+				18B62CCB1CE338A800E5AE48 /* ReactNativeViewController.m */,
 			);
 			name = Super;
 			sourceTree = "<group>";
@@ -3912,19 +4325,6 @@
 				189C69881B74ADC700E56E4A /* BindBankCardVC.m */,
 			);
 			name = Bank;
-			sourceTree = "<group>";
-		};
-		18F813611B5F3561005F49B0 /* CKNavigationController */ = {
-			isa = PBXGroup;
-			children = (
-				18F813621B5F3561005F49B0 /* CKNavigationController+Expansion.h */,
-				18F813631B5F3561005F49B0 /* CKNavigationController+Expansion.m */,
-				18F813641B5F3561005F49B0 /* CKNavigationController.h */,
-				18F813651B5F3561005F49B0 /* CKNavigationController.m */,
-				18F813661B5F3561005F49B0 /* vertical_shadow.png */,
-				18F813671B5F3561005F49B0 /* vertical_shadow@2x.png */,
-			);
-			path = CKNavigationController;
 			sourceTree = "<group>";
 		};
 		18F93CD11B6F043C000325DD /* Label */ = {
@@ -4244,76 +4644,6 @@
 			path = ZFCActivityIndicatorView;
 			sourceTree = "<group>";
 		};
-		6B26EEDA1C8EF4B000428EC4 /* ReactNative */ = {
-			isa = PBXGroup;
-			children = (
-				6B26EEFF1C8EF57500428EC4 /* RCTWebSocket.xcodeproj */,
-				6B26EEF91C8EF56500428EC4 /* RCTText.xcodeproj */,
-				6B26EEF31C8EF55100428EC4 /* RCTNetwork.xcodeproj */,
-				6B26EEED1C8EF51D00428EC4 /* RCTImage.xcodeproj */,
-				6B26EEE71C8EF4FF00428EC4 /* RCTLinking.xcodeproj */,
-				6B26EEE11C8EF4E900428EC4 /* RCTActionSheet.xcodeproj */,
-				6B26EEDB1C8EF4D400428EC4 /* React.xcodeproj */,
-			);
-			name = ReactNative;
-			sourceTree = "<group>";
-		};
-		6B26EEDC1C8EF4D400428EC4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6B26EEE01C8EF4D400428EC4 /* libReact.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6B26EEE21C8EF4E900428EC4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6B26EEE61C8EF4E900428EC4 /* libRCTActionSheet.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6B26EEE81C8EF4FF00428EC4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6B26EEEC1C8EF4FF00428EC4 /* libRCTLinking.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6B26EEEE1C8EF51D00428EC4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6B26EEF21C8EF51D00428EC4 /* libRCTImage.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6B26EEF41C8EF55100428EC4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6B26EEF81C8EF55100428EC4 /* libRCTNetwork.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6B26EEFA1C8EF56500428EC4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6B26EEFE1C8EF56500428EC4 /* libRCTText.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6B26EF001C8EF57500428EC4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6B26EF041C8EF57500428EC4 /* libRCTWebSocket.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		6B2F28F31C8414D80096FD45 /* RRFPSBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -4466,6 +4796,7 @@
 		6BBAB8C81ADD351800EC342F /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				1809C1131CEAA98D00AE56EB /* ReactNativeBridge */,
 				18B6E5C51C44D27C00697DAB /* Keyboard */,
 				6B3DAB9D1C3F512D00C783F8 /* DebugLog */,
 				18E28A191B93F0760070E759 /* Payment */,
@@ -4483,6 +4814,7 @@
 		6BBAB9581ADE724300EC342F /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				18B62CBD1CE31DAF00E5AE48 /* xmddrct_public_key.der */,
 				C3BA94461CC5F6180053BC96 /* sh.gpx */,
 				6B26EF491C9026BD00428EC4 /* main.jsbundle */,
 				6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */,
@@ -4817,6 +5149,8 @@
 				C3396E8E1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.m */,
 				1844FAD91CD87BAC0085A0D4 /* GetReactNativePackageOp.h */,
 				1844FADA1CD87BAC0085A0D4 /* GetReactNativePackageOp.m */,
+				FA17F4871CFD6C0600E91754 /* AskToCompensationOp.h */,
+				FA17F4881CFD6C0600E91754 /* AskToCompensationOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -5152,7 +5486,6 @@
 				1883D8DC1ACB99AC002A4D19 /* Frameworks */,
 				1883D8DD1ACB99AC002A4D19 /* Resources */,
 				A104FC05B6EB7D321E22B017 /* Copy Pods Resources */,
-				6BBBF54A1B291C1A00E1B809 /* ShellScript */,
 				1627E83E7CFFD485DB8DB0A0 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -5237,32 +5570,52 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 6B26EEE21C8EF4E900428EC4 /* Products */;
-					ProjectRef = 6B26EEE11C8EF4E900428EC4 /* RCTActionSheet.xcodeproj */;
+					ProductGroup = 18B62C501CDC510800E5AE48 /* Products */;
+					ProjectRef = 18B62C4F1CDC510800E5AE48 /* RCTActionSheet.xcodeproj */;
 				},
 				{
-					ProductGroup = 6B26EEEE1C8EF51D00428EC4 /* Products */;
-					ProjectRef = 6B26EEED1C8EF51D00428EC4 /* RCTImage.xcodeproj */;
+					ProductGroup = 18B62C861CDC515600E5AE48 /* Products */;
+					ProjectRef = 18B62C851CDC515600E5AE48 /* RCTGeolocation.xcodeproj */;
 				},
 				{
-					ProductGroup = 6B26EEE81C8EF4FF00428EC4 /* Products */;
-					ProjectRef = 6B26EEE71C8EF4FF00428EC4 /* RCTLinking.xcodeproj */;
+					ProductGroup = 18B62C801CDC515200E5AE48 /* Products */;
+					ProjectRef = 18B62C7F1CDC515200E5AE48 /* RCTGeolocation.xcodeproj */;
 				},
 				{
-					ProductGroup = 6B26EEF41C8EF55100428EC4 /* Products */;
-					ProjectRef = 6B26EEF31C8EF55100428EC4 /* RCTNetwork.xcodeproj */;
+					ProductGroup = 18B62C561CDC511000E5AE48 /* Products */;
+					ProjectRef = 18B62C551CDC511000E5AE48 /* RCTImage.xcodeproj */;
 				},
 				{
-					ProductGroup = 6B26EEFA1C8EF56500428EC4 /* Products */;
-					ProjectRef = 6B26EEF91C8EF56500428EC4 /* RCTText.xcodeproj */;
+					ProductGroup = 18B62C681CDC512800E5AE48 /* Products */;
+					ProjectRef = 18B62C671CDC512800E5AE48 /* RCTLinking.xcodeproj */;
 				},
 				{
-					ProductGroup = 6B26EF001C8EF57500428EC4 /* Products */;
-					ProjectRef = 6B26EEFF1C8EF57500428EC4 /* RCTWebSocket.xcodeproj */;
+					ProductGroup = 18B62C7A1CDC514200E5AE48 /* Products */;
+					ProjectRef = 18B62C791CDC514200E5AE48 /* RCTNetwork.xcodeproj */;
 				},
 				{
-					ProductGroup = 6B26EEDC1C8EF4D400428EC4 /* Products */;
-					ProjectRef = 6B26EEDB1C8EF4D400428EC4 /* React.xcodeproj */;
+					ProductGroup = 18B62C621CDC511F00E5AE48 /* Products */;
+					ProjectRef = 18B62C611CDC511F00E5AE48 /* RCTSettings.xcodeproj */;
+				},
+				{
+					ProductGroup = 18B62C5C1CDC511600E5AE48 /* Products */;
+					ProjectRef = 18B62C5B1CDC511600E5AE48 /* RCTText.xcodeproj */;
+				},
+				{
+					ProductGroup = 18B62C6E1CDC513300E5AE48 /* Products */;
+					ProjectRef = 18B62C6D1CDC513300E5AE48 /* RCTVibration.xcodeproj */;
+				},
+				{
+					ProductGroup = 18B62C741CDC513D00E5AE48 /* Products */;
+					ProjectRef = 18B62C731CDC513D00E5AE48 /* RCTWebSocket.xcodeproj */;
+				},
+				{
+					ProductGroup = 18B62C4A1CDC510000E5AE48 /* Products */;
+					ProjectRef = 18B62C491CDC510000E5AE48 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 1809C14A1CEEDF6D00AE56EB /* Products */;
+					ProjectRef = 1809C1491CEEDF6D00AE56EB /* RNImagePicker.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -5275,53 +5628,88 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		6B26EEE01C8EF4D400428EC4 /* libReact.a */ = {
+		1809C14E1CEEDF6D00AE56EB /* libRNImagePicker.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNImagePicker.a;
+			remoteRef = 1809C14D1CEEDF6D00AE56EB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		18B62C4E1CDC510000E5AE48 /* libReact.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libReact.a;
-			remoteRef = 6B26EEDF1C8EF4D400428EC4 /* PBXContainerItemProxy */;
+			remoteRef = 18B62C4D1CDC510000E5AE48 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6B26EEE61C8EF4E900428EC4 /* libRCTActionSheet.a */ = {
+		18B62C541CDC510800E5AE48 /* libRCTActionSheet.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRCTActionSheet.a;
-			remoteRef = 6B26EEE51C8EF4E900428EC4 /* PBXContainerItemProxy */;
+			remoteRef = 18B62C531CDC510800E5AE48 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6B26EEEC1C8EF4FF00428EC4 /* libRCTLinking.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTLinking.a;
-			remoteRef = 6B26EEEB1C8EF4FF00428EC4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6B26EEF21C8EF51D00428EC4 /* libRCTImage.a */ = {
+		18B62C5A1CDC511000E5AE48 /* libRCTImage.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRCTImage.a;
-			remoteRef = 6B26EEF11C8EF51D00428EC4 /* PBXContainerItemProxy */;
+			remoteRef = 18B62C591CDC511000E5AE48 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6B26EEF81C8EF55100428EC4 /* libRCTNetwork.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTNetwork.a;
-			remoteRef = 6B26EEF71C8EF55100428EC4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6B26EEFE1C8EF56500428EC4 /* libRCTText.a */ = {
+		18B62C601CDC511600E5AE48 /* libRCTText.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRCTText.a;
-			remoteRef = 6B26EEFD1C8EF56500428EC4 /* PBXContainerItemProxy */;
+			remoteRef = 18B62C5F1CDC511600E5AE48 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6B26EF041C8EF57500428EC4 /* libRCTWebSocket.a */ = {
+		18B62C661CDC511F00E5AE48 /* libRCTSettings.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTSettings.a;
+			remoteRef = 18B62C651CDC511F00E5AE48 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		18B62C6C1CDC512800E5AE48 /* libRCTLinking.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTLinking.a;
+			remoteRef = 18B62C6B1CDC512800E5AE48 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		18B62C721CDC513300E5AE48 /* libRCTVibration.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTVibration.a;
+			remoteRef = 18B62C711CDC513300E5AE48 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		18B62C781CDC513D00E5AE48 /* libRCTWebSocket.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRCTWebSocket.a;
-			remoteRef = 6B26EF031C8EF57500428EC4 /* PBXContainerItemProxy */;
+			remoteRef = 18B62C771CDC513D00E5AE48 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		18B62C7E1CDC514300E5AE48 /* libRCTNetwork.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTNetwork.a;
+			remoteRef = 18B62C7D1CDC514300E5AE48 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		18B62C841CDC515300E5AE48 /* libRCTGeolocation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTGeolocation.a;
+			remoteRef = 18B62C831CDC515300E5AE48 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		18B62C8A1CDC515600E5AE48 /* libRCTGeolocation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTGeolocation.a;
+			remoteRef = 18B62C891CDC515600E5AE48 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -5343,10 +5731,8 @@
 				6BD293D31B943EF1006482A4 /* Other.storyboard in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				6BD293D41B943EF1006482A4 /* Rescue.storyboard in Resources */,
-				1844FAE11CD889B60085A0D4 /* RCTBundle in Resources */,
 				C38A1DFE1CC5D1390085BA4C /* (null) in Resources */,
 				508C718F1BA808B600FA2F05 /* Insurance.storyboard in Resources */,
-				18F8136B1B5F3561005F49B0 /* vertical_shadow@2x.png in Resources */,
 				6BC80CF81C99453B00C7BA3D /* MutualInsPay.storyboard in Resources */,
 				6BD293D01B943EF1006482A4 /* Main.storyboard in Resources */,
 				505E5FD01BD73AB600857819 /* Discover.storyboard in Resources */,
@@ -5358,7 +5744,6 @@
 				184452F21C8D18F4007B895D /* MutualInsGroupon.storyboard in Resources */,
 				6BD293C91B943EF1006482A4 /* Award.storyboard in Resources */,
 				6BFE6A671C03364600EC9766 /* Violation.storyboard in Resources */,
-				18F8136A1B5F3561005F49B0 /* vertical_shadow.png in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
 				4E70143F1CB7B0770010C130 /* Carwash.storyboard in Resources */,
 				18B78F671BAAA0470061ECAD /* Mine.storyboard in Resources */,
@@ -5377,8 +5762,10 @@
 				18CECC291C30F8890075B7F9 /* LICENSE in Resources */,
 				6BD293C81B943EF1006482A4 /* About.storyboard in Resources */,
 				18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */,
+				18B62C271CDC42AD00E5AE48 /* rctpkg in Resources */,
 				6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */,
 				18E28A261B954F4E0070E759 /* Car.storyboard in Resources */,
+				18B62CBE1CE31DAF00E5AE48 /* xmddrct_public_key.der in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5413,19 +5800,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		6BBBF54A1B291C1A00E1B809 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run e29387288292dbe0610a93205503a68cced0eedf 8b007cc7981b209f8eca8517bbe5c41c1d5d28f51eb7b5cff962d561ac638b24";
 		};
 		A104FC05B6EB7D321E22B017 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5470,6 +5844,7 @@
 				508F65321CACC8AE00F88744 /* HKPageSliderView.m in Sources */,
 				186984FB1B00CC50000A182A /* CarwashOrderDetailVC.m in Sources */,
 				184452EC1C893F5B007B895D /* BankStore.m in Sources */,
+				1844FB421CD9C8880085A0D4 /* CKMap.m in Sources */,
 				6B11752C1C0C73D900FC1881 /* ViolationCityInfo.m in Sources */,
 				6BEA56C41AE24DCE000D19C1 /* APAuthV2Info.m in Sources */,
 				6B59E1E41C575AE100DBD1C5 /* WebVC.m in Sources */,
@@ -5483,13 +5858,13 @@
 				2E52F24D1C2032BB00D94F68 /* RescueHomeViewController.m in Sources */,
 				506F03F61C9658C500B262D7 /* HKTimer.m in Sources */,
 				18FC01DC1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m in Sources */,
+				1844FB321CD9C8880085A0D4 /* NSArray+Encoding.m in Sources */,
 				50F0FF6E1C9A9780009A94A3 /* HKMutualInsList.m in Sources */,
 				6BB884D21AE0BC6A00EBD8F4 /* MONActivityIndicatorView.m in Sources */,
 				186984F81B0098FB000A182A /* HKInsuranceOrder.m in Sources */,
 				6BC80C8F1C96BD6800C7BA3D /* GetCooperationMemberDetailOp.m in Sources */,
 				6BFE6A6E1C03FD8900EC9766 /* ViolationItemViewController.m in Sources */,
 				6BB884DD1AE0FE7500EBD8F4 /* GetUserCarOp.m in Sources */,
-				18E28A051B8AFBB70070E759 /* HKNavigationHiddenVC.m in Sources */,
 				18C52C441BA8118400F6C38B /* DeletePicHistoryOp.m in Sources */,
 				6BEA56CE1AE24DCE000D19C1 /* DataSigner.m in Sources */,
 				1893711C1B0DAC8D0030FDE1 /* GetMessageOp.m in Sources */,
@@ -5499,12 +5874,12 @@
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				6BC80CB41C96EAA800C7BA3D /* UpdateCooperationInsInfoOp.m in Sources */,
 				18CECC281C30F8890075B7F9 /* JT3DScrollView.m in Sources */,
-				1816F4BD1AD3A8AD00BBCC96 /* JTNavigationController.m in Sources */,
 				6BC80C8D1C96BD6800C7BA3D /* GetCooperationContractDetailOp.m in Sources */,
 				18A9E8CC1BDDC1C00061D3BC /* PickInsCompaniesVC.m in Sources */,
 				6BF392441BD627A900838292 /* GetShopByNameV2Op.m in Sources */,
 				1816F4B01ACE75FB00BBCC96 /* CarWashTableVC.m in Sources */,
 				6BC80C881C96BD6800C7BA3D /* ExitCooperationOp.m in Sources */,
+				1809C1211CEAA9CD00AE56EB /* RCTNetworkManager.m in Sources */,
 				6BC80C831C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.m in Sources */,
 				1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */,
 				1818D8F51C22845A0078C329 /* PayForPremiumOp.m in Sources */,
@@ -5537,10 +5912,12 @@
 				2E77A4971C325F2F00264FC9 /* GetRescueDetailOp.m in Sources */,
 				181921811C253957009C80BD /* InsAppointmentSuccessVC.m in Sources */,
 				6BE47F9B1C27F50000DBD969 /* HistoryCollectionOp.m in Sources */,
+				1844FB381CD9C8880085A0D4 /* NSObject+Notify.m in Sources */,
 				505E5FD61BD73B9300857819 /* DetailWebVC.m in Sources */,
 				18988CB21BC79A76001DECD5 /* HKUserStore.m in Sources */,
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				6BC80C921C96BD6800C7BA3D /* GetCoorperationClaimConfigOp.m in Sources */,
+				1844FB3B1CD9C8880085A0D4 /* NSString+Compare.m in Sources */,
 				50FAC26B1C23AB9C00F8990F /* GetAutomobileModelV2Op.m in Sources */,
 				6B26EE9B1C8EC12B00428EC4 /* Reachability.m in Sources */,
 				186984F51B0098A2000A182A /* GetInsuranceOrderListOp.m in Sources */,
@@ -5558,24 +5935,26 @@
 				1853DECE1AE100CA00C39175 /* HKSMSModel.m in Sources */,
 				1853DEC41AE0EC1600C39175 /* LoginViewModel.m in Sources */,
 				184453181C8DA458007B895D /* HKPopoverView.m in Sources */,
-				184F09FB1C7B036A00DD6B54 /* CKQueue.m in Sources */,
 				6BCF62471B1737980064AE32 /* GetUserCouponByTypeOp.m in Sources */,
 				6B8D47561BEA03C900706989 /* GetCarwashOrderV2Op.m in Sources */,
 				50AC2B501C8D737400620551 /* MutualInsPicUpdateVC.m in Sources */,
-				18E7309F1CBF2E08005C9590 /* CKEventPromise.m in Sources */,
 				6B50127E1C59F5F000267DCB /* UIViewController+Swizzling.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
 				6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */,
+				1809C1241CEAB3D100AE56EB /* ReactNativeOp.m in Sources */,
+				1809C1E01CF3F06600AE56EB /* CKEventPromise.m in Sources */,
 				6B3C67931BA9498F002F04C8 /* HKBigRatingView.m in Sources */,
 				18A30E401BD472E800521411 /* GasPayForCZBVC.m in Sources */,
 				18895B2A1B4A136100928F62 /* HKStore.m in Sources */,
 				18B7A2771C203B5E00865A99 /* GetAreaByIdOp.m in Sources */,
 				189B30BD1AD524EC001D7288 /* AppManager.m in Sources */,
 				6BB9D7711AF7054B00F7F3F8 /* SearchViewController.m in Sources */,
+				1809C1441CEC498F00AE56EB /* RCTLoginManager.m in Sources */,
 				5078E4CF1B93F04000E3B198 /* GetInsuranceDiscountOp.m in Sources */,
 				6BAF301D1AE6947F00E35E08 /* ClientInfo.m in Sources */,
 				1818D8F81C2293600078C329 /* NSString+Format.m in Sources */,
 				508F65351CACDD0F00F88744 /* CarsListVC.m in Sources */,
+				18B62CBC1CE1AA1C00E5AE48 /* NSData+MD5Digest.m in Sources */,
 				50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				181355991C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m in Sources */,
@@ -5586,6 +5965,7 @@
 				6B16D6461C9664F400322B70 /* MutualInsClaimInfo.m in Sources */,
 				18C52C3E1BA6CEB900F6C38B /* HKImageView.m in Sources */,
 				6BC80C911C96BD6800C7BA3D /* GetCooperationMygroupDetailOp.m in Sources */,
+				1809C3001CF582E300AE56EB /* CKNavigationController.m in Sources */,
 				18A9E8C91BDDC0950061D3BC /* GetInsCompanyListOp.m in Sources */,
 				1833F5901BCD373B000E1DA1 /* GetGascardListOp.m in Sources */,
 				18E155811C3E3DA600C1CF87 /* InsLicensePopVC.m in Sources */,
@@ -5607,6 +5987,7 @@
 				6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */,
 				50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */,
 				6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */,
+				1844FB341CD9C8880085A0D4 /* NSData+JSON.m in Sources */,
 				181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */,
 				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
 				1851F42B1B0C2C3500241A01 /* CoreDataManager.m in Sources */,
@@ -5614,6 +5995,7 @@
 				FA958E281C9BFE6E00E89180 /* MutualInsGroupInfoVC.m in Sources */,
 				189B394C1AF71C3900B83F1B /* MineVC.m in Sources */,
 				181355931C925FC600894CA1 /* HKAlertVC.m in Sources */,
+				1844FB431CD9C8880085A0D4 /* CKTreeNode.m in Sources */,
 				18273F281C7FEE70004192B3 /* GasNormalVC.m in Sources */,
 				189371361B0F592F0030FDE1 /* JTQueue.m in Sources */,
 				5027568F1BA6A3C50065592A /* GetCouponDetailsOp.m in Sources */,
@@ -5644,13 +6026,16 @@
 				4E1FEF321CBB97C100A9BA6F /* PopAnimation.m in Sources */,
 				18C52C411BA80AC700F6C38B /* GetPicHistoryOp.m in Sources */,
 				18A9E8D21BDF18EA0061D3BC /* HKCellData.m in Sources */,
+				1844FB3C1CD9C8880085A0D4 /* NSString+Path.m in Sources */,
 				6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */,
 				1844532E1C8FEE81007B895D /* UIView+RoundedCorner.m in Sources */,
 				18FC01E21C4E6C6F00FD61BF /* IQBarButtonItem.m in Sources */,
 				FA3E5E011CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m in Sources */,
 				180539461C9FCDE600D896A1 /* MutualInsStore.m in Sources */,
 				1884ACE31BA2A59E00E5CACF /* InsuranceInfoSubmitingVC.m in Sources */,
+				1844FB3E1CD9C8880085A0D4 /* UIColor+ColorWithHexString.m in Sources */,
 				6BD7AE631AE8A64B00BEF30E /* payRequsestHandler.mm in Sources */,
+				1844FB361CD9C8880085A0D4 /* NSMutableDictionary+Safety.m in Sources */,
 				6BD7AE641AE8A64B00BEF30E /* WXUtil.mm in Sources */,
 				1851F4251B0C29BB00241A01 /* xmdd.xcdatamodeld in Sources */,
 				5037DC741C43855E005AF932 /* NewGainAwardVC.m in Sources */,
@@ -5706,7 +6091,6 @@
 				6BC220A21AD7B22300A4310E /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */,
 				186984EB1B005A94000A182A /* InsranceOrderViewModel.m in Sources */,
 				6BBAB8B01ADB754500EC342F /* GetTokenOp.m in Sources */,
-				1821C3571C4DD36C00120AF4 /* CKDatasource.m in Sources */,
 				6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */,
 				508EE5DC1C2BA09800873602 /* TopMenuScrollView.m in Sources */,
 				184453231C8FC6E2007B895D /* MutualInsGrouponCarsCell.m in Sources */,
@@ -5721,7 +6105,6 @@
 				18AB16AB1C1FAE810000E718 /* GetInsBaseCarListByIDOp.m in Sources */,
 				18F41DAC1B787F5D000409E1 /* UnbindBankcardOp.m in Sources */,
 				1873710C1B0AD1D900B8CDCC /* MyCarListVModel.m in Sources */,
-				186F2FB81C156FF6005CF051 /* CKEvent.m in Sources */,
 				6BEA56481AE24D34000D19C1 /* AlipayHelper.m in Sources */,
 				18E7565A1B69D696001B0869 /* InsuranceOrderVC.m in Sources */,
 				1833F58C1BCD373B000E1DA1 /* GascardChargeOp.m in Sources */,
@@ -5734,8 +6117,10 @@
 				189B30B01AD4D661001D7288 /* JTTableViewController.m in Sources */,
 				6BF7F7311BB39A4100A24A32 /* NSString+Price.m in Sources */,
 				6BC80C861C96BD6800C7BA3D /* ApplyCooperationGroupOp.m in Sources */,
+				1809C3071CF6E5E500AE56EB /* InsIntroVC.m in Sources */,
 				1883D9331ACCDA8B002A4D19 /* DefaultStyleModel.m in Sources */,
 				181AA4551CA4D53100ADD50C /* HKMessageAlertVC.m in Sources */,
+				1844FB471CD9C8880085A0D4 /* CKShadowView.m in Sources */,
 				507EFACC1C15AEB60081FECB /* GetAreaByPcdOp.m in Sources */,
 				6B5012811C59FC6500267DCB /* UMLogHelper.m in Sources */,
 				6BE4CE311AF217BC008E1C19 /* GetUserCouponOp.m in Sources */,
@@ -5752,6 +6137,7 @@
 				18D17F701B5390F400F66F04 /* VCodeInputField.m in Sources */,
 				6B26EEB31C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.m in Sources */,
 				505E5FCD1BD7356B00857819 /* WKWebViewJavascriptBridge.m in Sources */,
+				1809C1D41CF3ED5100AE56EB /* CKList.m in Sources */,
 				6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */,
 				18900B441C1E7503003DA439 /* GetInsCarListOp.m in Sources */,
 				6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */,
@@ -5766,8 +6152,10 @@
 				6BC80C8C1C96BD6800C7BA3D /* GetCooperationConfiOp.m in Sources */,
 				6BC80D171C9A40A400C7BA3D /* HKObject.m in Sources */,
 				18AA24741C213244002EF4F7 /* AddInsCarBaseInfoOp.m in Sources */,
+				1809C2F61CF57C2A00AE56EB /* CKDatasource.m in Sources */,
 				18D17F801B57782800F66F04 /* HKAddressComponent.m in Sources */,
 				18BF41FC1BD08F860039F210 /* GasReminderCell.m in Sources */,
+				1809C2FA1CF581CB00AE56EB /* CKRouter.m in Sources */,
 				6BEA56CA1AE24DCE000D19C1 /* SBJsonWriter.m in Sources */,
 				18900B471C1E8567003DA439 /* InsuranceStore.m in Sources */,
 				186984E51B0057A4000A182A /* MyOrderListVC.m in Sources */,
@@ -5792,6 +6180,8 @@
 				FA93A7BE1C9978AB00CBD565 /* CreateGroupVC.m in Sources */,
 				6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */,
 				18E155841C3E5BE000C1CF87 /* GetInsUserInfoOp.m in Sources */,
+				1809C1DF1CF3F06600AE56EB /* CKEvent.m in Sources */,
+				1844FB3D1CD9C8880085A0D4 /* NSString+Safety.m in Sources */,
 				50FA52891C2296CD002B1EAE /* ValuationResultVC.m in Sources */,
 				6BBE83BD1C218D2300FEB101 /* GetUserResourcesGaschargeOp.m in Sources */,
 				4E7927991CA011470099CB70 /* MutualInsClaimsHistoryVC.m in Sources */,
@@ -5808,8 +6198,10 @@
 				2E3EEBC31C224DD20010E34F /* CommissionOrderVC.m in Sources */,
 				4EF4949C1C9A7D8D008A8E4D /* GetSystemTimeOp.m in Sources */,
 				508BD8D01BD0E3ED00B64199 /* GasRecordVC.m in Sources */,
+				1809C1531CEF111400AE56EB /* RCTAppManager.m in Sources */,
 				6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */,
 				18A15A691C225E3F00D7B5DF /* CalculatePremiumOp.m in Sources */,
+				1844FB351CD9C8880085A0D4 /* NSDictionary+Encoding.m in Sources */,
 				6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */,
 				2E77A4941C325F2F00264FC9 /* GetRescueHostCountsOp.m in Sources */,
 				2E52F24A1C2032BB00D94F68 /* (null) in Sources */,
@@ -5825,12 +6217,10 @@
 				1833F5A71BCDF5D0000E1DA1 /* CKLine.m in Sources */,
 				1816F4B81AD36D9E00BBCC96 /* JTRatingView.m in Sources */,
 				181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */,
-				186F2FB51C155FA5005CF051 /* CKStore.m in Sources */,
 				187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */,
 				1833F5991BCD3BF7000E1DA1 /* CancelGaschargeOp.m in Sources */,
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
-				18F813681B5F3561005F49B0 /* CKNavigationController+Expansion.m in Sources */,
 				6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */,
 				18804A9F1B2548AC00E7E764 /* NavigationModel.m in Sources */,
 				6B26EE971C8EB60D00428EC4 /* MutualInsPayViewController.m in Sources */,
@@ -5846,6 +6236,7 @@
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
 				6BBAB8B61ADBC12D00EC342F /* UpdatePwdOp.m in Sources */,
 				1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */,
+				1809C1E11CF3F06600AE56EB /* CKStore.m in Sources */,
 				5073810A1BA12A6800B29756 /* CarWashCouponVModel.m in Sources */,
 				6B16D6391C92CBD600322B70 /* GetCooperationMyGroupOp.m in Sources */,
 				184452F51C8D19A5007B895D /* MutualInsGrouponVC.m in Sources */,
@@ -5856,6 +6247,7 @@
 				6BBF7DA91B00C9C200E45967 /* UIImage+Utilities.mm in Sources */,
 				6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */,
 				18A15A6B1C225E3F00D7B5DF /* GetPremiumDetailOp.m in Sources */,
+				1809C2FD1CF5824900AE56EB /* UIViewController+CKNavigator.m in Sources */,
 				4E045E761CABD55600F17446 /* ConfirmClaimOp.m in Sources */,
 				18B6E5D11C473CF700697DAB /* GetNewbieInfoOp.m in Sources */,
 				18BF420C1BD273C70039F210 /* CKLimitTextField.m in Sources */,
@@ -5864,7 +6256,9 @@
 				6BFA93BB1BF098BB00700F27 /* CheckoutServiceOrderV4Op.m in Sources */,
 				6BC80C851C96BD6800C7BA3D /* ApplyCooperationClaimOp.m in Sources */,
 				18D475E51B7D9F82000FAF1C /* NSString+PhoneNumber.m in Sources */,
+				1844FB451CD9C8880085A0D4 /* CKPaths.m in Sources */,
 				6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */,
+				1809C1D51CF3ED5100AE56EB /* CKQueue.m in Sources */,
 				4E97D7171C9001C700FC418F /* HKInclinedLabel.m in Sources */,
 				6BA48A0A1C3F853F00AED445 /* SupportFileManager.m in Sources */,
 				509D1CC21C086E01003ED860 /* ShareResponeManager.m in Sources */,
@@ -5880,6 +6274,7 @@
 				6BCD94FC1C9FA5CA00BE3E8C /* PasteboardModel.m in Sources */,
 				6B16D6661C96651100322B70 /* ApplyCooperationGroupJoinOp.m in Sources */,
 				6B1D93D31B8573A000740628 /* PayModel.m in Sources */,
+				1844FB441CD9C8880085A0D4 /* CKMethods.m in Sources */,
 				6BEF74891BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m in Sources */,
 				182C50D81C27E79D004ED5D1 /* InsAlertVC.m in Sources */,
 				1837A7611B72130F0006E6C5 /* SDWaitingView.m in Sources */,
@@ -5906,12 +6301,12 @@
 				2E77A4A21C325FCC00264FC9 /* HKRescue.m in Sources */,
 				189371221B0E046E0030FDE1 /* JTAttributedLabel.m in Sources */,
 				4E97D71A1C9003A500FC418F /* MutualInsScencePhotoVC.m in Sources */,
+				1844FB411CD9C8880085A0D4 /* UIViewController+Coordinate.m in Sources */,
 				18900B4D1C1EA05E003DA439 /* GetInsProvinceListOp.m in Sources */,
 				18AB16A61C1FAE6B0000E718 /* InsBaseCar.m in Sources */,
 				184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */,
 				50BA9C771CB663EB00B7F310 /* PickCarVC.m in Sources */,
 				6BFE6A731C04036500EC9766 /* ViolationModel.m in Sources */,
-				18D811C61C1EDB5300B6AB04 /* CKDispatcher.m in Sources */,
 				4EA1CB231C969830006CCBEA /* MutualInsScencePhotoVM.m in Sources */,
 				6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */,
 				6BC80C8E1C96BD6800C7BA3D /* GetCooperationIdlicenseInfoOp.m in Sources */,
@@ -5920,11 +6315,13 @@
 				6BEA56C31AE24DCE000D19C1 /* AlixPayResult.m in Sources */,
 				1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */,
 				C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */,
+				1844FB461CD9C8880085A0D4 /* CKSegmentHelper.m in Sources */,
 				1851F4321B0C596600241A01 /* PickerAutoSeriesVC.m in Sources */,
 				18088D8E1B1DC938007438FC /* UnusedCouponVModel.m in Sources */,
 				18900B521C1EA0C2003DA439 /* Area.m in Sources */,
 				6BCA5F4C1B104B5100E1E630 /* MyCollectionViewController.m in Sources */,
 				FA93A7B41C9961ED00CBD565 /* CreateGroupOp.m in Sources */,
+				1844FB371CD9C8880085A0D4 /* NSObject+AutoConvertValue.m in Sources */,
 				6B16D63F1C95517000322B70 /* GetCooperationAutoGroupOp.m in Sources */,
 				50819CE91C99438E00A6B8B2 /* InviteAlertVC.m in Sources */,
 				6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */,
@@ -5947,10 +6344,12 @@
 				6B71C4221BB959CE0048B79F /* HKPickerVC.m in Sources */,
 				4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */,
 				6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */,
+				1809C1DE1CF3F06600AE56EB /* CKDispatcher.m in Sources */,
 				189B31031AD7A935001D7288 /* DatePickerVC.m in Sources */,
 				186984E81B005A86000A182A /* CarwashOrderViewModel.m in Sources */,
 				189B30AF1AD4D661001D7288 /* JTLabel.m in Sources */,
 				6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */,
+				18B62CCC1CE338A800E5AE48 /* ReactNativeViewController.m in Sources */,
 				6BAF30181AE67CC800E35E08 /* GetSystemVersionOp.m in Sources */,
 				181F6D931B15773600D38555 /* BeInterestedInInsuranceOp.m in Sources */,
 				6B65A76C1B856C9E00439228 /* CouponModel.m in Sources */,
@@ -5964,8 +6363,10 @@
 				181F6DA71B15919900D38555 /* CXAlertView.m in Sources */,
 				1897C2FF1C16C319007E394E /* InsInputInfoVC.m in Sources */,
 				50FAC2591C23A66900F8990F /* GetAutomobileBrandV2Op.m in Sources */,
+				FA17F4891CFD6C0600E91754 /* AskToCompensationOp.m in Sources */,
 				C36B8A9F1CB3526100BC2487 /* GetSystemHomeModuleOp.m in Sources */,
 				18F41DA91B784CD8000409E1 /* GetBankcardListOp.m in Sources */,
+				1809C1481CEC4AD700AE56EB /* RCTNavigationManager.m in Sources */,
 				18A15A561C214C2200D7B5DF /* InsActivityIndicatorVC.m in Sources */,
 				187CC95C1AEF2023004D1F28 /* UploadFileOp.m in Sources */,
 				18BF41F11BCF6A540039F210 /* GasPickAmountCell.m in Sources */,
@@ -5978,7 +6379,6 @@
 				6B88C1341C1E943E00BB6071 /* GetInsuranceCalculatorOpV3.m in Sources */,
 				6BD25E8B1B7C41C6008C0080 /* CollectionChooseVC.m in Sources */,
 				505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */,
-				18F362BE1CBCD68400D7F7BA /* CKList.m in Sources */,
 				189B31061AD7B7F5001D7288 /* UIView+Shake.m in Sources */,
 				6B16D63C1C92CD1A00322B70 /* HKMutualGroup.m in Sources */,
 				18E5922A1C1709A4006010D9 /* InsInputNameVC.m in Sources */,
@@ -6002,6 +6402,7 @@
 				18E756A41B73335C00874601 /* MyBankVC.m in Sources */,
 				6BEA56D01AE24DCE000D19C1 /* MD5DataSigner.m in Sources */,
 				18B7A2741C202E6B00865A99 /* GetAreaByNameOp.m in Sources */,
+				1844FB331CD9C8880085A0D4 /* NSArray+Safety.m in Sources */,
 				184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */,
 				6BBF75F41B05CA0800E11EBB /* BaseModel.m in Sources */,
 				50BA11641C27F42F00EA1E4A /* CarIDCodeCheckModel.m in Sources */,
@@ -6010,6 +6411,8 @@
 				1816F4A61ACD3B0900BBCC96 /* SYPaginatorScrollView.m in Sources */,
 				1853DEC81AE0EFD200C39175 /* HKToast.m in Sources */,
 				184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */,
+				1844FB3F1CD9C8880085A0D4 /* UIImage+Utility.m in Sources */,
+				1844FB3A1CD9C8880085A0D4 /* NSString+CKExpansion.m in Sources */,
 				1885F0C31B1C50970056D3BD /* UIView+AddBadgeView.m in Sources */,
 				18FC01E51C4E6C6F00FD61BF /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */,
@@ -6036,6 +6439,7 @@
 				50F7F0781C86C49700138947 /* GetShareButtonOpV2.m in Sources */,
 				18B6E5CB1C463D0300697DAB /* CancelInsOrderOp.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
+				1844FB391CD9C8880085A0D4 /* NSObject+Runtime.m in Sources */,
 				18F93CD41B6F044D000325DD /* BorderLineLabel.m in Sources */,
 				18E592311C1919C2006010D9 /* InsCouponView.m in Sources */,
 				181F6D901B1436CA00D38555 /* UIView+DefaultEmptyView.m in Sources */,
@@ -6069,9 +6473,9 @@
 				2E77A4961C325F2F00264FC9 /* GetRescueOp.m in Sources */,
 				180538E61C9BFB6000D896A1 /* HKFoldingTableView.m in Sources */,
 				6B2265961C439DD600A121CC /* HKView.m in Sources */,
-				18F813691B5F3561005F49B0 /* CKNavigationController.m in Sources */,
 				18804AAB1B27DD3C00E7E764 /* GifActivityIndicatorView.m in Sources */,
 				18900B531C1EA0C2003DA439 /* InsSimpleCar.m in Sources */,
+				18B62CAC1CE089A200E5AE48 /* HKSecurityManager.m in Sources */,
 				6B5B78171BA7CC6000295B77 /* ProvinceChooseView.m in Sources */,
 				1833F53F1BCCB680000E1DA1 /* HKLoginModel.m in Sources */,
 				189B394F1AF8576600B83F1B /* GetUserBaseInfoOp.m in Sources */,
@@ -6092,7 +6496,9 @@
 				508F65381CAD072800F88744 /* CarListSubVC.m in Sources */,
 				6BE2BD5E1AE63F9F00A69875 /* MultiMediaManager.m in Sources */,
 				6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */,
+				1809C3031CF5900300AE56EB /* HKNavigationController.m in Sources */,
 				6BD293D81B946B49006482A4 /* PayForInsuranceVC.m in Sources */,
+				1844FB401CD9C8880085A0D4 /* UIImagePickerController+Expansion.m in Sources */,
 				50F0FF641C9A96B7009A94A3 /* GetMutualInsListOp.m in Sources */,
 				2EB0DA5C1C325CA900D9A5B2 /* RescueCancelHostcarOp.m in Sources */,
 				503C5B1B1CB50E2D00EFCDDA /* ValuationEmptySubView.m in Sources */,
@@ -6233,7 +6639,7 @@
 					"XMDDEnvironment=1",
 				);
 				HEADER_SEARCH_PATHS = (
-					"${SRCROOT}/react-native/React/**",
+					"${SRCROOT}/ReactNative/node_modules/react-native/React/**",
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
@@ -6252,6 +6658,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"${SRCROOT}/ReactNative/node_modules/react-native/Libraries/Image/**",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -6329,7 +6736,7 @@
 					"XMDDEnvironment=2",
 				);
 				HEADER_SEARCH_PATHS = (
-					"${SRCROOT}/react-native/React/**",
+					"${SRCROOT}/ReactNative/node_modules/react-native/React/**",
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
@@ -6348,6 +6755,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/QQSDK/**",
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"${SRCROOT}/ReactNative/node_modules/react-native/Libraries/Image/**",
 				);
 				INFOPLIST_FILE = XiaoMa/Misc/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -6397,7 +6805,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "19b9e532-9495-4943-a7d9-e1846a3e0cf4";
+				PROVISIONING_PROFILE = "9df2c481-f7b2-4061-bf66-32967e913518";
 			};
 			name = Release;
 		};

@@ -19,5 +19,8 @@
 + (instancetype)sharedManager;
 - (RACSignal *)rac_checkPackageVersion;
 - (RACSignal *)rac_downloadPackageWithPackageOp:(GetReactNativePackageOp *)pkgop;
+- (RACSignal *)rac_checkAndUpdatePackage;
+- (RACSignal *)rac_checkAndUpdatePackageIfNeeded;
+- (NSURL *)latestJSBundleUrl;
 
 @end

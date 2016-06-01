@@ -89,7 +89,6 @@
     //设置启动页管理器
     [self setupLaunchManager];
     [self setupRootView];
-    
     //设置同盾
     [self setFMDeviceManager];
     
@@ -583,12 +582,7 @@
 - (void)setupReactNativeManager
 {
     ReactNativeManager *mgr = [ReactNativeManager sharedManager];
-//    [mgr loadDefaultBundle];
-//    [[mgr rac_checkPackageVersion] subscribeNext:^(id x) {
-//        [[mgr rac_downloadPackageWithPackageOp:x] subscribeNext:^(id x) {
-//            
-//        }];
-//    }];
+    [mgr loadDefaultBundle];
 }
 
 #pragma mark - 日志

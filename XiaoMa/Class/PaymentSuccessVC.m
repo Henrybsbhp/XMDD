@@ -66,6 +66,10 @@
     DebugLog(@"PaymentSuccessVC dealloc");
 }
 
+- (void)awakeFromNib {
+    self.router.disableInteractivePopGestureRecognizer = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -95,19 +99,6 @@
     
     [super didReceiveMemoryWarning];
 }
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
-}
-
 
 
 - (void)actionBack:(id)sender

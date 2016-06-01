@@ -158,7 +158,17 @@
        (type int)
        (value #f))
       (node (attr (*def* "团名")) (id groupname) (type #f) (value #f))
-      (node (attr (*def* "团类型(1：自助，2：匹配)")) (id type) (type int) (value #f))))
+      (node (attr (*def* "团类型(1：自助，2：匹配)")) (id type) (type int) (value #f))
+      (node
+       (attr (*def* "显示补偿记录按钮标志(0：不显示，1：显示)"))
+       (id claimbtnflag)
+       (type int)
+       (value #f))
+      (node
+       (attr (*def* "我的协议地址(只有status为7，8时有效)"))
+       (id contracturl)
+       (type #f)
+       (value #f))))
     (node
      (attr
       (*def* "互助协议查看")

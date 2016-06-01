@@ -62,12 +62,6 @@
     DebugLog(@"CommentListViewController dealloc");
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
 #pragma mark - Action
 - (void)requestMoreShopComments
 {
