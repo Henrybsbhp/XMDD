@@ -10,11 +10,17 @@
 #import "AskToCompensationOp.h"
 #import "HKProgressView.h"
 #import "CKLine.h"
+#import "NSString+RectSize.h"
+#import "UIImage+Utilities.h"
+
+#define StamperImageWidthHeight 120
 
 @interface MutualInsAskForCompensationVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) CKList *dataSource;
 @property (nonatomic, copy) NSArray *fetchedDataSource;
+
+@property (nonatomic, nonnull,strong)UIImage * stamperImage;
 
 @end
 
@@ -135,15 +141,24 @@
             
             carNumberLabel.text = dict[@"licensenum"];
             
-            stamperImageView.customTag = 9876;
             if (isFastClaimInt == 1) {
                 stamperImageView.hidden = NO;
                 
+                if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])
+                {
+                    stamperImageView.image = dict.customObject;
+                }
+                else
+                {
+                    UIImage * cuttedImage = [self.stamperImage croppedImage:CGRectMake(0, 0, StamperImageWidthHeight, 16)];
+                    dict.customObject = cuttedImage;
+                    stamperImageView.image = dict.customObject;
+                }
             } else {
                 stamperImageView.hidden = YES;
             }
-            [self.tableView bringSubviewToFront:stamperImageView];
-//            [cell.contentView bringSubviewToFront:stamperImageView];
+            
+            [cell.contentView bringSubviewToFront:stamperImageView];
             
             NSString *imageName;
             if (status == -1 || status == 4 || status == 1) {
@@ -167,28 +182,21 @@
         
         CKDict *detailCell = [CKDict dictWith:@{kCKItemKey: @"detailCell", kCKCellID: @"DetailCell"}];
         detailCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-            if (IOSVersionGreaterThanOrEqualTo(@"8.0")) {
-                
-                return UITableViewAutomaticDimension;
-                
-            }
             
-            UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
-            [cell layoutIfNeeded];
-            [cell setNeedsUpdateConstraints];
-            [cell updateConstraintsIfNeeded];
-            CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+            NSDictionary *dict = detailInfoArray[indexPath.row - 2];
+            NSString * content = dict[[[dict allKeys] safetyObjectAtIndex:0]];
+            NSString * title = [[dict allKeys] safetyObjectAtIndex:0];
             
-            if (ceil(size.height + 1) < 21) {
-                return 33;
-            }
-            return ceil(size.height + 1);
+            CGFloat height = [self heightOfDetailCell:content title:title];
+    
+            return ceil(height);
         });
         detailCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
             UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:100];
             UILabel *descriptionLabel = (UILabel *)[cell.contentView viewWithTag:101];
             CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:102];
             CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:103];
+            UIImageView *stamperImageView = (UIImageView *)[cell.contentView viewWithTag:105];
             
             leftLine.lineColor = kLightLineColor;
             leftLine.linePixelWidth = 1;
@@ -197,11 +205,50 @@
             rightLine.linePixelWidth = 1;
             rightLine.lineAlignment = CKLineAlignmentVerticalRight;
             
-            NSDictionary *dict = detailInfoArray[indexPath.row - 2];
-            NSArray *keyArray = [dict allKeys];
-            if (keyArray.count > 0) {
-            titleLabel.text = keyArray[0];
-            descriptionLabel.text = dict[keyArray[0]];
+            NSDictionary *dict = [detailInfoArray safetyObjectAtIndex:indexPath.row - 2];
+            NSString * content = dict[[[dict allKeys] safetyObjectAtIndex:0]];
+            NSString * title = [[dict allKeys] safetyObjectAtIndex:0];
+            titleLabel.text = title;
+            descriptionLabel.text = content;
+            
+            if (isFastClaimInt == 1) {
+                stamperImageView.hidden = NO;
+                
+                if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])
+                {
+                    stamperImageView.image = dict.customObject;
+                }
+                else
+                {
+                    
+                    CGFloat offsetY = 16;
+                    for (NSInteger i = 0;i < indexPath.row - 2;i++)
+                    {
+                        NSDictionary *eachDict = [detailInfoArray safetyObjectAtIndex:i];
+                        NSString * eachContent = eachDict[[[eachDict allKeys] safetyObjectAtIndex:0]];
+                        NSString * eachTitle = [[eachDict allKeys] safetyObjectAtIndex:0];
+                    
+                        CGFloat height = [self heightOfDetailCell:eachContent title:eachTitle];
+                        offsetY = offsetY + height;
+                    }
+                    
+                    if (offsetY >= StamperImageWidthHeight)
+                    {
+                        stamperImageView.hidden = YES;
+                    }
+                    else
+                    {
+                        CGFloat height = [self heightOfDetailCell:content title:title];
+                        UIImage * cuttedImage = [self.stamperImage croppedImage:CGRectMake(0, offsetY, StamperImageWidthHeight, height)];
+                        dict.customObject = cuttedImage;
+                        stamperImageView.image = dict.customObject;
+                        stamperImageView.hidden = NO;
+                    }
+                }
+            }
+            else
+            {
+                stamperImageView.hidden = YES;
             }
         });
         
@@ -447,7 +494,7 @@
     
     self.dataSource = [CKList listWithArray:dataArray];
     
-//    self.dataSource = $($(progressCell, statusCell, detailCell, detailCell, detailCell, tipsCell, compensationPriceBottomCell));
+    //    self.dataSource = $($(progressCell, statusCell, detailCell, detailCell, detailCell, tipsCell, compensationPriceBottomCell));
     
     [self.tableView reloadData];
 }
@@ -486,5 +533,26 @@
     }
     
     return cell;
+}
+
+#pragma mark - Utilitly
+- (CGFloat)heightOfDetailCell:(NSString *)content title:(NSString *)title
+{
+    CGSize titleSize = [title labelSizeWithWidth:9999 font:[UIFont systemFontOfSize:14]];
+    
+    CGSize size = [content labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 6*2 - 10 - titleSize.width - 10 font:[UIFont systemFontOfSize:14]];
+    CGFloat height = size.height + 12 + 2;
+    height = MAX(height, 35);
+    return height;
+}
+
+#pragma mark - Lazy
+- (UIImage *)stamperImage
+{
+    if (!_stamperImage)
+    {
+        _stamperImage = [[UIImage imageNamed:@"mutualIns_stamper_imageView"] scaleToSize:CGSizeMake(StamperImageWidthHeight,StamperImageWidthHeight)];
+    }
+    return _stamperImage;
 }
 @end
