@@ -66,11 +66,6 @@
 
 @implementation MutualInsPicListVC
 
--(void)dealloc
-{
-    
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -141,7 +136,6 @@
         [self.view stopActivityAnimation];
         self.collectionView.hidden = YES;
         [self.view showImageEmptyViewWithImageName:@"def_withoutValuationHistory" text:@"网络请求失败，请点击重试" tapBlock:^{
-            @strongify(self)
             [self loadData];
         }];
     }];
@@ -149,8 +143,6 @@
 
 -(void)updateClaimPic
 {
- 
-    @weakify(self)
     if ([self checkPhotoNeedReupload])
     {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:nil];
@@ -191,7 +183,6 @@
         [[[op rac_postRequest]initially:^{
             [gToast showingWithText:@"上传照片中"];
         }]subscribeNext:^(id x) {
-            @strongify(self)
             
             [gToast showSuccess:@"上传照片完成"];
             
@@ -213,7 +204,7 @@
 
 -(void)uploadFileWithPicRecord:(PictureRecord *)picrecord andIndex:(NSIndexPath *)indexPath
 {
-    @weakify(self)
+    
     // 将图片的上传中属性设为YES。判断是否转菊花
     picrecord.isUploading = YES;
     picrecord.needReupload = NO;
@@ -228,11 +219,9 @@
     
     [[[op rac_postRequest]initially:^{
         
-        @strongify(self)
         // 通知collectionview显示图片。并开始转菊花。
         [self.collectionView reloadData];
     }]subscribeNext:^(UploadFileOp *op) {
-        @strongify(self)
         // 通知系统停止转菊花
         picrecord.isUploading = NO;
         picrecord.needReupload = NO;
@@ -240,7 +229,6 @@
         [self.collectionView reloadData];
         
     } error:^(NSError *error) {
-        @strongify(self)
         // 通知系统停止转菊花。并设置需要重新上传属性。通过此属性判断是否显示遮罩层。
         picrecord.isUploading = NO;
         picrecord.needReupload = YES;
@@ -261,24 +249,54 @@
 {
     NSInteger count = 0;
     
-    switch (section)
+    if (section == 0)
     {
-        case 0:
-            // 可能会有点难读。主要是为了限制只能重新拍五张照片
-            count = MIN(self.scenePhotos.count + 1 + 5, self.scenePhotosCopy.count + 1 + (self.scenePhotosCopy.count - self.scenePhotos.count < 5 ? 1 : 0));
-            break;
-        case 1:
-            count = MIN(self.damagePhotos.count + 1 + 5, self.damagePhotosCopy.count + 1 + (self.damagePhotosCopy.count - self.damagePhotos.count < 5 ? 1 : 0));
-            break;
-        case 2:
-            count = MIN(self.infoPhotos.count + 1 + 5, self.infoPhotosCopy.count + 1 + (self.infoPhotosCopy.count - self.infoPhotos.count < 5 ? 1 : 0));
-            break;
-        case 3:
-            count = MIN(self.licencePhotos.count + 1 + 5, self.licencePhotosCopy.count + 1 + (self.licencePhotosCopy.count - self.licencePhotos.count < 5 ? 1 : 0));
-            break;
-        default:
-            count = 1;
-            break;
+        if (self.sceneCanAdd)
+        {
+            NSInteger maximum = self.scenePhotos.count + 6;
+            count = MIN(maximum, self.scenePhotosCopy.count + 1 + (self.scenePhotosCopy.count - self.scenePhotos.count < 5 ? 1 : 0));
+        }
+        else
+        {
+            count = self.scenePhotos.count + 1;
+        }
+        
+    }
+    else if (section == 1)
+    {
+        if (self.damageCanAdd)
+        {
+            NSInteger maximum = self.damagePhotos.count + 6;
+            count = MIN(maximum, self.damagePhotosCopy.count + 1 + (self.damagePhotosCopy.count - self.damagePhotos.count < 5 ? 1 : 0));
+        }
+        else
+        {
+            count = self.damagePhotos.count + 1;
+        }
+    }
+    else if (section == 2)
+    {
+        if (self.infoCanAdd)
+        {
+            NSInteger maximum = self.infoPhotos.count + 6;
+            count = MIN(maximum, self.infoPhotosCopy.count + 1 + (self.infoPhotosCopy.count - self.infoPhotos.count < 5 ? 1 : 0));
+        }
+        else
+        {
+            count = self.infoPhotos.count + 1;
+        }
+    }
+    else
+    {
+        if (self.licenceCanAdd)
+        {
+            NSInteger maximum = self.licencePhotos.count + 6;
+            count = MIN(maximum, self.licencePhotosCopy.count + 1 + (self.licencePhotosCopy.count - self.licencePhotos.count < 5 ? 1 : 0));
+        }
+        else
+        {
+            count = self.licencePhotos.count + 1;
+        }
     }
     
     return count;
@@ -458,11 +476,11 @@
             
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
-                @strongify(self)
                 [self deletePhotosWithItem:cell];
             }];
             HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
             [alert show];
+//            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
             
         }];
         
@@ -549,7 +567,6 @@
             
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
-                @strongify(self)
                 [self deletePhotosWithItem:cell];
             }];
             HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
@@ -639,7 +656,6 @@
             
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
-                @strongify(self)
                 [self deletePhotosWithItem:cell];
             }];
             HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
@@ -730,7 +746,6 @@
             
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
-                @strongify(self)
                 [self deletePhotosWithItem:cell];
             }];
             HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
@@ -799,23 +814,23 @@
 {
     if (self.scenePhotosCopy.count - self.scenePhotos.count < self.sceneReupCount)
     {
-        return NO;
+        return YES;
     }
     else if (self.damagePhotosCopy.count - self.damagePhotos.count < self.damageReupCount)
     {
-        return NO;
+        return YES;
     }
     else if (self.infoPhotosCopy.count - self.infoPhotos.count < self.infoReupCount)
     {
-        return NO;
+        return YES;
     }
     else if (self.licencePhotosCopy.count - self.licencePhotos.count < self.licenceReupCount)
     {
-        return NO;
+        return YES;
     }
     else
     {
-        return YES;
+        return NO;
     }
 }
 
@@ -979,13 +994,13 @@
 -(void)takePhotoWithIndexPath:(NSIndexPath *)indexPath
 {
     
-@weakify(self)
+    
     
 #if !TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
     
     
     [[[self.picker rac_pickImageInTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
-        @strongify(self)
+        
         PictureRecord *picRcd = [[PictureRecord alloc]init];
         picRcd.image = img;
         [self addPictureRecord:picRcd withIndex:indexPath];
@@ -993,12 +1008,11 @@
         
         GetSystemTimeOp *op = [GetSystemTimeOp operation];
         return [[op rac_postRequest]flattenMap:^RACStream *(GetSystemTimeOp *op) {
-            @strongify(self)
             self.waterMarkStr = op.rsp_systime;
             return [self addPrinting:op.rsp_systime InPhoto:img];
         }];
     }]subscribeNext:^(UIImage *img) {
-        @strongify(self)
+        
         PictureRecord *picRcd = [self getPictureRecordWithIndexPath:indexPath];
         picRcd.image = img;
         // 上传图片
@@ -1011,7 +1025,7 @@
 #else
     
     [[[self.picker rac_pickPhotoTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
-        @strongify(self)
+        
         PictureRecord *picRcd = [[PictureRecord alloc]init];
         picRcd.isUploading = YES;
         picRcd.image = img;
@@ -1025,14 +1039,12 @@
         }];
     }]subscribeNext:^(UIImage *img) {
         
-        @strongify(self)
         PictureRecord *picRcd = [self getPictureRecordWithIndexPath:indexPath];
         picRcd.image = img;
         // 上传图片
         [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
     }error:^(NSError *error) {
         
-        @strongify(self)
         PictureRecord *picRcd = [self getPictureRecordWithIndexPath:indexPath];
         picRcd.isUploading = NO;
         picRcd.needReupload = YES;
@@ -1276,7 +1288,6 @@
 
 -(void)back
 {
-    @weakify(self)
     if (self.scenePhotosCopy.count - self.scenePhotos.count > 0 ||
         self.damagePhotosCopy.count - self.damagePhotos.count > 0 ||
         self.infoPhotosCopy.count - self.infoPhotos.count > 0 ||
@@ -1284,27 +1295,27 @@
     {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"去意已决" color:kDefTintColor clickBlock:^(id alertVC) {
-            @strongify(self)
             [self.navigationController popViewControllerAnimated:YES];
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否放弃重新拍摄的照片并且返回？" ActionItems:@[cancel,confirm]];
         [alert show];
     }
-    else if (self.scenePhotos.count == 0 ||
-             self.damagePhotos.count == 0 ||
-             self.infoPhotos.count == 0 ||
+    else if (self.scenePhotos.count == 0 &&
+             self.damagePhotos.count == 0 &&
+             self.infoPhotos.count == 0 &&
              self.licencePhotos.count == 0)
     {
+        
         [self.navigationController popViewControllerAnimated:YES];
+        
     }
     else if (self.scenePhotosCopy.count - self.scenePhotos.count == 0 &&
              self.damagePhotosCopy.count - self.damagePhotos.count == 0 &&
              self.infoPhotosCopy.count - self.infoPhotos.count == 0 &&
-             self.licencePhotosCopy.count - self.licencePhotos.count == 0 )
+             self.licencePhotosCopy.count - self.licencePhotos.count == 0)
     {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"去意已决" color:kDefTintColor clickBlock:^(id alertVC) {
-            @strongify(self)
             [self.navigationController popViewControllerAnimated:YES];
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有照片需要重新拍摄上传，请确认是否放弃重新拍摄并且返回？" ActionItems:@[cancel,confirm]];
@@ -1344,13 +1355,13 @@
         
         @strongify(self)
         
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y * 0.7)];
+        [gToast showingWithText:@"数据加载中"];
         
     }]subscribeNext:^(RACTuple *arr) {
         
         @strongify(self)
         
-        [self.view stopActivityAnimation];
+        [gToast dismiss];
         
         GetCoorperationClaimConfigOp *claimConfigOp = arr.first;
         GetCooperationMyCarOp *carOp = arr.second;
@@ -1362,8 +1373,6 @@
     } error:^(NSError *error) {
         
         @strongify(self)
-        
-        [self.view stopActivityAnimation];
         [gToast showMistake:error.domain];
         
     }];

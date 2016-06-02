@@ -131,6 +131,7 @@
     [[[op rac_postRequest] initially:^{
         CGFloat reducingY = self.view.frame.size.height * 0.1056;
         [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
+        
         self.tableView.hidden = YES;
     }] subscribeNext:^(AskToCompensationOp *rop) {
         @strongify(self);
@@ -145,12 +146,9 @@
                 dict.customInfo = [[NSMutableDictionary alloc] init];
                 [dict.customInfo setObject:[NSDate date] forKey:@"timeTag"];
             }
-            
-            self.fetchedDataSource = rop.claimList;
-            
-            [self setDataSource];
+        
         } else {
-            [gToast showText:@"未查找到结果"];
+            
             self.tableView.hidden = YES;
             [self.view showEmptyViewWithImageName:@"def_noCompensationRecord_imageView" text:@"暂无补偿记录" textColor:HEXCOLOR(@"#18D06A") centerOffset:-80 tapBlock:nil];
         }
@@ -631,11 +629,13 @@
                             tipsLabel.text = [countDownTitleString stringByAppendingString:timeString];
                         } else {
                             
-                            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"倒计时更新结束" message:@"hx大傻逼" delegate:nil
-                                                                cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                            [av show];
                             tipsLabel.text = [countDownTitleString stringByAppendingString:@"00:00:00"];
-                            [self fetchAllData];
+                            
+                            /// 系统时间走的比服务器快，延迟2s刷新
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                
+                                [self fetchAllData];
+                            });
                         }
                     }];
                 }
