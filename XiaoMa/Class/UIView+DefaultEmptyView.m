@@ -70,6 +70,12 @@
 - (void)showEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text
                       centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock
 {
+    [self showEmptyViewWithImageName:imgName text:text textColor:[UIColor lightGrayColor] centerOffset:offset tapBlock:tapBlock];
+}
+
+- (void)showEmptyViewWithImageName:(NSString *)imgName text:(NSString *)text textColor:(UIColor *)textColor
+                      centerOffset:(CGFloat)offset tapBlock:(void(^)(void))tapBlock
+{
     UIView *view = self.customInfo[kEmptyView];
     self.backgroundColor = kBackgroundColor;
     if (!view) {
@@ -81,7 +87,7 @@
         [view addSubview:imgView];
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor lightGrayColor];
+        label.textColor = textColor;
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont boldSystemFontOfSize:17];
         label.numberOfLines = 0;
