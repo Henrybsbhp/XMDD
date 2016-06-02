@@ -973,26 +973,29 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="580" height="178"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="车损补偿" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HiF-OA-kDi">
-                                                            <rect key="frame" x="10" y="15" width="64" height="20"/>
+                                                            <rect key="frame" x="10" y="15" width="64" height="19.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="1005" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2016-05-20 15:58" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="05u-1x-lPc">
-                                                            <rect key="frame" x="420" y="20" width="105" height="15"/>
+                                                            <rect key="frame" x="420" y="20" width="104.5" height="14.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="If3-r6-7ca">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="If3-r6-7ca">
                                                             <rect key="frame" x="10" y="39" width="570" height="1"/>
                                                             <color key="backgroundColor" red="0.87058823529999996" green="0.87450980389999999" blue="0.87843137250000003" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="a90-O9-qvx"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfa-MV-PPu">
-                                                            <rect key="frame" x="10" y="65" width="550" height="34"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfa-MV-PPu">
+                                                            <rect key="frame" x="10" y="55" width="550" height="74"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="yMH-Mt-7We"/>
+                                                            </constraints>
                                                             <string key="text">事故概述：追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，事故概述：追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，事故概述：追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，追尾其他车辆，</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -1004,8 +1007,8 @@
                                                             <color key="textColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,000,000.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vB7-q9-fR9">
-                                                            <rect key="frame" x="48" y="139" width="125" height="24"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1,000,000.00" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vB7-q9-fR9">
+                                                            <rect key="frame" x="47" y="139" width="124.5" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                             <color key="textColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -1019,7 +1022,7 @@
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="109" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="费用:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K4x-48-Fcd">
-                                                            <rect key="frame" x="10" y="146" width="33" height="17"/>
+                                                            <rect key="frame" x="10" y="146" width="32.5" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -1028,6 +1031,7 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="pWo-KB-h2i" firstAttribute="bottom" secondItem="K4x-48-Fcd" secondAttribute="bottom" id="7Pw-fN-0Di"/>
+                                                        <constraint firstItem="kfa-MV-PPu" firstAttribute="top" secondItem="g59-tJ-pM0" secondAttribute="bottom" id="C0N-Kw-I4A"/>
                                                         <constraint firstAttribute="trailing" secondItem="kfa-MV-PPu" secondAttribute="trailing" constant="20" id="IlG-wJ-0Sr"/>
                                                         <constraint firstItem="kfa-MV-PPu" firstAttribute="top" secondItem="g59-tJ-pM0" secondAttribute="bottom" constant="10" id="Iw2-kD-r3k"/>
                                                         <constraint firstItem="kfa-MV-PPu" firstAttribute="leading" secondItem="LVt-wT-Bh1" secondAttribute="leading" constant="10" id="IwS-q2-2XR"/>
@@ -1045,6 +1049,7 @@
                                                         <constraint firstItem="pWo-KB-h2i" firstAttribute="bottom" secondItem="vB7-q9-fR9" secondAttribute="bottom" id="eQU-B0-jfB"/>
                                                         <constraint firstItem="05u-1x-lPc" firstAttribute="bottom" secondItem="HiF-OA-kDi" secondAttribute="bottom" id="gdy-TO-iDm"/>
                                                         <constraint firstItem="K4x-48-Fcd" firstAttribute="bottom" secondItem="vB7-q9-fR9" secondAttribute="bottom" id="jL5-Ee-SiD"/>
+                                                        <constraint firstItem="vB7-q9-fR9" firstAttribute="top" secondItem="kfa-MV-PPu" secondAttribute="bottom" constant="10" id="k2w-Ps-JB7"/>
                                                         <constraint firstItem="K4x-48-Fcd" firstAttribute="leading" secondItem="LVt-wT-Bh1" secondAttribute="leading" constant="10" id="nVt-h5-tsU"/>
                                                         <constraint firstAttribute="trailing" secondItem="pWo-KB-h2i" secondAttribute="trailing" constant="10" id="nvu-ba-gNz"/>
                                                         <constraint firstItem="vB7-q9-fR9" firstAttribute="bottom" secondItem="K4x-48-Fcd" secondAttribute="bottom" id="tjK-yX-Tvo"/>
@@ -1055,6 +1060,7 @@
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
+                                                            <exclude reference="Iw2-kD-r3k"/>
                                                             <exclude reference="SGE-JG-2MU"/>
                                                             <exclude reference="VZj-1n-CNB"/>
                                                             <exclude reference="uRE-kc-lhQ"/>
@@ -1269,8 +1275,8 @@
                                                 <view tag="100" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yZs-mW-iBv">
                                                     <rect key="frame" x="30" y="0.0" width="540" height="516"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="mutualIns_addPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="gdj-NF-ZpW">
-                                                            <rect key="frame" x="256" y="65" width="27" height="27"/>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_light_gray" translatesAutoresizingMaskIntoConstraints="NO" id="gdj-NF-ZpW">
+                                                            <rect key="frame" x="260.5" y="163.5" width="18" height="18"/>
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
@@ -2466,10 +2472,10 @@
         <image name="Horizontaline" width="621" height="1"/>
         <image name="MutualIns_lostImg" width="50" height="50"/>
         <image name="MutualIns_paySuccessed" width="19" height="19"/>
+        <image name="add_light_gray" width="18" height="18"/>
         <image name="cm_arrow_r" width="9" height="15"/>
         <image name="cm_avatar" width="59" height="59"/>
         <image name="common_statusTagRed_imageView" width="29" height="28"/>
-        <image name="mutualIns_addPhoto" width="27" height="27"/>
         <image name="mutualIns_camera" width="59" height="53"/>
         <image name="mutualIns_deletePhoto" width="18" height="18"/>
         <image name="mutualIns_grayArrow" width="14" height="25"/>
