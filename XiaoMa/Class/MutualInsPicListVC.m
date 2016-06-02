@@ -49,6 +49,12 @@
 @property (strong, nonatomic) NSMutableArray *infoPhotosCopy;
 @property (strong, nonatomic) NSMutableArray *licencePhotosCopy;
 
+// 需重拍数量
+@property (assign, nonatomic) NSInteger sceneReupCount;
+@property (assign, nonatomic) NSInteger damageReupCount;
+@property (assign, nonatomic) NSInteger infoReupCount;
+@property (assign, nonatomic) NSInteger licenceReupCount;
+
 // SDPhotoBrowser所需要的中间变量
 @property (strong, nonatomic) UIImage *img;
 
@@ -66,12 +72,29 @@
     // 初始化加载数据
     [self loadData];
     
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(back)];
+    [self setupReupCount];
+    
+    [self setupBackBtn];
     
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - Setup
+
+-(void)setupBackBtn
+{
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(back)];
+}
+
+-(void)setupReupCount
+{
+    self.sceneReupCount = 0;
+    self.damageReupCount = 0;
+    self.infoReupCount = 0;
+    self.licenceReupCount = 0;
 }
 
 #pragma mark - Network
@@ -80,8 +103,7 @@
 {
     @weakify(self)
     GetPicListOp *op = [GetPicListOp operation];
-    //    op.req_claimid = self.claimID;
-    op.req_claimid = @(309);
+    op.req_claimid = self.claimID;
     [[[op rac_postRequest] initially:^{
         @strongify(self)
         
@@ -121,42 +143,62 @@
 
 -(void)updateClaimPic
 {
-    NSMutableArray *scenePhotos = [[NSMutableArray alloc]init];
-    NSMutableArray *damagePhotos = [[NSMutableArray alloc]init];
-    NSMutableArray *infoPhotos = [[NSMutableArray alloc]init];
-    NSMutableArray *idPhotos = [[NSMutableArray alloc]init];
     
-    for (PictureRecord *picRcd in self.scenePhotosCopy)
+    if ([self checkPhotoNeedReupload])
     {
-        [scenePhotos safetyAddObject:picRcd.url];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:nil];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有未重拍的照片，请先重拍后提交" ActionItems:@[cancel]];
+        [alert show];
     }
-    for (PictureRecord *picRcd in self.damagePhotosCopy)
+    else
     {
-        [damagePhotos safetyAddObject:picRcd.url];
+        NSMutableArray *scenePhotos = [[NSMutableArray alloc]init];
+        NSMutableArray *damagePhotos = [[NSMutableArray alloc]init];
+        NSMutableArray *infoPhotos = [[NSMutableArray alloc]init];
+        NSMutableArray *idPhotos = [[NSMutableArray alloc]init];
+        
+        for (PictureRecord *picRcd in self.scenePhotosCopy)
+        {
+            [scenePhotos safetyAddObject:picRcd.url];
+        }
+        for (PictureRecord *picRcd in self.damagePhotosCopy)
+        {
+            [damagePhotos safetyAddObject:picRcd.url];
+        }
+        for (PictureRecord *picRcd in self.infoPhotosCopy)
+        {
+            [infoPhotos safetyAddObject:picRcd.url];
+        }
+        for (PictureRecord *picRcd in self.licencePhotosCopy)
+        {
+            [idPhotos safetyAddObject:picRcd.url];
+        }
+        
+        UpdateClaimPicOp *op = [UpdateClaimPicOp operation];
+        op.req_claimid = self.claimID;
+        op.req_localepic = scenePhotos;
+        op.req_carlosspic = damagePhotos;
+        op.req_carinfopic = infoPhotos;
+        op.req_idphotopic = idPhotos;
+        
+        [[[op rac_postRequest]initially:^{
+            [gToast showingWithText:@"上传照片中"];
+        }]subscribeNext:^(id x) {
+            
+            [gToast showSuccess:@"上传照片完成"];
+            
+            NSDictionary *dic = @{@"claimID":self.claimID};
+            [self postCustomNotificationName:kUpdateClaimPhotosSuccess object:dic];
+            
+            CKAfter(0.5, ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+            
+            
+        } error:^(NSError *error) {
+            [gToast showError:@"上传照片失败"];
+        }];
     }
-    for (PictureRecord *picRcd in self.infoPhotosCopy)
-    {
-        [infoPhotos safetyAddObject:picRcd.url];
-    }
-    for (PictureRecord *picRcd in self.licencePhotosCopy)
-    {
-        [idPhotos safetyAddObject:picRcd.url];
-    }
-    
-    UpdateClaimPicOp *op = [UpdateClaimPicOp operation];
-    op.req_claimid = self.claimID;
-    op.req_localepic = scenePhotos;
-    op.req_carlosspic = damagePhotos;
-    op.req_carinfopic = infoPhotos;
-    op.req_idphotopic = idPhotos;
-    
-    [[[op rac_postRequest]initially:^{
-        [gToast showingWithText:@"上传照片中"];
-    }]subscribeNext:^(id x) {
-        [gToast showSuccess:@"上传照片完成"];
-    } error:^(NSError *error) {
-        [gToast showError:@"上传照片失败"];
-    }];
 }
 
 
@@ -738,6 +780,30 @@
 
 #pragma mark - Utility
 
+-(BOOL)checkPhotoNeedReupload
+{
+    if (self.scenePhotosCopy.count - self.scenePhotos.count < self.sceneReupCount)
+    {
+        return NO;
+    }
+    else if (self.damagePhotosCopy.count - self.damagePhotos.count < self.damageReupCount)
+    {
+        return NO;
+    }
+    else if (self.infoPhotosCopy.count - self.infoPhotos.count < self.infoReupCount)
+    {
+        return NO;
+    }
+    else if (self.licencePhotosCopy.count - self.licencePhotos.count < self.licenceReupCount)
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
+
 -(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems
 {
     if (!_alert)
@@ -987,6 +1053,39 @@
     }
     else
     {
+        for (NSDictionary *dic in self.scenePhotos)
+        {
+            NSNumber *isAgainUpload = [dic objectForKey:@"isagainupload"];
+            if (isAgainUpload.integerValue == 1)
+            {
+                self.sceneReupCount ++;
+            }
+        }
+        for (NSDictionary *dic in self.infoPhotos)
+        {
+            NSNumber *isAgainUpload = [dic objectForKey:@"isagainupload"];
+            if (isAgainUpload.integerValue == 1)
+            {
+                self.infoReupCount ++;
+            }
+        }
+        for (NSDictionary *dic in self.damagePhotos)
+        {
+            NSNumber *isAgainUpload = [dic objectForKey:@"isagainupload"];
+            if (isAgainUpload.integerValue == 1)
+            {
+                self.damageReupCount ++;
+            }
+        }
+        for (NSDictionary *dic in self.licencePhotos)
+        {
+            NSNumber *isAgainUpload = [dic objectForKey:@"isagainupload"];
+            if (isAgainUpload.integerValue == 1)
+            {
+                self.licenceReupCount ++;
+            }
+        }
+        
         self.collectionView.hidden = NO;
         [self.view hideDefaultEmptyView];
         [self.collectionView reloadData];
@@ -1072,6 +1171,7 @@
     self.damageCanAdd = damageFlag.integerValue == 1 ? YES : NO;
     self.infoCanAdd = infoFlag.integerValue == 1 ? YES : NO;
     self.licenceCanAdd = licenceFlag.integerValue == 1 ? YES : NO;
+    
     
     NSNumber *firstswitchNum = firstswitch;
     self.firstswitch = firstswitchNum.integerValue == 0 ? NO : YES;

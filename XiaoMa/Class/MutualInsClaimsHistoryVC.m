@@ -13,13 +13,18 @@
 #import "NSString+Price.h"
 #import "NSDate+DateForText.h"
 #import "HKImageAlertVC.h"
+#import "CKList.h"
+#import "NSString+RectSize.h"
 
 @interface MutualInsClaimsHistoryVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-
-@property (strong, nonatomic) NSArray *dataArr;
 @property (strong, nonatomic) HKImageAlertVC *alert;
+
+// 数据
+@property (strong, nonatomic) NSArray *dataArr;
+@property (strong, nonatomic) CKList *dateSource;
+
 @end
 
 @implementation MutualInsClaimsHistoryVC
@@ -137,7 +142,12 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 180;
+    
+    MutualInsClaimInfo *model = [self.dataArr safetyObjectAtIndex:indexPath.section];
+    NSString *detail = model.accidentdesc;
+    
+    CGFloat height = 80 + ceil([detail labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 50 font:[UIFont systemFontOfSize:14]].height + 30);
+    return height;
 }
 
 #pragma mark Utility
@@ -157,7 +167,7 @@
     else
     {
         GetCooperationClaimsListOp *op = [GetCooperationClaimsListOp new];
-        op.gid = self.gid;
+        op.req_gid = self.gid;
         @weakify(self)
         [[[[op rac_postRequest] initially:^{
             @strongify(self)
@@ -177,11 +187,7 @@
             self.dataArr = op.rsp_claimlist;
             if (self.dataArr.count == 0)
             {
-                
-                [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"您还没有补偿记录" tapBlock:^{
-                    @strongify(self)
-                    [self loadData];
-                }];
+                [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"您还没有补偿记录" tapBlock:nil];
             }
             [self.tableView reloadData];
         }error:^(NSError *error) {
