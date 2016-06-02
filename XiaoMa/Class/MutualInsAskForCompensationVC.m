@@ -180,17 +180,18 @@
     op.req_agreement = agreement;
     op.req_bankcardno = bankcardNo;
     
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
-        
+        @strongify(self);
         [gToast showingWithText:@"" inView:self.view];
     }] subscribeNext:^(id x) {
-        
+        @strongify(self);
         [gToast dismissInView:self.view];
         
         [self postCustomNotificationName:kNotifyUpdateClaimList object:nil];
         
     } error:^(NSError *error) {
-        
+        @strongify(self);
         [gToast showError:error.domain inView:self.view];
     }];
 }
