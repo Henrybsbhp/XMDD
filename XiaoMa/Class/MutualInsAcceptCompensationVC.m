@@ -66,6 +66,8 @@
         
         [gToast dismissInView:self.view];
         
+        [self postCustomNotificationName:kNotifyUpdateClaimList object:nil];
+        
         [self.navigationController popViewControllerAnimated:YES];
         
     } error:^(NSError *error) {

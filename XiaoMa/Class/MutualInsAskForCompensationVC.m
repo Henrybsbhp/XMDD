@@ -181,6 +181,8 @@
         
         [gToast dismissInView:self.view];
         
+        [self postCustomNotificationName:kNotifyUpdateClaimList object:nil];
+        
     } error:^(NSError *error) {
         
         [gToast showError:error.domain inView:self.view];
