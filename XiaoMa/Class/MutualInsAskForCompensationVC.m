@@ -10,8 +10,12 @@
 #import "AskToCompensationOp.h"
 #import "HKProgressView.h"
 #import "CKLine.h"
+#import "MutualInsScencePageVC.h"
 #import "NSString+RectSize.h"
 #import "UIImage+Utilities.h"
+#import "HKTimer.h"
+#import "HKImageAlertVC.h"
+#import "MutualInsAcceptCompensationVC.h"
 
 #define StamperImageWidthHeight 120
 
@@ -21,10 +25,18 @@
 @property (nonatomic, copy) NSArray *fetchedDataSource;
 
 @property (nonatomic, nonnull,strong)UIImage * stamperImage;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *newbieGuideBarButtonItem;
 
 @end
 
 @implementation MutualInsAskForCompensationVC
+
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    NSLog(@"MutualInsAskForCompensationVC deallocated");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,7 +46,70 @@
         self.tableView.rowHeight = UITableViewAutomaticDimension;
     }
     
+    [self setupRefreshView];
+    
+    [self setupNewbieGuideBarButtonItem];
+    
     [self fetchAllData];
+}
+
+- (void)setupRefreshView
+{
+    @weakify(self);
+    [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+        @strongify(self);
+        [self fetchAllData];
+    }];
+}
+
+- (void)setupNewbieGuideBarButtonItem
+{
+    BOOL isPressed = [[[NSUserDefaults standardUserDefaults] objectForKey:@"isPressed"] boolValue];
+    
+    self.newbieGuideBarButtonItem.image = isPressed ? [[UIImage imageNamed:@"mutualIns_newbieGuideButtonNoRedDot_barButtonItem"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] : [[UIImage imageNamed:@"mutualIns_newbieGuideButtonWithRedDot_barButtonItem"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+}
+
+- (IBAction)newbieGuideBarButtonClicked:(id)sender
+{
+    self.newbieGuideBarButtonItem.image = [[UIImage imageNamed:@"mutualIns_newbieGuideButtonNoRedDot_barButtonItem"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    BOOL isPressed = [[[NSUserDefaults standardUserDefaults] objectForKey:@"isPressed"] boolValue];
+    
+    if (!isPressed) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"isPressed"];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"isFirstPressed"];
+    
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0002"}];
+    
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.originVC = self;
+    NSString * urlStr;
+#if XMDDEnvironment==0
+    urlStr = @"http://dev01.xiaomadada.com/apphtml/woyaopei-help.html";
+#elif XMDDEnvironment==1
+    urlStr = @"http://dev.xiaomadada.com/apphtml/woyaopei-help.html";
+#else
+    urlStr = @"http://www.xiaomadada.com/apphtml/woyaopei-help.html";
+#endif
+    
+    vc.url = urlStr;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)serviceCallButtonClicked:(id)sender
+{
+    HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+    alert.topTitle = @"温馨提示";
+    alert.imageName = @"mins_bulb";
+    alert.message = @"报案可拨打客服电话：4007-111-111，是否立即拨打？";
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color: kGrayTextColor clickBlock:nil];
+    HKAlertActionItem *dial = [HKAlertActionItem itemWithTitle:@" 拨打" color: HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
+        [gPhoneHelper makePhone:@"4007111111"];
+    }];
+    alert.actionItems = @[cancel, dial];
+    [alert show];
 }
 
 - (void)fetchAllData
@@ -43,18 +118,45 @@
     
     @weakify(self);
     [[[op rac_postRequest] initially:^{
-        [gToast showingWithText:@"请求数据中，请稍后"];
+        CGFloat reducingY = self.view.frame.size.height * 0.1056;
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
+        self.tableView.hidden = YES;
     }] subscribeNext:^(AskToCompensationOp *rop) {
         @strongify(self);
-        [gToast dismiss];
+        [self.tableView.refreshView endRefreshing];
+        [self.view stopActivityAnimation];
+        if (rop.claimList.count > 0) {
+            self.tableView.hidden = NO;
+            [self.view hideDefaultEmptyView];
+            
+            // 记录请求到数据的时间
+            for (NSDictionary *dict in rop.claimList) {
+                dict.customInfo = [[NSMutableDictionary alloc] init];
+                [dict.customInfo setObject:[NSDate date] forKey:@"timeTag"];
+            }
+            
+            self.fetchedDataSource = rop.claimList;
+            
+            [self setDataSource];
+        } else {
+            [gToast showText:@"未查找到结果"];
+            self.tableView.hidden = YES;
+            [self.view showEmptyViewWithImageName:@"def_noCompensationRecord_imageView" text:@"暂无补偿记录" textColor:HEXCOLOR(@"#18D06A") centerOffset:-80 tapBlock:nil];
+        }
         self.fetchedDataSource = rop.claimList;
         [self setDataSource];
     } error:^(NSError *error) {
-        [gToast showMistake:error.domain];
+        @strongify(self);
+        [self.tableView.refreshView endRefreshing];
+        [self.view stopActivityAnimation];
+        [self.view showDefaultEmptyViewWithText:@"请求数据失败，请点击重试" tapBlock:^{
+            [self.view hideDefaultEmptyView];
+            [self  fetchAllData];
+        }];
     }];
 }
 
-- (NSInteger)indexOfProgressViewFromFetchedStatus:(int)status fastClaimNo:(int)fastClaimNo
+- (NSInteger)indexOfProgressViewFromFetchedStatus:(NSInteger)status fastClaimNo:(NSInteger)fastClaimNo
 {
     if (status <= 0 || status == 4 || status == 2 || status == 5) {
         return 1;
@@ -73,306 +175,27 @@
     NSMutableArray *dataArray = [NSMutableArray new];
     for (NSDictionary *dict in self.fetchedDataSource) {
         
-        int isFastClaimInt = [dict[@"isfastclaim"] intValue];
-        int status = [dict[@"status"] intValue];
+        NSInteger isFastClaimInt = [dict[@"isfastclaim"] integerValue];
+        NSInteger status = [dict[@"status"] integerValue];
         NSArray *detailInfoArray = dict[@"detailinfo"];
         
-        CKDict *progressCell = [CKDict dictWith:@{kCKItemKey: @"progressCell", kCKCellID: @"ProgressCell"}];
-        progressCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-            return 48;
-        });
-        progressCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-            HKProgressView *progressView = (HKProgressView *)[cell.contentView viewWithTag:100];
-            UIView *backgroundView = (UIView *)[cell.contentView viewWithTag:101];
-            CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:102];
-            CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:103];
-            UIView *fillingView = (UIView *)[cell.contentView viewWithTag:104];
-            [cell.contentView bringSubviewToFront:fillingView];
-            rightLine.lineColor = kLightLineColor;
-            rightLine.linePixelWidth = 1;
-            rightLine.lineAlignment = CKLineAlignmentVerticalRight;
-            leftLine.lineColor = kLightLineColor;
-            leftLine.linePixelWidth = 1;
-            leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
-            [cell.contentView bringSubviewToFront:leftLine];
-            [cell.contentView bringSubviewToFront:rightLine];
-            
-            progressView.normalColor = kBackgroundColor;
-            progressView.normalTextColor = HEXCOLOR(@"#BCBCBC");
-            
-            // 通过 isfastclaim 的值决定 progressView.titleArray 的个数
-            if (isFastClaimInt == 1) {
-                progressView.titleArray = @[@"补偿定价", @"补偿确认", @"补偿结束"];
-            } else {
-                progressView.titleArray = @[@"补偿定价", @"补偿结束"];
-            }
-            
-            NSInteger index = [self indexOfProgressViewFromFetchedStatus:status fastClaimNo:isFastClaimInt];
-            
-            progressView.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, index)];
-            
-            backgroundView.layer.borderColor = HEXCOLOR(@"#dedfe0").CGColor;
-            backgroundView.layer.borderWidth = 0.5;
-            backgroundView.layer.masksToBounds = YES;
-            
-            cell.layer.masksToBounds = YES;
-        });
+        CKDict *progressCell = [self setupProgressViewCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
         
-        CKDict *statusCell = [CKDict dictWith:@{kCKItemKey: @"statusCell", kCKCellID: @"StatusCell"}];
-        statusCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-            return 34;
-        });
-        statusCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-            UIView *statusTagView = (UIView *)[cell.contentView viewWithTag:106];
-            UILabel *carNumberLabel = (UILabel *)[cell.contentView viewWithTag:100];
-            UIImageView *statusImageView = (UIImageView *)[cell.contentView viewWithTag:101];
-            UIImageView *stamperImageView = (UIImageView *)[cell.contentView viewWithTag:105];
-            UILabel *statusLabel = (UILabel *)[cell.contentView viewWithTag:102];
-            CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:103];
-            CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:104];
-            
-            rightLine.lineColor = kLightLineColor;
-            rightLine.linePixelWidth = 1;
-            rightLine.lineAlignment = CKLineAlignmentVerticalRight;
-            leftLine.lineColor = kLightLineColor;
-            leftLine.linePixelWidth = 1;
-            leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
-            
-            carNumberLabel.text = dict[@"licensenum"];
-            
-            if (isFastClaimInt == 1) {
-                stamperImageView.hidden = NO;
-                
-                if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])
-                {
-                    stamperImageView.image = dict.customObject;
-                }
-                else
-                {
-                    UIImage * cuttedImage = [self.stamperImage croppedImage:CGRectMake(0, 0, StamperImageWidthHeight, 16)];
-                    dict.customObject = cuttedImage;
-                    stamperImageView.image = dict.customObject;
-                }
-            } else {
-                stamperImageView.hidden = YES;
-            }
-            
-            [cell.contentView bringSubviewToFront:stamperImageView];
-            
-            NSString *imageName;
-            if (status == -1 || status == 4 || status == 1) {
-                imageName = @"common_statusTagRed_imageView";
-            } else if (status == 0 || status == 2 || status == 10 || status == 20) {
-                imageName = @"common_statusTagOrange_imageView";
-            } else {
-                imageName = @"common_statusTagGreen_imageView";
-            }
-            UIImage *image = [UIImage imageNamed:imageName];
-            image = [image stretchableImageWithLeftCapWidth:image.size.width * 0.5 topCapHeight:0];
-            statusImageView.image = image;
-            
-            statusLabel.text = dict[@"statusdesc"];
-            
-            [cell.contentView bringSubviewToFront:statusTagView];
-            cell.clipsToBounds = NO;
-            cell.contentView.clipsToBounds = NO;
-        });
+        CKDict *statusCell = [self setupStatusCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
         
-        CKDict *detailCell = [CKDict dictWith:@{kCKItemKey: @"detailCell", kCKCellID: @"DetailCell"}];
-        detailCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-            
-            NSDictionary *dict = detailInfoArray[indexPath.row - 2];
-            NSString * content = dict[[[dict allKeys] safetyObjectAtIndex:0]];
-            NSString * title = [[dict allKeys] safetyObjectAtIndex:0];
-            
-            CGFloat height = [self heightOfDetailCell:content title:title];
-    
-            return ceil(height);
-        });
-        detailCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-            UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:100];
-            UILabel *descriptionLabel = (UILabel *)[cell.contentView viewWithTag:101];
-            CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:102];
-            CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:103];
-            UIImageView *stamperImageView = (UIImageView *)[cell.contentView viewWithTag:105];
-            
-            leftLine.lineColor = kLightLineColor;
-            leftLine.linePixelWidth = 1;
-            leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
-            rightLine.lineColor = kLightLineColor;
-            rightLine.linePixelWidth = 1;
-            rightLine.lineAlignment = CKLineAlignmentVerticalRight;
-            
-            NSDictionary *dict = [detailInfoArray safetyObjectAtIndex:indexPath.row - 2];
-            NSString * content = dict[[[dict allKeys] safetyObjectAtIndex:0]];
-            NSString * title = [[dict allKeys] safetyObjectAtIndex:0];
-            titleLabel.text = title;
-            descriptionLabel.text = content;
-            
-            if (isFastClaimInt == 1) {
-                stamperImageView.hidden = NO;
-                
-                if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])
-                {
-                    stamperImageView.image = dict.customObject;
-                }
-                else
-                {
-                    
-                    CGFloat offsetY = 16;
-                    for (NSInteger i = 0;i < indexPath.row - 2;i++)
-                    {
-                        NSDictionary *eachDict = [detailInfoArray safetyObjectAtIndex:i];
-                        NSString * eachContent = eachDict[[[eachDict allKeys] safetyObjectAtIndex:0]];
-                        NSString * eachTitle = [[eachDict allKeys] safetyObjectAtIndex:0];
-                    
-                        CGFloat height = [self heightOfDetailCell:eachContent title:eachTitle];
-                        offsetY = offsetY + height;
-                    }
-                    
-                    if (offsetY >= StamperImageWidthHeight)
-                    {
-                        stamperImageView.hidden = YES;
-                    }
-                    else
-                    {
-                        CGFloat height = [self heightOfDetailCell:content title:title];
-                        UIImage * cuttedImage = [self.stamperImage croppedImage:CGRectMake(0, offsetY, StamperImageWidthHeight, height)];
-                        dict.customObject = cuttedImage;
-                        stamperImageView.image = dict.customObject;
-                        stamperImageView.hidden = NO;
-                    }
-                }
-            }
-            else
-            {
-                stamperImageView.hidden = YES;
-            }
-        });
+        CKDict *detailCell = [self setupDetailCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
         
-        CKDict *tipsCell = [CKDict dictWith:@{kCKItemKey: @"tipsCell", kCKCellID: @"TipsCell"}];
-        tipsCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-            if (IOSVersionGreaterThanOrEqualTo(@"8.0")) {
-                
-                return UITableViewAutomaticDimension;
-                
-            }
-            
-            UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
-            [cell layoutIfNeeded];
-            [cell setNeedsUpdateConstraints];
-            [cell updateConstraintsIfNeeded];
-            CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-            return ceil(size.height + 1);
-        });
-        tipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-            UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:100];
-            CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:101];
-            CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:102];
-            
-            leftLine.lineColor = kLightLineColor;
-            leftLine.linePixelWidth = 1;
-            leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
-            rightLine.lineColor = kLightLineColor;
-            rightLine.linePixelWidth = 1;
-            rightLine.lineAlignment = CKLineAlignmentVerticalRight;
-            
-            if (status == -1 || status == 4 || status == 1) {
-                tipsLabel.textColor = [UIColor redColor];
-            } else if (status == 0 || status == 2 || status == 10 || status == 20) {
-                tipsLabel.textColor = HEXCOLOR(@"#E87131");
-            } else {
-                tipsLabel.textColor = HEXCOLOR(@"#18D06A");
-            }
-            
-            tipsLabel.text = dict[@"detailstatusdes"];
-        });
+        CKDict *tipsCell = [self setupTipsCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
         
-        CKDict *takePhotoCell = [CKDict dictWith:@{kCKItemKey: @"takePhotoCell", kCKCellID: @"TakePhotoCell"}];
-        takePhotoCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-            return 44;
-        });
-        takePhotoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-            UIButton *takePhotoButton = (UIButton *)[cell.contentView viewWithTag:100];
-            CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:101];
-            CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:102];
-            
-            leftLine.lineColor = kLightLineColor;
-            leftLine.linePixelWidth = 1;
-            leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
-            rightLine.lineColor = kLightLineColor;
-            rightLine.linePixelWidth = 1;
-            rightLine.lineAlignment = CKLineAlignmentVerticalRight;
-            [cell.contentView bringSubviewToFront:leftLine];
-            [cell.contentView bringSubviewToFront:rightLine];
-            
-            takePhotoButton.layer.borderColor = HEXCOLOR(@"#dedfe0").CGColor;
-            takePhotoButton.layer.borderWidth = 0.5;
-            takePhotoButton.layer.masksToBounds = YES;
-        });
+        CKDict *takePhotoCell = [self setupTakePhotoCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
-        CKDict *compensateOrDeclineCell = [CKDict dictWith:@{kCKItemKey: @"compensateOrDeclineCell", kCKCellID: @"CompensateOrDeclineCell"}];
-        compensateOrDeclineCell[kCKCellPrepare] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-            return 44;
-        });
-        compensateOrDeclineCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-            UIView *backgroundView = (UIView *)[cell.contentView viewWithTag:100];
-            UIView *fillingView = (UIView *)[cell.contentView viewWithTag:105];
-            UIButton *accpectCompensationButton = (UIButton *)[cell.contentView viewWithTag:101];
-            UIButton *declineButton = (UIButton *)[cell.contentView viewWithTag:102];
-            CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:103];
-            CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:104];
-            
-            backgroundView.layer.cornerRadius = 5.0f;
-            backgroundView.layer.borderColor = HEXCOLOR(@"#DEDFE0").CGColor;
-            backgroundView.layer.borderWidth = 0.5;
-            backgroundView.layer.masksToBounds = YES;
-            
-            [cell.contentView bringSubviewToFront:fillingView];
-            
-            leftLine.lineColor = kLightLineColor;
-            leftLine.linePixelWidth = 1;
-            leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
-            rightLine.lineColor = kLightLineColor;
-            rightLine.linePixelWidth = 1;
-            rightLine.lineAlignment = CKLineAlignmentVerticalRight;
-            [cell.contentView bringSubviewToFront:leftLine];
-            [cell.contentView bringSubviewToFront:rightLine];
-        });
+        CKDict *compensateOrDeclineCell = [self setupCompensateOrDeclineCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
-        CKDict *compensationPriceBottomCell = [CKDict dictWith:@{kCKItemKey: @"compensationPriceBottomCell", kCKCellID: @"CompensationPriceBottomCell"}];
-        compensationPriceBottomCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-            return 40;
-        });
-        compensationPriceBottomCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-            UIView *backgroundView = (UIView *)[cell.contentView viewWithTag:100];
-            UIView *fillingView = (UIView *)[cell.contentView viewWithTag:104];
-            UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
-            CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:102];
-            CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:103];
-            
-            backgroundView.layer.cornerRadius = 5.0f;
-            backgroundView.layer.borderColor = HEXCOLOR(@"#DEDFE0").CGColor;
-            backgroundView.layer.borderWidth = 0.5;
-            backgroundView.layer.masksToBounds = YES;
-            
-            [cell.contentView bringSubviewToFront:fillingView];
-            
-            leftLine.lineColor = kLightLineColor;
-            leftLine.linePixelWidth = 1;
-            leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
-            rightLine.lineColor = kLightLineColor;
-            rightLine.linePixelWidth = 1;
-            rightLine.lineAlignment = CKLineAlignmentVerticalRight;
-            [cell.contentView bringSubviewToFront:leftLine];
-            [cell.contentView bringSubviewToFront:rightLine];
-            
-            tipsLabel.text = @"补偿金额：8888.88元";
-        });
+        CKDict *compensationPriceBottomCell = [self setupCompensationPriceBottomCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
         if ([dict[@"status"] integerValue] == -1) {
             CKList *waitingForPhoto = $(progressCell, statusCell);
@@ -395,7 +218,7 @@
                 [detailCellArray addObject:detailCell];
             }
             [photoTook addObjectsFromArray:detailCellArray];
-            NSArray *remainingCell = @[tipsCell];
+            NSArray *remainingCell = @[compensationPriceBottomCell];
             [photoTook addObjectsFromArray:remainingCell];
             [dataArray addObject:photoTook];
         }
@@ -421,7 +244,7 @@
                 [detailCellArray addObject:detailCell];
             }
             [compensating addObjectsFromArray:detailCellArray];
-            NSArray *remainingCell = @[tipsCell];
+            NSArray *remainingCell = @[compensationPriceBottomCell];
             [compensating addObjectsFromArray:remainingCell];
             [dataArray addObject:compensating];
         }
@@ -434,7 +257,7 @@
                 [detailCellArray addObject:detailCell];
             }
             [compensationEnded addObjectsFromArray:detailCellArray];
-            NSArray *remainingCell = @[tipsCell];
+            NSArray *remainingCell = @[compensationPriceBottomCell];
             [compensationEnded addObjectsFromArray:remainingCell];
             [dataArray addObject:compensationEnded];
         }
@@ -486,7 +309,7 @@
                 [detailCellArray addObject:detailCell];
             }
             [systemDeclined addObjectsFromArray:detailCellArray];
-            NSArray *remainingCell = @[tipsCell];
+            NSArray *remainingCell = @[compensationPriceBottomCell];
             [systemDeclined addObjectsFromArray:remainingCell];
             [dataArray addObject:systemDeclined];
         }
@@ -499,6 +322,449 @@
     [self.tableView reloadData];
 }
 
+- (CKDict *)setupProgressViewCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
+{
+    @weakify(self);
+    CKDict *progressCell = [CKDict dictWith:@{kCKItemKey: @"progressCell", kCKCellID: @"ProgressCell"}];
+    progressCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 48;
+    });
+    progressCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        HKProgressView *progressView = (HKProgressView *)[cell.contentView viewWithTag:100];
+        UIView *backgroundView = (UIView *)[cell.contentView viewWithTag:101];
+        CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:102];
+        CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:103];
+        UIView *fillingView = (UIView *)[cell.contentView viewWithTag:104];
+        [cell.contentView bringSubviewToFront:fillingView];
+        rightLine.lineColor = kLightLineColor;
+        rightLine.linePixelWidth = 1;
+        rightLine.lineAlignment = CKLineAlignmentVerticalRight;
+        leftLine.lineColor = kLightLineColor;
+        leftLine.linePixelWidth = 1;
+        leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
+        [cell.contentView bringSubviewToFront:leftLine];
+        [cell.contentView bringSubviewToFront:rightLine];
+        
+        progressView.normalColor = kBackgroundColor;
+        progressView.normalTextColor = HEXCOLOR(@"#BCBCBC");
+        
+        // 通过 isfastclaim 的值决定 progressView.titleArray 的个数
+        if (isFastClaimInt == 1) {
+            progressView.titleArray = @[@"补偿定价", @"补偿确认", @"补偿结束"];
+        } else {
+            progressView.titleArray = @[@"补偿定价", @"补偿结束"];
+        }
+        
+        NSInteger index = [self indexOfProgressViewFromFetchedStatus:status fastClaimNo:isFastClaimInt];
+        
+        progressView.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, index)];
+        
+        backgroundView.layer.borderColor = HEXCOLOR(@"#dedfe0").CGColor;
+        backgroundView.layer.borderWidth = 0.5;
+        backgroundView.layer.masksToBounds = YES;
+        
+        cell.layer.masksToBounds = YES;
+    });
+    
+    return progressCell;
+}
+
+- (CKDict *)setupStatusCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
+{
+    @weakify(self);
+    CKDict *statusCell = [CKDict dictWith:@{kCKItemKey: @"statusCell", kCKCellID: @"StatusCell"}];
+    statusCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 34;
+    });
+    statusCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        UIView *statusTagView = (UIView *)[cell.contentView viewWithTag:106];
+        UILabel *carNumberLabel = (UILabel *)[cell.contentView viewWithTag:100];
+        UIImageView *statusImageView = (UIImageView *)[cell.contentView viewWithTag:101];
+        UIImageView *stamperImageView = (UIImageView *)[cell.contentView viewWithTag:105];
+        UILabel *statusLabel = (UILabel *)[cell.contentView viewWithTag:102];
+        CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:103];
+        CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:104];
+        
+        rightLine.lineColor = kLightLineColor;
+        rightLine.linePixelWidth = 1;
+        rightLine.lineAlignment = CKLineAlignmentVerticalRight;
+        leftLine.lineColor = kLightLineColor;
+        leftLine.linePixelWidth = 1;
+        leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
+        
+        carNumberLabel.text = dict[@"licensenum"];
+        
+        if (isFastClaimInt == 1) {
+            stamperImageView.hidden = NO;
+            
+            if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])
+            {
+                stamperImageView.image = dict.customObject;
+            }
+            else
+            {
+                UIImage * cuttedImage = [self.stamperImage croppedImage:CGRectMake(0, 0, StamperImageWidthHeight, 16)];
+                dict.customObject = cuttedImage;
+                stamperImageView.image = dict.customObject;
+            }
+        } else {
+            stamperImageView.hidden = YES;
+        }
+        
+        [cell.contentView bringSubviewToFront:stamperImageView];
+        
+        NSString *imageName;
+        if (status == -1 || status == 4 || status == 1 || status == 5) {
+            imageName = @"common_statusTagRed_imageView";
+        } else if (status == 0 || status == 2 || status == 10 || status == 20) {
+            imageName = @"common_statusTagOrange_imageView";
+        } else {
+            imageName = @"common_statusTagGreen_imageView";
+        }
+        UIImage *image = [UIImage imageNamed:imageName];
+        image = [image stretchableImageWithLeftCapWidth:image.size.width * 0.5 topCapHeight:0];
+        statusImageView.image = image;
+        
+        statusLabel.text = dict[@"statusdesc"];
+        
+        [cell.contentView bringSubviewToFront:statusTagView];
+        cell.clipsToBounds = NO;
+        cell.contentView.clipsToBounds = NO;
+    });
+    
+    return statusCell;
+}
+
+- (CKDict *)setupDetailCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
+{
+    @weakify(self);
+    CKDict *detailCell = [CKDict dictWith:@{kCKItemKey: @"detailCell", kCKCellID: @"DetailCell"}];
+    detailCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        
+        NSDictionary *dict = detailInfoArray[indexPath.row - 2];
+        NSString * content = dict[[[dict allKeys] safetyObjectAtIndex:0]];
+        NSString * title = [[dict allKeys] safetyObjectAtIndex:0];
+        
+        CGFloat height = [self heightOfDetailCell:content title:title];
+        
+        return ceil(height);
+    });
+    detailCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:100];
+        UILabel *descriptionLabel = (UILabel *)[cell.contentView viewWithTag:101];
+        CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:102];
+        CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:103];
+        UIImageView *stamperImageView = (UIImageView *)[cell.contentView viewWithTag:105];
+        
+        leftLine.lineColor = kLightLineColor;
+        leftLine.linePixelWidth = 1;
+        leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
+        rightLine.lineColor = kLightLineColor;
+        rightLine.linePixelWidth = 1;
+        rightLine.lineAlignment = CKLineAlignmentVerticalRight;
+        
+        NSDictionary *dict = [detailInfoArray safetyObjectAtIndex:indexPath.row - 2];
+        NSString * title = [[dict allKeys] safetyObjectAtIndex:0];
+        NSString * content = dict[title];
+        
+        titleLabel.text = title;
+        descriptionLabel.text = content;
+        
+        if (isFastClaimInt == 1) {
+            stamperImageView.hidden = NO;
+            
+            if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])
+            {
+                stamperImageView.image = dict.customObject;
+            }
+            else
+            {
+                
+                CGFloat offsetY = 16;
+                for (NSInteger i = 0;i < indexPath.row - 2;i++)
+                {
+                    NSDictionary *eachDict = [detailInfoArray safetyObjectAtIndex:i];
+                    NSString * eachContent = eachDict[[[eachDict allKeys] safetyObjectAtIndex:0]];
+                    NSString * eachTitle = [[eachDict allKeys] safetyObjectAtIndex:0];
+                    
+                    CGFloat height = [self heightOfDetailCell:eachContent title:eachTitle];
+                    offsetY = offsetY + height;
+                }
+                
+                if (offsetY >= StamperImageWidthHeight)
+                {
+                    stamperImageView.hidden = YES;
+                }
+                else
+                {
+                    CGFloat height = [self heightOfDetailCell:content title:title];
+                    UIImage * cuttedImage = [self.stamperImage croppedImage:CGRectMake(0, offsetY, StamperImageWidthHeight, height)];
+                    dict.customObject = cuttedImage;
+                    stamperImageView.image = dict.customObject;
+                    stamperImageView.hidden = NO;
+                }
+            }
+        }
+        else
+        {
+            stamperImageView.hidden = YES;
+        }
+    });
+    
+    return detailCell;
+}
+
+- (CKDict *)setupTipsCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
+{
+    @weakify(self);
+    CKDict *tipsCell = [CKDict dictWith:@{kCKItemKey: @"tipsCell", kCKCellID: @"TipsCell"}];
+    tipsCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        NSString *title = dict[@"detailstatusdesc"];
+        CGSize titleSize = [title labelSizeWithWidth:self.tableView.frame.size.width - 16 font:[UIFont systemFontOfSize:11]];
+        
+        CGFloat height = titleSize.height + 15;
+        height = MAX(height, 36);
+        return height;
+    });
+    tipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:100];
+        CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:101];
+        CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:102];
+        
+        leftLine.lineColor = kLightLineColor;
+        leftLine.linePixelWidth = 1;
+        leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
+        rightLine.lineColor = kLightLineColor;
+        rightLine.linePixelWidth = 1;
+        rightLine.lineAlignment = CKLineAlignmentVerticalRight;
+        
+        // 通过状态来判断字体颜色和大小
+        if (status == -1 || status == 4 || status == 1 || status == 5) {
+            tipsLabel.textColor = HEXCOLOR(@"#D02C47");
+            tipsLabel.font = [UIFont systemFontOfSize:11];
+            
+            if (status == 1) {
+                tipsLabel.font = [UIFont systemFontOfSize:17];
+            }
+        } else if (status == 0 || status == 2 || status == 10 || status == 20) {
+            tipsLabel.textColor = HEXCOLOR(@"#E87131");
+            tipsLabel.font = [UIFont systemFontOfSize:11];
+            
+            if (status == 2) {
+                tipsLabel.font = [UIFont systemFontOfSize:17];
+            }
+        } else {
+            tipsLabel.textColor = HEXCOLOR(@"#18D06A");
+            tipsLabel.font = [UIFont systemFontOfSize:17];
+        }
+        
+        if (status == -1) {
+            NSTimeInterval leftTimeInterval = [dict[@"lefttime"] integerValue] / 1000;
+            if (leftTimeInterval <= 0) {
+                
+            } else {
+                NSDate *recordedDate;
+                
+                if (dict.customInfo) {
+                    recordedDate = dict.customInfo[@"timeTag"];
+                } else {
+                    [NSDate date];
+                }
+                
+                NSDate *currentDate = [NSDate date];
+                
+                NSTimeInterval endingTimeInterval = [recordedDate timeIntervalSince1970] + leftTimeInterval;
+                NSTimeInterval currentTimeInterval = [currentDate timeIntervalSince1970];
+                
+                NSTimeInterval spacingTimeInterval = endingTimeInterval - currentTimeInterval;
+                
+                if (spacingTimeInterval > 0) {
+                    NSString *titleString = dict[@"detailstatusdesc"];
+                    NSString *timeString = [HKTimer ddhhmmFormatWithTimeInterval:spacingTimeInterval];
+                    tipsLabel.text = [titleString stringByAppendingString:timeString];
+                    
+                    @weakify(self);
+                    [[[HKTimer rac_timeCountDownWithOrigin:endingTimeInterval andTimeTag:0] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSString *timeString) {
+                        @strongify(self);
+                        NSString *countDownTitleString = dict[@"detailstatusdesc"];
+                        if (![timeString isEqualToString:@"end"]) {
+                            tipsLabel.text = [countDownTitleString stringByAppendingString:timeString];
+                        } else {
+                            tipsLabel.text = [countDownTitleString stringByAppendingString:@"00:00:00"];
+                            [self fetchAllData];
+                        }
+                    }];
+                }
+            }
+        } else {
+            tipsLabel.text = dict[@"detailstatusdesc"];
+        }
+    });
+    
+    return tipsCell;
+}
+
+- (CKDict *)setupTakePhotoCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
+{
+    @weakify(self);
+    CKDict *takePhotoCell = [CKDict dictWith:@{kCKItemKey: @"takePhotoCell", kCKCellID: @"TakePhotoCell"}];
+    takePhotoCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 44;
+    });
+    takePhotoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        UIButton *takePhotoButton = (UIButton *)[cell.contentView viewWithTag:100];
+        CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:101];
+        CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:102];
+        UIView *fillingView = (UIView *)[cell.contentView viewWithTag:103];
+        
+        leftLine.lineColor = kLightLineColor;
+        leftLine.linePixelWidth = 1;
+        leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
+        rightLine.lineColor = kLightLineColor;
+        rightLine.linePixelWidth = 1;
+        rightLine.lineAlignment = CKLineAlignmentVerticalRight;
+        [cell.contentView bringSubviewToFront:leftLine];
+        [cell.contentView bringSubviewToFront:rightLine];
+        
+        takePhotoButton.layer.borderColor = HEXCOLOR(@"#dedfe0").CGColor;
+        takePhotoButton.layer.borderWidth = 0.5;
+        takePhotoButton.layer.masksToBounds = YES;
+        
+        if (status == 4) {
+            [takePhotoButton setTitle:@"重新拍照上传" forState:UIControlStateNormal];
+            [[[takePhotoButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                
+                
+            }];
+        } else {
+            [takePhotoButton setTitle:@"拍照上传" forState:UIControlStateNormal];
+            @weakify(self);
+            [[[takePhotoButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                @strongify(self);
+                MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
+                //                scencePageVC.noticeArr = self.tempArr;
+                scencePageVC.claimid = dict[@"claimid"];
+                [self.navigationController pushViewController:scencePageVC animated:YES];
+            }];
+        }
+        
+        if (status == 5) {
+            takePhotoButton.enabled = NO;
+        } else {
+            takePhotoButton.enabled = YES;
+        }
+    });
+    
+    return takePhotoCell;
+}
+
+- (CKDict *)setupCompensateOrDeclineCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
+{
+    @weakify(self);
+    CKDict *compensateOrDeclineCell = [CKDict dictWith:@{kCKItemKey: @"compensateOrDeclineCell", kCKCellID: @"CompensateOrDeclineCell"}];
+    compensateOrDeclineCell[kCKCellPrepare] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 44;
+    });
+    compensateOrDeclineCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        UIView *backgroundView = (UIView *)[cell.contentView viewWithTag:100];
+        UIView *fillingView = (UIView *)[cell.contentView viewWithTag:105];
+        UIButton *accpectCompensationButton = (UIButton *)[cell.contentView viewWithTag:101];
+        UIButton *declineButton = (UIButton *)[cell.contentView viewWithTag:102];
+        CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:103];
+        CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:104];
+        
+        backgroundView.layer.cornerRadius = 5.0f;
+        backgroundView.layer.borderColor = HEXCOLOR(@"#DEDFE0").CGColor;
+        backgroundView.layer.borderWidth = 0.5;
+        backgroundView.layer.masksToBounds = YES;
+        
+        [cell.contentView bringSubviewToFront:fillingView];
+        
+        leftLine.lineColor = kLightLineColor;
+        leftLine.linePixelWidth = 1;
+        leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
+        rightLine.lineColor = kLightLineColor;
+        rightLine.linePixelWidth = 1;
+        rightLine.lineAlignment = CKLineAlignmentVerticalRight;
+        [cell.contentView bringSubviewToFront:leftLine];
+        [cell.contentView bringSubviewToFront:rightLine];
+    });
+    
+    return compensateOrDeclineCell;
+}
+
+- (CKDict *)setupCompensationPriceBottomCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
+{
+    @weakify(self);
+    CKDict *compensationPriceBottomCell = [CKDict dictWith:@{kCKItemKey: @"compensationPriceBottomCell", kCKCellID: @"CompensationPriceBottomCell"}];
+    compensationPriceBottomCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        NSString *title = dict[@"detailstatusdesc"];
+        CGSize titleSize = [title labelSizeWithWidth:self.tableView.frame.size.width - 16 font:[UIFont systemFontOfSize:11]];
+        
+        CGFloat height = titleSize.height + 20;
+        height = MAX(height, 40);
+        return height;
+    });
+    compensationPriceBottomCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        UIView *backgroundView = (UIView *)[cell.contentView viewWithTag:100];
+        UIView *fillingView = (UIView *)[cell.contentView viewWithTag:104];
+        UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
+        CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:102];
+        CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:103];
+        
+        backgroundView.layer.cornerRadius = 5.0f;
+        backgroundView.layer.borderColor = HEXCOLOR(@"#DEDFE0").CGColor;
+        backgroundView.layer.borderWidth = 0.5;
+        backgroundView.layer.masksToBounds = YES;
+        
+        [cell.contentView bringSubviewToFront:fillingView];
+        
+        leftLine.lineColor = kLightLineColor;
+        leftLine.linePixelWidth = 1;
+        leftLine.lineAlignment = CKLineAlignmentVerticalLeft;
+        rightLine.lineColor = kLightLineColor;
+        rightLine.linePixelWidth = 1;
+        rightLine.lineAlignment = CKLineAlignmentVerticalRight;
+        [cell.contentView bringSubviewToFront:leftLine];
+        [cell.contentView bringSubviewToFront:rightLine];
+        
+        // 通过状态来判断字体颜色和大小
+        if (status == -1 || status == 4 || status == 1 || status == 5) {
+            tipsLabel.textColor = HEXCOLOR(@"#D02C47");
+            tipsLabel.font = [UIFont systemFontOfSize:11];
+            
+            if (status == 1) {
+                tipsLabel.font = [UIFont systemFontOfSize:17];
+            }
+        } else if (status == 0 || status == 2 || status == 10 || status == 20) {
+            tipsLabel.textColor = HEXCOLOR(@"#E87131");
+            tipsLabel.font = [UIFont systemFontOfSize:11];
+            
+            if (status == 2) {
+                tipsLabel.font = [UIFont systemFontOfSize:17];
+            }
+        } else {
+            tipsLabel.textColor = HEXCOLOR(@"#18D06A");
+            tipsLabel.font = [UIFont systemFontOfSize:17];
+        }
+        
+        tipsLabel.text = dict[@"detailstatusdesc"];
+    });
+    
+    return compensationPriceBottomCell;
+}
+
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -507,7 +773,35 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.dataSource[section] count];
+    CKList *cellList = self.dataSource[section];
+    NSArray *countArray = [cellList allObjects];
+    return countArray.count;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *dataDict = [self.fetchedDataSource safetyObjectAtIndex:indexPath.section];
+    NSInteger status = [dataDict[@"status"] integerValue];
+    
+    if (status == 20) {
+        NSLog(@"STATUS SECTION TAPPED!");
+        
+        
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return 15;
+    }
+    
+    return 8;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -555,4 +849,5 @@
     }
     return _stamperImage;
 }
+
 @end
