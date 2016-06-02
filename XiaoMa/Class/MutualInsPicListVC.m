@@ -261,24 +261,54 @@
 {
     NSInteger count = 0;
     
-    switch (section)
+    if (section == 0)
     {
-        case 0:
-            // 可能会有点难读。主要是为了限制只能重新拍五张照片
-            count = MIN(self.scenePhotos.count + 1 + 5, self.scenePhotosCopy.count + 1 + (self.scenePhotosCopy.count - self.scenePhotos.count < 5 ? 1 : 0));
-            break;
-        case 1:
-            count = MIN(self.damagePhotos.count + 1 + 5, self.damagePhotosCopy.count + 1 + (self.damagePhotosCopy.count - self.damagePhotos.count < 5 ? 1 : 0));
-            break;
-        case 2:
-            count = MIN(self.infoPhotos.count + 1 + 5, self.infoPhotosCopy.count + 1 + (self.infoPhotosCopy.count - self.infoPhotos.count < 5 ? 1 : 0));
-            break;
-        case 3:
-            count = MIN(self.licencePhotos.count + 1 + 5, self.licencePhotosCopy.count + 1 + (self.licencePhotosCopy.count - self.licencePhotos.count < 5 ? 1 : 0));
-            break;
-        default:
-            count = 1;
-            break;
+        if (self.sceneCanAdd)
+        {
+            NSInteger maximum = self.scenePhotos.count + 6;
+            count = MIN(maximum, self.scenePhotosCopy.count + 1 + (self.scenePhotosCopy.count - self.scenePhotos.count < 5 ? 1 : 0));
+        }
+        else
+        {
+            count = self.scenePhotos.count + 1;
+        }
+        
+    }
+    else if (section == 1)
+    {
+        if (self.damageCanAdd)
+        {
+            NSInteger maximum = self.damagePhotos.count + 6;
+            count = MIN(maximum, self.damagePhotosCopy.count + 1 + (self.damagePhotosCopy.count - self.damagePhotos.count < 5 ? 1 : 0));
+        }
+        else
+        {
+            count = self.damagePhotos.count + 1;
+        }
+    }
+    else if (section == 2)
+    {
+        if (self.infoCanAdd)
+        {
+            NSInteger maximum = self.infoPhotos.count + 6;
+            count = MIN(maximum, self.infoPhotosCopy.count + 1 + (self.infoPhotosCopy.count - self.infoPhotos.count < 5 ? 1 : 0));
+        }
+        else
+        {
+            count = self.infoPhotos.count + 1;
+        }
+    }
+    else
+    {
+        if (self.licenceCanAdd)
+        {
+            NSInteger maximum = self.licencePhotos.count + 6;
+            count = MIN(maximum, self.licencePhotosCopy.count + 1 + (self.licencePhotosCopy.count - self.licencePhotos.count < 5 ? 1 : 0));
+        }
+        else
+        {
+            count = self.licencePhotos.count + 1;
+        }
     }
     
     return count;
@@ -463,6 +493,7 @@
             }];
             HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
             [alert show];
+//            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
             
         }];
         
@@ -1344,13 +1375,13 @@
         
         @strongify(self)
         
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y * 0.7)];
+        [gToast showingWithText:@"数据加载中"];
         
     }]subscribeNext:^(RACTuple *arr) {
         
         @strongify(self)
         
-        [self.view stopActivityAnimation];
+        [gToast dismiss];
         
         GetCoorperationClaimConfigOp *claimConfigOp = arr.first;
         GetCooperationMyCarOp *carOp = arr.second;
@@ -1363,7 +1394,6 @@
         
         @strongify(self)
         
-        [self.view stopActivityAnimation];
         [gToast showMistake:error.domain];
         
     }];
