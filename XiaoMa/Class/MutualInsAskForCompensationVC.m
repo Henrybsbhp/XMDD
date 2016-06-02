@@ -630,11 +630,13 @@
                             tipsLabel.text = [countDownTitleString stringByAppendingString:timeString];
                         } else {
                             
-                            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"倒计时更新结束" message:@"hx大傻逼" delegate:nil
-                                                                cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                            [av show];
                             tipsLabel.text = [countDownTitleString stringByAppendingString:@"00:00:00"];
-                            [self fetchAllData];
+                            
+                            /// 系统时间走的比服务器快，延迟2s刷新
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                
+                                [self fetchAllData];
+                            });
                         }
                     }];
                 }
