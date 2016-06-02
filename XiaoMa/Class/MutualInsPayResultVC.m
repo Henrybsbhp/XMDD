@@ -364,22 +364,22 @@
     
     [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0017"}];
     
-    if (!self.contactname.length)
+    if (![self.contactname trimmeSpacesInFontAndEnd].length)
     {
         [self.view1 shake];
         return;
     }
-    if (!self.contactphone.length)
+    if (![self.contactphone trimmeSpacesInFontAndEnd].length)
     {
          [self.view2 shake];
         return;
     }
-    if (!self.area.length)
+    if (![self.area trimmeSpacesInFontAndEnd].length)
     {
          [self.view3 shake];
         return;
     }
-    if (!self.address.length)
+    if (![self.address trimmeSpacesInFontAndEnd].length)
     {
         
         if (gAppMgr.deviceInfo.screenSize.height <= 480)
@@ -422,7 +422,7 @@
         HKImageAlertVC * av = [[HKImageAlertVC alloc] init];
         av.topTitle = @"提交成功";
         av.imageName = @"mins_ok";
-        av.message = @"联系人信息已提交，请等待车险专员为您服务";
+        av.message = @"联系人信息已提交，请等待工作人员为您服务";
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
             
             [self actionPop];

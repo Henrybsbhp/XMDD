@@ -69,6 +69,7 @@
 #import "UIView+Layer.h"
 #import "RACSignal+Extension.h"
 #import "UIScrollView+RefreshView.h"
+#import "NSString+Safe.h"
 
 
 #endif
