@@ -27,6 +27,7 @@
 
 // 页面组件
 @property (strong, nonatomic) HKImagePicker *picker;
+@property (nonatomic, strong) HKImageAlertVC *alert;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 // 各个子模块能否添加标记
@@ -65,7 +66,7 @@
     // 初始化加载数据
     [self loadData];
     
-//    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(back)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(back)];
     
 }
 
@@ -162,11 +163,10 @@
 
 -(void)uploadFileWithPicRecord:(PictureRecord *)picrecord andIndex:(NSIndexPath *)indexPath
 {
+    
     // 将图片的上传中属性设为YES。判断是否转菊花
     picrecord.isUploading = YES;
-    
-    
-    //    [self addPictureRecord:picrecord withIndex:indexPath];
+    picrecord.needReupload = NO;
     
     //上传照片
     UploadFileOp *op = [UploadFileOp operation];
@@ -400,11 +400,16 @@
         UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
         
         
-        
         [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             @strongify(self)
             
-            [self deletePhotosWithItem:cell];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
+                [self deletePhotosWithItem:cell];
+            }];
+            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
+            [alert show];
+            
             
         }];
         
@@ -414,8 +419,10 @@
         {
             NSString *urlStr = [obj objectForKey:@"picurl"];
             
-            // @YZC 添加默认图片
-            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"" errorImage:@""];
+            if (!imageView.image)
+            {
+                [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
+            }
             
             deleteBtn.hidden = YES;
             
@@ -486,20 +493,16 @@
         UIView *overlayView = [cell viewWithTag:103];
         UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
         
-        if (!overlayView)
-        {
-            ZFCDoubleBounceActivityIndicatorView *overlayView = [[ZFCDoubleBounceActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, cell.contentView.bounds.size.width, cell.contentView.bounds.size.height)];
-            [cell.contentView addSubview:overlayView];
-            overlayView.tag = 103;
-            overlayView.center = cell.contentView.center;
-            overlayView.bounceColor = [UIColor colorWithRed:0. green:0. blue:0. alpha:0.5];
-            overlayView.hidden = YES;
-        }
         
         [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             @strongify(self)
             
-            [self deletePhotosWithItem:cell];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
+                [self deletePhotosWithItem:cell];
+            }];
+            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
+            [alert show];
             
         }];
         
@@ -509,8 +512,10 @@
         {
             NSString *urlStr = [obj objectForKey:@"picurl"];
             
-            // @YZC 添加默认图片
-            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"" errorImage:@""];
+            if (!imageView.image)
+            {
+                [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
+            }
             
             deleteBtn.hidden = YES;
             
@@ -580,10 +585,16 @@
         UIView *overlayView = [cell viewWithTag:103];
         UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
         
+        
         [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             @strongify(self)
             
-            [self deletePhotosWithItem:cell];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
+                [self deletePhotosWithItem:cell];
+            }];
+            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
+            [alert show];
             
         }];
         
@@ -592,8 +603,10 @@
         {
             NSString *urlStr = [obj objectForKey:@"picurl"];
             
-            // @YZC 添加默认图片
-            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"" errorImage:@""];
+            if (!imageView.image)
+            {
+                [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
+            }
             
             deleteBtn.hidden = YES;
             
@@ -663,12 +676,17 @@
         UIButton *deleteBtn = [cell viewWithTag:102];
         UIView *overlayView = [cell viewWithTag:103];
         UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
-        overlayView.hidden = YES;
+        
         
         [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             @strongify(self)
             
-            [self deletePhotosWithItem:cell];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
+                [self deletePhotosWithItem:cell];
+            }];
+            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
+            [alert show];
             
         }];
         
@@ -677,8 +695,10 @@
         {
             NSString *urlStr = [obj objectForKey:@"picurl"];
             
-            // @YZC 添加默认图片
-            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"" errorImage:@""];
+            if (!imageView.image)
+            {
+                [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
+            }
             
             deleteBtn.hidden = YES;
             
@@ -728,6 +748,19 @@
 }
 
 #pragma mark - Utility
+
+-(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems
+{
+    if (!_alert)
+    {
+        _alert = [[HKImageAlertVC alloc]init];
+    }
+    _alert.topTitle = topTitle;
+    _alert.imageName = imageName;
+    _alert.message = message;
+    _alert.actionItems = actionItems;
+    return _alert;
+}
 
 -(PictureRecord *)getPictureRecordWithIndexPath:(NSIndexPath *)indexPath
 {
@@ -900,6 +933,7 @@
         // 上传图片
         [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
     }error:^(NSError *error) {
+        
         [gToast showMistake:error.domain.length != 0 ? error.domain : @"网络连接失败，请检查你的网络设置"];
     }];
     
@@ -925,6 +959,11 @@
         // 上传图片
         [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
     }error:^(NSError *error) {
+        
+        PictureRecord *picRcd = [self getPictureRecordWithIndexPath:indexPath];
+        picRcd.isUploading = NO;
+        picRcd.needReupload = YES;
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
         [gToast showMistake:error.domain.length != 0 ? error.domain : @"网络连接失败，请检查你的网络设置"];
     }];
 #endif
@@ -1051,7 +1090,6 @@
 
 -(void)showDefaultView
 {
-    //    @YZC 显示默认页。可以上传添加按钮。不可以上传不显示按钮
     [self.view showImageEmptyViewWithImageName:@"def_withoutValuationHistory" text:@"暂无任何照片"];
     if (self.firstswitch)
     {
@@ -1129,9 +1167,32 @@
 
 #pragma mark - Action
 
--(void)actionBack
+-(void)back
 {
-    
+    if (self.scenePhotosCopy.count - self.scenePhotos.count > 0 ||
+        self.damagePhotosCopy.count - self.damagePhotos.count > 0 ||
+        self.infoPhotosCopy.count - self.infoPhotos.count > 0 ||
+        self.licencePhotosCopy.count - self.licencePhotos.count > 0)
+    {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"去意已决" color:kDefTintColor clickBlock:^(id alertVC) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否放弃重新拍摄的照片并且返回？" ActionItems:@[cancel,confirm]];
+        [alert show];
+    }
+    else if (self.scenePhotosCopy.count - self.scenePhotos.count == 0 &&
+             self.damagePhotosCopy.count - self.damagePhotos.count == 0 &&
+             self.infoPhotosCopy.count - self.infoPhotos.count == 0 &&
+             self.licencePhotosCopy.count - self.licencePhotos.count == 0)
+    {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"去意已决" color:kDefTintColor clickBlock:^(id alertVC) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有照片需要重新拍摄上传，请确认是否放弃重新拍摄并且返回？" ActionItems:@[cancel,confirm]];
+        [alert show];
+    }
 }
 
 
