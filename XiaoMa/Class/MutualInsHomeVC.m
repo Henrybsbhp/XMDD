@@ -27,6 +27,7 @@
 #import "MutualInsSuspendedAdVC.h"
 #import "HKAdvertisement.h"
 #import "AdListData.h"
+#import "MutualInsAskForCompensationVC.h"
 
 @interface MutualInsHomeVC ()
 
@@ -425,7 +426,7 @@
             
             [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0006"}];
             @strongify(self);
-            MutualInsAskClaimsVC *vc = [UIStoryboard vcWithId:@"MutualInsAskClaimsVC" inStoryboard:@"MutualInsClaims"];
+            MutualInsAskForCompensationVC *vc = [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
             [self.navigationController pushViewController:vc animated:YES];
             return;
         }];

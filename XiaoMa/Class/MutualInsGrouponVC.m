@@ -15,6 +15,7 @@
 #import "DeleteCooperationGroupOp.h"
 #import "MutualInsStore.h"
 #import "HKMessageAlertVC.h"
+#import "MutualInsClaimsHistoryVC.h"
 
 #import "MutualInsGrouponSubVC.h"
 #import "MutualInsGrouponSubMsgVC.h"
@@ -330,7 +331,8 @@ typedef enum : NSInteger
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsClaimsHistoryVC" inStoryboard:@"MutualInsClaims"];
+        MutualInsClaimsHistoryVC *vc = [UIStoryboard vcWithId:@"MutualInsClaimsHistoryVC" inStoryboard:@"MutualInsClaims"];
+        vc.gid = self.group.groupId;
         [self.navigationController pushViewController:vc animated:YES];
     });
     
