@@ -49,7 +49,7 @@
                                         </constraints>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imgViewItem" id="rik-t9-mme">
-                                        <rect key="frame" x="252" y="49" width="96" height="92"/>
+                                        <rect key="frame" x="15" y="49" width="96" height="92"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="96" height="92"/>
@@ -82,9 +82,19 @@
                                                     </constraints>
                                                     <state key="normal" backgroundImage="mutualIns_deletePhoto"/>
                                                 </button>
-                                                <activityIndicatorView opaque="NO" tag="103" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="2no-Pi-hvK">
-                                                    <rect key="frame" x="38" y="36" width="20" height="20"/>
-                                                </activityIndicatorView>
+                                                <view tag="103" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EEa-mU-Ew7">
+                                                    <rect key="frame" x="0.0" y="0.0" width="96" height="92"/>
+                                                    <subviews>
+                                                        <activityIndicatorView opaque="NO" tag="10301" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="zw3-Vq-fOL">
+                                                            <rect key="frame" x="38" y="36" width="20" height="20"/>
+                                                        </activityIndicatorView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="0.75" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstItem="zw3-Vq-fOL" firstAttribute="centerX" secondItem="EEa-mU-Ew7" secondAttribute="centerX" id="aBx-9f-Xtq"/>
+                                                        <constraint firstItem="zw3-Vq-fOL" firstAttribute="centerY" secondItem="EEa-mU-Ew7" secondAttribute="centerY" id="str-4n-wT8"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -94,18 +104,53 @@
                                             <constraint firstAttribute="trailing" secondItem="g1F-69-ePf" secondAttribute="trailing" id="NQP-6J-l0g"/>
                                             <constraint firstItem="g1F-69-ePf" firstAttribute="leading" secondItem="rik-t9-mme" secondAttribute="leading" id="OgE-T7-6Dd"/>
                                             <constraint firstAttribute="trailing" secondItem="PCY-bc-DRN" secondAttribute="trailing" constant="5" id="R8i-Uh-7xw"/>
+                                            <constraint firstItem="EEa-mU-Ew7" firstAttribute="leading" secondItem="rik-t9-mme" secondAttribute="leading" id="Scy-Ay-Dzc"/>
                                             <constraint firstAttribute="bottom" secondItem="g1F-69-ePf" secondAttribute="bottom" id="UhS-Zy-CwX"/>
+                                            <constraint firstItem="EEa-mU-Ew7" firstAttribute="top" secondItem="rik-t9-mme" secondAttribute="top" id="YIw-Qa-ub8"/>
                                             <constraint firstItem="g1F-69-ePf" firstAttribute="top" secondItem="rik-t9-mme" secondAttribute="top" id="Zed-Br-3yU"/>
-                                            <constraint firstItem="2no-Pi-hvK" firstAttribute="centerY" secondItem="rik-t9-mme" secondAttribute="centerY" id="aH2-2K-v6N"/>
-                                            <constraint firstItem="2no-Pi-hvK" firstAttribute="centerX" secondItem="rik-t9-mme" secondAttribute="centerX" id="eJE-TQ-YxN"/>
+                                            <constraint firstAttribute="bottom" secondItem="EEa-mU-Ew7" secondAttribute="bottom" id="bK5-B7-u7J"/>
                                             <constraint firstItem="PCY-bc-DRN" firstAttribute="top" secondItem="rik-t9-mme" secondAttribute="top" constant="5" id="eKA-7M-rN1"/>
+                                            <constraint firstAttribute="trailing" secondItem="EEa-mU-Ew7" secondAttribute="trailing" id="qoe-Ew-lHo"/>
                                             <constraint firstItem="3s1-Md-ue1" firstAttribute="top" secondItem="rik-t9-mme" secondAttribute="top" id="uV5-7x-465"/>
                                             <constraint firstAttribute="bottom" secondItem="3s1-Md-ue1" secondAttribute="bottom" id="xIG-8x-y9k"/>
                                         </constraints>
                                         <size key="customSize" width="96" height="92"/>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="addImgItem" id="mCg-Vn-hx4">
+                                        <rect key="frame" x="489" y="49" width="96" height="92"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="96" height="92"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mutualIns_addPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="l0P-uN-PhH">
+                                                    <rect key="frame" x="0.0" y="0.0" width="96" height="92"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="l0P-uN-PhH" secondAttribute="bottom" id="57X-wS-B2U"/>
+                                            <constraint firstItem="l0P-uN-PhH" firstAttribute="leading" secondItem="mCg-Vn-hx4" secondAttribute="leading" id="CE3-Kn-osf"/>
+                                            <constraint firstAttribute="bottom" secondItem="l0P-uN-PhH" secondAttribute="bottom" id="GvQ-u2-8Gt"/>
+                                            <constraint firstAttribute="trailing" secondItem="l0P-uN-PhH" secondAttribute="trailing" id="Hzw-hW-ke4"/>
+                                            <constraint firstItem="l0P-uN-PhH" firstAttribute="leading" secondItem="mCg-Vn-hx4" secondAttribute="leading" id="OX1-7o-fSk"/>
+                                            <constraint firstItem="l0P-uN-PhH" firstAttribute="top" secondItem="mCg-Vn-hx4" secondAttribute="top" id="UeZ-hi-FhD"/>
+                                            <constraint firstAttribute="trailing" secondItem="l0P-uN-PhH" secondAttribute="trailing" id="YhV-Vf-tdi"/>
+                                            <constraint firstItem="l0P-uN-PhH" firstAttribute="top" secondItem="mCg-Vn-hx4" secondAttribute="top" id="wp7-E0-KBg"/>
+                                        </constraints>
+                                        <size key="customSize" width="96" height="92"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="57X-wS-B2U"/>
+                                                <exclude reference="CE3-Kn-osf"/>
+                                                <exclude reference="Hzw-hW-ke4"/>
+                                                <exclude reference="UeZ-hi-FhD"/>
+                                            </mask>
+                                        </variation>
+                                    </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="btnItem" id="rBd-hv-C0e">
-                                        <rect key="frame" x="50" y="156" width="500" height="92"/>
+                                        <rect key="frame" x="15" y="156" width="500" height="92"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="500" height="92"/>
@@ -176,6 +221,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="mutualIns_addPhoto" width="94" height="95"/>
         <image name="mutualIns_deletePhoto" width="18" height="18"/>
     </resources>
 </document>

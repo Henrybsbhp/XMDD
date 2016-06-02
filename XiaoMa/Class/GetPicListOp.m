@@ -25,7 +25,7 @@
     self.rsp_localelist = dic[@"localelist"];
     self.rsp_carlosslist = dic[@"carlosslist"];
     self.rsp_carinfolist = dic[@"carinfolist"];
-    self.rsp_idphotolist = dic[@"carinfolist"];
+    self.rsp_idphotolist = dic[@"idphotolist"];
     self.rsp_canaddflag = dic[@"canaddflag"];
     self.rsp_firstswitch = dic[@"firstswitch"];
     return self;

@@ -82,6 +82,9 @@
     [saveButton addTarget:self action:@selector(saveImage) forControlEvents:UIControlEventTouchUpInside];
     _saveButton = saveButton;
     [self addSubview:saveButton];
+    
+    saveButton.hidden = !self.showSaveBtn;
+    
 }
 
 - (void)saveImage

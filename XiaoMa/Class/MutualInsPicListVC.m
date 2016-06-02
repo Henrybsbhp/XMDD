@@ -19,31 +19,41 @@
 #import "MutualInsScencePageVC.h"
 #import "MutualInsChooseCarVC.h"
 #import "SDPhotoBrowser.h"
+#import "GetSystemTimeOp.h"
+#import "DAProgressOverlayView.h"
+#import "ZFCDoubleBounceActivityIndicatorView.h"
 
 @interface MutualInsPicListVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SDPhotoBrowserDelegate>
 
+// 页面组件
+@property (strong, nonatomic) HKImagePicker *picker;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
+// 各个子模块能否添加标记
 @property (assign, nonatomic) BOOL firstswitch;
 @property (assign, nonatomic) BOOL sceneCanAdd;
 @property (assign, nonatomic) BOOL damageCanAdd;
 @property (assign, nonatomic) BOOL infoCanAdd;
 @property (assign, nonatomic) BOOL licenceCanAdd;
 
-@property (strong, nonatomic) HKImagePicker *picker;
-
-//
+// 原始数据
 @property (strong, nonatomic) NSArray *scenePhotos;
 @property (strong, nonatomic) NSArray *damagePhotos;
 @property (strong, nonatomic) NSArray *infoPhotos;
 @property (strong, nonatomic) NSArray *licencePhotos;
 
+// 备份数据
 @property (strong, nonatomic) NSMutableArray *scenePhotosCopy;
 @property (strong, nonatomic) NSMutableArray *damagePhotosCopy;
 @property (strong, nonatomic) NSMutableArray *infoPhotosCopy;
 @property (strong, nonatomic) NSMutableArray *licencePhotosCopy;
 
+// SDPhotoBrowser所需要的中间变量
 @property (strong, nonatomic) UIImage *img;
+
+// 水印
+@property (strong, nonatomic) NSString *waterMarkStr;
+
 
 @end
 
@@ -55,6 +65,8 @@
     // 初始化加载数据
     [self loadData];
     
+//    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(back)];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,64 +74,6 @@
 }
 
 #pragma mark - Network
-
--(RACSignal *)getScencePageNoticeArr
-{
-    GetCoorperationClaimConfigOp *op = [GetCoorperationClaimConfigOp operation];
-    return [op rac_postRequest];
-}
-
--(RACSignal *)getScencePageCarListData
-{
-    GetCooperationMyCarOp *op = [GetCooperationMyCarOp operation];
-    return [op rac_postRequest];
-}
-
--(void)getScencePageData
-{
-    @weakify(self)
-    RACSignal *noticeSignal = [self getScencePageNoticeArr];
-    RACSignal *carListSignal = [self getScencePageCarListData];
-    RACSignal *combineSignal = [noticeSignal combineLatestWith:carListSignal];
-    [[combineSignal initially:^{
-        
-        @strongify(self)
-        
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y * 0.7)];
-        
-    }]subscribeNext:^(RACTuple *arr) {
-        
-        @strongify(self)
-        
-        [self.view stopActivityAnimation];
-        
-        GetCoorperationClaimConfigOp *claimConfigOp = arr.first;
-        GetCooperationMyCarOp *carOp = arr.second;
-        
-        NSArray *noticeArr = @[claimConfigOp.rsp_scenedesc,claimConfigOp.rsp_cardamagedesc,claimConfigOp.rsp_carinfodesc,claimConfigOp.rsp_idinfodesc];
-        
-        if (carOp.rsp_reports.count == 1)
-        {
-            [self gotoMutualInsScencePageVCWithReport:carOp.rsp_reports.firstObject andNotice:noticeArr];
-        }
-        else if (carOp.rsp_reports.count > 1)
-        {
-            [self gotoChooseCarListVCWithReport:carOp.rsp_reports andNotice:noticeArr];
-        }
-        else
-        {
-            [self showHKImageAlertVC];
-        }
-        
-    } error:^(NSError *error) {
-        
-        [self.view stopActivityAnimation];
-        [gToast showMistake:error.domain];
-        
-    }];
-}
-
-
 
 -(void)loadData
 {
@@ -211,22 +165,8 @@
     // 将图片的上传中属性设为YES。判断是否转菊花
     picrecord.isUploading = YES;
     
-    // 每添加一张照片判断照片所属类型
-    switch (indexPath.section)
-    {
-        case 0:
-            [self.scenePhotosCopy addObject:picrecord];
-            break;
-        case 1:
-            [self.damagePhotosCopy addObject:picrecord];
-            break;
-        case 2:
-            [self.infoPhotosCopy addObject:picrecord];
-            break;
-        case 3:
-            [self.licencePhotosCopy addObject:picrecord];
-            break;
-    }
+    
+    //    [self addPictureRecord:picrecord withIndex:indexPath];
     
     //上传照片
     UploadFileOp *op = [UploadFileOp operation];
@@ -243,6 +183,7 @@
     }]subscribeNext:^(UploadFileOp *op) {
         // 通知系统停止转菊花
         picrecord.isUploading = NO;
+        picrecord.needReupload = NO;
         picrecord.url = op.rsp_urlArray.firstObject;
         [self.collectionView reloadData];
         
@@ -270,23 +211,22 @@
     switch (section)
     {
         case 0:
-            count = self.scenePhotosCopy.count + 1 + (self.sceneCanAdd ? 1 : 0);
+            // 可能会有点难读。主要是为了限制只能重新拍五张照片
+            count = MIN(self.scenePhotos.count + 1 + 5, self.scenePhotosCopy.count + 1 + (self.scenePhotosCopy.count - self.scenePhotos.count < 5 ? 1 : 0));
             break;
         case 1:
-            count = self.damagePhotosCopy.count + 1 + (self.damageCanAdd ? 1 : 0);
+            count = MIN(self.damagePhotos.count + 1 + 5, self.damagePhotosCopy.count + 1 + (self.damagePhotosCopy.count - self.damagePhotos.count < 5 ? 1 : 0));
             break;
         case 2:
-            count = self.infoPhotosCopy.count + 1 + (self.infoCanAdd ? 1 : 0);
+            count = MIN(self.infoPhotos.count + 1 + 5, self.infoPhotosCopy.count + 1 + (self.infoPhotosCopy.count - self.infoPhotos.count < 5 ? 1 : 0));
             break;
         case 3:
-            count = self.licencePhotosCopy.count + 1 + (self.licenceCanAdd ? 1 : 0);
+            count = MIN(self.licencePhotos.count + 1 + 5, self.licencePhotosCopy.count + 1 + (self.licencePhotosCopy.count - self.licencePhotos.count < 5 ? 1 : 0));
             break;
         default:
             count = 1;
             break;
     }
-    
-    //    count = section == 4 ? 1 : 5;
     
     return count;
     
@@ -307,6 +247,7 @@
         cell = [self btnCellForIndexPath:indexPath];
     }
     return cell;
+    
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -359,49 +300,27 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.row != 0)
+    
+    if (indexPath.row == 0)
     {
+        return;
+    }
+    
+    else
+    {
+        
         // 判断是否能添加照片。
         // 判断后台是否支持上传。判断是否已经添加。判断是否点击最后一个。
         if ([self canAddNewPhotoWithIndexPath:indexPath])
         {
             
-#if !TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+            [self takePhotoWithIndexPath:indexPath];
             
-            [[self.picker rac_pickImageInTargetVC:self inView:self.navigationController.view]subscribeNext:^(UIImage *img) {
-                
-                PictureRecord *picRcd = [[PictureRecord alloc]init];
-                picRcd.image = img;
-                // 上传图片
-                [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
-                
-            }error:^(NSError *error) {
-                [gToast showMistake:error.domain];
-            }];
-#else
-            [[self.picker rac_pickPhotoTargetVC:self inView:self.navigationController.view]subscribeNext:^(UIImage *img) {
-                
-                PictureRecord *picRcd = [[PictureRecord alloc]init];
-                picRcd.image = img;
-                // 上传图片
-                [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
-            }error:^(NSError *error) {
-                [gToast showMistake:error.domain];
-            }];
-#endif
         }
         else
         {
-            UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-            UIImageView *imgView = [cell viewWithTag:100];
-            self.img = imgView.image;
-            
-            SDPhotoBrowser *photoBrowser = [SDPhotoBrowser new];
-            photoBrowser.delegate = self;
-            photoBrowser.imageCount = 1;
-            photoBrowser.sourceImagesContainerView = cell;
-            
-            [photoBrowser show];
+            // 点击看大图
+            [self showHighQulifyPhotoWithIndexPath:indexPath];
             
         }
     }
@@ -477,13 +396,16 @@
         UIView *maskView = [cell viewWithTag:101];
         UILabel *noticeLabel = [cell viewWithTag:10101];
         UIButton *deleteBtn = [cell viewWithTag:102];
-        UIActivityIndicatorView *indicator = [cell viewWithTag:103];
+        UIView *overlayView = [cell viewWithTag:103];
+        UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
         
-        [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+        
+        
+        [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             @strongify(self)
-            [self.scenePhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
-            //            [self.collectionView reloadData];
-            [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            
+            [self deletePhotosWithItem:cell];
+            
         }];
         
         
@@ -491,7 +413,9 @@
         if ([obj isKindOfClass:[NSDictionary class]])
         {
             NSString *urlStr = [obj objectForKey:@"picurl"];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:[UIImage imageNamed:@"excampleImg"]];
+            
+            // @YZC 添加默认图片
+            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"" errorImage:@""];
             
             deleteBtn.hidden = YES;
             
@@ -499,7 +423,7 @@
             maskView.hidden = isAgainUpload.integerValue == 0 ? YES : NO;
             noticeLabel.text = @"需重拍";
             
-            indicator.hidden = YES;
+            overlayView.hidden = YES;
         }
         else if([obj isKindOfClass:[PictureRecord class]])
         {
@@ -519,25 +443,20 @@
             
             if (picRcd.isUploading)
             {
-                indicator.hidden = NO;
+                overlayView.hidden = NO;
                 deleteBtn.hidden = YES;
                 [indicator startAnimating];
             }
             else
             {
                 deleteBtn.hidden = NO;
-                indicator.hidden = YES;
+                overlayView.hidden = YES;
             }
         }
         
-        if (self.sceneCanAdd && indexPath.row == self.scenePhotosCopy.count)
+        if (self.sceneCanAdd && indexPath.row == self.scenePhotosCopy.count + 1)
         {
-            imageView.hidden = NO;
-            maskView.hidden = YES;
-            deleteBtn.hidden = YES;
-            indicator.hidden = YES;
-            
-            imageView.image = [UIImage imageNamed:@"mutualIns_addPhoto"];
+            cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"addImgItem" forIndexPath:indexPath];
         }
         
     }
@@ -564,13 +483,24 @@
         UIView *maskView = [cell viewWithTag:101];
         UILabel *noticeLabel = [cell viewWithTag:10101];
         UIButton *deleteBtn = [cell viewWithTag:102];
-        UIActivityIndicatorView *indicator = [cell viewWithTag:103];
+        UIView *overlayView = [cell viewWithTag:103];
+        UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
+        
+        if (!overlayView)
+        {
+            ZFCDoubleBounceActivityIndicatorView *overlayView = [[ZFCDoubleBounceActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, cell.contentView.bounds.size.width, cell.contentView.bounds.size.height)];
+            [cell.contentView addSubview:overlayView];
+            overlayView.tag = 103;
+            overlayView.center = cell.contentView.center;
+            overlayView.bounceColor = [UIColor colorWithRed:0. green:0. blue:0. alpha:0.5];
+            overlayView.hidden = YES;
+        }
         
         [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             @strongify(self)
-            [self.damagePhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
-            //            [self.collectionView reloadData];
-            [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            
+            [self deletePhotosWithItem:cell];
+            
         }];
         
         
@@ -578,7 +508,9 @@
         if ([obj isKindOfClass:[NSDictionary class]])
         {
             NSString *urlStr = [obj objectForKey:@"picurl"];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:[UIImage imageNamed:@"excampleImg"]];
+            
+            // @YZC 添加默认图片
+            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"" errorImage:@""];
             
             deleteBtn.hidden = YES;
             
@@ -586,7 +518,7 @@
             maskView.hidden = isAgainUpload.integerValue == 0 ? YES : NO;
             noticeLabel.text = @"需重拍";
             
-            indicator.hidden = YES;
+            overlayView.hidden = YES;
         }
         else if([obj isKindOfClass:[PictureRecord class]])
         {
@@ -606,23 +538,19 @@
             
             if (picRcd.isUploading)
             {
-                indicator.hidden = NO;
+                overlayView.hidden = NO;
                 [indicator startAnimating];
+                deleteBtn.hidden = YES;
             }
             else
             {
-                indicator.hidden = YES;
+                deleteBtn.hidden = NO;
+                overlayView.hidden = YES;
             }
         }
-        
-        if (self.damageCanAdd && indexPath.row == self.damagePhotosCopy.count)
+        if (self.damageCanAdd && indexPath.row == self.damagePhotosCopy.count + 1)
         {
-            imageView.hidden = NO;
-            maskView.hidden = YES;
-            deleteBtn.hidden = YES;
-            indicator.hidden = YES;
-            
-            imageView.image = [UIImage imageNamed:@"mutualIns_addPhoto"];
+            cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"addImgItem" forIndexPath:indexPath];
         }
         
     }
@@ -649,20 +577,23 @@
         UIView *maskView = [cell viewWithTag:101];
         UILabel *noticeLabel = [cell viewWithTag:10101];
         UIButton *deleteBtn = [cell viewWithTag:102];
-        UIActivityIndicatorView *indicator = [cell viewWithTag:103];
+        UIView *overlayView = [cell viewWithTag:103];
+        UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
         
         [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             @strongify(self)
-            [self.infoPhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
-            //            [self.collectionView reloadData];
-            [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            
+            [self deletePhotosWithItem:cell];
+            
         }];
         
         id obj = [self.infoPhotosCopy safetyObjectAtIndex:indexPath.row - 1];
         if ([obj isKindOfClass:[NSDictionary class]])
         {
             NSString *urlStr = [obj objectForKey:@"picurl"];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:[UIImage imageNamed:@"excampleImg"]];
+            
+            // @YZC 添加默认图片
+            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"" errorImage:@""];
             
             deleteBtn.hidden = YES;
             
@@ -670,7 +601,7 @@
             maskView.hidden = isAgainUpload.integerValue == 0 ? YES : NO;
             noticeLabel.text = @"需重拍";
             
-            indicator.hidden = YES;
+            overlayView.hidden = YES;
         }
         else if([obj isKindOfClass:[PictureRecord class]])
         {
@@ -690,23 +621,20 @@
             
             if (picRcd.isUploading)
             {
-                indicator.hidden = NO;
+                deleteBtn.hidden = YES;
+                overlayView.hidden = NO;
                 [indicator startAnimating];
             }
             else
             {
-                indicator.hidden = YES;
+                deleteBtn.hidden = NO;
+                overlayView.hidden = YES;
             }
         }
         
-        if (self.infoCanAdd && indexPath.row == self.infoPhotosCopy.count)
+        if (self.infoCanAdd && indexPath.row == self.infoPhotosCopy.count + 1)
         {
-            imageView.hidden = NO;
-            maskView.hidden = YES;
-            deleteBtn.hidden = YES;
-            indicator.hidden = YES;
-            
-            imageView.image = [UIImage imageNamed:@"mutualIns_addPhoto"];
+            cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"addImgItem" forIndexPath:indexPath];
         }
         
     }
@@ -733,20 +661,24 @@
         UIView *maskView = [cell viewWithTag:101];
         UILabel *noticeLabel = [cell viewWithTag:10101];
         UIButton *deleteBtn = [cell viewWithTag:102];
-        UIActivityIndicatorView *indicator = [cell viewWithTag:103];
+        UIView *overlayView = [cell viewWithTag:103];
+        UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
+        overlayView.hidden = YES;
         
         [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             @strongify(self)
-            [self.licencePhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
-            //            [self.collectionView reloadData];
-            [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            
+            [self deletePhotosWithItem:cell];
+            
         }];
         
         id obj = [self.licencePhotosCopy safetyObjectAtIndex:indexPath.row - 1];
         if ([obj isKindOfClass:[NSDictionary class]])
         {
             NSString *urlStr = [obj objectForKey:@"picurl"];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:[UIImage imageNamed:@"excampleImg"]];
+            
+            // @YZC 添加默认图片
+            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"" errorImage:@""];
             
             deleteBtn.hidden = YES;
             
@@ -754,7 +686,7 @@
             maskView.hidden = isAgainUpload.integerValue == 0 ? YES : NO;
             noticeLabel.text = @"需重拍";
             
-            indicator.hidden = YES;
+            overlayView.hidden = YES;
         }
         else if([obj isKindOfClass:[PictureRecord class]])
         {
@@ -774,23 +706,21 @@
             
             if (picRcd.isUploading)
             {
-                indicator.hidden = NO;
+                deleteBtn.hidden = YES;
+                overlayView.hidden = NO;
                 [indicator startAnimating];
+                
             }
             else
             {
-                indicator.hidden = YES;
+                deleteBtn.hidden = NO;
+                overlayView.hidden = YES;
             }
         }
         
-        if (self.licenceCanAdd && indexPath.row == self.licencePhotosCopy.count)
+        if (self.licenceCanAdd && indexPath.row == self.licencePhotosCopy.count + 1)
         {
-            imageView.hidden = NO;
-            maskView.hidden = YES;
-            deleteBtn.hidden = YES;
-            indicator.hidden = YES;
-            
-            imageView.image = [UIImage imageNamed:@"mutualIns_addPhoto"];
+            cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"addImgItem" forIndexPath:indexPath];
         }
         
     }
@@ -798,6 +728,207 @@
 }
 
 #pragma mark - Utility
+
+-(PictureRecord *)getPictureRecordWithIndexPath:(NSIndexPath *)indexPath
+{
+    PictureRecord *picRcd;
+    switch (indexPath.section)
+    {
+        case 0:
+            //             return [self.scenePhotosCopy safetyObjectAtIndex:indexPath.row];
+            picRcd = [self.scenePhotosCopy safetyObjectAtIndex:indexPath.row - 1];
+            break;
+        case 1:
+            picRcd = [self.damagePhotosCopy safetyObjectAtIndex:indexPath.row - 1];
+            break;
+        case 2:
+            picRcd = [self.infoPhotosCopy safetyObjectAtIndex:indexPath.row - 1];
+            break;
+        case 3:
+            picRcd = [self.licencePhotosCopy safetyObjectAtIndex:indexPath.row - 1];
+            break;
+    }
+    return picRcd;
+}
+
+-(void)addPictureRecord:(PictureRecord *)picRcd withIndex:(NSIndexPath *)indexPath
+{
+    // 防止上传照片时重复添加
+    if (!picRcd.needReupload)
+    {
+        // 每添加一张照片判断照片所属类型
+        switch (indexPath.section)
+        {
+            case 0:
+                [self.scenePhotosCopy addObject:picRcd];
+                break;
+            case 1:
+                [self.damagePhotosCopy addObject:picRcd];
+                break;
+            case 2:
+                [self.infoPhotosCopy addObject:picRcd];
+                break;
+            case 3:
+                [self.licencePhotosCopy addObject:picRcd];
+                break;
+        }
+    }
+}
+
+-(void)deletePhotosWithItem:(UICollectionViewCell *)cell
+{
+    NSInteger total = 0;
+    
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    
+    switch (indexPath.section)
+    {
+        case 0:
+            
+            [self.scenePhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
+            total = self.scenePhotos.count + 5 + 1;
+            break;
+        case 1:
+            [self.damagePhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
+            total = self.damagePhotosCopy.count + 5 + 1;
+            break;
+        case 2:
+            [self.infoPhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
+            total = self.infoPhotosCopy.count + 5 + 1;
+            break;
+        case 3:
+            [self.licencePhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
+            total = self.licencePhotosCopy.count + 5 + 1;
+            break;
+    }
+    
+    NSInteger count = [self.collectionView numberOfItemsInSection:indexPath.section];
+    
+    if (count != total)
+    {
+        
+        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+        
+    }
+    else
+    {
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
+    }
+}
+
+-(void)showHighQulifyPhotoWithIndexPath:(NSIndexPath *)indexPath
+{
+    id picRcd;
+    
+    switch (indexPath.section)
+    {
+        case 0:
+            picRcd = [self.scenePhotosCopy safetyObjectAtIndex:indexPath.row -1];
+            break;
+        case 1:
+            picRcd = [self.damagePhotosCopy safetyObjectAtIndex:indexPath.row -1];
+            break;
+        case 2:
+            picRcd = [self.infoPhotosCopy safetyObjectAtIndex:indexPath.row -1];
+            break;
+        case 3:
+            picRcd = [self.licencePhotosCopy safetyObjectAtIndex:indexPath.row - 1];
+            break;
+    }
+    
+    if ([picRcd isKindOfClass:[NSDictionary class]])
+    {
+        UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+        UIImageView *imgView = [cell viewWithTag:100];
+        self.img = imgView.image;
+        
+        SDPhotoBrowser *photoBrowser = [SDPhotoBrowser new];
+        photoBrowser.delegate = self;
+        photoBrowser.imageCount = 1;
+        photoBrowser.sourceImagesContainerView = cell;
+        
+        [photoBrowser show];
+    }
+    else
+    {
+        PictureRecord *picRecd = picRcd;
+        if(!picRecd.needReupload)
+        {
+            UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+            UIImageView *imgView = [cell viewWithTag:100];
+            self.img = imgView.image;
+            
+            SDPhotoBrowser *photoBrowser = [SDPhotoBrowser new];
+            photoBrowser.delegate = self;
+            photoBrowser.imageCount = 1;
+            photoBrowser.sourceImagesContainerView = cell;
+            
+            [photoBrowser show];
+        }
+        else if (picRecd.needReupload)
+        {
+            
+            [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
+        }
+    }
+}
+
+-(void)takePhotoWithIndexPath:(NSIndexPath *)indexPath
+{
+    
+    
+    
+#if !TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+    
+    
+    [[[self.picker rac_pickImageInTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
+        
+        PictureRecord *picRcd = [[PictureRecord alloc]init];
+        picRcd.image = img;
+        [self addPictureRecord:picRcd withIndex:indexPath];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
+        
+        GetSystemTimeOp *op = [GetSystemTimeOp operation];
+        return [[op rac_postRequest]flattenMap:^RACStream *(GetSystemTimeOp *op) {
+            self.waterMarkStr = op.rsp_systime;
+            return [self addPrinting:op.rsp_systime InPhoto:img];
+        }];
+    }]subscribeNext:^(UIImage *img) {
+        
+        PictureRecord *picRcd = [self getPictureRecordWithIndexPath:indexPath];
+        picRcd.image = img;
+        // 上传图片
+        [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
+    }error:^(NSError *error) {
+        [gToast showMistake:error.domain.length != 0 ? error.domain : @"网络连接失败，请检查你的网络设置"];
+    }];
+    
+#else
+    
+    [[[self.picker rac_pickPhotoTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
+        
+        PictureRecord *picRcd = [[PictureRecord alloc]init];
+        picRcd.isUploading = YES;
+        picRcd.image = img;
+        [self addPictureRecord:picRcd withIndex:indexPath];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
+        
+        GetSystemTimeOp *op = [GetSystemTimeOp operation];
+        return [[op rac_postRequest]flattenMap:^RACStream *(GetSystemTimeOp *op) {
+            self.waterMarkStr = op.rsp_systime;
+            return [self addPrinting:op.rsp_systime InPhoto:img];
+        }];
+    }]subscribeNext:^(UIImage *img) {
+        
+        PictureRecord *picRcd = [self getPictureRecordWithIndexPath:indexPath];
+        picRcd.image = img;
+        // 上传图片
+        [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
+    }error:^(NSError *error) {
+        [gToast showMistake:error.domain.length != 0 ? error.domain : @"网络连接失败，请检查你的网络设置"];
+    }];
+#endif
+}
 
 -(void)gotoMutualInsScencePageVCWithReport:(NSDictionary *)report andNotice:(NSArray *)notice
 {
@@ -847,9 +978,10 @@
     if (indexPath.section == 0)
     {
         // 判断后台是否支持上传。判断是否已经添加。判断是否点击最后一个。
+        
         if (!self.sceneCanAdd ||
             (self.scenePhotosCopy.count - self.scenePhotos.count) > 4 ||
-            indexPath.row != self.scenePhotosCopy.count)
+            indexPath.row != self.scenePhotosCopy.count + 1)
         {
             return NO;
         }
@@ -862,7 +994,7 @@
     {
         if (!self.damageCanAdd ||
             (self.damagePhotosCopy.count - self.damagePhotos.count) > 4 ||
-            indexPath.row != self.damagePhotosCopy.count)
+            indexPath.row != self.damagePhotosCopy.count + 1)
         {
             return NO;
         }
@@ -873,9 +1005,10 @@
     }
     else if (indexPath.section == 2)
     {
+        
         if (!self.infoCanAdd ||
             (self.infoPhotosCopy.count - self.infoPhotos.count) > 4 ||
-            indexPath.row != self.infoPhotosCopy.count)
+            indexPath.row != self.infoPhotosCopy.count + 1)
         {
             return NO;
         }
@@ -886,9 +1019,10 @@
     }
     else
     {
+        
         if (!self.licenceCanAdd ||
             (self.licencePhotosCopy.count - self.licencePhotos.count) > 4 ||
-            indexPath.row != self.licencePhotosCopy.count)
+            indexPath.row != self.licencePhotosCopy.count + 1)
         {
             return NO;
         }
@@ -939,21 +1073,47 @@
             make.height.mas_equalTo(50);
         }];
         [[takePhotoBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-            //            @YZC 跳转至拍照页面
+            
+            // 跳转至拍照页面
             [self getScencePageData];
+            
         }];
     }
 }
 
--(void)showHKImageAlertVC
+-(RACSignal *)addPrinting:(NSString *)time InPhoto:(UIImage *)img
 {
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-    HKAlertActionItem *makePhone = [HKAlertActionItem itemWithTitle:@"电话报案" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-        [gPhoneHelper makePhone:@"4007111111"];
-    }];
-    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"未检测到您的爱车有车险报案记录，快速补偿需要先报案后才能进行现场拍照。请先报案，谢谢～" ActionItems:@[cancel,makePhone]];
-    [alert show];
+    RACSubject *subject = [RACSubject subject];
+    CKAsyncHighQueue(^{
+        
+        UIGraphicsBeginImageContext(img.size);
+        
+        [img drawInRect:CGRectMake(0, 0, img.size.width, img.size.height)];
+        NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+        attributes[NSFontAttributeName] = [UIFont systemFontOfSize:60];
+        attributes[NSForegroundColorAttributeName] = [UIColor colorWithRed:100 green:100 blue:100 alpha:0.8];
+        NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+        paragraph.alignment = NSTextAlignmentRight;
+        attributes[NSParagraphStyleAttributeName] = paragraph;
+        CGSize textSize = [time boundingRectWithSize:CGSizeMake(img.size.width, img.size.height * 0.5) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+        CGFloat x = img.size.width - textSize.width;
+        CGFloat y = img.size.height - textSize.height;
+        [time drawInRect:CGRectMake(x, y, textSize.width, textSize.height) withAttributes:attributes];
+        UIImage *newImg = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+        
+        CKAsyncMainQueue(^{
+            [subject sendNext:newImg];
+            [subject sendCompleted];
+        });
+    });
+    return subject;
 }
+
+
+
+
 
 #pragma mark - LazyLoad
 
@@ -962,21 +1122,17 @@
     if (!_picker)
     {
         _picker = [HKImagePicker imagePicker];
-        //        _picker.compressedSize = CGSizeMake(1024, 1024);
+        _picker.compressedSize = CGSizeMake(1024, 1024);
     }
     return _picker;
 }
 
--(NSMutableArray *)scenePhotosCopy
-{
-    if (!_scenePhotosCopy)
-    {
-        _scenePhotosCopy = [[NSMutableArray alloc]init];
-    }
-    return _scenePhotosCopy;
-}
-
 #pragma mark - Action
+
+-(void)actionBack
+{
+    
+}
 
 
 #pragma mark - SDPhotoBrowserDelegate
@@ -986,5 +1142,51 @@
     return self.img;
 }
 
+#pragma mark - GotoScenePhotoVC
+
+-(RACSignal *)getScencePageNoticeArr
+{
+    GetCoorperationClaimConfigOp *op = [GetCoorperationClaimConfigOp operation];
+    return [op rac_postRequest];
+}
+
+-(RACSignal *)getScencePageCarListData
+{
+    GetCooperationMyCarOp *op = [GetCooperationMyCarOp operation];
+    return [op rac_postRequest];
+}
+
+-(void)getScencePageData
+{
+    @weakify(self)
+    RACSignal *noticeSignal = [self getScencePageNoticeArr];
+    RACSignal *carListSignal = [self getScencePageCarListData];
+    RACSignal *combineSignal = [noticeSignal combineLatestWith:carListSignal];
+    [[combineSignal initially:^{
+        
+        @strongify(self)
+        
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y * 0.7)];
+        
+    }]subscribeNext:^(RACTuple *arr) {
+        
+        @strongify(self)
+        
+        [self.view stopActivityAnimation];
+        
+        GetCoorperationClaimConfigOp *claimConfigOp = arr.first;
+        GetCooperationMyCarOp *carOp = arr.second;
+        
+        NSArray *noticeArr = @[claimConfigOp.rsp_scenedesc,claimConfigOp.rsp_cardamagedesc,claimConfigOp.rsp_carinfodesc,claimConfigOp.rsp_idinfodesc];
+        
+        [self gotoMutualInsScencePageVCWithReport:carOp.rsp_reports.firstObject andNotice:noticeArr];
+        
+    } error:^(NSError *error) {
+        
+        [self.view stopActivityAnimation];
+        [gToast showMistake:error.domain];
+        
+    }];
+}
 
 @end
