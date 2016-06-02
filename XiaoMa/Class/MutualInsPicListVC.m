@@ -1300,6 +1300,15 @@
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否放弃重新拍摄的照片并且返回？" ActionItems:@[cancel,confirm]];
         [alert show];
     }
+    else if (self.scenePhotos.count == 0 &&
+             self.damagePhotos.count == 0 &&
+             self.infoPhotos.count == 0 &&
+             self.licencePhotos.count == 0)
+    {
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    }
     else if (self.scenePhotosCopy.count - self.scenePhotos.count == 0 &&
              self.damagePhotosCopy.count - self.damagePhotos.count == 0 &&
              self.infoPhotosCopy.count - self.infoPhotos.count == 0 &&
