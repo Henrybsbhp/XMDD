@@ -10,4 +10,12 @@
 
 @interface MutualInsAcceptCompensationVC : UIViewController
 
+@property (nonatomic, strong) NSNumber *claimID;
+
+@property (nonatomic, copy) NSString *descriptionString;
+
+@property (nonatomic, copy) NSString *usernameString;
+
+@property (nonatomic, copy) NSString *fetchedBankCardNumber;
+
 @end
