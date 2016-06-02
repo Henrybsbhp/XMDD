@@ -25,7 +25,6 @@
 #import "ValuationHomeVC.h"
 #import "MutualInsOrderInfoVC.h"
 #import "MutualInsGrouponVC.h"
-#import "MutualInsClaimDetailVC.h"
 #import "MutualInsHomeVC.h"
 #import "MutualInsAskForCompensationVC.h"
 
