@@ -15,13 +15,16 @@
 #import "UIImage+Utilities.h"
 #import "HKTimer.h"
 #import "HKImageAlertVC.h"
+#import "HKMessageAlertVC.h"
 #import "MutualInsAcceptCompensationVC.h"
+#import "ConfirmClaimOp.h"
 #import "MutualInsPicListVC.h"
 
 #define StamperImageWidthHeight 120
 
 @interface MutualInsAskForCompensationVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, copy) NSString *bankCardDescription;
 @property (nonatomic, strong) CKList *dataSource;
 @property (nonatomic, copy) NSArray *fetchedDataSource;
 
@@ -136,7 +139,7 @@
         if (rop.claimList.count > 0) {
             self.tableView.hidden = NO;
             [self.view hideDefaultEmptyView];
-            
+            self.bankCardDescription = rop.bankNoDesc;
             // 记录请求到数据的时间
             for (NSDictionary *dict in rop.claimList) {
                 dict.customInfo = [[NSMutableDictionary alloc] init];
@@ -161,6 +164,28 @@
             [self.view hideDefaultEmptyView];
             [self  fetchAllData];
         }];
+    }];
+}
+
+-(void)confirmClaimWithAgreement:(NSNumber *)agreement claimID:(NSNumber *)claimID andBankNo:(NSString *)bankcardNo
+{
+    ConfirmClaimOp *op = [[ConfirmClaimOp alloc]init];
+    op.req_claimid = claimID;
+    op.req_agreement = agreement;
+    op.req_bankcardno = bankcardNo;
+    
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"" inView:self.view];
+    }] subscribeNext:^(id x) {
+        
+        [gToast dismissInView:self.view];
+        
+        [self postCustomNotificationName:kNotifyUpdateClaimList object:nil];
+        
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain inView:self.view];
     }];
 }
 
@@ -693,7 +718,7 @@
         @strongify(self);
         UIView *backgroundView = (UIView *)[cell.contentView viewWithTag:100];
         UIView *fillingView = (UIView *)[cell.contentView viewWithTag:105];
-        UIButton *accpectCompensationButton = (UIButton *)[cell.contentView viewWithTag:101];
+        UIButton *acceptCompensationButton = (UIButton *)[cell.contentView viewWithTag:101];
         UIButton *declineButton = (UIButton *)[cell.contentView viewWithTag:102];
         CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:103];
         CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:104];
@@ -713,6 +738,29 @@
         rightLine.lineAlignment = CKLineAlignmentVerticalRight;
         [cell.contentView bringSubviewToFront:leftLine];
         [cell.contentView bringSubviewToFront:rightLine];
+        
+        [[[acceptCompensationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            MutualInsAcceptCompensationVC *acceptCompensationVC = [UIStoryboard vcWithId:@"MutualInsAcceptCompensationVC" inStoryboard:@"MutualInsClaims"];
+            acceptCompensationVC.descriptionString = self.bankCardDescription;
+            acceptCompensationVC.usernameString = dict[@"ownername"];
+            acceptCompensationVC.claimID = dict[@"claimid"];
+            acceptCompensationVC.fetchedBankCardNumber = dict[@"bankcardno"];
+            [self.navigationController pushViewController:acceptCompensationVC animated:YES];
+        }];
+        
+        [[[declineButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            HKMessageAlertVC *alert = [[HKMessageAlertVC alloc] init];
+            alert.messageLabel.text = @"如出现价格不满意等原因造成不愿意接受补偿，可进行拒绝补偿的操作，拒绝后客服会与您取得联系，并做进一步沟通";
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:^(id alertVC) {
+                
+            }];
+            
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认拒绝" color:kGrayTextColor clickBlock:^(id alertVC) {
+                [self confirmClaimWithAgreement:@(1) claimID:dict[@"claimid"] andBankNo:dict[@"bankcardno"]];
+            }];
+            alert.actionItems = @[cancel, confirm];
+            [alert show];
+        }];
     });
     
     return compensateOrDeclineCell;
