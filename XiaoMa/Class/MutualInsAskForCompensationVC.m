@@ -52,6 +52,13 @@
     [self setupNewbieGuideBarButtonItem];
     
     [self fetchAllData];
+    
+    @weakify(self)
+    [self listenNotificationByName:kNotifyUpdateClaimList withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        
+        @strongify(self)
+        [self fetchAllData];
+    }];
 }
 
 - (void)setupRefreshView
@@ -597,6 +604,10 @@
                         if (![timeString isEqualToString:@"end"]) {
                             tipsLabel.text = [countDownTitleString stringByAppendingString:timeString];
                         } else {
+                            
+                            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"倒计时更新结束" message:@"hx大傻逼" delegate:nil
+                                                                cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                            [av show];
                             tipsLabel.text = [countDownTitleString stringByAppendingString:@"00:00:00"];
                             [self fetchAllData];
                         }

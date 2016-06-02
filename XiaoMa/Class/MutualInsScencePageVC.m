@@ -239,6 +239,10 @@
                [gToast showingWithText:@"记录提交中" inView:self.view];
             }]subscribeNext:^(id x) {
                 [gToast dismissInView:self.view];
+                
+                /// 通知更新
+                [self postCustomNotificationName:kNotifyUpdateClaimList object:nil];
+                
                 HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
                     [self.scencePhotoVM deleteAllInfo];
                     
