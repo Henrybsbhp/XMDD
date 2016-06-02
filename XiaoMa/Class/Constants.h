@@ -168,10 +168,13 @@ typedef enum : NSUInteger {
 #define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
 #define kNotifyRefreshMyCouponList          @"com.huika.xmdd.RefreshMyCouponList"
 
+///通知MutualInsAskForCompensationVC进行fetchAllData操作
+#define kNotifyUpdateClaimList              @"k.notification.MutualInsAskForCompensationVC.fetchAllData"
+
 //key定义
 #define kOriginVC       @"originVC"
 #define kNextVC         @"nextVC"
-#define kUpdateClaimPhotosSuccess @"updateClaimPhotosSuccess"
+
 
 /// 相关网页地址
 #define kDevGasOrderPaidUrl @"http://dev.xiaomadada.com/paaweb/general/order/paynotify"

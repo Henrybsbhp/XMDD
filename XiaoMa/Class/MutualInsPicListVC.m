@@ -188,7 +188,7 @@
             [gToast showSuccess:@"上传照片完成"];
             
             NSDictionary *dic = @{@"claimID":self.claimID};
-            [self postCustomNotificationName:kUpdateClaimPhotosSuccess object:dic];
+            [self postCustomNotificationName:kNotifyUpdateClaimList object:dic];
             
             CKAfter(0.5, ^{
                 [self.navigationController popViewControllerAnimated:YES];

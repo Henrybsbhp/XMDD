@@ -9,7 +9,6 @@
 #import "MutualInsClaimsHistoryVC.h"
 #import "GetCooperationClaimsListOp.h"
 #import "MutualInsClaimInfo.h"
-#import "MutualInsClaimDetailVC.h"
 #import "NSString+Price.h"
 #import "NSDate+DateForText.h"
 #import "HKImageAlertVC.h"
@@ -119,11 +118,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0018"}];
-    MutualInsClaimInfo *model = [self.dataArr safetyObjectAtIndex:indexPath.section];
-    MutualInsClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimDetailVC"];
-    detailVC.claimid = model.claimid;
-    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -187,7 +181,7 @@
             self.dataArr = op.rsp_claimlist;
             if (self.dataArr.count == 0)
             {
-                [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"您还没有补偿记录" tapBlock:nil];
+                [self.view showImageEmptyViewWithImageName:@"def_withClaimHistory" text:@"恭喜，该团还没有补偿记录" tapBlock:nil];
             }
             [self.tableView reloadData];
         }error:^(NSError *error) {

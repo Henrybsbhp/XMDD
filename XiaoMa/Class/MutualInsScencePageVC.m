@@ -16,7 +16,8 @@
 #import "MutualInsChooseCarVC.h"
 #import "HKImageAlertVC.h"
 #import "LoginViewModel.h"
-#import "MutualInsClaimDetailVC.h"
+#import "MutualInsAskForCompensationVC.h"
+
 
 
 #define kOneBtnWidth self.view.bounds.size.width - 30
@@ -238,26 +239,23 @@
                [gToast showingWithText:@"记录提交中" inView:self.view];
             }]subscribeNext:^(id x) {
                 [gToast dismissInView:self.view];
+                
+                /// 通知更新
+                [self postCustomNotificationName:kNotifyUpdateClaimList object:nil];
+                
                 HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
                     [self.scencePhotoVM deleteAllInfo];
                     
                     for (UIViewController * vc in self.navigationController.viewControllers)
                     {
-                        if ([vc isKindOfClass:[MutualInsClaimDetailVC class]])
+                        if ([vc isKindOfClass:[MutualInsAskForCompensationVC class]])
                         {
-                            MutualInsClaimDetailVC * detailVC = (MutualInsClaimDetailVC *)vc;
-                            if ([detailVC.claimid isEqualToNumber:self.claimid])
-                            {
-                                // 如果是推送，先找到detail页面
-                                [detailVC loadData];
-                                [self.navigationController popToViewController:vc animated:YES];
-                                return;
-                            }
+                            [self.navigationController popToViewController:vc animated:YES];
+                            return;
                         }
                     }
-                    MutualInsClaimDetailVC *detailVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimDetailVC"];
-                    detailVC.claimid = @(self.claimid.integerValue);
-                    [self.navigationController pushViewController:detailVC animated:YES];
+                    MutualInsAskForCompensationVC *vc = [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
+                    [self.navigationController pushViewController:vc animated:YES];
                 }];
                 HKAlertVC *alert = [self alertWithTopTitle:@"提交成功" ImageName:@"mins_ok" Message:@"恭喜，照片提交成功，补偿记录已生成，请等待工作人员为您服务，谢谢～" ActionItems:@[cancel]];
                 [alert show];
