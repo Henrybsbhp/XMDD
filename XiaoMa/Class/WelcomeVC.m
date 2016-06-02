@@ -247,7 +247,7 @@
     [self.welcomeView1 addSubview:bottomView];
     
     UIImageView *wordsImgaeView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 375 * Scale, 113 * Scale)];
-    wordsImgaeView.image = [UIImage imageNamed:@"welcome1_words"];
+    wordsImgaeView.image = [UIImage imageNamed:@"welcome1_words_310"];
     [bottomView addSubview:wordsImgaeView];
     
     UIImageView *pageControlImgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth / 2 - 75 / 2, bottomView.frame.size.height * 316 / 423, 75 * Scale, 15 * Scale)];
