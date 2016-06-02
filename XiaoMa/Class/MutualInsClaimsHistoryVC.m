@@ -157,6 +157,7 @@
     else
     {
         GetCooperationClaimsListOp *op = [GetCooperationClaimsListOp new];
+        op.gid = self.gid;
         @weakify(self)
         [[[[op rac_postRequest] initially:^{
             @strongify(self)
