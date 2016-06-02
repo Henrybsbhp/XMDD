@@ -1305,7 +1305,9 @@
              self.infoPhotos.count == 0 &&
              self.licencePhotos.count == 0)
     {
+        
         [self.navigationController popViewControllerAnimated:YES];
+        
     }
     else if (self.scenePhotosCopy.count - self.scenePhotos.count == 0 &&
              self.damagePhotosCopy.count - self.damagePhotos.count == 0 &&
