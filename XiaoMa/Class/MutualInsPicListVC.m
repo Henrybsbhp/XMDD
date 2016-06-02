@@ -410,7 +410,6 @@
             HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
             [alert show];
             
-            
         }];
         
         
@@ -419,10 +418,7 @@
         {
             NSString *urlStr = [obj objectForKey:@"picurl"];
             
-            if (!imageView.image)
-            {
-                [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
-            }
+            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
             
             deleteBtn.hidden = YES;
             
@@ -512,10 +508,7 @@
         {
             NSString *urlStr = [obj objectForKey:@"picurl"];
             
-            if (!imageView.image)
-            {
-                [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
-            }
+            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
             
             deleteBtn.hidden = YES;
             
@@ -598,15 +591,13 @@
             
         }];
         
+        
         id obj = [self.infoPhotosCopy safetyObjectAtIndex:indexPath.row - 1];
         if ([obj isKindOfClass:[NSDictionary class]])
         {
             NSString *urlStr = [obj objectForKey:@"picurl"];
             
-            if (!imageView.image)
-            {
-                [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
-            }
+            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
             
             deleteBtn.hidden = YES;
             
@@ -690,15 +681,13 @@
             
         }];
         
+        
         id obj = [self.licencePhotosCopy safetyObjectAtIndex:indexPath.row - 1];
         if ([obj isKindOfClass:[NSDictionary class]])
         {
             NSString *urlStr = [obj objectForKey:@"picurl"];
             
-            if (!imageView.image)
-            {
-                [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
-            }
+            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
             
             deleteBtn.hidden = YES;
             
