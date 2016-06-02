@@ -16,6 +16,7 @@
 #import "HKTimer.h"
 #import "HKImageAlertVC.h"
 #import "MutualInsAcceptCompensationVC.h"
+#import "MutualInsPicListVC.h"
 
 #define StamperImageWidthHeight 120
 
@@ -638,16 +639,20 @@
         takePhotoButton.layer.masksToBounds = YES;
         
         if (status == 4) {
+            
+            @weakify(self);
             [takePhotoButton setTitle:@"重新拍照上传" forState:UIControlStateNormal];
             [[[takePhotoButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
-                
-                
+                @strongify(self);
+                MutualInsPicListVC * vc = [UIStoryboard vcWithId:@"MutualInsPicListVC" inStoryboard:@"MutualInsClaimsPicList"];
+                vc.claimID = dict[@"claimid"];
+                [self.navigationController pushViewController:vc animated:YES];
             }];
         } else {
+            
             [takePhotoButton setTitle:@"拍照上传" forState:UIControlStateNormal];
-            @weakify(self);
-            [[[takePhotoButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                       [[[takePhotoButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
                 MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
                 //                scencePageVC.noticeArr = self.tempArr;
@@ -781,13 +786,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *dataDict = [self.fetchedDataSource safetyObjectAtIndex:indexPath.section];
-    NSInteger status = [dataDict[@"status"] integerValue];
     
-    if (status == 20) {
-        NSLog(@"STATUS SECTION TAPPED!");
-        
-        
-    }
+    MutualInsPicListVC * vc = [UIStoryboard vcWithId:@"MutualInsPicListVC" inStoryboard:@"MutualInsClaimsPicList"];
+    vc.claimID = dataDict[@"claimid"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

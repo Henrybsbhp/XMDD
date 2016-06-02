@@ -203,14 +203,12 @@
 
 -(void)historySectionAction
 {
-//    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0005"}];
-//    
-//    if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
-//        return;
-//    }
-//    
-//    MutualInsClaimsHistoryVC *claimsHistoryVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimsHistoryVC"];
-//    [self.navigationController pushViewController:claimsHistoryVC animated:YES];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0005"}];
+    
+    if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
+        return;
+    }
+
     MutualInsPicListVC *vc = [UIStoryboard vcWithId:@"MutualInsPicListVC" inStoryboard:@"MutualInsClaimsPicList"];
     [self.navigationController pushViewController:vc animated:YES];
 }
