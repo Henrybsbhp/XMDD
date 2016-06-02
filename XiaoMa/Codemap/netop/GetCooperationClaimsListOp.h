@@ -3,6 +3,7 @@
 
 @interface GetCooperationClaimsListOp : BaseOp
 
+@property (nonatomic,strong)NSNumber * gid;
 
 ///理赔详情
 @property (nonatomic,strong) NSArray* rsp_claimlist;
