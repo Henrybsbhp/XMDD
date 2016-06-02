@@ -121,11 +121,11 @@
     NSString * linsenceText = @"我已阅读并同意《小马互助公约》";
     
 #if XMDDEnvironment==0
-    NSString * linsenceUrlStr = @"http://dev01.xiaomadada.com/apphtml/view/agreement-beta1.0/convention.html";
+    NSString * linsenceUrlStr = @"http://dev01.xiaomadada.com/apphtml/view/agreement/v1.0/convention.html";
 #elif XMDDEnvironment==1
-    NSString * linsenceUrlStr = @"http://dev.xiaomadada.com/apphtml/view/agreement-beta1.0/convention.html";
+    NSString * linsenceUrlStr = @"http://dev.xiaomadada.com/apphtml/view/agreement/v1.0/convention.html";
 #else
-    NSString * linsenceUrlStr = @"http://www.xiaomadada.com/apphtml/view/agreement-beta1.0/convention.html";
+    NSString * linsenceUrlStr = @"http://www.xiaomadada.com/apphtml/view/agreement/v1.0/convention.html";
 #endif
 
     NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:linsenceText

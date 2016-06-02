@@ -13,4 +13,6 @@
 - (NSString * )safteySubstringFromIndex:(NSInteger)i;
 - (NSString * )safteySubstringToIndexIndex:(NSInteger)i;
 
+- (NSString *)trimmeSpacesInFontAndEnd;
+
 @end
