@@ -6,7 +6,7 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#define kLength self.view.frame.size.width
+
 
 #import "MutualInsPicListVC.h"
 #import "GetPicListOp.h"
@@ -23,6 +23,9 @@
 #import "DAProgressOverlayView.h"
 #import "ZFCDoubleBounceActivityIndicatorView.h"
 
+#define kLength self.view.frame.size.width
+#define kPhotoAddCount 5
+
 @interface MutualInsPicListVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SDPhotoBrowserDelegate>
 
 // 页面组件
@@ -30,8 +33,9 @@
 @property (nonatomic, strong) HKImageAlertVC *alert;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
-// 各个子模块能否添加标记
+// 底部上传按钮是否打开
 @property (assign, nonatomic) BOOL firstswitch;
+// 各个栏目能否继续上传图片，根据服务器下发的canaddflag“0101”来截取判断
 @property (assign, nonatomic) BOOL sceneCanAdd;
 @property (assign, nonatomic) BOOL damageCanAdd;
 @property (assign, nonatomic) BOOL infoCanAdd;
@@ -57,13 +61,15 @@
 
 // SDPhotoBrowser所需要的中间变量
 @property (strong, nonatomic) UIImage *img;
+@property (strong, nonatomic) NSString *imgURL;
 
 
 @end
 
 @implementation MutualInsPicListVC
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     // 初始化加载数据
@@ -75,7 +81,8 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
 }
 
@@ -139,10 +146,34 @@
 
 -(void)updateClaimPic
 {
-    if ([self checkPhotoNeedReupload])
+    NSNumber *checkFlag = [self checkPhotoNeedReupload];
+    if (checkFlag.integerValue != 5)
     {
+        NSString *errStr;
+        switch (checkFlag.integerValue)
+        {
+            case 1:
+                errStr = @"您现场接触仍有未重拍的照片，请先重拍后提交";
+                break;
+            case 2:
+                errStr = @"您车辆损失仍有未重拍的照片，请先重拍后提交";
+                break;
+            case 3:
+                errStr = @"您车辆信息仍有未重拍的照片，请先重拍后提交";
+                break;
+            case 4:
+                errStr = @"您证件照仍有未重拍的照片，请先重拍后提交";
+                break;
+        }
+        
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:nil];
-        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有未重拍的照片，请先重拍后提交" ActionItems:@[cancel]];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:errStr ActionItems:@[cancel]];
+        [alert show];
+    }
+    else if (![self checkPhotoIsUploading])
+    {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:nil];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有照片正在上传中" ActionItems:@[cancel]];
         [alert show];
     }
     else
@@ -171,10 +202,12 @@
         
         UpdateClaimPicOp *op = [UpdateClaimPicOp operation];
         op.req_claimid = self.claimID;
-        op.req_localepic = scenePhotos;
-        op.req_carlosspic = damagePhotos;
-        op.req_carinfopic = infoPhotos;
-        op.req_idphotopic = idPhotos;
+        
+        op.req_localepic = [self stringForArray:scenePhotos];
+        op.req_carlosspic = [self stringForArray:damagePhotos];
+        op.req_carinfopic = [self stringForArray:infoPhotos];
+        op.req_idphotopic = [self stringForArray:idPhotos];
+        
         
         [[[op rac_postRequest]initially:^{
             [gToast showingWithText:@"上传照片中"];
@@ -195,41 +228,58 @@
     }
 }
 
-
-
--(void)uploadFileWithPicRecord:(PictureRecord *)picrecord andIndex:(NSIndexPath *)indexPath
+- (NSString *)stringForArray:(NSMutableArray *)array
 {
-    
+    NSString * value;
+    NSString * aa = [array componentsJoinedByString:@"\",\""];
+    if (array.count)
+    {
+        value = [NSString stringWithFormat:@"[\"%@\"]",aa];
+    }
+    else
+    {
+        value = @"[]";
+    }
+    return value;
+}
+
+
+
+-(RACSignal * )uploadFileWithPicRecord:(PictureRecord *)picrecord andIndex:(NSIndexPath *)indexPath
+{
+    RACSignal * signal;
     // 将图片的上传中属性设为YES。判断是否转菊花
     picrecord.isUploading = YES;
     picrecord.needReupload = NO;
     
-    //上传照片
-    UploadFileOp *op = [UploadFileOp operation];
-    op.req_fileType = UploadFileTypeMutualIns;
-    op.req_fileExtType = @"jpg";
-    [op setFileArray:[NSArray arrayWithObject:picrecord.image] withGetDataBlock:^NSData *(UIImage *img) {
-        return UIImageJPEGRepresentation(img, 0.5);
-    }];
-    
-    [[[op rac_postRequest]initially:^{
+    GetSystemTimeOp *sysTimeOp = [GetSystemTimeOp operation];
+    signal = [[[[sysTimeOp rac_postRequest] flattenMap:^RACStream *(GetSystemTimeOp * timeOp) {
         
-        // 通知collectionview显示图片。并开始转菊花。
-        [self.collectionView reloadData];
-    }]subscribeNext:^(UploadFileOp *op) {
-        // 通知系统停止转菊花
+        return [[self addPrinting:timeOp.rsp_systime InPictureRecord:picrecord] flattenMap:^RACStream *(PictureRecord * picRecord) {
+            
+            //上传照片
+            UploadFileOp *op = [UploadFileOp operation];
+            op.req_fileType = UploadFileTypeMutualIns;
+            op.req_fileExtType = @"jpg";
+            [op setFileArray:[NSArray arrayWithObject:picRecord.image] withGetDataBlock:^NSData *(UIImage *img) {
+                return UIImageJPEGRepresentation(img, 0.5);
+            }];
+            return [op rac_postRequest];
+        }];
+    }] doNext:^(UploadFileOp * uploadFileOp) {
+        
         picrecord.isUploading = NO;
         picrecord.needReupload = NO;
-        picrecord.url = op.rsp_urlArray.firstObject;
-        [self.collectionView reloadData];
+        picrecord.url = uploadFileOp.rsp_urlArray.firstObject;
         
-    } error:^(NSError *error) {
-        // 通知系统停止转菊花。并设置需要重新上传属性。通过此属性判断是否显示遮罩层。
+    }] catch:^RACSignal *(NSError *error) {
+        
         picrecord.isUploading = NO;
         picrecord.needReupload = YES;
-        [self.collectionView reloadData];
         
+        return [RACSignal error:error];
     }];
+    return signal;
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -281,7 +331,7 @@
             count = self.infoPhotos.count + 1;
         }
     }
-    else
+    else if (section == 3)
     {
         if (self.licenceCanAdd)
         {
@@ -292,6 +342,10 @@
         {
             count = self.licencePhotos.count + 1;
         }
+    }
+    else
+    {
+        count = 1;
     }
     
     return count;
@@ -416,413 +470,175 @@
 
 -(UICollectionViewCell *)imageViewCellForIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell;
+    @weakify(self)
     
-    // 现场拍照
-    if (indexPath.section == 0)
-    {
-        cell = [self scenePhotoCellForIndexPath:indexPath];
-    }
-    // 车辆损失
-    else if(indexPath.section == 1)
-    {
-        cell = [self damagePhotoCellForIndexPath:indexPath];
-    }
-    // 车辆信息
-    else if (indexPath.section == 2)
-    {
-        cell = [self infoPhotoCellForIndexPath:indexPath];
-    }
-    // 证件照
-    else if (indexPath.section == 3)
-    {
-        cell = [self licencePhotoCellForIndexPath:indexPath];
-    }
-    
-    return cell;
-}
-
--(UICollectionViewCell *)scenePhotoCellForIndexPath:(NSIndexPath *)indexPath
-{
-    @weakify(self)
-    UICollectionViewCell *cell;
     if (indexPath.row == 0)
     {
-        cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"titleItem" forIndexPath:indexPath];
+        UICollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"titleItem" forIndexPath:indexPath];
         
         UILabel *titleLabel = [cell viewWithTag:100];
-        titleLabel.text = @"现场接触";
-        
+        switch (indexPath.section)
+        {
+            case 0:
+                titleLabel.text = @"现场接触";
+                break;
+            case 1:
+                titleLabel.text = @"车辆损失";
+                break;
+            case 2:
+                titleLabel.text = @"车辆信息";
+                break;
+            case 3:
+                titleLabel.text = @"证件照";
+                break;
+        }
+        return cell;
     }
     else
     {
-        cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"imgViewItem" forIndexPath:indexPath];
-        
-        UIImageView *imageView = [cell viewWithTag:100];
-        UIView *maskView = [cell viewWithTag:101];
-        UILabel *noticeLabel = [cell viewWithTag:10101];
-        UIButton *deleteBtn = [cell viewWithTag:102];
-        UIView *overlayView = [cell viewWithTag:103];
-        UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
-        
-        
-        [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
-            @strongify(self)
-            
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
-                [self deletePhotosWithItem:cell];
-            }];
-            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
-            [alert show];
-            
-        }];
-        
-        
-        id obj = [self.scenePhotosCopy safetyObjectAtIndex:indexPath.row - 1];
-        if ([obj isKindOfClass:[NSDictionary class]])
+        // 现场拍照
+        if ([self canAddNewPhotoWithIndexPath:indexPath])
         {
-            NSString *urlStr = [obj objectForKey:@"picurl"];
-            
-            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
-            
-            deleteBtn.hidden = YES;
-            
-            NSNumber *isAgainUpload = [obj objectForKey:@"isagainupload"];
-            maskView.hidden = isAgainUpload.integerValue == 0 ? YES : NO;
-            noticeLabel.text = @"需重拍";
-            
-            overlayView.hidden = YES;
+            UICollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"addImgItem" forIndexPath:indexPath];
+            return cell;
         }
-        else if([obj isKindOfClass:[PictureRecord class]])
+        else
         {
-            PictureRecord *picRcd = (PictureRecord *)obj;
+            UICollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"imgViewItem" forIndexPath:indexPath];
             
-            imageView.image = picRcd.image;
+            UIImageView *imageView = [cell viewWithTag:100];
+            UIView *maskView = [cell viewWithTag:101];
+            UILabel *noticeLabel = [cell viewWithTag:10101];
+            UIButton *deleteBtn = [cell viewWithTag:102];
+            UIView *overlayView = [cell viewWithTag:103];
+            UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
             
-            if (picRcd.needReupload)
-            {
-                maskView.hidden = NO;
-                noticeLabel.text = @"请重新上传";
-            }
-            else
-            {
-                maskView.hidden = YES;
-            }
             
-            if (picRcd.isUploading)
-            {
-                overlayView.hidden = NO;
-                deleteBtn.hidden = YES;
-                [indicator startAnimating];
-            }
-            else
-            {
-                deleteBtn.hidden = NO;
-                overlayView.hidden = YES;
-            }
-        }
-        
-        if (self.sceneCanAdd && indexPath.row == self.scenePhotosCopy.count + 1)
-        {
-            cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"addImgItem" forIndexPath:indexPath];
-        }
-        
-    }
-    return cell;
-}
-
--(UICollectionViewCell *)damagePhotoCellForIndexPath:(NSIndexPath *)indexPath
-{
-    @weakify(self)
-    UICollectionViewCell *cell;
-    if (indexPath.row == 0)
-    {
-        cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"titleItem" forIndexPath:indexPath];
-        
-        UILabel *titleLabel = [cell viewWithTag:100];
-        
-        titleLabel.text = @"车辆损失";
-    }
-    else
-    {
-        cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"imgViewItem" forIndexPath:indexPath];
-        
-        UIImageView *imageView = [cell viewWithTag:100];
-        UIView *maskView = [cell viewWithTag:101];
-        UILabel *noticeLabel = [cell viewWithTag:10101];
-        UIButton *deleteBtn = [cell viewWithTag:102];
-        UIView *overlayView = [cell viewWithTag:103];
-        UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
-        
-        
-        [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
-            @strongify(self)
-            
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
-                [self deletePhotosWithItem:cell];
-            }];
-            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
-            [alert show];
-            
-        }];
-        
-        
-        id obj = [self.damagePhotosCopy safetyObjectAtIndex:indexPath.row - 1];
-        if ([obj isKindOfClass:[NSDictionary class]])
-        {
-            NSString *urlStr = [obj objectForKey:@"picurl"];
-            
-            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
-            
-            deleteBtn.hidden = YES;
-            
-            NSNumber *isAgainUpload = [obj objectForKey:@"isagainupload"];
-            maskView.hidden = isAgainUpload.integerValue == 0 ? YES : NO;
-            noticeLabel.text = @"需重拍";
-            
-            overlayView.hidden = YES;
-        }
-        else if([obj isKindOfClass:[PictureRecord class]])
-        {
-            PictureRecord *picRcd = (PictureRecord *)obj;
-            
-            imageView.image = picRcd.image;
-            
-            if (picRcd.needReupload)
-            {
-                maskView.hidden = NO;
-                noticeLabel.text = @"请重新上传";
-            }
-            else
-            {
-                maskView.hidden = YES;
-            }
-            
-            if (picRcd.isUploading)
-            {
-                overlayView.hidden = NO;
-                [indicator startAnimating];
-                deleteBtn.hidden = YES;
-            }
-            else
-            {
-                deleteBtn.hidden = NO;
-                overlayView.hidden = YES;
-            }
-        }
-        if (self.damageCanAdd && indexPath.row == self.damagePhotosCopy.count + 1)
-        {
-            cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"addImgItem" forIndexPath:indexPath];
-        }
-    }
-    return cell;
-}
-
--(UICollectionViewCell *)infoPhotoCellForIndexPath:(NSIndexPath *)indexPath
-{
-    @weakify(self)
-    UICollectionViewCell *cell;
-    if (indexPath.row == 0)
-    {
-        cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"titleItem" forIndexPath:indexPath];
-        
-        UILabel *titleLabel = [cell viewWithTag:100];
-        
-        titleLabel.text = @"车辆信息";
-    }
-    else
-    {
-        cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"imgViewItem" forIndexPath:indexPath];
-        
-        UIImageView *imageView = [cell viewWithTag:100];
-        UIView *maskView = [cell viewWithTag:101];
-        UILabel *noticeLabel = [cell viewWithTag:10101];
-        UIButton *deleteBtn = [cell viewWithTag:102];
-        UIView *overlayView = [cell viewWithTag:103];
-        UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
-        
-        
-        [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
-            @strongify(self)
-            
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
-                [self deletePhotosWithItem:cell];
-            }];
-            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
-            [alert show];
-            
-        }];
-        
-        
-        id obj = [self.infoPhotosCopy safetyObjectAtIndex:indexPath.row - 1];
-        if ([obj isKindOfClass:[NSDictionary class]])
-        {
-            NSString *urlStr = [obj objectForKey:@"picurl"];
-            
-            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
-            
-            deleteBtn.hidden = YES;
-            
-            NSNumber *isAgainUpload = [obj objectForKey:@"isagainupload"];
-            maskView.hidden = isAgainUpload.integerValue == 0 ? YES : NO;
-            noticeLabel.text = @"需重拍";
-            
-            overlayView.hidden = YES;
-        }
-        else if([obj isKindOfClass:[PictureRecord class]])
-        {
-            PictureRecord *picRcd = (PictureRecord *)obj;
-            
-            imageView.image = picRcd.image;
-            
-            if (picRcd.needReupload)
-            {
-                maskView.hidden = NO;
-                noticeLabel.text = @"请重新上传";
-            }
-            else
-            {
-                maskView.hidden = YES;
-            }
-            
-            if (picRcd.isUploading)
-            {
-                deleteBtn.hidden = YES;
-                overlayView.hidden = NO;
-                [indicator startAnimating];
-            }
-            else
-            {
-                deleteBtn.hidden = NO;
-                overlayView.hidden = YES;
-            }
-        }
-        
-        if (self.infoCanAdd && indexPath.row == self.infoPhotosCopy.count + 1)
-        {
-            cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"addImgItem" forIndexPath:indexPath];
-        }
-        
-    }
-    return cell;
-}
-
--(UICollectionViewCell *)licencePhotoCellForIndexPath:(NSIndexPath *)indexPath
-{
-    @weakify(self)
-    UICollectionViewCell *cell;
-    if (indexPath.row == 0)
-    {
-        cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"titleItem" forIndexPath:indexPath];
-        
-        UILabel *titleLabel = [cell viewWithTag:100];
-        
-        titleLabel.text = @"证件照";
-    }
-    else
-    {
-        cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"imgViewItem" forIndexPath:indexPath];
-        
-        UIImageView *imageView = [cell viewWithTag:100];
-        UIView *maskView = [cell viewWithTag:101];
-        UILabel *noticeLabel = [cell viewWithTag:10101];
-        UIButton *deleteBtn = [cell viewWithTag:102];
-        UIView *overlayView = [cell viewWithTag:103];
-        UIActivityIndicatorView *indicator = [cell viewWithTag:10301];
-        
-        
-        [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
-            @strongify(self)
-            
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
-                [self deletePhotosWithItem:cell];
-            }];
-            HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
-            [alert show];
-            
-        }];
-        
-        
-        id obj = [self.licencePhotosCopy safetyObjectAtIndex:indexPath.row - 1];
-        if ([obj isKindOfClass:[NSDictionary class]])
-        {
-            NSString *urlStr = [obj objectForKey:@"picurl"];
-            
-            [imageView setImageByUrl:urlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
-            
-            deleteBtn.hidden = YES;
-            
-            NSNumber *isAgainUpload = [obj objectForKey:@"isagainupload"];
-            maskView.hidden = isAgainUpload.integerValue == 0 ? YES : NO;
-            noticeLabel.text = @"需重拍";
-            
-            overlayView.hidden = YES;
-        }
-        else if([obj isKindOfClass:[PictureRecord class]])
-        {
-            PictureRecord *picRcd = (PictureRecord *)obj;
-            
-            imageView.image = picRcd.image;
-            
-            if (picRcd.needReupload)
-            {
-                maskView.hidden = NO;
-                noticeLabel.text = @"请重新上传";
-            }
-            else
-            {
-                maskView.hidden = YES;
-            }
-            
-            if (picRcd.isUploading)
-            {
-                deleteBtn.hidden = YES;
-                overlayView.hidden = NO;
-                [indicator startAnimating];
+            [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+                @strongify(self)
                 
-            }
-            else
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+                HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
+                    [self deletePhotosWithItem:cell];
+                }];
+                HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
+                [alert show];
+                
+            }];
+            
+            
+            id obj = [self getPictureRecordWithIndexPath:indexPath];
+            if ([obj isKindOfClass:[NSDictionary class]])
             {
-                deleteBtn.hidden = NO;
+                NSString *thumbnailURLlStr = [obj objectForKey:@"thumbnail"];
+                
+                /// @fq 使用缩略图
+                [imageView setImageByUrl:thumbnailURLlStr withType:ImageURLTypeMedium defImage:@"mutualIns_excampleImg" errorImage:@"cm_defpic_fail"];
+                
+                deleteBtn.hidden = YES;
+                
+                NSNumber *isAgainUpload = [obj objectForKey:@"isagainupload"];
+                maskView.hidden = isAgainUpload.integerValue == 0 ? YES : NO;
+                noticeLabel.text = @"需重拍";
+                
                 overlayView.hidden = YES;
             }
-        }
-        
-        if (self.licenceCanAdd && indexPath.row == self.licencePhotosCopy.count + 1)
-        {
-            cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"addImgItem" forIndexPath:indexPath];
+            else if([obj isKindOfClass:[PictureRecord class]])
+            {
+                PictureRecord *picRcd = (PictureRecord *)obj;
+                
+                [[RACObserve(picRcd, needReupload) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
+                    
+                    BOOL flag = [number boolValue];
+                    maskView.hidden = !flag;
+                    noticeLabel.text = @"请重新上传";
+                }];
+                
+                [[RACObserve(picRcd, isUploading) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
+                    
+                    BOOL flag = [number boolValue];
+                    overlayView.hidden = !flag;
+                    deleteBtn.hidden = flag;
+                    
+                    if (flag)
+                    {
+                        [indicator startAnimating];
+                    }
+                    else
+                    {
+                        [indicator stopAnimating];
+                    }
+                }];
+                
+                [[RACObserve(picRcd, image) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                    
+                    if (x && [x isKindOfClass:[UIImage class]])
+                    {
+                        imageView.image = picRcd.image;
+                    }
+                }];
+            }
+            return cell;
         }
     }
-    return cell;
 }
 
 #pragma mark - Utility
 
--(BOOL)checkPhotoNeedReupload
+-(BOOL)checkPhotoIsUploading
+{
+    for (PictureRecord *picRcd in self.scenePhotosCopy)
+    {
+        if ([picRcd isKindOfClass:[PictureRecord class]])
+        {
+            return !picRcd.isUploading;
+        }
+    }
+    for (PictureRecord *picRcd in self.infoPhotosCopy)
+    {
+        if ([picRcd isKindOfClass:[PictureRecord class]])
+        {
+            return !picRcd.isUploading;
+        }
+    }
+    for (PictureRecord *picRcd in self.damagePhotosCopy)
+    {
+        if ([picRcd isKindOfClass:[PictureRecord class]])
+        {
+            return !picRcd.isUploading;
+        }
+    }
+    for (PictureRecord *picRcd in self.licencePhotosCopy)
+    {
+        if ([picRcd isKindOfClass:[PictureRecord class]])
+        {
+            return !picRcd.isUploading;
+        }
+    }
+    return YES;
+}
+
+-(NSNumber *)checkPhotoNeedReupload
 {
     if (self.scenePhotosCopy.count - self.scenePhotos.count < self.sceneReupCount)
     {
-        return YES;
+        return @(1);
     }
     else if (self.damagePhotosCopy.count - self.damagePhotos.count < self.damageReupCount)
     {
-        return YES;
+        return @(2);
     }
     else if (self.infoPhotosCopy.count - self.infoPhotos.count < self.infoReupCount)
     {
-        return YES;
+        return @(3);
     }
     else if (self.licencePhotosCopy.count - self.licencePhotos.count < self.licenceReupCount)
     {
-        return YES;
+        return @(4);
     }
     else
     {
-        return NO;
+        return @(5);
     }
 }
 
@@ -883,6 +699,28 @@
                 break;
         }
     }
+}
+
+- (BOOL)isPhotoFullWithPath:(NSIndexPath *)indexPath
+{
+    NSInteger  reminder = 0;
+    switch (indexPath.section)
+    {
+        case 0:
+            
+            reminder = self.scenePhotosCopy.count - self.scenePhotos.count;
+            break;
+        case 1:
+            reminder = self.damagePhotosCopy.count - self.damagePhotos.count;
+            break;
+        case 2:
+            reminder = self.infoPhotosCopy.count - self.infoPhotos.count;
+            break;
+        case 3:
+            reminder = self.licencePhotosCopy.count - self.licencePhotos.count;
+            break;
+    }
+    return reminder >= 5 ? YES : NO;
 }
 
 -(void)deletePhotosWithItem:(UICollectionViewCell *)cell
@@ -973,34 +811,34 @@
             
             [photoBrowser show];
         }
-        else if (picRecd.needReupload)
+        else
         {
-            
-            [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
+            [[self uploadFileWithPicRecord:picRecd andIndex:indexPath] subscribeNext:^(id x) {
+                
+            } error:^(NSError *error) {
+                
+            }];
         }
     }
 }
 
 -(void)takePhotoWithIndexPath:(NSIndexPath *)indexPath
 {
+    __block PictureRecord *picRcd = [[PictureRecord alloc] init];
     
 #if !TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
     
     [[[self.picker rac_pickImageInTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
         
-        PictureRecord *picRcd = [[PictureRecord alloc]init];
         picRcd.image = img;
         [self addPictureRecord:picRcd withIndex:indexPath];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
         
-        GetSystemTimeOp *op = [GetSystemTimeOp operation];
-        return [[op rac_postRequest]flattenMap:^RACStream *(GetSystemTimeOp *op) {
-            return [self addPrinting:op.rsp_systime InPictureRecord:picRcd];
-        }];
+        return [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
     }]subscribeNext:^(PictureRecord *picRcd) {
         
         // 上传图片
-        [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
+        
     }error:^(NSError *error) {
         
         PictureRecord *picRcd = [self getPictureRecordWithIndexPath:indexPath];
@@ -1014,26 +852,25 @@
     
     [[[self.picker rac_pickPhotoTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
         
-        PictureRecord *picRcd = [[PictureRecord alloc]init];
         picRcd.isUploading = YES;
         picRcd.image = img;
         [self addPictureRecord:picRcd withIndex:indexPath];
-        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
         
-        GetSystemTimeOp *op = [GetSystemTimeOp operation];
-        return [[op rac_postRequest]flattenMap:^RACStream *(GetSystemTimeOp *op) {
-            return [self addPrinting:op.rsp_systime InPictureRecord:picRcd];
-        }];
-    }]subscribeNext:^(PictureRecord *picRcd) {
-        // 上传图片
-        [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
-    }error:^(NSError *error) {
+        if ([self isPhotoFullWithPath:indexPath])
+        {
+            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        }
+        else
+        {
+            [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
+        }
         
-        PictureRecord *picRcd = [self getPictureRecordWithIndexPath:indexPath];
-        picRcd.isUploading = NO;
-        picRcd.needReupload = YES;
-        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
-        [gToast showMistake:error.domain.length != 0 ? error.domain : @"网络连接失败，请检查你的网络设置"];
+        
+        return [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
+    }] subscribeNext:^(id x) {
+        
+    } error:^(NSError *error) {
+        
     }];
 #endif
 }
@@ -1276,9 +1113,9 @@
         [alert show];
     }
     else if ((self.scenePhotos.count == 0 &&
-             self.damagePhotos.count == 0 &&
-             self.infoPhotos.count == 0 &&
-             self.licencePhotos.count == 0) ||
+              self.damagePhotos.count == 0 &&
+              self.infoPhotos.count == 0 &&
+              self.licencePhotos.count == 0) ||
              (!self.sceneCanAdd &&
               !self.damageCanAdd &&
               !self.infoCanAdd &&
@@ -1297,7 +1134,7 @@
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"去意已决" color:kDefTintColor clickBlock:^(id alertVC) {
             [self.navigationController popViewControllerAnimated:YES];
         }];
-        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有照片需要重新拍摄上传，请确认是否放弃重新拍摄并且返回？" ActionItems:@[cancel,confirm]];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确认是否放弃重新拍摄并且返回？" ActionItems:@[cancel,confirm]];
         [alert show];
     }
 }
