@@ -900,15 +900,15 @@
             break;
         case 1:
             [self.damagePhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
-            total = self.damagePhotosCopy.count + 5 + 1;
+            total = self.damagePhotos.count + 5 + 1;
             break;
         case 2:
             [self.infoPhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
-            total = self.infoPhotosCopy.count + 5 + 1;
+            total = self.infoPhotos.count + 5 + 1;
             break;
         case 3:
             [self.licencePhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
-            total = self.licencePhotosCopy.count + 5 + 1;
+            total = self.licencePhotos.count + 5 + 1;
             break;
     }
     
