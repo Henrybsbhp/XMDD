@@ -153,16 +153,16 @@
         switch (checkFlag.integerValue)
         {
             case 1:
-                errStr = @"您现场接触仍有未重拍的照片，请先重拍后提交";
+                errStr = @"现场接触中仍有照片需要拍摄，请先拍摄后提交";
                 break;
             case 2:
-                errStr = @"您车辆损失仍有未重拍的照片，请先重拍后提交";
+                errStr = @"车辆损失中仍有照片需要拍摄，请先拍摄后提交";
                 break;
             case 3:
-                errStr = @"您车辆信息仍有未重拍的照片，请先重拍后提交";
+                errStr = @"车辆信息中仍有照片需要拍摄，请先拍摄后提交";
                 break;
             case 4:
-                errStr = @"您证件照仍有未重拍的照片，请先重拍后提交";
+                errStr = @"证件照中仍有照片需要拍摄，请先拍摄后提交";
                 break;
         }
         
@@ -172,8 +172,8 @@
     }
     else if (![self checkPhotoIsUploading])
     {
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:nil];
-        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有照片正在上传中" ActionItems:@[cancel]];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:kDefTintColor clickBlock:nil];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有未重拍的照片，请先重拍后提交" ActionItems:@[cancel]];
         [alert show];
     }
     else
@@ -661,7 +661,6 @@
     switch (indexPath.section)
     {
         case 0:
-            //             return [self.scenePhotosCopy safetyObjectAtIndex:indexPath.row];
             picRcd = [self.scenePhotosCopy safetyObjectAtIndex:indexPath.row - 1];
             break;
         case 1:
@@ -1109,7 +1108,7 @@
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"去意已决" color:kDefTintColor clickBlock:^(id alertVC) {
             [self.navigationController popViewControllerAnimated:YES];
         }];
-        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否放弃重新拍摄的照片并且返回？" ActionItems:@[cancel,confirm]];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有照片需要拍摄上传，请确认是否返回？" ActionItems:@[cancel,confirm]];
         [alert show];
     }
     else if ((self.scenePhotos.count == 0 &&
