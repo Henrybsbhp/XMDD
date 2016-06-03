@@ -50,12 +50,15 @@
         self.tableView.rowHeight = UITableViewAutomaticDimension;
     }
     
+    // 下拉刷新设置
     [self setupRefreshView];
     
     [self setupNewbieGuideBarButtonItem];
     
+    // 进入页面后获取所有数据
     [self fetchAllData];
     
+    // 监听 kNotifyUpdateClaimList 时间判断是否需要更新页面
     @weakify(self)
     [self listenNotificationByName:kNotifyUpdateClaimList withNotifyBlock:^(NSNotification *note, id weakSelf) {
         
@@ -64,6 +67,7 @@
     }];
 }
 
+/// 下拉刷新设置
 - (void)setupRefreshView
 {
     @weakify(self);
@@ -73,19 +77,27 @@
     }];
 }
 
+/// navigationBar 上「新手指南」按钮的图标设置
 - (void)setupNewbieGuideBarButtonItem
 {
+    // 从 NSUserDefaults 中取 isPressed 的 Bool 值，判断是否点击过
     BOOL isPressed = [[[NSUserDefaults standardUserDefaults] objectForKey:@"isPressed"] boolValue];
     
+    // 如有获取到 isPressed 值，则正常显示「新手指南」图标。反之则为没有点按过，让「新手指南」图标附上红点
     self.newbieGuideBarButtonItem.image = isPressed ? [[UIImage imageNamed:@"mutualIns_newbieGuideButtonNoRedDot_barButtonItem"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] : [[UIImage imageNamed:@"mutualIns_newbieGuideButtonWithRedDot_barButtonItem"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 
+#pragma mark - Action events
+/// navigationBar 上「新手指南」的点击事件
 - (IBAction)newbieGuideBarButtonClicked:(id)sender
 {
+    // 只要点安国「新手指南」图标，则让该图标变为不带红点状态
     self.newbieGuideBarButtonItem.image = [[UIImage imageNamed:@"mutualIns_newbieGuideButtonNoRedDot_barButtonItem"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
+    // 从 NSUserDefaults 中取 isPressed 的 Bool 值，判断是否点击过
     BOOL isPressed = [[[NSUserDefaults standardUserDefaults] objectForKey:@"isPressed"] boolValue];
     
+    // 如未获取到 isPressed 的值，则给 NSUserDefaults 存储一个 isPressed 值，表明用户已经按过该图标
     if (!isPressed) {
         [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"isPressed"];
     }
@@ -123,6 +135,8 @@
     [alert show];
 }
 
+#pragma mark - Obtain data
+/// 进入页面后获取所有数据
 - (void)fetchAllData
 {
     AskToCompensationOp *op = [[AskToCompensationOp alloc] init];
@@ -148,6 +162,8 @@
         {
             [self.view hideDefaultEmptyView];
             
+            self.tableView.hidden = NO;
+            
             self.bankCardDescription = rop.bankNoDesc;
             // 记录请求到数据的时间
             for (NSDictionary *dict in rop.claimList) {
@@ -158,6 +174,7 @@
         else
         {
             [self.view showEmptyViewWithImageName:@"def_noCompensationRecord_imageView" text:@"暂无补偿记录" textColor:HEXCOLOR(@"#18D06A") centerOffset:-80 tapBlock:nil];
+            self.tableView.hidden = YES;
         }
         self.fetchedDataSource = rop.claimList;
         [self setDataSource];
@@ -173,6 +190,7 @@
     }];
 }
 
+/// 接受 / 拒绝补偿的请求方法
 -(void)confirmClaimWithAgreement:(NSNumber *)agreement claimID:(NSNumber *)claimID andBankNo:(NSString *)bankcardNo
 {
     ConfirmClaimOp *op = [[ConfirmClaimOp alloc]init];
@@ -196,19 +214,7 @@
     }];
 }
 
-- (NSInteger)indexOfProgressViewFromFetchedStatus:(NSInteger)status fastClaimNo:(NSInteger)fastClaimNo
-{
-    if (status <= 0 || status == 4 || status == 2 || status == 5) {
-        return 1;
-    } else if (status == 1 || status == 10 || status == 20 || (fastClaimNo == 0 && status == 3) || (fastClaimNo == 1 && status == 2)) {
-        return 2;
-    } else {
-        return 3;
-    }
-    
-    return 1;
-}
-
+/// 设置 CKList 的数据源，用于展示。
 - (void)setDataSource
 {
     self.dataSource = [CKList list];
@@ -219,25 +225,32 @@
         NSInteger status = [dict[@"status"] integerValue];
         NSArray *detailInfoArray = dict[@"detailinfo"];
         
+        // 顶部进度条 Cell
         CKDict *progressCell = [self setupProgressViewCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
-        
+        // 中间车牌号和状态标签显示 Cell
         CKDict *statusCell = [self setupStatusCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
-        
+        // 信息详情显示 Cell
         CKDict *detailCell = [self setupDetailCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
-        
+        // 提示语 Cell
         CKDict *tipsCell = [self setupTipsCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
-        
+        // 拍照上传 / 重新拍照上传 Cell
         CKDict *takePhotoCell = [self setupTakePhotoCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
+        // 价格不满意 && 接受补偿 Cell
         CKDict *compensateOrDeclineCell = [self setupCompensateOrDeclineCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
+        // 补偿金额和作为底部提示语的 Cell
         CKDict *compensationPriceBottomCell = [self setupCompensationPriceBottomCellWithStatus:status isFastClaimInteger:isFastClaimInt dictOfData:dict detailInfoArray:detailInfoArray];
         
-        if ([dict[@"status"] integerValue] == -1) {
+        
+        
+        // 通过各状态来拼接相应的 Cell
+        // -1 为「待现场拍照」，如果为快速补偿状态下，则为「代查勘定损」
+        if (status == -1) {
             CKList *waitingForPhoto = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
             int a;
@@ -245,11 +258,20 @@
                 [detailCellArray addObject:detailCell];
             }
             [waitingForPhoto addObjectsFromArray:detailCellArray];
-            NSArray *remainingCell = @[tipsCell, takePhotoCell];
-            [waitingForPhoto addObjectsFromArray:remainingCell];
-            [dataArray addObject:waitingForPhoto];
+            
+            // 通过是否为快速补偿来判断拼接相应的 Cell
+            if (isFastClaimInt == 0) {
+                NSArray *remainingCell = @[compensationPriceBottomCell];
+                [waitingForPhoto addObjectsFromArray:remainingCell];
+                [dataArray addObject:waitingForPhoto];
+            } else {
+                NSArray *remainingCell = @[tipsCell, takePhotoCell];
+                [waitingForPhoto addObjectsFromArray:remainingCell];
+                [dataArray addObject:waitingForPhoto];
+            }
         }
         
+        // 0 为「已拍照，审核中」
         if ([dict[@"status"] integerValue] == 0) {
             CKList *photoTook = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
@@ -263,6 +285,7 @@
             [dataArray addObject:photoTook];
         }
         
+        // 1 为「待补偿确认」
         if ([dict[@"status"] integerValue] == 1) {
             CKList *compensatedToConfirm = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
@@ -276,6 +299,7 @@
             [dataArray addObject:compensatedToConfirm];
         }
         
+        // 2 为「打款中 / 理赔中」
         if ([dict[@"status"] integerValue] == 2) {
             CKList *compensating = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
@@ -289,6 +313,7 @@
             [dataArray addObject:compensating];
         }
         
+        // 3 为「补偿已结束」
         if ([dict[@"status"] integerValue] == 3) {
             CKList *compensationEnded = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
@@ -302,6 +327,7 @@
             [dataArray addObject:compensationEnded];
         }
         
+        // 4 为「需重新拍照]
         if ([dict[@"status"] integerValue] == 4) {
             CKList *needRetakePhoto = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
@@ -315,6 +341,7 @@
             [dataArray addObject:needRetakePhoto];
         }
         
+        // 5 为「拍照超时」
         if ([dict[@"status"] integerValue] == 5) {
             CKList *overtimeTaking = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
@@ -328,6 +355,7 @@
             [dataArray addObject:overtimeTaking];
         }
         
+        // 10 为「已拒绝 / 用户拒绝」
         if ([dict[@"status"] integerValue] == 10) {
             CKList *userDeclined = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
@@ -341,6 +369,7 @@
             [dataArray addObject:userDeclined];
         }
         
+        // 20 为「已拒绝 / 系统拒绝」
         if ([dict[@"status"] integerValue] == 20) {
             CKList *systemDeclined = $(progressCell, statusCell);
             NSMutableArray *detailCellArray = [NSMutableArray new];
@@ -355,6 +384,7 @@
         }
     }
     
+    // 将拼接好的 Cell 逐一添加到 CKList 的 dataSource 中
     self.dataSource = [CKList listWithArray:dataArray];
     
     //    self.dataSource = $($(progressCell, statusCell, detailCell, detailCell, detailCell, tipsCell, compensationPriceBottomCell));
@@ -362,6 +392,8 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - The settings of Cells
+/// 顶部进度条 Cell 的设置方法
 - (CKDict *)setupProgressViewCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
 {
     @weakify(self);
@@ -410,6 +442,7 @@
     return progressCell;
 }
 
+/// 中间车牌号和状态标签显示 Cell 的设置方法
 - (CKDict *)setupStatusCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
 {
     @weakify(self);
@@ -456,9 +489,9 @@
         [cell.contentView bringSubviewToFront:stamperImageView];
         
         NSString *imageName;
-        if (status == -1 || status == 4 || status == 1 || status == 5) {
+        if ((status == -1 && isFastClaimInt == 1) || status == 4 || status == 1 || status == 5) {
             imageName = @"common_statusTagRed_imageView";
-        } else if (status == 0 || status == 2 || status == 10 || status == 20) {
+        } else if (status == 0 || status == 2 || status == 10 || status == 20 || (status == -1 && isFastClaimInt == 0)) {
             imageName = @"common_statusTagOrange_imageView";
         } else {
             imageName = @"common_statusTagGreen_imageView";
@@ -477,6 +510,7 @@
     return statusCell;
 }
 
+/// 信息详情显示 Cell 的设置方法
 - (CKDict *)setupDetailCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
 {
     @weakify(self);
@@ -558,6 +592,7 @@
     return detailCell;
 }
 
+/// 提示语 Cell 的设置方法
 - (CKDict *)setupTipsCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
 {
     @weakify(self);
@@ -585,14 +620,14 @@
         rightLine.lineAlignment = CKLineAlignmentVerticalRight;
         
         // 通过状态来判断字体颜色和大小
-        if (status == -1 || status == 4 || status == 1 || status == 5) {
+        if ((status == -1 && isFastClaimInt == 1) || status == 4 || status == 1 || status == 5) {
             tipsLabel.textColor = HEXCOLOR(@"#D02C47");
             tipsLabel.font = [UIFont systemFontOfSize:11];
             
             if (status == 1) {
                 tipsLabel.font = [UIFont systemFontOfSize:17];
             }
-        } else if (status == 0 || status == 2 || status == 10 || status == 20) {
+        } else if (status == 0 || status == 2 || status == 10 || status == 20 || (status == -1 && isFastClaimInt == 0)) {
             tipsLabel.textColor = HEXCOLOR(@"#E87131");
             tipsLabel.font = [UIFont systemFontOfSize:11];
             
@@ -639,7 +674,7 @@
                             
                             tipsLabel.text = [countDownTitleString stringByAppendingString:@"00:00:00"];
                             
-                            /// 系统时间走的比服务器快，延迟2s刷新
+                            /// 系统时间走的比服务器快，延迟 2s 刷新
                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                 
                                 [self fetchAllData];
@@ -656,6 +691,7 @@
     return tipsCell;
 }
 
+/// 拍照上传 / 重新拍照上传 Cell 的设置方法
 - (CKDict *)setupTakePhotoCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
 {
     @weakify(self);
@@ -683,6 +719,7 @@
         takePhotoButton.layer.borderWidth = 0.5;
         takePhotoButton.layer.masksToBounds = YES;
         
+        // 通过状态判定按钮为「重新拍照上传」还是「拍照上传」
         if (status == 4) {
             
             @weakify(self);
@@ -706,6 +743,7 @@
             }];
         }
         
+        // 通过状态判定按钮开关属性
         if (status == 5) {
             takePhotoButton.enabled = NO;
         } else {
@@ -716,6 +754,7 @@
     return takePhotoCell;
 }
 
+/// 价格不满意 && 接受补偿 Cell 的设置方法
 - (CKDict *)setupCompensateOrDeclineCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
 {
     @weakify(self);
@@ -748,6 +787,7 @@
         [cell.contentView bringSubviewToFront:leftLine];
         [cell.contentView bringSubviewToFront:rightLine];
         
+        // 「接受补偿」按键的点击事件
         [[[acceptCompensationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             MutualInsAcceptCompensationVC *acceptCompensationVC = [UIStoryboard vcWithId:@"MutualInsAcceptCompensationVC" inStoryboard:@"MutualInsClaims"];
             acceptCompensationVC.descriptionString = self.bankCardDescription;
@@ -757,6 +797,7 @@
             [self.navigationController pushViewController:acceptCompensationVC animated:YES];
         }];
         
+        // 「价格不满意」按钮的点击事件
         [[[declineButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
             alert.message = @"如出现价格不满意等原因造成不愿意接受补偿，可进行拒绝补偿的操作，拒绝后客服会与您取得联系，并做进一步沟通";
@@ -776,6 +817,7 @@
     return compensateOrDeclineCell;
 }
 
+/// 补偿金额和作为底部提示语的 Cell 的设置方法
 - (CKDict *)setupCompensationPriceBottomCellWithStatus:(NSInteger)status isFastClaimInteger:(NSInteger)isFastClaimInt dictOfData:(NSDictionary *)dict detailInfoArray:(NSArray *)detailInfoArray
 {
     @weakify(self);
@@ -814,14 +856,14 @@
         [cell.contentView bringSubviewToFront:rightLine];
         
         // 通过状态来判断字体颜色和大小
-        if (status == -1 || status == 4 || status == 1 || status == 5) {
+        if ((status == -1 && isFastClaimInt == 1) || status == 4 || status == 1 || status == 5) {
             tipsLabel.textColor = HEXCOLOR(@"#D02C47");
             tipsLabel.font = [UIFont systemFontOfSize:11];
             
             if (status == 1) {
                 tipsLabel.font = [UIFont systemFontOfSize:17];
             }
-        } else if (status == 0 || status == 2 || status == 10 || status == 20) {
+        } else if (status == 0 || status == 2 || status == 10 || status == 20 || (status == -1 && isFastClaimInt == 0)) {
             tipsLabel.textColor = HEXCOLOR(@"#E87131");
             tipsLabel.font = [UIFont systemFontOfSize:11];
             
@@ -900,7 +942,7 @@
     return cell;
 }
 
-#pragma mark - Utilitly
+#pragma mark - Utilities
 - (CGFloat)heightOfDetailCell:(NSString *)content title:(NSString *)title
 {
     CGSize titleSize = [title labelSizeWithWidth:9999 font:[UIFont systemFontOfSize:14]];
@@ -911,7 +953,21 @@
     return height;
 }
 
-#pragma mark - Lazy
+/// 通过该方法用 status 状态值来判断 progressView 的显示样式
+- (NSInteger)indexOfProgressViewFromFetchedStatus:(NSInteger)status fastClaimNo:(NSInteger)fastClaimNo
+{
+    if (status <= 0 || status == 4 || status == 2 || status == 5) {
+        return 1;
+    } else if (status == 1 || status == 10 || status == 20 || (fastClaimNo == 0 && status == 3) || (fastClaimNo == 1 && status == 2)) {
+        return 2;
+    } else {
+        return 3;
+    }
+    
+    return 1;
+}
+
+#pragma mark - Lazy instantiation
 - (UIImage *)stamperImage
 {
     if (!_stamperImage)
