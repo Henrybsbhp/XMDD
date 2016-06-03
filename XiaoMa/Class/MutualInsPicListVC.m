@@ -59,9 +59,6 @@
 // SDPhotoBrowser所需要的中间变量
 @property (strong, nonatomic) UIImage *img;
 
-// 水印
-@property (strong, nonatomic) NSString *waterMarkStr;
-
 
 @end
 
@@ -87,7 +84,7 @@
 
 -(void)setupBackBtn
 {
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(back)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
 }
 
 -(void)setupReupCount
@@ -129,7 +126,6 @@
         [self convertData];
         // 检查是否有数据。通过判断显示默认页
         [self checkData];
-        
         
     } error:^(NSError *error) {
         @strongify(self)
@@ -193,7 +189,6 @@
             CKAfter(0.5, ^{
                 [self.navigationController popViewControllerAnimated:YES];
             });
-            
             
         } error:^(NSError *error) {
             [gToast showError:@"上传照片失败"];
@@ -481,7 +476,6 @@
             }];
             HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否删除此照片？" ActionItems:@[cancel,confirm]];
             [alert show];
-//            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
             
         }];
         
@@ -623,7 +617,6 @@
         {
             cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"addImgItem" forIndexPath:indexPath];
         }
-        
     }
     return cell;
 }
@@ -804,7 +797,6 @@
         {
             cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"addImgItem" forIndexPath:indexPath];
         }
-        
     }
     return cell;
 }
@@ -909,15 +901,15 @@
             break;
         case 1:
             [self.damagePhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
-            total = self.damagePhotosCopy.count + 5 + 1;
+            total = self.damagePhotos.count + 5 + 1;
             break;
         case 2:
             [self.infoPhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
-            total = self.infoPhotosCopy.count + 5 + 1;
+            total = self.infoPhotos.count + 5 + 1;
             break;
         case 3:
             [self.licencePhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
-            total = self.licencePhotosCopy.count + 5 + 1;
+            total = self.licencePhotos.count + 5 + 1;
             break;
     }
     
@@ -925,9 +917,7 @@
     
     if (count != total)
     {
-        
         [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
-        
     }
     else
     {
@@ -995,10 +985,7 @@
 -(void)takePhotoWithIndexPath:(NSIndexPath *)indexPath
 {
     
-    
-    
 #if !TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-    
     
     [[[self.picker rac_pickImageInTargetVC:self inView:self.navigationController.view] flattenMap:^RACStream *(UIImage *img) {
         
@@ -1009,17 +996,18 @@
         
         GetSystemTimeOp *op = [GetSystemTimeOp operation];
         return [[op rac_postRequest]flattenMap:^RACStream *(GetSystemTimeOp *op) {
-            self.waterMarkStr = op.rsp_systime;
-            return [self addPrinting:op.rsp_systime InPhoto:img];
+            return [self addPrinting:op.rsp_systime InPictureRecord:picRcd];
         }];
-    }]subscribeNext:^(UIImage *img) {
+    }]subscribeNext:^(PictureRecord *picRcd) {
         
-        PictureRecord *picRcd = [self getPictureRecordWithIndexPath:indexPath];
-        picRcd.image = img;
         // 上传图片
         [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
     }error:^(NSError *error) {
         
+        PictureRecord *picRcd = [self getPictureRecordWithIndexPath:indexPath];
+        picRcd.isUploading = NO;
+        picRcd.needReupload = YES;
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
         [gToast showMistake:error.domain.length != 0 ? error.domain : @"网络连接失败，请检查你的网络设置"];
     }];
     
@@ -1035,13 +1023,9 @@
         
         GetSystemTimeOp *op = [GetSystemTimeOp operation];
         return [[op rac_postRequest]flattenMap:^RACStream *(GetSystemTimeOp *op) {
-            self.waterMarkStr = op.rsp_systime;
-            return [self addPrinting:op.rsp_systime InPhoto:img];
+            return [self addPrinting:op.rsp_systime InPictureRecord:picRcd];
         }];
-    }]subscribeNext:^(UIImage *img) {
-        
-        PictureRecord *picRcd = [self getPictureRecordWithIndexPath:indexPath];
-        picRcd.image = img;
+    }]subscribeNext:^(PictureRecord *picRcd) {
         // 上传图片
         [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
     }error:^(NSError *error) {
@@ -1053,22 +1037,6 @@
         [gToast showMistake:error.domain.length != 0 ? error.domain : @"网络连接失败，请检查你的网络设置"];
     }];
 #endif
-}
-
--(void)gotoMutualInsScencePageVCWithReport:(NSDictionary *)report andNotice:(NSArray *)notice
-{
-    MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
-    scencePageVC.noticeArr = notice;
-    scencePageVC.claimid = report[@"claimid"];
-    [self.navigationController pushViewController:scencePageVC animated:YES];
-}
-
--(void)gotoChooseCarListVCWithReport:(NSArray *)report andNotice:(NSArray *)notice
-{
-    MutualInsChooseCarVC *chooseVC = [UIStoryboard vcWithId:@"MutualInsChooseCarVC" inStoryboard:@"MutualInsClaims"];
-    chooseVC.noticeArr = notice;
-    chooseVC.reports = report;
-    [self.navigationController pushViewController:chooseVC animated:YES];
 }
 
 -(void)checkData
@@ -1203,7 +1171,6 @@
     self.infoCanAdd = infoFlag.integerValue == 1 ? YES : NO;
     self.licenceCanAdd = licenceFlag.integerValue == 1 ? YES : NO;
     
-    
     NSNumber *firstswitchNum = firstswitch;
     self.firstswitch = firstswitchNum.integerValue == 0 ? NO : YES;
 }
@@ -1239,10 +1206,12 @@
     }
 }
 
--(RACSignal *)addPrinting:(NSString *)time InPhoto:(UIImage *)img
+-(RACSignal *)addPrinting:(NSString *)time InPictureRecord:(PictureRecord *)picRcd
 {
     RACSubject *subject = [RACSubject subject];
     CKAsyncHighQueue(^{
+        
+        UIImage *img = picRcd.image;
         
         UIGraphicsBeginImageContext(img.size);
         
@@ -1259,19 +1228,17 @@
         [time drawInRect:CGRectMake(x, y, textSize.width, textSize.height) withAttributes:attributes];
         UIImage *newImg = UIGraphicsGetImageFromCurrentImageContext();
         
+        picRcd.image = newImg;
+        
         UIGraphicsEndImageContext();
         
         CKAsyncMainQueue(^{
-            [subject sendNext:newImg];
+            [subject sendNext:picRcd];
             [subject sendCompleted];
         });
     });
     return subject;
 }
-
-
-
-
 
 #pragma mark - LazyLoad
 
@@ -1287,7 +1254,15 @@
 
 #pragma mark - Action
 
--(void)back
+-(void)actionGotoMutualInsScencePageVCWithReport:(NSDictionary *)report andNotice:(NSArray *)notice
+{
+    MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
+    scencePageVC.noticeArr = notice;
+    scencePageVC.claimid = report[@"claimid"];
+    [self.navigationController pushViewController:scencePageVC animated:YES];
+}
+
+-(void)actionBack
 {
     if (self.scenePhotosCopy.count - self.scenePhotos.count > 0 ||
         self.damagePhotosCopy.count - self.damagePhotos.count > 0 ||
@@ -1301,10 +1276,14 @@
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否放弃重新拍摄的照片并且返回？" ActionItems:@[cancel,confirm]];
         [alert show];
     }
-    else if (self.scenePhotos.count == 0 &&
+    else if ((self.scenePhotos.count == 0 &&
              self.damagePhotos.count == 0 &&
              self.infoPhotos.count == 0 &&
-             self.licencePhotos.count == 0)
+             self.licencePhotos.count == 0) ||
+             (!self.sceneCanAdd &&
+              !self.damageCanAdd &&
+              !self.infoCanAdd &&
+              !self.licenceCanAdd))
     {
         
         [self.navigationController popViewControllerAnimated:YES];
@@ -1354,8 +1333,6 @@
     RACSignal *combineSignal = [noticeSignal combineLatestWith:carListSignal];
     [[combineSignal initially:^{
         
-        @strongify(self)
-        
         [gToast showingWithText:@"数据加载中"];
         
     }]subscribeNext:^(RACTuple *arr) {
@@ -1369,11 +1346,10 @@
         
         NSArray *noticeArr = @[claimConfigOp.rsp_scenedesc,claimConfigOp.rsp_cardamagedesc,claimConfigOp.rsp_carinfodesc,claimConfigOp.rsp_idinfodesc];
         
-        [self gotoMutualInsScencePageVCWithReport:carOp.rsp_reports.firstObject andNotice:noticeArr];
+        [self actionGotoMutualInsScencePageVCWithReport:carOp.rsp_reports.firstObject andNotice:noticeArr];
         
     } error:^(NSError *error) {
         
-        @strongify(self)
         [gToast showMistake:error.domain];
         
     }];
