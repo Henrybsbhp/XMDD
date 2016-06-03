@@ -129,34 +129,40 @@
     
     @weakify(self);
     [[[op rac_postRequest] initially:^{
-        CGFloat reducingY = self.view.frame.size.height * 0.1056;
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
-        self.tableView.hidden = YES;
+        
+        if (!self.fetchedDataSource.count)
+        {
+            // 防止有数据的时候，下拉刷新导致页面会闪一下
+            CGFloat reducingY = self.view.frame.size.height * 0.1056;
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
+            self.tableView.hidden = YES;
+        }
     }] subscribeNext:^(AskToCompensationOp *rop) {
+        
         @strongify(self);
-        [self.tableView.refreshView endRefreshing];
         [self.view stopActivityAnimation];
-        if (rop.claimList.count > 0) {
-            self.tableView.hidden = NO;
+        [self.tableView.refreshView endRefreshing];
+        self.tableView.hidden = !(rop.claimList.count > 0);
+        
+        if (rop.claimList.count > 0)
+        {
             [self.view hideDefaultEmptyView];
+            
             self.bankCardDescription = rop.bankNoDesc;
             // 记录请求到数据的时间
             for (NSDictionary *dict in rop.claimList) {
                 dict.customInfo = [[NSMutableDictionary alloc] init];
                 [dict.customInfo setObject:[NSDate date] forKey:@"timeTag"];
             }
-            
-            self.fetchedDataSource = rop.claimList;
-            
-            [self setDataSource];
-        } else {
-            [gToast showText:@"未查找到结果"];
-            self.tableView.hidden = YES;
+        }
+        else
+        {
             [self.view showEmptyViewWithImageName:@"def_noCompensationRecord_imageView" text:@"暂无补偿记录" textColor:HEXCOLOR(@"#18D06A") centerOffset:-80 tapBlock:nil];
         }
         self.fetchedDataSource = rop.claimList;
         [self setDataSource];
     } error:^(NSError *error) {
+        
         @strongify(self);
         [self.tableView.refreshView endRefreshing];
         [self.view stopActivityAnimation];
@@ -174,17 +180,18 @@
     op.req_agreement = agreement;
     op.req_bankcardno = bankcardNo;
     
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
-        
+        @strongify(self);
         [gToast showingWithText:@"" inView:self.view];
     }] subscribeNext:^(id x) {
-        
+        @strongify(self);
         [gToast dismissInView:self.view];
         
         [self postCustomNotificationName:kNotifyUpdateClaimList object:nil];
         
     } error:^(NSError *error) {
-        
+        @strongify(self);
         [gToast showError:error.domain inView:self.view];
     }];
 }
@@ -751,8 +758,9 @@
         }];
         
         [[[declineButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            HKMessageAlertVC *alert = [[HKMessageAlertVC alloc] init];
-            alert.messageLabel.text = @"如出现价格不满意等原因造成不愿意接受补偿，可进行拒绝补偿的操作，拒绝后客服会与您取得联系，并做进一步沟通";
+            HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+            alert.message = @"如出现价格不满意等原因造成不愿意接受补偿，可进行拒绝补偿的操作，拒绝后客服会与您取得联系，并做进一步沟通";
+            alert.imageName = @"mins_bulb";
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:^(id alertVC) {
                 
             }];

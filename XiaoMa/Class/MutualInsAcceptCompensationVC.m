@@ -24,10 +24,16 @@
 
 @implementation MutualInsAcceptCompensationVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"MutualInsAccecptCompensationVC deallocated");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.fetchedBankCardNumber = @"6222001309100604287";
     self.descriptionLabel.attributedText = [self generateAttributedStringWithLineSpacing:self.descriptionString];
 }
 
@@ -59,11 +65,12 @@
     op.req_agreement = agreement;
     op.req_bankcardno = bankcardNo;
     
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
-        
+        @strongify(self);
         [gToast showingWithText:@"" inView:self.view];
     }] subscribeNext:^(id x) {
-        
+        @strongify(self);
         [gToast dismissInView:self.view];
         
         [self postCustomNotificationName:kNotifyUpdateClaimList object:nil];
@@ -71,7 +78,7 @@
         [self.navigationController popViewControllerAnimated:YES];
         
     } error:^(NSError *error) {
-        
+        @strongify(self);
         [gToast showError:error.domain inView:self.view];
     }];
 }
@@ -171,7 +178,9 @@
     CKLimitTextField *bankCardTextField = (CKLimitTextField *)[cell.contentView viewWithTag:100];
     self.bankCardTextField = bankCardTextField;
     
+    @weakify(self);
     [bankCardTextField setTextChangingBlock:^(CKLimitTextField *textField, NSString *replacement) {
+        @strongify(self);
         NSInteger cursor = [textField offsetFromPosition:textField.beginningOfDocument toPosition:textField.curCursorPosition];
         NSInteger posOffset = 0;
         NSInteger partOffset = cursor % 5;
