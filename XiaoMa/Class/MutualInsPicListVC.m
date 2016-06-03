@@ -30,8 +30,9 @@
 @property (nonatomic, strong) HKImageAlertVC *alert;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
-// 各个子模块能否添加标记
+// 底部上传按钮是否打开
 @property (assign, nonatomic) BOOL firstswitch;
+// 各个栏目能否继续上传图片，根据服务器下发的canaddflag“0101”来截取判断
 @property (assign, nonatomic) BOOL sceneCanAdd;
 @property (assign, nonatomic) BOOL damageCanAdd;
 @property (assign, nonatomic) BOOL infoCanAdd;
