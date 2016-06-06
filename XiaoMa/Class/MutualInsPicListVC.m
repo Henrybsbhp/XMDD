@@ -568,7 +568,7 @@
                     
                     BOOL flag = [number boolValue];
                     maskView.hidden = !flag;
-                    noticeLabel.text = @"请重新上传";
+                    noticeLabel.text = @"重新上传";
                 }];
                 
                 [[RACObserve(picRcd, isUploading) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {

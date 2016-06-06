@@ -216,7 +216,7 @@
     }
     else
     {
-
+        
         if (![LoginViewModel loginIfNeededForTargetViewController:self])
         {
             return;
@@ -234,32 +234,36 @@
             op.req_cardamage = self.cardamage;
             op.req_carinfo = self.carinfo;
             op.req_idinfo = self.idinfo;
+            
+            
+            
             [[[op rac_postRequest]initially:^{
                 
-               [gToast showingWithText:@"记录提交中" inView:self.view];
+                [gToast showingWithText:@"记录提交中" inView:self.view];
             }]subscribeNext:^(id x) {
-                [gToast dismissInView:self.view];
+                
+                BOOL isPop = NO;
+                [gToast showSuccess:@"提交成功"];
                 
                 /// 通知更新
                 [self postCustomNotificationName:kNotifyUpdateClaimList object:nil];
                 
-                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
-                    [self.scencePhotoVM deleteAllInfo];
-                    
-                    for (UIViewController * vc in self.navigationController.viewControllers)
+                [self.scencePhotoVM deleteAllInfo];
+                
+                for (UIViewController * vc in self.navigationController.viewControllers)
+                {
+                    if ([vc isKindOfClass:[MutualInsAskForCompensationVC class]])
                     {
-                        if ([vc isKindOfClass:[MutualInsAskForCompensationVC class]])
-                        {
-                            [self.navigationController popToViewController:vc animated:YES];
-                            return;
-                        }
+                        [self.navigationController popToViewController:vc animated:YES];
+                        isPop = YES;
+                        return;
                     }
+                }
+                if (!isPop)
+                {
                     MutualInsAskForCompensationVC *vc = [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
                     [self.navigationController pushViewController:vc animated:YES];
-                }];
-                HKAlertVC *alert = [self alertWithTopTitle:@"提交成功" ImageName:@"mins_ok" Message:@"恭喜，照片提交成功，补偿记录已生成，请等待工作人员为您服务，谢谢～" ActionItems:@[cancel]];
-                [alert show];
-                
+                }
             }error:^(NSError *error) {
                 
                 NSString *errMsg = error.domain.length ? error.domain : @"记录提交失败";
