@@ -23,7 +23,7 @@
 #import "DAProgressOverlayView.h"
 #import "ZFCDoubleBounceActivityIndicatorView.h"
 
-#define kLength self.view.frame.size.width
+#define kLength gAppMgr.deviceInfo.screenSize.width
 #define kPhotoAddCount 5
 
 @interface MutualInsPicListVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SDPhotoBrowserDelegate>
@@ -405,7 +405,7 @@
     // 按钮cell 高度随屏幕大小改变
     else
     {
-        size = CGSizeMake((kLength - 60) / 3, (kLength - 60) / 3);
+        size = CGSizeMake(ceil((kLength - 60) / 3), ceil((kLength - 60) / 3));
     }
     return size;
 }
