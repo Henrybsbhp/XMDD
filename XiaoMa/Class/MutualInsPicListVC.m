@@ -183,21 +183,37 @@
         NSMutableArray *infoPhotos = [[NSMutableArray alloc]init];
         NSMutableArray *idPhotos = [[NSMutableArray alloc]init];
         
-        for (PictureRecord *picRcd in self.scenePhotosCopy)
+        for (id picRcd in self.scenePhotosCopy)
         {
-            [scenePhotos safetyAddObject:picRcd.url];
+            if ([picRcd isKindOfClass:[PictureRecord class]])
+            {
+                PictureRecord *picRecd = picRcd;
+                [scenePhotos safetyAddObject:picRecd.url];
+            }
         }
-        for (PictureRecord *picRcd in self.damagePhotosCopy)
+        for (id picRcd in self.damagePhotosCopy)
         {
-            [damagePhotos safetyAddObject:picRcd.url];
+            if ([picRcd isKindOfClass:[PictureRecord class]])
+            {
+                PictureRecord *picRecd = picRcd;
+                [damagePhotos safetyAddObject:picRecd.url];
+            }
         }
-        for (PictureRecord *picRcd in self.infoPhotosCopy)
+        for (id picRcd in self.infoPhotosCopy)
         {
-            [infoPhotos safetyAddObject:picRcd.url];
+            if ([picRcd isKindOfClass:[PictureRecord class]])
+            {
+                PictureRecord *picRecd = picRcd;
+                [infoPhotos safetyAddObject:picRecd.url];
+            }
         }
-        for (PictureRecord *picRcd in self.licencePhotosCopy)
+        for (id picRcd in self.licencePhotosCopy)
         {
-            [idPhotos safetyAddObject:picRcd.url];
+            if ([picRcd isKindOfClass:[PictureRecord class]])
+            {
+                PictureRecord *picRecd = picRcd;
+                [idPhotos safetyAddObject:picRecd.url];
+            }
         }
         
         UpdateClaimPicOp *op = [UpdateClaimPicOp operation];
@@ -223,7 +239,8 @@
             });
             
         } error:^(NSError *error) {
-            [gToast showError:@"上传照片失败"];
+            NSString *errStr = error.domain.length == 0 ? @"上传照片失败" : error.domain;
+            [gToast showMistake:errStr];
         }];
     }
 }
