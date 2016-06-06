@@ -786,6 +786,7 @@
         UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
         UIImageView *imgView = [cell viewWithTag:100];
         self.img = imgView.image;
+        self.imgURL = picRcd[@"picurl"];
         
         SDPhotoBrowser *photoBrowser = [SDPhotoBrowser new];
         photoBrowser.delegate = self;
@@ -801,7 +802,9 @@
         {
             UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
             UIImageView *imgView = [cell viewWithTag:100];
+            
             self.img = imgView.image;
+            self.imgURL = picRecd.url;
             
             SDPhotoBrowser *photoBrowser = [SDPhotoBrowser new];
             photoBrowser.delegate = self;
@@ -1144,6 +1147,11 @@
 - (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
 {
     return self.img;
+}
+
+- (NSURL *)photoBrowser:(SDPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index
+{
+    return [NSURL URLWithString:self.imgURL];
 }
 
 #pragma mark - GotoScenePhotoVC
