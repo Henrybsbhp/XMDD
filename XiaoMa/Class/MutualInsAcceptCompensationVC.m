@@ -34,6 +34,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // 给底部描述 label 附上下发得到的文本，并设置行间距
     self.descriptionLabel.attributedText = [self generateAttributedStringWithLineSpacing:self.descriptionString];
 }
 
@@ -42,6 +44,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Action events
+/// 确认按钮的点击事件
 - (IBAction)confirmButtonClicked:(id)sender
 {
     if (self.bankCardTextField.text.length < 1) {
@@ -58,6 +62,8 @@
     }
 }
 
+#pragma mark - Obtain data
+/// 接受 / 拒绝补偿的请求方法
 -(void)confirmClaimWithAgreement:(NSNumber *)agreement andBankNo:(NSString *)bankcardNo
 {
     ConfirmClaimOp *op = [[ConfirmClaimOp alloc]init];
@@ -83,41 +89,6 @@
     }];
 }
 
-#pragma mark - Utilities
-/// 生成带有行高的 NSAttributedString
-- (NSAttributedString *)generateAttributedStringWithLineSpacing:(NSString *)string
-{
-    NSMutableParagraphStyle *style =  [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-    style.alignment = NSTextAlignmentJustified;
-    style.lineSpacing = 4.0f;
-    
-    NSAttributedString *attrText = [[NSAttributedString alloc] initWithString:string attributes:@{ NSParagraphStyleAttributeName : style}];
-    
-    return attrText;
-}
-
-- (NSString *)convertAccount:(NSString *)account
-{
-    if (account.length > 7)
-    {
-        NSString *temp1 = [account substringWithRange:NSMakeRange(0, 4)];
-        NSString *temp2 = [account substringWithRange:NSMakeRange(account.length - 4, 4)];
-        
-        NSMutableString *ciphertext = [[NSMutableString alloc] init];
-        [ciphertext appendString:temp1];
-        
-        for (NSInteger i = 4 ; i < account.length - 4 ; i ++ )
-        {
-            [ciphertext appendString:@"*"];
-        }
-        [ciphertext appendString:temp2];
-        
-        NSString * text = [ciphertext splitByStep:4 replacement:@" "];
-        
-        return text;
-    }
-    return account;
-}
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
@@ -159,6 +130,8 @@
     return cell;
 }
 
+#pragma mark - The settings of Cells
+/// 用户姓名 Cell 的设置方法
 - (UITableViewCell *)loadUsernameCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
@@ -170,17 +143,22 @@
     return cell;
 }
 
+/// 银行卡 Cell 的设置方法
 - (UITableViewCell *)loadBankCardCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
     cell = [self.tableView dequeueReusableCellWithIdentifier:@"BankCardCell"];
     
     CKLimitTextField *bankCardTextField = (CKLimitTextField *)[cell.contentView viewWithTag:100];
+    
+    // 限制只能输入数字
+    bankCardTextField.regexpPattern = @"^\\d+[0-9 ]*";
     self.bankCardTextField = bankCardTextField;
     
     @weakify(self);
     [bankCardTextField setTextChangingBlock:^(CKLimitTextField *textField, NSString *replacement) {
         @strongify(self);
+        
         NSInteger cursor = [textField offsetFromPosition:textField.beginningOfDocument toPosition:textField.curCursorPosition];
         NSInteger posOffset = 0;
         NSInteger partOffset = cursor % 5;
@@ -215,6 +193,43 @@
     bankCardTextField.text = self.bankCardNumber.length ? self.bankCardNumber : [self convertAccount:self.fetchedBankCardNumber];
     
     return cell;
+}
+
+#pragma mark - Utilities
+/// 生成带有行高的 NSAttributedString
+- (NSAttributedString *)generateAttributedStringWithLineSpacing:(NSString *)string
+{
+    NSMutableParagraphStyle *style =  [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    style.alignment = NSTextAlignmentJustified;
+    style.lineSpacing = 4.0f;
+    
+    NSAttributedString *attrText = [[NSAttributedString alloc] initWithString:string attributes:@{ NSParagraphStyleAttributeName : style}];
+    
+    return attrText;
+}
+
+/// 给下发得到的银行卡号打上星星
+- (NSString *)convertAccount:(NSString *)account
+{
+    if (account.length > 7)
+    {
+        NSString *temp1 = [account substringWithRange:NSMakeRange(0, 4)];
+        NSString *temp2 = [account substringWithRange:NSMakeRange(account.length - 4, 4)];
+        
+        NSMutableString *ciphertext = [[NSMutableString alloc] init];
+        [ciphertext appendString:temp1];
+        
+        for (NSInteger i = 4 ; i < account.length - 4 ; i ++ )
+        {
+            [ciphertext appendString:@"*"];
+        }
+        [ciphertext appendString:temp2];
+        
+        NSString * text = [ciphertext splitByStep:4 replacement:@" "];
+        
+        return text;
+    }
+    return account;
 }
 
 @end
