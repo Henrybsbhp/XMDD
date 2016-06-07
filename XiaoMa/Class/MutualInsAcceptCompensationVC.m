@@ -37,6 +37,8 @@
     
     // 给底部描述 label 附上下发得到的文本，并设置行间距
     self.descriptionLabel.attributedText = [self generateAttributedStringWithLineSpacing:self.descriptionString];
+    
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(setBackAction)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,9 +47,20 @@
 }
 
 #pragma mark - Action events
+
+-(void)setBackAction
+{
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0040"}];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
 /// 确认按钮的点击事件
 - (IBAction)confirmButtonClicked:(id)sender
 {
+    
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0041"}];
+    
     if (self.bankCardTextField.text.length < 1) {
         [gToast showMistake:@"请输入借记卡卡号"];
     } else {

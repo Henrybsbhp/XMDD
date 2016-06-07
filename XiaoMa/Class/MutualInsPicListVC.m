@@ -172,7 +172,9 @@
     }
     else if (![self checkPhotoIsUploading])
     {
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:kDefTintColor clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:kDefTintColor clickBlock:^(id alertVC) {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0038"}];
+        }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有未重拍的照片，请先重拍后提交" ActionItems:@[cancel]];
         [alert show];
     }
@@ -477,6 +479,9 @@
     [[[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
         @strongify(self)
         // 点击上传按钮。上传图片。
+        
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0033"}];
+        
         [self updateClaimPic];
     }];
     
@@ -533,6 +538,8 @@
             
             [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
                 @strongify(self)
+                
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0032"}];
                 
                 HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
                 HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
@@ -800,6 +807,9 @@
     
     if ([picRcd isKindOfClass:[NSDictionary class]])
     {
+        
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0030"}];
+        
         UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
         UIImageView *imgView = [cell viewWithTag:100];
         self.img = imgView.image;
@@ -817,6 +827,9 @@
         PictureRecord *picRecd = picRcd;
         if(!picRecd.needReupload)
         {
+            
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0030"}];
+            
             UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
             UIImageView *imgView = [cell viewWithTag:100];
             
@@ -843,6 +856,8 @@
 
 -(void)takePhotoWithIndexPath:(NSIndexPath *)indexPath
 {
+    
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0031"}];
     __block PictureRecord *picRcd = [[PictureRecord alloc] init];
     
 #if !TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
@@ -1055,6 +1070,7 @@
         [[takePhotoBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
             
             // 跳转至拍照页面
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0039"}];
             [self getScencePageData];
             
         }];
@@ -1119,13 +1135,19 @@
 
 -(void)actionBack
 {
+    
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0029"}];
+    
     if (self.scenePhotosCopy.count - self.scenePhotos.count > 0 ||
         self.damagePhotosCopy.count - self.damagePhotos.count > 0 ||
         self.infoPhotosCopy.count - self.infoPhotos.count > 0 ||
         self.licencePhotosCopy.count - self.licencePhotos.count > 0)
     {
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0034"}];
+        }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"去意已决" color:kDefTintColor clickBlock:^(id alertVC) {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0035"}];
             [self.navigationController popViewControllerAnimated:YES];
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有照片需要拍摄上传，请确认是否返回？" ActionItems:@[cancel,confirm]];
@@ -1149,8 +1171,11 @@
              self.infoPhotosCopy.count - self.infoPhotos.count == 0 &&
              self.licencePhotosCopy.count - self.licencePhotos.count == 0)
     {
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0036"}];
+        }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"去意已决" color:kDefTintColor clickBlock:^(id alertVC) {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0037"}];
             [self.navigationController popViewControllerAnimated:YES];
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确认是否放弃重新拍摄并且返回？" ActionItems:@[cancel,confirm]];
