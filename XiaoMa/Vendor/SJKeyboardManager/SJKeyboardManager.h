@@ -13,8 +13,8 @@
 
 + (instancetype)sharedManager;
 
-- (void)initWithViewController:(UIViewController *)viewController view:(UIView *)view textField:(UITextField *)textField bottomLayoutConstraint:(NSLayoutConstraint *)bottomConstraint bottomView:(UIView *)bottomView;
+- (void)moveUpWithViewController:(UIViewController *)viewController view:(UIView *)view textField:(UITextField *)textField bottomLayoutConstraint:(NSLayoutConstraint *)bottomConstraint bottomView:(UIView *)bottomView;
 
-- (void)initWithViewController:(UIViewController *)viewController tableView:(UITableView *)tableView textField:(UITextField *)textField bottomView:(UIView *)bottomView atIndexPath:(NSIndexPath *)indexPath;
+- (void)moveUpWithViewController:(UIViewController *)viewController tableView:(UITableView *)tableView textField:(UITextField *)textField bottomView:(UIView *)bottomView atIndexPath:(NSIndexPath *)indexPath;
 
 @end
