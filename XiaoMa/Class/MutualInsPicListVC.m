@@ -23,7 +23,7 @@
 #import "DAProgressOverlayView.h"
 #import "ZFCDoubleBounceActivityIndicatorView.h"
 
-#define kLength self.view.frame.size.width
+#define kLength gAppMgr.deviceInfo.screenSize.width
 #define kPhotoAddCount 5
 
 @interface MutualInsPicListVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SDPhotoBrowserDelegate>
@@ -405,7 +405,7 @@
     // 按钮cell 高度随屏幕大小改变
     else
     {
-        size = CGSizeMake((kLength - 60) / 3, (kLength - 60) / 3);
+        size = CGSizeMake(ceil((kLength - 60) / 3), ceil((kLength - 60) / 3));
     }
     return size;
 }
@@ -568,7 +568,7 @@
                     
                     BOOL flag = [number boolValue];
                     maskView.hidden = !flag;
-                    noticeLabel.text = @"请重新上传";
+                    noticeLabel.text = @"重新上传";
                 }];
                 
                 [[RACObserve(picRcd, isUploading) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
