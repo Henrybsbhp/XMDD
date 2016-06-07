@@ -49,7 +49,7 @@
 - (IBAction)confirmButtonClicked:(id)sender
 {
     if (self.bankCardTextField.text.length < 1) {
-        [gToast showMistake:@"请输入借记卡卡号"];
+        [gToast showMistake:@"请输入卡号"];
     } else {
         if ([self.bankCardTextField.text rangeOfString:@"*"].location != NSNotFound) {
             DebugLog(@"TH CARD NUMBER IS: %@", self.fetchedBankCardNumber);
