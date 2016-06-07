@@ -178,6 +178,15 @@
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有未重拍的照片，请先重拍后提交" ActionItems:@[cancel]];
         [alert show];
     }
+    else if (self.scenePhotos.count == self.scenePhotosCopy.count &&
+             self.damagePhotos.count == self.damagePhotosCopy.count &&
+             self.infoPhotos.count == self.infoPhotosCopy.count &&
+             self.licencePhotos.count == self.licencePhotosCopy.count )
+    {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:kDefTintColor clickBlock:nil];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您有需补拍的照片，请先补拍后提交" ActionItems:@[cancel]];
+        [alert show];
+    }
     else
     {
         NSMutableArray *scenePhotos = [[NSMutableArray alloc]init];
@@ -1150,7 +1159,7 @@
             [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0035"}];
             [self.navigationController popViewControllerAnimated:YES];
         }];
-        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有照片需要拍摄上传，请确认是否返回？" ActionItems:@[cancel,confirm]];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否放弃重新拍摄的照片并且返回？" ActionItems:@[cancel,confirm]];
         [alert show];
     }
     else if ((self.scenePhotos.count == 0 &&
@@ -1178,7 +1187,7 @@
             [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0037"}];
             [self.navigationController popViewControllerAnimated:YES];
         }];
-        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确认是否放弃重新拍摄并且返回？" ActionItems:@[cancel,confirm]];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有照片需要拍摄上传，请确认是否返回？" ActionItems:@[cancel,confirm]];
         [alert show];
     }
 }
