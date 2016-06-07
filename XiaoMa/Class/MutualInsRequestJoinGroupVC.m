@@ -267,7 +267,7 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [[SJKeyboardManager sharedManager] initWithViewController:self view:self.view textField:textField bottomLayoutConstraint:self.bottomConstraint bottomView:self.bottomView];
+    [[SJKeyboardManager sharedManager] moveUpWithViewController:self view:self.view textField:textField bottomLayoutConstraint:self.bottomConstraint bottomView:self.bottomView];
 }
 
 

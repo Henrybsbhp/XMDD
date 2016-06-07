@@ -919,9 +919,11 @@
     
     NSDictionary *dataDict = [self.fetchedDataSource safetyObjectAtIndex:indexPath.section];
     
-    MutualInsPicListVC * vc = [UIStoryboard vcWithId:@"MutualInsPicListVC" inStoryboard:@"MutualInsClaimsPicList"];
-    vc.claimID = dataDict[@"claimid"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([dataDict[@"isfastclaim"] integerValue] == 1) {
+        MutualInsPicListVC * vc = [UIStoryboard vcWithId:@"MutualInsPicListVC" inStoryboard:@"MutualInsClaimsPicList"];
+        vc.claimID = dataDict[@"claimid"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -979,7 +981,7 @@
 {
     if (status <= 0 || status == 4 || status == 2 || status == 5) {
         return 1;
-    } else if (status == 1 || status == 10 || status == 20 || (fastClaimNo == 0 && status == 3) || (fastClaimNo == 1 && status == 2)) {
+    } else if (status == 1 || (fastClaimNo == 0 && status == 3) || (fastClaimNo == 1 && status == 2)) {
         return 2;
     } else {
         return 3;
