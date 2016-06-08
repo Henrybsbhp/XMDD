@@ -424,11 +424,16 @@
         //我要赔
         [[[payButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0006"}];
             @strongify(self);
-            MutualInsAskForCompensationVC *vc = [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
-            [self.navigationController pushViewController:vc animated:YES];
-            return;
+            
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0006"}];
+            
+            if ([LoginViewModel loginIfNeededForTargetViewController:self])
+            {
+                MutualInsAskForCompensationVC *vc = [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
+                [self.navigationController pushViewController:vc animated:YES];
+                return;
+            }
         }];
         //去入团
         [[[joinButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
