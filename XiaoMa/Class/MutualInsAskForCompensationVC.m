@@ -750,8 +750,10 @@
         // 通过状态判定按钮开关属性
         if (status == 5) {
             takePhotoButton.enabled = NO;
+            cell.userInteractionEnabled = NO;
         } else {
             takePhotoButton.enabled = YES;
+            cell.userInteractionEnabled = YES;
         }
     });
     
@@ -962,9 +964,9 @@
 /// 通过该方法用 status 状态值来判断 progressView 的显示样式
 - (NSInteger)indexOfProgressViewFromFetchedStatus:(NSInteger)status fastClaimNo:(NSInteger)fastClaimNo
 {
-    if (status <= 0 || status == 4 || status == 2 || status == 5) {
+    if (status <= 0 || status == 4 || (status == 2 && fastClaimNo == 0) || status == 5) {
         return 1;
-    } else if (status == 1 || (fastClaimNo == 0 && status == 3) || (fastClaimNo == 1 && status == 2)) {
+    } else if (status == 1 || (fastClaimNo == 0 && status == 3) || (status == 2 && fastClaimNo == 1) || (fastClaimNo == 1 && status == 2)) {
         return 2;
     } else {
         return 3;
