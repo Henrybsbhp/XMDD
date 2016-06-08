@@ -130,7 +130,7 @@
     HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
-    alert.message = @"报案可拨打客服电话：4007-111-111，是否立即拨打？";
+    alert.message = @"快速报案可拨打客服电话：4007-111-111，是否立即拨打？";
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color: kGrayTextColor clickBlock:nil];
     HKAlertActionItem *dial = [HKAlertActionItem itemWithTitle:@" 拨打" color: HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
@@ -189,6 +189,7 @@
             @strongify(self);
             [self.tableView.refreshView endRefreshing];
             [self.view stopActivityAnimation];
+            self.tableView.hidden = YES;
             [self.view showDefaultEmptyViewWithText:@"请求数据失败，请点击重试" tapBlock:^{
                 [self.view hideDefaultEmptyView];
                 [self  fetchAllData];
