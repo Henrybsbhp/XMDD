@@ -10,4 +10,6 @@
 
 @interface MutualInsClaimsHistoryVC : UIViewController
 
+@property (nonatomic,strong)NSNumber * gid;
+
 @end

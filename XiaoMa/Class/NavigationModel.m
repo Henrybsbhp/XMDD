@@ -25,8 +25,8 @@
 #import "ValuationHomeVC.h"
 #import "MutualInsOrderInfoVC.h"
 #import "MutualInsGrouponVC.h"
-#import "MutualInsClaimDetailVC.h"
 #import "MutualInsHomeVC.h"
+#import "MutualInsAskForCompensationVC.h"
 
 #import "AppDelegate.h"
 
@@ -420,8 +420,7 @@
             if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
                 return YES;
             
-            MutualInsClaimDetailVC *vc =  [UIStoryboard vcWithId:@"MutualInsClaimDetailVC" inStoryboard:@"MutualInsClaims"];
-            vc.claimid = @([value integerValue]);;
+            MutualInsAskForCompensationVC *vc =  [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
     }

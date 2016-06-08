@@ -247,7 +247,7 @@
     [self.welcomeView1 addSubview:bottomView];
     
     UIImageView *wordsImgaeView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 375 * Scale, 113 * Scale)];
-    wordsImgaeView.image = [UIImage imageNamed:@"welcome1_words"];
+    wordsImgaeView.image = [UIImage imageNamed:@"welcome1_words_310"];
     [bottomView addSubview:wordsImgaeView];
     
     UIImageView *pageControlImgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth / 2 - 75 / 2, bottomView.frame.size.height * 316 / 423, 75 * Scale, 15 * Scale)];
@@ -352,7 +352,7 @@
     [self.welcomeView3 addSubview:bottomView];
     
     UIImageView *wordsImgaeView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 50 *Scale, 375 * Scale, 69 * Scale)];
-    wordsImgaeView.image = [UIImage imageNamed:@"welcome3_words"];
+    wordsImgaeView.image = [UIImage imageNamed:@"welcome3_words_310"];
     [bottomView addSubview:wordsImgaeView];
     
     UIImageView *pageControlImgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth / 2 - 75 / 2, bottomView.frame.size.height * 316 / 423, 75 * Scale, 15 * Scale)];
@@ -665,7 +665,7 @@
     if (!_bottomTitleView4)
     {
         _bottomTitleView4 = [[UIImageView alloc] init];
-        _bottomTitleView4.image = [UIImage imageNamed:@"welcome4_bottom_title"];
+        _bottomTitleView4.image = [UIImage imageNamed:@"welcome4_bottom_title_310"];
     }
     return _bottomTitleView4;
 }

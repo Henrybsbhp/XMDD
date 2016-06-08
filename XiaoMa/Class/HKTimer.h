@@ -16,5 +16,6 @@
 + (RACSignal *)rac_startWithOrigin:(NSTimeInterval)originTime andTimeTag:(NSTimeInterval)timeTag;
 + (NSString *)ddhhmmssFormatWithTimeInterval:(NSTimeInterval)leftTime;
 + (NSString *)ddhhmmFormatWithTimeInterval:(NSTimeInterval)leftTime;
++ (NSString *)hhmmssFormatWithTimeInterval:(NSTimeInterval)leftTime;
 
 @end

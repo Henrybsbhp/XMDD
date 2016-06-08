@@ -328,9 +328,6 @@
     }
     
     CGFloat price = op.rsp_total;
-#if DEBUG
-    price = 0.01;
-#endif
     
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     NSString * info = [NSString stringWithFormat:@"小马互助 - %@",self.contract.licencenumber];

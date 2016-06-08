@@ -16,6 +16,7 @@
 #import "MutualInsScencePhotoVM.h"
 #import "GetCoorperationClaimConfigOp.h"
 #import "HKImageAlertVC.h"
+#import "MutualInsPicListVC.h"
 
 @interface MutualInsAskClaimsVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -207,9 +208,9 @@
     if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
         return;
     }
-    
-    MutualInsClaimsHistoryVC *claimsHistoryVC = [[UIStoryboard storyboardWithName:@"MutualInsClaims" bundle:nil]instantiateViewControllerWithIdentifier:@"MutualInsClaimsHistoryVC"];
-    [self.navigationController pushViewController:claimsHistoryVC animated:YES];
+
+    MutualInsPicListVC *vc = [UIStoryboard vcWithId:@"MutualInsPicListVC" inStoryboard:@"MutualInsClaimsPicList"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark Utility

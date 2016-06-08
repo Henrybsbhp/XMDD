@@ -174,9 +174,6 @@
         return NO;
     }
     CGFloat price = op.rsp_total;
-#if DEBUG
-    price = 0.01;
-#endif
     
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     NSString * info = [NSString stringWithFormat:@"%@-%@的保险订单支付",self.insOrder.inscomp,self.insOrder.licencenumber];

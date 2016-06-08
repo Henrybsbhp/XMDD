@@ -30,6 +30,7 @@
     UILabel *_indexLabel;
     UIButton *_saveButton;
     UIActivityIndicatorView *_indicatorView;
+    BOOL _willDisappear;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -65,10 +66,12 @@
     indexLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     indexLabel.layer.cornerRadius = indexLabel.bounds.size.height * 0.5;
     indexLabel.clipsToBounds = YES;
-    indexLabel.text = [NSString stringWithFormat:@"1/%ld", (long)self.imageCount];
+    if (self.imageCount > 1) {
+        indexLabel.text = [NSString stringWithFormat:@"1/%ld", (long)self.imageCount];
+    }
     _indexLabel = indexLabel;
     [self addSubview:indexLabel];
-/*
+    
     // 2.保存按钮
     UIButton *saveButton = [[UIButton alloc] init];
     [saveButton setTitle:@"保存" forState:UIControlStateNormal];
@@ -79,7 +82,9 @@
     [saveButton addTarget:self action:@selector(saveImage) forControlEvents:UIControlEventTouchUpInside];
     _saveButton = saveButton;
     [self addSubview:saveButton];
-*/
+    
+    saveButton.hidden = !self.showSaveBtn;
+    
 }
 
 - (void)saveImage
@@ -139,7 +144,6 @@
         // 双击放大图片
         UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewDoubleTaped:)];
         doubleTap.numberOfTapsRequired = 2;
-        [self addGestureRecognizer:doubleTap];
         
         [singleTap requireGestureRecognizerToFail:doubleTap];
         
@@ -156,6 +160,7 @@
 - (void)setupImageOfImageViewForIndex:(NSInteger)index
 {
     SDBrowserImageView *imageView = _scrollView.subviews[index];
+    self.currentImageIndex = index;
     if (imageView.hasLoadedImage) return;
     if ([self highQualityImageURLForIndex:index]) {
         [imageView setImageWithURL:[self highQualityImageURLForIndex:index] placeholderImage:[self placeholderImageForIndex:index]];
@@ -168,14 +173,27 @@
 - (void)photoClick:(UITapGestureRecognizer *)recognizer
 {
     _scrollView.hidden = YES;
+    _willDisappear = YES;
     
     SDBrowserImageView *currentImageView = (SDBrowserImageView *)recognizer.view;
     NSInteger currentIndex = currentImageView.tag;
     
-    UIView *sourceView = [self sourceImageViewAtIndex:currentIndex];
-    CGRect targetTemp = [sourceView convertRect:sourceView.bounds toView:self];
+    UIView *sourceView = nil;
+    if ([self.sourceImagesContainerView isKindOfClass:UICollectionView.class]) {
+        UICollectionView *view = (UICollectionView *)self.sourceImagesContainerView;
+        NSIndexPath *path = [NSIndexPath indexPathForItem:currentIndex inSection:0];
+        sourceView = [view cellForItemAtIndexPath:path];
+    }else {
+        sourceView = self.sourceImagesContainerView.subviews[currentIndex];
+    }
+    
+    
+    
+    CGRect targetTemp = [self.sourceImagesContainerView convertRect:sourceView.frame toView:self];
     
     UIImageView *tempView = [[UIImageView alloc] init];
+    tempView.contentMode = sourceView.contentMode;
+    tempView.clipsToBounds = YES;
     tempView.image = currentImageView.image;
     CGFloat h = (self.bounds.size.width / currentImageView.image.size.width) * currentImageView.image.size.height;
     
@@ -193,6 +211,7 @@
     [UIView animateWithDuration:SDPhotoBrowserHideImageAnimationDuration animations:^{
         tempView.frame = targetTemp;
         self.backgroundColor = [UIColor clearColor];
+        _indexLabel.alpha = 0.1;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
     }];
@@ -210,11 +229,7 @@
     
     SDBrowserImageView *view = (SDBrowserImageView *)recognizer.view;
 
-    [view doubleTapTOZommWithScale:scale];
-
-    if (scale == 1) {
-        [view clear];
-    }
+    [view doubleTapToZommWithScale:scale];
 }
 
 - (void)layoutSubviews
@@ -262,29 +277,32 @@
 {
     if ([keyPath isEqualToString:@"frame"]) {
         self.frame = object.bounds;
+        SDBrowserImageView *currentImageView = _scrollView.subviews[_currentImageIndex];
+        if ([currentImageView isKindOfClass:[SDBrowserImageView class]]) {
+            [currentImageView clear];
+        }
     }
-}
-
-- (UIView *)sourceImageViewAtIndex:(NSInteger)index
-{
-    if (self.sourceImageViews.count > index)
-    {
-        return self.sourceImageViews[index];
-    }
-    return self.sourceImageViews.lastObject;
 }
 
 - (void)showFirstImage
 {
-    UIView *sourceView = [self.sourceImageViews objectAtIndex:0];
-    CGRect rect = [sourceView convertRect:sourceView.bounds toView:self];
+    UIView *sourceView = nil;
+    
+    if ([self.sourceImagesContainerView isKindOfClass:UICollectionView.class]) {
+        UICollectionView *view = (UICollectionView *)self.sourceImagesContainerView;
+        NSIndexPath *path = [NSIndexPath indexPathForItem:self.currentImageIndex inSection:0];
+        sourceView = [view cellForItemAtIndexPath:path];
+    }else {
+        sourceView = self.sourceImagesContainerView.subviews[self.currentImageIndex];
+    }
+    CGRect rect = [self.sourceImagesContainerView convertRect:sourceView.frame toView:self];
     
     UIImageView *tempView = [[UIImageView alloc] init];
     tempView.image = [self placeholderImageForIndex:self.currentImageIndex];
     
     [self addSubview:tempView];
     
-    CGRect targetTemp = [(UIView *)_scrollView.subviews[self.currentImageIndex] bounds];
+    CGRect targetTemp = _scrollView.subviews[self.currentImageIndex].bounds;
     
     tempView.frame = rect;
     tempView.contentMode = [_scrollView.subviews[self.currentImageIndex] contentMode];
@@ -338,7 +356,9 @@
     }
     
     
-    _indexLabel.text = [NSString stringWithFormat:@"%d/%ld", index + 1, (long)self.imageCount];
+    if (!_willDisappear) {
+        _indexLabel.text = [NSString stringWithFormat:@"%d/%ld", index + 1, (long)self.imageCount];
+    }
     [self setupImageOfImageViewForIndex:index];
 }
 
