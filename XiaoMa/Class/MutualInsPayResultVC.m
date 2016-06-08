@@ -424,10 +424,11 @@
         av.imageName = @"mins_ok";
         av.message = @"联系人信息已提交，请等待工作人员为您服务";
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
-            
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"zhifu",@"values":@"zhifu0018"}];
             [self actionPop];
         }];
         HKAlertActionItem *share = [HKAlertActionItem itemWithTitle:@"晒单炫耀" color:kOrangeColor clickBlock:^(id alertVC) {
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"zhifu",@"values":@"zhifu0019"}];
             [gPhoneHelper makePhone:@"4007111111"];
         }];
         av.actionItems = @[cancel,share];

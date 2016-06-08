@@ -65,6 +65,8 @@
         @strongify(self)
         [self fetchAllData];
     }];
+    
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(setBackAction)];
 }
 
 /// 下拉刷新设置
@@ -91,7 +93,9 @@
 /// navigationBar 上「新手指南」的点击事件
 - (IBAction)newbieGuideBarButtonClicked:(id)sender
 {
-    // 只要点安国「新手指南」图标，则让该图标变为不带红点状态
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0002"}];
+    
+    // 只要点按过「新手指南」图标，则让该图标变为不带红点状态
     self.newbieGuideBarButtonItem.image = [[UIImage imageNamed:@"mutualIns_newbieGuideButtonNoRedDot_barButtonItem"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     // 从 NSUserDefaults 中取 isPressed 的 Bool 值，判断是否点击过
@@ -103,8 +107,6 @@
     }
     
     [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"isFirstPressed"];
-    
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0002"}];
     
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.originVC = self;
@@ -123,6 +125,8 @@
 
 - (IBAction)serviceCallButtonClicked:(id)sender
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0003"}];
+    
     HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
     alert.topTitle = @"温馨提示";
     alert.imageName = @"mins_bulb";
@@ -729,8 +733,10 @@
             @weakify(self);
             [takePhotoButton setTitle:@"重新拍照上传" forState:UIControlStateNormal];
             [[[takePhotoButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                
                 @strongify(self);
+                
+                    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0026"}];
+                
                 MutualInsPicListVC * vc = [UIStoryboard vcWithId:@"MutualInsPicListVC" inStoryboard:@"MutualInsClaimsPicList"];
                 vc.claimID = dict[@"claimid"];
                 [self.navigationController pushViewController:vc animated:YES];
@@ -738,8 +744,11 @@
         } else {
             
             [takePhotoButton setTitle:@"拍照上传" forState:UIControlStateNormal];
-                       [[[takePhotoButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            [[[takePhotoButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
+                
+                    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0004"}];
+                
                 MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
                 //                scencePageVC.noticeArr = self.tempArr;
                 scencePageVC.claimid = dict[@"claimid"];
@@ -795,6 +804,9 @@
         
         // 「接受补偿」按键的点击事件
         [[[acceptCompensationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0023"}];
+            
             MutualInsAcceptCompensationVC *acceptCompensationVC = [UIStoryboard vcWithId:@"MutualInsAcceptCompensationVC" inStoryboard:@"MutualInsClaims"];
             acceptCompensationVC.descriptionString = self.bankCardDescription;
             acceptCompensationVC.usernameString = dict[@"ownername"];
@@ -805,14 +817,18 @@
         
         // 「价格不满意」按钮的点击事件
         [[[declineButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0024"}];
+            
             HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
             alert.message = @"如出现价格不满意等原因造成不愿意接受补偿，可进行拒绝补偿的操作，拒绝后客服会与您取得联系，并做进一步沟通";
             alert.imageName = @"mins_bulb";
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
-                
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:^(id alertVC) {
+                    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0027"}];
             }];
             
-            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认拒绝" color:kDefTintColor clickBlock:^(id alertVC) {
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认拒绝" color:kGrayTextColor clickBlock:^(id alertVC) {
+                    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0028"}];
                 [self confirmClaimWithAgreement:@(1) claimID:dict[@"claimid"] andBankNo:dict[@"bankcardno"]];
             }];
             alert.actionItems = @[cancel, confirm];
@@ -902,6 +918,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0025"}];
+    
     NSDictionary *dataDict = [self.fetchedDataSource safetyObjectAtIndex:indexPath.section];
     
     if ([dataDict[@"isfastclaim"] integerValue] == 1) {
@@ -983,6 +1001,12 @@
         _stamperImage = [[UIImage imageNamed:@"mutualIns_stamper_imageView"] scaleToSize:CGSizeMake(StamperImageWidthHeight,StamperImageWidthHeight)];
     }
     return _stamperImage;
+}
+
+-(void)setBackAction
+{
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0001"}];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

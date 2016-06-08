@@ -338,7 +338,7 @@
     }
     else if (self.recordArray.count == 0)
     {
-        return @"请先拍照";
+        return @"请先上传照片";
     }
     return @"";
 }
