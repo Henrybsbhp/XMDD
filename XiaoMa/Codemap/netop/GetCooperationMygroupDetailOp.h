@@ -7,8 +7,6 @@
 @property (nonatomic,strong) NSNumber* req_memberid;
 ///团ID
 @property (nonatomic,strong) NSNumber* req_groupid;
-///版本号
-@property (nonatomic,strong) NSString* req_version;
 ///团员其他人的信息
 @property (nonatomic,strong) NSArray* rsp_members;
 ///各阶段有效时间
