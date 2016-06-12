@@ -76,6 +76,11 @@
     [self.code resignFirstResponder];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+}
+
 - (void)dealloc
 {
     DebugLog(@"VcodeLoginVC dealloc");

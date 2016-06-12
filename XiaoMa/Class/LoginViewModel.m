@@ -9,6 +9,7 @@
 #import "LoginViewModel.h"
 #import "VcodeLoginVC.h"
 #import "XiaoMa.h"
+#import "HKNavigationController.h"
 
 @implementation LoginViewModel
 
@@ -60,7 +61,8 @@
         [(HKNavigationController *)targetVC pushViewController:vc animated:YES];
     }
     else {
-        [targetVC presentViewController:vc animated:YES completion:nil];
+        HKNavigationController *nvc = [[HKNavigationController alloc] initWithRootViewController:vc];
+        [targetVC presentViewController:nvc animated:YES completion:nil];
     }
     gAppDelegate.loginVC = vc;
     return NO;
