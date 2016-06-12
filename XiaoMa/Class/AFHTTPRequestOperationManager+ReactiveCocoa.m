@@ -84,6 +84,7 @@
     NSMutableDictionary *payload = [NSMutableDictionary dictionary];
     payload[@"params"] = parameters;
     payload[@"id"] = [requestId description];
+    payload[@"version"] = gAppMgr.deviceInfo.appVersion;
 
     NSString * urlStr = [NSString stringWithFormat:@"%@%@", [self.baseURL absoluteString],method];
     return [self.requestSerializer requestWithMethod:@"POST" URLString:urlStr parameters:payload error:nil];
