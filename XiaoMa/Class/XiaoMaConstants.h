@@ -70,6 +70,7 @@
 
 #if XMDDEnvironment==0
 //开发环境
+    #define kInsuranceIntroUrl  @"http://dev.xiaomadada.com/apphtml/baoxianfuwu.html"  //保险服务首页介绍
     #define XmddBaseUrl @"http://dev01.xiaomadada.com"
     #define ApiBaseUrl @"http://dev01.xiaomadada.com/paa/rest/api"
     #define RCTServerBaseUrl    @"http://dev01.xiaomadada.com/rct/server"
@@ -81,6 +82,7 @@
 
 #elif XMDDEnvironment==1
 //测试环境
+    #define kInsuranceIntroUrl  @"http://dev.xiaomadada.com/apphtml/baoxianfuwu.html"  //保险服务首页介绍
     #define XmddBaseUrl @"http://dev01.xiaomadada.com"
     #define ApiBaseUrl @"https://dev.xiaomadada.com/paa/rest/api"
     #define RCTServerBaseUrl    @"http://dev01.xiaomadada.com/rct/server"
@@ -91,6 +93,7 @@
     #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
 #else
 //开发环境
+    #define kInsuranceIntroUrl  @"http://www.xiaomadada.com/apphtml/baoxianfuwu.html"  //保险服务首页介绍
     #define XmddBaseUrl @"https://www.xiaomadada.com"
     #define ApiBaseUrl @"https://www.xiaomadada.com/paa/rest/api" //正式
     #define RCTServerBaseUrl    @"http://dev01.xiaomadada.com/rct/server"
