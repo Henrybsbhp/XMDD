@@ -112,11 +112,11 @@
     vc.originVC = self;
     NSString * urlStr;
 #if XMDDEnvironment==0
-    urlStr = @"http://dev01.xiaomadada.com/apphtml/woyaopei-help.html";
+    urlStr = @"http://dev01.xiaomadada.com/apphtml/xinshouyindao.html";
 #elif XMDDEnvironment==1
-    urlStr = @"http://dev.xiaomadada.com/apphtml/woyaopei-help.html";
+    urlStr = @"http://dev.xiaomadada.com/apphtml/xinshouyindao.html";
 #else
-    urlStr = @"http://www.xiaomadada.com/apphtml/woyaopei-help.html";
+    urlStr = @"http://www.xiaomadada.com/apphtml/xinshouyindao.html";
 #endif
     
     vc.url = urlStr;
