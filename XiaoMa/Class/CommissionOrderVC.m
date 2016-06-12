@@ -70,7 +70,7 @@
                     EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                     [self.navigationController pushViewController:vc animated:YES];
                 }];
-                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"添加爱车" ImageName:@"mins_bulb" Message:@"您还没有添加爱车, 请先添加爱车" ActionItems:@[cancel,confirm]];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您还没有添加爱车, 请先添加爱车" ActionItems:@[cancel,confirm]];
                 [alert show];
             }
             else {
