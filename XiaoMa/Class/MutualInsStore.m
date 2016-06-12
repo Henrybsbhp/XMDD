@@ -25,6 +25,7 @@
     GetCooperationMygroupDetailOp *op = [GetCooperationMygroupDetailOp operation];
     op.req_groupid = groupid;
     op.req_memberid = memberid;
+    op.req_version = gAppMgr.deviceInfo.appVersion;
     
     RACSignal *signal = [[[op rac_postRequest] doNext:^(GetCooperationMygroupDetailOp *op) {
         [[self getOrCreateDetailGroups] addObject:op forKey:groupid];
