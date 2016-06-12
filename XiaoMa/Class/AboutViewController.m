@@ -93,6 +93,10 @@
                             
                             @strongify(self)
                             [self actionRCT2];
+                        }}, @{@"title":@"网络请求参数开关",@"action":^(void){
+                            
+                            @strongify(self)
+                            [self actionShowRequestParamsAlert];
                         }}];
     }
     else
@@ -151,6 +155,10 @@
                                 
                                 @strongify(self)
                                 [self actionRCT2];
+                            }}, @{@"title":@"网络请求参数开关",@"action":^(void){
+                                
+                                @strongify(self)
+                                [self actionShowRequestParamsAlert];
                             }}];
     }
 #else
@@ -409,6 +417,11 @@
     ReactTestViewController * vc = [aboutStoryboard instantiateViewControllerWithIdentifier:@"ReactTestViewController"];
     vc.modulName = @"helloworld";
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - Network request parameters
+- (void)actionShowRequestParamsAlert {
+    gAppMgr.isShowRequestParamsAlert = !gAppMgr.isShowRequestParamsAlert;
 }
 
 @end

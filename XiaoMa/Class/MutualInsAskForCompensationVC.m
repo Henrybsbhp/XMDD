@@ -759,8 +759,10 @@
         // 通过状态判定按钮开关属性
         if (status == 5) {
             takePhotoButton.enabled = NO;
+            cell.userInteractionEnabled = NO;
         } else {
             takePhotoButton.enabled = YES;
+            cell.userInteractionEnabled = YES;
         }
     });
     
@@ -819,6 +821,7 @@
                 [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0024"}];
             
             HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+            alert.topTitle = @"温馨提示";
             alert.message = @"如出现价格不满意等原因造成不愿意接受补偿，可进行拒绝补偿的操作，拒绝后客服会与您取得联系，并做进一步沟通";
             alert.imageName = @"mins_bulb";
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:^(id alertVC) {
@@ -980,9 +983,9 @@
 /// 通过该方法用 status 状态值来判断 progressView 的显示样式
 - (NSInteger)indexOfProgressViewFromFetchedStatus:(NSInteger)status fastClaimNo:(NSInteger)fastClaimNo
 {
-    if (status <= 0 || status == 4 || status == 2 || status == 5) {
+    if (status <= 0 || status == 4 || (status == 2 && fastClaimNo == 0) || status == 5) {
         return 1;
-    } else if (status == 1 || (fastClaimNo == 0 && status == 3) || (fastClaimNo == 1 && status == 2)) {
+    } else if (status == 1 || (fastClaimNo == 0 && status == 3) || (status == 2 && fastClaimNo == 1) || (fastClaimNo == 1 && status == 2)) {
         return 2;
     } else {
         return 3;
