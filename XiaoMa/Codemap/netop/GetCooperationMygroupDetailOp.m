@@ -7,6 +7,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_memberid forKey:@"memberid"];
     [params safetySetObject:self.req_groupid forKey:@"groupid"];
+    [params safetySetObject:self.req_version forKey:@"version"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
