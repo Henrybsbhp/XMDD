@@ -45,6 +45,10 @@
 // 是否需要切换到测试环境，用于Debug模式的正式测试环境切换
 @property (nonatomic)BOOL isSwitchToFormalSurrounding;
 
+/// 是否需要让网络请求参数信息显示为一个 Alert
+
+@property (nonatomic) BOOL isShowRequestParamsAlert;
+
 ///全局开放缓存，存有上次的 首页广告<HomepageAdvertise>,首页信息等
 @property (nonatomic, strong, readonly) TMCache *globalInfoCache;
 
