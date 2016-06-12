@@ -429,7 +429,7 @@
         }];
         HKAlertActionItem *share = [HKAlertActionItem itemWithTitle:@"晒单炫耀" color:kOrangeColor clickBlock:^(id alertVC) {
                 [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"zhifu",@"values":@"zhifu0019"}];
-            [gPhoneHelper makePhone:@"4007111111"];
+            [self actionShare];
         }];
         av.actionItems = @[cancel,share];
         [av show];
