@@ -166,7 +166,9 @@
                 break;
         }
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:^(id alertVC) {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0038"}];
+        }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:errStr ActionItems:@[cancel]];
         [alert show];
     }
@@ -175,7 +177,7 @@
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:kDefTintColor clickBlock:^(id alertVC) {
             [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0038"}];
         }];
-        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有未重拍的照片，请先重拍后提交" ActionItems:@[cancel]];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有的照片正在上传中，请上传完成后提交" ActionItems:@[cancel]];
         [alert show];
     }
     else if (self.scenePhotos.count == self.scenePhotosCopy.count &&
@@ -183,8 +185,10 @@
              self.infoPhotos.count == self.infoPhotosCopy.count &&
              self.licencePhotos.count == self.licencePhotosCopy.count )
     {
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:kDefTintColor clickBlock:nil];
-        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您有需补拍的照片，请先补拍后提交" ActionItems:@[cancel]];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:kDefTintColor clickBlock:^(id alertVC) {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0038"}];
+        }];
+        HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有未重拍的照片，请先重拍后提交" ActionItems:@[cancel]];
         [alert show];
     }
     else
