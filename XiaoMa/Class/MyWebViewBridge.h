@@ -40,6 +40,8 @@
 ///分享
 - (void)registerShare;
 
+- (void)registerLogin;
+
 - (UIBarButtonItem *)setSingleMenu:(NSString *)singleBtn;
 
 - (UIBarButtonItem *)setMultipleMenu:(NSArray *)btnArray;
