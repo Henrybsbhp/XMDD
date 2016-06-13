@@ -29,19 +29,6 @@
     return self;
 }
 
--(BOOL)isShowing
-{
-    NSArray *arr = self.view.subviews;
-    if ([arr containsObject:self.contentView])
-    {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -55,17 +42,12 @@
 
 - (void)show
 {
-    if (self.isShowing)
-    {
-        return;
-    }
     [self showWithActionHandler:nil];
 }
 
 - (void)showWithActionHandler:(void(^)(NSInteger index, id alertVC))actionHandler
 {
-    if (self.isShowing)
-    {
+    if (self.isShowing) {
         return;
     }
     _actionHandler = actionHandler;
@@ -85,12 +67,24 @@
     alert.customObject = self;
     self.alertView = alert;
     [alert show];
+    self->_isShowing = YES;
 }
 
 - (void)dismiss
 {
-    [self.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    [self.alertView dismissWithCompletion:nil];
+    [self dismissWithCompleted:nil];
+}
+
+- (void)dismissWithCompleted:(void(^)(void))completed
+{
+    @weakify(self);
+    [self.alertView dismissWithCompletion:^{
+        @strongify(self);
+        self->_isShowing = NO;
+        if (completed) {
+            completed();
+        }
+    }];
 }
 
 #pragma mark - Action

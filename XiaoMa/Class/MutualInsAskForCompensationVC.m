@@ -112,11 +112,11 @@
     vc.originVC = self;
     NSString * urlStr;
 #if XMDDEnvironment==0
-    urlStr = @"http://dev01.xiaomadada.com/apphtml/woyaopei-help.html";
+    urlStr = @"http://dev01.xiaomadada.com/apphtml/xinshouyindao.html";
 #elif XMDDEnvironment==1
-    urlStr = @"http://dev.xiaomadada.com/apphtml/woyaopei-help.html";
+    urlStr = @"http://dev.xiaomadada.com/apphtml/xinshouyindao.html";
 #else
-    urlStr = @"http://www.xiaomadada.com/apphtml/woyaopei-help.html";
+    urlStr = @"http://www.xiaomadada.com/apphtml/xinshouyindao.html";
 #endif
     
     vc.url = urlStr;
@@ -824,11 +824,11 @@
             alert.topTitle = @"温馨提示";
             alert.message = @"如出现价格不满意等原因造成不愿意接受补偿，可进行拒绝补偿的操作，拒绝后客服会与您取得联系，并做进一步沟通";
             alert.imageName = @"mins_bulb";
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:^(id alertVC) {
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
                     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0027"}];
             }];
             
-            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认拒绝" color:kGrayTextColor clickBlock:^(id alertVC) {
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认拒绝" color:kDefTintColor clickBlock:^(id alertVC) {
                     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0028"}];
                 [self confirmClaimWithAgreement:@(1) claimID:dict[@"claimid"] andBankNo:dict[@"bankcardno"]];
             }];
