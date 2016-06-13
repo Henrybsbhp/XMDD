@@ -145,8 +145,9 @@
     }
 }
 
-- (void)router:(CKRouter *)router targetViewControllerWillAppear:(BOOL)animated {
-    if (router.isTargetViewControllerDisappearing && self.navigationBarHidden != router.navigationBarHidden) {
+- (void)router:(CKRouter *)router targetViewControllerDidAppear:(BOOL)animated {
+    if (router.isTargetViewControllerDisappearing &&
+        self.navigationBarHidden != router.navigationBarHidden) {
         CKAsyncMainQueue(^{
             [self setNavigationBarHidden:router.navigationBarHidden animated:NO];
         });

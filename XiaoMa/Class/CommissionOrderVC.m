@@ -66,7 +66,7 @@
                 //TODO:1
                 
                 HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-                HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"省钱攻略" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"添加爱车" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                     EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                     [self.navigationController pushViewController:vc animated:YES];
                 }];

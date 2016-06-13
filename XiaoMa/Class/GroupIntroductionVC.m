@@ -329,7 +329,7 @@
     if ([LoginViewModel loginIfNeededForTargetViewController:self])
     {
         CreateGroupVC * vc = [UIStoryboard vcWithId:@"CreateGroupVC" inStoryboard:@"MutualInsJoin"];
-        //    vc.originVC = self.originVC;
+        vc.originVC = self.originVC;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

@@ -13,13 +13,14 @@
 
 @property (nonatomic, strong) NSArray *actionItems;
 @property (nonatomic, strong) UIView *contentView;
-@property (nonatomic) BOOL isShowing;
+@property (nonatomic, assign, readonly) BOOL isShowing;
 ///(default is YES)
 @property (nonatomic, assign) BOOL autoDismiss;
 
 - (void)show;
 - (void)showWithActionHandler:(void(^)(NSInteger index, id alertVC))actionHandler;
 - (void)dismiss;
+- (void)dismissWithCompleted:(void(^)(void))completed;
 
 @end
 

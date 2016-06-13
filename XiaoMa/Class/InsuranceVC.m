@@ -23,6 +23,7 @@
 #import "OETextField.h"
 #import "DeleteInsCarOp.h"
 
+#import "HKImageAlertVC.h"
 #import "InsInputNameVC.h"
 #import "InsInputInfoVC.h"
 #import "InsCheckResultsVC.h"
@@ -169,18 +170,22 @@
     InsSimpleCar *car = data[@"car"];
     DeleteInsCarOp *op = [DeleteInsCarOp operation];
     op.req_carpremiumid = car.carpremiumid;
+    
+    
     @weakify(self);
-    [[[op rac_postRequest] initially:^{
+    [[[[op rac_postRequest] then:^RACSignal *{
+
+        @strongify(self);
+        return [[[self.insStore getInsSimpleCars] sendAndIgnoreError] ignoreError];
+    }] initially:^{
         
         [gToast showingWithText:@"正在删除..."];
-    }] subscribeNext:^(id x) {
-    
-        @strongify(self);
-        [gToast showSuccess:@"删除成功"];
-        [self deleteItem:data];
-    } error:^(NSError *error) {
+    }] subscribeError:^(NSError *error) {
         
         [gToast showError:error.domain];
+    } completed:^{
+        
+        [gToast showSuccess:@"保险记录删除成功"];
     }];
 }
 
@@ -266,6 +271,28 @@
 }
 
 #pragma mark - Action
+- (void)actionDeleteInsCarWithData:(CKDict *)data
+{
+    @weakify(self);
+    HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+    alert.topTitle = @"温馨提示";
+    alert.imageName = @"mins_bulb";
+    alert.message = @"您确定要删除该保险记录？";
+    alert.autoDismiss = NO;
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
+        [alertVC dismiss];
+    }];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        @strongify(self);
+        [alertVC dismissWithCompleted:^{
+            [self requestDeleteInsCarWithData:data];
+        }];
+    }];
+
+    alert.actionItems = @[cancel,confirm];
+    [alert show];
+}
+
 - (void)actionRefresh:(id)sender
 {
     [[self.insStore getInsSimpleCars] send];
@@ -477,7 +504,7 @@
     [[[trashB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
         @strongify(self);
-        [self requestDeleteInsCarWithData:data];
+         [self actionDeleteInsCarWithData:data];
     }];
     
     NSString *licenseno = [car.licenseno splitByStep:2 replacement:@" " count:1];

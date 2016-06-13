@@ -41,6 +41,10 @@
 
 - (void)showWithActionHandler:(void(^)(NSInteger index, id alertVC))actionHandler {
     
+    if (self.isShowing) {
+        return;
+    }
+    
     CGRect rect = CGRectMake(0, 0, kAlertWidth, kImageHeight);
     UIImageView *imageV = [[UIImageView alloc] initWithFrame:rect];
     imageV.image = [UIImage imageNamed:self.imageName];
