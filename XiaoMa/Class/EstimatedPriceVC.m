@@ -246,7 +246,7 @@
                 make.height.mas_equalTo(27);
             }];
         }
-
+        
     });
     return service;
 }
@@ -349,7 +349,35 @@
 
 - (IBAction)submitAction:(id)sender
 {
+    @weakify(self)
     [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe" : @"shenhe00010"}];
+    if (self.isAgent)
+    {
+        [self uploadData];
+    }
+    else
+    {
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"我要买" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            @strongify(self)
+            self.isAgent = YES;
+            NSInteger section = self.datasource.count - 1;
+            NSInteger row = [[self.datasource objectAtIndex:section] count] - 1;
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
+            [self uploadData];
+        }];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"不买了" color:kGrayTextColor clickBlock:^(id alertVC) {
+            @strongify(self)
+            self.isAgent = NO;
+            [self uploadData];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确认无需本平台为您代理购买交强险/车船税？" ActionItems:@[confirm,cancel]];
+        [alert show];
+    }
+}
+
+-(void)uploadData
+{
     UpdateCooperationInsInfoOp * op = [UpdateCooperationInsInfoOp operation];
     op.req_memberid = self.memberId;
     op.req_proxybuy = [NSNumber numberWithInteger:self.isAgent];
