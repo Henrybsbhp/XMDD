@@ -63,6 +63,12 @@
 @property (strong, nonatomic) UIImage *img;
 @property (strong, nonatomic) NSString *imgURL;
 
+// 备份数据和原始数据的差值
+@property (assign, nonatomic) NSInteger sceneDiff;
+@property (assign, nonatomic) NSInteger damageDiff;
+@property (assign, nonatomic) NSInteger infoDiff;
+@property (assign, nonatomic) NSInteger licenceDiff;
+
 
 @end
 
@@ -275,8 +281,6 @@
     return value;
 }
 
-
-
 -(RACSignal * )uploadFileWithPicRecord:(PictureRecord *)picrecord andIndex:(NSIndexPath *)indexPath
 {
     RACSignal * signal;
@@ -325,63 +329,51 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     NSInteger count = 0;
+    NSArray *photos;
+    NSArray *photosCopy;
+    BOOL canAdd = NO;
     
-    if (section == 0)
+    switch (section)
     {
-        if (self.sceneCanAdd)
-        {
-            NSInteger maximum = self.scenePhotos.count + 6;
-            count = MIN(maximum, self.scenePhotosCopy.count + 1 + (self.scenePhotosCopy.count - self.scenePhotos.count < 5 ? 1 : 0));
-        }
-        else
-        {
-            count = self.scenePhotos.count + 1;
-        }
-        
+        case 0:
+            canAdd = self.sceneCanAdd;
+            photos = self.scenePhotos;
+            photosCopy = self.scenePhotosCopy;
+            break;
+        case 1:
+            canAdd = self.damageCanAdd;
+            photos = self.damagePhotos;
+            photosCopy = self.damagePhotosCopy;
+            break;
+        case 2:
+            canAdd = self.infoCanAdd;
+            photos = self.infoPhotos;
+            photosCopy = self.infoPhotosCopy;
+            break;
+        case 3:
+            canAdd = self.licenceCanAdd;
+            photos = self.licencePhotos;
+            photosCopy = self.licencePhotosCopy;
+            break;
     }
-    else if (section == 1)
-    {
-        if (self.damageCanAdd)
-        {
-            NSInteger maximum = self.damagePhotos.count + 6;
-            count = MIN(maximum, self.damagePhotosCopy.count + 1 + (self.damagePhotosCopy.count - self.damagePhotos.count < 5 ? 1 : 0));
-        }
-        else
-        {
-            count = self.damagePhotos.count + 1;
-        }
-    }
-    else if (section == 2)
-    {
-        if (self.infoCanAdd)
-        {
-            NSInteger maximum = self.infoPhotos.count + 6;
-            count = MIN(maximum, self.infoPhotosCopy.count + 1 + (self.infoPhotosCopy.count - self.infoPhotos.count < 5 ? 1 : 0));
-        }
-        else
-        {
-            count = self.infoPhotos.count + 1;
-        }
-    }
-    else if (section == 3)
-    {
-        if (self.licenceCanAdd)
-        {
-            NSInteger maximum = self.licencePhotos.count + 6;
-            count = MIN(maximum, self.licencePhotosCopy.count + 1 + (self.licencePhotosCopy.count - self.licencePhotos.count < 5 ? 1 : 0));
-        }
-        else
-        {
-            count = self.licencePhotos.count + 1;
-        }
-    }
-    else
+    
+    if (section == 4)
     {
         count = 1;
     }
-    
+    else
+    {
+        if (canAdd)
+        {
+            NSInteger maximum = photos.count + 6;
+            count = MIN(maximum, photosCopy.count + 1 + (photosCopy.count - photos.count < 5 ? 1 : 0));
+        }
+        else
+        {
+            count = photos.count + 1;
+        }
+    }
     return count;
-    
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -460,7 +452,6 @@
     
     else
     {
-        
         // 判断是否能添加照片。
         // 判断后台是否支持上传。判断是否已经添加。判断是否点击最后一个。
         if ([self canAddNewPhotoWithIndexPath:indexPath])
@@ -657,19 +648,19 @@
 
 -(NSNumber *)checkPhotoNeedReupload
 {
-    if (self.scenePhotosCopy.count - self.scenePhotos.count < self.sceneReupCount)
+    if (self.sceneDiff < self.sceneReupCount)
     {
         return @(1);
     }
-    else if (self.damagePhotosCopy.count - self.damagePhotos.count < self.damageReupCount)
+    else if (self.damageDiff < self.damageReupCount)
     {
         return @(2);
     }
-    else if (self.infoPhotosCopy.count - self.infoPhotos.count < self.infoReupCount)
+    else if (self.infoDiff < self.infoReupCount)
     {
         return @(3);
     }
-    else if (self.licencePhotosCopy.count - self.licencePhotos.count < self.licenceReupCount)
+    else if (self.licenceDiff < self.licenceReupCount)
     {
         return @(4);
     }
@@ -743,17 +734,16 @@
     switch (indexPath.section)
     {
         case 0:
-            
-            reminder = self.scenePhotosCopy.count - self.scenePhotos.count;
+            reminder = self.sceneDiff;
             break;
         case 1:
-            reminder = self.damagePhotosCopy.count - self.damagePhotos.count;
+            reminder = self.damageDiff;
             break;
         case 2:
-            reminder = self.infoPhotosCopy.count - self.infoPhotos.count;
+            reminder = self.infoDiff;
             break;
         case 3:
-            reminder = self.licencePhotosCopy.count - self.licencePhotos.count;
+            reminder = self.licenceDiff;
             break;
     }
     return reminder >= 5 ? YES : NO;
@@ -768,7 +758,6 @@
     switch (indexPath.section)
     {
         case 0:
-            
             [self.scenePhotosCopy safetyRemoveObjectAtIndex:indexPath.row -1];
             total = self.scenePhotos.count + 5 + 1;
             break;
@@ -841,7 +830,7 @@
         if(!picRecd.needReupload)
         {
             
-                [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0030"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0030"}];
             
             UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
             UIImageView *imgView = [cell viewWithTag:100];
@@ -912,7 +901,6 @@
             [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
         }
         
-        
         return [self uploadFileWithPicRecord:picRcd andIndex:indexPath];
     }] subscribeNext:^(id x) {
         
@@ -922,6 +910,9 @@
 #endif
 }
 
+/**
+ *  判断数据。并记录需要重拍的照片
+ */
 -(void)checkData
 {
     if (self.scenePhotos.count == 0 &&
@@ -984,61 +975,43 @@
 
 -(BOOL)canAddNewPhotoWithIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
+    BOOL canAdd = NO;
+    NSArray *photos;
+    NSArray *photosCopy;
+    switch (indexPath.section)
     {
-        // 判断后台是否支持上传。判断是否已经添加。判断是否点击最后一个。
-        
-        if (!self.sceneCanAdd ||
-            (self.scenePhotosCopy.count - self.scenePhotos.count) > 4 ||
-            indexPath.row != self.scenePhotosCopy.count + 1)
-        {
-            return NO;
-        }
-        else
-        {
-            return YES;
-        }
+        case 0:
+            canAdd = self.sceneCanAdd;
+            photos = self.scenePhotos;
+            photosCopy = self.scenePhotosCopy;
+            break;
+        case 1:
+            canAdd = self.damageCanAdd;
+            photos = self.damagePhotos;
+            photosCopy = self.damagePhotosCopy;
+            break;
+        case 2:
+            canAdd = self.infoCanAdd;
+            photos = self.infoPhotos;
+            photosCopy = self.infoPhotosCopy;
+            break;
+        case 3:
+            canAdd = self.licenceCanAdd;
+            photos = self.licencePhotos;
+            photosCopy = self.licencePhotosCopy;
+            break;
     }
-    else if (indexPath.section == 1)
+    
+    // 判断后台是否支持上传。判断是否已经添加。判断是否点击最后一个。
+    if (!canAdd ||
+        (photosCopy.count - photos.count) > 4 ||
+        indexPath.row != photosCopy.count + 1)
     {
-        if (!self.damageCanAdd ||
-            (self.damagePhotosCopy.count - self.damagePhotos.count) > 4 ||
-            indexPath.row != self.damagePhotosCopy.count + 1)
-        {
-            return NO;
-        }
-        else
-        {
-            return YES;
-        }
-    }
-    else if (indexPath.section == 2)
-    {
-        
-        if (!self.infoCanAdd ||
-            (self.infoPhotosCopy.count - self.infoPhotos.count) > 4 ||
-            indexPath.row != self.infoPhotosCopy.count + 1)
-        {
-            return NO;
-        }
-        else
-        {
-            return YES;
-        }
+        return NO;
     }
     else
     {
-        
-        if (!self.licenceCanAdd ||
-            (self.licencePhotosCopy.count - self.licencePhotos.count) > 4 ||
-            indexPath.row != self.licencePhotosCopy.count + 1)
-        {
-            return NO;
-        }
-        else
-        {
-            return YES;
-        }
+        return YES;
     }
 }
 
@@ -1081,7 +1054,6 @@
             make.height.mas_equalTo(50);
         }];
         [[takePhotoBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-            
             // 跳转至拍照页面
             [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0039"}];
             [self getScencePageData];
@@ -1151,10 +1123,10 @@
     
     [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0029"}];
     
-    if (self.scenePhotosCopy.count - self.scenePhotos.count > 0 ||
-        self.damagePhotosCopy.count - self.damagePhotos.count > 0 ||
-        self.infoPhotosCopy.count - self.infoPhotos.count > 0 ||
-        self.licencePhotosCopy.count - self.licencePhotos.count > 0)
+    if (self.sceneDiff > 0 ||
+        self.damageDiff > 0 ||
+        self.infoDiff > 0 ||
+        self.licenceDiff > 0)
     {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
             [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0034"}];
@@ -1177,12 +1149,11 @@
     {
         
         [self.navigationController popViewControllerAnimated:YES];
-        
     }
-    else if (self.scenePhotosCopy.count - self.scenePhotos.count == 0 &&
-             self.damagePhotosCopy.count - self.damagePhotos.count == 0 &&
-             self.infoPhotosCopy.count - self.infoPhotos.count == 0 &&
-             self.licencePhotosCopy.count - self.licencePhotos.count == 0)
+    else if (self.sceneDiff == 0 &&
+             self.damageDiff == 0 &&
+             self.infoDiff == 0 &&
+             self.licenceDiff == 0)
     {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
             [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0036"}];
@@ -1195,7 +1166,6 @@
         [alert show];
     }
 }
-
 
 #pragma mark - SDPhotoBrowserDelegate
 
@@ -1251,6 +1221,26 @@
         [gToast showMistake:error.domain];
         
     }];
+}
+
+-(NSInteger)sceneDiff
+{
+    return self.scenePhotosCopy.count - self.scenePhotos.count;
+}
+
+-(NSInteger)damageDiff
+{
+    return self.damagePhotosCopy.count - self.damagePhotos.count;
+}
+
+-(NSInteger)infoDiff
+{
+    return self.infoPhotosCopy.count - self.infoPhotos.count;
+}
+
+-(NSInteger)licenceDiff
+{
+    return self.licencePhotosCopy.count - self.licencePhotos.count;
 }
 
 @end

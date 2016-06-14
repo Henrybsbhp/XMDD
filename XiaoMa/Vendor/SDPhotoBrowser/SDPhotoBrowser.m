@@ -84,7 +84,7 @@
     [self addSubview:saveButton];
     
     saveButton.hidden = !self.showSaveBtn;
-    
+    indexLabel.hidden = !self.showIndexLabel;
 }
 
 - (void)saveImage
