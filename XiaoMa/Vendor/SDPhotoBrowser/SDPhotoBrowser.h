@@ -30,6 +30,7 @@
 @property (nonatomic, assign) NSInteger currentImageIndex;
 @property (nonatomic, assign) NSInteger imageCount;
 @property (assign, nonatomic) BOOL showSaveBtn;
+@property (assign, nonatomic) BOOL showIndexLabel;
 
 @property (nonatomic, weak) id<SDPhotoBrowserDelegate> delegate;
 
