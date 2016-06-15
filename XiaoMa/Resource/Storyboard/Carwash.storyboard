@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -2081,7 +2081,7 @@
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="（小马达达新用户专享）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pm6-j8-QeK">
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="（小马达达新用户专享）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pm6-j8-QeK">
                                                                     <rect key="frame" x="438" y="46" width="132" height="15"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2554,7 +2554,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2003" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VSx-FC-Gqw">
-                                                    <rect key="frame" x="544" y="8" width="44" height="22"/>
+                                                    <rect key="frame" x="544" y="7.5" width="44" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="0.97647058819999999" green="0.2274509804" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -2566,8 +2566,15 @@
                                                         <constraint firstAttribute="height" constant="1" id="aJd-3U-q8y"/>
                                                     </constraints>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W0Q-3b-yFM">
+                                                    <rect key="frame" x="503" y="10" width="35.5" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="W0Q-3b-yFM" firstAttribute="bottom" secondItem="VSx-FC-Gqw" secondAttribute="bottom" constant="-2" id="6BY-Xv-K5y"/>
                                                 <constraint firstAttribute="bottom" secondItem="GhA-Kb-Ss2" secondAttribute="bottom" id="AZE-k5-NPr"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="GhA-Kb-Ss2" secondAttribute="trailing" constant="4" id="LGQ-CY-0dc"/>
                                                 <constraint firstItem="VSx-FC-Gqw" firstAttribute="trailing" secondItem="y93-iR-TYc" secondAttribute="trailing" constant="-12" id="LUH-sP-MWM"/>
@@ -2576,6 +2583,7 @@
                                                 <constraint firstItem="pbR-H8-IkJ" firstAttribute="bottom" secondItem="VSx-FC-Gqw" secondAttribute="bottom" id="T1u-V6-UaQ"/>
                                                 <constraint firstItem="pbR-H8-IkJ" firstAttribute="centerY" secondItem="y93-iR-TYc" secondAttribute="centerY" id="dqP-s8-g7H"/>
                                                 <constraint firstItem="pbR-H8-IkJ" firstAttribute="leading" secondItem="y93-iR-TYc" secondAttribute="leading" constant="12" id="h5v-VL-fLq"/>
+                                                <constraint firstItem="VSx-FC-Gqw" firstAttribute="leading" secondItem="W0Q-3b-yFM" secondAttribute="trailing" constant="5.5" id="tPl-wf-xwA"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -3343,7 +3351,7 @@
         <image name="mb_logo" width="25" height="19"/>
         <image name="nav_back_300" width="18" height="18"/>
         <image name="nb_abc" width="15" height="14"/>
-        <image name="nb_ticket" width="26" height="26"/>
+        <image name="nb_ticket" width="89" height="102"/>
         <image name="paymentSuccess_gasCoupon_icon" width="40" height="40"/>
         <image name="questionMark_300" width="15" height="15"/>
         <image name="rate_number" width="12" height="11"/>
