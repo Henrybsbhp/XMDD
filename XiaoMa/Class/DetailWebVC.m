@@ -148,6 +148,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     //设置分享
     [self.bridge registerShare];
+    
+    [self.bridge registerLogin];
 }
 
 - (void)setupRightItems
