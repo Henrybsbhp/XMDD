@@ -1,4 +1,5 @@
 #import "GascardChargeOp.h"
+#import "PayInfoModel.h"
 
 @implementation GascardChargeOp
 
@@ -26,6 +27,7 @@
     self.rsp_total = [dict floatParamForName:@"total"];
     self.rsp_couponmoney = [dict floatParamForName:@"couponmoney"];
     self.rsp_notifyUrlStr = dict[@"notifyurl"];
+    self.rsp_payInfoModel = [PayInfoModel payInfoWithJSONResponse:dict[@"payinfo"]];
 	
     return self;
 }

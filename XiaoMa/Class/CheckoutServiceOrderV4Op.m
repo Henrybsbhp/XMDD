@@ -44,6 +44,7 @@
         self.rsp_orderid = rspObj[@"orderid"];
         self.rsp_gasCouponAmount = [rspObj floatParamForName:@"gascouponamt"];
         self.rsp_notifyUrlStr = rspObj[@"notifyurl"];
+        self.rsp_payInfoModel = [PayInfoModel payInfoWithJSONResponse:rspObj[@"payinfo"]];
     }
     else
     {

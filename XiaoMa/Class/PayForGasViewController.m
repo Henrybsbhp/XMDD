@@ -313,18 +313,16 @@
         return NO;
     }
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    NSString * info = [NSString stringWithFormat:@"%@充值－%@油卡充值",
-                       [self.gasNormalVC isRechargeForInstalment] ? @"分期" : @"普通",
-                       card.cardtype == 2 ? @"中石油" : @"中石化"];
+
     NSString *text;
     switch (paidop.req_paychannel) {
         case PaymentChannelAlipay: {
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
-            [helper resetForAlipayWithTradeNumber:paidop.rsp_tradeid productName:info productDescription:info price:paidop.rsp_total notifyUrlStr:paidop.rsp_notifyUrlStr];
+            [helper resetForAlipayWithTradeNumber:paidop.rsp_tradeid  alipayInfo:paidop.rsp_payInfoModel.alipayInfo];;
         } break;
         case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
-            [helper resetForWeChatWithTradeNumber:paidop.rsp_tradeid productName:info price:paidop.rsp_total andTradeType:[self.gasNormalVC isRechargeForInstalment] ? TradeTypeStagingRefuel : TradeTypeRefuel notifyUrlStr:paidop.rsp_notifyUrlStr];
+            [helper resetForWeChatWithTradeNumber:paidop.rsp_tradeid andPayInfoModel:paidop.rsp_payInfoModel.wechatInfo andTradeType:[self.gasNormalVC isRechargeForInstalment] ? TradeTypeStagingRefuel : TradeTypeRefuel];
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";

@@ -157,11 +157,11 @@
         }
         else if (self.paychannel == PaymentChannelAlipay)
         {
-            [self requestAliPay:nil andTradeId:tradeno andPrice:fee andProductName:productName andDescription:productName andTime:submitTime andNotifyUrlStr:notifyUrlStr];
+            [self requestAliPayWithTradeId:tradeno andAlipayInfo:self.getGeneralOrderdetailOp.rsp_payInfoModel.alipayInfo];
         }
         else if (self.paychannel == PaymentChannelWechat)
         {
-            [self requestWechatPay:nil andTradeId:tradeno andPrice:fee andProductName:productName andTime:submitTime andNotifyUrlStr:notifyUrlStr];
+            [self requestWechatPayWithTradeId:tradeno andWechatPayInfo:self.getGeneralOrderdetailOp.rsp_payInfoModel.wechatInfo];
         }
     }
     else
@@ -442,13 +442,10 @@
 
 
 
-- (void)requestAliPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
-             andPrice:(CGFloat)price andProductName:(NSString *)name
-       andDescription:(NSString *)desc andTime:(NSString *)time
-      andNotifyUrlStr:(NSString *)notifyUrlStr
+- (void)requestAliPayWithTradeId:(NSString *)tradeId andAlipayInfo:(NSString *)alipayInfo
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price notifyUrlStr:notifyUrlStr];
+    [helper resetForAlipayWithTradeNumber:tradeId alipayInfo:alipayInfo];
     
     [[helper rac_startPay2] subscribeNext:^(id x) {
         
@@ -472,12 +469,10 @@
     }];
 }
 
-- (void)requestWechatPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
-                andPrice:(CGFloat)price andProductName:(NSString *)name
-                 andTime:(NSString *)time andNotifyUrlStr:(NSString *)notifyUrlStr
+- (void)requestWechatPayWithTradeId:(NSString *)tradeId andWechatPayInfo:(WechatPayInfo *)wechatPayInfo
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price andTradeType:TradeTypeGeneral notifyUrlStr:notifyUrlStr];
+    [helper resetForWeChatWithTradeNumber:tradeId andPayInfoModel:wechatPayInfo andTradeType:TradeTypeGeneral];
     [[helper rac_startPay2] subscribeNext:^(NSString * info) {
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];

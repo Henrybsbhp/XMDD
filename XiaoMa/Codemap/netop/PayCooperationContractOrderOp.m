@@ -20,7 +20,7 @@
     self.rsp_total = [dict[@"total"] floatValue];
     self.rsp_tradeno = dict[@"tradeno"];
     self.rsp_notifyUrlStr = dict[@"notifyurl"];
-	
+	self.rsp_payInfoModel = [PayInfoModel payInfoWithJSONResponse:dict[@"payinfo"]];
     return self;
 }
 

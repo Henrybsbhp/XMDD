@@ -173,19 +173,17 @@
     if (op.rsp_total == 0) {
         return NO;
     }
-    CGFloat price = op.rsp_total;
     
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    NSString * info = [NSString stringWithFormat:@"%@-%@的保险订单支付",self.insOrder.inscomp,self.insOrder.licencenumber];
     NSString *text;
     switch (op.req_paychannel) {
         case PaymentChannelAlipay: {
             text = @"订单生成成功,正在跳转到支付宝平台进行支付";
-            [helper resetForAlipayWithTradeNumber:op.rsp_tradeno productName:info productDescription:info price:price notifyUrlStr:op.rsp_notifyUrlStr];
+            [helper resetForAlipayWithTradeNumber:op.rsp_tradeno alipayInfo:op.rsp_payInfoModel.alipayInfo];
         } break;
         case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
-            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno productName:info price:price andTradeType:TradeTypeIns notifyUrlStr:op.rsp_notifyUrlStr];
+            [helper resetForWeChatWithTradeNumber:op.rsp_tradeno andPayInfoModel:op.rsp_payInfoModel.wechatInfo andTradeType:TradeTypeIns];
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
