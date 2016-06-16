@@ -20,6 +20,8 @@
 #import "HKImageAlertVC.h"
 #import "EditCarVC.h"
 
+#define margin (gAppMgr.deviceInfo.screenSize.width > 320 ? 10 : 5)
+
 typedef NS_ENUM(NSInteger, GroupButtonState) {
     GroupButtonStateNotStart   = 1,
     GroupButtonStateSignUp     = 2,
@@ -131,7 +133,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 {
     for (NSLayoutConstraint *constraint in constraints)
     {
-        if ([constraint.identifier isEqualToString:@"constraintOne"])
+        if ([constraint.identifier isEqualToString:identifier])
         {
             return constraint;
         }
@@ -288,7 +290,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     [backgroundView setCornerRadius:3 withBackgroundColor:[UIColor whiteColor]];
     
     titleLb.text = [groupInfo stringParamForName:@"name"];
-    tagLb.text = [NSString stringWithFormat:@"已有%ld人入团",[groupInfo integerParamForName:@"membercnt"]];
+    tagLb.text = [NSString stringWithFormat:@"已有%ld人入团",(long)[groupInfo integerParamForName:@"membercnt"]];
     
     if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateNotStart || [groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateEndSign) {
         tagLb.textColor = kDarkTextColor;
@@ -404,9 +406,35 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     // 配置标签Label
     tagLabelRequired.hidden = groupTags.count < 1 ? YES : NO;
     tagLabelHigh.hidden = groupTags.count < 2 ? YES : NO;
-    tagLabelLow.hidden =groupTags.count < 3? YES : NO;
-    constraintOne.constant = groupTags.count < 1 ? 0 : 10;
-    constraintTwo.constant = groupTags.count < 2 ? 0 : 10;
+    tagLabelLow.hidden =groupTags.count < 3 ? YES : NO;
+    constraintOne.constant = groupTags.count < 1 ? 0 : margin;
+    constraintTwo.constant = groupTags.count < 2 ? 0 : margin;
+    
+    if (gAppMgr.deviceInfo.screenSize.width <= 320)
+    {
+        if ([self safetyText:[groupTags safetyObjectAtIndex:0]].length > 10 && groupTags.count > 2)
+        {
+            tagLabelHigh.hidden = YES;
+            tagLabelLow.hidden = YES;
+            constraintOne.constant = margin;
+            constraintTwo.constant = 0;
+        }
+        else if ([self safetyText:[groupTags safetyObjectAtIndex:0]].length + [self safetyText:[groupTags safetyObjectAtIndex:1]].length > 10  && groupTags.count > 1)
+        {
+            tagLabelHigh.hidden = NO;
+            tagLabelLow.hidden = YES;
+            constraintOne.constant = margin;
+            constraintTwo.constant = margin;
+        }
+        else
+        {
+            tagLabelRequired.hidden = groupTags.count < 1 ? YES : NO;
+            tagLabelHigh.hidden = groupTags.count < 2 ? YES : NO;
+            tagLabelLow.hidden =groupTags.count < 3 ? YES : NO;
+            constraintOne.constant = groupTags.count < 1 ? 0 : margin;
+            constraintTwo.constant = groupTags.count < 2 ? 0 : margin;
+        }
+    }
     
     tagLabelRequired.text = [self safetyText:[groupTags safetyObjectAtIndex:0]];
     tagLabelHigh.text = [self safetyText:[groupTags safetyObjectAtIndex:1]];
