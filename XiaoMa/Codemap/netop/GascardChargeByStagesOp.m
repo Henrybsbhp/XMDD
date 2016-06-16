@@ -24,6 +24,7 @@
     self.rsp_couponmoney = [dict[@"couponmoney"] floatValue];
     self.rsp_tip = dict[@"tip"];
     self.rsp_notifyUrlStr = dict[@"notifyurl"];
+    self.rsp_payInfoModel = [PayInfoModel payInfoWithJSONResponse:dict[@"payinfo"]];
 	
     return self;
 }
