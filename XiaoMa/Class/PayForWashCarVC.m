@@ -652,8 +652,6 @@
             [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
-                NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
                 [self requestAliPayWithTradeNO:op.rsp_tradeId andAlipayInfo:op.rsp_payInfoModel.alipayInfo];
             });
         }
