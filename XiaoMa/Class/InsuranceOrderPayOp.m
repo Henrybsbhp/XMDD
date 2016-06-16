@@ -7,6 +7,7 @@
 //
 
 #import "InsuranceOrderPayOp.h"
+#import "PayInfoModel.h"
 
 @implementation InsuranceOrderPayOp
 
@@ -30,6 +31,7 @@
     self.rsp_total = [dict floatParamForName:@"total"];
     self.rsp_tradeno = [dict objectForKey:@"tradeno"];
     self.rsp_notifyUrlStr = dict[@"notifyurl"];
+    self.rsp_payInfoModel = [PayInfoModel payInfoWithJSONResponse:dict[@"payinfo"]];
     
     return self;
 }

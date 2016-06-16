@@ -44,6 +44,7 @@
             card.bankType = HKBankTypeCZB;
         }
         self.rsp_czbCards = [NSArray arrayWithArray:tArray];
+        self.rsp_payInfoModel = [PayInfoModel payInfoWithJSONResponse:rspObj[@"payinfo"]];
     }
     else
     {
