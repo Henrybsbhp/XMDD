@@ -316,21 +316,85 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     [lineView setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#EAEAEA")];
     [backgroundView setCornerRadius:5 withBackgroundColor:[UIColor whiteColor]];
     
-    UILabel *tagLabel = [cell.contentView viewWithTag:1001];
-    UIButton * btn = [cell.contentView viewWithTag:1002];
+    UILabel *tagLabelRequired = [cell.contentView viewWithTag:1001];
+    UILabel *tagLabelHigh = [cell.contentView viewWithTag:1004];
+    UILabel *tagLabelLow = [cell.contentView viewWithTag:1005];
+    
+    UIButton *btn = [cell.contentView viewWithTag:1002];
     UILabel *stateLabel = [cell.contentView viewWithTag:1003];
+    
+    NSLayoutConstraint *constraintOne;
+    NSLayoutConstraint *constraintTwo;
+    
+    for (NSInteger i = 0; i < 2; i++)
+    {
+        for (NSLayoutConstraint *constraint in backgroundView.constraints)
+        {
+            if ([constraint.identifier isEqualToString:@"constraintOne"])
+            {
+                constraintOne = constraint;
+                break;
+            }
+            if ([constraint.identifier isEqualToString:@"constraintTwo"])
+            {
+                constraintTwo = constraint;
+                break;
+            }
+        }
+    }
+    
     
     NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
     
-    tagLabel.text = [NSString stringWithFormat:@"  %@  ", [groupInfo stringParamForName:@"grouptag"]];
+    NSArray *groupTags = [groupInfo objectForKey:@"grouptags"];
+    if (groupTags.count == 0)
+    {
+        tagLabelRequired.hidden = YES;
+        tagLabelHigh.hidden = YES;
+        tagLabelLow.hidden = YES;
+        constraintOne.constant = 0;
+        constraintTwo.constant = 0;
+    }
+    else if (groupTags.count == 1)
+    {
+        tagLabelRequired.hidden = NO;
+        tagLabelHigh.hidden = YES;
+        tagLabelLow.hidden = YES;
+        constraintOne.constant = 0;
+        constraintTwo.constant = 0;
+    }
+    else if (groupTags.count == 2)
+    {
+        tagLabelRequired.hidden = NO;
+        tagLabelHigh.hidden = NO;
+        tagLabelLow.hidden = YES;
+        constraintOne.constant = 10;
+        constraintTwo.constant = 0;
+    }
+    else
+    {
+        tagLabelRequired.hidden = NO;
+        tagLabelHigh.hidden = NO;
+        tagLabelLow.hidden = NO;
+        constraintOne.constant = 10;
+        constraintTwo.constant = 10;
+    }
+    
+    tagLabelRequired.text = [groupTags safetyObjectAtIndex:0] ? [NSString stringWithFormat:@"  %@  ",[groupTags safetyObjectAtIndex:0]] : @"";
+    tagLabelHigh.text = [groupTags safetyObjectAtIndex:1] ? [NSString stringWithFormat:@"  %@  ",[groupTags safetyObjectAtIndex:1]] : @"";
+    tagLabelLow.text = [groupTags safetyObjectAtIndex:2] ? [NSString stringWithFormat:@"  %@  ",[groupTags safetyObjectAtIndex:2]] : @"";
     
     if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateNotStart) {
         
         btn.hidden = NO;
         stateLabel.hidden = YES;
         
-        [tagLabel setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
-        tagLabel.textColor = kGrayTextColor;
+        [tagLabelRequired setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
+        tagLabelRequired.textColor = kGrayTextColor;
+        [tagLabelHigh setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
+        tagLabelHigh.textColor = kGrayTextColor;
+        [tagLabelLow setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
+        tagLabelLow.textColor = kGrayTextColor;
         
         [btn setCornerRadius:3 withBackgroundColor:kLightLineColor];
         [btn setTitle:@"报名未开始" forState:UIControlStateNormal];
@@ -340,8 +404,12 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         btn.hidden = NO;
         stateLabel.hidden = YES;
         
-        [tagLabel setCornerRadius:12 withBorderColor:kOrangeColor borderWidth:0.8];
-        tagLabel.textColor = kOrangeColor;
+        [tagLabelRequired setCornerRadius:12 withBorderColor:kOrangeColor borderWidth:0.8];
+        tagLabelRequired.textColor = kOrangeColor;
+        [tagLabelHigh setCornerRadius:12 withBorderColor:kOrangeColor borderWidth:0.8];
+        tagLabelHigh.textColor = kOrangeColor;
+        [tagLabelLow setCornerRadius:12 withBorderColor:kOrangeColor borderWidth:0.8];
+        tagLabelLow.textColor = kOrangeColor;
         
         [btn setCornerRadius:3 withBackgroundColor:kDefTintColor];
         if ([groupInfo boolParamForName:@"ingroup"]) {
@@ -364,8 +432,12 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         btn.hidden = NO;
         stateLabel.hidden = YES;
         
-        [tagLabel setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
-        tagLabel.textColor = kGrayTextColor;
+        [tagLabelRequired setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
+        tagLabelRequired.textColor = kGrayTextColor;
+        [tagLabelHigh setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
+        tagLabelHigh.textColor = kGrayTextColor;
+        [tagLabelLow setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
+        tagLabelLow.textColor = kGrayTextColor;
         
         [btn setCornerRadius:3 withBackgroundColor:kLightLineColor];
         if ([groupInfo boolParamForName:@"ingroup"]) {
@@ -380,8 +452,14 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         btn.hidden = YES;
         stateLabel.hidden = NO;
         
-        [tagLabel setCornerRadius:12 withBorderColor:kOrangeColor borderWidth:0.8];
-        tagLabel.textColor = kOrangeColor;
+        [tagLabelRequired setCornerRadius:12 withBorderColor:kOrangeColor borderWidth:0.8];
+        tagLabelRequired.textColor = kOrangeColor;
+        [tagLabelHigh setCornerRadius:12 withBorderColor:kOrangeColor borderWidth:0.8];
+        tagLabelHigh.textColor = kOrangeColor;
+        [tagLabelLow setCornerRadius:12 withBorderColor:kOrangeColor borderWidth:0.8];
+        tagLabelLow.textColor = kOrangeColor;
+        
+        
         
         stateLabel.text = @"开团中";
     }
@@ -389,8 +467,12 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
         btn.hidden = YES;
         stateLabel.hidden = NO;
         
-        [tagLabel setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
-        tagLabel.textColor = kGrayTextColor;
+        [tagLabelRequired setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
+        tagLabelRequired.textColor = kGrayTextColor;
+        [tagLabelHigh setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
+        tagLabelHigh.textColor = kGrayTextColor;
+        [tagLabelLow setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
+        tagLabelLow.textColor = kGrayTextColor;
         
         stateLabel.text = @"已过期";
     }

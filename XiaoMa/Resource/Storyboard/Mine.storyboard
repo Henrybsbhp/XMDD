@@ -2616,14 +2616,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="2001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="普洗：普通车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Br-4K-Ann">
-                                                    <rect key="frame" x="12" y="10" width="84" height="22"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="普洗：普通车" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Br-4K-Ann">
+                                                    <rect key="frame" x="12" y="12.5" width="84" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2003" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kk1-il-2T0">
-                                                    <rect key="frame" x="544" y="8" width="44" height="22"/>
+                                                    <rect key="frame" x="544" y="7.5" width="44" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="0.97647058819999999" green="0.2274509804" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -2635,6 +2635,12 @@
                                                         <constraint firstAttribute="height" constant="1" id="bDm-Gt-keV"/>
                                                     </constraints>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DRf-4p-kvd">
+                                                    <rect key="frame" x="503" y="10" width="35.5" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="kk1-il-2T0" firstAttribute="trailing" secondItem="tyf-cF-KFc" secondAttribute="trailing" constant="-12" id="018-mI-yZt"/>
@@ -2644,6 +2650,8 @@
                                                 <constraint firstItem="xhl-LN-Owr" firstAttribute="leading" secondItem="tyf-cF-KFc" secondAttribute="leadingMargin" constant="4" id="bv0-CE-22S"/>
                                                 <constraint firstItem="kk1-il-2T0" firstAttribute="centerY" secondItem="tyf-cF-KFc" secondAttribute="centerY" id="dqV-Va-xWo"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="xhl-LN-Owr" secondAttribute="trailing" constant="4" id="eyx-Lj-xe8"/>
+                                                <constraint firstItem="DRf-4p-kvd" firstAttribute="bottom" secondItem="kk1-il-2T0" secondAttribute="bottom" constant="-2" id="kRn-jl-wfR"/>
+                                                <constraint firstItem="kk1-il-2T0" firstAttribute="leading" secondItem="DRf-4p-kvd" secondAttribute="trailing" constant="5" id="mZU-Rx-8rc"/>
                                                 <constraint firstAttribute="bottom" secondItem="xhl-LN-Owr" secondAttribute="bottom" id="qb6-Mz-9bb"/>
                                             </constraints>
                                             <variation key="default">
