@@ -23,7 +23,8 @@
 
 
 //友盟
-#import <UMengAnalytics/MobClick.h>
+//#import <UMengAnalytics/MobClick.h>
+#import "UMMobClick/MobClick.h"
 
 //单例
 #import "HKToast.h"
