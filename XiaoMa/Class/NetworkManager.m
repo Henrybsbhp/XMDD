@@ -41,7 +41,7 @@ static NetworkManager *g_networkManager;
         
         /// https设置
         AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
-        securityPolicy.allowInvalidCertificates = YES;
+        securityPolicy.allowInvalidCertificates = NO;
         
 #if XMDDEnvironment==0
 #else
