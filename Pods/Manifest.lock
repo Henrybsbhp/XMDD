@@ -79,7 +79,7 @@ PODS:
     - FoundationExtension
     - GIKPopoverBackgroundView/Core
     - SevenSwitch (~> 1.3.0)
-  - UMengAnalytics (3.5.8)
+  - UMengAnalytics (4.0.0)
   - ZipArchive (1.4.0)
 
 DEPENDENCIES:
@@ -99,7 +99,7 @@ DEPENDENCIES:
   - SFHFKeychainUtils (= 0.0.1)
   - TMCache (= 2.1.0)
   - UI7Kit (= 0.9.22)
-  - UMengAnalytics (= 3.5.8)
+  - UMengAnalytics (= 4.0.0)
   - ZipArchive (= 1.4.0)
 
 SPEC CHECKSUMS:
@@ -123,7 +123,7 @@ SPEC CHECKSUMS:
   SFHFKeychainUtils: 9576b411a79a058f4d5381ace6f3242b9a62e664
   TMCache: 95ebcc9b3c7e90fb5fd8fc3036cba3aa781c9bed
   UI7Kit: a2be10b7ced09944b8d2dca5d373743665d29639
-  UMengAnalytics: 020551718ba37da017bd85ac4c38ffba2774f3ce
+  UMengAnalytics: 3bb802b73e815fa9ec4ef384c2fce8de9e1ec62b
   ZipArchive: e25a4373192673e3229ac8d6e9f64a3e5713c966
 
 COCOAPODS: 0.39.0

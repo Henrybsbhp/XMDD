@@ -1793,6 +1793,21 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>146A3DD893297F047F17C15F770A8D87</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>3784DBAF5C4AE3A68892BF34B7CD306D</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>UMengAnalytics</string>
+			<key>path</key>
+			<string>UMengAnalytics</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>1492AD718E583E06903F307BABA0C998</key>
 		<dict>
 			<key>fileRef</key>
@@ -4929,6 +4944,19 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>3784DBAF5C4AE3A68892BF34B7CD306D</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>7D4B1F79DD5474B85B3537E71052A42B</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>37BC17C704CC0259D0CCE603FD707982</key>
 		<dict>
 			<key>fileRef</key>
@@ -7518,7 +7546,7 @@
 				<string>40F72B042476A4BEC921329FAD2FCED5</string>
 				<string>4947068D11BCAA4C64641516DBFAD3D6</string>
 				<string>905D4D1F68C90E9752FD31F415EBD6A7</string>
-				<string>554ED2888449B1A7E0C6C1205DB00236</string>
+				<string>146A3DD893297F047F17C15F770A8D87</string>
 				<string>968A41643BCE95F1A7ABFD0881DA152B</string>
 			</array>
 			<key>isa</key>
@@ -7806,21 +7834,6 @@
 					<string>Public</string>
 				</array>
 			</dict>
-		</dict>
-		<key>554ED2888449B1A7E0C6C1205DB00236</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>E1F85DC40E8034FEA6437BADD5DEDA6C</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>UMengAnalytics</string>
-			<key>path</key>
-			<string>UMengAnalytics</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
 		</dict>
 		<key>554F922162722BF790792EA2F9A032A7</key>
 		<dict>
@@ -11926,6 +11939,19 @@
 					<string>Public</string>
 				</array>
 			</dict>
+		</dict>
+		<key>7D4B1F79DD5474B85B3537E71052A42B</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>UMMobClick.framework</string>
+			<key>path</key>
+			<string>umsdk_IOS_analyics_idfa_v4.0.0/UMMobClick.framework</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
 		</dict>
 		<key>7D6FB787FB6740B3EE41F142E4EE814B</key>
 		<dict>
@@ -21491,21 +21517,6 @@
 			<string>E734AD7DC76304622BFB1FC5D533CC15</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
-		</dict>
-		<key>E1F85DC40E8034FEA6437BADD5DEDA6C</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>MobClick.h</string>
-			<key>path</key>
-			<string>umsdk_IOS_analytics_idfa_v3.5.8/UMAnalytics_Sdk_3.5.8/MobClick.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
 		</dict>
 		<key>E22F6B29153A34E56EB7868941E67707</key>
 		<dict>

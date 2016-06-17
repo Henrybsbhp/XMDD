@@ -10,7 +10,6 @@
 #import "XiaoMa.h"
 #import <AFNetworking.h>
 #import <CocoaLumberjack.h>
-#import <UMengAnalytics/MobClick.h>
 #import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
 #import "WXApi.h"
 #import "WeiboSDK.h"
@@ -297,8 +296,12 @@
 #pragma mark - 友盟
 - (void)setupUmeng
 {
-    [MobClick setCrashReportEnabled:NO];
-    [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
+    UMConfigInstance.appKey = UMeng_API_ID;
+    UMConfigInstance.channelId = @"App Store";
+    UMConfigInstance.bCrashReportEnabled = NO;
+    UMConfigInstance.ePolicy = BATCH;
+    
+    [MobClick startWithConfigure:UMConfigInstance];
 #ifdef DEBUG
     [MobClick setLogEnabled:YES];
 #else
@@ -307,8 +310,6 @@
     
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [MobClick setAppVersion:version];
-    
-    [MobClick startSession:nil];
 }
 
 

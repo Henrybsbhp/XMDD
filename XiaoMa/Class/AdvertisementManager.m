@@ -54,15 +54,25 @@
 
 - (RACSignal *)rac_getAdvertisement:(AdvertisementType)type
 {
-    RACSignal * signal;
-    GetSystemPromotionOp * op = [GetSystemPromotionOp operation];
-    op.type = type;
-    op.province = gMapHelper.addrComponent.province;
-    //如果地理位置在上海，高德返回“上海” “（空字符）”“松江”
-    op.city = gMapHelper.addrComponent.city.length ? gMapHelper.addrComponent.city :gMapHelper.addrComponent.province;
-    op.district = gMapHelper.addrComponent.district;
-    op.version = gAppMgr.clientInfo.clientVersion;
-    signal = [[op rac_postRequest] map:^id(GetSystemPromotionOp *op) {
+    RACSignal * signal = [RACSignal empty];
+    //没有地理位置信息，则获取地理位置信息
+    if (!gMapHelper.addrComponent) {
+        signal = [[gMapHelper rac_getInvertGeoInfo] ignoreError];
+    }
+    //请求广告信息
+    signal = [signal then:^RACSignal *{
+        GetSystemPromotionOp * op = [GetSystemPromotionOp operation];
+        op.type = type;
+        op.province = gMapHelper.addrComponent.province;
+        //如果地理位置在上海，高德返回“上海” “（空字符）”“松江”
+        op.city = gMapHelper.addrComponent.city.length ? gMapHelper.addrComponent.city :gMapHelper.addrComponent.province;
+        op.district = gMapHelper.addrComponent.district;
+        op.version = gAppMgr.clientInfo.clientVersion;
+        return [op rac_postRequest];
+    }];
+    
+    //处理广告返回结果
+    signal = [signal map:^id(GetSystemPromotionOp *op) {
         
         NSString *key = [self keyForAdType:type];
         NSArray *sortedArray = [self filterAndSortAdList:op.rsp_advertisementArray];
@@ -79,7 +89,7 @@
         {
             self.carwashAdvertiseArray = sortedArray;
         }
-
+        
         return sortedArray;
     }];
     return signal;
