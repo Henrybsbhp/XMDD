@@ -299,7 +299,7 @@
     UMConfigInstance.appKey = UMeng_API_ID;
     UMConfigInstance.channelId = @"App Store";
     UMConfigInstance.bCrashReportEnabled = NO;
-    UMConfigInstance.ePolicy = REALTIME;
+    UMConfigInstance.ePolicy = BATCH;
     
     [MobClick startWithConfigure:UMConfigInstance];
 #ifdef DEBUG
