@@ -755,9 +755,13 @@
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
 		FA93A7B41C9961ED00CBD565 /* CreateGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */; };
 		FA93A7BE1C9978AB00CBD565 /* CreateGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7BD1C9978AB00CBD565 /* CreateGroupVC.m */; };
+		FA941B3F1D13A5AA00F56B96 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA941B3E1D13A5AA00F56B96 /* PassKit.framework */; };
 		FA958E251C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E241C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m */; };
 		FA958E281C9BFE6E00E89180 /* MutualInsGroupInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E271C9BFE6E00E89180 /* MutualInsGroupInfoVC.m */; };
 		FA959CED1C9C343C00E89180 /* MutualInsJoin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */; };
+		FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C41D1246490045531C /* CFNetwork.framework */; };
+		FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C81D12466E0045531C /* SystemConfiguration.framework */; };
+		FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2387,11 +2391,19 @@
 		FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateGroupOp.m; path = Class/CreateGroupOp.m; sourceTree = "<group>"; };
 		FA93A7BC1C9978AB00CBD565 /* CreateGroupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupVC.h; sourceTree = "<group>"; };
 		FA93A7BD1C9978AB00CBD565 /* CreateGroupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateGroupVC.m; sourceTree = "<group>"; };
+		FA941B3E1D13A5AA00F56B96 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		FA958E231C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsRequestJoinGroupVC.h; sourceTree = "<group>"; };
 		FA958E241C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsRequestJoinGroupVC.m; sourceTree = "<group>"; };
 		FA958E261C9BFE6E00E89180 /* MutualInsGroupInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGroupInfoVC.h; sourceTree = "<group>"; };
 		FA958E271C9BFE6E00E89180 /* MutualInsGroupInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGroupInfoVC.m; sourceTree = "<group>"; };
 		FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsJoin.storyboard; sourceTree = "<group>"; };
+		FAAD30B31D1245F00045531C /* UPAPayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPAPayPlugin.h; sourceTree = "<group>"; };
+		FAAD30B41D1245F00045531C /* UPAPayPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPAPayPluginDelegate.h; sourceTree = "<group>"; };
+		FAAD30B61D1245F00045531C /* libUPAPayPlugin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUPAPayPlugin.a; sourceTree = "<group>"; };
+		FAAD30C41D1246490045531C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		FAAD30C81D12466E0045531C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
+		FAAD30CC1D124A9A0045531C /* XiaoMa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = XiaoMa.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2399,6 +2411,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA941B3F1D13A5AA00F56B96 /* PassKit.framework in Frameworks */,
+				FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */,
+				FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */,
+				FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */,
 				1809C14F1CEEDF8600AE56EB /* libRNImagePicker.a in Frameworks */,
 				18B62C8C1CDC516D00E5AE48 /* libRCTActionSheet.a in Frameworks */,
 				18B62C8D1CDC516D00E5AE48 /* libRCTGeolocation.a in Frameworks */,
@@ -2571,6 +2587,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				FAAD30B11D1245F00045531C /* applePaySDK */,
 				18B62B061CDB332E00E5AE48 /* ReactNative */,
 				FA84965F1CBE367700631062 /* SJKeyboardManager */,
 				C3D9B8201CC0DBFD00B5D2A7 /* FLAnimatedImage */,
@@ -3414,6 +3431,7 @@
 		1883D8E11ACB99AC002A4D19 /* XiaoMa */ = {
 			isa = PBXGroup;
 			children = (
+				FAAD30CC1D124A9A0045531C /* XiaoMa.entitlements */,
 				1844FAFC1CD9C8880085A0D4 /* ckkit */,
 				1833F56A1BCD373B000E1DA1 /* Codemap */,
 				6BBAB8C81ADD351800EC342F /* Helper */,
@@ -5472,6 +5490,10 @@
 		C8447CD201C36C94165168FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FA941B3E1D13A5AA00F56B96 /* PassKit.framework */,
+				FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */,
+				FAAD30C81D12466E0045531C /* SystemConfiguration.framework */,
+				FAAD30C41D1246490045531C /* CFNetwork.framework */,
 				6B26EF081C8EF97E00428EC4 /* JavaScriptCore.framework */,
 				506160BD1BFD76D3003E7F80 /* libresolv.9.tbd */,
 				18E28A161B93E5AF0070E759 /* Security.framework */,
@@ -5495,6 +5517,33 @@
 				FA8496611CBE367700631062 /* SJKeyboardManager.m */,
 			);
 			path = SJKeyboardManager;
+			sourceTree = "<group>";
+		};
+		FAAD30B11D1245F00045531C /* applePaySDK */ = {
+			isa = PBXGroup;
+			children = (
+				FAAD30B21D1245F00045531C /* inc */,
+				FAAD30B51D1245F00045531C /* libs */,
+			);
+			name = applePaySDK;
+			path = ../applePaySDK;
+			sourceTree = "<group>";
+		};
+		FAAD30B21D1245F00045531C /* inc */ = {
+			isa = PBXGroup;
+			children = (
+				FAAD30B31D1245F00045531C /* UPAPayPlugin.h */,
+				FAAD30B41D1245F00045531C /* UPAPayPluginDelegate.h */,
+			);
+			path = inc;
+			sourceTree = "<group>";
+		};
+		FAAD30B51D1245F00045531C /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				FAAD30B61D1245F00045531C /* libUPAPayPlugin.a */,
+			);
+			path = libs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -5568,6 +5617,14 @@
 					1883D8DE1ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 7A3B9332PS;
+						SystemCapabilities = {
+							com.apple.OMC = {
+								enabled = 1;
+							};
+							com.apple.Wallet = {
+								enabled = 0;
+							};
+						};
 					};
 					1883D8F71ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
@@ -6650,6 +6707,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = XiaoMa/XiaoMa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -6699,6 +6757,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeiboShareSDK/libWeiboSDK",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/UPPaySDK",
 					"$(PROJECT_DIR)/XiaoMa/Vendor",
+					"$(PROJECT_DIR)/XiaoMa/applePaySDK/libs",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -6747,6 +6806,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = XiaoMa/XiaoMa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -6796,6 +6856,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeiboShareSDK/libWeiboSDK",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/UPPaySDK",
 					"$(PROJECT_DIR)/XiaoMa/Vendor",
+					"$(PROJECT_DIR)/XiaoMa/applePaySDK/libs",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
