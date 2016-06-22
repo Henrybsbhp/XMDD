@@ -135,6 +135,7 @@
     op.req_cardid = self.bankCard.cardID;
     op.req_chargeamt = (int)self.rechargeAmount;
     op.req_gid = self.gasCard.gid;
+    op.req_bill = self.needInvoice;
     RACSignal *sig = [self.smsModel rac_getVcodeWithType:HKVcodeTypeCZBGasCharge fromSignal:[op rac_postRequest]];
     [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig] subscribeNext:^(id x) {
         
