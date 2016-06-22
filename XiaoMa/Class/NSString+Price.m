@@ -45,6 +45,10 @@
 
 + (NSString *)formatForPrice:(CGFloat)price
 {
+    if (price < 0)
+    {
+        return @"0";
+    }
     NSString * originStr = [NSString stringWithFormat:@"%.2f",price];
     NSString * decimal = [originStr substringFromIndex:originStr.length - 2];
     NSString * displayStr = originStr;
