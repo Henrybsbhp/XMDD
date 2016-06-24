@@ -69,7 +69,7 @@
     self.locationData = [[HKLocationDataModel alloc] init];
     self.locateState = LocateStateLocating;
     @weakify(self);
-    [[gMapHelper rac_getInvertGeoInfo] subscribeNext:^(id x) {
+    [[gMapHelper rac_getUserLocationAndInvertGeoInfo] subscribeNext:^(id x) {
         
         @strongify(self);
         self.locationData.province = gMapHelper.addrComponent.province;

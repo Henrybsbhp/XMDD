@@ -626,7 +626,7 @@
     }
     
     
-    [[[signal flattenMap:^RACStream *(MAUserLocation *location) {
+    [[[signal flattenMap:^RACStream *(CLLocation * location) {
         
         self.checkoutServiceOrderV4Op.coordinate = location ? location.coordinate : gMapHelper.coordinate;
         return [self.checkoutServiceOrderV4Op rac_postRequest];

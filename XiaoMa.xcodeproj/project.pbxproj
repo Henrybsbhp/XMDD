@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B54A6CD3F3426144CC6768CC /* libPods.a */; };
 		18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */; };
 		180538B51C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 180538B41C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m */; };
 		180538E61C9BFB6000D896A1 /* HKFoldingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 180538E51C9BFB6000D896A1 /* HKFoldingTableView.m */; };
@@ -367,6 +366,7 @@
 		18FC01E41C4E6C6F00FD61BF /* IQToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01D51C4E6C6F00FD61BF /* IQToolbar.m */; };
 		18FC01E51C4E6C6F00FD61BF /* IQUIView+IQKeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01D71C4E6C6F00FD61BF /* IQUIView+IQKeyboardToolbar.m */; };
 		18FC01E61C4E6C6F00FD61BF /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18FC01DA1C4E6C6F00FD61BF /* IQKeyboardManager.bundle */; };
+		207474B24F525AB06CB50BF3 /* libPods-XiaoMa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FAC01815D6BA5493EC3666F /* libPods-XiaoMa.a */; };
 		2E3EEBC31C224DD20010E34F /* CommissionOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EEBC21C224DD20010E34F /* CommissionOrderVC.m */; };
 		2E3EEBC61C227CC90010E34F /* CommissionConfirmVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EEBC51C227CC90010E34F /* CommissionConfirmVC.m */; };
 		2E3EEBCF1C22AAD50010E34F /* CommissionSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EEBCE1C22AAD50010E34F /* CommissionSuccessVC.m */; };
@@ -631,7 +631,6 @@
 		6BC3B60F1ADF52CB001016A0 /* BaseMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B60E1ADF52CB001016A0 /* BaseMapViewController.m */; };
 		6BC3B6121ADF6205001016A0 /* MapHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6111ADF6205001016A0 /* MapHelper.m */; };
 		6BC3B6151ADF69B5001016A0 /* CarWashNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6141ADF69B5001016A0 /* CarWashNavigationViewController.m */; };
-		6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B6181ADF92E7001016A0 /* CommonUtility.m */; };
 		6BC3B61C1ADF9334001016A0 /* LineDashPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */; };
 		6BC80C831C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C5E1C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.m */; };
 		6BC80C841C96BD6800C7BA3D /* AddCooperationGroupJoinOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC80C601C96BD6800C7BA3D /* AddCooperationGroupJoinOp.m */; };
@@ -1611,6 +1610,7 @@
 		2E77A4A81C32603800264FC9 /* GetStartHostCarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetStartHostCarOp.m; path = Class/GetStartHostCarOp.m; sourceTree = "<group>"; };
 		2EB0DA5A1C325CA900D9A5B2 /* RescueCancelHostcarOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RescueCancelHostcarOp.h; path = Class/RescueCancelHostcarOp.h; sourceTree = "<group>"; };
 		2EB0DA5B1C325CA900D9A5B2 /* RescueCancelHostcarOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RescueCancelHostcarOp.m; path = Class/RescueCancelHostcarOp.m; sourceTree = "<group>"; };
+		32658C3F15E1205F2B4FD129 /* Pods-XiaoMa.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XiaoMa.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XiaoMa/Pods-XiaoMa.debug.xcconfig"; sourceTree = "<group>"; };
 		4E043B181C9A511200742268 /* MutualInsChooseCarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsChooseCarVC.h; sourceTree = "<group>"; };
 		4E043B191C9A511200742268 /* MutualInsChooseCarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsChooseCarVC.m; sourceTree = "<group>"; };
 		4E045E711CABD52600F17446 /* NSString+BankNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+BankNumber.h"; path = "Class/NSString+BankNumber.h"; sourceTree = "<group>"; };
@@ -1823,7 +1823,7 @@
 		50FAC2701C23B8C000F8990F /* AutoSeriesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AutoSeriesModel.m; path = Class/AutoSeriesModel.m; sourceTree = "<group>"; };
 		50FEF7691C8827C900B85F19 /* SystemGroupListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemGroupListVC.h; sourceTree = "<group>"; };
 		50FEF76A1C8827C900B85F19 /* SystemGroupListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemGroupListVC.m; sourceTree = "<group>"; };
-		5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		5FAC01815D6BA5493EC3666F /* libPods-XiaoMa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-XiaoMa.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B086BA21AE4E19000659DB7 /* GetSystemTipsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemTipsOp.h; path = Class/GetSystemTipsOp.h; sourceTree = "<group>"; };
 		6B086BA31AE4E19000659DB7 /* GetSystemTipsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemTipsOp.m; path = Class/GetSystemTipsOp.m; sourceTree = "<group>"; };
 		6B086BA51AE4F03800659DB7 /* UIView+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Base.h"; path = "Class/UIView+Base.h"; sourceTree = "<group>"; };
@@ -2075,8 +2075,6 @@
 		6BC3B6111ADF6205001016A0 /* MapHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapHelper.m; path = Class/MapHelper.m; sourceTree = "<group>"; };
 		6BC3B6131ADF69B5001016A0 /* CarWashNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarWashNavigationViewController.h; sourceTree = "<group>"; };
 		6BC3B6141ADF69B5001016A0 /* CarWashNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarWashNavigationViewController.m; sourceTree = "<group>"; };
-		6BC3B6171ADF92E7001016A0 /* CommonUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonUtility.h; path = Class/CommonUtility.h; sourceTree = "<group>"; };
-		6BC3B6181ADF92E7001016A0 /* CommonUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonUtility.m; path = Class/CommonUtility.m; sourceTree = "<group>"; };
 		6BC3B61A1ADF9334001016A0 /* LineDashPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineDashPolyline.h; path = Class/LineDashPolyline.h; sourceTree = "<group>"; };
 		6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineDashPolyline.m; path = Class/LineDashPolyline.m; sourceTree = "<group>"; };
 		6BC80C5D1C96BD6800C7BA3D /* AddCooperationClaimBankcardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCooperationClaimBankcardOp.h; sourceTree = "<group>"; };
@@ -2331,7 +2329,7 @@
 		6BFE6A6D1C03FD8900EC9766 /* ViolationItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationItemViewController.m; sourceTree = "<group>"; };
 		6BFE6A711C04036500EC9766 /* ViolationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViolationModel.h; path = Class/ViolationModel.h; sourceTree = "<group>"; };
 		6BFE6A721C04036500EC9766 /* ViolationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViolationModel.m; path = Class/ViolationModel.m; sourceTree = "<group>"; };
-		B54A6CD3F3426144CC6768CC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2D970C3C84BC03F76A554B0 /* Pods-XiaoMa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XiaoMa.release.xcconfig"; path = "Pods/Target Support Files/Pods-XiaoMa/Pods-XiaoMa.release.xcconfig"; sourceTree = "<group>"; };
 		C23FCAB71AF8B8C900E04BEB /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = ../QQSDK/TencentOpenAPI.framework; sourceTree = "<group>"; };
 		C25DF9741AFCA7D3009C4041 /* MyCouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCouponVC.h; sourceTree = "<group>"; };
 		C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCouponVC.m; sourceTree = "<group>"; };
@@ -2354,7 +2352,6 @@
 		C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImage/FLAnimatedImage.m; sourceTree = "<group>"; };
 		C3D9B81C1CC0DBF000B5D2A7 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImage/FLAnimatedImageView.h; sourceTree = "<group>"; };
 		C3D9B81D1CC0DBF000B5D2A7 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageView.m; path = FLAnimatedImage/FLAnimatedImageView.m; sourceTree = "<group>"; };
-		CA94042FD235B5154105FE58 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FA024A301CAE500500481F59 /* BankCardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardDetailVC.h; sourceTree = "<group>"; };
 		FA024A311CAE500500481F59 /* BankCardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankCardDetailVC.m; sourceTree = "<group>"; };
 		FA154FEB1D00059C0011C4FC /* MutualInsAcceptCompensationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsAcceptCompensationVC.h; sourceTree = "<group>"; };
@@ -2409,9 +2406,9 @@
 				50BF301A1CABF0E600D0FC07 /* libFMDeviceManager_without_IDFA.a in Frameworks */,
 				6BBBF54D1B291CCA00E1B809 /* Fabric.framework in Frameworks */,
 				6BBB825C1AE79FE100850D0C /* libWeChatSDK.a in Frameworks */,
-				06380E56572F1DCE6105BE83 /* libPods.a in Frameworks */,
 				6BEA56CB1AE24DCE000D19C1 /* libcrypto.a in Frameworks */,
 				6BEA56C11AE24DCE000D19C1 /* AlipaySDK.framework in Frameworks */,
+				207474B24F525AB06CB50BF3 /* libPods-XiaoMa.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3378,8 +3375,8 @@
 				1883D8FB1ACB99AC002A4D19 /* XiaoMaTests */,
 				18C809D51CC62476001799CB /* XiaoMaUITests */,
 				1883D8E01ACB99AC002A4D19 /* Products */,
-				C5BD8500918CA8D253037804 /* Pods */,
 				C8447CD201C36C94165168FF /* Frameworks */,
+				E4072E40F1E22BAE4F9D52F9 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -5160,8 +5157,6 @@
 				6BEC3FCB1C16F1A50046F11D /* MyUIPageControl.m */,
 				6BC3B61A1ADF9334001016A0 /* LineDashPolyline.h */,
 				6BC3B61B1ADF9334001016A0 /* LineDashPolyline.m */,
-				6BC3B6171ADF92E7001016A0 /* CommonUtility.h */,
-				6BC3B6181ADF92E7001016A0 /* CommonUtility.m */,
 				6B1175331C0F0FF800FC1881 /* HKPageControl.h */,
 				6B1175341C0F0FF800FC1881 /* HKPageControl.m */,
 			);
@@ -5430,15 +5425,6 @@
 			name = FLAnimatedImage;
 			sourceTree = "<group>";
 		};
-		C5BD8500918CA8D253037804 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */,
-				CA94042FD235B5154105FE58 /* Pods.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		C8447CD201C36C94165168FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -5453,9 +5439,18 @@
 				6BBB82601AE7A0D700850D0C /* libz.dylib */,
 				6BBB825E1AE7A0CF00850D0C /* libsqlite3.dylib */,
 				189B31151ADBDF07001D7288 /* MobileCoreServices.framework */,
-				B54A6CD3F3426144CC6768CC /* libPods.a */,
+				5FAC01815D6BA5493EC3666F /* libPods-XiaoMa.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E4072E40F1E22BAE4F9D52F9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				32658C3F15E1205F2B4FD129 /* Pods-XiaoMa.debug.xcconfig */,
+				B2D970C3C84BC03F76A554B0 /* Pods-XiaoMa.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		FA84965F1CBE367700631062 /* SJKeyboardManager */ = {
@@ -5474,12 +5469,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1883D9021ACB99AC002A4D19 /* Build configuration list for PBXNativeTarget "XiaoMa" */;
 			buildPhases = (
-				CD8A2DC7E0FE392AD26DEF18 /* Check Pods Manifest.lock */,
+				96B417FDA4246763D9DFF7BA /* [CP] Check Pods Manifest.lock */,
 				1883D8DB1ACB99AC002A4D19 /* Sources */,
 				1883D8DC1ACB99AC002A4D19 /* Frameworks */,
 				1883D8DD1ACB99AC002A4D19 /* Resources */,
-				A104FC05B6EB7D321E22B017 /* Copy Pods Resources */,
-				1627E83E7CFFD485DB8DB0A0 /* Embed Pods Frameworks */,
+				6936A8B594C49A4CD95B7DD3 /* [CP] Embed Pods Frameworks */,
+				F6D585F1F73E327963ED0FBC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -5779,49 +5774,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1627E83E7CFFD485DB8DB0A0 /* Embed Pods Frameworks */ = {
+		6936A8B594C49A4CD95B7DD3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-XiaoMa/Pods-XiaoMa-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A104FC05B6EB7D321E22B017 /* Copy Pods Resources */ = {
+		96B417FDA4246763D9DFF7BA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CD8A2DC7E0FE392AD26DEF18 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F6D585F1F73E327963ED0FBC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-XiaoMa/Pods-XiaoMa-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -5978,7 +5973,6 @@
 				6B086BA41AE4E19000659DB7 /* GetSystemTipsOp.m in Sources */,
 				6BF3925F1BD8935600838292 /* CBAutoScrollLabel.m in Sources */,
 				50DD1BC81BFB023800349A70 /* HKOtherOrder.m in Sources */,
-				6BC3B6191ADF92E7001016A0 /* CommonUtility.m in Sources */,
 				1844FB341CD9C8880085A0D4 /* NSData+JSON.m in Sources */,
 				181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */,
 				189B395E1AF9D9F700B83F1B /* UpdateCarOp.m in Sources */,
@@ -6609,7 +6603,7 @@
 		};
 		1883D9031ACB99AC002A4D19 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5F0CC23904D0FBCA1BB95DFB /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 32658C3F15E1205F2B4FD129 /* Pods-XiaoMa.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -6706,7 +6700,7 @@
 		};
 		1883D9041ACB99AC002A4D19 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA94042FD235B5154105FE58 /* Pods.release.xcconfig */;
+			baseConfigurationReference = B2D970C3C84BC03F76A554B0 /* Pods-XiaoMa.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

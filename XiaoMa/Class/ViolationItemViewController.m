@@ -362,7 +362,7 @@
     }
     else
     {
-        signal =[[gMapHelper rac_getInvertGeoInfo] flattenMap:^RACStream *(id value) {
+        signal =[[gMapHelper rac_getUserLocationAndInvertGeoInfo] flattenMap:^RACStream *(id value) {
             
             return [self rac_requestCityInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city];
         }];

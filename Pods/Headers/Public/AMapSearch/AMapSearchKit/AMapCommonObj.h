@@ -1,1 +1,1 @@
-../../../../AMapSearch/AMapSearchKit.framework/Versions/2.4.1.16e89a2/Headers/AMapCommonObj.h
+../../../../AMapSearch/AMapSearchKit.framework/Headers/AMapCommonObj.h

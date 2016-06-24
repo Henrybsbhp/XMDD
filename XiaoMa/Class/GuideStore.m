@@ -46,7 +46,7 @@
     }
     else {
         @weakify(self);
-        signal = [[[[[gMapHelper rac_getInvertGeoInfo] ignoreError] then:^RACSignal *{
+        signal = [[[[[gMapHelper rac_getUserLocationAndInvertGeoInfo] ignoreError] then:^RACSignal *{
             
             GetNewbieInfoOp *op = [GetNewbieInfoOp operation];
             op.req_province = gMapHelper.addrComponent.province;
