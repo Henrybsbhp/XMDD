@@ -945,6 +945,27 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FlexCell" rowHeight="35" id="0qW-QX-e2S">
+                                        <rect key="frame" x="0.0" y="493.5" width="600" height="35"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0qW-QX-e2S" id="FNG-v2-wfb">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="35"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="101" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flex_down_icon" translatesAutoresizingMaskIntoConstraints="NO" id="shC-c3-pbr">
+                                                    <rect key="frame" x="293" y="11.5" width="14" height="12"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="12" id="8cc-g9-zGh"/>
+                                                        <constraint firstAttribute="width" constant="14" id="HX9-s4-iWr"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="shC-c3-pbr" firstAttribute="centerX" secondItem="FNG-v2-wfb" secondAttribute="centerX" id="ekl-XP-cA2"/>
+                                                <constraint firstItem="shC-c3-pbr" firstAttribute="centerY" secondItem="FNG-v2-wfb" secondAttribute="centerY" id="jxj-z0-IV9"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="G0O-rv-7HK" id="99l-OV-UO9"/>
@@ -1165,6 +1186,7 @@
         <image name="cm_arrow_r" width="9" height="15"/>
         <image name="cm_nav_back_white" width="11" height="19"/>
         <image name="def_withoutCar" width="152" height="152"/>
+        <image name="flex_down_icon" width="14" height="12"/>
         <image name="how_input" width="12" height="12"/>
         <image name="mec_btn_bg4" width="17" height="42"/>
         <image name="mec_certificate" width="37" height="30"/>

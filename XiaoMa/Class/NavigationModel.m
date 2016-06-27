@@ -27,6 +27,7 @@
 #import "MutualInsGrouponVC.h"
 #import "MutualInsHomeVC.h"
 #import "MutualInsAskForCompensationVC.h"
+#import "MoreSubmodulesVC.h"
 
 #import "AppDelegate.h"
 
@@ -421,6 +422,13 @@
                 return YES;
             
             MutualInsAskForCompensationVC *vc =  [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        ///首页更多模块
+        else if ([@"moresubmodule" equalByCaseInsensitive:name]) {
+        
+            MoreSubmodulesVC *vc =  [[MoreSubmodulesVC alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
     }

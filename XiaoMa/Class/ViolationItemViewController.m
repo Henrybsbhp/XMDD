@@ -32,7 +32,6 @@
 @property (nonatomic,strong)CABasicAnimation * animation;
 @property (nonatomic)BOOL isQuerying;
 
-
 /// 是否城市信息获取的状态
 @property (nonatomic)BOOL isCityLoading;
 

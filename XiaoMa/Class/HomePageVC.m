@@ -33,7 +33,6 @@
 #import "AdListData.h"
 #import "MyCouponVC.h"
 #import "CouponPkgViewController.h"
-#import "MoreSubmodulesVC.h"
 
 #import "HKPopoverView.h"
 #import "FLAnimatedImage.h"
@@ -745,10 +744,7 @@
 
 - (void)jumpToViewControllerByUrl:(NSString *)url
 {
-    MoreSubmodulesVC * vc = [[MoreSubmodulesVC alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
-//    [gAppMgr.navModel pushToViewControllerByUrl:url];
+    [gAppMgr.navModel pushToViewControllerByUrl:url];
 }
 
 - (RACSignal *)rac_requestHomeSubmuduleWithUser:(JTUser *)user andReGeocode:(AMapLocationReGeocode *)code
