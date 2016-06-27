@@ -17,32 +17,31 @@
 #import "NSString+RectSize.h"
 #import "GetSystemTipsOp.h"
 #import "GetSystemHomePicOp.h"
+#import "GetSystemHomeModuleOp.h"
+#import "GetSystemHomeModuleNoLoginOp.h"
 
 #import "HKLoginModel.h"
 #import "MyCarStore.h"
 #import "GuideStore.h"
 #import "PasteboardModel.h"
+#import "AdListData.h"
 
 #import "ADViewController.h"
 #import "HomeNewbieGuideVC.h"
 #import "HomeSuspendedAdVC.h"
 #import "InviteAlertVC.h"
 #import "AdListData.h"
-#import "HKPopoverView.h"
-
 #import "MyCouponVC.h"
 #import "CouponPkgViewController.h"
-#import "GetSystemHomeModuleOp.h"
-#import "GetSystemHomeModuleNoLoginOp.h"
-#import "AdListData.h"
+#import "MoreSubmodulesVC.h"
 
+#import "HKPopoverView.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3
 
-#define HomeSubmuduleReadedKey @"HomeSubmuduleReadedKey_"
 
 @interface HomePageVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
@@ -556,9 +555,6 @@
 }
 
 
-
-
-
 - (FLAnimatedImageView *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container andPicUrl:(NSString *)picUrl
 {
     FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
@@ -749,7 +745,10 @@
 
 - (void)jumpToViewControllerByUrl:(NSString *)url
 {
-    [gAppMgr.navModel pushToViewControllerByUrl:url];
+    MoreSubmodulesVC * vc = [[MoreSubmodulesVC alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+//    [gAppMgr.navModel pushToViewControllerByUrl:url];
 }
 
 - (RACSignal *)rac_requestHomeSubmuduleWithUser:(JTUser *)user andReGeocode:(AMapLocationReGeocode *)code

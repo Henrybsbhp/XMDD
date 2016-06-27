@@ -734,6 +734,7 @@
 		C30041381CCE0370001CBFCA /* WelcomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C30041371CCE0370001CBFCA /* WelcomeVC.m */; };
 		C3396E8F1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C3396E8E1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.m */; };
 		C35803051CBB79600002808D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35803041CBB79600002808D /* Images.xcassets */; };
+		C359C0741D1D148600B2275A /* MoreSubmodulesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C359C0731D1D148600B2275A /* MoreSubmodulesVC.m */; };
 		C35E37671CAA7ED2008E536D /* UIView+HKLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C35E37661CAA7ED2008E536D /* UIView+HKLine.m */; };
 		C35EFD721D0FA96000DB7018 /* PayInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C35EFD711D0FA96000DB7018 /* PayInfoModel.m */; };
 		C36B8A9F1CB3526100BC2487 /* GetSystemHomeModuleOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */; };
@@ -2339,6 +2340,8 @@
 		C3396E8D1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemHomeModuleNoLoginOp.h; path = Class/GetSystemHomeModuleNoLoginOp.h; sourceTree = "<group>"; };
 		C3396E8E1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemHomeModuleNoLoginOp.m; path = Class/GetSystemHomeModuleNoLoginOp.m; sourceTree = "<group>"; };
 		C35803041CBB79600002808D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		C359C0721D1D148600B2275A /* MoreSubmodulesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreSubmodulesVC.h; sourceTree = "<group>"; };
+		C359C0731D1D148600B2275A /* MoreSubmodulesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreSubmodulesVC.m; sourceTree = "<group>"; };
 		C35E37651CAA7ED2008E536D /* UIView+HKLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+HKLine.h"; path = "Class/UIView+HKLine.h"; sourceTree = "<group>"; };
 		C35E37661CAA7ED2008E536D /* UIView+HKLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+HKLine.m"; path = "Class/UIView+HKLine.m"; sourceTree = "<group>"; };
 		C35EFD701D0FA96000DB7018 /* PayInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayInfoModel.h; path = Class/PayInfoModel.h; sourceTree = "<group>"; };
@@ -3544,6 +3547,8 @@
 				50B5088C1C7C469800B6151E /* HomeSuspendedAdVC.m */,
 				C30041361CCE0370001CBFCA /* WelcomeVC.h */,
 				C30041371CCE0370001CBFCA /* WelcomeVC.m */,
+				C359C0721D1D148600B2275A /* MoreSubmodulesVC.h */,
+				C359C0731D1D148600B2275A /* MoreSubmodulesVC.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -6003,6 +6008,7 @@
 				1844FAE41CD8F9EB0085A0D4 /* DownloadFileOp.m in Sources */,
 				4EF94AF31C321D020092CB55 /* RescueHistoryViewController.m in Sources */,
 				5040B37D1C06D50200ADE77F /* ApplyUnionOp.m in Sources */,
+				C359C0741D1D148600B2275A /* MoreSubmodulesVC.m in Sources */,
 				6B26EF0C1C8EFA7600428EC4 /* ReactView.m in Sources */,
 				4E3452D11C96B90500E2AFE2 /* MutualInsClaimDetailVC.m in Sources */,
 				18AB16AC1C1FAE810000E718 /* GetInsBaseCarListOp.m in Sources */,
