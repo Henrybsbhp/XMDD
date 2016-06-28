@@ -18,8 +18,11 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ensureItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *titleItem;
+@property (weak, nonatomic) IBOutlet UIButton *titleItemBtn;
 @property (nonatomic, strong) NSDate *maximumDate;
 @property (nonatomic, strong) NSDate *minimumDate;
+@property (nonatomic, copy) NSString *datePickerTitle;
 - (IBAction)actionCancel:(id)sender;
 - (IBAction)actionEnsure:(id)sender;
 - (void)setupWithTintColor:(UIColor *)tintColor;
