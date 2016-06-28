@@ -431,6 +431,10 @@
             vc.hidesBottomBarWhenPushed = YES;
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
+        else if ([@"nearbyservice" equalByCaseInsensitive:name]) {
+            
+            NSString *type = params[@"type"];
+        }
     }
     else if ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) {
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
