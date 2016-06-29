@@ -24,6 +24,11 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 @implementation MyWebViewBridge
 
+-(void)dealloc
+{
+    DebugLog(@"MyWebViewBridge dealloc~~~");
+}
+
 - (instancetype)initBridgeWithWebView:(WVJB_WEBVIEW_TYPE *)webView andDelegate:(WVJB_WEBVIEW_DELEGATE_TYPE *) delegate withTargetVC:(UIViewController *)targetVC
 {
     self = [super init];
@@ -300,6 +305,30 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
+- (void)registerLogin
+{
+    [self.myBridge registerHandler:@"login" handler:^(id data, WVJBResponseCallback responseCallback) {
+        
+        NSDictionary * dic = data;
+        NSString * triggerId = [dic stringParamForName:@"triggerId"];
+        
+        @weakify(self);
+        [LoginViewModel loginIfNeededForTargetViewController:self.targetVC withLoginSuccessAction:^{
+            
+            @strongify(self)
+            NSDictionary * rDict = @{@"token":gNetworkMgr.token ?: @"",
+                                     @"phone":gNetworkMgr.bindingMobile ?: @"",
+                                     @"triggerId":triggerId};
+            [self.myBridge callHandler:@"loginHandler" data:rDict responseCallback:^(id response) {
+                
+                
+            }];
+        }];
+        
+        responseCallback(nil);
+    }];
+}
+
 #pragma mark - Utilitly
 - (void)showImages:(NSString *)urlStr
 {
@@ -344,7 +373,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-#pragma mark - 右上角菜单按钮（目前只有分享）
+
 - (UIBarButtonItem *)setSingleMenu:(NSString *)singleBtn
 {
     MenuItemsType type = [singleBtn integerValue];
@@ -483,9 +512,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
--(void)dealloc
-{
-    DebugLog(@"MyWebViewBridge dealloc~~~");
-}
+
+
 
 @end

@@ -652,10 +652,7 @@
             [gToast showText:@"订单生成成功,正在跳转到支付宝平台进行支付"];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
-                NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
-                [self requestAliPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                     andProductName:info andDescription:info andTime:submitTime andGasCouponAmout:op.rsp_gasCouponAmount notifyStrUrl:op.rsp_notifyUrlStr];
+                [self requestAliPayWithTradeNO:op.rsp_tradeId andAlipayInfo:op.rsp_payInfoModel.alipayInfo];
             });
         }
         else if (op.paychannel == PaymentChannelWechat)
@@ -663,10 +660,7 @@
             [gToast showText:@"订单生成成功,正在跳转到微信平台进行支付"];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
-                NSString * submitTime = [[NSDate date] dateFormatForDT8];
-                NSString * info = [NSString stringWithFormat:@"%@-%@",self.service.serviceName,self.shop.shopName];
-                [self requestWechatPay:op.rsp_orderid andTradeId:op.rsp_tradeId andPrice:op.rsp_price
-                        andProductName:info andTime:submitTime andGasCouponAmout:op.rsp_gasCouponAmount notifyStrUrl:op.rsp_notifyUrlStr];
+                [self requestWechatPay:op.rsp_tradeId andWechatPayInfo:op.rsp_payInfoModel.wechatInfo];
             });
         }
         else {
@@ -738,22 +732,19 @@
 }
 
 #pragma mark - 调用第三方支付
-- (void)requestAliPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
-             andPrice:(CGFloat)price andProductName:(NSString *)name
-       andDescription:(NSString *)desc andTime:(NSString *)time
-    andGasCouponAmout:(CGFloat)couponAmt notifyStrUrl:(NSString *)notifyStrUrl
+- (void)requestAliPayWithTradeNO:(NSString *)tradeNo andAlipayInfo:(NSString *)alipayInfo
 
 
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     
-    [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price notifyUrlStr:notifyStrUrl];
+    [helper resetForAlipayWithTradeNumber:tradeNo alipayInfo:alipayInfo];
     
     [[helper rac_startPay] subscribeNext:^(id x) {
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 2;
-        iop.req_tradeno = tradeId;
+        iop.req_tradeno = tradeNo;
         [[iop rac_postRequest] subscribeNext:^(id x) {
             DebugLog(@"洗车已通知服务器支付成功!");
         }];
@@ -764,14 +755,11 @@
     }];
 }
 
-- (void)requestWechatPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
-                andPrice:(CGFloat)price andProductName:(NSString *)name
-                 andTime:(NSString *)time andGasCouponAmout:(CGFloat)couponAmt
-            notifyStrUrl:(NSString *)notifyStrUrl
+- (void)requestWechatPay:(NSString *)tradeId andWechatPayInfo:(WechatPayInfo *)wechatPayInfo
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
     
-    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price andTradeType:TradeTypeCarwash notifyUrlStr:notifyStrUrl];
+    [helper resetForWeChatWithTradeNumber:tradeId andPayInfoModel:wechatPayInfo andTradeType:TradeTypeCarwash];
     [[helper rac_startPay] subscribeNext:^(NSObject *obj) {
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];

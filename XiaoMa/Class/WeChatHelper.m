@@ -7,7 +7,6 @@
 //
 
 #import "WeChatHelper.h"
-#import "payRequsestHandler.h"
 #import "WXApi.h"
 #import "WXApiObject.h"
 #import "XiaoMa.h"
@@ -24,33 +23,17 @@
     NSLog(@"WeChatHelper dealloc");
 }
 
-- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price notifyUrlStr:(NSString *)urlStr
+- (RACSignal *)rac_payWithPayInfo:(WechatPayInfo *)wxPayInfo andTradeNO:(NSString *)tn
 {
-    //创建支付签名对象
-    payRequsestHandler *reqHandler = [payRequsestHandler alloc];
-    //初始化支付签名对象
-    [reqHandler init:WECHAT_APP_ID mch_id:WECHAT_MCH_ID];
-    //设置密钥
-    [reqHandler setKey:WECHAT_PARTNER_ID];
-    //获取到实际调起微信支付的参数后，在app端调起支付
-    NSMutableDictionary *dict = [reqHandler sendPayWithTradeNo:tn andProductName:pn andPrice:price andNotifyUrlStr:urlStr];
-    if(dict == nil){
-        //错误提示
-        NSString *debug = [reqHandler getDebugifo];
-        DebugLog(@"%@WeChatPay:%@",kErrPrefix,debug);
-        return [RACSignal error:[NSError errorWithDomain:debug code:0 userInfo:nil]];
-    }
-    DebugLog(@"WeChatPay:%@",[reqHandler getDebugifo]);
-    
     //调起微信支付
     PayReq *req             = [[PayReq alloc] init];
-    req.openID              = [dict objectForKey:@"appid"];
-    req.partnerId           = [dict objectForKey:@"partnerid"];
-    req.prepayId            = [dict objectForKey:@"prepayid"];
-    req.nonceStr            = [dict objectForKey:@"noncestr"];
-    req.timeStamp           = [(NSString *)[dict objectForKey:@"timestamp"] intValue];
-    req.package             = [dict objectForKey:@"package"];
-    req.sign                = [dict objectForKey:@"sign"];
+    req.openID              = [wxPayInfo.payInfo objectForKey:@"appid"];
+    req.partnerId           = [wxPayInfo.payInfo objectForKey:@"partnerid"];
+    req.prepayId            = [wxPayInfo.payInfo objectForKey:@"prepayid"];
+    req.nonceStr            = [wxPayInfo.payInfo objectForKey:@"noncestr"];
+    req.timeStamp           = [[wxPayInfo.payInfo objectForKey:@"timestamp"] intValue];
+    req.package             = [wxPayInfo.payInfo objectForKey:@"prepayidpackage"];
+    req.sign                = [wxPayInfo.payInfo objectForKey:@"sign"];
     
     [WXApi sendReq:req];
     [self startHandleWeChatPaymentOnce];

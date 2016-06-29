@@ -26,7 +26,7 @@
 {
     [super viewDidLoad];
     if (!self.detailText) {
-        self.detailText = @"您充值的金额将在1个工作日内到账，到帐后请及时前往加油站圈存。如需开发票，请在圈存时向加油站工作人员索取。";
+        self.detailText = @"您充值的金额将在1个工作日内到账，到帐后请及时前往加油站圈存。";
     }
 }
 

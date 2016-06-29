@@ -85,6 +85,11 @@
     payload[@"params"] = parameters;
     payload[@"id"] = [requestId description];
     payload[@"version"] = gAppMgr.deviceInfo.appVersion;
+#if XMDDENT
+    payload[@"os"] = @(1003);
+#else
+    payload[@"os"] = @(IOSAPPID);
+#endif
 
     NSString * urlStr = [NSString stringWithFormat:@"%@%@", [self.baseURL absoluteString],method];
     return [self.requestSerializer requestWithMethod:@"POST" URLString:urlStr parameters:payload error:nil];

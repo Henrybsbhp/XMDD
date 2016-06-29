@@ -10,8 +10,6 @@
 #import <ReactiveCocoa.h>
 
 @interface AlipayHelper : NSObject
-- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn productName:(NSString *)pn
-                   productDescription:(NSString *)pd price:(CGFloat)price
-                         notifyStrUrl:(NSString *)notifyUrlStr;
+- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn alipayInfo:(NSString *)alipayInfo;
 
 @end

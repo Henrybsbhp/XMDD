@@ -20,6 +20,8 @@
 #import "HKImageAlertVC.h"
 #import "EditCarVC.h"
 
+#define margin (gAppMgr.deviceInfo.screenSize.width > 320 ? 10 : 5)
+
 typedef NS_ENUM(NSInteger, GroupButtonState) {
     GroupButtonStateNotStart   = 1,
     GroupButtonStateSignUp     = 2,
@@ -111,6 +113,45 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 }
 
 #pragma mark - Utilitly
+
+-(void)btnMobClickWithGroupInfo:(NSDictionary *)groupInfo
+{
+    if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp)
+    {
+        if ([groupInfo boolParamForName:@"ingroup"])
+        {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0005"}];
+        }
+        else
+        {
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0003"}];
+        }
+    }
+}
+
+-(NSLayoutConstraint *)findConstrainByIdentifier:(NSString *)identifier inArray:(NSArray *)constraints
+{
+    for (NSLayoutConstraint *constraint in constraints)
+    {
+        if ([constraint.identifier isEqualToString:identifier])
+        {
+            return constraint;
+        }
+    }
+    return nil;
+}
+
+-(NSString *)safetyText:(NSString *)str
+{
+    return str.length != 0 ? [NSString stringWithFormat:@"  %@  ",str] : @"";
+}
+
+-(void)setCornderAndTextColor:(UIColor *)color inView:(UILabel *)label
+{
+    [label setCornerRadius:12 withBorderColor:color borderWidth:0.8];
+    label.textColor = color;
+}
+
 - (void)requestAutoGroupArray
 {
     //有两个接口，根据登录状态调整接口参数
@@ -249,7 +290,7 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     [backgroundView setCornerRadius:3 withBackgroundColor:[UIColor whiteColor]];
     
     titleLb.text = [groupInfo stringParamForName:@"name"];
-    tagLb.text = [NSString stringWithFormat:@"已有%ld人入团",[groupInfo integerParamForName:@"membercnt"]];
+    tagLb.text = [NSString stringWithFormat:@"已有%ld人入团",(long)[groupInfo integerParamForName:@"membercnt"]];
     
     if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateNotStart || [groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateEndSign) {
         tagLb.textColor = kDarkTextColor;
@@ -310,106 +351,107 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 
 - (UITableViewCell *)footerCellAtIndexPath:(NSIndexPath *)indexPath
 {
+    @weakify(self);
     UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"FooterCell" forIndexPath:indexPath];
     UIView *lineView = [cell.contentView viewWithTag:100];
     UIView *backgroundView = [cell.contentView viewWithTag:101];
+    
+    // 标签Label
+    UILabel *tagLabelRequired = [cell.contentView viewWithTag:1001];
+    UILabel *tagLabelHigh = [cell.contentView viewWithTag:1004];
+    UILabel *tagLabelLow = [cell.contentView viewWithTag:1005];
+    UILabel *stateLabel = [cell.contentView viewWithTag:1003];
+    
+    UIButton *btn = [cell.contentView viewWithTag:1002];
+    
+    // 下发数据
+    NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
+    NSArray *groupTags = [groupInfo objectForKey:@"grouptags"];
+    // 标签颜色的中间变量。方便提取代码。
+    UIColor *tagColor;
+    
+    // 获得cell中的约束。实现动态修改。
+    NSLayoutConstraint *constraintOne = [self findConstrainByIdentifier:@"constraintOne" inArray:backgroundView.constraints];
+    NSLayoutConstraint *constraintTwo = [self findConstrainByIdentifier:@"constraintTwo" inArray:backgroundView.constraints];
+    
     [lineView setCornerRadius:5 withBackgroundColor:HEXCOLOR(@"#EAEAEA")];
     [backgroundView setCornerRadius:5 withBackgroundColor:[UIColor whiteColor]];
     
-    UILabel *tagLabel = [cell.contentView viewWithTag:1001];
-    UIButton * btn = [cell.contentView viewWithTag:1002];
-    UILabel *stateLabel = [cell.contentView viewWithTag:1003];
-    
-    NSDictionary * groupInfo = [self.autoGroupArray safetyObjectAtIndex:indexPath.section];
-    
-    tagLabel.text = [NSString stringWithFormat:@"  %@  ", [groupInfo stringParamForName:@"grouptag"]];
-    
-    if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateNotStart) {
-        
-        btn.hidden = NO;
-        stateLabel.hidden = YES;
-        
-        [tagLabel setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
-        tagLabel.textColor = kGrayTextColor;
-        
-        [btn setCornerRadius:3 withBackgroundColor:kLightLineColor];
-        [btn setTitle:@"报名未开始" forState:UIControlStateNormal];
+    if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateNotStart)
+    {
+        [self setNotStartCellWithBtn:btn stateLabel:stateLabel];
+        tagColor = kGrayTextColor;
     }
-    else if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp) {
-        
-        btn.hidden = NO;
-        stateLabel.hidden = YES;
-        
-        [tagLabel setCornerRadius:12 withBorderColor:kOrangeColor borderWidth:0.8];
-        tagLabel.textColor = kOrangeColor;
-        
-        [btn setCornerRadius:3 withBackgroundColor:kDefTintColor];
-        if ([groupInfo boolParamForName:@"ingroup"]) {
-            if (self.originCarId)
-            {
-                /// 如果小马互助首页有爱车带入。
-                [btn setTitle:@"申请加入" forState:UIControlStateNormal];
-            }
-            else
-            {
-                [btn setTitle:@"已加入" forState:UIControlStateNormal];
-            }
-        }
-        else {
-            [btn setTitle:@"申请加入" forState:UIControlStateNormal];
-        }
+    else if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp)
+    {
+        [self setSignUpCellWithBtn:btn stateLabel:stateLabel inGroup:[groupInfo boolParamForName:@"ingroup"]];
+        tagColor = kOrangeColor;
     }
-    else if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateEndSign) {
-        
-        btn.hidden = NO;
-        stateLabel.hidden = YES;
-        
-        [tagLabel setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
-        tagLabel.textColor = kGrayTextColor;
-        
-        [btn setCornerRadius:3 withBackgroundColor:kLightLineColor];
-        if ([groupInfo boolParamForName:@"ingroup"]) {
-            [btn setTitle:@"已加入" forState:UIControlStateNormal];
-        }
-        else {
-            [btn setTitle:@"报名已截止" forState:UIControlStateNormal];
-        }
+    else if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateEndSign)
+    {
+        [self setEndSignCellWithBtn:btn stateLabel:stateLabel inGroup:[groupInfo boolParamForName:@"ingroup"]];
+        tagColor = kGrayTextColor;
     }
-    else if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateBeingGroup) {
-        
-        btn.hidden = YES;
-        stateLabel.hidden = NO;
-        
-        [tagLabel setCornerRadius:12 withBorderColor:kOrangeColor borderWidth:0.8];
-        tagLabel.textColor = kOrangeColor;
-        
-        stateLabel.text = @"开团中";
+    else if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateBeingGroup)
+    {
+        [self setBeingGroupCellWithBtn:btn stateLabel:stateLabel];
+        tagColor = kOrangeColor;
     }
-    else {
-        btn.hidden = YES;
-        stateLabel.hidden = NO;
-        
-        [tagLabel setCornerRadius:12 withBorderColor:kGrayTextColor borderWidth:0.8];
-        tagLabel.textColor = kGrayTextColor;
-        
-        stateLabel.text = @"已过期";
+    else if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateTimeOut)
+    {
+        [self setOtherCellWithBtn:btn stateLabel:stateLabel];
+        tagColor = kGrayTextColor;
     }
     
-    @weakify(self);
+    // 配置标签Label
+    tagLabelRequired.hidden = groupTags.count < 1 ? YES : NO;
+    tagLabelHigh.hidden = groupTags.count < 2 ? YES : NO;
+    tagLabelLow.hidden =groupTags.count < 3 ? YES : NO;
+    constraintOne.constant = groupTags.count < 1 ? 0 : margin;
+    constraintTwo.constant = groupTags.count < 2 ? 0 : margin;
+    
+    if (gAppMgr.deviceInfo.screenSize.width <= 320)
+    {
+        if ([self safetyText:[groupTags safetyObjectAtIndex:0]].length > 10 && groupTags.count > 2)
+        {
+            tagLabelHigh.hidden = YES;
+            tagLabelLow.hidden = YES;
+            constraintOne.constant = margin;
+            constraintTwo.constant = 0;
+        }
+        else if ([self safetyText:[groupTags safetyObjectAtIndex:0]].length + [self safetyText:[groupTags safetyObjectAtIndex:1]].length > 10  && groupTags.count > 1)
+        {
+            tagLabelHigh.hidden = NO;
+            tagLabelLow.hidden = YES;
+            constraintOne.constant = margin;
+            constraintTwo.constant = margin;
+        }
+        else
+        {
+            tagLabelRequired.hidden = groupTags.count < 1 ? YES : NO;
+            tagLabelHigh.hidden = groupTags.count < 2 ? YES : NO;
+            tagLabelLow.hidden =groupTags.count < 3 ? YES : NO;
+            constraintOne.constant = groupTags.count < 1 ? 0 : margin;
+            constraintTwo.constant = groupTags.count < 2 ? 0 : margin;
+        }
+    }
+    
+    tagLabelRequired.text = [self safetyText:[groupTags safetyObjectAtIndex:0]];
+    tagLabelHigh.text = [self safetyText:[groupTags safetyObjectAtIndex:1]];
+    tagLabelLow.text = [self safetyText:[groupTags safetyObjectAtIndex:2]];
+    
+    UIColor *color = tagColor;
+    
+    [self setCornderAndTextColor:color inView:tagLabelRequired];
+    [self setCornderAndTextColor:color inView:tagLabelHigh];
+    [self setCornderAndTextColor:color inView:tagLabelLow];
+    
+    // 按钮的点击事件
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        
-        if ([groupInfo integerParamForName:@"groupstatus"] == GroupButtonStateSignUp) {
-            if ([groupInfo boolParamForName:@"ingroup"]) {
-                [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0005"}];
-            }
-            else {
-                [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0003"}];
-            }
-        }
         @strongify(self);
+        // 将友盟抽取出来了
+        [self btnMobClickWithGroupInfo:groupInfo];
         [self jumpToGroupDetail:indexPath];
-        
     }];
     return cell;
 }
@@ -418,6 +460,69 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 {
     [self jumpToGroupDetail:indexPath];
 }
+
+#pragma mark - Cell
+
+-(void)setNotStartCellWithBtn:(UIButton *)btn stateLabel:(UILabel *)stateLabel
+{
+    btn.hidden = NO;
+    stateLabel.hidden = YES;
+    [btn setCornerRadius:3 withBackgroundColor:kLightLineColor];
+    [btn setTitle:@"报名未开始" forState:UIControlStateNormal];
+}
+
+-(void)setSignUpCellWithBtn:(UIButton *)btn stateLabel:(UILabel *)stateLabel inGroup:(BOOL)inGroup
+{
+    btn.hidden = NO;
+    stateLabel.hidden = YES;
+    [btn setCornerRadius:3 withBackgroundColor:kDefTintColor];
+    if (inGroup)
+    {
+        if (self.originCarId)
+        {
+            /// 如果小马互助首页有爱车带入。
+            [btn setTitle:@"申请加入" forState:UIControlStateNormal];
+        }
+        else
+        {
+            [btn setTitle:@"已加入" forState:UIControlStateNormal];
+        }
+    }
+    else
+    {
+        [btn setTitle:@"申请加入" forState:UIControlStateNormal];
+    }
+}
+
+-(void)setEndSignCellWithBtn:(UIButton *)btn stateLabel:(UILabel *)stateLabel inGroup:(BOOL)inGroup
+{
+    btn.hidden = NO;
+    stateLabel.hidden = YES;
+    [btn setCornerRadius:3 withBackgroundColor:kLightLineColor];
+    if (inGroup)
+    {
+        [btn setTitle:@"已加入" forState:UIControlStateNormal];
+    }
+    else
+    {
+        [btn setTitle:@"报名已截止" forState:UIControlStateNormal];
+    }
+}
+
+-(void)setBeingGroupCellWithBtn:(UIButton *)btn stateLabel:(UILabel *)stateLabel
+{
+    btn.hidden = YES;
+    stateLabel.hidden = NO;
+    stateLabel.text = @"开团中";
+}
+
+-(void)setOtherCellWithBtn:(UIButton *)btn stateLabel:(UILabel *)stateLabel
+{
+    btn.hidden = YES;
+    stateLabel.hidden = NO;
+    stateLabel.text = @"已过期";
+}
+
 
 #pragma mark - PushToNext
 - (void)jumpToGroupDetail:(NSIndexPath *)indexPath
@@ -557,10 +662,6 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
             alert.topTitle = @"温馨提示";
             alert.imageName = @"mins_bulb";
             alert.message = error.domain;
-//            @rocky
-//            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
-//
-//            }];
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
             HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 @strongify(self);

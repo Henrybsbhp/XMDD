@@ -1,4 +1,5 @@
 #import "BaseOp.h"
+#import "PayInfoModel.h"
 
 @interface GascardChargeOp : BaseOp
 
@@ -30,6 +31,8 @@
 ///优惠金额
 @property (nonatomic,assign) CGFloat rsp_couponmoney;
 ///推送地址
-@property (nonatomic,copy) NSString * rsp_notifyUrlStr;
+@property (nonatomic,copy)NSString * rsp_notifyUrlStr;
+///支付信息
+@property (nonatomic,strong)PayInfoModel * rsp_payInfoModel;
 
 @end
