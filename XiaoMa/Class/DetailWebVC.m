@@ -42,6 +42,11 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     DebugLog(@"DetailWebVC dealloc ~");
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)awakeFromNib
 {
     self.navModel = [[NavigationModel alloc] init];
@@ -121,6 +126,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     //右上角分享菜单按钮设置
     [self setupShareItem];
+    //右上角菜单按钮设置（与上面一句不会同时存在）
+    [self setupRightNavItem];
     
     //弱提示框方法
     [self.bridge registerToastMsg];
@@ -164,6 +171,25 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         else {
             self.navigationItem.rightBarButtonItem = [self.bridge setMultipleMenu:menuArr];
         }
+        responseCallback(nil);
+    }];
+}
+
+- (void)setupRightNavItem
+{
+    @weakify(self);
+    [self.bridge.myBridge registerHandler:@"barNavBtn" handler:^(id data, WVJBResponseCallback responseCallback) {
+        @strongify(self);
+        NSDictionary * dic = data;
+        
+        NSString * position = [dic stringParamForName:@"position"];
+        NSString * triggerId = [dic stringParamForName:@"triggerId"];
+        NSString * icon = [dic stringParamForName:@"icon"];
+        NSString * title = [dic stringParamForName:@"title"];
+        NSString * type = [dic stringParamForName:@"type"];
+
+        [self setupRightSingleBtn:type andBtnTitle:title andIconUrl:icon andTriggedId:triggerId];
+
         responseCallback(nil);
     }];
 }
@@ -215,6 +241,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
 }
 
+
+#pragma mark - Setup
 - (void)setupLeftSingleBtn {
     UIBarButtonItem *back = [UIBarButtonItem webBackButtonItemWithTarget:self action:@selector(actionNewBack)];
     NSArray * backBtnArr = [[NSArray alloc] initWithObjects:back, nil];
@@ -225,7 +253,53 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     UIBarButtonItem *back = [UIBarButtonItem webBackButtonItemWithTarget:self action:@selector(actionNewBack)];
     UIBarButtonItem *close = [UIBarButtonItem closeButtonItemWithTarget:self action:@selector(actionCloseWeb)];
     NSArray * backBtnArr = [[NSArray alloc] initWithObjects:back, close, nil];
-    self.navigationItem.leftBarButtonItems =backBtnArr;
+    self.navigationItem.leftBarButtonItems = backBtnArr;
+}
+
+
+- (void)setupRightSingleBtn:(NSString *)type andBtnTitle:(NSString *)btnTitle
+                 andIconUrl:(NSString *)urlStr andTriggedId:(NSString *)triggerId{
+    
+    __block UIBarButtonItem *right;
+    if ([type isEqualToString:@"0"]) {
+        right = [[UIBarButtonItem alloc] initWithTitle:btnTitle style:UIBarButtonItemStylePlain target:self action:@selector(actionRightItemHandle:)];
+        [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
+    }
+    else if ([type isEqualToString:@"1"])
+    {
+        right = [[UIBarButtonItem alloc] initWithTitle:btnTitle style:UIBarButtonItemStylePlain target:self action:@selector(actionRightItemHandle:)];
+        [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
+        
+        [[gMediaMgr rac_getImageByUrl:urlStr withType:ImageURLTypeOrigin defaultPic:@"" errorPic:@""] subscribeNext:^(UIImage * x) {
+            
+            if (!x)
+            {
+                return ;
+            }
+            CKAsyncMainQueue(^{
+               
+                right = [[UIBarButtonItem alloc] initWithImage:x style:UIBarButtonItemStylePlain target:self action:@selector(actionRightItemHandle:)];
+                right.customObject = triggerId;
+                self.navigationItem.rightBarButtonItem = right;
+                
+            });
+        }];
+    }
+    
+    right.customObject = triggerId;
+    self.navigationItem.rightBarButtonItem = right;
+}
+
+
+
+
+
+
+
+
+#pragma mark - Action
+- (void)actionCloseWeb {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)actionNewBack {
@@ -262,13 +336,17 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }
 }
 
-- (void)actionCloseWeb {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)actionRightItemHandle:(id)sender
+{
+    NSObject * obj = (NSObject *)sender;
+    NSDictionary * rDict;
+    if (obj.customObject)
+    {
+        rDict = @{@"triggerId":obj.customObject};
+    }
+    NSString * dataStr = [rDict jsonEncodedString];
+    [self.bridge.myBridge callHandler:@"barNavBtnHandler" data:dataStr responseCallback:^(id response) {
+    }];
 }
 
 @end
