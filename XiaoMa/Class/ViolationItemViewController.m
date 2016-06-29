@@ -32,7 +32,6 @@
 @property (nonatomic,strong)CABasicAnimation * animation;
 @property (nonatomic)BOOL isQuerying;
 
-
 /// 是否城市信息获取的状态
 @property (nonatomic)BOOL isCityLoading;
 
@@ -362,7 +361,7 @@
     }
     else
     {
-        signal =[[gMapHelper rac_getInvertGeoInfo] flattenMap:^RACStream *(id value) {
+        signal =[[gMapHelper rac_getUserLocationAndInvertGeoInfo] flattenMap:^RACStream *(id value) {
             
             return [self rac_requestCityInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city];
         }];

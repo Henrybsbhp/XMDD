@@ -109,7 +109,7 @@
 {
     @weakify(self);
     //获取反地理位置编码信息
-    [[[[[[gMapHelper rac_getInvertGeoInfo] initially:^{
+    [[[[[[gMapHelper rac_getUserLocationAndInvertGeoInfo] initially:^{
         
         @strongify(self);
         //设置开始进度到15%
@@ -117,19 +117,19 @@
     }] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
-    }]  flattenMap:^RACStream *(AMapReGeocode *reGeocode) {
+    }]  flattenMap:^RACStream *(RACTuple * tuple) {
         
         @strongify(self);
         //获取到反地理位置信息，设置进度到40%
         [self.progressView setProgress:0.35 animated:YES];
-        if (!reGeocode) {
+        if (!tuple.second) {
             return [RACSignal return:nil];
         }
         //获取区域编码
         GetAreaByPcdOp *op = [GetAreaByPcdOp operation];
-        op.req_province = reGeocode.addressComponent.province;
-        op.req_city = reGeocode.addressComponent.city;
-        op.req_district = reGeocode.addressComponent.district;
+        op.req_province = gMapHelper.addrComponent.province;
+        op.req_city = gMapHelper.addrComponent.city;
+        op.req_district = gMapHelper.addrComponent.district;
         return [[op rac_postRequest] catch:^RACSignal *(NSError *error) {
             return [RACSignal return:nil];
         }];

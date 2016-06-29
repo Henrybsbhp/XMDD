@@ -72,26 +72,26 @@
 
 #pragma mark - Action
 - (void)requestGetAddress {
-    RACSignal *sig1 = [[gMapHelper rac_getInvertGeoInfo] take:1];
+    RACSignal *sig1 = [[gMapHelper rac_getUserLocationAndInvertGeoInfo] take:1];
     
     @weakify(self)
     [[sig1 initially:^{
      @strongify(self)
         self.addressLb.text = @"定位中...";
-    }] subscribeNext:^(AMapReGeocode *regeo) {
+    }] subscribeNext:^(RACTuple * tuple) {
         @strongify(self)
-        gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
         
+        AMapLocationReGeocode * regeo = tuple.second;
         CGFloat lbWidth = gAppMgr.deviceInfo.screenSize.width - 57;
         CGFloat textWidth = [regeo.formattedAddress labelSizeWithWidth:FLT_MAX font:[UIFont systemFontOfSize:12]].width;
         /// 如果超过label大小
         if (textWidth > lbWidth)
         {
             NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@",
-                                 regeo.addressComponent.district,
-                                 regeo.addressComponent.township,
-                                 regeo.addressComponent.streetNumber.street,
-                                 regeo.addressComponent.streetNumber.number];
+                                 regeo.district,
+                                 regeo.township,
+                                 regeo.street,
+                                 regeo.number];
             self.addressLb.text = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
         }
         else

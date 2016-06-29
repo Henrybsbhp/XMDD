@@ -81,7 +81,7 @@ typedef NS_ENUM(NSInteger, LocateState) {
 - (void)requestLocation
 {
     @weakify(self);
-    [[[[gMapHelper rac_getInvertGeoInfo] initially:^{
+    [[[[gMapHelper rac_getUserLocationAndInvertGeoInfo] initially:^{
         
         @strongify(self);
         self.locateState = LocateStateLocating;

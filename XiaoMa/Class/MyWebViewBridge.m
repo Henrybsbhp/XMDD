@@ -222,7 +222,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         shop.shopLongitude = longitude;
         shop.shopName = distinationName;
         
-        [[gMapHelper rac_getUserLocation] subscribeNext:^(MAUserLocation * l) {
+        [[gMapHelper rac_getUserLocation] subscribeNext:^(CLLocation * l) {
             
             CLLocationCoordinate2D startCoordinate = l.coordinate;
             [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:startCoordinate andView:gAppMgr.navModel.curNavCtrl.topViewController.view];
@@ -328,6 +328,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         responseCallback(nil);
     }];
 }
+
+
 
 #pragma mark - Utilitly
 - (void)showImages:(NSString *)urlStr

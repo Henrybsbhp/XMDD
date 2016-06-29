@@ -72,8 +72,8 @@
     //设置默认UI样式
     [DefaultStyleModel setupDefaultStyle];
     
+    ///设置地图
     [gMapHelper setupMapApi];
-    [gMapHelper setupMAMap];
     //设置友盟
     [self setupUmeng];
     //设置url缓存
@@ -99,7 +99,7 @@
     
     [self setupFPSObserver];
     
-    [self setupReactNativeManager];
+//    [self setupReactNativeManager];
     
     //设置崩溃捕捉(官方建议放在最后面)
     [self setupCrashlytics];
@@ -338,29 +338,14 @@
 }
 
 #pragma mark - Utilities
-- (void)requestStaticPromotion
-{}
-
-- (void)requestAd
-{}
-
-- (void)requestUpdateInfo
-{}
-
 - (void)getLocation
 {
-    [[[gMapHelper rac_getInvertGeoInfo] initially:^{
+    [[[gMapHelper rac_getUserLocationAndInvertGeoInfo] initially:^{
         
-    }] subscribeNext:^(AMapReGeocode * getInfo) {
+    }] subscribeNext:^(id x) {
         
-        if (![HKAddressComponent isEqualAddrComponent:gMapHelper.addrComponent AMapAddrComponent:getInfo.addressComponent])
-        {
-            [self requestWeather:getInfo.addressComponent.province andCity:getInfo.addressComponent.city andDistrict:getInfo.addressComponent.district];
-        }
+        [self requestWeather:gMapHelper.addrComponent.province andCity:gMapHelper.addrComponent.city andDistrict:gMapHelper.addrComponent.district];
         
-        
-        /// 内存缓存地址信息
-        gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:getInfo.addressComponent];
         /// 存储一下上次定位时间
         NSString * dateStr = [[NSDate date] dateFormatForDT15];
         [gAppMgr saveInfo:dateStr forKey:LastLocationTime];

@@ -93,7 +93,7 @@
     self.locationData = [[HKLocationDataModel alloc] init];
     self.locateState = LocateStateLocating;
     @weakify(self);
-    [[[gMapHelper rac_getInvertGeoInfo] flattenMap:^RACStream *(id value) {
+    [[[gMapHelper rac_getUserLocationAndInvertGeoInfo] flattenMap:^RACStream *(id value) {
         @strongify(self);
         self.locationData.province = gMapHelper.addrComponent.province;
         self.locationData.city = gMapHelper.addrComponent.city;
@@ -232,7 +232,14 @@
         else if (self.locateState == LocateStateSuccess) {
             locImageV.hidden = NO;
             [activityView stopAnimating];
-            locationL.text = [NSString stringWithFormat:@"%@/%@", self.locationData.province, self.locationData.city];
+            if (self.locationData.city)
+            {
+                locationL.text = [NSString stringWithFormat:@"%@/%@", self.locationData.province, self.locationData.city];
+            }
+            else
+            {
+                locationL.text = [NSString stringWithFormat:@"%@", self.locationData.province];
+            }
         }
         else {
             if (!self.isSelected) {
