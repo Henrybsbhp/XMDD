@@ -119,8 +119,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 {
     self.bridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy withTargetVC:self];
     
-    //右上角菜单按钮设置
-    [self setupRightItems];
+    //右上角分享菜单按钮设置
+    [self setupShareItem];
     
     //弱提示框方法
     [self.bridge registerToastMsg];
@@ -152,7 +152,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self.bridge registerLogin];
 }
 
-- (void)setupRightItems
+- (void)setupShareItem
 {
     @weakify(self);
     [self.bridge.myBridge registerHandler:@"setOptionMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
