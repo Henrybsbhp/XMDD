@@ -507,8 +507,12 @@
             
             [[callSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
                 NSInteger buttonIndex = [number integerValue];
-                shop.shopPhone = [callSheet buttonTitleAtIndex:buttonIndex];
-                [gPhoneHelper makePhone:shop.shopPhone andInfo:shop.shopPhone];
+                if (buttonIndex == [callSheet cancelButtonIndex]) {
+                    return ;
+                } else {
+                    shop.shopPhone = [callSheet buttonTitleAtIndex:buttonIndex];
+                    [gPhoneHelper makePhone:shop.shopPhone andInfo:shop.shopPhone];
+                }
             }];
         }];
         
