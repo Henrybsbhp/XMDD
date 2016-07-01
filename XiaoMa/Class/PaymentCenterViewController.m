@@ -75,6 +75,8 @@
         
         GetGeneralActivityLefttimeOp * lefttimeOp = [[GetGeneralActivityLefttimeOp alloc] init];
         lefttimeOp.tradeType = self.tradeType;
+        lefttimeOp.tradeNo = self.tradeNo;
+        lefttimeOp.panchannel = self.paychannel;
         [[[lefttimeOp rac_postRequest] initially:^{
             
             [gToast showingWithText:@"支付信息获取中..."];
@@ -84,7 +86,7 @@
             {
                 [gToast dismiss];
                 @strongify(self)
-                [self actionPay:rop.rsp_notifyUrlStr];
+                [self actionPay:rop];
             }
             else
             {
@@ -142,12 +144,9 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)actionPay:(NSString *)notifyUrlStr;
+- (void)actionPay:(GetGeneralActivityLefttimeOp *)op
 {
     NSString * tradeno = self.getGeneralOrderdetailOp.tradeNo;
-    CGFloat fee = self.getGeneralOrderdetailOp.rsp_fee;
-    NSString * productName = self.getGeneralOrderdetailOp.rsp_prodname;
-    NSString * submitTime = [[NSDate date] dateFormatForDT8];
     // 如果是银联支付需要请求服务器得到银联流水号
     if (self.getGeneralOrderdetailOp.rsp_fee)
     {
@@ -157,11 +156,11 @@
         }
         else if (self.paychannel == PaymentChannelAlipay)
         {
-            [self requestAliPayWithTradeId:tradeno andAlipayInfo:self.getGeneralOrderdetailOp.rsp_payInfoModel.alipayInfo];
+            [self requestAliPayWithTradeId:tradeno andAlipayInfo:op.rsp_payInfoModel.alipayInfo];
         }
         else if (self.paychannel == PaymentChannelWechat)
         {
-            [self requestWechatPayWithTradeId:tradeno andWechatPayInfo:self.getGeneralOrderdetailOp.rsp_payInfoModel.wechatInfo];
+            [self requestWechatPayWithTradeId:tradeno andWechatPayInfo:op.rsp_payInfoModel.wechatInfo];
         }
     }
     else

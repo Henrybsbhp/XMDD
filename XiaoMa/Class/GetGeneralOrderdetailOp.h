@@ -7,7 +7,6 @@
 //
 
 #import "BaseOp.h"
-#import "PayInfoModel.h"
 
 @interface GetGeneralOrderdetailOp : BaseOp
 
@@ -29,8 +28,5 @@
 @property (nonatomic,strong)NSArray * rsp_paychannels;
 
 @property (nonatomic,strong)NSArray * rsp_czbCards;
-
-///支付信息
-@property (nonatomic,strong)PayInfoModel * rsp_payInfoModel;
 
 @end

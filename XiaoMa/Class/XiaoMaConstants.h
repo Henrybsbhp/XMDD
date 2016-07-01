@@ -56,7 +56,7 @@
     #define DiscoverUrl @"http://dev01.xiaomadada.com/paaweb/general/discoveryload"//发现地址
     #define PayCenterNotifyUrl @"http://dev01.xiaomadada.com/paaweb/general/order/paynotify"
     #define OrderDetailsUrl @"http://dev01.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
-    #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
+    #define LogUploadUrl @"http://dev01.xiaomadada.com/log/upload"
 
 #elif XMDDEnvironment==1
 //测试环境
@@ -68,7 +68,7 @@
     #define DiscoverUrl @"https://dev.xiaomadada.com/paaweb/general/discoveryload"//发现地址
     #define PayCenterNotifyUrl @"https://dev.xiaomadada.com/paaweb/general/order/paynotify"
     #define OrderDetailsUrl @"https://dev.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
-    #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
+    #define LogUploadUrl @"http://dev01.xiaomadada.com/log/upload"
 #else
 //开发环境
     #define kInsuranceIntroUrl  @"http://www.xiaomadada.com/apphtml/baoxianfuwu.html"  //保险服务首页介绍
@@ -79,5 +79,5 @@
     #define DiscoverUrl @"https://www.xiaomadada.com/paaweb/general/discoveryload"//发现地址
     #define PayCenterNotifyUrl @"https://www.xiaomadada.com/paaweb/general/order/paynotify"
     #define OrderDetailsUrl @"https://www.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 正式地址
-    #define LogUploadUrl @"http://183.129.253.170:18282/log/upload"
+    #define LogUploadUrl @"http://dev01.xiaomadada.com/log/upload"
 #endif
