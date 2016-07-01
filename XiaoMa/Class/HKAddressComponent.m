@@ -10,6 +10,17 @@
 
 @implementation HKAddressComponent
 
++ (instancetype)addressComponentWithReGeocode:(AMapLocationReGeocode *)otherComponent
+{
+    HKAddressComponent *component = [[HKAddressComponent alloc] init];
+    component.province = otherComponent.province;
+    component.city = otherComponent.city;
+    component.district = otherComponent.district;
+    component.street = otherComponent.street;
+    component.number = otherComponent.number;
+    return component;
+}
+
 + (instancetype)addressComponentWith:(AMapAddressComponent *)otherComponent
 {
     HKAddressComponent *component = [[HKAddressComponent alloc] init];

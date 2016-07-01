@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <AMapSearchKit/AMapSearchAPI.h>
+#import <AMapLocationKit/AMapLocationKit.h>
+
 
 @interface HKAddressComponent : NSObject<NSCoding, NSCopying>
++ (instancetype)addressComponentWithReGeocode:(AMapLocationReGeocode *)otherComponent;
 + (instancetype)addressComponentWith:(AMapAddressComponent *)component;
 + (BOOL)isEqualAddrComponent:(HKAddressComponent *)ac1 otherAddrComponent:(HKAddressComponent *)ac2;
 + (BOOL)isEqualAddrComponent:(HKAddressComponent *)ac1 AMapAddrComponent:(AMapAddressComponent *)ac2;

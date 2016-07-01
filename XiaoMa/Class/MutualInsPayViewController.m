@@ -168,7 +168,16 @@
     else if (couponArray.count == 1)
     {
         HKCoupon * coupon = [couponArray safetyObjectAtIndex:0];
-        return coupon.couponName;
+        if (coupon.couponAmount >= self.maxCouponAmt)
+        {
+            CGFloat totalAmount = self.maxCouponAmt;
+            NSString * string =  [NSString stringWithFormat:@"最高可使用%@元代金券",[NSString formatForPrice:totalAmount]];
+            return string;
+        }
+        else
+        {
+            return coupon.couponName;
+        }
     }
     else
     {

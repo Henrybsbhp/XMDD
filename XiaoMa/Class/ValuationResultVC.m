@@ -222,7 +222,15 @@
     else {
         imgStr = @"val_location";
         titleL.text = @"估值城市";
-        contentL.text = [NSString stringWithFormat:@"%@/%@", self.provinceName, self.cityName];
+        if (self.cityName.length)
+        {
+            contentL.text = [NSString stringWithFormat:@"%@/%@", self.provinceName, self.cityName];
+        }
+        else
+        {
+            contentL.text = [NSString stringWithFormat:@"%@", self.provinceName];
+        }
+        
     }
     imgV.image = [UIImage imageNamed:imgStr];
     return cell;

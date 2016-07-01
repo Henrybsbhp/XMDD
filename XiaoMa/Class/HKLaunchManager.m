@@ -58,7 +58,6 @@
         if (![HKAddressComponent isEqualAddrComponent:ac otherAddrComponent:gMapHelper.addrComponent]) {
             signal = [signal concat:[self rac_getLaunchInfo]];
         }
-        
     }
     return signal;
 }
@@ -66,15 +65,15 @@
 - (RACSignal *)rac_getLaunchInfo
 {
     @weakify(self);
-    return [[[[gMapHelper rac_getInvertGeoInfo] catch:^RACSignal *(NSError *error) {
+    return [[[[gMapHelper rac_getUserLocationAndInvertGeoInfo] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
-    }] flattenMap:^RACStream *(AMapReGeocode *reGeocode) {
+    }] flattenMap:^RACStream *(id x) {
         
         GetLaunchInfoOp *op = [GetLaunchInfoOp operation];
-        op.req_province = reGeocode.addressComponent.province;
-        op.req_city = reGeocode.addressComponent.city;
-        op.req_district = reGeocode.addressComponent.district;
+        op.req_province = gMapHelper.addrComponent.province;
+        op.req_city = gMapHelper.addrComponent.city;
+        op.req_district = gMapHelper.addrComponent.district;
         return [op rac_postRequest];
     }]  map:^id(GetLaunchInfoOp *rspop) {
         

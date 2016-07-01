@@ -146,7 +146,6 @@ static NSString *UI7ViewTintColor = @"UI7ViewTintColor";
     Class target = [UIView class];
 
     [self exportSelector:@selector(setBackgroundColor:) toClass:target];
-    [self exportSelector:@selector(_UIAppearance__view_setBackgroundColor:) toClass:target];
     [target copyToSelector:@selector(didMoveToSuperview) fromSelector:@selector(_didMoveToSuperview)];
     [target copyToSelector:@selector(didMoveToWindow) fromSelector:@selector(_didMoveToWindow)];
 }
@@ -154,9 +153,6 @@ static NSString *UI7ViewTintColor = @"UI7ViewTintColor";
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
     [self __view_setBackgroundColor:backgroundColor];
     [self _backgroundColorUpdated];
-}
-
-- (void)_UIAppearance__view_setBackgroundColor:(UIColor *)color {
 }
 
 @end

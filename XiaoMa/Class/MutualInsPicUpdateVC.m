@@ -72,6 +72,7 @@
 - (void)setupDatePicker
 {
     self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
+    self.datePicker.datePickerTitle = @"保险到期大致时间";
 }
 
 - (void)setupNextBtn

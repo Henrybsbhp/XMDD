@@ -16,33 +16,32 @@
 #import "UIView+HKLine.h"
 #import "NSString+RectSize.h"
 #import "GetSystemTipsOp.h"
-#import "GetSystemHomePicOp.h"
+#import "GetSystemHomeModuleOp.h"
+#import "GetSystemHomeModuleNoLoginOp.h"
 
 #import "HKLoginModel.h"
 #import "MyCarStore.h"
 #import "GuideStore.h"
 #import "PasteboardModel.h"
+#import "AdListData.h"
 
 #import "ADViewController.h"
 #import "HomeNewbieGuideVC.h"
 #import "HomeSuspendedAdVC.h"
 #import "InviteAlertVC.h"
 #import "AdListData.h"
-#import "HKPopoverView.h"
-
 #import "MyCouponVC.h"
 #import "CouponPkgViewController.h"
-#import "GetSystemHomeModuleOp.h"
-#import "GetSystemHomeModuleNoLoginOp.h"
-#import "AdListData.h"
 
+#import "HKPopoverView.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
+
+#import "ParkingShopGasInfoVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3
 
-#define HomeSubmuduleReadedKey @"HomeSubmuduleReadedKey_"
 
 @interface HomePageVC ()<UIScrollViewDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
@@ -66,6 +65,9 @@
 @property (nonatomic, assign) BOOL isShowSuspendedAd;
 // 九宫格按钮的dispoable数据，控制点击事件释放
 @property (nonatomic, strong)NSMutableArray * disposableArray;
+
+/// 地理位置信息信号
+@property (nonatomic, strong)RACSignal * regeocodeSignal;
 
 @end
 
@@ -377,15 +379,7 @@
         self.isShowSuspendedAd = YES;
         
         @weakify(self);
-        RACSignal * areaSignal = [[[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
-            return ac;
-        }] take:1];
-        
-        RACSignal * adSignal = [areaSignal flattenMap:^RACStream *(id value) {
-            
-            return  [gAdMgr rac_getAdvertisement:AdvertisementAlert];
-        }];
-        
+        RACSignal * adSignal = [gAdMgr rac_getAdvertisement:AdvertisementAlert];
         [[adSignal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
             
             @strongify(self);
@@ -478,18 +472,20 @@
     
     
     @weakify(self);
-    RACSignal *sig1 = [[[[[gMapHelper rac_getInvertGeoInfo] take:1] initially:^{
+    RACSignal *sig1 = [[[[[gMapHelper rac_getUserLocationAndInvertGeoInfo] take:1] initially:^{
         @strongify(self);
         [self setupNavigationLeftBar:@"定位中..."];
     }] doError:^(NSError *error) {
+        
         @strongify(self);
         [self setupNavigationLeftBar:nil];
         [gMapHelper handleGPSError:error];
-        gMapHelper.addrComponent = [[HKAddressComponent alloc] init];
-    }] doNext:^(AMapReGeocode *regeo) {
+    }] map:^id(RACTuple * tuple) {
         
-        gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
+        return tuple.second;
     }];
+    
+    self.regeocodeSignal = sig1;
     
     // 获取天气信息
     [[[[[sig1 initially:^{
@@ -502,11 +498,11 @@
         [self.adctrl reloadDataWithForce:YES completed:nil];
         [self.secondAdCtrl reloadDataWithForce:YES completed:nil];
         return [RACSignal error:error];
-    }] flattenMap:^RACStream *(AMapReGeocode *regeo) {
+    }] flattenMap:^RACStream *(AMapLocationReGeocode * code) {
         @strongify(self);
         [self.adctrl reloadDataWithForce:YES completed:nil];
         [self.secondAdCtrl reloadDataWithForce:YES completed:nil];
-        return [self rac_getWeatherInfoWithReGeocode:regeo];
+        return [self rac_getWeatherInfoWithReGeocode:code];
     }]  finally:^{
         @strongify(self);
         [self.scrollView.refreshView endRefreshing];
@@ -518,13 +514,13 @@
     /// 九宫格数据
     RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
     
-    RACSignal * combineSignal = [RACSignal combineLatest:@[sig1,userSignal] reduce:^(AMapReGeocode *regeo, JTUser * user) {
+    RACSignal * combineSignal = [RACSignal combineLatest:@[sig1,userSignal] reduce:^(AMapLocationReGeocode *regeo, JTUser * user) {
         return RACTuplePack(regeo,user);
     }];
     
     RACSignal * homeSubmudleSignal = [combineSignal flattenMap:^RACStream *(RACTuple *tuple) {
         
-        AMapReGeocode *regeo = tuple.first;
+        AMapLocationReGeocode *regeo = tuple.first;
         JTUser * user = tuple.second;
         return [self rac_requestHomeSubmuduleWithUser:user andReGeocode:regeo];
     }];
@@ -537,12 +533,12 @@
     }];
 }
 
-- (RACSignal *)rac_getWeatherInfoWithReGeocode:(AMapReGeocode *)regeo
+- (RACSignal *)rac_getWeatherInfoWithReGeocode:(AMapLocationReGeocode *)regeo
 {
     GetSystemTipsOp * op = [GetSystemTipsOp operation];
-    op.province = regeo.addressComponent.province;
-    op.city = regeo.addressComponent.city.length ? regeo.addressComponent.city : regeo.addressComponent.province;
-    op.district = regeo.addressComponent.district;
+    op.province = regeo.province;
+    op.city = regeo.city.length ? regeo.city : regeo.province;
+    op.district = regeo.district;
     return [[[[op rac_postRequest] doNext:^(GetSystemTipsOp * op) {
         
         gAppMgr.temperatureAndTip = [[op.rsp_temperature append:@"   "] append:op.rsp_temperaturetip];
@@ -557,9 +553,6 @@
         return [RACSignal empty];
     }];
 }
-
-
-
 
 
 - (FLAnimatedImageView *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container andPicUrl:(NSString *)picUrl
@@ -639,31 +632,6 @@
     }
 }
 
-
-- (NSAttributedString *)formatRestrictionLb:(NSIndexSet *)rangeSet  withString:(NSString *)string
-{
-     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
-    for (NSInteger i = 0 ; i < string.length ; i++)
-    {
-        NSRange r = NSMakeRange(i, 1);
-        NSString * c = [string substringWithRange:r];
-        if ([rangeSet containsIndex:i])
-        {
-            NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:12],
-                                    NSForegroundColorAttributeName:HEXCOLOR(@"#ff563a")};
-            NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:c attributes:attr2];
-            [str appendAttributedString:attrStr2];
-        }
-        else
-        {
-            NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:12],
-                                 NSForegroundColorAttributeName: HEXCOLOR(@"#657377")};
-            NSAttributedString *attrStr1 = [[NSAttributedString alloc] initWithString:c attributes:attr1];
-            [str appendAttributedString:attrStr1];
-        }
-    }
-    return str;
-}
 
 //刷新九宫格
 - (void)refreshSquareView
@@ -780,23 +748,23 @@
     [gAppMgr.navModel pushToViewControllerByUrl:url];
 }
 
-- (RACSignal *)rac_requestHomeSubmuduleWithUser:(JTUser *)user andReGeocode:(AMapReGeocode *)code
+- (RACSignal *)rac_requestHomeSubmuduleWithUser:(JTUser *)user andReGeocode:(AMapLocationReGeocode *)code
 {
     RACSignal * signal;
     if (user)
     {
         GetSystemHomeModuleOp * op = [[GetSystemHomeModuleOp alloc] init];
-        op.province = code.addressComponent.province;
-        op.city = code.addressComponent.city;
-        op.district = code.addressComponent.district;
+        op.province = code.province;
+        op.city = code.city.length ? code.city : code.province;
+        op.district = code.district;
         signal = [op rac_postRequest];
     }
     else
     {
         GetSystemHomeModuleNoLoginOp * op = [[GetSystemHomeModuleNoLoginOp alloc] init];
-        op.province = code.addressComponent.province;
-        op.city = code.addressComponent.city;
-        op.district = code.addressComponent.district;
+        op.province = code.province;
+        op.city = code.city.length ? code.city : code.province;
+        op.district = code.district;
         signal = [op rac_postRequest];
     }
     return signal;

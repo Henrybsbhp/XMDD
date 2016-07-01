@@ -26,8 +26,6 @@
     [self initBaseNavigationBar];
     
     [self initMapView];
-    
-    [self initSearch];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -35,7 +33,6 @@
     [super viewWillAppear:animated];
 
     self.mapView.delegate = self;
-    self.search.delegate = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -43,7 +40,6 @@
     [super viewWillDisappear:animated];
     
     self.mapView.delegate = nil;
-    self.search.delegate = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,11 +60,6 @@
     [self.mapView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
-}
-
-- (void)initSearch
-{
-    self.search = [[AMapSearchAPI alloc] initWithSearchKey:AMAP_API_ID Delegate:self];
 }
 
 - (void)initBaseNavigationBar

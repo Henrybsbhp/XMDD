@@ -1,1 +1,1 @@
-../../../../AMap2DMap/MAMapKit.framework/Versions/2.4.2.19ad4bb/Headers/MAOverlayRenderer.h
+../../../../AMap2DMap/MAMapKit.framework/Headers/MAOverlayRenderer.h

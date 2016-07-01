@@ -7,35 +7,29 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AMapSearchKit/AMapSearchAPI.h>
-#import <MAMapKit/MAMapKit.h>
+#import <AMapLocationKit/AMapLocationKit.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
 #import "XiaoMa.h"
 #import "HKAddressComponent.h"
 
-//#define AMapKey @"0442b54d277405a2f29a42f773a137aa" //cn.jtang.xmdd
-@interface MapHelper : NSObject<MAMapViewDelegate,AMapSearchDelegate>
+@interface MapHelper : NSObject<AMapLocationManagerDelegate,AMapSearchDelegate>
 
 + (MapHelper *)sharedHelper;
 
 - (void)setupMapApi;
 
-- (void)setupMAMap;
-
-@property (nonatomic, strong) AMapSearchAPI *searchApi;
-@property (nonatomic, strong) MAMapView *mapView;
-
 /// 当前位置
 @property (nonatomic)CLLocationCoordinate2D coordinate;
 
-///有值说明定位过，不管成功失败
-@property (nonatomic, strong) HKAddressComponent *addrComponent;
+///有值说明定位成功
+@property (nonatomic, strong)HKAddressComponent *addrComponent;
 
-- (void)startLocation;
-
-- (void)stopLocation;
-
+///得到用户当前经纬度位置（return : RACTuplePack(CLLocation)）
 - (RACSignal *)rac_getUserLocation;
-- (RACSignal *)rac_getInvertGeoInfo;
+///得到用户当前经纬度位置 及 地理位置信息信号
+///（return : RACTuplePack(CLLocation,AMapLocationReGeocode)）
+- (RACSignal *)rac_getUserLocationAndInvertGeoInfo;
 
 - (void)handleGPSError:(NSError *)error;
 

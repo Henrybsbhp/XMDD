@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define HomeSubmuduleReadedKey @"HomeSubmuduleReadedKey_"
+
 @interface HomeItem : NSObject<NSCoding>
 
 @property (nonatomic,copy)NSString * homeItemId;
@@ -29,10 +31,13 @@
 
 ///homepage九宫格钮配置信息
 @property (nonatomic,strong)NSArray * homeItemArray;
+///homepage九宫格以外（更多）钮配置信息
+@property (nonatomic,strong)NSArray * moreItemArray;
+
 
 ///处理homepicmodel，判断是否需要显示new标签及默认图片；
 - (HomePicModel *)analyzeHomePicModel:(HomePicModel *)model;
 
-+ (instancetype)homeWithJSONResponse:(NSDictionary *)rsp;
++ (instancetype)homeWithJSONResponse:(NSArray *)items;
 
 @end

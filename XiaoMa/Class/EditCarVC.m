@@ -37,6 +37,9 @@
 @property (nonatomic, assign) BOOL isDrivingLicenseNeedSave;
 @property (nonatomic, assign) BOOL isKeyboardAppear;
 
+/// 是否展开
+@property (nonatomic, assign) BOOL isMoreInfoExpand;
+
 @end
 
 @implementation EditCarVC
@@ -115,10 +118,13 @@
     if (self.originCar) {
         _curCar = [self.originCar copy];
         _isEditingModel = YES;
+        _isMoreInfoExpand = YES;
         [self reloadDatasource];
+        [self.tableView reloadData];
     }
     else if (self.originCarId) {
         _isEditingModel = YES;
+        _isMoreInfoExpand = YES;
         self.carStore = [MyCarStore fetchOrCreateStore];
         RACSignal *sig = [[self.carStore getAllCars] send];
         [self reloadDataWithSignal:sig carId:self.originCarId];
@@ -128,7 +134,9 @@
         _curCar.licenceArea  = [self getCurrentProvince];
         _curCar.isDefault = YES;
         _isEditingModel = NO;
+        _isMoreInfoExpand = NO;
         [self reloadDatasource];
+        [self.tableView reloadData];
     }
 }
 
@@ -151,6 +159,7 @@
         _curCar = [self.carStore carByID:carId];
         self.originCar = [self.carStore carByID:carId];
         [self reloadDatasource];
+        [self.tableView reloadData];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
@@ -190,7 +199,6 @@
     }
 
     self.datasource = datasource;
-    [self.tableView reloadData];
 }
 
 - (NSArray *)dataListForSection0
@@ -534,7 +542,53 @@
         [self.navigationController pushViewController:vc animated:YES];
     }];
     
-    return @[cell2_0,cell2_1,cell2_2,cell2_3,cell2_4,cell2_5,cell2_6,cell2_7];
+    HKCellData *cell2_8 = [HKCellData dataWithCellID:@"FlexCell" tag:nil];
+    cell2_8.customInfo[@"img"] = @"flex_down_icon";
+    [cell2_8 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        @strongify(self);
+        
+        [self.view endEditing:YES];
+        
+        UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+        UIImageView * flexImageView = (UIImageView *)[cell searchViewWithTag:101];
+        self.isMoreInfoExpand = !self.isMoreInfoExpand;
+        [self reloadDatasource];
+        
+        NSMutableArray * indexPathArray = [NSMutableArray array];
+        for (NSInteger i = 1;i< 8;i++)
+        {
+            [indexPathArray safetyAddObject:[NSIndexPath indexPathForRow:i inSection:indexPath.section]];
+        }
+        if (self.isMoreInfoExpand)
+        {
+            [self.tableView beginUpdates];
+            [self.tableView insertRowsAtIndexPaths:indexPathArray
+                                  withRowAnimation:UITableViewRowAnimationBottom];
+            [self.tableView endUpdates];
+            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                [flexImageView setTransform:CGAffineTransformRotate(CGAffineTransformIdentity, M_PI)];
+            } completion:nil];
+        }
+        else
+        {
+            [self.tableView beginUpdates];
+            [self.tableView deleteRowsAtIndexPaths:indexPathArray
+                                  withRowAnimation:UITableViewRowAnimationBottom];
+            [self.tableView endUpdates];
+            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                [flexImageView setTransform:CGAffineTransformRotate(CGAffineTransformIdentity, 0)];
+            } completion:nil];
+        }
+    }];
+    
+    if (self.isMoreInfoExpand)
+    {
+        return @[cell2_0,cell2_1,cell2_2,cell2_3,cell2_4,cell2_5,cell2_6,cell2_7,cell2_8];
+    }
+    else
+    {
+        return @[cell2_0,cell2_8];
+    }
 }
 
 #pragma mark - Action
@@ -687,6 +741,7 @@
             self.curCar.status = 1;
             self.isDrivingLicenseNeedSave = YES;
             [self reloadDatasource];
+            [self.tableView reloadData];
         } error:^(NSError *error) {
             [gToast showError:error.domain];
         }];
@@ -715,7 +770,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self.datasource safetyObjectAtIndex:section] count];
+    NSInteger num = [[self.datasource safetyObjectAtIndex:section] count];
+    return  num;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -744,6 +800,9 @@
     }
     else if ([data equalByCellID:@"Switch" tag:nil]) {
         [self resetSwitchCell:cell withData:data];
+    }
+    else if ([data equalByCellID:@"FlexCell" tag:nil]) {
+        [self resetFlexCell:cell withData:data];
     }
     if (data.dequeuedBlock) {
         data.dequeuedBlock(tableView, cell, indexPath);
@@ -904,6 +963,13 @@
         BOOL on = sw.on;
         self.curCar.isDefault = on;
     }];
+}
+
+- (void)resetFlexCell:(UITableViewCell *)cell withData:(HKCellData *)data
+{
+    UIImageView * imgView = (UIImageView *)[cell searchViewWithTag:101];
+    imgView.image = [UIImage imageNamed:data.customInfo[@"img"]];
+    [imgView setTransform:CGAffineTransformRotate(CGAffineTransformIdentity, self.isMoreInfoExpand ? M_PI : 0)];
 }
 
 #pragma mark - Utility

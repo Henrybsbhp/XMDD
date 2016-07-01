@@ -9,9 +9,11 @@
 #import "MapHelper.h"
 #import "HKMapView.h"
 
+
 @interface MapHelper()
 
-@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong)AMapLocationManager *locationManager;
+
 @end
 
 @implementation MapHelper
@@ -38,108 +40,89 @@
 
 - (void)setupMapApi
 {
-    [MAMapServices sharedServices].apiKey = AMAP_API_ID;
-    self.searchApi = [[AMapSearchAPI alloc] initWithSearchKey:AMAP_API_ID Delegate:self];
-}
-
-- (void)setupMAMap
-{
-    self.mapView = [[HKMapView alloc] initWithFrame:CGRectZero];
-    self.mapView.delegate = self;
+    [AMapServices sharedServices].apiKey = AMAP_API_ID;
+    self.locationManager = [[AMapLocationManager alloc] init];
+    self.locationManager.delegate = self;
     
-    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0)
-    {
-        self.locationManager = [[CLLocationManager alloc] init];
-        [self.locationManager requestWhenInUseAuthorization];
-    }
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
+    [self.locationManager setLocationTimeout:1];
+    [self.locationManager setReGeocodeTimeout:2];
 }
 
-- (void)startLocation
-{
-    self.mapView.showsUserLocation = YES;
-//    self.mapView.userTrackingMode = MAUserTrackingModeFollow;
-}
-
-- (void)stopLocation
-{
-    self.mapView.showsUserLocation = NO;
-//    self.mapView.userTrackingMode = MAUserTrackingModeNone;
-}
-
-- (void)invertGeo:(CLLocationCoordinate2D)coordiate
-{
-    AMapReGeocodeSearchRequest * regeo = [[AMapReGeocodeSearchRequest alloc] init];
-    regeo.location = [AMapGeoPoint locationWithLatitude:coordiate.latitude longitude:coordiate.longitude];
-    
-    [self.searchApi AMapReGoecodeSearch:regeo];
-}
 
 - (RACSignal *)rac_getUserLocation
 {
-    RACSignal *updateSig = [[self rac_signalForSelector:@selector(mapView:didUpdateUserLocation:)
-                                           fromProtocol:@protocol(MAMapViewDelegate)] map:^id(RACTuple *tuple) {
-        return tuple.second;
-    }];
-    RACSignal *errorSig = [[self rac_signalForSelector:@selector(mapView:didFailToLocateUserWithError:)
-                                          fromProtocol:@protocol(MAMapViewDelegate)] flattenMap:^RACStream *(RACTuple *tuple) {
-        return [RACSignal error:tuple.second];
-    }];
-    return [[[[[updateSig merge:errorSig] take:1] initially:^{
-        [self startLocation];
-    }] finally:^{
-        [self stopLocation];
-    }] doNext:^(MAUserLocation * l) {
+    RACSignal * signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
-        self.coordinate = l.coordinate;
+        [self.locationManager requestLocationWithReGeocode:NO completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+            
+            if (error)
+            {
+                DebugLog(@"rac_getUserLocationAndInvertGeoInfo:%ld-%@", (long)error.code, error.localizedDescription);
+                
+                if (error.code == AMapLocationErrorLocateFailed || (!location))
+                {
+                    [subscriber sendError:error];
+                }
+            }
+            
+            if (location)
+            {
+                DebugLog(@"rac_getUserLocationAndInvertGeoInfo:location:%@", location);
+                self.coordinate = location.coordinate;
+            }
+            
+            [subscriber sendNext:location];
+            [subscriber sendCompleted];
+        }];
+        
+        return nil;
     }];
-}
-
-- (RACSignal *)rac_getInvertGeoInfo
-{
-    RACSignal * signal = [self rac_getUserLocation];
     
-    signal = [signal flattenMap:^RACStream *(MAUserLocation *userLocation) {
-
-        RACSignal *geoSig = [[self rac_signalForSelector:@selector(onReGeocodeSearchDone:response:)
-                                           fromProtocol:@protocol(AMapSearchDelegate)] map:^id(RACTuple *tuple) {
-            AMapReGeocodeSearchResponse * rsp = tuple.second;
-            return rsp.regeocode;
-        }];
-        RACSignal *errSig = [[self rac_signalForSelector:@selector(searchRequest:didFailWithError:) fromProtocol:@protocol(AMapSearchDelegate)] flattenMap:^RACStream *(RACTuple *tuple) {
-            return [RACSignal error:tuple.second];
-        }];
-        [self invertGeo:userLocation.location.coordinate];
-        return [[geoSig merge:errSig] take:1];
-    }];
     return signal;
 }
 
-#pragma mark - MAMapViewDelegate
-- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
+- (RACSignal *)rac_getUserLocationAndInvertGeoInfo
 {
+    RACSignal * signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        
+        [self.locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+            
+            if (error)
+            {
+                DebugLog(@"rac_getUserLocationAndInvertGeoInfo:%ld-%@", (long)error.code, error.localizedDescription);
+                
+                if (error.code == AMapLocationErrorLocateFailed || (!location) || (!regeocode))
+                {
+                    [subscriber sendError:error];
+                }
+            }
+            
+            if (location && regeocode)
+            {
+                DebugLog(@"rac_getUserLocationAndInvertGeoInfo:location:%@", location);
+                self.coordinate = location.coordinate;
+                DebugLog(@"rac_getUserLocationAndInvertGeoInfo:regeocode:%@", regeocode);
+                [self saveAddressComponent:regeocode];
+                
+                [subscriber sendNext:RACTuplePack(location,regeocode)];
+                [subscriber sendCompleted];
+            }
+            
+           
+        }];
+        
+        return nil;
+    }];
+    
+    return signal;
 }
 
-- (void)mapView:(MAMapView *)mapView didFailToLocateUserWithError:(NSError *)error
-{
-}
-
-#pragma mark - AMapSearchDelegate
-- (void)searchRequest:(id)request didFailWithError:(NSError *)error
-{
-}
-
-- (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response
-{
-    AMapReGeocode * regeoCode = response.regeocode;
-    if (regeoCode) {
-        [self saveAddressComponent:regeoCode.addressComponent];
-    }
-}
 
 #pragma mark - Utility
-- (void)saveAddressComponent:(AMapAddressComponent *)componet
+- (void)saveAddressComponent:(AMapLocationReGeocode *)reGeocode
 {
-    HKAddressComponent *hkcomponent = [HKAddressComponent addressComponentWith:componet];
+    HKAddressComponent *hkcomponent = [HKAddressComponent addressComponentWithReGeocode:reGeocode];
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:hkcomponent];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"HKAddressComponent"];
     self.addrComponent = hkcomponent;

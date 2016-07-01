@@ -70,9 +70,8 @@
 
 - (void)requestLocation
 {
-    [[gMapHelper rac_getInvertGeoInfo] subscribeNext:^(AMapReGeocode *regeo) {
+    [[gMapHelper rac_getUserLocationAndInvertGeoInfo] subscribeNext:^(RACTuple *tuple) {
         
-        gMapHelper.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
     }];
 }
 
