@@ -93,7 +93,7 @@
 {
     if (!_spinner) {
         _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        _spinner.frame = CGRectMake(0, 13, self.view.frame.size.width, 35);
+        _spinner.frame = CGRectMake(0, 4, self.view.frame.size.width, 35);
     }
 
     return _spinner;
@@ -557,10 +557,11 @@
             self.isUpdating = NO;
             
             if (error) {
+                self.tableView.hidden = YES;
                 [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败，点击重试" tapBlock:^{
                     @strongify(self);
                     [self.view hideDefaultEmptyView];
-                    CGFloat reducingY = self.view.frame.size.height * 0.1056;
+                    CGFloat reducingY = self.view.frame.size.height * 0.17;
                     [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
                     [self requestLocation];
                 }];
@@ -573,7 +574,7 @@
         [self.tableView.refreshView endRefreshing];
         self.locateState = LocateStateFailure;
         [gToast showError:@"获取城市信息失败"];
-        
+        self.tableView.hidden = YES;
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败，点击重试" tapBlock:^{
             @strongify(self);
             [self.view hideDefaultEmptyView];
