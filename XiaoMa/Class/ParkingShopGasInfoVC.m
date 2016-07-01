@@ -378,6 +378,15 @@
     
     navigationCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UIButton *navigationButton = (UIButton *)[cell.contentView viewWithTag:100];
+        
+        JTShop *shop = [[JTShop alloc] init];
+        shop.shopName = dict[@"name"];
+        shop.shopLongitude = [dict[@"longitude"] doubleValue];
+        shop.shopLatitude = [dict[@"latitude"] doubleValue];
+        
+        [[[navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.coordinate andView:self.tabBarController.view];
+        }];
     });
     
     return navigationCell;
