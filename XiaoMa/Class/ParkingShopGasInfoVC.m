@@ -344,7 +344,6 @@
         shop.shopName = dict[@"name"];
         shop.shopLongitude = [dict[@"longitude"] doubleValue];
         shop.shopLatitude = [dict[@"latitude"] doubleValue];
-        shop.shopPhone = [callNumberArray firstObject];
         
         [callButton setTitleColor:HEXCOLOR(@"#888888") forState:UIControlStateDisabled];
         [callButton setImage:[UIImage imageNamed:@"common_callGrayV2_imageView"] forState:UIControlStateDisabled];
@@ -360,7 +359,18 @@
         }
         
         [[[callButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            [gPhoneHelper makePhone:shop.shopPhone andInfo:shop.shopPhone];
+            
+            UIActionSheet *callSheet = [[UIActionSheet alloc] initWithTitle:@"请选择需要拨打的电话" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:nil, nil];
+            for (NSString *number in callNumberArray) {
+                [callSheet addButtonWithTitle:number];
+            }
+            [callSheet showInView:self.view];
+            
+            [[callSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+                NSInteger buttonIndex = [number integerValue];
+                shop.shopPhone = [callSheet buttonTitleAtIndex:buttonIndex];
+                [gPhoneHelper makePhone:shop.shopPhone andInfo:shop.shopPhone];
+            }];
         }];
         
     });

@@ -249,7 +249,8 @@
                 shop.shopLongitude = [dict[@"longitude"] doubleValue];
                 shop.shopLatitude = [dict[@"latitude"] doubleValue];
                 shop.shopAddress = dict[@"address"];
-                shop.shopPhone = [callNumberArray firstObject];
+                // 作为电话的 Array
+                shop.customArray = [callNumberArray mutableCopy];
                 [nearByPlaceDataSource addObject:shop];
                 [distanceArray addObject:distanceNum];
                 shopID = @(shopID.integerValue + 1);
@@ -489,7 +490,7 @@
         mapBottomV2View.titleLabel.text = shop.shopName;
         mapBottomV2View.addressLabel.text = shop.shopAddress;
         
-        if (shop.shopPhone.length == 0) {
+        if (shop.customArray.count == 0) {
             mapBottomV2View.callButton.enabled = NO;
         } else {
             mapBottomV2View.callButton.enabled = YES;
@@ -498,8 +499,17 @@
         [[[mapBottomV2View.callButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
             [MobClick event:@"rp104_4"];
             
-            NSString * info = [NSString stringWithFormat:@"%@",shop.shopPhone];
-            [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
+            UIActionSheet *callSheet = [[UIActionSheet alloc] initWithTitle:@"请选择需要拨打的电话" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:nil, nil];
+            for (NSString *number in shop.customArray) {
+                [callSheet addButtonWithTitle:number];
+            }
+            [callSheet showInView:self.view];
+            
+            [[callSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+                NSInteger buttonIndex = [number integerValue];
+                shop.shopPhone = [callSheet buttonTitleAtIndex:buttonIndex];
+                [gPhoneHelper makePhone:shop.shopPhone andInfo:shop.shopPhone];
+            }];
         }];
         
         @weakify(self);
