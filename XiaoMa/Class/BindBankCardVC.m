@@ -17,6 +17,7 @@
 #import <UIKitExtension.h>
 #import "HKTableViewCell.h"
 #import "HKImageAlertVC.h"
+#import "NSString+RectSize.h"
 
 @interface BindBankCardVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -278,13 +279,13 @@
                 
             }
             
-            UITableViewCell *cell = [self tableView:self.tableView cellForRowAtIndexPath:indexPath];
-            [cell layoutIfNeeded];
-            [cell setNeedsUpdateConstraints];
-            [cell updateConstraintsIfNeeded];
-            CGSize size = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+            UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"AlertCell"];
+            UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:100];
+            CGSize size = [tipsLabel.text labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 36 font:[UIFont systemFontOfSize:13]];
+            CGFloat height = size.height + 4;
+            height = MAX(height, 20);
             
-            return _firstRowVisible ? ceil(size.height + 1) : 0;
+            return _firstRowVisible ? height : 0;
         }
         
     }

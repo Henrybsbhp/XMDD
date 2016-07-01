@@ -91,6 +91,10 @@
         HomeItem * item9 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=ast" imageName:@"hp_assist_300" isnew:NO];
         self.homePicModel.homeItemArray = @[item1,item2,item3,item4,item5,item6,item7,item8,item9];
     }
+    if (!self.homePicModel.moreItemArray.count)
+    {
+        
+    }
 
     return self.homePicModel;
 }

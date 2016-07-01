@@ -16,7 +16,6 @@
 #import "UIView+HKLine.h"
 #import "NSString+RectSize.h"
 #import "GetSystemTipsOp.h"
-#import "GetSystemHomePicOp.h"
 #import "GetSystemHomeModuleOp.h"
 #import "GetSystemHomeModuleNoLoginOp.h"
 
@@ -37,6 +36,8 @@
 #import "HKPopoverView.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
+
+#import "ParkingShopGasInfoVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3

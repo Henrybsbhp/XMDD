@@ -38,6 +38,6 @@
 ///处理homepicmodel，判断是否需要显示new标签及默认图片；
 - (HomePicModel *)analyzeHomePicModel:(HomePicModel *)model;
 
-+ (instancetype)homeWithJSONResponse:(NSDictionary *)rsp;
++ (instancetype)homeWithJSONResponse:(NSArray *)items;
 
 @end

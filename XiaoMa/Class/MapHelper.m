@@ -45,8 +45,8 @@
     self.locationManager.delegate = self;
     
     [self.locationManager setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
-    [self.locationManager setLocationTimeout:5];
-    [self.locationManager setReGeocodeTimeout:8];
+    [self.locationManager setLocationTimeout:1];
+    [self.locationManager setReGeocodeTimeout:2];
 }
 
 
