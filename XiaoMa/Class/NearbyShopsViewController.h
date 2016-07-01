@@ -14,6 +14,8 @@
 
 @property (nonatomic)NSInteger type;
 
+@property (nonatomic, strong) NSNumber *searchType;
+
 - (void)reloadBottomView;
 
 @end

@@ -28,6 +28,7 @@
 #import "MutualInsHomeVC.h"
 #import "MutualInsAskForCompensationVC.h"
 #import "MoreSubmodulesVC.h"
+#import "ParkingShopGasInfoVC.h"
 
 #import "AppDelegate.h"
 
@@ -434,6 +435,9 @@
         else if ([@"nearbyservice" equalByCaseInsensitive:name]) {
             
             NSString *type = params[@"type"];
+            ParkingShopGasInfoVC * vc = [UIStoryboard vcWithId:@"ParkingShopGasInfoVC" inStoryboard:@"Common"];
+            vc.searchType = @([type integerValue]);
+            [self.curNavCtrl pushViewController:vc animated:YES];
         }
     }
     else if ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) {
