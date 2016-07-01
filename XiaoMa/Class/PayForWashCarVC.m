@@ -1124,7 +1124,7 @@
         if (coupon.couponAmount >= self.service.origprice)
         {
             CGFloat totalAmount = self.service.origprice - 0.01;
-            NSString * string =  [NSString stringWithFormat:@"最高可使用%@元代金券",[NSString formatForPrice:totalAmount]];
+            NSString * string =  [NSString stringWithFormat:@"最高优惠%@元",[NSString formatForPrice:totalAmount]];
             return string;
         }
         else
@@ -1143,11 +1143,11 @@
         if (totalAmount >= self.service.origprice)
         {
              totalAmount = self.service.origprice - 0.01;
-            string =  [NSString stringWithFormat:@"最高可使用%@元代金券",[NSString formatForPrice:totalAmount]];
+            string =  [NSString stringWithFormat:@"最高优惠%@元",[NSString formatForPrice:totalAmount]];
         }
         else
         {
-            string =  [NSString stringWithFormat:@"%@元代金劵",[NSString formatForPrice:totalAmount]];
+            string =  [NSString stringWithFormat:@"优惠%@元",[NSString formatForPrice:totalAmount]];
         }
         
         return string;
