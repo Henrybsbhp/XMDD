@@ -741,6 +741,8 @@
 		C35E37671CAA7ED2008E536D /* UIView+HKLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C35E37661CAA7ED2008E536D /* UIView+HKLine.m */; };
 		C35EFD721D0FA96000DB7018 /* PayInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C35EFD711D0FA96000DB7018 /* PayInfoModel.m */; };
 		C36B8A9F1CB3526100BC2487 /* GetSystemHomeModuleOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */; };
+		C387F0B31D2A3BA400413828 /* MapBottomNavigationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C387F0B21D2A3BA400413828 /* MapBottomNavigationView.xib */; };
+		C387F0C21D2A3C0100413828 /* MapBottomNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = C387F0C11D2A3C0100413828 /* MapBottomNavigationView.m */; };
 		C38A1DFE1CC5D1390085BA4C /* (null) in Resources */ = {isa = PBXBuildFile; };
 		C3BA94941CC631520053BC96 /* GetPayStatusOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BA94931CC631520053BC96 /* GetPayStatusOp.m */; };
 		C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */; };
@@ -2360,6 +2362,9 @@
 		C35EFD711D0FA96000DB7018 /* PayInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayInfoModel.m; path = Class/PayInfoModel.m; sourceTree = "<group>"; };
 		C36B8A9D1CB3526100BC2487 /* GetSystemHomeModuleOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemHomeModuleOp.h; path = Class/GetSystemHomeModuleOp.h; sourceTree = "<group>"; };
 		C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemHomeModuleOp.m; path = Class/GetSystemHomeModuleOp.m; sourceTree = "<group>"; };
+		C387F0B21D2A3BA400413828 /* MapBottomNavigationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapBottomNavigationView.xib; sourceTree = "<group>"; };
+		C387F0C01D2A3C0100413828 /* MapBottomNavigationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapBottomNavigationView.h; path = Class/MapBottomNavigationView.h; sourceTree = "<group>"; };
+		C387F0C11D2A3C0100413828 /* MapBottomNavigationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapBottomNavigationView.m; path = Class/MapBottomNavigationView.m; sourceTree = "<group>"; };
 		C3BA94461CC5F6180053BC96 /* sh.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sh.gpx; sourceTree = "<group>"; };
 		C3BA94921CC631520053BC96 /* GetPayStatusOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetPayStatusOp.h; path = Class/GetPayStatusOp.h; sourceTree = "<group>"; };
 		C3BA94931CC631520053BC96 /* GetPayStatusOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetPayStatusOp.m; path = Class/GetPayStatusOp.m; sourceTree = "<group>"; };
@@ -5257,6 +5262,9 @@
 			children = (
 				C359C1421D29FAC200B2275A /* MapBottomV2View.h */,
 				C359C1431D29FAC200B2275A /* MapBottomV2View.m */,
+				C387F0C01D2A3C0100413828 /* MapBottomNavigationView.h */,
+				C387F0C11D2A3C0100413828 /* MapBottomNavigationView.m */,
+				C387F0B21D2A3BA400413828 /* MapBottomNavigationView.xib */,
 				C359C1441D29FAC200B2275A /* MapBottomV2View.xib */,
 				6BBC4A2B1B0C8495003F3081 /* SocialShareView.xib */,
 				6BB61B991AEF5350004F39AA /* MapBottomView.xib */,
@@ -5799,6 +5807,7 @@
 				6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */,
 				18E28A261B954F4E0070E759 /* Car.storyboard in Resources */,
 				18B62CBE1CE31DAF00E5AE48 /* xmddrct_public_key.der in Resources */,
+				C387F0B31D2A3BA400413828 /* MapBottomNavigationView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5917,6 +5926,7 @@
 				1818D8F51C22845A0078C329 /* PayForPremiumOp.m in Sources */,
 				181355C11C96935300894CA1 /* HKProgressView.m in Sources */,
 				50B5A2961BD8CC51004E00ED /* MyWebViewBridge.m in Sources */,
+				C387F0C21D2A3C0100413828 /* MapBottomNavigationView.m in Sources */,
 				5050309B1CB5058700AB4D91 /* ValuationHomeVC.m in Sources */,
 				6B42270D1C1FDF150090F802 /* PayForGasViewController.m in Sources */,
 				5093C9FE1C92A68A006B2258 /* InviteByCodeVC.m in Sources */,

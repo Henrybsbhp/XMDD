@@ -207,7 +207,8 @@
         }
         
         NSString *addressString = dict[@"address"];
-        if (addressString.length > 0) {
+        NSNumber *distance = dict[@"distance"];
+        if (addressString.length > 0 || distance != nil) {
             CKDict *addressCell = [self setupAddressInfoCellWithDictOfData:dict];
             [dataList addObjectsFromArray:@[addressCell]];
         }
