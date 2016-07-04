@@ -72,7 +72,7 @@
 
 #pragma mark - Action
 - (void)requestGetAddress {
-    RACSignal *sig1 = [[gMapHelper rac_getUserLocationAndInvertGeoInfo] take:1];
+    RACSignal *sig1 = [[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyNearestTenMeters] take:1];
     
     @weakify(self)
     [[sig1 initially:^{

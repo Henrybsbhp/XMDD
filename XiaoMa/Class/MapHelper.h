@@ -26,9 +26,9 @@
 @property (nonatomic, strong)HKAddressComponent *addrComponent;
 
 ///得到用户当前经纬度位置（return : RACTuplePack(CLLocation)）
-- (RACSignal *)rac_getUserLocation;
+- (RACSignal *)rac_getUserLocationWithAccuracy:(CLLocationAccuracy)accuracy;
 ///得到用户当前经纬度位置 及 地理位置信息信号 （return : RACTuplePack(CLLocation,AMapLocationReGeocode)）
-- (RACSignal *)rac_getUserLocationAndInvertGeoInfo;
+- (RACSignal *)rac_getUserLocationAndInvertGeoInfoWithAccuracy:(CLLocationAccuracy)accuracy;
 ///得到用户城市信息code（return : GetAreaByPcdOp)）
 - (RACSignal *)rac_getAreaInfo;
 
