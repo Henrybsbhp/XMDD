@@ -329,6 +329,21 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
+- (void)registerOpenView
+{
+    [self.myBridge registerHandler:@"openView" handler:^(id data, WVJBResponseCallback responseCallback) {
+        
+        NSDictionary * dic = data;
+        NSString * webUrl = [dic stringParamForName:@"url"];
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.url = webUrl;
+        [self.targetVC.navigationController pushViewController:vc animated:YES];
+        
+        responseCallback(nil);
+    }];
+}
+
+
 
 
 #pragma mark - Utilitly

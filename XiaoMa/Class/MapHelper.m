@@ -44,7 +44,7 @@
     self.locationManager = [[AMapLocationManager alloc] init];
     self.locationManager.delegate = self;
     
-    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
     [self.locationManager setLocationTimeout:1];
     [self.locationManager setReGeocodeTimeout:2];
 }

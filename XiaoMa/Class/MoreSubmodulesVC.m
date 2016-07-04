@@ -88,13 +88,6 @@
     NSInteger tag = SubModuleViewTag;
     FLAnimatedImageView * itemView = [self functionalButtonWithImageName:item.defaultImageName action:nil inContainer:container andPicUrl:item.homeItemPicUrl];
     itemView.userInteractionEnabled = YES;
-    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] init];
-    [itemView addGestureRecognizer:tapGesture];
-    RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
-        [self jumpToViewControllerByUrl:item.homeItemRedirect];
-    }];
-    
-    [self.disposableArray safetyAddObject:disposable];
     itemView.tag = tag + index;
     
     NSInteger quotient = index / self.numOfRow;
@@ -120,6 +113,25 @@
         make.top.equalTo(itemView);
         make.right.equalTo(itemView);
     }];
+    
+    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] init];
+    [itemView addGestureRecognizer:tapGesture];
+    
+    @weakify(self)
+    RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        [self jumpToViewControllerByUrl:item.homeItemRedirect];
+        
+        // 把new标签设置回去
+        if (![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]] && item.isNewFlag)
+        {
+            [gAppMgr saveElementReaded:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]];
+            iconNewImageV.hidden = YES;
+        }
+    }];
+    
+    [self.disposableArray safetyAddObject:disposable];
     
     BOOL isnewflag = (![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]]) && item.isNewFlag;
     iconNewImageV.hidden = !isnewflag;
@@ -225,5 +237,7 @@
         }
     }
 }
+
+
 
 @end

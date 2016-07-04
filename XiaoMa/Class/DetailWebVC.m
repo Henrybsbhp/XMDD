@@ -156,7 +156,11 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     //设置分享
     [self.bridge registerShare];
     
+    /// 设置登录
     [self.bridge registerLogin];
+    
+    /// 设置登录
+    [self.bridge registerOpenView];
 }
 
 - (void)setupShareItem

@@ -230,10 +230,12 @@
     op.latitude = [format numberFromString:[NSString stringWithFormat:@"%f", coordinate.latitude]];
     op.range = @(range);
     op.searchType = self.searchType;
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
         
     }] subscribeNext:^(GetParkingShopGasInfoOp * op) {
         
+        @strongify(self);
         if (op.rsp_code == 0)
         {
             NSNumber *shopID = @(1);
@@ -302,25 +304,6 @@
         
         [self.mapView addAnnotation:destinationAnnotation];
     }
-    
-    
-    //        JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:index];
-    //        for (MAAnnotationView * v in  self.mapView.annotations)
-    //        {
-    //            v.image = [UIImage imageNamed:@"shop_pin"];
-    //            if ([v.customObject isKindOfClass:[JTShop class]])
-    //            {
-    //                JTShop * s  = (JTShop *)v.customObject;
-    //                if ([shop.shopID isEqualToString:s.shopID])
-    //                {
-    //                    v.image = [UIImage imageNamed:@"high_shop_pin"];
-    //                }
-    //                else
-    //                {
-    //                    v.image = [UIImage imageNamed:@"shop_pin"];
-    //                }
-    //            }x
-    //        }
 }
 
 #pragma mark - MAMapViewDelegate
@@ -413,15 +396,6 @@
     }
 }
 
-//地图滑动事件用willchange还是didchange,另,第一次进入以及定位当前也有滑动事件？  LYW
-//- (void)mapView:(MAMapView *)mapView regionWillChangeAnimated:(BOOL)animated
-//{
-//    if (!self.isAutoRegionChanging)
-//    {
-//        [MobClick event:@"rp104-7"];
-//    }
-//    self.isAutoRegionChanging = NO;
-//}
 - (void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
     if (!self.isAutoRegionChanging)
@@ -496,9 +470,11 @@
             mapBottomV2View.callButton.enabled = YES;
         }
         
+        @weakify(self)
         [[[mapBottomV2View.callButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
             [MobClick event:@"rp104_4"];
             
+            @strongify(self)
             UIActionSheet *callSheet = [[UIActionSheet alloc] initWithTitle:@"请选择需要拨打的电话" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:nil, nil];
             for (NSString *number in shop.customArray) {
                 [callSheet addButtonWithTitle:number];
@@ -516,7 +492,6 @@
             }];
         }];
         
-        @weakify(self);
         [[[mapBottomV2View.navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
             
             @strongify(self)
