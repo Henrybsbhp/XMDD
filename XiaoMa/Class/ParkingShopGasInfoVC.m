@@ -36,6 +36,11 @@
 
 @implementation ParkingShopGasInfoVC
 
+- (void)dealloc
+{
+    DebugLog(@"ParkingShopGasInfoVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupWhenFirstLoad];
@@ -160,6 +165,7 @@
     @weakify(self);
     RACDisposable *disposable = [[[op rac_postRequest] initially:^{
         
+        @strongify(self);
         self.isUpdating = YES;
         
     }] subscribeNext:^(GetParkingShopGasInfoOp *rop) {
@@ -348,7 +354,10 @@
         [callButton setTitleColor:HEXCOLOR(@"#888888") forState:UIControlStateDisabled];
         [callButton setImage:[UIImage imageNamed:@"common_callGrayV2_imageView"] forState:UIControlStateDisabled];
         
+        @weakify(self)
         [[[navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            
+            @strongify(self)
             [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.coordinate andView:self.tabBarController.view];
         }];
         
@@ -358,9 +367,11 @@
             callButton.enabled = NO;
         }
         
+        
         [[[callButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
-            UIActionSheet *callSheet = [[UIActionSheet alloc] initWithTitle:@"请选择需要拨打的电话" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:nil, nil];
+            @strongify(self)
+            UIActionSheet *callSheet = [[UIActionSheet alloc] initWithTitle:@"请选择需要拨打的电话" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:nil];
             for (NSString *number in callNumberArray) {
                 [callSheet addButtonWithTitle:number];
             }
@@ -371,8 +382,8 @@
                 if (buttonIndex == [callSheet cancelButtonIndex]) {
                     return ;
                 } else {
-                    shop.shopPhone = [callSheet buttonTitleAtIndex:buttonIndex];
-                    [gPhoneHelper makePhone:shop.shopPhone andInfo:shop.shopPhone];
+                    NSString * phone = [callSheet buttonTitleAtIndex:buttonIndex];
+                    [gPhoneHelper makePhone:phone andInfo:phone];
                 }
             }];
         }];
@@ -384,6 +395,8 @@
 
 - (CKDict *)setupNavigationCellWithDictOfData:(NSDictionary *)dict
 {
+    
+    @weakify(self)
     CKDict *navigationCell = [CKDict dictWith:@{kCKItemKey:@"navigationCell", kCKCellID:@"NavigationCell"}];
     
     navigationCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -391,6 +404,8 @@
     });
     
     navigationCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self)
         UIButton *navigationButton = (UIButton *)[cell.contentView viewWithTag:100];
         
         JTShop *shop = [[JTShop alloc] init];
@@ -398,7 +413,10 @@
         shop.shopLongitude = [dict[@"longitude"] doubleValue];
         shop.shopLatitude = [dict[@"latitude"] doubleValue];
         
+        @weakify(self)
         [[[navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            
+            @strongify(self)
             [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.coordinate andView:self.tabBarController.view];
         }];
     });
@@ -481,7 +499,11 @@
         [self.spinner startAnimating];
         self.spinner.hidden = NO;
         
+        
+        @weakify(self)
         [self getDataBySearchType:self.searchType pageNumber:self.pageNo completion:^(id responseObject, NSError *error) {
+            
+            @strongify(self)
             if (responseObject) {
                 NSArray *responsedArray = responseObject;
                 self.tableView.hidden = NO;
@@ -558,6 +580,8 @@
             
             if (error) {
                 self.tableView.hidden = YES;
+                
+                @weakify(self)
                 [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败，点击重试" tapBlock:^{
                     @strongify(self);
                     [self.view hideDefaultEmptyView];
@@ -575,6 +599,8 @@
         self.locateState = LocateStateFailure;
         [gToast showError:@"获取城市信息失败"];
         self.tableView.hidden = YES;
+        
+        @weakify(self)
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败，点击重试" tapBlock:^{
             @strongify(self);
             [self.view hideDefaultEmptyView];

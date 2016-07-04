@@ -42,6 +42,8 @@
 
 - (void)registerLogin;
 
+- (void)registerOpenView;
+
 - (UIBarButtonItem *)setSingleMenu:(NSString *)singleBtn;
 
 - (UIBarButtonItem *)setMultipleMenu:(NSArray *)btnArray;
