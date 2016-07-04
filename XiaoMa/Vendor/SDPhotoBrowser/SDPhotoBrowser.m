@@ -184,7 +184,7 @@
         NSIndexPath *path = [NSIndexPath indexPathForItem:currentIndex inSection:0];
         sourceView = [view cellForItemAtIndexPath:path];
     }else {
-        sourceView = self.sourceImagesContainerView.subviews[currentIndex];
+        sourceView = [self.sourceImagesContainerView.subviews safetyObjectAtIndex:currentIndex];
     }
     
     
