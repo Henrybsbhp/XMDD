@@ -38,7 +38,9 @@
 
 - (void)dealloc
 {
-    DebugLog(@"ParkingShopGasInfoVC dealloc");
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"ParkingShopGasInfoVC deallocated");
 }
 
 - (void)viewDidLoad {
@@ -340,6 +342,7 @@
         return 59;
     });
     
+    @weakify(self)
     navigationCallCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UIButton *navigationButton = (UIButton *)[cell.contentView viewWithTag:100];
         UIButton *callButton = (UIButton *)[cell.contentView viewWithTag:101];
@@ -354,7 +357,6 @@
         [callButton setTitleColor:HEXCOLOR(@"#888888") forState:UIControlStateDisabled];
         [callButton setImage:[UIImage imageNamed:@"common_callGrayV2_imageView"] forState:UIControlStateDisabled];
         
-        @weakify(self)
         [[[navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
             @strongify(self)
@@ -396,13 +398,13 @@
 - (CKDict *)setupNavigationCellWithDictOfData:(NSDictionary *)dict
 {
     
-    @weakify(self)
     CKDict *navigationCell = [CKDict dictWith:@{kCKItemKey:@"navigationCell", kCKCellID:@"NavigationCell"}];
     
     navigationCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 59;
     });
     
+    @weakify(self)
     navigationCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
         @strongify(self)
