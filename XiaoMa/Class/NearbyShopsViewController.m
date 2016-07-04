@@ -191,10 +191,12 @@
     op.longitude = coordinate.longitude;
     op.latitude = coordinate.latitude;
     op.range = range;
+    
+    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
     }] subscribeNext:^(GetShopByRangeV2Op * op) {
-        
+        @strongify(self)
         if (op.rsp_code == 0)
         {
             self.nearbyShopArray = [op.rsp_shopArray sortedArrayUsingComparator:^NSComparisonResult(JTShop * obj1, JTShop * obj2) {
@@ -230,6 +232,7 @@
     op.latitude = [format numberFromString:[NSString stringWithFormat:@"%f", coordinate.latitude]];
     op.range = @(range);
     op.searchType = self.searchType;
+    
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         
@@ -564,7 +567,7 @@
         }];
         
         [[[mapBottomView.phoneBtm rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-            
+            @strongify(self)
             [MobClick event:@"rp104_4"];
             if (shop.shopPhone.length == 0)
             {
