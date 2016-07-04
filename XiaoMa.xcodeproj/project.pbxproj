@@ -735,6 +735,9 @@
 		C35803051CBB79600002808D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35803041CBB79600002808D /* Images.xcassets */; };
 		C359C0741D1D148600B2275A /* MoreSubmodulesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C359C0731D1D148600B2275A /* MoreSubmodulesVC.m */; };
 		C359C0B71D2228DA00B2275A /* AskToCompensationOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C359C0B61D2228DA00B2275A /* AskToCompensationOp.m */; };
+		C359C1411D29FAA400B2275A /* GetParkingShopGasInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C359C1401D29FAA400B2275A /* GetParkingShopGasInfoOp.m */; };
+		C359C1451D29FAC200B2275A /* MapBottomV2View.m in Sources */ = {isa = PBXBuildFile; fileRef = C359C1431D29FAC200B2275A /* MapBottomV2View.m */; };
+		C359C1461D29FAC200B2275A /* MapBottomV2View.xib in Resources */ = {isa = PBXBuildFile; fileRef = C359C1441D29FAC200B2275A /* MapBottomV2View.xib */; };
 		C35E37671CAA7ED2008E536D /* UIView+HKLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C35E37661CAA7ED2008E536D /* UIView+HKLine.m */; };
 		C35EFD721D0FA96000DB7018 /* PayInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C35EFD711D0FA96000DB7018 /* PayInfoModel.m */; };
 		C36B8A9F1CB3526100BC2487 /* GetSystemHomeModuleOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C36B8A9E1CB3526100BC2487 /* GetSystemHomeModuleOp.m */; };
@@ -745,9 +748,6 @@
 		FA024A321CAE500500481F59 /* BankCardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA024A311CAE500500481F59 /* BankCardDetailVC.m */; };
 		FA154FED1D00059C0011C4FC /* MutualInsAcceptCompensationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA154FEC1D00059C0011C4FC /* MutualInsAcceptCompensationVC.m */; };
 		FA1721FA1D2220AF00D3F151 /* ParkingShopGasInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1721F91D2220AF00D3F151 /* ParkingShopGasInfoVC.m */; };
-		FA1722181D23619600D3F151 /* GetParkingShopGasInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1722171D23619600D3F151 /* GetParkingShopGasInfoOp.m */; };
-		FA3472B11D252EC1003EA783 /* MapBottomV2View.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3472B01D252EC1003EA783 /* MapBottomV2View.m */; };
-		FA3472B51D25332E003EA783 /* MapBottomV2View.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA3472B41D25332E003EA783 /* MapBottomV2View.xib */; };
 		FA3E5E011CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E5E001CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
 		FA93A7B41C9961ED00CBD565 /* CreateGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */; };
@@ -2349,6 +2349,11 @@
 		C359C0731D1D148600B2275A /* MoreSubmodulesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreSubmodulesVC.m; sourceTree = "<group>"; };
 		C359C0B51D2228DA00B2275A /* AskToCompensationOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AskToCompensationOp.h; path = Class/AskToCompensationOp.h; sourceTree = "<group>"; };
 		C359C0B61D2228DA00B2275A /* AskToCompensationOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AskToCompensationOp.m; path = Class/AskToCompensationOp.m; sourceTree = "<group>"; };
+		C359C13F1D29FAA400B2275A /* GetParkingShopGasInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetParkingShopGasInfoOp.h; path = Class/GetParkingShopGasInfoOp.h; sourceTree = "<group>"; };
+		C359C1401D29FAA400B2275A /* GetParkingShopGasInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetParkingShopGasInfoOp.m; path = Class/GetParkingShopGasInfoOp.m; sourceTree = "<group>"; };
+		C359C1421D29FAC200B2275A /* MapBottomV2View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapBottomV2View.h; path = Class/MapBottomV2View.h; sourceTree = "<group>"; };
+		C359C1431D29FAC200B2275A /* MapBottomV2View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapBottomV2View.m; path = Class/MapBottomV2View.m; sourceTree = "<group>"; };
+		C359C1441D29FAC200B2275A /* MapBottomV2View.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MapBottomV2View.xib; path = Class/MapBottomV2View.xib; sourceTree = "<group>"; };
 		C35E37651CAA7ED2008E536D /* UIView+HKLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+HKLine.h"; path = "Class/UIView+HKLine.h"; sourceTree = "<group>"; };
 		C35E37661CAA7ED2008E536D /* UIView+HKLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+HKLine.m"; path = "Class/UIView+HKLine.m"; sourceTree = "<group>"; };
 		C35EFD701D0FA96000DB7018 /* PayInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayInfoModel.h; path = Class/PayInfoModel.h; sourceTree = "<group>"; };
@@ -2368,13 +2373,6 @@
 		FA154FEC1D00059C0011C4FC /* MutualInsAcceptCompensationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsAcceptCompensationVC.m; sourceTree = "<group>"; };
 		FA1721F81D2220AF00D3F151 /* ParkingShopGasInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParkingShopGasInfoVC.h; sourceTree = "<group>"; };
 		FA1721F91D2220AF00D3F151 /* ParkingShopGasInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParkingShopGasInfoVC.m; sourceTree = "<group>"; };
-		FA1722161D23619600D3F151 /* GetParkingShopGasInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetParkingShopGasInfoOp.h; sourceTree = "<group>"; };
-		FA1722171D23619600D3F151 /* GetParkingShopGasInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetParkingShopGasInfoOp.m; sourceTree = "<group>"; };
-		FA17F4871CFD6C0600E91754 /* AskToCompensationOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AskToCompensationOp.h; sourceTree = "<group>"; };
-		FA17F4881CFD6C0600E91754 /* AskToCompensationOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AskToCompensationOp.m; sourceTree = "<group>"; };
-		FA3472AF1D252EC1003EA783 /* MapBottomV2View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapBottomV2View.h; sourceTree = "<group>"; };
-		FA3472B01D252EC1003EA783 /* MapBottomV2View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapBottomV2View.m; sourceTree = "<group>"; };
-		FA3472B41D25332E003EA783 /* MapBottomV2View.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapBottomV2View.xib; sourceTree = "<group>"; };
 		FA3E5DFF1CF7DE9D005CC988 /* MutualInsAskForCompensationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsAskForCompensationVC.h; sourceTree = "<group>"; };
 		FA3E5E001CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsAskForCompensationVC.m; sourceTree = "<group>"; };
 		FA8496601CBE367700631062 /* SJKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJKeyboardManager.h; sourceTree = "<group>"; };
@@ -4915,6 +4913,8 @@
 		6BC220931AD7800D00A4310E /* Op */ = {
 			isa = PBXGroup;
 			children = (
+				C359C13F1D29FAA400B2275A /* GetParkingShopGasInfoOp.h */,
+				C359C1401D29FAA400B2275A /* GetParkingShopGasInfoOp.m */,
 				C359C0B51D2228DA00B2275A /* AskToCompensationOp.h */,
 				C359C0B61D2228DA00B2275A /* AskToCompensationOp.m */,
 				C3BA94921CC631520053BC96 /* GetPayStatusOp.h */,
@@ -5175,10 +5175,6 @@
 				4E30E6D91CFD92E7000157D4 /* UpdateClaimPicOp.m */,
 				4E30E6D31CFD92C3000157D4 /* GetPicListOp.h */,
 				4E30E6D41CFD92C3000157D4 /* GetPicListOp.m */,
-				FA17F4871CFD6C0600E91754 /* AskToCompensationOp.h */,
-				FA17F4881CFD6C0600E91754 /* AskToCompensationOp.m */,
-				FA1722161D23619600D3F151 /* GetParkingShopGasInfoOp.h */,
-				FA1722171D23619600D3F151 /* GetParkingShopGasInfoOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -5259,15 +5255,15 @@
 		6BD7AE651AE9EEDE00BEF30E /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				C359C1421D29FAC200B2275A /* MapBottomV2View.h */,
+				C359C1431D29FAC200B2275A /* MapBottomV2View.m */,
+				C359C1441D29FAC200B2275A /* MapBottomV2View.xib */,
 				6BBC4A2B1B0C8495003F3081 /* SocialShareView.xib */,
 				6BB61B991AEF5350004F39AA /* MapBottomView.xib */,
-				FA3472B41D25332E003EA783 /* MapBottomV2View.xib */,
 				6BD7AE661AE9F63900BEF30E /* MapBottomView.h */,
 				6BD7AE671AE9F63900BEF30E /* MapBottomView.m */,
 				6BBC4A261B0C8236003F3081 /* SocialShareView.h */,
 				6BBC4A271B0C8236003F3081 /* SocialShareView.m */,
-				FA3472AF1D252EC1003EA783 /* MapBottomV2View.h */,
-				FA3472B01D252EC1003EA783 /* MapBottomV2View.m */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -5797,7 +5793,7 @@
 				6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */,
 				18CECC291C30F8890075B7F9 /* LICENSE in Resources */,
 				6BD293C81B943EF1006482A4 /* About.storyboard in Resources */,
-				FA3472B51D25332E003EA783 /* MapBottomV2View.xib in Resources */,
+				C359C1461D29FAC200B2275A /* MapBottomV2View.xib in Resources */,
 				18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */,
 				18B62C271CDC42AD00E5AE48 /* rctpkg in Resources */,
 				6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */,
@@ -6062,6 +6058,7 @@
 				4E1FEF321CBB97C100A9BA6F /* PopAnimation.m in Sources */,
 				18C52C411BA80AC700F6C38B /* GetPicHistoryOp.m in Sources */,
 				18A9E8D21BDF18EA0061D3BC /* HKCellData.m in Sources */,
+				C359C1411D29FAA400B2275A /* GetParkingShopGasInfoOp.m in Sources */,
 				1844FB3C1CD9C8880085A0D4 /* NSString+Path.m in Sources */,
 				6BCA5F491B104AB300E1E630 /* CouponPkgViewController.m in Sources */,
 				1844532E1C8FEE81007B895D /* UIView+RoundedCorner.m in Sources */,
@@ -6192,7 +6189,6 @@
 				18D17F801B57782800F66F04 /* HKAddressComponent.m in Sources */,
 				18BF41FC1BD08F860039F210 /* GasReminderCell.m in Sources */,
 				1809C2FA1CF581CB00AE56EB /* CKRouter.m in Sources */,
-				FA1722181D23619600D3F151 /* GetParkingShopGasInfoOp.m in Sources */,
 				6BEA56CA1AE24DCE000D19C1 /* SBJsonWriter.m in Sources */,
 				18900B471C1E8567003DA439 /* InsuranceStore.m in Sources */,
 				186984E51B0057A4000A182A /* MyOrderListVC.m in Sources */,
@@ -6259,6 +6255,7 @@
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
 				6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */,
+				C359C1451D29FAC200B2275A /* MapBottomV2View.m in Sources */,
 				18804A9F1B2548AC00E7E764 /* NavigationModel.m in Sources */,
 				6B26EE971C8EB60D00428EC4 /* MutualInsPayViewController.m in Sources */,
 				1833F5871BCD373B000E1DA1 /* GasCard.m in Sources */,
@@ -6268,7 +6265,6 @@
 				503B205B1C08337200F396DD /* AwardOtherSheetVC.m in Sources */,
 				6BC80C841C96BD6800C7BA3D /* AddCooperationGroupJoinOp.m in Sources */,
 				C3BA94941CC631520053BC96 /* GetPayStatusOp.m in Sources */,
-				FA3472B11D252EC1003EA783 /* MapBottomV2View.m in Sources */,
 				6BCF62501B184AEF0064AE32 /* NJKWebViewProgress.m in Sources */,
 				4E045E731CABD52600F17446 /* NSString+BankNumber.m in Sources */,
 				189B30B71AD50627001D7288 /* PayForWashCarVC.m in Sources */,
