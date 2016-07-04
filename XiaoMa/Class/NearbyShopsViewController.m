@@ -18,6 +18,7 @@
 #import "DistanceCalcHelper.h"
 #import "GetParkingShopGasInfoOp.h"
 #import "MapBottomV2View.h"
+#import "MapBottomNavigationView.h"
 
 /// 超过2km
 #define RequestDistance 2000
@@ -110,11 +111,11 @@
 - (void)setupNavigationBar
 {
     if (self.searchType.integerValue == 1) {
-        self.navigationItem.title = @"附近停车场";
+        self.navigationItem.title = @"停车场";
     } else if (self.searchType.integerValue == 2) {
         self.navigationItem.title = @"附近 4S 店";
     } else if (self.searchType.integerValue == 3) {
-        self.navigationItem.title = @"附近加油站";
+        self.navigationItem.title = @"加油站";
     } else {
         self.navigationItem.title = @"附近门店";
     }
@@ -420,239 +421,317 @@
 {
     SYPageView *pageView = [paginatorView dequeueReusablePageWithIdentifier:@"pageView"];
     
-    if (self.searchType.integerValue == 1 || self.searchType.integerValue == 2 || self.searchType.integerValue == 3) {
-        MapBottomV2View * mapBottomV2View;
-        if (!pageView) {
-            pageView = [[SYPageView alloc] initWithReuseIdentifier:@"pageView"];
-            pageView.backgroundColor = [UIColor clearColor];
-            
-            NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomV2View" owner:self options:nil];
-            MapBottomV2View *bottomView = nibArray[0];
-            CGRect rect = pageView.bounds;
-            rect.size.width = rect.size.width - 10;
-            rect.origin.x = 5;
-            bottomView.frame = rect;
-            //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
-            bottomView.tag = 1001;
-            bottomView.backgroundColor = [UIColor whiteColor];
-            bottomView.borderWidth = 0.5f;
-            bottomView.layer.borderColor = kLightLineColor.CGColor;
-            bottomView.layer.cornerRadius = 5.0f;
-            
-            [pageView addSubview:bottomView];
-        }
+    if (self.searchType.integerValue == 2 || self.searchType.integerValue == 3) {
         
-        mapBottomV2View = (MapBottomV2View *)[pageView searchViewWithTag:1001];
-        if (!mapBottomV2View)
-        {
-            NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomView" owner:self options:nil];
-            mapBottomV2View = nibArray[0];
-            CGRect rect = pageView.bounds;
-            rect.size.width = rect.size.width - 10;
-            rect.origin.x = 5;
-            mapBottomV2View.frame = rect;
-            //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
-            mapBottomV2View.tag = 1001;
-            mapBottomV2View.backgroundColor = [UIColor whiteColor];
-            mapBottomV2View.borderWidth = 1.0f;
-            mapBottomV2View.layer.borderColor = [UIColor lightGrayColor].CGColor;
-            mapBottomV2View.layer.cornerRadius = 5.0f;
-            
-            [pageView addSubview:mapBottomV2View];
-        }
+        return [self setupNavigationAndCallBottomViewWithPageView:pageView atPageIndex:pageIndex];
         
+    } else if (self.searchType.integerValue == 1) {
         
-        JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
-        
-        mapBottomV2View.titleLabel.text = shop.shopName;
-        mapBottomV2View.addressLabel.text = shop.shopAddress;
-        
-        if (shop.customArray.count == 0) {
-            mapBottomV2View.callButton.enabled = NO;
-        } else {
-            mapBottomV2View.callButton.enabled = YES;
-        }
-        
-        @weakify(self)
-        [[[mapBottomV2View.callButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-            [MobClick event:@"rp104_4"];
-            
-            @strongify(self)
-            UIActionSheet *callSheet = [[UIActionSheet alloc] initWithTitle:@"请选择需要拨打的电话" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:nil, nil];
-            for (NSString *number in shop.customArray) {
-                [callSheet addButtonWithTitle:number];
-            }
-            [callSheet showInView:self.view];
-            
-            [[callSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
-                NSInteger buttonIndex = [number integerValue];
-                if (buttonIndex == [callSheet cancelButtonIndex]) {
-                    return ;
-                } else {
-                    shop.shopPhone = [callSheet buttonTitleAtIndex:buttonIndex];
-                    [gPhoneHelper makePhone:shop.shopPhone andInfo:shop.shopPhone];
-                }
-            }];
-        }];
-        
-        [[[mapBottomV2View.navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-            
-            @strongify(self)
-            [MobClick event:@"rp104_5"];
-            [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
-        }];
+        return [self setupNavigationBottomViewWithPageView:pageView atPageIndex:pageIndex];
         
     } else {
-        
-        MapBottomView * mapBottomView;
-        if (!pageView) {
-            pageView = [[SYPageView alloc] initWithReuseIdentifier:@"pageView"];
-            pageView.backgroundColor = [UIColor clearColor];
-            
-            NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomView" owner:self options:nil];
-            MapBottomView *bottomView = nibArray[0];
-            CGRect rect = pageView.bounds;
-            rect.size.width = rect.size.width - 10;
-            rect.origin.x = 5;
-            bottomView.frame = rect;
-            //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
-            bottomView.tag = 1001;
-            bottomView.backgroundColor = [UIColor whiteColor];
-            bottomView.borderWidth = 0.5f;
-            bottomView.layer.borderColor = kLightLineColor.CGColor;
-            bottomView.layer.cornerRadius = 5.0f;
-            
-            [pageView addSubview:bottomView];
-        }
-        
-        mapBottomView = (MapBottomView *)[pageView searchViewWithTag:1001];
-        if (!mapBottomView)
-        {
-            NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomView" owner:self options:nil];
-            mapBottomView = nibArray[0];
-            CGRect rect = pageView.bounds;
-            rect.size.width = rect.size.width - 10;
-            rect.origin.x = 5;
-            mapBottomView.frame = rect;
-            //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
-            mapBottomView.tag = 1001;
-            mapBottomView.backgroundColor = [UIColor whiteColor];
-            mapBottomView.borderWidth = 1.0f;
-            mapBottomView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-            mapBottomView.layer.cornerRadius = 5.0f;
-            
-            [pageView addSubview:mapBottomView];
-        }
-        
-        
-        JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
-        
-        BOOL favorite = [gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID] ? YES : NO;
-        UIImage * image = [UIImage imageNamed:favorite ? @"nb_collected_300" : @"nb_collection_300"];
-        [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
-        
-        
-        mapBottomView.titleLb.text = shop.shopName;
-        mapBottomView.addressLb.text = shop.shopAddress;
-        
-        @weakify(self)
-        [[[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-            
-            [MobClick event:@"rp104_2"];
-            ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
-            vc.shop = shop;
-            
-            @strongify(self)
-            [self.navigationController pushViewController:vc animated:YES];
-        }];
-        
-        [[[mapBottomView.phoneBtm rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-            @strongify(self)
-            [MobClick event:@"rp104_4"];
-            if (shop.shopPhone.length == 0)
-            {
-                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
-                if (self.searchType.integerValue == 1) {
-                    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该停车场没有电话~" ActionItems:@[cancel]];
-                    [alert show];
-                } else if (self.searchType.integerValue == 2) {
-                    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该 4S 店没有电话~" ActionItems:@[cancel]];
-                    [alert show];
-                } else if (self.searchType.integerValue == 3) {
-                    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该加油站没有电话~" ActionItems:@[cancel]];
-                    [alert show];
-                } else {
-                    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
-                    [alert show];
-                }
-                return ;
-            }
-            
-            NSString * info = [NSString stringWithFormat:@"%@",shop.shopPhone];
-            [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
-        }];
-        
-        [[[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-            
-            [MobClick event:@"rp104_3"];
-            @strongify(self)
-            if ([LoginViewModel loginIfNeededForTargetViewController:self])
-            {
-                CAKeyframeAnimation *k = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-                k.values = @[@(0.1),@(1.0),@(1.5)];
-                k.keyTimes = @[@(0.0),@(0.5),@(0.8),@(1.0)];
-                k.calculationMode = kCAAnimationLinear;
-                [mapBottomView.collectBtn.imageView.layer addAnimation:k forKey:@"SHOW"];
-                
-                if ([gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID])
-                {
-                    [[[[gAppMgr.myUser.favorites rac_removeFavorite:@[shop.shopID]] initially:^{
-                        
-                        [gToast showingWithText:@"移除中..."];
-                    }] finally:^{
-                        
-                        [gToast dismiss];
-                    }] subscribeNext:^(id x) {
-                        
-                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collection"] forState:UIControlStateNormal];
-                    } error:^(NSError *error) {
-                        
-                        [gToast showError:error.domain];
-                    }];
-                }
-                else
-                {
-                    [[[[gAppMgr.myUser.favorites rac_addFavorite:shop] initially:^{
-                        
-                        [gToast showingWithText:@"添加中..."];
-                    }] finally:^{
-                        
-                        [gToast dismiss];
-                    }] subscribeNext:^(id x) {
-                        
-                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected_300"] forState:UIControlStateNormal];
-                    } error:^(NSError *error) {
-                        
-                        if (error.code == 7002)
-                        {
-                            [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected_300"] forState:UIControlStateNormal];
-                        }
-                        else
-                        {
-                            [gToast showError:error.domain];
-                        }
-                    }];
-                }
-            }
-        }];
-        
-        [[[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-            
-            @strongify(self)
-            [MobClick event:@"rp104_5"];
-            [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
-        }];
+    
+        return [self setupCompleteBottomViewWithPageView:pageView atPageIndex:pageIndex];
     }
+    
+    return pageView;
+}
+
+- (SYPageView *)setupNavigationAndCallBottomViewWithPageView:(SYPageView *)pageView atPageIndex:(NSInteger)pageIndex
+{
+    MapBottomV2View * mapBottomV2View;
+    if (!pageView) {
+        pageView = [[SYPageView alloc] initWithReuseIdentifier:@"pageView"];
+        pageView.backgroundColor = [UIColor clearColor];
+        
+        NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomV2View" owner:self options:nil];
+        MapBottomV2View *bottomView = nibArray[0];
+        CGRect rect = pageView.bounds;
+        rect.size.width = rect.size.width - 10;
+        rect.origin.x = 5;
+        bottomView.frame = rect;
+        //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+        bottomView.tag = 1001;
+        bottomView.backgroundColor = [UIColor whiteColor];
+        bottomView.borderWidth = 0.5f;
+        bottomView.layer.borderColor = kLightLineColor.CGColor;
+        bottomView.layer.cornerRadius = 5.0f;
+        
+        [pageView addSubview:bottomView];
+    }
+    
+    mapBottomV2View = (MapBottomV2View *)[pageView searchViewWithTag:1001];
+    if (!mapBottomV2View)
+    {
+        NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomV2View" owner:self options:nil];
+        mapBottomV2View = nibArray[0];
+        CGRect rect = pageView.bounds;
+        rect.size.width = rect.size.width - 10;
+        rect.origin.x = 5;
+        mapBottomV2View.frame = rect;
+        //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+        mapBottomV2View.tag = 1001;
+        mapBottomV2View.backgroundColor = [UIColor whiteColor];
+        mapBottomV2View.borderWidth = 1.0f;
+        mapBottomV2View.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        mapBottomV2View.layer.cornerRadius = 5.0f;
+        
+        [pageView addSubview:mapBottomV2View];
+    }
+    
+    
+    JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
+    
+    mapBottomV2View.titleLabel.text = shop.shopName;
+    mapBottomV2View.addressLabel.text = shop.shopAddress;
+    
+    if (shop.customArray.count == 0) {
+        mapBottomV2View.callButton.enabled = NO;
+    } else {
+        mapBottomV2View.callButton.enabled = YES;
+    }
+    
+    @weakify(self)
+    [[[mapBottomV2View.callButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        [MobClick event:@"rp104_4"];
+        
+        @strongify(self)
+        UIActionSheet *callSheet = [[UIActionSheet alloc] initWithTitle:@"请选择需要拨打的电话" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:nil, nil];
+        for (NSString *number in shop.customArray) {
+            [callSheet addButtonWithTitle:number];
+        }
+        [callSheet showInView:self.view];
+        
+        [[callSheet rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+            NSInteger buttonIndex = [number integerValue];
+            if (buttonIndex == [callSheet cancelButtonIndex]) {
+                return ;
+            } else {
+                shop.shopPhone = [callSheet buttonTitleAtIndex:buttonIndex];
+                [gPhoneHelper makePhone:shop.shopPhone andInfo:shop.shopPhone];
+            }
+        }];
+    }];
+    
+    [[[mapBottomV2View.navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [MobClick event:@"rp104_5"];
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
+    }];
+    
+    return pageView;
+}
+
+- (SYPageView *)setupNavigationBottomViewWithPageView:(SYPageView *)pageView atPageIndex:(NSInteger)pageIndex
+{
+    MapBottomNavigationView *mapBottomNavigationView;
+    if (!pageView) {
+        pageView = [[SYPageView alloc] initWithReuseIdentifier:@"pageView"];
+        pageView.backgroundColor = [UIColor clearColor];
+        
+        NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomNavigationView" owner:self options:nil];
+        MapBottomV2View *bottomView = nibArray[0];
+        CGRect rect = pageView.bounds;
+        rect.size.width = rect.size.width - 10;
+        rect.origin.x = 5;
+        bottomView.frame = rect;
+        //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+        bottomView.tag = 1001;
+        bottomView.backgroundColor = [UIColor whiteColor];
+        bottomView.borderWidth = 0.5f;
+        bottomView.layer.borderColor = kLightLineColor.CGColor;
+        bottomView.layer.cornerRadius = 5.0f;
+        
+        [pageView addSubview:bottomView];
+    }
+    
+    mapBottomNavigationView = (MapBottomNavigationView *)[pageView searchViewWithTag:1001];
+    if (!mapBottomNavigationView)
+    {
+        NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomNavigationView" owner:self options:nil];
+        mapBottomNavigationView = nibArray[0];
+        CGRect rect = pageView.bounds;
+        rect.size.width = rect.size.width - 10;
+        rect.origin.x = 5;
+        mapBottomNavigationView.frame = rect;
+        //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+        mapBottomNavigationView.tag = 1001;
+        mapBottomNavigationView.backgroundColor = [UIColor whiteColor];
+        mapBottomNavigationView.borderWidth = 1.0f;
+        mapBottomNavigationView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        mapBottomNavigationView.layer.cornerRadius = 5.0f;
+        
+        [pageView addSubview:mapBottomNavigationView];
+    }
+    
+    
+    JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
+    
+    mapBottomNavigationView.titleLabel.text = shop.shopName;
+    mapBottomNavigationView.addressLabel.text = shop.shopAddress;
+    
+    @weakify(self);
+    [[[mapBottomNavigationView.navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [MobClick event:@"rp104_5"];
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
+    }];
+    
+    return pageView;
+}
+
+- (SYPageView *)setupCompleteBottomViewWithPageView:(SYPageView *)pageView atPageIndex:(NSInteger)pageIndex
+{
+    MapBottomView * mapBottomView;
+    if (!pageView) {
+        pageView = [[SYPageView alloc] initWithReuseIdentifier:@"pageView"];
+        pageView.backgroundColor = [UIColor clearColor];
+        
+        NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomView" owner:self options:nil];
+        MapBottomView *bottomView = nibArray[0];
+        CGRect rect = pageView.bounds;
+        rect.size.width = rect.size.width - 10;
+        rect.origin.x = 5;
+        bottomView.frame = rect;
+        //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+        bottomView.tag = 1001;
+        bottomView.backgroundColor = [UIColor whiteColor];
+        bottomView.borderWidth = 0.5f;
+        bottomView.layer.borderColor = kLightLineColor.CGColor;
+        bottomView.layer.cornerRadius = 5.0f;
+        
+        [pageView addSubview:bottomView];
+    }
+    
+    mapBottomView = (MapBottomView *)[pageView searchViewWithTag:1001];
+    if (!mapBottomView)
+    {
+        NSArray *nibArray = [[NSBundle mainBundle] loadNibNamed:@"MapBottomView" owner:self options:nil];
+        mapBottomView = nibArray[0];
+        CGRect rect = pageView.bounds;
+        rect.size.width = rect.size.width - 10;
+        rect.origin.x = 5;
+        mapBottomView.frame = rect;
+        //        mapBottomView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+        mapBottomView.tag = 1001;
+        mapBottomView.backgroundColor = [UIColor whiteColor];
+        mapBottomView.borderWidth = 1.0f;
+        mapBottomView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        mapBottomView.layer.cornerRadius = 5.0f;
+        
+        [pageView addSubview:mapBottomView];
+    }
+    
+    
+    JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
+    
+    BOOL favorite = [gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID] ? YES : NO;
+    UIImage * image = [UIImage imageNamed:favorite ? @"nb_collected_300" : @"nb_collection_300"];
+    [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
+    
+    
+    mapBottomView.titleLb.text = shop.shopName;
+    mapBottomView.addressLb.text = shop.shopAddress;
+    
+    @weakify(self)
+    [[[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        
+        [MobClick event:@"rp104_2"];
+        ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
+        vc.shop = shop;
+        
+        @strongify(self)
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    
+    [[[mapBottomView.phoneBtm rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        @strongify(self)
+        [MobClick event:@"rp104_4"];
+        if (shop.shopPhone.length == 0)
+        {
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+            if (self.searchType.integerValue == 1) {
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该停车场没有电话~" ActionItems:@[cancel]];
+                [alert show];
+            } else if (self.searchType.integerValue == 2) {
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该 4S 店没有电话~" ActionItems:@[cancel]];
+                [alert show];
+            } else if (self.searchType.integerValue == 3) {
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该加油站没有电话~" ActionItems:@[cancel]];
+                [alert show];
+            } else {
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
+                [alert show];
+            }
+            return ;
+        }
+        
+        NSString * info = [NSString stringWithFormat:@"%@",shop.shopPhone];
+        [gPhoneHelper makePhone:shop.shopPhone andInfo:info];
+    }];
+    
+    [[[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        
+        [MobClick event:@"rp104_3"];
+        @strongify(self)
+        if ([LoginViewModel loginIfNeededForTargetViewController:self])
+        {
+            CAKeyframeAnimation *k = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+            k.values = @[@(0.1),@(1.0),@(1.5)];
+            k.keyTimes = @[@(0.0),@(0.5),@(0.8),@(1.0)];
+            k.calculationMode = kCAAnimationLinear;
+            [mapBottomView.collectBtn.imageView.layer addAnimation:k forKey:@"SHOW"];
+            
+            if ([gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID])
+            {
+                [[[[gAppMgr.myUser.favorites rac_removeFavorite:@[shop.shopID]] initially:^{
+                    
+                    [gToast showingWithText:@"移除中..."];
+                }] finally:^{
+                    
+                    [gToast dismiss];
+                }] subscribeNext:^(id x) {
+                    
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collection"] forState:UIControlStateNormal];
+                } error:^(NSError *error) {
+                    
+                    [gToast showError:error.domain];
+                }];
+            }
+            else
+            {
+                [[[[gAppMgr.myUser.favorites rac_addFavorite:shop] initially:^{
+                    
+                    [gToast showingWithText:@"添加中..."];
+                }] finally:^{
+                    
+                    [gToast dismiss];
+                }] subscribeNext:^(id x) {
+                    
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected_300"] forState:UIControlStateNormal];
+                } error:^(NSError *error) {
+                    
+                    if (error.code == 7002)
+                    {
+                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected_300"] forState:UIControlStateNormal];
+                    }
+                    else
+                    {
+                        [gToast showError:error.domain];
+                    }
+                }];
+            }
+        }
+    }];
+    
+    [[[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        [MobClick event:@"rp104_5"];
+        [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
+    }];
     
     return pageView;
 }
