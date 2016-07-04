@@ -154,7 +154,7 @@
         
         NSString * tipStr = [NSString stringWithFormat:@"省%@元", [NSString formatForPrice:dataModel.couponMoney]];
         NSMutableAttributedString * attributeStr = [[NSMutableAttributedString alloc] initWithString:tipStr];
-        [attributeStr addAttributeForegroundColor:kOrangeColor range:NSMakeRange(1, tipStr.length - 1)];
+        [attributeStr addAttribute:NSForegroundColorAttributeName value:kOrangeColor range:NSMakeRange(1, tipStr.length - 1)];
         saveMoneyL.attributedText = attributeStr;
         
     });

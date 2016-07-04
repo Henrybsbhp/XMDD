@@ -118,6 +118,21 @@
     return signal;
 }
 
+- (RACSignal *)rac_getAreaInfo
+{
+    RACSignal * signal = [[gMapHelper rac_getUserLocationAndInvertGeoInfo] flattenMap:^RACStream *(id value) {
+        
+        GetAreaByPcdOp *op = [GetAreaByPcdOp operation];
+        op.req_province = gMapHelper.addrComponent.province;
+        op.req_city = gMapHelper.addrComponent.city;
+        op.req_district = gMapHelper.addrComponent.district;
+        
+        return [op rac_postRequest];
+    }];
+    
+    return signal;
+}
+
 
 #pragma mark - Utility
 - (void)saveAddressComponent:(AMapLocationReGeocode *)reGeocode

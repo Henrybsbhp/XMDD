@@ -11,7 +11,7 @@
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 #import "XiaoMa.h"
-#import "HKAddressComponent.h"
+#import "GetAreaByPcdOp.h"
 
 @interface MapHelper : NSObject<AMapLocationManagerDelegate,AMapSearchDelegate>
 
@@ -27,9 +27,10 @@
 
 ///得到用户当前经纬度位置（return : RACTuplePack(CLLocation)）
 - (RACSignal *)rac_getUserLocation;
-///得到用户当前经纬度位置 及 地理位置信息信号
-///（return : RACTuplePack(CLLocation,AMapLocationReGeocode)）
+///得到用户当前经纬度位置 及 地理位置信息信号 （return : RACTuplePack(CLLocation,AMapLocationReGeocode)）
 - (RACSignal *)rac_getUserLocationAndInvertGeoInfo;
+///得到用户城市信息code（return : GetAreaByPcdOp)）
+- (RACSignal *)rac_getAreaInfo;
 
 - (void)handleGPSError:(NSError *)error;
 
