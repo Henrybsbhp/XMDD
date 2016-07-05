@@ -109,7 +109,7 @@
 {
     @weakify(self);
     //获取反地理位置编码信息
-    [[[[[[gMapHelper rac_getUserLocationAndInvertGeoInfo] initially:^{
+    [[[[[[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyKilometer] initially:^{
         
         @strongify(self);
         //设置开始进度到15%

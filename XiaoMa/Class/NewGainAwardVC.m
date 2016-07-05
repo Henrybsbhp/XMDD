@@ -50,7 +50,6 @@
     [super viewDidLoad];
     
     [self requestOperation];
-    [self requestLocation];
 }
 
 
@@ -66,13 +65,6 @@
     vc.title = @"每周礼券";
     vc.url = kMeizhouliquanUrl;
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)requestLocation
-{
-    [[gMapHelper rac_getUserLocationAndInvertGeoInfo] subscribeNext:^(RACTuple *tuple) {
-        
-    }];
 }
 
 
@@ -185,10 +177,24 @@
         self.hyscratchView.completion = ^(id userInfo) {
             @strongify(self);
             [MobClick event:@"rp402_7"];
-            [self gainAward];
+            [self gainAwardWithLocation];
         };
         [self.scratchView addSubview:self.hyscratchView];
     });
+}
+
+- (void)gainAwardWithLocation
+{
+    @weakify(self)
+    [[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyKilometer] subscribeNext:^(RACTuple *tuple) {
+        
+        @strongify(self)
+        [self gainAward];
+    } error:^(NSError *error) {
+        
+        @strongify(self)
+        [self gainAward];
+    }];
 }
 
 - (void)gainAward

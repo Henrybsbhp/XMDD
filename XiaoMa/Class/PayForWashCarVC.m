@@ -617,7 +617,7 @@
     //如果不是原价支付，需要提供定位信息
     RACSignal *signal;
     if (couponType != CouponTypeNone) {
-        signal = [[gMapHelper rac_getUserLocation] catch:^RACSignal *(NSError *error) {
+        signal = [[gMapHelper rac_getUserLocationWithAccuracy:kCLLocationAccuracyHundredMeters] catch:^RACSignal *(NSError *error) {
             return [RACSignal return:nil];
         }];
     }

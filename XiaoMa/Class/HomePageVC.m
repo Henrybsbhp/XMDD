@@ -472,7 +472,7 @@
     
     
     @weakify(self);
-    RACSignal *sig1 = [[[[[gMapHelper rac_getUserLocationAndInvertGeoInfo] take:1] initially:^{
+    RACSignal *sig1 = [[[[[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyKilometer] take:1] initially:^{
         @strongify(self);
         [self setupNavigationLeftBar:@"定位中..."];
     }] doError:^(NSError *error) {

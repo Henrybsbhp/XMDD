@@ -44,14 +44,16 @@
     self.locationManager = [[AMapLocationManager alloc] init];
     self.locationManager.delegate = self;
     
-    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
-    [self.locationManager setLocationTimeout:1];
-    [self.locationManager setReGeocodeTimeout:2];
+    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyKilometer];
+    [self.locationManager setLocationTimeout:5];
+    [self.locationManager setReGeocodeTimeout:8];
 }
 
 
-- (RACSignal *)rac_getUserLocation
+- (RACSignal *)rac_getUserLocationWithAccuracy:(CLLocationAccuracy)accuracy
 {
+    [self.locationManager setDesiredAccuracy:accuracy];
+    
     RACSignal * signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
         [self.locationManager requestLocationWithReGeocode:NO completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
@@ -82,8 +84,10 @@
     return signal;
 }
 
-- (RACSignal *)rac_getUserLocationAndInvertGeoInfo
+- (RACSignal *)rac_getUserLocationAndInvertGeoInfoWithAccuracy:(CLLocationAccuracy)accuracy
 {
+    [self.locationManager setDesiredAccuracy:accuracy];
+    
     RACSignal * signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
         [self.locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
@@ -120,7 +124,7 @@
 
 - (RACSignal *)rac_getAreaInfo
 {
-    RACSignal * signal = [[gMapHelper rac_getUserLocationAndInvertGeoInfo] flattenMap:^RACStream *(id value) {
+    RACSignal * signal = [[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyKilometer] flattenMap:^RACStream *(id value) {
         
         GetAreaByPcdOp *op = [GetAreaByPcdOp operation];
         op.req_province = gMapHelper.addrComponent.province;

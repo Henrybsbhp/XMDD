@@ -540,7 +540,7 @@
     self.locationData = [[HKLocationDataModel alloc] init];
     self.locateState = LocateStateLocating;
     @weakify(self);
-    [[[gMapHelper rac_getUserLocationAndInvertGeoInfo] flattenMap:^RACStream *(id value) {
+    [[[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyNearestTenMeters] flattenMap:^RACStream *(id value) {
         @strongify(self);
         self.locationData.province = gMapHelper.addrComponent.province;
         self.locationData.city = gMapHelper.addrComponent.city;

@@ -57,7 +57,7 @@
     RACSignal * signal = [RACSignal empty];
     //没有地理位置信息，则获取地理位置信息
     if (!gMapHelper.addrComponent) {
-        signal = [[gMapHelper rac_getUserLocationAndInvertGeoInfo] ignoreError];
+        signal = [[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyKilometer] ignoreError];
     }
     //请求广告信息
     signal = [signal then:^RACSignal *{

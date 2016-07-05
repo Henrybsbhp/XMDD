@@ -272,7 +272,7 @@
     RACSignal * signal;
     if (!self.userLocation || model.currentPageIndex == 0)
     {
-        signal = [gMapHelper rac_getUserLocation];
+        signal = [gMapHelper rac_getUserLocationWithAccuracy:kCLLocationAccuracyHundredMeters];
     }
     else
     {
