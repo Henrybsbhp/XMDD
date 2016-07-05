@@ -61,7 +61,19 @@
     self.input = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied) {
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            
+            if (IOSVersionGreaterThanOrEqualTo(@"8.0")){
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您没有开启摄像头权限,请前往设置打开" ActionItems:@[cancel]];
+        [alert show];
+        
+        return;
+        
     } else {
         self.output = [[AVCaptureMetadataOutput alloc] init];
         [self.output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
