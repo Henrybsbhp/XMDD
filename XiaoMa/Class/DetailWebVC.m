@@ -86,6 +86,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     [self setupLeftSingleBtn];
     
+    [self changeUserAgent];
+    
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
     self.webView.delegate = self;
@@ -353,4 +355,14 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
+#pragma mark - Utilitly
+- (void)changeUserAgent
+{
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString * userAgent = [self.webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    userAgent = userAgent ?: @"";
+    NSString * newUserAgent = [userAgent append:[NSString stringWithFormat:@" %@/%@",@"XMDD",version]];
+    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+}
 @end
