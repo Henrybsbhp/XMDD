@@ -761,6 +761,7 @@
 		FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C41D1246490045531C /* CFNetwork.framework */; };
 		FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C81D12466E0045531C /* SystemConfiguration.framework */; };
 		FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */; };
+		FAEE31501D2A76C20053BF2B /* ScanQRCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAEE314F1D2A76C20053BF2B /* ScanQRCodeVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2396,6 +2397,8 @@
 		FAAD30C81D12466E0045531C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
 		FAAD30CC1D124A9A0045531C /* XiaoMa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = XiaoMa.entitlements; sourceTree = "<group>"; };
+		FAEE314E1D2A76C20053BF2B /* ScanQRCodeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanQRCodeVC.h; sourceTree = "<group>"; };
+		FAEE314F1D2A76C20053BF2B /* ScanQRCodeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanQRCodeVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4738,6 +4741,8 @@
 				6BB61B9F1AEF6969004F39AA /* RescueViewController.m */,
 				6BB61BA41AEF8B34004F39AA /* ServiceViewController.h */,
 				6BB61BA51AEF8B34004F39AA /* ServiceViewController.m */,
+				FAEE314E1D2A76C20053BF2B /* ScanQRCodeVC.h */,
+				FAEE314F1D2A76C20053BF2B /* ScanQRCodeVC.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -6511,6 +6516,7 @@
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
 				6BC80C931C96BD6800C7BA3D /* PayCooperationContractOrderOp.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
+				FAEE31501D2A76C20053BF2B /* ScanQRCodeVC.m in Sources */,
 				6BE47F9C1C27F50000DBD969 /* HistoryDeleteOp.m in Sources */,
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
