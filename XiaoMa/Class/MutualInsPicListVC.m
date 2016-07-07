@@ -821,7 +821,7 @@
         photoBrowser.delegate = self;
         photoBrowser.imageCount = 1;
         photoBrowser.sourceImagesContainerView = cell;
-        
+        photoBrowser.sourceImagesContainerViewContentMode = sourceImagesContainerViewContentFit;
         [photoBrowser show];
     }
     else
@@ -842,7 +842,7 @@
             photoBrowser.delegate = self;
             photoBrowser.imageCount = 1;
             photoBrowser.sourceImagesContainerView = cell;
-            
+            photoBrowser.sourceImagesContainerViewContentMode = sourceImagesContainerViewContentFit;
             [photoBrowser show];
         }
         else

@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger {
+    sourceImagesContainerViewContentFit = 0,
+    sourceImagesContainerViewContentFill = 1
+} sourceImagesContainerViewContentMode;
+
 
 @class SDButton, SDPhotoBrowser;
 
@@ -32,7 +37,11 @@
 @property (assign, nonatomic) BOOL showSaveBtn;
 @property (assign, nonatomic) BOOL showIndexLabel;
 
+@property (assign, nonatomic) sourceImagesContainerViewContentMode sourceImagesContainerViewContentMode;
+
 @property (nonatomic, weak) id<SDPhotoBrowserDelegate> delegate;
+
+
 
 - (void)show;
 
