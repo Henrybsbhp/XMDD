@@ -26,5 +26,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"理赔详情查看";
+}
 @end
 

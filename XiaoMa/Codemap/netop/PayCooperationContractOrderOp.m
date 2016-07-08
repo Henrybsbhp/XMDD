@@ -24,5 +24,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"支付协议订单";
+}
 @end
 

@@ -38,6 +38,11 @@
         NSAssert(NO,errorInfo);
     }
     return self;
-    
+}
+
+
+- (NSString *)description
+{
+    return @"获取救援和协办的评价详情";
 }
 @end

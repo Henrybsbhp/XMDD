@@ -34,4 +34,11 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"提交帮卖信息";
+}
+
+
+
 @end

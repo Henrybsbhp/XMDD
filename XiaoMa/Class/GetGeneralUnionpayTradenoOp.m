@@ -35,4 +35,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"根据订单号获取银联订单号";
+}
 @end

@@ -19,21 +19,6 @@
     NSMutableURLRequest *req = [self requestWithMethod:method parameters:parameters requestId:requestId];
     DebugGreenLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata =  \n %@ \n", req.URL, parameters);
     
-    if (gAppMgr.isShowRequestParamsAlert) {
-        
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameters
-                                                           options:0
-                                                             error:nil];
-        NSString *string = [[NSString alloc] initWithData:jsonData
-                                                 encoding:NSUTF8StringEncoding];
-        NSString *string2 = [[[string stringByReplacingOccurrencesOfString:@"," withString:@"\n"]
-                              stringByReplacingOccurrencesOfString:@"{" withString:@""]
-                             stringByReplacingOccurrencesOfString:@"}" withString:@""];
-        NSString *requestParamsString = [NSString stringWithFormat:@"%@\ndata = %@ \n", req.URL, string2];
-        UIAlertView *requestParamsAlertView = [[UIAlertView alloc] initWithTitle:@"【Request】" message:requestParamsString delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil, nil];
-        [requestParamsAlertView show];
-    }
-    
     AFHTTPRequestOperation * op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
     [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         

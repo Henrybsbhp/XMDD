@@ -34,4 +34,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取分享按钮信息";
+}
 @end

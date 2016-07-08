@@ -21,5 +21,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"核保和的预约购买";
+}
 @end
 

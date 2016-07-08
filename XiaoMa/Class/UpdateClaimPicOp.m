@@ -26,4 +26,9 @@
 }
 
 
+- (NSString *)description
+{
+    return @"提交理赔照片列表";
+}
+
 @end

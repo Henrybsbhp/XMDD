@@ -19,5 +19,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"互助协议寄送地址更新";
+}
 @end
 

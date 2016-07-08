@@ -32,4 +32,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"获取平台团列表";
+}
+
 @end

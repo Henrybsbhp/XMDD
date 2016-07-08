@@ -33,4 +33,8 @@
       return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (NSString *)description
+{
+    return @"保险预约购买";
+}
 @end

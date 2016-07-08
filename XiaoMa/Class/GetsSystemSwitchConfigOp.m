@@ -27,7 +27,6 @@
 {
     if([rspObj isKindOfClass:[NSDictionary class]])
     {
-        NSDictionary * dict = (NSDictionary *)rspObj;
         self.rsp_configurations = rspObj;
     }
     else
@@ -37,4 +36,9 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"获取app分享开关配置";
+}
 @end

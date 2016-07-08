@@ -16,5 +16,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"取消保险订单";
+}
 @end
 

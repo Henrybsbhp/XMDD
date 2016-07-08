@@ -35,4 +35,9 @@
              @"expires":@(60*60*24*30)};
 }
 
+- (NSString *)description
+{
+    return @"获取与服务端的应用会话令牌";
+}
+
 @end

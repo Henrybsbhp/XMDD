@@ -48,4 +48,10 @@
     return self;
     
 }
+
+
+- (NSString *)description
+{
+    return @"获取救援服务详情";
+}
 @end

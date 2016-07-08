@@ -21,6 +21,10 @@
 	
     return self;
 }
+- (NSString *)description
+{
+    return @"获取油卡列表";
+}
 
 @end
 

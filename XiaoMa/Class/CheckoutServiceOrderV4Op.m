@@ -54,5 +54,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"支付服务类订单";
+}
 
 @end

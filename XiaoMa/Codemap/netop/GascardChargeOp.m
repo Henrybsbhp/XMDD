@@ -32,5 +32,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取油卡当月充值信息";
+}
 @end
 

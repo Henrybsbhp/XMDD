@@ -19,4 +19,8 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (NSString *)description
+{
+    return @"修改爱车接口";
+}
 @end

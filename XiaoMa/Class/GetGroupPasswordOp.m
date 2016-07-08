@@ -31,4 +31,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"获取团分享信息";
+}
+
 @end

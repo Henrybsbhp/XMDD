@@ -17,5 +17,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"取保险公司名称列表";
+}
 @end
 

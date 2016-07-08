@@ -53,4 +53,9 @@
 }
 
 
+
+- (NSString *)description
+{
+    return @"获取用户车辆违章记录";
+}
 @end

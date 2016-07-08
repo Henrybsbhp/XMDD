@@ -46,5 +46,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"查看团的详情";
+}
 @end
 

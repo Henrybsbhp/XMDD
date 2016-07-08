@@ -41,4 +41,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"根据品牌ID获取车系信息";
+}
+
 @end

@@ -18,9 +18,14 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
--(instancetype)parseResponseObject:(id)rspObj
+- (instancetype)parseResponseObject:(id)rspObj
 {
     return self;
+}
+
+- (NSString *)description
+{
+    return @"车估值历史记录移除";
 }
 
 @end

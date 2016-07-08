@@ -32,4 +32,8 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"提交评价";
+}
 @end

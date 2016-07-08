@@ -25,5 +25,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"查看成员互助池信息";
+}
 @end
 

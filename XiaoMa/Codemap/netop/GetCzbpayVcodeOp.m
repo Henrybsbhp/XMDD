@@ -24,5 +24,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"浙商支付验证码获取";
+}
 @end
 

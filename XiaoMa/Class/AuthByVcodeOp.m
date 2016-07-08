@@ -36,5 +36,9 @@
     return @{@"rc":@0};
 }
 
+- (NSString *)description
+{
+    return @"验证码登录";
+}
 
 @end

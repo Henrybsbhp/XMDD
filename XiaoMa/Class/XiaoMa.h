@@ -38,6 +38,7 @@
 #import "PhoneHelper.h"
 #import "AdvertisementManager.h"
 #import "SupportFileManager.h"
+#import "AssistiveManager.h"
 #import <SDWebImageManager.h>
 
 //基类

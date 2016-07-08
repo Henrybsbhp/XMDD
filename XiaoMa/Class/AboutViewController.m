@@ -401,7 +401,7 @@
 #pragma mark - FPS
 - (void)setupFPSObserver
 {
-    [[RRFPSBar sharedInstance] setHidden:![RRFPSBar sharedInstance].hidden];
+    [gAssistiveMgr showFPSObserver];
 }
 
 #pragma mark - RN
@@ -421,7 +421,7 @@
 
 #pragma mark - Network request parameters
 - (void)actionShowRequestParamsAlert {
-    gAppMgr.isShowRequestParamsAlert = !gAppMgr.isShowRequestParamsAlert;
+    [gAssistiveMgr switchShowLogWithAlertView];
 }
 
 @end

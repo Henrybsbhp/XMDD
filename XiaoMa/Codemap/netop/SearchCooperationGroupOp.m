@@ -22,5 +22,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"通过暗号查询团";
+}
 @end
 
