@@ -65,7 +65,7 @@
 - (RACSignal *)rac_getLaunchInfo
 {
     @weakify(self);
-    return [[[[gMapHelper rac_getUserLocationAndInvertGeoInfo] catch:^RACSignal *(NSError *error) {
+    return [[[[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyKilometer] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
     }] flattenMap:^RACStream *(id x) {

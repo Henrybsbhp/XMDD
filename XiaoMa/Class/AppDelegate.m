@@ -340,7 +340,7 @@
 #pragma mark - Utilities
 - (void)getLocation
 {
-    [[[gMapHelper rac_getUserLocationAndInvertGeoInfo] initially:^{
+    [[[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyKilometer] initially:^{
         
     }] subscribeNext:^(id x) {
         
