@@ -410,6 +410,10 @@
 		4EA1CB161C96961A006CCBEA /* MutualInsPayResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB151C96961A006CCBEA /* MutualInsPayResultVC.m */; };
 		4EA1CB231C969830006CCBEA /* MutualInsScencePhotoVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1CB211C969830006CCBEA /* MutualInsScencePhotoVM.m */; };
 		4EC6EA801C22A5480092BF6E /* HistoryCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */; };
+		4ECB963B1D3335DD00FE70CF /* GetCooperationGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECB963A1D3335DD00FE70CF /* GetCooperationGroupOp.m */; };
+		4ECB96491D33370E00FE70CF /* Temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4ECB96481D33370E00FE70CF /* Temp.storyboard */; };
+		4ECB964C1D3339C200FE70CF /* CooperationGroupListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECB964B1D3339C200FE70CF /* CooperationGroupListVC.m */; };
+		4ECB96551D33468D00FE70CF /* CooperationGroupListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECB96541D33468D00FE70CF /* CooperationGroupListVM.m */; };
 		4ECF21951C9C0BE5004E76DD /* MutualInsActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */; };
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
 		4EF4949C1C9A7D8D008A8E4D /* GetSystemTimeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF4949B1C9A7D8D008A8E4D /* GetSystemTimeOp.m */; };
@@ -1660,6 +1664,13 @@
 		4EA1CB211C969830006CCBEA /* MutualInsScencePhotoVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsScencePhotoVM.m; sourceTree = "<group>"; };
 		4EC6EA7E1C22A5480092BF6E /* HistoryCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryCollectionVC.h; sourceTree = "<group>"; };
 		4EC6EA7F1C22A5480092BF6E /* HistoryCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryCollectionVC.m; sourceTree = "<group>"; };
+		4ECB96391D3335DD00FE70CF /* GetCooperationGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCooperationGroupOp.h; sourceTree = "<group>"; };
+		4ECB963A1D3335DD00FE70CF /* GetCooperationGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationGroupOp.m; sourceTree = "<group>"; };
+		4ECB96481D33370E00FE70CF /* Temp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Temp.storyboard; sourceTree = "<group>"; };
+		4ECB964A1D3339C200FE70CF /* CooperationGroupListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CooperationGroupListVC.h; sourceTree = "<group>"; };
+		4ECB964B1D3339C200FE70CF /* CooperationGroupListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CooperationGroupListVC.m; sourceTree = "<group>"; };
+		4ECB96531D33468D00FE70CF /* CooperationGroupListVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CooperationGroupListVM.h; sourceTree = "<group>"; };
+		4ECB96541D33468D00FE70CF /* CooperationGroupListVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CooperationGroupListVM.m; sourceTree = "<group>"; };
 		4ECF21931C9C0BE5004E76DD /* MutualInsActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsActivityVC.h; sourceTree = "<group>"; };
 		4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsActivityVC.m; sourceTree = "<group>"; };
 		4EED3EDF1C982F5900EB081E /* MutualInsScencePhotoVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsScencePhotoVM.h; sourceTree = "<group>"; };
@@ -3533,6 +3544,10 @@
 				1816F4AD1ACE75C900BBCC96 /* CarWash */,
 				1883D9281ACCD80F002A4D19 /* Home */,
 				1883D9241ACCD689002A4D19 /* MainTab */,
+				4ECB964A1D3339C200FE70CF /* CooperationGroupListVC.h */,
+				4ECB964B1D3339C200FE70CF /* CooperationGroupListVC.m */,
+				4ECB96531D33468D00FE70CF /* CooperationGroupListVM.h */,
+				4ECB96541D33468D00FE70CF /* CooperationGroupListVM.m */,
 			);
 			name = View;
 			path = Class;
@@ -5180,6 +5195,8 @@
 				4E30E6D91CFD92E7000157D4 /* UpdateClaimPicOp.m */,
 				4E30E6D31CFD92C3000157D4 /* GetPicListOp.h */,
 				4E30E6D41CFD92C3000157D4 /* GetPicListOp.m */,
+				4ECB96391D3335DD00FE70CF /* GetCooperationGroupOp.h */,
+				4ECB963A1D3335DD00FE70CF /* GetCooperationGroupOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -5229,6 +5246,7 @@
 		6BD293BA1B943EF1006482A4 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				4ECB96481D33370E00FE70CF /* Temp.storyboard */,
 				4E70143E1CB7B0770010C130 /* Carwash.storyboard */,
 				FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */,
 				6BC80CF71C99453B00C7BA3D /* MutualInsPay.storyboard */,
@@ -5803,6 +5821,7 @@
 				6BD293C81B943EF1006482A4 /* About.storyboard in Resources */,
 				C359C1461D29FAC200B2275A /* MapBottomV2View.xib in Resources */,
 				18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */,
+				4ECB96491D33370E00FE70CF /* Temp.storyboard in Resources */,
 				18B62C271CDC42AD00E5AE48 /* rctpkg in Resources */,
 				6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */,
 				18E28A261B954F4E0070E759 /* Car.storyboard in Resources */,
@@ -6098,6 +6117,7 @@
 				189B39611AF9DD3B00B83F1B /* AddCarOp.m in Sources */,
 				18FC01E01C4E6C6F00FD61BF /* IQSegmentedNextPrevious.m in Sources */,
 				2E77A4A61C325FCC00264FC9 /* RescueApplyOp.m in Sources */,
+				4ECB964C1D3339C200FE70CF /* CooperationGroupListVC.m in Sources */,
 				189371191B0DA6C00030FDE1 /* MessageListVC.m in Sources */,
 				18C81CBF1B18403000B0C292 /* FeedbackOp.m in Sources */,
 				6BC80C8B1C96BD6800C7BA3D /* GetCooperationClaimsListOp.m in Sources */,
@@ -6313,6 +6333,7 @@
 				1851F42F1B0C304B00241A01 /* AutoBrand+Extension.m in Sources */,
 				1833F58B1BCD373B000E1DA1 /* DeleteGascardOp.m in Sources */,
 				18B6E5C81C44D2A000697DAB /* KeyboardHelper.m in Sources */,
+				4ECB963B1D3335DD00FE70CF /* GetCooperationGroupOp.m in Sources */,
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
 				50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */,
 				18900B4A1C1E8634003DA439 /* UserStore.m in Sources */,
@@ -6445,6 +6466,7 @@
 				6BEA56D01AE24DCE000D19C1 /* MD5DataSigner.m in Sources */,
 				18B7A2741C202E6B00865A99 /* GetAreaByNameOp.m in Sources */,
 				1844FB331CD9C8880085A0D4 /* NSArray+Safety.m in Sources */,
+				4ECB96551D33468D00FE70CF /* CooperationGroupListVM.m in Sources */,
 				184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */,
 				6BBF75F41B05CA0800E11EBB /* BaseModel.m in Sources */,
 				4E30E6D51CFD92C3000157D4 /* GetPicListOp.m in Sources */,
@@ -6680,7 +6702,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=1",
+					"XMDDEnvironment=0",
 				);
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/ReactNative/node_modules/react-native/React/**",
