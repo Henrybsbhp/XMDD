@@ -115,8 +115,39 @@
     return cell;
 }
 
+#pragma mark - UITableViewDelegate
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.section];
+    NSArray *grouptags = data[@"grouptags"];
+    NSArray *extendinfo = data[@"extendinfo"];
+    CGFloat height = 30 + (grouptags.count == 0 ? 0 : 40) + 30 * extendinfo.count;
+    return height;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 8;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == self.dataSource.count - 1)
+    {
+        return 8;
+    }
+    return CGFLOAT_MIN;
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.section];
+    NSNumber *showDetailFlag = data[@"showdetailflag"];
+    if (showDetailFlag.integerValue == 1)
+    {
+//        进入团详情页面
+    }
     
 }
 
@@ -213,30 +244,5 @@
     label.layer.borderWidth = 1;
 }
 
-
-#pragma mark - UITableViewDelegate
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.section];
-    NSArray *grouptags = data[@"grouptags"];
-    NSArray *extendinfo = data[@"extendinfo"];
-    CGFloat height = 30 + (grouptags.count == 0 ? 0 : 40) + 30 * extendinfo.count;
-    return height;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 8;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    if (section == self.dataSource.count - 1)
-    {
-        return 8;
-    }
-    return CGFLOAT_MIN;
-}
 
 @end
