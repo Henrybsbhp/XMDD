@@ -27,4 +27,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取车型信息。只返回大于timetag的结果";
+}
 @end

@@ -52,6 +52,10 @@
 }
 
 
+- (NSString *)description
+{
+    return @"获取当前用户所有的银行洗车次数、积分和有效优惠券信息";
+}
 
 
 @end

@@ -30,4 +30,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"分享优惠券";
+}
 @end

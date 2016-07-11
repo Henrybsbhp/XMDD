@@ -51,7 +51,11 @@
         [gToast dismiss];
     }
     return self;
-    
+}
 
+
+- (NSString *)description
+{
+    return @"获取救援历史";
 }
 @end

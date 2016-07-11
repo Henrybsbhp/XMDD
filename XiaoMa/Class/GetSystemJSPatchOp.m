@@ -30,4 +30,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"JSPatch配置信息接口";
+}
+
 @end

@@ -31,4 +31,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"获取理赔照片列表";
+}
+
 @end

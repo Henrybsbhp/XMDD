@@ -61,4 +61,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"获取用户本人已经参与过的团的状态信息（进入互助首页面调用）";
+}
+
 @end

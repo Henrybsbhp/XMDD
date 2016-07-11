@@ -23,5 +23,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取和保险相关的车辆列表";
+}
 @end
 

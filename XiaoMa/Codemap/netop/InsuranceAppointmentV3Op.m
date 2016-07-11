@@ -19,5 +19,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"保险精准核保后预约购买";
+}
 @end
 

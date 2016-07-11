@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <AFNetworking.h>
 #import "XiaoMa.h"
-#import "UpdatePwdOp.h"
 
 @class BaseOp;
 

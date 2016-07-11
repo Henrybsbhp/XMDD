@@ -20,5 +20,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取互助首页面的文案配置信息";
+}
 @end
 

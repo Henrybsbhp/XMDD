@@ -45,4 +45,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"根据类型获取多种推广信";
+}
 @end

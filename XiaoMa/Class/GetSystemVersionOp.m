@@ -50,6 +50,10 @@
 }
 
 
+- (NSString *)description
+{
+    return @"获取app版本更新";
+}
 
 
 @end

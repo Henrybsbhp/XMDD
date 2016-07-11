@@ -16,5 +16,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"移除核保记录车辆";
+}
 @end
 

@@ -32,4 +32,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取用户历史上传的行驶证";
+}
 @end

@@ -24,4 +24,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"添加爱车接口";
+}
 @end

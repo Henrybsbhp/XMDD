@@ -16,5 +16,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"删除油卡";
+}
 @end
 

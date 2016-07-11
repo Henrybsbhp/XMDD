@@ -19,5 +19,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"申请加入一个团（在添加一个爱车后调用该接口）";
+}
 @end
 

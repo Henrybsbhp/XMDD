@@ -34,4 +34,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"查询用户互助可用的优惠券";
+}
+
 @end

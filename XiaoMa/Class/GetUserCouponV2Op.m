@@ -40,4 +40,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"根据使用和未使用，分页获取优惠券信息。";
+}
 @end

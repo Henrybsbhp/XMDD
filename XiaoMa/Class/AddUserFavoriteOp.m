@@ -42,4 +42,8 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"添加收藏";
+}
 @end

@@ -29,4 +29,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"更新保险订单";
+}
 @end

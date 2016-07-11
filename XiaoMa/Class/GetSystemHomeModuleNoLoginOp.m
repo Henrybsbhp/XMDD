@@ -38,4 +38,9 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"获取APP首页模块配置信息（未登录）";
+}
 @end

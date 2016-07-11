@@ -16,5 +16,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"团长报价申请";
+}
 @end
 

@@ -14,6 +14,9 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
-
+- (NSString *)description
+{
+    return @"理赔申请";
+}
 @end
 

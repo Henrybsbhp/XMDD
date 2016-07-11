@@ -28,4 +28,9 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"根据手机和密码登录";
+}
+
 @end

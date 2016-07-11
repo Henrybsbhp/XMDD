@@ -41,5 +41,9 @@
     return pkgs;
 }
 
+- (NSString *)description
+{
+    return @"获取充值配置信息";
+}
 @end
 

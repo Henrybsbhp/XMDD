@@ -31,4 +31,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取险种对应的折扣率";
+}
 @end
