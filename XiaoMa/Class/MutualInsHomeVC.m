@@ -9,7 +9,6 @@
 #import "MutualInsHomeVC.h"
 #import "SystemGroupListVC.h"
 #import "GroupIntroductionVC.h"
-#import "MutualInsGrouponVC.h"
 #import "InviteByCodeVC.h"
 #import "MutualInsAskClaimsVC.h"
 #import "GetCooperationConfiOp.h"
@@ -27,6 +26,7 @@
 #import "MutualInsSuspendedAdVC.h"
 #import "HKAdvertisement.h"
 #import "AdListData.h"
+#import "MutualInsConstants.h"
 #import "MutualInsAskForCompensationVC.h"
 
 @interface MutualInsHomeVC ()
@@ -288,6 +288,16 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)pushToGroupDetailVC:(HKMutualGroup *)group {
+    CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGroupDetailVC"];
+    router.userInfo = [[CKDict alloc] init];
+    router.userInfo[kMutInsGroupID] = group.groupId;
+    router.userInfo[kMutInsGroupName] = group.groupName;
+    router.userInfo[kMutInsMemberID] = group.memberId;
+    router.userInfo[kCKRouterTitle] = group.groupName ? group.groupName : @"团详情";
+    [self.router.navigationController pushRouter:router animated:YES];
+}
+
 #pragma mark - Reload
 - (void)reloadFormSignal:(RACSignal *)signal
 {
@@ -545,11 +555,7 @@
             @strongify(self);
             [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0011"}];
             //我的团详情页面
-            MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-            vc.routeInfo = [CKDict dictWith:@{}];
-            vc.group = group;
-            vc.originVC = self;
-            [self.navigationController pushViewController:vc animated:YES];
+            [self pushToGroupDetailVC:group];
         });
         [groupArr addObject:myGroup];
     }

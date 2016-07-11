@@ -77,7 +77,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     self.view.userInteractionEnabled = NO;
     
     //读取上次首页元素信息

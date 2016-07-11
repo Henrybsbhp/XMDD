@@ -35,4 +35,7 @@ typedef enum : NSInteger {
 #define kMutInsMemberID     @"memberID"
 #define kMutInsGroupName    @"groupName"
 
+//storyboard定义
+#define kMutInsGroupDetailStoryboard    @"MutualInsGroupDetail"
+
 #endif /* MutualInsConstants_h */

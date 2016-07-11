@@ -108,6 +108,7 @@
     }
     [self.routerList addObject:router forKey:router.key];
     router.delegate = self;
+    vc.title = router.userInfo[kCKRouterTitle];
 }
 
 - (void)updateViewControllersByRouterList {

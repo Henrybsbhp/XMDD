@@ -10,10 +10,13 @@
 #import "CKList.h"
 #import "CKNavigationController.h"
 
+extern NSString *const kCKRouterTitle;
+
 @protocol CKRouterDelegate;
 
 @interface CKRouter : NSObject<CKItemDelegate>
 
++ (instancetype)routerWithViewControllerName:(NSString *)vcName;
 + (instancetype)routerWithTargetViewController:(UIViewController *)targetVC;
 + (instancetype)routerWithStoryboard:(NSString *)sbname andViewControllerID:(NSString *)sbid;
 

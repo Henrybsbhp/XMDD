@@ -10,6 +10,8 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <ReactiveCocoa/RACEXTScope.h>
 
+NSString *const kCKRouterTitle = @"__title";
+
 @interface CKRouter ()
 @property (nonatomic, strong) id itemKey;
 @end
@@ -24,10 +26,17 @@
     return router;
 }
 
++ (instancetype)routerWithViewControllerName:(NSString *)vcName {
+    UIViewController *vc = [[NSClassFromString(vcName) alloc] init];
+    return [self routerWithTargetViewController:vc];
+}
+
+
 + (instancetype)routerWithTargetViewController:(UIViewController *)targetVC {
     CKRouter *router = [[self alloc] init];
     router->_targetViewController = targetVC;
     [router observeTargetVC];
+    [router setKey:NSStringFromClass(targetVC.class)];
     return router;
 }
 

@@ -152,6 +152,8 @@
 		1853DEC81AE0EFD200C39175 /* HKToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DEC71AE0EFD200C39175 /* HKToast.m */; };
 		1853DECE1AE100CA00C39175 /* HKSMSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DECD1AE100CA00C39175 /* HKSMSModel.m */; };
 		1853DED41AE2A0BD00C39175 /* VcodeLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1853DED31AE2A0BD00C39175 /* VcodeLoginVC.m */; };
+		185A8D8D1D33388300B423A0 /* MutualInsGroupDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 185A8D8C1D33388300B423A0 /* MutualInsGroupDetail.storyboard */; };
+		185A8D911D333AD000B423A0 /* MutualInsGroupDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 185A8D901D333AD000B423A0 /* MutualInsGroupDetailVC.m */; };
 		186984E51B0057A4000A182A /* MyOrderListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984E41B0057A4000A182A /* MyOrderListVC.m */; };
 		186984E81B005A86000A182A /* CarwashOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984E71B005A86000A182A /* CarwashOrderViewModel.m */; };
 		186984EB1B005A94000A182A /* InsranceOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186984EA1B005A94000A182A /* InsranceOrderViewModel.m */; };
@@ -255,7 +257,6 @@
 		18AB16A61C1FAE6B0000E718 /* InsBaseCar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB16A51C1FAE6B0000E718 /* InsBaseCar.m */; };
 		18AB16AB1C1FAE810000E718 /* GetInsBaseCarListByIDOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB16A81C1FAE810000E718 /* GetInsBaseCarListByIDOp.m */; };
 		18AB16AC1C1FAE810000E718 /* GetInsBaseCarListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB16AA1C1FAE810000E718 /* GetInsBaseCarListOp.m */; };
-		18B62C271CDC42AD00E5AE48 /* rctpkg in Resources */ = {isa = PBXBuildFile; fileRef = 18B62C261CDC42AD00E5AE48 /* rctpkg */; };
 		18B62CAC1CE089A200E5AE48 /* HKSecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B62CAB1CE089A200E5AE48 /* HKSecurityManager.m */; };
 		18B62CBC1CE1AA1C00E5AE48 /* NSData+MD5Digest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B62CBB1CE1AA1C00E5AE48 /* NSData+MD5Digest.m */; };
 		18B62CBE1CE31DAF00E5AE48 /* xmddrct_public_key.der in Resources */ = {isa = PBXBuildFile; fileRef = 18B62CBD1CE31DAF00E5AE48 /* xmddrct_public_key.der */; };
@@ -512,7 +513,6 @@
 		6B26EF071C8EF89B00428EC4 /* ReactTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EF061C8EF89B00428EC4 /* ReactTestViewController.m */; };
 		6B26EF091C8EF97E00428EC4 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B26EF081C8EF97E00428EC4 /* JavaScriptCore.framework */; };
 		6B26EF0C1C8EFA7600428EC4 /* ReactView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EF0B1C8EFA7600428EC4 /* ReactView.m */; };
-		6B26EF4A1C9026BD00428EC4 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B26EF491C9026BD00428EC4 /* main.jsbundle */; };
 		6B26EF931C91599400428EC4 /* MutualInsPhotoBrowserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B26EF921C91599400428EC4 /* MutualInsPhotoBrowserVC.m */; };
 		6B2F28F61C8414D80096FD45 /* RRFPSBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2F28F51C8414D80096FD45 /* RRFPSBar.m */; };
 		6B328ED01B79AAFA00B9F207 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B328ECF1B79AAFA00B9F207 /* ChooseBankCardVC.m */; };
@@ -1056,6 +1056,9 @@
 		1853DED21AE2A0BD00C39175 /* VcodeLoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VcodeLoginVC.h; sourceTree = "<group>"; };
 		1853DED31AE2A0BD00C39175 /* VcodeLoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VcodeLoginVC.m; sourceTree = "<group>"; };
 		185A527E1B187EFA003515CC /* DownloadOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadOp.h; path = Class/DownloadOp.h; sourceTree = "<group>"; };
+		185A8D8C1D33388300B423A0 /* MutualInsGroupDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsGroupDetail.storyboard; sourceTree = "<group>"; };
+		185A8D8F1D333AD000B423A0 /* MutualInsGroupDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGroupDetailVC.h; sourceTree = "<group>"; };
+		185A8D901D333AD000B423A0 /* MutualInsGroupDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGroupDetailVC.m; sourceTree = "<group>"; };
 		186984E31B0057A4000A182A /* MyOrderListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderListVC.h; sourceTree = "<group>"; };
 		186984E41B0057A4000A182A /* MyOrderListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderListVC.m; sourceTree = "<group>"; };
 		186984E61B005A86000A182A /* CarwashOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarwashOrderViewModel.h; sourceTree = "<group>"; };
@@ -1265,7 +1268,6 @@
 		18AB16A81C1FAE810000E718 /* GetInsBaseCarListByIDOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetInsBaseCarListByIDOp.m; sourceTree = "<group>"; };
 		18AB16A91C1FAE810000E718 /* GetInsBaseCarListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetInsBaseCarListOp.h; sourceTree = "<group>"; };
 		18AB16AA1C1FAE810000E718 /* GetInsBaseCarListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetInsBaseCarListOp.m; sourceTree = "<group>"; };
-		18B62C261CDC42AD00E5AE48 /* rctpkg */ = {isa = PBXFileReference; lastKnownFileType = folder; name = rctpkg; path = ReactNative/rctpkg; sourceTree = SOURCE_ROOT; };
 		18B62CAA1CE089A200E5AE48 /* HKSecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKSecurityManager.h; path = Class/HKSecurityManager.h; sourceTree = "<group>"; };
 		18B62CAB1CE089A200E5AE48 /* HKSecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKSecurityManager.m; path = Class/HKSecurityManager.m; sourceTree = "<group>"; };
 		18B62CBA1CE1AA1C00E5AE48 /* NSData+MD5Digest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MD5Digest.h"; path = "Class/NSData+MD5Digest.h"; sourceTree = "<group>"; };
@@ -1763,7 +1765,6 @@
 		6B26EF081C8EF97E00428EC4 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		6B26EF0A1C8EFA7600428EC4 /* ReactView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactView.h; sourceTree = "<group>"; };
 		6B26EF0B1C8EFA7600428EC4 /* ReactView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactView.m; sourceTree = "<group>"; };
-		6B26EF491C9026BD00428EC4 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ReactComponent/main.jsbundle; sourceTree = SOURCE_ROOT; };
 		6B26EF911C91599400428EC4 /* MutualInsPhotoBrowserVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPhotoBrowserVC.h; sourceTree = "<group>"; };
 		6B26EF921C91599400428EC4 /* MutualInsPhotoBrowserVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPhotoBrowserVC.m; sourceTree = "<group>"; };
 		6B2F28F41C8414D80096FD45 /* RRFPSBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRFPSBar.h; sourceTree = "<group>"; };
@@ -2871,6 +2872,7 @@
 		184453191C8E70D9007B895D /* MutualIns */ = {
 			isa = PBXGroup;
 			children = (
+				185A8D8E1D33389800B423A0 /* GroupDetail */,
 				184452FE1C8D552D007B895D /* MutualInsConstants.h */,
 				180539431C9FC88000D896A1 /* Model */,
 				184452ED1C8D169A007B895D /* MutualInsGroupon */,
@@ -3130,6 +3132,15 @@
 			name = ProgressHUD;
 			sourceTree = "<group>";
 		};
+		185A8D8E1D33389800B423A0 /* GroupDetail */ = {
+			isa = PBXGroup;
+			children = (
+				185A8D8F1D333AD000B423A0 /* MutualInsGroupDetailVC.h */,
+				185A8D901D333AD000B423A0 /* MutualInsGroupDetailVC.m */,
+			);
+			name = GroupDetail;
+			sourceTree = "<group>";
+		};
 		186984E21B00571C000A182A /* Order */ = {
 			isa = PBXGroup;
 			children = (
@@ -3255,7 +3266,6 @@
 		1883D9121ACBBE5E002A4D19 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				18B62C261CDC42AD00E5AE48 /* rctpkg */,
 				C35803041CBB79600002808D /* Images.xcassets */,
 				6BD293BA1B943EF1006482A4 /* Storyboard */,
 				1851F4221B0C29A500241A01 /* CoreData */,
@@ -4524,7 +4534,6 @@
 			children = (
 				18B62CBD1CE31DAF00E5AE48 /* xmddrct_public_key.der */,
 				C3BA94461CC5F6180053BC96 /* sh.gpx */,
-				6B26EF491C9026BD00428EC4 /* main.jsbundle */,
 				6BB884B01AE0B3FE00EBD8F4 /* hz.gpx */,
 				18D62B3E1B60EBF800E3FDB2 /* 90_0.gpx */,
 			);
@@ -4926,6 +4935,7 @@
 				6BFE6A661C03364600EC9766 /* Violation.storyboard */,
 				50A1E06D1C1EA12800176572 /* Valuation.storyboard */,
 				184452F11C8D18F4007B895D /* MutualInsGroupon.storyboard */,
+				185A8D8C1D33388300B423A0 /* MutualInsGroupDetail.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -5303,6 +5313,7 @@
 				505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */,
 				4E97D7141C90011200FC418F /* MutualInsClaims.storyboard in Resources */,
 				6BD293CC1B943EF1006482A4 /* Commission.storyboard in Resources */,
+				185A8D8D1D33388300B423A0 /* MutualInsGroupDetail.storyboard in Resources */,
 				6BD293D31B943EF1006482A4 /* Other.storyboard in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				6BD293D41B943EF1006482A4 /* Rescue.storyboard in Resources */,
@@ -5332,14 +5343,12 @@
 				FA959CED1C9C343C00E89180 /* MutualInsJoin.storyboard in Resources */,
 				6BD293CA1B943EF1006482A4 /* Bank.storyboard in Resources */,
 				18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */,
-				6B26EF4A1C9026BD00428EC4 /* main.jsbundle in Resources */,
 				18FC01E61C4E6C6F00FD61BF /* IQKeyboardManager.bundle in Resources */,
 				6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */,
 				18CECC291C30F8890075B7F9 /* LICENSE in Resources */,
 				6BD293C81B943EF1006482A4 /* About.storyboard in Resources */,
 				C359C1461D29FAC200B2275A /* MapBottomV2View.xib in Resources */,
 				18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */,
-				18B62C271CDC42AD00E5AE48 /* rctpkg in Resources */,
 				6BBC4A2C1B0C8495003F3081 /* SocialShareView.xib in Resources */,
 				18E28A261B954F4E0070E759 /* Car.storyboard in Resources */,
 				18B62CBE1CE31DAF00E5AE48 /* xmddrct_public_key.der in Resources */,
@@ -5886,6 +5895,7 @@
 				4EA1CB231C969830006CCBEA /* MutualInsScencePhotoVM.m in Sources */,
 				6BBB824F1AE7757100850D0C /* NearbyShopsViewController.m in Sources */,
 				6BC80C8E1C96BD6800C7BA3D /* GetCooperationIdlicenseInfoOp.m in Sources */,
+				185A8D911D333AD000B423A0 /* MutualInsGroupDetailVC.m in Sources */,
 				18E28A0E1B93E47E0070E759 /* PaymentHelper.m in Sources */,
 				18A15A591C21AF2000D7B5DF /* InsuranceVM.m in Sources */,
 				1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */,
