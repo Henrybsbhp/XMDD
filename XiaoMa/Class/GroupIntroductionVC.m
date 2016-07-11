@@ -16,6 +16,8 @@
 #import "HKImageAlertVC.h"
 #import "EditCarVC.h"
 #import "JTAttributedLabel.h"
+#import "MutualInsPickCarVC.h"
+#import "GetCooperationUsercarListOp.h"
 
 
 @interface GroupIntroductionVC () <UIWebViewDelegate,TTTAttributedLabelDelegate>
@@ -40,6 +42,11 @@
 
 @implementation GroupIntroductionVC
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)dealloc
 {
     DebugLog(@"GroupIntroductionVC dealloc");
@@ -62,11 +69,11 @@
     else
     {
 #if XMDDEnvironment==0
-    urlStr = @"http://dev01.xiaomadada.com/apphtml/neicejihua.html";
+        urlStr = @"http://dev01.xiaomadada.com/apphtml/neicejihua.html";
 #elif XMDDEnvironment==1
-    urlStr = @"http://dev.xiaomadada.com/apphtml/neicejihua.html";
+        urlStr = @"http://dev.xiaomadada.com/apphtml/neicejihua.html";
 #else
-    urlStr = @"http://www.xiaomadada.com/apphtml/neicejihua.html";
+        urlStr = @"http://www.xiaomadada.com/apphtml/neicejihua.html";
 #endif
     }
     
@@ -127,7 +134,7 @@
 #else
     NSString * linsenceUrlStr = @"http://www.xiaomadada.com/apphtml/view/agreement/v1.0/convention.html";
 #endif
-
+    
     NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:linsenceText
                                                                  attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12],
                                                                               NSForegroundColorAttributeName: HEXCOLOR(@"#9a9a9a")}];
@@ -135,9 +142,9 @@
     self.linsenceLb.delegate = self;
     self.linsenceLb.attributedText = attstr;
     [self.linsenceLb setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
-                               NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
+                                         NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
     [self.linsenceLb setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
-                                     NSForegroundColorAttributeName: kGrayTextColor}];
+                                               NSForegroundColorAttributeName: kGrayTextColor}];
     [self.linsenceLb addLinkToURL:[NSURL URLWithString:linsenceUrlStr] withRange:NSMakeRange(linsenceText.length - 8, 8)];
     
     self.linsenceFlag = YES;
@@ -161,13 +168,10 @@
         self.selfGroupTourBtn.enabled = flag;
         [self.selfGroupTourBtn setBackgroundColor:flag?kOrangeColor:kLightLineColor];
     }];
-
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
@@ -201,74 +205,39 @@
     [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0010"}];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
-        if (self.originCarId) {
-            [self requestApplyJoinGroupWithCarId:self.originCarId];
-        }
-        
-        else {
-            PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
-            vc.isShowBottomView = YES;
-            vc.model.originVC = self;
-            @weakify(self);
-            [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
-                @strongify(self);
-                //爱车页面入团按钮委托实现
-                [self requestApplyJoinGroupWithID:self.groupId groupName:self.groupName carModel:carModel loadingView:loadingView];
-            }];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
+        GetCooperationUsercarListOp * op = [[GetCooperationUsercarListOp alloc] init];
+        [[[op rac_postRequest] initially:^{
+            
+            [gToast showingWithText:@"获取车辆数据中..." inView:self.view];
+        }] subscribeNext:^(GetCooperationUsercarListOp * x) {
+            
+            [gToast dismissInView:self.view];
+            if (x.rsp_carArray.count)
+            {
+                MutualInsPickCarVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPickCarVC"];
+                vc.mutualInsCarArray = x.rsp_carArray;
+                [vc setFinishPickCar:^(HKMyCar *car) {
+                    
+                    [self updateIdLicenseInfoWithCar:car];
+                }];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            else
+            {
+                [self updateIdLicenseInfoWithCar:nil];
+            }
+        } error:^(NSError *error) {
+            
+            [gToast showError:@"获取失败，请重试" inView:self.view];
+        }];
     }
 }
 
-- (void)requestApplyJoinGroupWithCarId:(NSNumber *)carId
+- (void)updateIdLicenseInfoWithCar:(HKMyCar *)car
 {
-    @weakify(self);
-    ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
-    op.req_groupid = self.groupId;
-    op.req_carid = carId;
-    [[[op rac_postRequest] initially:^{
-        
-        [gToast showingWithText:@"申请加入中..." inView:self.view];
-    }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
-        
-        @strongify(self);
-        
-        [gToast dismissInView:self.view];
-        
-        MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
-        vc.memberId = rop.rsp_memberid;
-        vc.groupId = rop.req_groupid;
-        vc.groupName = self.groupName;
-        [self.navigationController pushViewController:vc animated:YES];
-    } error:^(NSError *error) {
-        
-        if (error.code == 6115804) {
-            @strongify(self);
-            [self showAlertWithError:error.domain carId:self.originCarId];
-        }
-        else {
-            [gToast showError:error.domain inView:self.view];
-        }
-    }];
-}
-
-- (void)showAlertWithError:(NSString *)errorString carId:(NSNumber *)carId
-{
-    [gToast dismissInView:self.view];
-    HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
-    alert.topTitle = @"温馨提示";
-    alert.imageName = @"mins_bulb";
-    alert.message = errorString;
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-    @weakify(self);
-    HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-        @strongify(self);
-        EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-        vc.originCarId = carId;
-        [self.navigationController pushViewController:vc animated:YES];
-    }];
-    alert.actionItems = @[cancel, improve];
-    [alert show];
+    MutualInsPicUpdateVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+    vc.curCar = car;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)requestApplyJoinGroupWithID:(NSNumber *)groupId groupName:(NSString *)groupName carModel:(MyCarListVModel *)carModel loadingView:(UIView *)view

@@ -586,7 +586,7 @@
                 //团列表
                 SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
                 vc.originVC = self;
-                vc.originCarId = car.carId;
+//                vc.originCarId = car.carId;
                 [self.navigationController pushViewController:vc animated:YES];
             }];
             mutualPrice.text = [NSString stringWithFormat:@"%@元", car.premiumPrice];
@@ -598,7 +598,7 @@
             //团列表
             SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
             vc.originVC = self;
-            vc.originCarId = car.carId;
+//            vc.originCarId = car.carId;
             [self.navigationController pushViewController:vc animated:YES];
             
         });

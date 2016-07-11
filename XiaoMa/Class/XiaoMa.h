@@ -72,6 +72,7 @@
 #import "RACSignal+Extension.h"
 #import "UIScrollView+RefreshView.h"
 #import "NSString+Safe.h"
+#import "NSNumber+Safety.h"
 
 
 #endif

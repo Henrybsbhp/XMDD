@@ -471,19 +471,19 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     [btn setTitle:@"报名未开始" forState:UIControlStateNormal];
 }
 
--(void)setSignUpCellWithBtn:(UIButton *)btn stateLabel:(UILabel *)stateLabel inGroup:(BOOL)inGroup
+- (void)setSignUpCellWithBtn:(UIButton *)btn stateLabel:(UILabel *)stateLabel inGroup:(BOOL)inGroup
 {
     btn.hidden = NO;
     stateLabel.hidden = YES;
     [btn setCornerRadius:3 withBackgroundColor:kDefTintColor];
     if (inGroup)
     {
-        if (self.originCarId)
+//        if (self.originCarId)
         {
             /// 如果小马互助首页有爱车带入。
             [btn setTitle:@"申请加入" forState:UIControlStateNormal];
         }
-        else
+//        else
         {
             [btn setTitle:@"已加入" forState:UIControlStateNormal];
         }
@@ -541,12 +541,12 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
     }
     else if ([dic integerParamForName:@"groupstatus"] == GroupButtonStateSignUp) {
         if ([dic boolParamForName:@"ingroup"]) {
-            if (self.originCarId)
+//            if (self.originCarId)
             {
                 /// 如果小马互助首页有爱车带入。
                 vc.btnType = BtnTypeJoinNow;
             }
-            else
+//            else
             {
                 vc.btnType = BtnTypeAlready;
             }
@@ -562,58 +562,9 @@ typedef NS_ENUM(NSInteger, GroupButtonState) {
 
     vc.groupId = [dic numberParamForName:@"groupid"];
     vc.groupName = dic[@"name"];
-    vc.originCarId = self.originCarId;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-//- (void)joinSystemGroupWithGroupID:(NSNumber *)groupid groupName:(NSString *)groupname
-//{
-//    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-//        
-//        if (self.originCarId) {
-//            @weakify(self);
-//            ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
-//            op.req_groupid = groupid;
-//            op.req_carid = self.originCarId;
-//            [[[op rac_postRequest] initially:^{
-//                
-//                [gToast showingWithText:@"申请加入中..." inView:self.view];
-//            }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
-//                
-//                @strongify(self);
-//                
-//                [gToast dismissInView:self.view];
-//                
-//                MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
-//                vc.memberId = rop.rsp_memberid;
-//                vc.groupId = rop.req_groupid;
-//                vc.groupName = groupname;
-//                [self.navigationController pushViewController:vc animated:YES];
-//            } error:^(NSError *error) {
-//                
-//                if (error.code == 6115804) {
-//                    @strongify(self);
-//                    [self showAlertWithError:error.domain carId:self.originCarId];
-//                }
-//                else {
-//                    [gToast showError:error.domain inView:self.view];
-//                }
-//            }];
-//        }
-//        
-//        else {
-//            PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
-//            vc.isShowBottomView = YES;
-//            @weakify(self);
-//            [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
-//                @strongify(self);
-//                //爱车页面入团按钮委托实现
-//                [self requestApplyJoinGroupWithID:groupid groupName:groupname carModel:carModel loadingView:loadingView];
-//            }];
-//            [self.navigationController pushViewController:vc animated:YES];
-//        }
-//    }
-//}
 
 - (void)showAlertWithError:(NSString *)errorString carId:(NSNumber *)carId
 {
