@@ -18,5 +18,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取已经添加过核保记录车辆的基本信息";
+}
 @end
 

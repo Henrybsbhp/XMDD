@@ -20,4 +20,8 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (NSString *)description
+{
+    return @"领取礼包";
+}
 @end

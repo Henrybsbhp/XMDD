@@ -18,4 +18,8 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (NSString *)description
+{
+    return @"删除爱车";
+}
 @end

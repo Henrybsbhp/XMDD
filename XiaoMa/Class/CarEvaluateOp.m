@@ -47,4 +47,9 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"二手车估值";
+}
 @end

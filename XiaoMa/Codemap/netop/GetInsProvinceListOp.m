@@ -23,5 +23,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"支持在线保险订单城市列表获取";
+}
 @end
 

@@ -22,5 +22,10 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"照片信息完善页面信息获取,照片信息完善前调用或者审核失败后重新提交图片时调用";
+}
+
 @end
 

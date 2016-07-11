@@ -56,4 +56,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"救援首页，获取救援列表";
+}
 @end

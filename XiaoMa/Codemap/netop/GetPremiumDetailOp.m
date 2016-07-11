@@ -36,5 +36,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"在线购买详情获取";
+}
 @end
 

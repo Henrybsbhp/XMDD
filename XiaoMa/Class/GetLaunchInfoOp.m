@@ -61,4 +61,8 @@
     return [[NSUserDefaults standardUserDefaults] objectForKey:kLaunchInfoStoreKey];
 }
 
+- (NSString *)description
+{
+    return @"获取启动页";
+}
 @end

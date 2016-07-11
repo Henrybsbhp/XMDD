@@ -24,4 +24,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取各星级下面的简易评价内容";
+}
 @end

@@ -23,4 +23,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取系统时间，用于图片水印";
+}
 @end

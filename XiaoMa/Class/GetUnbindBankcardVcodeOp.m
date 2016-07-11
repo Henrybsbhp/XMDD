@@ -25,4 +25,9 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"解绑时获取验证码";
+}
+
 @end

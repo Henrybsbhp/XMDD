@@ -39,4 +39,9 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"获取省市区的id,名称，简称";
+}
 @end

@@ -24,5 +24,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"查询车辆核保结果";
+}
 @end
 

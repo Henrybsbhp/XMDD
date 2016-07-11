@@ -27,4 +27,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取车型信息";
+}
+
 @end

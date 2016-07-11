@@ -39,4 +39,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"根据地图返回的省市区信息查询服务器对应信息";
+}
 @end

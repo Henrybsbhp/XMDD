@@ -41,4 +41,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"渠道保单查询，根据渠道号、车牌、身份证查保单";
+}
 @end

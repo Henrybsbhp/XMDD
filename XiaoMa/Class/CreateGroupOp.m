@@ -29,4 +29,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"创建团";
+}
 @end

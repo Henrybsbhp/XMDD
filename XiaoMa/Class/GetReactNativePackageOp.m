@@ -32,4 +32,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"";
+}
+
 @end

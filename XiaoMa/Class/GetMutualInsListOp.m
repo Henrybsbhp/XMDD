@@ -37,4 +37,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"获取可以购买的保险项列表";
+}
+
 @end

@@ -23,5 +23,8 @@
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }
-
+- (NSString *)description
+{
+    return @"获取分享按钮链接信息";
+}
 @end

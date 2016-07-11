@@ -20,6 +20,10 @@
 	
     return self;
 }
+- (NSString *)description
+{
+    return @"添加油卡";
+}
 
 @end
 

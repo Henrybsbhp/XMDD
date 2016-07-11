@@ -28,5 +28,10 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"解绑银行卡";
+}
+
 
 @end

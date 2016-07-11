@@ -21,5 +21,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取保险订单保险人的信息";
+}
 @end
 

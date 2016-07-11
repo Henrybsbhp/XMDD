@@ -44,4 +44,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"";
+}
 @end

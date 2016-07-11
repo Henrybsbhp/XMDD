@@ -33,4 +33,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"车估值历史记录分页查询";
+}
+
 @end
