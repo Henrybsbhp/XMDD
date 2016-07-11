@@ -1,27 +1,27 @@
 //
-//  CooperationGroupListVM.m
+//  MutInsSystemGroupListVM.m
 //  XiaoMa
 //
 //  Created by RockyYe on 16/7/11.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "CooperationGroupListVM.h"
+#import "MutInsSystemGroupListVM.h"
 #import "GetCooperationGroupOp.h"
 
-@interface CooperationGroupListVM()<UITableViewDelegate,UITableViewDataSource>
+@interface MutInsSystemGroupListVM()<UITableViewDelegate,UITableViewDataSource>
 
 @property (assign, nonatomic) GroupStatusType status;
-@property (strong, nonatomic) CooperationGroupListVC *targetVC;
+@property (strong, nonatomic) MutInsSystemGroupListVC *targetVC;
 
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) UITableView *tableView;
 
 @end
 
-@implementation CooperationGroupListVM
+@implementation MutInsSystemGroupListVM
 
--(id)initWithTableView:(UITableView *)tableView andType:(GroupStatusType)groupStatusType andTargetVC:(CooperationGroupListVC *)groupListVC
+-(id)initWithTableView:(UITableView *)tableView andType:(GroupStatusType)groupStatusType andTargetVC:(MutInsSystemGroupListVC *)groupListVC
 {
     if (self = [super init])
     {

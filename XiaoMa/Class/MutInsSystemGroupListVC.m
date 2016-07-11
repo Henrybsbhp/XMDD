@@ -6,23 +6,23 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "CooperationGroupListVC.h"
-#import "CooperationGroupListVM.h"
+#import "MutInsSystemGroupListVC.h"
+#import "MutInsSystemGroupListVM.h"
 #import "GetCooperationGroupOp.h"
 
-@interface CooperationGroupListVC ()
+@interface MutInsSystemGroupListVC ()
 @property (weak, nonatomic) IBOutlet UIButton *groupBeginBtn;
 @property (weak, nonatomic) IBOutlet UIButton *groupEndBtn;
 @property (weak, nonatomic) IBOutlet UIView *groupBeginLine;
 @property (weak, nonatomic) IBOutlet UIView *groupEndLine;
 @property (weak, nonatomic) IBOutlet UIButton *applyBtn;
 
-@property (strong, nonatomic) CooperationGroupListVM *groupBeginVM;
-@property (strong, nonatomic) CooperationGroupListVM *groupEndVM;
+@property (strong, nonatomic) MutInsSystemGroupListVM *groupBeginVM;
+@property (strong, nonatomic) MutInsSystemGroupListVM *groupEndVM;
 
 @end
 
-@implementation CooperationGroupListVC
+@implementation MutInsSystemGroupListVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -96,20 +96,20 @@
 
 #pragma mark - LazyLoad
 
--(CooperationGroupListVM *)groupBeginVM
+-(MutInsSystemGroupListVM *)groupBeginVM
 {
     if (!_groupBeginVM)
     {
-        _groupBeginVM = [[CooperationGroupListVM alloc]initWithTableView:self.groupBeginTable andType:GroupStatusTypeBegin andTargetVC:self];
+        _groupBeginVM = [[MutInsSystemGroupListVM alloc]initWithTableView:self.groupBeginTable andType:GroupStatusTypeBegin andTargetVC:self];
     }
     return _groupBeginVM;
 }
 
--(CooperationGroupListVM *)groupEndVM
+-(MutInsSystemGroupListVM *)groupEndVM
 {
     if (!_groupEndVM)
     {
-        _groupEndVM = [[CooperationGroupListVM alloc]initWithTableView:self.groupEndTable andType:GroupStatusTypeEnd andTargetVC:self];
+        _groupEndVM = [[MutInsSystemGroupListVM alloc]initWithTableView:self.groupEndTable andType:GroupStatusTypeEnd andTargetVC:self];
     }
     return _groupEndVM;
 }

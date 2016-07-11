@@ -1,5 +1,5 @@
 //
-//  CooperationGroupListVC.h
+//  MutInsSystemGroupListVC.h
 //  XiaoMa
 //
 //  Created by RockyYe on 16/7/11.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CooperationGroupListVC : UIViewController
+@interface MutInsSystemGroupListVC : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *groupBeginTable;
 @property (weak, nonatomic) IBOutlet UITableView *groupEndTable;

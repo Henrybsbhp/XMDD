@@ -1,5 +1,5 @@
 //
-//  CooperationGroupListVM.h
+//  MutInsSystemGroupListVM.h
 //  XiaoMa
 //
 //  Created by RockyYe on 16/7/11.
@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CooperationGroupListVC.h"
+#import "MutInsSystemGroupListVC.h"
 
 typedef enum : NSInteger {
     GroupStatusTypeBegin = 1,
@@ -15,9 +15,9 @@ typedef enum : NSInteger {
 } GroupStatusType;
 
 
-@interface CooperationGroupListVM : NSObject
+@interface MutInsSystemGroupListVM : NSObject
 
--(id)initWithTableView:(UITableView *)tableView andType:(GroupStatusType)groupStatusType andTargetVC:(CooperationGroupListVC *)groupListVC;
+-(id)initWithTableView:(UITableView *)tableView andType:(GroupStatusType)groupStatusType andTargetVC:(MutInsSystemGroupListVC *)groupListVC;
 
 -(void)getCooperationGroupList;
 
