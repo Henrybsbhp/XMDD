@@ -187,9 +187,17 @@
         sourceView = [self.sourceImagesContainerView.subviews safetyObjectAtIndex:currentIndex];
     }
     
+    CGRect targetTemp;
     
+    if (self.sourceImagesContainerViewContentMode == sourceImagesContainerViewContentFill)
+    {
+        targetTemp = self.sourceImagesContainerView.frame;
+    }
+    else
+    {
+        targetTemp = [self.sourceImagesContainerView convertRect:sourceView.frame toView:self];
+    }
     
-    CGRect targetTemp = [self.sourceImagesContainerView convertRect:sourceView.frame toView:self];
     
     UIImageView *tempView = [[UIImageView alloc] init];
     tempView.contentMode = sourceView.contentMode;
