@@ -14,7 +14,6 @@
 #import "HKImageView.h"
 #import "UpdateCooperationIdlicenseInfoV2Op.h"
 #import "EstimatedPriceVC.h"
-#import "MutualInsHomeVC.h"
 #import "GetCooperationIdlicenseInfoOp.h"
 #import "MutualInsStore.h"
 #import "MutualInsGrouponVC.h"
@@ -68,7 +67,11 @@
     [self setupDatasource];
     [self.tableView reloadData];
     
-    [self requesLastIdLicenseInfo];
+    if (self.memberId)
+    {
+        // 有memeber说明是重新上传的
+        [self requesLastIdLicenseInfo];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -178,7 +181,10 @@
         label.text = @"车牌号码";
         
         [chooseV setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
-        chooseV.displayLb.text = self.curCar.licenceArea.length ? self.curCar.licenceArea : [self getCurrentProvince];
+        
+        NSString * lisenceArea = [self.curCar.licencenumber safteySubstringToIndexIndex:1];
+        NSString * lisenceSuffix = [self.curCar.licencenumber safteySubstringFromIndex:1];
+
         @weakify(self);
         [[[chooseV rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
@@ -199,7 +205,6 @@
         
         
         field.textLimit = 6;
-        field.text = self.curCar.licenceSuffix;
         
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
             field.placeholder = nil;
@@ -215,6 +220,9 @@
             field.text = [newtext uppercaseString];
             self.curCar.licenceSuffix = field.text;
         }];
+        
+        chooseV.displayLb.text = lisenceArea.length ? lisenceArea : [self getCurrentProvince];
+        field.text = lisenceSuffix.length ? lisenceSuffix : @"";
     });
 
     return cell0;
@@ -699,54 +707,6 @@
 
 - (void)back
 {
-    //刷新团列表信息
-    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
-    
-    MutualInsGrouponVC *grouponvc;
-    MutualInsHomeVC *homevc;
-    NSInteger homevcIndex = NSNotFound;
-    for (NSInteger i=0; i<self.navigationController.viewControllers.count; i++) {
-        
-        UIViewController *vc = self.navigationController.viewControllers[i];
-        if ([vc isKindOfClass:[MutualInsGrouponVC class]] &&
-            [[(MutualInsGrouponVC *)vc group].groupId safetyEqualToNumber:self.groupId]) {
-
-            grouponvc = (MutualInsGrouponVC *)vc;
-            break;
-        }
-        else if ([vc isKindOfClass:[MutualInsHomeVC class]]) {
-            homevc = (MutualInsHomeVC *)vc;
-            homevcIndex = i;
-        }
-    }
-    if (grouponvc) {
-        [self.navigationController popToViewController:grouponvc animated:YES];
-        //刷新团详情
-        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
-        return;
-    }
-    //创建团详情视图
-    grouponvc  = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-    HKMutualGroup * group = [[HKMutualGroup alloc] init];
-    group.groupId = self.groupId;
-    group.groupName = self.groupName;
-    group.memberId = self.memberId;
-    grouponvc.group = group;
-    
-    NSMutableArray *vcs = [NSMutableArray array];
-    if (homevcIndex != NSNotFound) {
-        NSArray *subvcs = [self.navigationController.viewControllers subarrayToIndex:homevcIndex+1];
-        [vcs addObjectsFromArray:subvcs];
-    }
-    else {
-        //创建团root视图
-        homevc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
-        [vcs addObject:self.navigationController.viewControllers[0]];
-        [vcs addObject:homevc];
-    }
-    [vcs addObject:grouponvc];
-    [vcs addObject:self];
-    self.navigationController.viewControllers = vcs;
     [self.navigationController popViewControllerAnimated:YES];
 }
 

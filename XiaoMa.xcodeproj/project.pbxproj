@@ -55,7 +55,6 @@
 		1818D8FE1C23B0800078C329 /* InsPayFaildVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1818D8FD1C23B0800078C329 /* InsPayFaildVC.m */; };
 		181921811C253957009C80BD /* InsAppointmentSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181921801C253957009C80BD /* InsAppointmentSuccessVC.m */; };
 		181921841C264D54009C80BD /* InsuranceAppointmentV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 181921831C264D54009C80BD /* InsuranceAppointmentV2Op.m */; };
-		181AA43E1CA3BC7600ADD50C /* MutualInsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 181AA43D1CA3BC7600ADD50C /* MutualInsModel.m */; };
 		181AA4551CA4D53100ADD50C /* HKMessageAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181AA4541CA4D53100ADD50C /* HKMessageAlertVC.m */; };
 		181F6D901B1436CA00D38555 /* UIView+DefaultEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D8F1B1436CA00D38555 /* UIView+DefaultEmptyView.m */; };
 		181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */; };
@@ -439,7 +438,6 @@
 		5050309B1CB5058700AB4D91 /* ValuationHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5050309A1CB5058700AB4D91 /* ValuationHomeVC.m */; };
 		505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 505358F31C0D79640029B5BA /* SharedNotifyOp.m */; };
 		50542B8D1CC6186B0075919B /* MutualInsSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 50542B8C1CC6186B0075919B /* MutualInsSuspendedAdVC.m */; };
-		505BC1C21C87D4FA00253F6D /* MutualInsHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
 		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
@@ -761,9 +759,15 @@
 		FA958E251C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E241C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m */; };
 		FA958E281C9BFE6E00E89180 /* MutualInsGroupInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E271C9BFE6E00E89180 /* MutualInsGroupInfoVC.m */; };
 		FA959CED1C9C343C00E89180 /* MutualInsJoin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */; };
+		FAA6B9B01D333734004D922F /* MutualInsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA6B9AF1D333734004D922F /* MutualInsVC.m */; };
+		FAA6B9BE1D333809004D922F /* TempHX.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAA6B9BD1D333809004D922F /* TempHX.storyboard */; };
 		FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C41D1246490045531C /* CFNetwork.framework */; };
 		FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C81D12466E0045531C /* SystemConfiguration.framework */; };
 		FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */; };
+		FAE897DB1D2F45E500C7AD9B /* GetGroupJoinedInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE897DA1D2F45E500C7AD9B /* GetGroupJoinedInfoOp.m */; };
+		FAE897F01D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE897EF1D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m */; };
+		FAE897F31D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE897F21D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.m */; };
+		FAEE31501D2A76C20053BF2B /* ScanQRCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAEE314F1D2A76C20053BF2B /* ScanQRCodeVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -964,8 +968,6 @@
 		181921801C253957009C80BD /* InsAppointmentSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsAppointmentSuccessVC.m; sourceTree = "<group>"; };
 		181921821C264D54009C80BD /* InsuranceAppointmentV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsuranceAppointmentV2Op.h; sourceTree = "<group>"; };
 		181921831C264D54009C80BD /* InsuranceAppointmentV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceAppointmentV2Op.m; sourceTree = "<group>"; };
-		181AA43C1CA3BC7600ADD50C /* MutualInsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsModel.h; sourceTree = "<group>"; };
-		181AA43D1CA3BC7600ADD50C /* MutualInsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsModel.m; sourceTree = "<group>"; };
 		181AA4531CA4D53100ADD50C /* HKMessageAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKMessageAlertVC.h; path = Class/HKMessageAlertVC.h; sourceTree = "<group>"; };
 		181AA4541CA4D53100ADD50C /* HKMessageAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKMessageAlertVC.m; path = Class/HKMessageAlertVC.m; sourceTree = "<group>"; };
 		181F6D8E1B1436CA00D38555 /* UIView+DefaultEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+DefaultEmptyView.h"; path = "Class/UIView+DefaultEmptyView.h"; sourceTree = "<group>"; };
@@ -1718,8 +1720,6 @@
 		505358F31C0D79640029B5BA /* SharedNotifyOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SharedNotifyOp.m; path = Class/SharedNotifyOp.m; sourceTree = "<group>"; };
 		50542B8B1CC6186B0075919B /* MutualInsSuspendedAdVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsSuspendedAdVC.h; sourceTree = "<group>"; };
 		50542B8C1CC6186B0075919B /* MutualInsSuspendedAdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsSuspendedAdVC.m; sourceTree = "<group>"; };
-		505BC1C01C87D4FA00253F6D /* MutualInsHomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsHomeVC.h; sourceTree = "<group>"; };
-		505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsHomeVC.m; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
@@ -2398,9 +2398,20 @@
 		FA958E261C9BFE6E00E89180 /* MutualInsGroupInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGroupInfoVC.h; sourceTree = "<group>"; };
 		FA958E271C9BFE6E00E89180 /* MutualInsGroupInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGroupInfoVC.m; sourceTree = "<group>"; };
 		FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsJoin.storyboard; sourceTree = "<group>"; };
+		FAA6B9AE1D333734004D922F /* MutualInsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsVC.h; sourceTree = "<group>"; };
+		FAA6B9AF1D333734004D922F /* MutualInsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsVC.m; sourceTree = "<group>"; };
+		FAA6B9BD1D333809004D922F /* TempHX.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TempHX.storyboard; sourceTree = "<group>"; };
 		FAAD30C41D1246490045531C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FAAD30C81D12466E0045531C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
+		FAE897D91D2F45E500C7AD9B /* GetGroupJoinedInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGroupJoinedInfoOp.h; path = Class/GetGroupJoinedInfoOp.h; sourceTree = "<group>"; };
+		FAE897DA1D2F45E500C7AD9B /* GetGroupJoinedInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGroupJoinedInfoOp.m; path = Class/GetGroupJoinedInfoOp.m; sourceTree = "<group>"; };
+		FAE897EE1D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutlayCalculateWithFrameNumOp.h; path = Class/OutlayCalculateWithFrameNumOp.h; sourceTree = "<group>"; };
+		FAE897EF1D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OutlayCalculateWithFrameNumOp.m; path = Class/OutlayCalculateWithFrameNumOp.m; sourceTree = "<group>"; };
+		FAE897F11D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCalculateBaseInfoOp.h; path = Class/GetCalculateBaseInfoOp.h; sourceTree = "<group>"; };
+		FAE897F21D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCalculateBaseInfoOp.m; path = Class/GetCalculateBaseInfoOp.m; sourceTree = "<group>"; };
+		FAEE314E1D2A76C20053BF2B /* ScanQRCodeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanQRCodeVC.h; sourceTree = "<group>"; };
+		FAEE314F1D2A76C20053BF2B /* ScanQRCodeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanQRCodeVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2501,8 +2512,6 @@
 			children = (
 				180539441C9FCDE600D896A1 /* MutualInsStore.h */,
 				180539451C9FCDE600D896A1 /* MutualInsStore.m */,
-				181AA43C1CA3BC7600ADD50C /* MutualInsModel.h */,
-				181AA43D1CA3BC7600ADD50C /* MutualInsModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -3083,6 +3092,8 @@
 				184452FE1C8D552D007B895D /* MutualInsConstants.h */,
 				180539431C9FC88000D896A1 /* Model */,
 				184452ED1C8D169A007B895D /* MutualInsGroupon */,
+				FAA6B9AE1D333734004D922F /* MutualInsVC.h */,
+				FAA6B9AF1D333734004D922F /* MutualInsVC.m */,
 			);
 			name = MutualIns;
 			sourceTree = "<group>";
@@ -4536,8 +4547,6 @@
 		505BC1BC1C87D42C00253F6D /* MutualInsJoin */ = {
 			isa = PBXGroup;
 			children = (
-				505BC1C01C87D4FA00253F6D /* MutualInsHomeVC.h */,
-				505BC1C11C87D4FA00253F6D /* MutualInsHomeVC.m */,
 				5029A84D1C9121C2006B3438 /* GroupIntroductionVC.h */,
 				5029A84E1C9121C2006B3438 /* GroupIntroductionVC.m */,
 				FA93A7BC1C9978AB00CBD565 /* CreateGroupVC.h */,
@@ -4749,6 +4758,8 @@
 				6BB61B9F1AEF6969004F39AA /* RescueViewController.m */,
 				6BB61BA41AEF8B34004F39AA /* ServiceViewController.h */,
 				6BB61BA51AEF8B34004F39AA /* ServiceViewController.m */,
+				FAEE314E1D2A76C20053BF2B /* ScanQRCodeVC.h */,
+				FAEE314F1D2A76C20053BF2B /* ScanQRCodeVC.m */,
 				C3F451591D2E7C9000BA9BC4 /* NetworkInterfaceTableVC.h */,
 				C3F4515A1D2E7C9000BA9BC4 /* NetworkInterfaceTableVC.m */,
 			);
@@ -5181,6 +5192,12 @@
 				C3F451B71D3396A900BA9BC4 /* GetCooperationUsercarListOp.m */,
 				C30B897E1D33BA390022AA53 /* UpdateCooperationIdlicenseInfoV2Op.h */,
 				C30B897F1D33BA390022AA53 /* UpdateCooperationIdlicenseInfoV2Op.m */,
+				FAE897D91D2F45E500C7AD9B /* GetGroupJoinedInfoOp.h */,
+				FAE897DA1D2F45E500C7AD9B /* GetGroupJoinedInfoOp.m */,
+				FAE897EE1D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.h */,
+				FAE897EF1D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m */,
+				FAE897F11D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.h */,
+				FAE897F21D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.m */,
 				4ECB96391D3335DD00FE70CF /* GetCooperationGroupOp.h */,
 				4ECB963A1D3335DD00FE70CF /* GetCooperationGroupOp.m */,
 			);
@@ -5234,6 +5251,7 @@
 			children = (
 				4ECB96481D33370E00FE70CF /* Temp.storyboard */,
 				4E70143E1CB7B0770010C130 /* Carwash.storyboard */,
+				FAA6B9BD1D333809004D922F /* TempHX.storyboard */,
 				FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */,
 				6BC80CF71C99453B00C7BA3D /* MutualInsPay.storyboard */,
 				4E97D7131C90011200FC418F /* MutualInsClaims.storyboard */,
@@ -5783,6 +5801,7 @@
 				4E97D7141C90011200FC418F /* MutualInsClaims.storyboard in Resources */,
 				6BD293CC1B943EF1006482A4 /* Commission.storyboard in Resources */,
 				6BD293D31B943EF1006482A4 /* Other.storyboard in Resources */,
+				FAA6B9BE1D333809004D922F /* TempHX.storyboard in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				6BD293D41B943EF1006482A4 /* Rescue.storyboard in Resources */,
 				C38A1DFE1CC5D1390085BA4C /* (null) in Resources */,
@@ -6001,6 +6020,7 @@
 				50AC2B501C8D737400620551 /* MutualInsPicUpdateVC.m in Sources */,
 				6B50127E1C59F5F000267DCB /* UIViewController+Swizzling.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
+				FAE897F31D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.m in Sources */,
 				6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */,
 				1809C1241CEAB3D100AE56EB /* ReactNativeOp.m in Sources */,
 				1809C1E01CF3F06600AE56EB /* CKEventPromise.m in Sources */,
@@ -6108,6 +6128,7 @@
 				4ECF21951C9C0BE5004E76DD /* MutualInsActivityVC.m in Sources */,
 				6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */,
 				1813559C1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.m in Sources */,
+				FAE897F01D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m in Sources */,
 				181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */,
 				186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */,
 				184452FC1C8D4ADA007B895D /* AddCloseAnimationButton.m in Sources */,
@@ -6192,6 +6213,7 @@
 				50BF30161CABEE0100D0FC07 /* AdListData.m in Sources */,
 				50B5088D1C7C469800B6151E /* HomeSuspendedAdVC.m in Sources */,
 				6BC80C941C96BD6800C7BA3D /* SearchCooperationGroupOp.m in Sources */,
+				FAE897DB1D2F45E500C7AD9B /* GetGroupJoinedInfoOp.m in Sources */,
 				18FC01DF1C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m in Sources */,
 				506008D41B74631800B8761D /* DrawingBoardView.m in Sources */,
 				18E592381C1A5CEE006010D9 /* InsPayResultVC.m in Sources */,
@@ -6261,6 +6283,7 @@
 				6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */,
 				18A15A691C225E3F00D7B5DF /* CalculatePremiumOp.m in Sources */,
 				1844FB351CD9C8880085A0D4 /* NSDictionary+Encoding.m in Sources */,
+				FAA6B9B01D333734004D922F /* MutualInsVC.m in Sources */,
 				6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */,
 				2E77A4941C325F2F00264FC9 /* GetRescueHostCountsOp.m in Sources */,
 				2E52F24A1C2032BB00D94F68 /* (null) in Sources */,
@@ -6476,7 +6499,6 @@
 				1885F0C31B1C50970056D3BD /* UIView+AddBadgeView.m in Sources */,
 				18FC01E51C4E6C6F00FD61BF /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				505358F41C0D79640029B5BA /* SharedNotifyOp.m in Sources */,
-				181AA43E1CA3BC7600ADD50C /* MutualInsModel.m in Sources */,
 				18B7A2711C2014BA00865A99 /* CityPickerVC.m in Sources */,
 				506A309F1B8F08FC002F1F14 /* InsuranceAppointmentOp.m in Sources */,
 				1844532D1C8FEE81007B895D /* UIImage+RoundedCorner.m in Sources */,
@@ -6508,7 +6530,6 @@
 				18804AAE1B280E3C00E7E764 /* HKLoadingModel.m in Sources */,
 				182C50D21C27C263004ED5D1 /* InsCheckFailVC.m in Sources */,
 				504FFE951C0588EB002D7D6D /* JoinResultViewController.m in Sources */,
-				505BC1C21C87D4FA00253F6D /* MutualInsHomeVC.m in Sources */,
 				189428B21C1AAD6300E492CA /* GridLabel.m in Sources */,
 				18B78F5F1BA990100061ECAD /* HKLaunchManager.m in Sources */,
 				18E5922E1C183B66006010D9 /* InsCheckResultsVC.m in Sources */,
@@ -6528,6 +6549,7 @@
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
 				6BC80C931C96BD6800C7BA3D /* PayCooperationContractOrderOp.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
+				FAEE31501D2A76C20053BF2B /* ScanQRCodeVC.m in Sources */,
 				6BE47F9C1C27F50000DBD969 /* HistoryDeleteOp.m in Sources */,
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
@@ -6684,8 +6706,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6772,7 +6794,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "86d6669a-9d41-413a-a618-335e7e698cc1";
 			};
 			name = Debug;
 		};
@@ -6797,7 +6819,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=2",
+					"XMDDEnvironment=0",
 				);
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/ReactNative/node_modules/react-native/React/**",

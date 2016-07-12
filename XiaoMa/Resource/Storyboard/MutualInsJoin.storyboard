@@ -2794,7 +2794,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eZK-HS-qyC">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eZK-HS-qyC">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -2839,21 +2839,30 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未参团" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sHG-Ko-BAa">
-                                                    <rect key="frame" x="520" y="7" width="80" height="27"/>
+                                                    <rect key="frame" x="520" y="7" width="92" height="27"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="27" id="mVR-Qb-1Ua"/>
-                                                        <constraint firstAttribute="width" constant="80" id="oIS-xn-mdH"/>
+                                                        <constraint firstAttribute="width" constant="92" id="oIS-xn-mdH"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="HhK-Dl-9XT">
+                                                    <rect key="frame" x="0.0" y="-16" width="600" height="129"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="WcH-t2-zg9"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="mxg-Qo-RHF" firstAttribute="leading" secondItem="tRE-yv-c29" secondAttribute="trailing" constant="12" id="0H7-gI-tq1"/>
+                                                <constraint firstItem="HhK-Dl-9XT" firstAttribute="leading" secondItem="45l-iN-zfH" secondAttribute="leading" id="0dX-PP-jDK"/>
                                                 <constraint firstItem="sHG-Ko-BAa" firstAttribute="top" secondItem="45l-iN-zfH" secondAttribute="top" constant="7" id="FOF-ff-rW9"/>
+                                                <constraint firstAttribute="bottom" secondItem="HhK-Dl-9XT" secondAttribute="bottom" id="RKm-6z-cj8"/>
                                                 <constraint firstItem="mxg-Qo-RHF" firstAttribute="centerY" secondItem="45l-iN-zfH" secondAttribute="centerY" id="XLa-4z-HTn"/>
-                                                <constraint firstAttribute="trailing" secondItem="sHG-Ko-BAa" secondAttribute="trailing" id="zn9-aH-P8I"/>
+                                                <constraint firstAttribute="trailing" secondItem="HhK-Dl-9XT" secondAttribute="trailing" id="kZZ-jH-fSP"/>
+                                                <constraint firstAttribute="trailing" secondItem="sHG-Ko-BAa" secondAttribute="trailing" constant="-12" id="zn9-aH-P8I"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>

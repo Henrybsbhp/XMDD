@@ -23,6 +23,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationItem.title = @"互助团";
+    self.tableView.backgroundColor = kBackgroundColor;
 
     [self setupDatasource:self.mutualInsCarArray];
 }
@@ -42,7 +45,7 @@
         NSString * logoUrl = dict[@"carlogourl"];
         NSString * licensenNumber = dict[@"licensenumber"];
         NSNumber * carId = dict[@"usercarid"];
-        CKDict * carCell = [CKDict dictWith:@{kCKCellID:@"SelectOtherCell"}];
+        CKDict * carCell = [CKDict dictWith:@{kCKCellID:@"CarCell"}];
         carCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
             
             return 82;
@@ -58,7 +61,10 @@
                         withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
             lb.text = licensenNumber;
             tagLb.text = @"未参团";
-            [self setCornerWithView:tagLb];
+            tagLb.layer.cornerRadius = 12.0f;
+            tagLb.layer.borderColor = kOrangeColor.CGColor;
+            tagLb.layer.borderWidth = 1.0f;
+            tagLb.layer.masksToBounds = YES;
         });
         
         carCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -76,10 +82,10 @@
         [list addObject:carCell forKey:nil];
     }
     
-    CKDict * addCell = [CKDict dictWith:@{kCKCellID:@"SelectOtherCell"}];
+    CKDict * addCell = [CKDict dictWith:@{kCKCellID:@"AddCell"}];
     addCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
-        return 45;
+        return 50;
     });
     
     addCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -92,7 +98,7 @@
     
     [list addObject:addCell forKey:nil];
     
-    self.datasource = $($(list));
+    self.datasource = $(list);
 }
 
 

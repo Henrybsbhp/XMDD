@@ -123,7 +123,7 @@
 
 - (void)gotoIdLicenseInfoupdateWithCar:(HKMyCar *)car
 {
-    MutualInsPicUpdateVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+    MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
     vc.curCar = car;
     
     [self.router.navigationController pushViewController:vc animated:YES];

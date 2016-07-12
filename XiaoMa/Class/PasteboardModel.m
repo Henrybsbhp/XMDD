@@ -112,11 +112,7 @@
                 }
                 else {
                     GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
-                    vc.titleStr = @"平台团介绍";
                     vc.groupType = MutualGroupTypeSystem;
-                    vc.btnType = BtnTypeJoinNow;
-                    vc.groupId = rop.rsp_groupid;
-                    vc.groupName = rop.rsp_name;
                     vc.groupIntrUrlStr = rop.rsp_urlStr;
                     [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
                 }

@@ -275,7 +275,7 @@
     req.bText = NO;
     req.scene = (int)scene;
     
-    [WXApi sendReq:req]
+    [WXApi sendReq:req];
 }
 
 #pragma mark - QQ
