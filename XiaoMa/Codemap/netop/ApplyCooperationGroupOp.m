@@ -17,5 +17,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"申请一个团";
+}
 @end
 

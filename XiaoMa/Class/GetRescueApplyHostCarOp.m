@@ -26,4 +26,9 @@
     }
     return error;
 }
+
+- (NSString *)description
+{
+    return @"申请协办";
+}
 @end

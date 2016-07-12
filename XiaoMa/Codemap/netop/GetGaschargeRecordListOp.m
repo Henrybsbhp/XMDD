@@ -25,5 +25,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取用户加油记录";
+}
 @end
 

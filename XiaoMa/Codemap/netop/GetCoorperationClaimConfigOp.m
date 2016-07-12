@@ -20,5 +20,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取互助理赔页面的配置信息";
+}
 @end
 

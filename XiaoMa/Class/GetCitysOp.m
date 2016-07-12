@@ -20,5 +20,9 @@
 }
 
 
+- (NSString *)description
+{
+    return @"获取城市列表";
+}
 
 @end

@@ -18,5 +18,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"互助协议查看";
+}
 @end
 

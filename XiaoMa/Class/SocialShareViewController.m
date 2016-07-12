@@ -9,7 +9,6 @@
 #import "SocialShareViewController.h"
 #import <TencentOpenAPI.framework/Headers/QQApiInterface.h>
 #import <TencentOpenAPI.framework/Headers/QQApiInterfaceObject.h>
-#import "GetShareDetailOp.h"
 #import "GetShareDetailOpV2.h"
 
 @interface SocialShareViewController ()

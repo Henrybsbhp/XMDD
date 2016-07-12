@@ -47,4 +47,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @" 查询固定范围内的商户V2";
+}
 @end

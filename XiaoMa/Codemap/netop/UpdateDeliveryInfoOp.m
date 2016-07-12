@@ -21,5 +21,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"支付完成后更新保险联系人等信息";
+}
 @end
 

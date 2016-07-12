@@ -37,4 +37,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"获取用户爱车列表";
+}
 @end

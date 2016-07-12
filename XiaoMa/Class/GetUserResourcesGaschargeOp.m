@@ -41,4 +41,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"查询用户加油可用的优惠券";
+}
 @end

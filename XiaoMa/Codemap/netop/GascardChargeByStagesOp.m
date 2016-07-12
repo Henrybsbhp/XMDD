@@ -29,5 +29,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"分期加油";
+}
 @end
 

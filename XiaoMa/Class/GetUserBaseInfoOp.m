@@ -58,4 +58,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"获取用户基本信息";
+}
 @end

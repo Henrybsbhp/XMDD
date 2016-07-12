@@ -20,5 +20,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取认证车辆详细信息";
+}
 @end
 

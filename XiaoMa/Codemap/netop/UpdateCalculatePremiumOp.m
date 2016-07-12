@@ -19,5 +19,10 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"车辆本地核保更新";
+}
+
 @end
 

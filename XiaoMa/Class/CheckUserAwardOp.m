@@ -45,4 +45,8 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"检查用户是否可以领取礼券";
+}
 @end

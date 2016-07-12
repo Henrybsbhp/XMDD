@@ -19,5 +19,10 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"团长报价时，检查是否有审核中的团员，提醒团长";
+}
+
 @end
 

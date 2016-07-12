@@ -19,5 +19,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"添加一张理赔银行卡";
+}
 @end
 

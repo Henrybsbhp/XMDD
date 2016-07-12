@@ -34,4 +34,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取用户消息。每次返回10条消息";
+}
 @end

@@ -38,4 +38,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"根据券类型查看所有可用优惠券";
+}
 @end

@@ -28,4 +28,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取订单状态支付状态";
+}
+
 @end

@@ -17,5 +17,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"保险信息更新到团中";
+}
 @end
 

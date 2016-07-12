@@ -44,5 +44,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取商户评价";
+}
 
 @end

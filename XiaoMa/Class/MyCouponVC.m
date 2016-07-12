@@ -8,7 +8,6 @@
 
 #import "MyCouponVC.h"
 #import "UIBarButtonItem+CustomStyle.h"
-#import "GetUserCouponOp.h"
 #import "JTTableView.h"
 #import "ShareUserCouponOp.h"
 #import "DownloadOp.h"

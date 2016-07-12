@@ -42,4 +42,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"查看收藏的商家";
+}
 @end

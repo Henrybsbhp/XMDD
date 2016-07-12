@@ -47,4 +47,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"根据名称分页查询商户";
+}
 @end

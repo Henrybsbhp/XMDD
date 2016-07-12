@@ -17,5 +17,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"移除自己在团的信息";
+}
 @end
 

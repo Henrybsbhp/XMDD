@@ -22,6 +22,9 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
-
+- (NSString *)description
+{
+    return @"获取已经有的理赔银行卡列表";
+}
 
 @end

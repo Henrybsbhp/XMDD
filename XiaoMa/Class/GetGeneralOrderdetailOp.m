@@ -53,5 +53,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"根据订单号和类型查看订单详情";
+}
 
 @end

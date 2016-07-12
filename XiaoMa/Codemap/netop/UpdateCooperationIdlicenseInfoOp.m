@@ -21,5 +21,10 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"身份证和行驶证信息更新到团中";
+}
+
 @end
 

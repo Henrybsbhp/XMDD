@@ -55,5 +55,9 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"保险计算器（询价）";
+}
 
 @end
