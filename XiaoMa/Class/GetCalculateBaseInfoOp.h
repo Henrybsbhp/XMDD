@@ -16,4 +16,7 @@
 /// 优惠列表（返回参数）
 @property (nonatomic, copy) NSArray *couponList;
 
+/// 活动列表（返回参数）
+@property (nonatomic, copy) NSArray *activityList;
+
 @end

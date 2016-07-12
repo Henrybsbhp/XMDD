@@ -23,6 +23,7 @@
 {
     self.insuranceList = rspObj[@"insurancelist"];
     self.couponList = rspObj[@"couponlist"];
+    self.activityList = rspObj[@"activitylist"];
     
     return self;
 }
