@@ -175,6 +175,7 @@ typedef enum : NSUInteger {
 //key定义
 #define kOriginVC       @"originVC"
 #define kNextVC         @"nextVC"
+#define kOriginRoute    @"kOriginRoute"
 
 
 /// 相关网页地址

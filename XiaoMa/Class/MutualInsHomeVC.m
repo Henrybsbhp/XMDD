@@ -7,7 +7,6 @@
 //
 
 #import "MutualInsHomeVC.h"
-#import "SystemGroupListVC.h"
 #import "GroupIntroductionVC.h"
 #import "MutualInsGrouponVC.h"
 #import "InviteByCodeVC.h"
@@ -28,6 +27,7 @@
 #import "HKAdvertisement.h"
 #import "AdListData.h"
 #import "MutualInsAskForCompensationVC.h"
+#import "MutInsSystemGroupListVC.h"
 
 @interface MutualInsHomeVC ()
 
@@ -150,7 +150,6 @@
         @strongify(self);
         GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
         vc.originVC = self;
-        vc.titleStr = @"自组团介绍";
         vc.groupType = MutualGroupTypeSelf;
         vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
@@ -440,8 +439,8 @@
             
             [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0005"}];
             @strongify(self);
-            SystemGroupListVC * vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
-            vc.originVC = self;
+            
+            MutInsSystemGroupListVC * vc = [UIStoryboard vcWithId:@"MutInsSystemGroupListVC" inStoryboard:@"Temp"];
             [self.navigationController pushViewController:vc animated:YES];
         }];
     });

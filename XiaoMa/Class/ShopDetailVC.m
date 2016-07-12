@@ -363,6 +363,7 @@
         browser.imageCount = self.shop.picArray.count; // 图片总数
         browser.currentImageIndex = 0;
         browser.delegate = self;
+        browser.sourceImagesContainerViewContentMode = sourceImagesContainerViewContentFill;
         [browser show];
     }
 }
