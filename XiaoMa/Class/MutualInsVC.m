@@ -27,9 +27,6 @@
 
 @property (nonatomic, strong) CKList *dataSource;
 @property (nonatomic, copy) NSArray *fetchedDataSource;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tipsFirstLabelLeadingConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tipsSecondLabelLeadingConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *singleTipsLabelLeadingConstraint;
 
 @end
 
@@ -38,12 +35,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    if (gAppMgr.deviceInfo.screenSize.height < 736) {
-        self.tipsFirstLabelLeadingConstraint.constant += 21;
-        self.tipsSecondLabelLeadingConstraint.constant += 21;
-        self.singleTipsLabelLeadingConstraint.constant += 21;
-    }
     
     [self setupTableViewADView];
     [self setupRefreshView];
