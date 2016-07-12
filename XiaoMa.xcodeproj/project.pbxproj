@@ -758,9 +758,15 @@
 		FA958E251C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E241C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m */; };
 		FA958E281C9BFE6E00E89180 /* MutualInsGroupInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E271C9BFE6E00E89180 /* MutualInsGroupInfoVC.m */; };
 		FA959CED1C9C343C00E89180 /* MutualInsJoin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */; };
+		FAA6B9B01D333734004D922F /* MutualInsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA6B9AF1D333734004D922F /* MutualInsVC.m */; };
+		FAA6B9BE1D333809004D922F /* TempHX.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAA6B9BD1D333809004D922F /* TempHX.storyboard */; };
 		FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C41D1246490045531C /* CFNetwork.framework */; };
 		FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C81D12466E0045531C /* SystemConfiguration.framework */; };
 		FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */; };
+		FAE897DB1D2F45E500C7AD9B /* GetGroupJoinedInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE897DA1D2F45E500C7AD9B /* GetGroupJoinedInfoOp.m */; };
+		FAE897F01D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE897EF1D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m */; };
+		FAE897F31D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE897F21D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.m */; };
+		FAEE31501D2A76C20053BF2B /* ScanQRCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAEE314F1D2A76C20053BF2B /* ScanQRCodeVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2389,10 +2395,21 @@
 		FA958E261C9BFE6E00E89180 /* MutualInsGroupInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGroupInfoVC.h; sourceTree = "<group>"; };
 		FA958E271C9BFE6E00E89180 /* MutualInsGroupInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGroupInfoVC.m; sourceTree = "<group>"; };
 		FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsJoin.storyboard; sourceTree = "<group>"; };
+		FAA6B9AE1D333734004D922F /* MutualInsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsVC.h; sourceTree = "<group>"; };
+		FAA6B9AF1D333734004D922F /* MutualInsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsVC.m; sourceTree = "<group>"; };
+		FAA6B9BD1D333809004D922F /* TempHX.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TempHX.storyboard; sourceTree = "<group>"; };
 		FAAD30C41D1246490045531C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FAAD30C81D12466E0045531C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
 		FAAD30CC1D124A9A0045531C /* XiaoMa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = XiaoMa.entitlements; sourceTree = "<group>"; };
+		FAE897D91D2F45E500C7AD9B /* GetGroupJoinedInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGroupJoinedInfoOp.h; path = Class/GetGroupJoinedInfoOp.h; sourceTree = "<group>"; };
+		FAE897DA1D2F45E500C7AD9B /* GetGroupJoinedInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGroupJoinedInfoOp.m; path = Class/GetGroupJoinedInfoOp.m; sourceTree = "<group>"; };
+		FAE897EE1D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutlayCalculateWithFrameNumOp.h; path = Class/OutlayCalculateWithFrameNumOp.h; sourceTree = "<group>"; };
+		FAE897EF1D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OutlayCalculateWithFrameNumOp.m; path = Class/OutlayCalculateWithFrameNumOp.m; sourceTree = "<group>"; };
+		FAE897F11D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCalculateBaseInfoOp.h; path = Class/GetCalculateBaseInfoOp.h; sourceTree = "<group>"; };
+		FAE897F21D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCalculateBaseInfoOp.m; path = Class/GetCalculateBaseInfoOp.m; sourceTree = "<group>"; };
+		FAEE314E1D2A76C20053BF2B /* ScanQRCodeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanQRCodeVC.h; sourceTree = "<group>"; };
+		FAEE314F1D2A76C20053BF2B /* ScanQRCodeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanQRCodeVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3073,6 +3090,8 @@
 				184452FE1C8D552D007B895D /* MutualInsConstants.h */,
 				180539431C9FC88000D896A1 /* Model */,
 				184452ED1C8D169A007B895D /* MutualInsGroupon */,
+				FAA6B9AE1D333734004D922F /* MutualInsVC.h */,
+				FAA6B9AF1D333734004D922F /* MutualInsVC.m */,
 			);
 			name = MutualIns;
 			sourceTree = "<group>";
@@ -4740,6 +4759,8 @@
 				6BB61B9F1AEF6969004F39AA /* RescueViewController.m */,
 				6BB61BA41AEF8B34004F39AA /* ServiceViewController.h */,
 				6BB61BA51AEF8B34004F39AA /* ServiceViewController.m */,
+				FAEE314E1D2A76C20053BF2B /* ScanQRCodeVC.h */,
+				FAEE314F1D2A76C20053BF2B /* ScanQRCodeVC.m */,
 				C3F451591D2E7C9000BA9BC4 /* NetworkInterfaceTableVC.h */,
 				C3F4515A1D2E7C9000BA9BC4 /* NetworkInterfaceTableVC.m */,
 			);
@@ -5168,6 +5189,12 @@
 				4E30E6D91CFD92E7000157D4 /* UpdateClaimPicOp.m */,
 				4E30E6D31CFD92C3000157D4 /* GetPicListOp.h */,
 				4E30E6D41CFD92C3000157D4 /* GetPicListOp.m */,
+				FAE897D91D2F45E500C7AD9B /* GetGroupJoinedInfoOp.h */,
+				FAE897DA1D2F45E500C7AD9B /* GetGroupJoinedInfoOp.m */,
+				FAE897EE1D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.h */,
+				FAE897EF1D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m */,
+				FAE897F11D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.h */,
+				FAE897F21D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.m */,
 				4ECB96391D3335DD00FE70CF /* GetCooperationGroupOp.h */,
 				4ECB963A1D3335DD00FE70CF /* GetCooperationGroupOp.m */,
 			);
@@ -5221,6 +5248,7 @@
 			children = (
 				4ECB96481D33370E00FE70CF /* Temp.storyboard */,
 				4E70143E1CB7B0770010C130 /* Carwash.storyboard */,
+				FAA6B9BD1D333809004D922F /* TempHX.storyboard */,
 				FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */,
 				6BC80CF71C99453B00C7BA3D /* MutualInsPay.storyboard */,
 				4E97D7131C90011200FC418F /* MutualInsClaims.storyboard */,
@@ -5770,6 +5798,7 @@
 				4E97D7141C90011200FC418F /* MutualInsClaims.storyboard in Resources */,
 				6BD293CC1B943EF1006482A4 /* Commission.storyboard in Resources */,
 				6BD293D31B943EF1006482A4 /* Other.storyboard in Resources */,
+				FAA6B9BE1D333809004D922F /* TempHX.storyboard in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				6BD293D41B943EF1006482A4 /* Rescue.storyboard in Resources */,
 				C38A1DFE1CC5D1390085BA4C /* (null) in Resources */,
@@ -5989,6 +6018,7 @@
 				50AC2B501C8D737400620551 /* MutualInsPicUpdateVC.m in Sources */,
 				6B50127E1C59F5F000267DCB /* UIViewController+Swizzling.m in Sources */,
 				1883D9191ACBC2E0002A4D19 /* AppDelegate.m in Sources */,
+				FAE897F31D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.m in Sources */,
 				6BBF75F51B05CA0800E11EBB /* FavoriteModel.m in Sources */,
 				1809C1241CEAB3D100AE56EB /* ReactNativeOp.m in Sources */,
 				1809C1E01CF3F06600AE56EB /* CKEventPromise.m in Sources */,
@@ -6094,6 +6124,7 @@
 				4ECF21951C9C0BE5004E76DD /* MutualInsActivityVC.m in Sources */,
 				6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */,
 				1813559C1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.m in Sources */,
+				FAE897F01D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m in Sources */,
 				181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */,
 				186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */,
 				184452FC1C8D4ADA007B895D /* AddCloseAnimationButton.m in Sources */,
@@ -6178,6 +6209,7 @@
 				50BF30161CABEE0100D0FC07 /* AdListData.m in Sources */,
 				50B5088D1C7C469800B6151E /* HomeSuspendedAdVC.m in Sources */,
 				6BC80C941C96BD6800C7BA3D /* SearchCooperationGroupOp.m in Sources */,
+				FAE897DB1D2F45E500C7AD9B /* GetGroupJoinedInfoOp.m in Sources */,
 				18FC01DF1C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m in Sources */,
 				506008D41B74631800B8761D /* DrawingBoardView.m in Sources */,
 				18E592381C1A5CEE006010D9 /* InsPayResultVC.m in Sources */,
@@ -6247,6 +6279,7 @@
 				6BB61B981AEE85E8004F39AA /* AddUserFavoriteOp.m in Sources */,
 				18A15A691C225E3F00D7B5DF /* CalculatePremiumOp.m in Sources */,
 				1844FB351CD9C8880085A0D4 /* NSDictionary+Encoding.m in Sources */,
+				FAA6B9B01D333734004D922F /* MutualInsVC.m in Sources */,
 				6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */,
 				2E77A4941C325F2F00264FC9 /* GetRescueHostCountsOp.m in Sources */,
 				2E52F24A1C2032BB00D94F68 /* (null) in Sources */,
@@ -6512,6 +6545,7 @@
 				6BBC4A2F1B0C8F87003F3081 /* SocialShareViewController.m in Sources */,
 				6BC80C931C96BD6800C7BA3D /* PayCooperationContractOrderOp.m in Sources */,
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
+				FAEE31501D2A76C20053BF2B /* ScanQRCodeVC.m in Sources */,
 				6BE47F9C1C27F50000DBD969 /* HistoryDeleteOp.m in Sources */,
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				6BB884DA1AE0F3CC00EBD8F4 /* HKMyCar.m in Sources */,
@@ -6781,7 +6815,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=2",
+					"XMDDEnvironment=0",
 				);
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/ReactNative/node_modules/react-native/React/**",
