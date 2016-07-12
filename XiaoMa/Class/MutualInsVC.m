@@ -13,6 +13,7 @@
 #import "GetCalculateBaseInfoOp.h"
 #import "RTLabel.h"
 #import "MutInsSystemGroupListVC.h"
+#import "MutualInsAskForCompensationVC.h"
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -62,12 +63,23 @@
 - (IBAction)joinButtonClicked:(id)sender
 {
     MutInsSystemGroupListVC * vc = [UIStoryboard vcWithId:@"MutInsSystemGroupListVC" inStoryboard:@"Temp"];
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)moreBarButtonClicked:(id)sender
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0006"}];
     
+    if ([LoginViewModel loginIfNeededForTargetViewController:self])
+    {
+        MutualInsAskForCompensationVC *vc = [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
+        [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
 }
 
 #pragma mark - First Setups
@@ -653,9 +665,6 @@
         
         [newArray addObject:tempArray];
     }
-    
-    //Print the results
-    NSLog(@"THE NEW ARRAY IS: %@", newArray);
     
     return newArray;
 }

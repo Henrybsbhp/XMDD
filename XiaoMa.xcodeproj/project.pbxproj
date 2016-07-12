@@ -724,6 +724,7 @@
 		C30041381CCE0370001CBFCA /* WelcomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C30041371CCE0370001CBFCA /* WelcomeVC.m */; };
 		C30B89801D33BA390022AA53 /* UpdateCooperationIdlicenseInfoV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = C30B897F1D33BA390022AA53 /* UpdateCooperationIdlicenseInfoV2Op.m */; };
 		C30B89921D33C5CE0022AA53 /* NSNumber+Safety.m in Sources */ = {isa = PBXBuildFile; fileRef = C30B89911D33C5CE0022AA53 /* NSNumber+Safety.m */; };
+		C30B89DD1D34F6610022AA53 /* MutualInsPicUpdateResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C30B89DC1D34F6610022AA53 /* MutualInsPicUpdateResultVC.m */; };
 		C3396E8F1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C3396E8E1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.m */; };
 		C35803051CBB79600002808D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C35803041CBB79600002808D /* Images.xcassets */; };
 		C359C0741D1D148600B2275A /* MoreSubmodulesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C359C0731D1D148600B2275A /* MoreSubmodulesVC.m */; };
@@ -2336,6 +2337,8 @@
 		C30B897F1D33BA390022AA53 /* UpdateCooperationIdlicenseInfoV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateCooperationIdlicenseInfoV2Op.m; path = Class/UpdateCooperationIdlicenseInfoV2Op.m; sourceTree = "<group>"; };
 		C30B89901D33C5CE0022AA53 /* NSNumber+Safety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNumber+Safety.h"; path = "Class/NSNumber+Safety.h"; sourceTree = "<group>"; };
 		C30B89911D33C5CE0022AA53 /* NSNumber+Safety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNumber+Safety.m"; path = "Class/NSNumber+Safety.m"; sourceTree = "<group>"; };
+		C30B89DB1D34F6610022AA53 /* MutualInsPicUpdateResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPicUpdateResultVC.h; sourceTree = "<group>"; };
+		C30B89DC1D34F6610022AA53 /* MutualInsPicUpdateResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPicUpdateResultVC.m; sourceTree = "<group>"; };
 		C3396E8D1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetSystemHomeModuleNoLoginOp.h; path = Class/GetSystemHomeModuleNoLoginOp.h; sourceTree = "<group>"; };
 		C3396E8E1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetSystemHomeModuleNoLoginOp.m; path = Class/GetSystemHomeModuleNoLoginOp.m; sourceTree = "<group>"; };
 		C35803041CBB79600002808D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -4566,6 +4569,8 @@
 				502FED081CC4CA4900FAA75B /* InviteAlertVC */,
 				C3F451B31D338EA500BA9BC4 /* MutualInsPickCarVC.h */,
 				C3F451B41D338EA500BA9BC4 /* MutualInsPickCarVC.m */,
+				C30B89DB1D34F6610022AA53 /* MutualInsPicUpdateResultVC.h */,
+				C30B89DC1D34F6610022AA53 /* MutualInsPicUpdateResultVC.m */,
 			);
 			name = MutualInsJoin;
 			sourceTree = "<group>";
@@ -6221,6 +6226,7 @@
 				6B26EEB31C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.m in Sources */,
 				505E5FCD1BD7356B00857819 /* WKWebViewJavascriptBridge.m in Sources */,
 				1809C1D41CF3ED5100AE56EB /* CKList.m in Sources */,
+				C30B89DD1D34F6610022AA53 /* MutualInsPicUpdateResultVC.m in Sources */,
 				6BCF624A1B1739E70064AE32 /* CommissionCouponViewController.m in Sources */,
 				18900B441C1E7503003DA439 /* GetInsCarListOp.m in Sources */,
 				6B8258901AF8B37100D5D800 /* CommentListViewController.m in Sources */,

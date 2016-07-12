@@ -21,6 +21,7 @@
 #import "OETextField.h"
 #import "UIView+RoundedCorner.h"
 #import "CollectionChooseVC.h"
+#import "MutualInsPicUpdateResultVC.h"
 
 @interface MutualInsPicUpdateVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -550,14 +551,13 @@
         
         [gToast dismiss];
         
-        EstimatedPriceVC * vc = [UIStoryboard vcWithId:@"EstimatedPriceVC" inStoryboard:@"MutualInsJoin"];
-        vc.memberId = self.memberId;
-        vc.groupId = self.groupId;
-        vc.groupName = self.groupName;
+        MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
+        MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
+        [self.navigationController pushViewController:vc animated:YES];
     }];
 }
 

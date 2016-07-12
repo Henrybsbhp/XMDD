@@ -562,7 +562,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BlankCell" rowHeight="10" id="Kle-im-JgK">
-                                        <rect key="frame" x="0.0" y="594.5" width="600" height="10"/>
+                                        <rect key="frame" x="0.0" y="595" width="600" height="10"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kle-im-JgK" id="7fd-Pe-mjO">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="10"/>
