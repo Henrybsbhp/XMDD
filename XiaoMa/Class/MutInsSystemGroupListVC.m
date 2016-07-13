@@ -24,6 +24,11 @@
 
 @implementation MutInsSystemGroupListVC
 
+-(void)dealloc
+{
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -31,6 +36,14 @@
     [self.groupEndVM getCooperationGroupList];
     
     [self setupUI];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    self.groupBeginVM = nil;
+    self.groupEndVM = nil;
 }
 
 - (void)didReceiveMemoryWarning {

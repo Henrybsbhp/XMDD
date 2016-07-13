@@ -21,6 +21,11 @@
 
 @implementation MutInsSystemGroupListVM
 
+-(void)dealloc
+{
+    
+}
+
 -(id)initWithTableView:(UITableView *)tableView andType:(GroupStatusType)groupStatusType andTargetVC:(MutInsSystemGroupListVC *)groupListVC
 {
     if (self = [super init])
@@ -81,6 +86,7 @@
         [self.targetVC.view stopActivityAnimation];
         
         [self.targetVC.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取团列表失败。请点击重试" tapBlock:^{
+            @strongify(self)
             [self getCooperationGroupList];
         }];
     }];

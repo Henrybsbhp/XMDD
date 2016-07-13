@@ -27,6 +27,11 @@
 
 @implementation MutInsCalculateVC
 
+-(void)dealloc
+{
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -170,6 +175,8 @@
         
         [textField setTextDidChangedBlock:^(CKLimitTextField *textField) {
             
+            @strongify(self)
+            
             NSString *newtext = [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
             textField.text = [newtext uppercaseString];
             self.frameNo = textField.text;
@@ -180,11 +187,11 @@
 }
 -(CKDict *)btnCellData
 {
+    @weakify(self)
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"BtnCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 90;
     });
-    @weakify(self)
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         @strongify(self)
         
@@ -232,11 +239,13 @@
         {
             UIImage *image = [UIImage imageNamed:@"mins_ensure"];
             imageView.image = image;
-        } else if ([title isEqualToString:@"福利"])
+        }
+        else if ([title isEqualToString:@"福利"])
         {
             UIImage *image = [UIImage imageNamed:@"mins_benefit"];
             imageView.image = image;
-        } else
+        }
+        else
         {
             UIImage *image = [UIImage imageNamed:@"mins_activity"];
             imageView.image = image;
@@ -261,16 +270,20 @@
         UILabel *firstTipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
         UILabel *secondTipsLabel = (UILabel *)[cell.contentView viewWithTag:104];
         NSString *firstString = couponList[0];
-        if (firstString.length > 0) {
+        if (firstString.length > 0)
+        {
             firstImageView.hidden = NO;
             firstTipsLabel.text = firstString;
         }
         
-        if (couponList.count > 1) {
+        if (couponList.count > 1)
+        {
             NSString *secondString = couponList[1];
             secondImageView.hidden = NO;
             secondTipsLabel.text = secondString;
-        } else {
+        }
+        else
+        {
             secondImageView.hidden = YES;
             secondTipsLabel.text = @"";
         }

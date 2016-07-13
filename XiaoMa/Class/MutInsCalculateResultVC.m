@@ -21,6 +21,11 @@
 
 @implementation MutInsCalculateResultVC
 
+-(void)dealloc
+{
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
