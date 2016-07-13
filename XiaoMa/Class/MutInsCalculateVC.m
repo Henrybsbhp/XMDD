@@ -8,7 +8,6 @@
 
 #import "MutInsCalculateVC.h"
 #import "MutInsCalculateResultVC.h"
-#import "LicenseTipsVC.h"
 #import "GetCalculateBaseInfoOp.h"
 #import "OutlayCalculateWithFrameNumOp.h"
 
@@ -59,13 +58,14 @@
     [[[op rac_postRequest]initially:^{
         @strongify(self)
         
+        self.tableView.hidden = YES;
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }]subscribeNext:^(GetCalculateBaseInfoOp *op) {
         @strongify(self)
         
         [self.view stopActivityAnimation];
-        
+        self.tableView.hidden = NO;
         
         CKList *list = [CKList list];
         [list addObjectsFromArray:@[[self textFieldCellData],[self btnCellData]]];
@@ -88,6 +88,10 @@
         @strongify(self)
         
         [self.view stopActivityAnimation];
+        self.tableView.hidden = YES;
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取费用试算信息失败。请点击重试" tapBlock:^{
+            [self getCalculateBaseInfo];
+        }];
         
     }];
 }
@@ -174,6 +178,8 @@
         
         [textField setTextDidChangedBlock:^(CKLimitTextField *textField) {
             
+            @strongify(self)
+            
             NSString *newtext = [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
             textField.text = [newtext uppercaseString];
             self.frameNo = textField.text;
@@ -184,11 +190,11 @@
 }
 -(CKDict *)btnCellData
 {
+    @weakify(self)
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"BtnCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 90;
     });
-    @weakify(self)
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         @strongify(self)
         
@@ -236,11 +242,13 @@
         {
             UIImage *image = [UIImage imageNamed:@"mins_ensure"];
             imageView.image = image;
-        } else if ([title isEqualToString:@"福利"])
+        }
+        else if ([title isEqualToString:@"福利"])
         {
             UIImage *image = [UIImage imageNamed:@"mins_benefit"];
             imageView.image = image;
-        } else
+        }
+        else
         {
             UIImage *image = [UIImage imageNamed:@"mins_activity"];
             imageView.image = image;
@@ -265,16 +273,20 @@
         UILabel *firstTipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
         UILabel *secondTipsLabel = (UILabel *)[cell.contentView viewWithTag:104];
         NSString *firstString = couponList[0];
-        if (firstString.length > 0) {
+        if (firstString.length > 0)
+        {
             firstImageView.hidden = NO;
             firstTipsLabel.text = firstString;
         }
         
-        if (couponList.count > 1) {
+        if (couponList.count > 1)
+        {
             NSString *secondString = couponList[1];
             secondImageView.hidden = NO;
             secondTipsLabel.text = secondString;
-        } else {
+        }
+        else
+        {
             secondImageView.hidden = YES;
             secondTipsLabel.text = @"";
         }
@@ -384,14 +396,24 @@
 
 -(void)showLicenseTips
 {
-    LicenseTipsVC *vc = [UIStoryboard vcWithId:@"LicenseTipsVC" inStoryboard:@"Temp"];
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(265, 184) viewController:vc];
-    sheet.shouldCenterVertically = YES;
+    CGSize size = CGSizeMake(300, 200);
+    UIViewController *vc = [[UIViewController alloc] init];
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:size viewController:vc];
+    sheet.cornerRadius = 0;
+    sheet.shadowRadius = 0;
+    sheet.shadowOpacity = 0;
+    sheet.transitionStyle = MZFormSheetTransitionStyleFade;
+    sheet.shouldDismissOnBackgroundViewTap = YES;
+    [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
+    sheet.portraitTopInset = floor((self.view.frame.size.height - size.height) / 2);
+    
     [sheet presentAnimated:YES completionHandler:nil];
     
-    [[[vc.closeButton rac_signalForControlEvents:UIControlEventTouchUpInside] take:1] subscribeNext:^(id x) {
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
+    vc.view.backgroundColor = [UIColor clearColor];
+    UIImageView *imgv = [[UIImageView alloc] initWithFrame:vc.view.bounds];
+    [vc.view addSubview:imgv];
+    imgv.autoresizingMask = UIViewAutoresizingFlexibleAll;
+    imgv.image = [UIImage imageNamed:@"common_carFrameNo_imageView"];
 }
 
 -(BOOL)checkFrameNo
