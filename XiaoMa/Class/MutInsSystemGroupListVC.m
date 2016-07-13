@@ -31,10 +31,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupUI];
+    [self setupNavigationBar];
+    
     [self.groupBeginVM getCooperationGroupList];
     [self.groupEndVM getCooperationGroupList];
     
-    [self setupUI];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,6 +45,12 @@
 }
 
 #pragma mark - Setup
+
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
+}
 
 - (void)setupUI
 {
@@ -147,6 +156,11 @@
     {
         [self requrstMutualInsCarList];
     }
+}
+
+- (void)actionBack:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

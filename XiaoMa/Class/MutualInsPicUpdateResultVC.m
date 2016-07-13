@@ -191,7 +191,22 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
+    if (self.router.userInfo[kOriginRoute])
+    {
+        [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
+    }
+    else
+    {
+        CKRouter * route = [self.router.navigationController.routerList objectForKey:@"MutualInsVC"];
+        if (route)
+        {
+            [self.router.navigationController popToRouter:route animated:YES];
+        }
+        else
+        {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
 }
 
 #pragma mark - Utilitly

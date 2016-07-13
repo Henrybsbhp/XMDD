@@ -54,6 +54,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    if (gAppMgr.myUser)
     [self setupTableViewADView];
     [self setupRefreshView];
     
@@ -129,6 +130,15 @@
         self.popoverMenu = popover;
         self.isMenuOpen = YES;
     }
+}
+
+- (void)actionGotoCalculateVC
+{
+    MutInsCalculateVC * vc = [UIStoryboard vcWithId:@"MutInsCalculateVC" inStoryboard:@"Temp"];
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Setups
@@ -432,8 +442,7 @@
     
     calculateCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
-        MutInsCalculateVC * vc = [UIStoryboard vcWithId:@"MutInsCalculateVC" inStoryboard:@"Temp"];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self actionGotoCalculateVC];
     });
     
     calculateCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
