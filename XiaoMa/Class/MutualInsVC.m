@@ -92,6 +92,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [self setupNavigationBar];
     if (gAppMgr.myUser)
         [self setupTableViewADView];
     [self setupRefreshView];
@@ -122,10 +123,22 @@ typedef NS_ENUM(NSInteger, statusValues) {
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
 #pragma mark - Actions
+- (void)actionBack
+{
+    [MobClick event:@"huzhushouye1" attributes:@{@"huzhushouye" : @"huzhushouye"}];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)compensationButtonClicked:(id)sender
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0006"}];
+    [MobClick event:@"huzhushouye6" attributes:@{@"huzhushouye" : @"huzhushouye"}];
     
     if ([LoginViewModel loginIfNeededForTargetViewController:self])
     {
@@ -137,12 +150,13 @@ typedef NS_ENUM(NSInteger, statusValues) {
 
 - (IBAction)joinButtonClicked:(id)sender
 {
+    [MobClick event:@"huzhushouye7" attributes:@{@"huzhushouye" : @"huzhushouye"}];
     [self actionGotoSystemGroupListVC];
 }
 
 - (IBAction)actionShowOrHideMenu:(id)sender
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0001"}];
+    [MobClick event:@"huzhushouye2" attributes:@{@"huzhushouye" : @"huzhushouye"}];
     
     if (self.isMenuOpen && self.popoverMenu) {
         [self.popoverMenu dismissWithAnimated:YES];
@@ -197,7 +211,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     UIView *adContainer = [[UIView alloc] initWithFrame:CGRectZero];
     adContainer.backgroundColor = kBackgroundColor;
     
-    self.adVC = [ADViewController vcWithMutualADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:nil mobBaseEventDict:nil];
+    self.adVC = [ADViewController vcWithMutualADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:@"huzhushouye3" mobBaseEventDict:@{@"huzhushouye" : @"huzhushouye"}];
     CGFloat height = floor(self.adVC.adView.frame.size.height);
     adContainer.frame = CGRectMake(0, 0, self.view.frame.size.width, height);
     [self.tableView addSubview:adContainer];
@@ -373,6 +387,10 @@ typedef NS_ENUM(NSInteger, statusValues) {
         [self.tableView.refreshView endRefreshing];
         self.tableView.hidden = NO;
         
+        [self.view stopActivityAnimation];
+        [self.tableView.refreshView endRefreshing];
+        self.tableView.hidden = NO;
+        
     } error:^(NSError *error) {
         
         @strongify(self);
@@ -464,6 +482,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
             // 团长无车
             [dataSource addObject:$(groupInfoCell) forKey:nil];
             
+
         } else if (status.integerValue == XMGroupFailed|| (status.integerValue == XMInReview && numberCnt.integerValue < 1)) {
             // 未参团 / 入团失败 / 审核中（有车无团）
             [dataSource addObject:$(normalStatusCell, CKJoin([self getCouponInfoWithData:couponDict sourceDict:dict]), blankCell) forKey:nil];
@@ -497,7 +516,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     });
     
     calculateCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
+        [MobClick event:@"huzhushouye4" attributes:@{@"huzhushouye" : @"huzhushouye"}];
         [self actionGotoCalculateVC];
     });
     
@@ -517,6 +536,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     });
     
     normalStatusCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        [MobClick event:@"huzhushouye8" attributes:@{@"huzhushouye" : @"huzhushouye"}];
         NSNumber *status = dict[@"status"];
         NSNumber *numberCnt = dict[@"numbercnt"];
         
@@ -595,7 +615,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
         if (status.integerValue == XMReuploadData) {
             [bottomButton setTitle:@"重新上传资料" forState:UIControlStateNormal];
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                
+                [MobClick event:@"huzhushouye11" attributes:@{@"huzhushouye" : @"huzhushouye"}];
                 
                 
             }];
@@ -604,7 +624,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
             
             [bottomButton setTitle:@"前去支付" forState:UIControlStateNormal];
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                
+                [MobClick event:@"huzhushouye12" attributes:@{@"huzhushouye" : @"huzhushouye"}];
                 
                 
             }];
@@ -613,7 +633,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
             
             [bottomButton setTitle:@"完善资料" forState:UIControlStateNormal];
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                
+                [MobClick event:@"huzhushouye9" attributes:@{@"huzhushouye" : @"huzhushouye"}];
                 
                 
             }];
@@ -633,7 +653,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     
     groupInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         // 进入团详情页面
-        
+        [MobClick event:@"huzhushouye10" attributes:@{@"huzhushouye" : @"huzhushouye"}];
         
     });
     
@@ -662,6 +682,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     });
     
     tipsHeaderCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        [MobClick event:@"huzhushouye5" attributes:@{@"huzhushouye" : @"huzhushouye"}];
         NSNumber *status = dict[@"status"];
         NSNumber *numberCnt = dict[@"numbercnt"];
         
