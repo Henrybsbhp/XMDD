@@ -58,13 +58,22 @@
                                                         <constraint firstAttribute="height" constant="12" id="sYn-pe-D3s"/>
                                                     </constraints>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="NRc-sT-kKh">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="S4R-03-Dwm"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="reC-ft-Uqp" firstAttribute="leading" secondItem="rXK-Qv-NGT" secondAttribute="leading" constant="17" id="90M-z2-sGb"/>
+                                                <constraint firstAttribute="trailing" secondItem="NRc-sT-kKh" secondAttribute="trailing" id="Cpt-g4-zVk"/>
                                                 <constraint firstItem="0Kf-nq-93f" firstAttribute="centerY" secondItem="rXK-Qv-NGT" secondAttribute="centerY" id="FRM-OP-DqC"/>
                                                 <constraint firstAttribute="trailing" secondItem="0Kf-nq-93f" secondAttribute="trailing" constant="14" id="RV7-rn-65p"/>
+                                                <constraint firstItem="NRc-sT-kKh" firstAttribute="top" secondItem="rXK-Qv-NGT" secondAttribute="top" id="X6h-wI-ewf"/>
                                                 <constraint firstItem="reC-ft-Uqp" firstAttribute="leading" secondItem="rXK-Qv-NGT" secondAttribute="leadingMargin" constant="10" id="ZAf-fC-Kiv"/>
                                                 <constraint firstItem="pUe-xl-dhA" firstAttribute="leading" secondItem="reC-ft-Uqp" secondAttribute="trailing" constant="10" id="dZd-11-Rzd"/>
+                                                <constraint firstItem="NRc-sT-kKh" firstAttribute="leading" secondItem="rXK-Qv-NGT" secondAttribute="leading" id="k3r-VT-d4w"/>
                                                 <constraint firstItem="reC-ft-Uqp" firstAttribute="centerY" secondItem="rXK-Qv-NGT" secondAttribute="centerY" id="lIf-2t-VBK"/>
                                                 <constraint firstItem="reC-ft-Uqp" firstAttribute="centerY" secondItem="rXK-Qv-NGT" secondAttribute="centerY" id="lWy-33-jHL"/>
                                                 <constraint firstItem="pUe-xl-dhA" firstAttribute="centerY" secondItem="rXK-Qv-NGT" secondAttribute="centerY" id="vdp-to-P0y"/>
@@ -488,7 +497,7 @@
                                                         <constraint firstAttribute="width" constant="12" id="dFr-ml-e4p"/>
                                                     </constraints>
                                                 </imageView>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9jO-aa-7JK">
+                                                <view tag="106" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9jO-aa-7JK">
                                                     <rect key="frame" x="299" y="0.0" width="1" height="22"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>

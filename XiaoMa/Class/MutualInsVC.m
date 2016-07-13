@@ -51,7 +51,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.bottomView.hidden = YES;
+    if (self.dataSource.count > 0) {
+        self.bottomView.hidden = NO;
+    } else {
+        self.bottomView.hidden = YES;
+    }
 }
 
 #pragma mark - Actions
@@ -108,17 +112,6 @@
         make.right.equalTo(adContainer);
         make.top.equalTo(adContainer);
         make.height.mas_equalTo(height);
-    }];
-    
-    UIImage *image = [UIImage imageNamed:@"Horizontaline"];
-    UIImageView *separator = [[UIImageView alloc] initWithImage:image];
-    separator.frame = CGRectZero;
-    [adContainer addSubview:separator];
-    [separator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(adContainer);
-        make.right.equalTo(adContainer);
-        make.bottom.equalTo(adContainer);
-        make.height.mas_equalTo(1);
     }];
     
     self.tableView.tableHeaderView = adContainer;
@@ -394,10 +387,29 @@
         NSNumber *status = dict[@"status"];
         if (status.integerValue == 21) {
             [bottomButton setTitle:@"重新上传资料" forState:UIControlStateNormal];
+            [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                
+                
+            }];
+            
         } else if (status.integerValue == 5) {
+            
             [bottomButton setTitle:@"前去支付" forState:UIControlStateNormal];
+            [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                
+                
+            }];
+            
         } else {
+            
             [bottomButton setTitle:@"完善资料" forState:UIControlStateNormal];
+            [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                
+                
+            }];
         }
     });
     
@@ -479,6 +491,7 @@
     tipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UIImageView *firstImageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UIImageView *secondImageView = (UIImageView *)[cell.contentView viewWithTag:103];
+        UIView *separator = (UIView *)[cell.contentView viewWithTag:106];
         UILabel *firstTipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
         UILabel *secondTipsLabel = (UILabel *)[cell.contentView viewWithTag:104];
         NSString *firstString = couponList[0];
@@ -494,6 +507,20 @@
         } else {
             secondImageView.hidden = YES;
             secondTipsLabel.text = @"";
+        }
+        
+        if (gAppMgr.deviceInfo.screenSize.height < 736) {
+            [firstImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.leading.equalTo(cell).offset(38);
+            }];
+            
+            [firstTipsLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(separator).offset(0);
+            }];
+            
+            [secondImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.leading.equalTo(separator).offset(32);
+            }];
         }
     });
     
@@ -512,9 +539,16 @@
     });
     
     singleTipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
         
         tipsLabel.text = couponString;
+        
+        if (gAppMgr.deviceInfo.screenSize.height < 736) {
+            [imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.leading.equalTo(cell).offset(38);
+            }];
+        }
     });
     
     return singleTipsCell;
