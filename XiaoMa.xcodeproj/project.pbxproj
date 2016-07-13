@@ -413,6 +413,7 @@
 		4ECB96491D33370E00FE70CF /* Temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4ECB96481D33370E00FE70CF /* Temp.storyboard */; };
 		4ECB964C1D3339C200FE70CF /* MutInsSystemGroupListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECB964B1D3339C200FE70CF /* MutInsSystemGroupListVC.m */; };
 		4ECB96551D33468D00FE70CF /* MutInsSystemGroupListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECB96541D33468D00FE70CF /* MutInsSystemGroupListVM.m */; };
+		4ECB9AF11D35E9FC0059AC39 /* LicenseTipsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECB9AF01D35E9FC0059AC39 /* LicenseTipsVC.m */; };
 		4ECF21951C9C0BE5004E76DD /* MutualInsActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */; };
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
 		4EF4949C1C9A7D8D008A8E4D /* GetSystemTimeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF4949B1C9A7D8D008A8E4D /* GetSystemTimeOp.m */; };
@@ -1673,6 +1674,8 @@
 		4ECB964B1D3339C200FE70CF /* MutInsSystemGroupListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutInsSystemGroupListVC.m; sourceTree = "<group>"; };
 		4ECB96531D33468D00FE70CF /* MutInsSystemGroupListVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutInsSystemGroupListVM.h; sourceTree = "<group>"; };
 		4ECB96541D33468D00FE70CF /* MutInsSystemGroupListVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutInsSystemGroupListVM.m; sourceTree = "<group>"; };
+		4ECB9AEF1D35E9FC0059AC39 /* LicenseTipsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LicenseTipsVC.h; sourceTree = "<group>"; };
+		4ECB9AF01D35E9FC0059AC39 /* LicenseTipsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseTipsVC.m; sourceTree = "<group>"; };
 		4ECF21931C9C0BE5004E76DD /* MutualInsActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsActivityVC.h; sourceTree = "<group>"; };
 		4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsActivityVC.m; sourceTree = "<group>"; };
 		4EED3EDF1C982F5900EB081E /* MutualInsScencePhotoVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsScencePhotoVM.h; sourceTree = "<group>"; };
@@ -3564,6 +3567,8 @@
 				4E0700041D34A0CF001EEAC5 /* MutInsCalculateVC.m */,
 				4E0700121D34A0E0001EEAC5 /* MutInsCalculateResultVC.h */,
 				4E0700131D34A0E0001EEAC5 /* MutInsCalculateResultVC.m */,
+				4ECB9AEF1D35E9FC0059AC39 /* LicenseTipsVC.h */,
+				4ECB9AF01D35E9FC0059AC39 /* LicenseTipsVC.m */,
 			);
 			name = View;
 			path = Class;
@@ -5997,6 +6002,7 @@
 				504FFEA51C05D4C9002D7D6D /* AreaPickerVC.m in Sources */,
 				189C69861B74505E00E56E4A /* HKBankCard.m in Sources */,
 				FA958E251C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m in Sources */,
+				4ECB9AF11D35E9FC0059AC39 /* LicenseTipsVC.m in Sources */,
 				6B22659F1C4506BE00A121CC /* HomePicModel.m in Sources */,
 				2E77A4971C325F2F00264FC9 /* GetRescueDetailOp.m in Sources */,
 				181921811C253957009C80BD /* InsAppointmentSuccessVC.m in Sources */,

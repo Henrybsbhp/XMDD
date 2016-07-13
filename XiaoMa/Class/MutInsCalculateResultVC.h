@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OutlayCalculateWithFrameNumOp.h"
 
 @interface MutInsCalculateResultVC : UIViewController
+
+@property (strong, nonatomic) OutlayCalculateWithFrameNumOp *model;
 
 @end
