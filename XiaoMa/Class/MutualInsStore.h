@@ -14,7 +14,10 @@
 
 @interface MutualInsStore : UserStore
 
+/// 车辆信息
 @property (nonatomic, strong) NSArray *carList;
+/// 优惠信息
+@property (nonatomic, strong) NSArray *couponList;
 @property (nonatomic, strong) GetGroupJoinedInfoOp *rsp_getGroupJoinedInfoOp;
 @property (nonatomic, strong) JTQueue *detailGroups;
 

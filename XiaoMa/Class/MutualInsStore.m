@@ -45,6 +45,7 @@
             
             self.rsp_getGroupJoinedInfoOp = op;
             self.carList = op.carList;
+            self.couponList = op.couponList;
         }] replayLast];
         event = [signal eventWithName:@"getSimpleGroups" object:nil];
     }

@@ -24,6 +24,7 @@
     self.carList = rspObj[@"carlist"];
     self.isShowPlanBtn = [rspObj boolParamForName:@"showplanbtn"];
     self.isShowRegistBtn = [rspObj boolParamForName:@"showregistbtn"];
+    self.couponList = rspObj[@"couponlist"];
     
     return self;
 }

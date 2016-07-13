@@ -19,6 +19,44 @@
 #import "HKPopoverView.h"
 #import "MutInsCalculateVC.h"
 
+typedef NS_ENUM(NSInteger, statusValues) {
+    /// 未参团 / 参团失败
+    XMGroupFailed        = 0,
+    
+    /// 团长无车
+    XMGroupWithNoCar     = -1,
+    
+    /// 资料代完善
+    XMDataImcompleteV1   = 1,
+    
+    /// 资料代完善
+    XMDataImcompleteV2   = 2,
+    
+    /// 审核中
+    XMInReview           = 3,
+    
+    /// 待支付
+    XMWaitingForPay      = 5,
+    
+    /// 支付成功
+    XMPaySuccessed       = 6,
+    
+    /// 互助中
+    XMInMutual           = 7,
+    
+    /// 保障中
+    XMInEnsure           = 8,
+    
+    /// 已过期
+    XMOverdue            = 10,
+    
+    /// 重新上传资料
+    XMReuploadData       = 20,
+    
+    /// 审核失败
+    XMReviewFailed       = 21
+};
+
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *adVC;
@@ -31,7 +69,7 @@
 
 ///数据源
 @property (nonatomic, strong) CKList *dataSource;
-///获取到的数据，需要处理
+/// 获取到的数据，需要处理
 @property (nonatomic, copy) NSArray *fetchedDataSource;
 
 @property (nonatomic, strong) MutualInsStore *minsStore;
@@ -55,16 +93,22 @@
     // Do any additional setup after loading the view.
     
     if (gAppMgr.myUser)
-    [self setupTableViewADView];
+        [self setupTableViewADView];
     [self setupRefreshView];
     
     [self setItemList];
     [self setupMutualInsStore];
     
-    CKAsyncMainQueue(^{
-        
+    if (!gAppMgr.myUser)
+    {
+        /// 获取描述信息
+        [self fetchDescriptionDataWhenNotLogined];
+    }
+    else
+    {
+        /// 获取团列表
         [[self.minsStore reloadSimpleGroups] send];
-    });
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -93,12 +137,7 @@
 
 - (IBAction)joinButtonClicked:(id)sender
 {
-    MutInsSystemGroupListVC * vc = [UIStoryboard vcWithId:@"MutInsSystemGroupListVC" inStoryboard:@"Temp"];
-    
-    vc.router.userInfo = [[CKDict alloc] init];
-    vc.router.userInfo[kOriginRoute] = self.router;
-    
-    [self.router.navigationController pushViewController:vc animated:YES];
+    [self actionGotoSystemGroupListVC];
 }
 
 - (IBAction)actionShowOrHideMenu:(id)sender
@@ -141,7 +180,18 @@
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)actionGotoSystemGroupListVC
+{
+    MutInsSystemGroupListVC * vc = [UIStoryboard vcWithId:@"MutInsSystemGroupListVC" inStoryboard:@"Temp"];
+    
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - Setups
+/// 设置顶部广告页
 - (void)setupTableViewADView
 {
     UIView *adContainer = [[UIView alloc] initWithFrame:CGRectZero];
@@ -163,6 +213,7 @@
     
     [self.adVC reloadDataWithForce:YES completed:nil];
 }
+
 
 /// 下拉刷新设置
 - (void)setupRefreshView
@@ -287,101 +338,121 @@
     [[signal initially:^{
         
         @strongify(self);
-        if ([self.tableView isRefreshViewExists]) {
-            [self.tableView.refreshView beginRefreshing];
-        }
-        else if (![self.view isActivityAnimating]) {
+        if (!self.dataSource.count) {
+            // 防止有数据的时候，下拉刷新导致页面会闪一下
+            CGFloat reducingY = self.view.frame.size.height * 0.1056;
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
             self.tableView.hidden = YES;
-            
-            self.view.indicatorPoistionY = self.view.frame.size.height * 0.1056;
-            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        }
+        else
+        {
+            [self.tableView.refreshView beginRefreshing];
+            self.tableView.hidden = NO;
         }
     }] subscribeNext:^(id x) {
         
         @strongify(self);
-        self.fetchedDataSource = self.minsStore.carList;
+        
+        if (self.minsStore.carList.count)
+        {
+            self.isEmptyGroup = NO;
+            self.fetchedDataSource = self.minsStore.carList;
+            [self setDataSource];
+        }
+        else
+        {
+            self.isEmptyGroup = YES;
+            CKDict *blankCell = [self setupBlankCellWithDict:nil];
+            self.dataSource = $($([self setupCalculateCell]));
+            [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:self.minsStore.couponList sourceDict:nil]), blankCell) forKey:nil];
+            [self.tableView reloadData];
+        }
+        [self setItemList];
         
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         self.tableView.hidden = NO;
-        self.isEmptyGroup = NO;
         
-        [self setItemList];
-        [self setDataSource];
-
     } error:^(NSError *error) {
         
         @strongify(self);
-        if ([self.tableView isRefreshViewExists]) {
-            [self.tableView.refreshView endRefreshing];
+        [self.tableView.refreshView endRefreshing];
+        [self.view stopActivityAnimation];
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取信息失败，点击重试" tapBlock:^{
+            @strongify(self);
+            [[self.minsStore reloadSimpleGroups] send];
+        }];
+    }];
+}
+
+- (void)fetchDescriptionDataWhenNotLogined
+{
+    GetCalculateBaseInfoOp * op = [[GetCalculateBaseInfoOp alloc] init];
+    
+    @weakify(self)
+    [[[op rac_postRequest] initially:^{
+        
+        @strongify(self);
+        if (!self.dataSource.count) {
+            // 防止有数据的时候，下拉刷新导致页面会闪一下
+            CGFloat reducingY = self.view.frame.size.height * 0.1056;
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
+            self.tableView.hidden = YES;
         }
-        else {
-            [self.view stopActivityAnimation];
-            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取信息失败，点击重试" tapBlock:^{
-                @strongify(self);
-                [[self.minsStore reloadSimpleGroups] send];
-            }];
+        else
+        {
+            [self.tableView.refreshView beginRefreshing];
+            self.tableView.hidden = NO;
         }
+        
+    }] subscribeNext:^(GetCalculateBaseInfoOp * rop) {
+        
+        @strongify(self);
+        NSDictionary *dict = @{@"insurancelist" : rop.insuranceList,
+                               @"couponlist" : rop.couponList,
+                               @"activitylist" : rop.activityList,
+                               };
+        CKList *cellList = [CKList list];
+        CKDict *blankCell = [self setupBlankCellWithDict:nil];
+        NSArray *blankArray = @[blankCell];
+        NSMutableArray *dataArray = [[NSMutableArray alloc] init];
+        NSMutableArray *tempArray = [self getCouponInfoWithData:dict sourceDict:nil];
+        CKDict *caculateCell = [self setupCalculateCell];
+        CKList *caculateList = $(caculateCell);
+        [dataArray addObject:caculateList];
+        [cellList addObjectsFromArray:tempArray];
+        [cellList addObjectsFromArray:blankArray];
+        [dataArray addObject:cellList];
+        self.dataSource = [CKList listWithArray:dataArray];
+        [self.tableView reloadData];
+        
+        [self.tableView.refreshView endRefreshing];
+        [self.view stopActivityAnimation];
+        self.tableView.hidden = NO;
+    } error:^(NSError *error) {
+        
+        [self.tableView.refreshView endRefreshing];
+        [self.view stopActivityAnimation];
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取信息失败，点击重试" tapBlock:^{
+            @strongify(self);
+            [self fetchDescriptionDataWhenNotLogined];
+        }];
     }];
 }
 
 
-- (NSMutableArray *)getCouponInfoWithData:(NSDictionary *)data
-{
-    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-    NSArray *insuranceList = data[@"insurancelist"];
-    if (insuranceList.count > 0) {
-        NSMutableArray *newArray = [self splitArrayIntoDoubleNewArray:insuranceList];
-        CKDict *tipsHeaderCell = [self setupTipsHeaderCell];
-        CKDict *insuranceTitleCell = [self setupTipsTitleCellWithText:@"保障"];
-        [tempArray addObject:tipsHeaderCell];
-        [tempArray addObject:insuranceTitleCell];
-        for (NSArray *array in newArray) {
-            CKDict *insuranceCell = [self setupTipsCellWithCouponList:array];
-            [tempArray addObject:insuranceCell];
-        }
-    }
-    
-    NSArray *couponList = data[@"couponlist"];
-    if (data.count > 0) {
-        NSMutableArray *newArray = [self splitArrayIntoDoubleNewArray:couponList];
-        CKDict *couponTitleCell = [self setupTipsTitleCellWithText:@"福利"];
-        [tempArray addObject:couponTitleCell];
-        for (NSArray *array in newArray) {
-            CKDict *couponCell = [self setupTipsCellWithCouponList:array];
-            [tempArray addObject:couponCell];
-        }
-    }
-    
-    NSArray *activityList = data[@"activitylist"];
-    if (activityList.count > 0) {
-        CKDict *activityCell = [self setupTipsTitleCellWithText:@"活动"];
-        [tempArray addObject:activityCell];
-        for (NSString *string in activityList) {
-            CKDict *activityCell = [self setupSingleTipsCellWithCouponString:string];
-            [tempArray addObject:activityCell];
-        }
-    }
-    
-    return tempArray;
-}
-
+/// 获取到数据后设置数据源
 - (void)setDataSource
 {
-    self.dataSource = [CKList list];
-    NSMutableArray *dataArray = [NSMutableArray new];
-    
-    CKDict *caculateCell = [self setupCalculateCell];
-    CKList *caculateList = $(caculateCell);
-    [dataArray addObject:caculateList];
-    
-    // 增加底部留白的空白 Cell
-    CKDict *blankCell = [self setupBlankCell];
+    CKList *dataSource = $($([self setupCalculateCell]));
     
     for (NSDictionary *dict in self.fetchedDataSource) {
         NSNumber *status = dict[@"status"];
         NSNumber *numberCnt = dict[@"numbercnt"];
         NSDictionary *couponDict = dict[@"couponlist"];
+        
+        // 增加底部留白的空白 Cell
+        CKDict *blankCell = [self setupBlankCellWithDict:dict];
         
         CKDict *normalStatusCell = [self setupNormalStatusCellWithDict:dict];
         
@@ -389,50 +460,35 @@
         
         CKDict *groupInfoCell = [self setupGroupInfoCellWithDict:dict];
         
-        if (status.integerValue == -1) {
-            // 有团无车
+        if (status.integerValue == XMGroupWithNoCar) {
+            // 团长无车
+            [dataSource addObject:$(groupInfoCell) forKey:nil];
             
-            CKList *noCarsGroup = $(groupInfoCell);
-            [dataArray addObject:noCarsGroup];
+        } else if (status.integerValue == XMGroupFailed|| (status.integerValue == XMInReview && numberCnt.integerValue < 1)) {
+            // 未参团 / 入团失败 / 审核中（有车无团）
+            [dataSource addObject:$(normalStatusCell, CKJoin([self getCouponInfoWithData:couponDict sourceDict:dict]), blankCell) forKey:nil];
             
-        } else if (status.integerValue == 0 || status.integerValue == 3) {
-            // 未参团 / 入团失败 / 审核中
+        } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
+            // 审核失败（无团）
+            CKList *group = $(statusButtonCell, CKJoin([self getCouponInfoWithData:couponDict sourceDict:dict]), blankCell);
+            [dataSource addObject:group forKey:nil];
             
-            NSArray *blankArray = @[blankCell];
-            CKList *joiningGroup = $(normalStatusCell);
-            [joiningGroup addObjectsFromArray:[self getCouponInfoWithData:couponDict]];
-            [joiningGroup addObjectsFromArray:blankArray];
-            [dataArray addObject:joiningGroup];
-            
-        } else if (status.integerValue == 21 && numberCnt.integerValue == 0) {
-            // 审核失败（无人）
-            
-            NSArray *blankArray = @[blankCell];
-            CKList *reviewFailed = $(statusButtonCell);
-            [reviewFailed addObjectsFromArray:[self getCouponInfoWithData:couponDict]];
-            [reviewFailed addObjectsFromArray:blankArray];
-            [dataArray addObject:reviewFailed];
-            
-        } else if (status.integerValue == 5 || status.integerValue == 1 || status.integerValue == 2 || (status.integerValue == 21 && numberCnt.integerValue > 0)) {
-            // 待支付 / 待完善资料 / 审核失败（有人）
-            
-            CKList *pendingList = $(statusButtonCell, groupInfoCell);
-            [dataArray addObject:pendingList];
-            
+        } else if (status.integerValue == XMWaitingForPay || status.integerValue == XMDataImcompleteV1 || status.integerValue == XMDataImcompleteV2 || (status.integerValue == XMReviewFailed && numberCnt.integerValue > 0)) {
+            // 待支付 / 待完善资料 / 审核失败（有团）
+            [dataSource addObject:$(statusButtonCell, groupInfoCell) forKey:nil];
         } else {
-            // 保障中 / 互助中 / 支付完成
-            
-            CKList *normalStyle = $(normalStatusCell, groupInfoCell);
-            [dataArray addObject:normalStyle];
+            // 保障中 / 互助中 / 支付完成 / 审核中（有车有团）
+            [dataSource addObject:$(normalStatusCell, groupInfoCell) forKey:nil];
         }
     }
     
-    self.dataSource = [CKList listWithArray:dataArray];
-    
+    self.dataSource = dataSource;
     [self.tableView reloadData];
 }
 
 #pragma mark - The settings of Cells
+
+///设置「互助费用试算」Cell
 - (CKDict *)setupCalculateCell
 {
     CKDict *calculateCell = [CKDict dictWith:@{kCKItemKey: @"calculateCell", kCKCellID: @"CalculateCell"}];
@@ -452,11 +508,36 @@
     return calculateCell;
 }
 
+/// 设置带有品牌车 logo 和车牌号信息的 Cell
 - (CKDict *)setupNormalStatusCellWithDict:(NSDictionary *)dict
 {
     CKDict *normalStatusCell = [CKDict dictWith:@{kCKItemKey: @"normalStatusCell", kCKCellID: @"NormalStatusCell"}];
     normalStatusCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 105;
+    });
+    
+    normalStatusCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        NSNumber *status = dict[@"status"];
+        NSNumber *numberCnt = dict[@"numbercnt"];
+        
+        // 有车无团「未参团」状态
+        if (status.integerValue == XMGroupFailed) {
+            
+            [self actionGotoSystemGroupListVC];
+        } else if (status.integerValue == XMInReview && numberCnt.integerValue < 1) {
+            // 有车无团「审核中」状态
+            [gToast showText:@"车辆审核中，请耐心等待审核结果"];
+        } else if (status.integerValue == XMInReview && numberCnt.integerValue > 0) {
+            // 有车有团审核中状态
+            /// 进入「团详情」页面
+            
+            
+        } else {
+            // 「保障中」等状态
+            // 进入「团详情」页面
+            
+            
+        }
     });
     
     normalStatusCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -482,6 +563,7 @@
     return normalStatusCell;
 }
 
+// 设置带有品牌车 logo 和车牌号信息的 Cell（带有 Button）
 - (CKDict *)setupStatusButtonCellWithDict:(NSDictionary *)dict
 {
     CKDict *statusWithButtonCell = [CKDict dictWith:@{kCKItemKey: @"tatusWithButtonCell", kCKCellID: @"StatusWithButtonCell"}];
@@ -510,7 +592,7 @@
         tipsLabel.text = dict[@"tip"];
         
         NSNumber *status = dict[@"status"];
-        if (status.integerValue == 21) {
+        if (status.integerValue == XMReuploadData) {
             [bottomButton setTitle:@"重新上传资料" forState:UIControlStateNormal];
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
@@ -518,7 +600,7 @@
                 
             }];
             
-        } else if (status.integerValue == 5) {
+        } else if (status.integerValue == XMWaitingForPay) {
             
             [bottomButton setTitle:@"前去支付" forState:UIControlStateNormal];
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -541,11 +623,18 @@
     return statusWithButtonCell;
 }
 
+/// 设置显示团名，时间，人数信息的 Cell
 - (CKDict *)setupGroupInfoCellWithDict:(NSDictionary *)dict
 {
     CKDict *groupInfoCell = [CKDict dictWith:@{kCKItemKey: @"groupInfoCell", kCKCellID: @"GroupInfoCell"}];
     groupInfoCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 117;
+    });
+    
+    groupInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        // 进入团详情页面
+        
+        
     });
     
     groupInfoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -564,11 +653,37 @@
     return groupInfoCell;
 }
 
-- (CKDict *)setupTipsHeaderCell
+/// 优惠信息的 Header，如：「加入互助后即享」
+- (CKDict *)setupTipsHeaderCellWithDict:(NSDictionary *)dict
 {
     CKDict *tipsHeaderCell = [CKDict dictWith:@{kCKItemKey: @"tipsHeaderCell", kCKCellID: @"TipsHeaderCell"}];
     tipsHeaderCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 35;
+    });
+    
+    tipsHeaderCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        NSNumber *status = dict[@"status"];
+        NSNumber *numberCnt = dict[@"numbercnt"];
+        
+        // 有车无团「未参团」状态
+        if (status.integerValue == XMGroupFailed) {
+            
+            [self actionGotoSystemGroupListVC];
+            
+        } else if (status.integerValue == XMInReview && numberCnt.integerValue < 1) {
+            // 有车无团「审核中」状态
+            [gToast showText:@"车辆审核中，请耐心等待审核结果"];
+            
+        } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
+            // 有车无团「审核失败」状态
+            // 进入「重新上传资料」页面
+            
+            
+        } else {
+            
+            // 无车无团「未参团」状态
+            [self actionGotoSystemGroupListVC];
+        }
     });
     
     tipsHeaderCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -578,11 +693,36 @@
     return tipsHeaderCell;
 }
 
-- (CKDict *)setupTipsTitleCellWithText:(NSString *)title
+/// 优惠信息的标题，如：「保障，福利，活动」等
+- (CKDict *)setupTipsTitleCellWithText:(NSString *)title withDict:(NSDictionary *)dict
 {
     CKDict *tipsTitleCell = [CKDict dictWith:@{kCKItemKey: @"tipsTitleCell", kCKCellID: @"TipsTitleCell"}];
     tipsTitleCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 30;
+    });
+    
+    tipsTitleCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        NSNumber *status = dict[@"status"];
+        NSNumber *numberCnt = dict[@"numbercnt"];
+        
+        // 有车无团「未参团」状态
+        if (status.integerValue == XMGroupFailed) {
+            
+            [self actionGotoSystemGroupListVC];
+        } else if (status.integerValue == XMInReview && numberCnt.integerValue < 1) {
+            // 有车无团「审核中」状态
+            [gToast showText:@"车辆审核中，请耐心等待审核结果"];
+            
+        } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
+            // 有车无团「审核失败」状态
+            // 进入「重新上传资料」页面
+            
+            
+        } else {
+            
+            // 无车无团「未参团」状态
+            [self actionGotoSystemGroupListVC];
+        }
     });
     
     tipsTitleCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -606,11 +746,37 @@
     return tipsTitleCell;
 }
 
-- (CKDict *)setupTipsCellWithCouponList:(NSArray *)couponList
+/// 设置显示优惠信息的双 Label Cell
+- (CKDict *)setupTipsCellWithCouponList:(NSArray *)couponList withDict:(NSDictionary *)dict
 {
     CKDict *tipsCell = [CKDict dictWith:@{kCKItemKey: @"tipsCell", kCKCellID: @"TipsCell"}];
     tipsCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 22;
+    });
+    
+    tipsCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        NSNumber *status = dict[@"status"];
+        NSNumber *numberCnt = dict[@"numbercnt"];
+        
+        // 有车无团「未参团」状态
+        if (status.integerValue == XMGroupFailed) {
+            
+            [self actionGotoSystemGroupListVC];
+            
+        } else if (status.integerValue == XMInReview && numberCnt.integerValue < 1) {
+            // 有车无团「审核中」状态
+            [gToast showText:@"车辆审核中，请耐心等待审核结果"];
+            
+        } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
+            // 有车无团「审核失败」状态
+            // 进入「重新上传资料」页面
+            
+            
+        } else {
+            
+            // 无车无团「未参团」状态
+            [self actionGotoSystemGroupListVC];
+        }
     });
     
     tipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -634,6 +800,7 @@
             secondTipsLabel.text = @"";
         }
         
+        // 如果用户机型是 iPhone 6 或以上屏幕大小的设备，更改一下 imageView 和 label 的约束
         if (gAppMgr.deviceInfo.screenSize.height >= 667) {
             [firstImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.leading.equalTo(cell).offset(38);
@@ -652,7 +819,8 @@
     return tipsCell;
 }
 
-- (CKDict *)setupSingleTipsCellWithCouponString:(NSString *)couponString
+/// 设置显示优惠信息的单 Label Cell
+- (CKDict *)setupSingleTipsCellWithCouponString:(NSString *)couponString withDict:(NSDictionary *)dict
 {
     CKDict *singleTipsCell = [CKDict dictWith:@{kCKItemKey: @"singleTipsCell", kCKCellID: @"SingleTipsCell"}];
     singleTipsCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -663,12 +831,37 @@
         return height;
     });
     
+    singleTipsCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        NSNumber *status = dict[@"status"];
+        NSNumber *numberCnt = dict[@"numbercnt"];
+        
+        // 有车无团「未参团」状态
+        if (status.integerValue == XMGroupFailed) {
+            
+            [self actionGotoSystemGroupListVC];
+        } else if (status.integerValue == XMInReview && numberCnt.integerValue < 1) {
+            // 有车无团「审核中」状态
+            [gToast showText:@"车辆审核中，请耐心等待审核结果"];
+            
+        } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
+            // 有车无团「审核失败」状态
+            // 进入「重新上传资料」页面
+            
+            
+        } else {
+            
+            // 无车无团「未参团」状态
+            [self actionGotoSystemGroupListVC];
+        }
+    });
+    
     singleTipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
         
         tipsLabel.text = couponString;
         
+        // 如果用户机型是 iPhone 6 或以上屏幕大小的设备，更改一下 imageView 的约束
         if (gAppMgr.deviceInfo.screenSize.height >= 667) {
             [imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.leading.equalTo(cell).offset(38);
@@ -679,11 +872,36 @@
     return singleTipsCell;
 }
 
-- (CKDict *)setupBlankCell
+/// 作为一个给底部留白的 Cell，防止 Cell 的底部留白不够
+- (CKDict *)setupBlankCellWithDict:(NSDictionary *)dict
 {
     CKDict *blankCell = [CKDict dictWith:@{kCKItemKey: @"blankCell", kCKCellID: @"BlankCell"}];
     blankCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 15;
+    });
+    
+    blankCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        NSNumber *status = dict[@"status"];
+        NSNumber *numberCnt = dict[@"numbercnt"];
+        
+        // 有车无团「未参团」状态
+        if (status.integerValue == XMGroupFailed) {
+            
+            [self actionGotoSystemGroupListVC];
+        } else if (status.integerValue == XMInReview && numberCnt.integerValue < 1) {
+            // 有车无团「审核中」状态
+            [gToast showText:@"车辆审核中，请耐心等待审核结果"];
+            
+        } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
+            // 有车无团「审核失败」状态
+            // 进入「重新上传资料」页面
+            
+            
+        } else {
+            
+            // 无车无团「未参团」状态
+            [self actionGotoSystemGroupListVC];
+        }
     });
     
     blankCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -787,10 +1005,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CalculateCell"];
-        return cell;
-    }
     
     CKDict *item = self.dataSource[indexPath.section][indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:item[kCKCellID] forIndexPath:indexPath];
@@ -804,6 +1018,7 @@
 }
 
 #pragma mark - Utilities
+/// 把一个 Array 分成另一个嵌套 mutableArray，该 mutableArray 里面有各个以 2 个为一组的子 mutableArray，这个方法主要配合显示双 Label 的优惠信息 Cell 使用。
 - (NSMutableArray *)splitArrayIntoDoubleNewArray:(NSArray *)array
 {
     // Create our array of arrays
@@ -827,5 +1042,47 @@
     
     return newArray;
 }
+
+/// 拼接优惠信息 Cell 的方法
+- (NSMutableArray *)getCouponInfoWithData:(NSDictionary *)data sourceDict:(NSDictionary *)dict
+{
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    NSArray *insuranceList = data[@"insurancelist"];
+    if (insuranceList.count > 0) {
+        NSMutableArray *newArray = [self splitArrayIntoDoubleNewArray:insuranceList];
+        CKDict *tipsHeaderCell = [self setupTipsHeaderCellWithDict:dict];
+        CKDict *insuranceTitleCell = [self setupTipsTitleCellWithText:@"保障" withDict:dict];
+        [tempArray addObject:tipsHeaderCell];
+        [tempArray addObject:insuranceTitleCell];
+        for (NSArray *array in newArray) {
+            CKDict *insuranceCell = [self setupTipsCellWithCouponList:array withDict:dict];
+            [tempArray addObject:insuranceCell];
+        }
+    }
+    
+    NSArray *couponList = data[@"couponlist"];
+    if (data.count > 0) {
+        NSMutableArray *newArray = [self splitArrayIntoDoubleNewArray:couponList];
+        CKDict *couponTitleCell = [self setupTipsTitleCellWithText:@"福利" withDict:dict];
+        [tempArray addObject:couponTitleCell];
+        for (NSArray *array in newArray) {
+            CKDict *couponCell = [self setupTipsCellWithCouponList:array withDict:dict];
+            [tempArray addObject:couponCell];
+        }
+    }
+    
+    NSArray *activityList = data[@"activitylist"];
+    if (activityList.count > 0) {
+        CKDict *activityCell = [self setupTipsTitleCellWithText:@"活动" withDict:dict];
+        [tempArray addObject:activityCell];
+        for (NSString *string in activityList) {
+            CKDict *activityCell = [self setupSingleTipsCellWithCouponString:string withDict:dict];
+            [tempArray addObject:activityCell];
+        }
+    }
+    
+    return tempArray;
+}
+
 
 @end
