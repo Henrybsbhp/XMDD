@@ -680,7 +680,6 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="bottomView" destination="N70-oc-hM8" id="fhz-jG-KY9"/>
                         <outlet property="tableView" destination="lAW-O5-CT5" id="ZLn-uS-CvX"/>
                     </connections>
                 </viewController>

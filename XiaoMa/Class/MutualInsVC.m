@@ -17,7 +17,6 @@
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (nonatomic, strong) ADViewController *adVC;
 
 /// 显示内测计划按钮（返回参数）   0: 不显示  1: 显示
@@ -34,6 +33,13 @@
 
 @implementation MutualInsVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"MutualInsVC deallocated");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -46,16 +52,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if (self.dataSource.count > 0) {
-        self.bottomView.hidden = NO;
-    } else {
-        self.bottomView.hidden = YES;
-    }
 }
 
 #pragma mark - Actions
@@ -143,7 +139,6 @@
             [self.view stopActivityAnimation];
             [self.tableView.refreshView endRefreshing];
             self.tableView.hidden = NO;
-            self.bottomView.hidden = NO;
             self.isEmptyGroup = NO;
             self.fetchedDataSource = rop.carList;
             [self setDataSource];
@@ -189,7 +184,6 @@
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         self.tableView.hidden = NO;
-        self.bottomView.hidden = NO;
         
     } error:^(NSError *error) {
         [self.tableView.refreshView endRefreshing];
@@ -509,7 +503,7 @@
             secondTipsLabel.text = @"";
         }
         
-        if (gAppMgr.deviceInfo.screenSize.height < 736) {
+        if (gAppMgr.deviceInfo.screenSize.height >= 667) {
             [firstImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.leading.equalTo(cell).offset(38);
             }];
@@ -544,7 +538,7 @@
         
         tipsLabel.text = couponString;
         
-        if (gAppMgr.deviceInfo.screenSize.height < 736) {
+        if (gAppMgr.deviceInfo.screenSize.height >= 667) {
             [imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.leading.equalTo(cell).offset(38);
             }];
