@@ -17,9 +17,9 @@ typedef enum : NSInteger {
 
 @interface MutInsSystemGroupListVM : NSObject
 
--(id)initWithTableView:(UITableView *)tableView andType:(GroupStatusType)groupStatusType andTargetVC:(MutInsSystemGroupListVC *)groupListVC;
+- (id)initWithTableView:(UITableView *)tableView andType:(GroupStatusType)groupStatusType andTargetVC:(MutInsSystemGroupListVC *)groupListVC;
 
--(void)getCooperationGroupList;
+- (void)getCooperationGroupList;
 
 @property (strong, nonatomic) NSString *url;
 

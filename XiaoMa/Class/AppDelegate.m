@@ -504,6 +504,7 @@
 #pragma mark - JSPatch
 - (void)setupJSPatch
 {
+    return;
     RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
     RACSignal * areaSignal = [[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
         return ac.province.length || ac.city.length || ac.district.length;

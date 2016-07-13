@@ -25,10 +25,10 @@
 #import "ValuationHomeVC.h"
 #import "MutualInsOrderInfoVC.h"
 #import "MutualInsGrouponVC.h"
-#import "MutualInsHomeVC.h"
 #import "MutualInsAskForCompensationVC.h"
 #import "MoreSubmodulesVC.h"
 #import "ParkingShopGasInfoVC.h"
+#import "MutualInsVC.h"
 
 #import "AppDelegate.h"
 
@@ -377,14 +377,15 @@
             
             for (UIViewController * vc in self.curNavCtrl.viewControllers)
             {
-                if ([vc isKindOfClass:[MutualInsHomeVC class]])
+                if ([vc isKindOfClass:[MutualInsVC class]])
                 {
-                    [((MutualInsHomeVC *)vc) reloadIfNeeded];
+//                    @fq TODO
+//                    [((MutualInsHomeVC *)vc) reloadIfNeeded];
                     [self.curNavCtrl popViewControllerAnimated:YES];
                     return YES;
                 }
             }
-            UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
+            MutualInsVC *vc = [UIStoryboard vcWithId:@"MutualInsVC" inStoryboard:@"TempHX"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         //加入小马互助团系统团

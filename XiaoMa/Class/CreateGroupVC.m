@@ -16,7 +16,6 @@
 #import "MutualInsPicUpdateVC.h"
 #import "PickCarVC.h"
 #import "ApplyCooperationGroupJoinOp.h"
-#import "MutualInsHomeVC.h"
 #import "EditCarVC.h"
 #import "HKImageAlertVC.h"
 #import "MutualInsStore.h"

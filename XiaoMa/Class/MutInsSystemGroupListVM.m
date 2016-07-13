@@ -37,7 +37,7 @@
 
 #pragma mark - Network
 
--(void)getCooperationGroupList
+- (void)getCooperationGroupList
 {
     GetCooperationGroupOp *op = [GetCooperationGroupOp operation];
     

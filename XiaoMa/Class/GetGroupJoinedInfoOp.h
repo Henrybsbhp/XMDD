@@ -15,10 +15,10 @@
 
 @property (nonatomic, copy) NSDictionary *couponList;
 
-/// 显示内测计划按钮（返回参数）   0: 不显示  1: 显示
-@property (nonatomic, strong) NSNumber *showPlanBtn;
+/// 显示内测计划按钮（返回参数）
+@property (nonatomic) BOOL isShowPlanBtn;
 
-/// 显示内测登记按钮（返回参数）   0: 不显示  1: 显示
-@property (nonatomic, strong) NSNumber *showRegistBtn;
+/// 显示内测登记按钮（返回参数）
+@property (nonatomic) BOOL isShowRegistBtn;
 
 @end
