@@ -21,6 +21,11 @@
 
 @implementation MutInsSystemGroupListVM
 
+-(void)dealloc
+{
+    
+}
+
 -(id)initWithTableView:(UITableView *)tableView andType:(GroupStatusType)groupStatusType andTargetVC:(MutInsSystemGroupListVC *)groupListVC
 {
     if (self = [super init])
@@ -39,12 +44,14 @@
 
 - (void)getCooperationGroupList
 {
+    @weakify(self)
     GetCooperationGroupOp *op = [GetCooperationGroupOp operation];
     
     op.req_status = @(self.status);
     
     [[[op rac_postRequest]initially:^{
-        
+     
+        @strongify(self)
         if (self.status == GroupStatusTypeEnd)
         {
             self.targetVC.groupEndTable.hidden = YES;
@@ -57,7 +64,7 @@
         [self.targetVC.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }]subscribeNext:^(GetCooperationGroupOp *op) {
-        
+        @strongify(self)
         
         if (self.status == GroupStatusTypeEnd)
         {
@@ -75,10 +82,13 @@
         
     }error:^(NSError *error) {
         
+        @strongify(self)
         [self.targetVC.view stopActivityAnimation];
         
-        [self.tableView reloadData];
-        
+        [self.targetVC.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取团列表失败。请点击重试" tapBlock:^{
+            @strongify(self)
+            [self getCooperationGroupList];
+        }];
     }];
 }
 
@@ -239,7 +249,6 @@
 -(void)addCornerToTagLabel:(UILabel *)label
 {
     label.layer.cornerRadius = 8.5;
-    label.layer.masksToBounds = YES;
     label.layer.borderColor = HEXCOLOR(@"#FF7428").CGColor;
     label.layer.borderWidth = 1;
 }

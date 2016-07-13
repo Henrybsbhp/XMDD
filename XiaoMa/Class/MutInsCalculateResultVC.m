@@ -23,6 +23,11 @@
 
 @implementation MutInsCalculateResultVC
 
+-(void)dealloc
+{
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -49,7 +54,12 @@
     self.premiumPriceLabel.text = [NSString stringWithFormat:@"%@",self.model.premiumPrice];
     self.serviceFeeLabel.text = [NSString stringWithFormat:@"%@",self.model.serviceFee];
     self.shareMoneyLabel.text = [NSString stringWithFormat:@"%@",self.model.shareMoney];
-    self.noteLabel.text = [NSString stringWithFormat:@"%@",self.model.note];
+    
+    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc]initWithString:self.model.note];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:8];//调整行间距
+    [noteStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [noteStr length])];
+    self.noteLabel.attributedText = noteStr;
 }
 
 - (void)setupNavigationBar
