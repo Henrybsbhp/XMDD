@@ -94,7 +94,7 @@
         
         @strongify(self);
         
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"zhifu",@"values":@"zhifu0020"}];
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0020"}];
         
         [self actionJumpToFinishAddressVC];
     }];
@@ -202,7 +202,7 @@
 
 - (void)actionJumpToFinishAddressVC
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"zhifu",@"values":@"zhifu0005"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0005"}];
     
     MutualInsPayResultVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayResultVC"];
     vc.contract = self.contract;

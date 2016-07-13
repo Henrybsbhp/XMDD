@@ -206,7 +206,7 @@
 
 - (void)actionCheckAgreement {
     
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing0015"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0015"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"我的协议";
     vc.url = self.groupDetail.rsp_contracturl;

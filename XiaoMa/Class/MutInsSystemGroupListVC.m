@@ -42,6 +42,8 @@
     [self.groupBeginVM getCooperationGroupList];
     [self.groupEndVM getCooperationGroupList];
     
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    
     
 }
 
@@ -78,11 +80,17 @@
     @weakify(self)
     [[self.groupBeginBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
+        
+        [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan2"}];
+        
         [self changeUIByVCIsBegin:YES];
     }];
     
     [[self.groupEndBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
+        
+        [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan3"}];
+        
         [self changeUIByVCIsBegin:NO];
     }];
 }
@@ -157,6 +165,8 @@
 {
     NSString * url;
     
+    [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan5"}];
+    
     if (url.length)
     {
         GroupIntroductionVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
@@ -171,8 +181,9 @@
     }
 }
 
-- (void)actionBack:(id)sender
+-(void)actionBack
 {
+    [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan1"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -157,6 +157,15 @@
     if (showDetailFlag.integerValue == 1)
     {
 //        进入团详情页面
+        if (self.status )
+        {
+            [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan4"}];
+        }
+        else
+        {
+            [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan6"}];
+        }
+        
     }
     
 }
