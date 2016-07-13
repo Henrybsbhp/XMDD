@@ -7,6 +7,8 @@
 //
 
 #import "MutInsCalculateResultVC.h"
+#import "MutualInsVC.h"
+#import "MutInsSystemGroupListVC.h"
 
 @interface MutInsCalculateResultVC ()
 @property (weak, nonatomic) IBOutlet UILabel *brandNameLabel;
@@ -50,9 +52,37 @@
     self.noteLabel.text = [NSString stringWithFormat:@"%@",self.model.note];
 }
 
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
 #pragma mark - Action
 
 - (IBAction)actionJoin:(id)sender {
+    
+    MutInsSystemGroupListVC * vc = [UIStoryboard vcWithId:@"MutInsSystemGroupListVC" inStoryboard:@"Temp"];
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)actionBack:(id)sender
+{
+    if (self.router.userInfo[kOriginRoute])
+    {
+        [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
+    }
+    else
+    {
+        CKRouter * route = [self.router.navigationController.routerList objectForKey:@"MutualInsVC"];
+        if (route)
+        {
+            [self.router.navigationController popToRouter:route animated:YES];
+        }
+        else
+        {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
+}
 @end

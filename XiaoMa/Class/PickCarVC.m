@@ -90,7 +90,7 @@
         @strongify(self);
         self.datasource = [self.carStore.cars allObjects];
         
-        if (self.datasource.count ==0) {
+        if (self.datasource.count == 0) {
             self.carNumLabel.text = @"";
             self.tableView.hidden = YES;
             [self addEmptyBtn];

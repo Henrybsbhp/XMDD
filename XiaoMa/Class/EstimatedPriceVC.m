@@ -16,7 +16,6 @@
 #import "UpdateCooperationInsInfoOp.h"
 #import "MutualInsStore.h"
 #import "MutualInsGrouponVC.h"
-#import "MutualInsHomeVC.h"
 #import "PopAnimation.h"
 
 @interface EstimatedPriceVC ()
@@ -398,52 +397,7 @@
     //刷新团列表信息
     [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
     
-    MutualInsGrouponVC *grouponvc;
-    MutualInsHomeVC *homevc;
-    NSInteger homevcIndex = NSNotFound;
-    for (NSInteger i=0; i<self.navigationController.viewControllers.count; i++) {
-        UIViewController *vc = self.navigationController.viewControllers[i];
-        if ([vc isKindOfClass:[MutualInsGrouponVC class]] &&
-            [[(MutualInsGrouponVC *)vc group].groupId isEqual:self.groupId]) {
-            grouponvc = (MutualInsGrouponVC *)vc;
-            break;
-        }
-        else if ([vc isKindOfClass:[MutualInsHomeVC class]]) {
-            homevc = (MutualInsHomeVC *)vc;
-            homevcIndex = i;
-        }
-    }
-    if (grouponvc) {
-        [self.navigationController popToViewController:grouponvc animated:YES];
-        //刷新团详情
-        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
-        return;
-    }
-    //创建团详情视图
-    grouponvc  = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-    HKMutualGroup * group = [[HKMutualGroup alloc] init];
-    group.groupId = self.groupId;
-    group.groupName = self.groupName;
-    group.memberId = self.memberId;
-    grouponvc.group = group;
-    
-    NSMutableArray *vcs = [NSMutableArray array];
-    
-    // 堆栈中有小马互助首页
-    if (homevcIndex != NSNotFound) {
-        NSArray *subvcs = [self.navigationController.viewControllers subarrayToIndex:homevcIndex+1];
-        [vcs addObjectsFromArray:subvcs];
-    }
-    else {
-        //创建团root视图
-        homevc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
-        [vcs addObject:self.navigationController.viewControllers[0]];
-        [vcs addObject:homevc];
-    }
-    [vcs addObject:grouponvc];
-    [vcs addObject:self];
-    self.navigationController.viewControllers = vcs;
-    [self.navigationController popViewControllerAnimated:YES];
+//  TODO  @fq 
 }
 
 @end
