@@ -39,12 +39,14 @@
 
 -(void)getCooperationGroupList
 {
+    @weakify(self)
     GetCooperationGroupOp *op = [GetCooperationGroupOp operation];
     
     op.req_status = @(self.status);
     
     [[[op rac_postRequest]initially:^{
-        
+     
+        @strongify(self)
         if (self.status == GroupStatusTypeEnd)
         {
             self.targetVC.groupEndTable.hidden = YES;
@@ -57,7 +59,7 @@
         [self.targetVC.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }]subscribeNext:^(GetCooperationGroupOp *op) {
-        
+        @strongify(self)
         
         if (self.status == GroupStatusTypeEnd)
         {
@@ -75,10 +77,12 @@
         
     }error:^(NSError *error) {
         
+        @strongify(self)
         [self.targetVC.view stopActivityAnimation];
         
-        [self.tableView reloadData];
-        
+        [self.targetVC.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取团列表失败。请点击重试" tapBlock:^{
+            [self getCooperationGroupList];
+        }];
     }];
 }
 

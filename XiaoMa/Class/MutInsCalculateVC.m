@@ -81,6 +81,10 @@
         
         [self.view stopActivityAnimation];
         
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取费用试算信息失败。请点击重试" tapBlock:^{
+            [self getCalculateBaseInfo];
+        }];
+        
     }];
 }
 
