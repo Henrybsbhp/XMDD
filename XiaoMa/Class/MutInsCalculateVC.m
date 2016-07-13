@@ -8,7 +8,6 @@
 
 #import "MutInsCalculateVC.h"
 #import "MutInsCalculateResultVC.h"
-#import "LicenseTipsVC.h"
 #import "GetCalculateBaseInfoOp.h"
 #import "OutlayCalculateWithFrameNumOp.h"
 
@@ -377,14 +376,24 @@
 
 -(void)showLicenseTips
 {
-    LicenseTipsVC *vc = [UIStoryboard vcWithId:@"LicenseTipsVC" inStoryboard:@"Temp"];
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(265, 184) viewController:vc];
-    sheet.shouldCenterVertically = YES;
+    CGSize size = CGSizeMake(300, 200);
+    UIViewController *vc = [[UIViewController alloc] init];
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:size viewController:vc];
+    sheet.cornerRadius = 0;
+    sheet.shadowRadius = 0;
+    sheet.shadowOpacity = 0;
+    sheet.transitionStyle = MZFormSheetTransitionStyleFade;
+    sheet.shouldDismissOnBackgroundViewTap = YES;
+    [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
+    sheet.portraitTopInset = floor((self.view.frame.size.height - size.height) / 2);
+    
     [sheet presentAnimated:YES completionHandler:nil];
     
-    [[[vc.closeButton rac_signalForControlEvents:UIControlEventTouchUpInside] take:1] subscribeNext:^(id x) {
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
+    vc.view.backgroundColor = [UIColor clearColor];
+    UIImageView *imgv = [[UIImageView alloc] initWithFrame:vc.view.bounds];
+    [vc.view addSubview:imgv];
+    imgv.autoresizingMask = UIViewAutoresizingFlexibleAll;
+    imgv.image = [UIImage imageNamed:@"common_carFrameNo_imageView"];
 }
 
 -(BOOL)checkFrameNo
