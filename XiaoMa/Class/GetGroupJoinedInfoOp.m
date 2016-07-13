@@ -22,8 +22,8 @@
 - (instancetype)parseResponseObject:(id)rspObj
 {
     self.carList = rspObj[@"carlist"];
-    self.showPlanBtn = rspObj[@"showplanbtn"];
-    self.showRegistBtn = rspObj[@"showregistbtn"];
+    self.isShowPlanBtn = [rspObj boolParamForName:@"showplanbtn"];
+    self.isShowRegistBtn = [rspObj boolParamForName:@"showregistbtn"];
     
     return self;
 }

@@ -14,20 +14,29 @@
 #import "RTLabel.h"
 #import "MutInsSystemGroupListVC.h"
 #import "MutualInsAskForCompensationVC.h"
+#import "MutualInsStore.h"
+#import "GroupIntroductionVC.h"
+#import "HKPopoverView.h"
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *adVC;
 
-/// 显示内测计划按钮（返回参数）   0: 不显示  1: 显示
-@property (nonatomic, strong) NSNumber *showPlanBtn;
-/// 显示内测登记按钮（返回参数）   0: 不显示  1: 显示
-@property (nonatomic, strong) NSNumber *showRegistBtn;
+@property (nonatomic, weak) HKPopoverView *popoverMenu;
+@property (nonatomic, strong) CKList *menuItems;
 
+/// 判断是否有团有车
 @property (nonatomic) BOOL isEmptyGroup;
 
+///数据源
 @property (nonatomic, strong) CKList *dataSource;
+///获取到的数据，需要处理
 @property (nonatomic, copy) NSArray *fetchedDataSource;
+
+@property (nonatomic, strong) MutualInsStore *minsStore;
+
+@property (nonatomic)BOOL isMenuOpen;
+
 
 @end
 
@@ -46,7 +55,20 @@
     
     [self setupTableViewADView];
     [self setupRefreshView];
-    [self fetchAllData];
+    
+    [self setItemList];
+    [self setupMutualInsStore];
+    
+    CKAsyncMainQueue(^{
+        
+        [[self.minsStore reloadSimpleGroups] send];
+    });
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.popoverMenu dismissWithAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,7 +79,14 @@
 #pragma mark - Actions
 - (IBAction)compensationButtonClicked:(id)sender
 {
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0006"}];
     
+    if ([LoginViewModel loginIfNeededForTargetViewController:self])
+    {
+        MutualInsAskForCompensationVC *vc = [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
+        [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
 }
 
 - (IBAction)joinButtonClicked:(id)sender
@@ -70,33 +99,42 @@
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
-- (IBAction)moreBarButtonClicked:(id)sender
+- (IBAction)actionShowOrHideMenu:(id)sender
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0006"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0001"}];
     
-    if ([LoginViewModel loginIfNeededForTargetViewController:self])
-    {
-        MutualInsAskForCompensationVC *vc = [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
-        [self.navigationController pushViewController:vc animated:YES];
-        return;
+    if (self.isMenuOpen && self.popoverMenu) {
+        [self.popoverMenu dismissWithAnimated:YES];
+        self.isMenuOpen = NO;
+    }
+    else if (!self.isMenuOpen && !self.popoverMenu) {
+        
+        NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
+            return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
+        }];
+        HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 200) items:items];
+        @weakify(self);
+        [popover setDidSelectedBlock:^(NSUInteger index) {
+            @strongify(self);
+            CKDict *dict = self.menuItems[index];
+            CKCellSelectedBlock block = dict[kCKCellSelected];
+            if (block) {
+                block(dict, [NSIndexPath indexPathForRow:index inSection:0]);
+            }
+        }];
+        
+        [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
+                            inView:self.navigationController.view dismissTargetView:self.view animated:YES];
+        self.popoverMenu = popover;
+        self.isMenuOpen = YES;
     }
 }
 
-#pragma mark - First Setups
-/// 下拉刷新设置
-- (void)setupRefreshView
-{
-    @weakify(self);
-    [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
-        @strongify(self);
-        [self fetchAllData];
-    }];
-}
-
+#pragma mark - Setups
 - (void)setupTableViewADView
 {
     UIView *adContainer = [[UIView alloc] initWithFrame:CGRectZero];
-    adContainer.backgroundColor = [UIColor colorWithHex:@"#F7F7F8" alpha:1.0f];
+    adContainer.backgroundColor = kBackgroundColor;
     
     self.adVC = [ADViewController vcWithMutualADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:nil mobBaseEventDict:nil];
     CGFloat height = floor(self.adVC.adView.frame.size.height);
@@ -115,86 +153,167 @@
     [self.adVC reloadDataWithForce:YES completed:nil];
 }
 
-#pragma mark - Obtain data
-- (void)fetchAllData
+/// 下拉刷新设置
+- (void)setupRefreshView
 {
-    GetGroupJoinedInfoOp *op = [[GetGroupJoinedInfoOp alloc] init];
-    
     @weakify(self);
-    [[[op rac_postRequest] initially:^{
+    [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
         @strongify(self);
-        if (!self.fetchedDataSource.count)
-        {
-            // 防止有数据的时候，下拉刷新导致页面会闪一下
-            CGFloat reducingY = self.view.frame.size.height * 0.1056;
-            [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
-            self.tableView.hidden = YES;
-        }
-        
-    }] subscribeNext:^(GetGroupJoinedInfoOp *rop) {
-        @strongify(self);
-        self.showPlanBtn = rop.showPlanBtn;
-        self.showRegistBtn = rop.showRegistBtn;
-        if (rop.carList.count > 0) {
-            [self.view stopActivityAnimation];
-            [self.tableView.refreshView endRefreshing];
-            self.tableView.hidden = NO;
-            self.isEmptyGroup = NO;
-            self.fetchedDataSource = rop.carList;
-            [self setDataSource];
-            
-        } else {
-            self.isEmptyGroup = YES;
-            [self fetchDescriptionDataWhenNoGroups];
-        }
-    } error:^(NSError *error) {
-        @strongify(self);
-        [self.tableView.refreshView endRefreshing];
-        [self.view stopActivityAnimation];
-        self.tableView.hidden = YES;
-        [self.view showDefaultEmptyViewWithText:@"请求数据失败，请点击重试" tapBlock:^{
-            [self.view hideDefaultEmptyView];
-            [self  fetchAllData];
-        }];
+        [[self.minsStore reloadSimpleGroups] send];
     }];
 }
 
-- (void)fetchDescriptionDataWhenNoGroups
+- (void)setupMutualInsStore
+{
+    self.minsStore = [MutualInsStore fetchOrCreateStore];
+    @weakify(self);
+    [self.minsStore subscribeWithTarget:self domain:kDomainMutualInsSimpleGroups receiver:^(id store, CKEvent *evt) {
+        @strongify(self);
+        [self reloadFormSignal:evt.signal];
+    }];
+}
+
+- (void)setItemList
+{
+    self.menuItems = $([self menuPlanButton],
+                       [self menuRegistButton],
+                       [self menuHelpButton],
+                       [self menuPhoneButton]);
+}
+
+
+#pragma mark - Menu List
+- (id)menuPlanButton
+{
+    if (!self.minsStore.rsp_getGroupJoinedInfoOp.isShowPlanBtn) {
+        return CKNULL;
+    }
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"plan",@"title":@"内测计划",@"img":@"mins_person"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+        vc.originVC = self;
+        vc.groupType = MutualGroupTypeSelf;
+        vc.originVC = self;
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+- (id)menuRegistButton
+{
+    if (!self.minsStore.rsp_getGroupJoinedInfoOp.isShowRegistBtn) {
+        return CKNULL;
+    }
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"regist",@"title":@"内测登记",@"img":@"mec_edit"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.originVC = self;
+        NSString * urlStr;
+#if XMDDEnvironment==0
+        urlStr = @"http://dev01.xiaomadada.com/paaweb/general/neice1035/input?token=";
+#elif XMDDEnvironment==1
+        urlStr = @"http://dev.xiaomadada.com/paaweb/general/neice1035/input?token=";
+#else
+        urlStr = @"http://www.xiaomadada.com/paaweb/general/neice1035/input?token=";
+#endif
+        
+        vc.url = [urlStr append:gNetworkMgr.token];
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+- (id)menuHelpButton
+{
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"help",@"title":@"使用帮助",@"img":@"mins_question"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0012"}];
+        @strongify(self);
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.originVC = self;
+        
+        NSString * urlStr;
+#if XMDDEnvironment==0
+        urlStr = @"http://xiaomadada.com/xmdd-web/xmdd-app/qa.html";
+#elif XMDDEnvironment==1
+        urlStr = @"http://xiaomadada.com/xmdd-web/xmdd-app/qa.html";
+#else
+        urlStr = @"http://xiaomadada.com/xmdd-web/xmdd-app/qa.html";
+#endif
+        
+        vc.url = urlStr;
+        [self.navigationController pushViewController:vc animated:YES];
+    });
+    return dict;
+}
+
+- (id)menuPhoneButton
+{
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"phone",@"title":@"联系客服",@"img":@"mins_phone"}];
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0013"}];
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"如有任何疑问，可拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
+        [alert show];
+    });
+    return dict;
+}
+
+
+#pragma mark - Obtain data
+- (void)reloadFormSignal:(RACSignal *)signal
 {
     @weakify(self);
-    GetCalculateBaseInfoOp *infoOp = [[GetCalculateBaseInfoOp alloc] init];
-    [[[infoOp rac_postRequest] initially:^{
+    [[signal initially:^{
         
-    }] subscribeNext:^(GetCalculateBaseInfoOp *rop) {
         @strongify(self);
-        NSDictionary *dict = @{@"insurancelist" : rop.insuranceList,
-                               @"couponlist" : rop.couponList,
-                               @"activitylist" : rop.activityList,
-                               };
-        CKList *cellList = [CKList list];
-        CKDict *blankCell = [self setupBlankCell];
-        NSArray *blankArray = @[blankCell];
-        NSMutableArray *dataArray = [[NSMutableArray alloc] init];
-        NSMutableArray *tempArray = [self getCouponInfoWithData:dict];
-        [cellList addObjectsFromArray:tempArray];
-        [cellList addObjectsFromArray:blankArray];
-        [dataArray addObject:cellList];
-        self.dataSource = [CKList listWithArray:dataArray];
-        [self.tableView reloadData];
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView beginRefreshing];
+        }
+        else if (![self.view isActivityAnimating]) {
+            self.tableView.hidden = YES;
+            
+            self.view.indicatorPoistionY = self.view.frame.size.height * 0.1056;
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        }
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        self.fetchedDataSource = self.minsStore.carList;
+        
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         self.tableView.hidden = NO;
+        self.isEmptyGroup = NO;
         
+        [self setItemList];
+        [self setDataSource];
+
     } error:^(NSError *error) {
-        [self.tableView.refreshView endRefreshing];
-        [self.view stopActivityAnimation];
-        self.tableView.hidden = YES;
-        [self.view showDefaultEmptyViewWithText:@"请求数据失败，请点击重试" tapBlock:^{
-            [self.view hideDefaultEmptyView];
-            [self  fetchAllData];
-        }];
+        
+        @strongify(self);
+        if ([self.tableView isRefreshViewExists]) {
+            [self.tableView.refreshView endRefreshing];
+        }
+        else {
+            [self.view stopActivityAnimation];
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取信息失败，点击重试" tapBlock:^{
+                @strongify(self);
+                [[self.minsStore reloadSimpleGroups] send];
+            }];
+        }
     }];
 }
+
 
 - (NSMutableArray *)getCouponInfoWithData:(NSDictionary *)data
 {

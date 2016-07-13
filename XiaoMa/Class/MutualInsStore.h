@@ -7,16 +7,15 @@
 //
 
 #import "UserStore.h"
-#import "GetCooperationMyGroupOp.h"
+#import "GetGroupJoinedInfoOp.h"
 
 #define kDomainMutualInsSimpleGroups    @"mutualIns.simpleGroups"
 #define kDomainMutualInsDetailGroups    @"mutualIns.detailGroups"
 
 @interface MutualInsStore : UserStore
 
-@property (nonatomic, strong) JTQueue *simpleGroups;
-@property (nonatomic, strong) JTQueue *unMutuanlCarList;
-@property (nonatomic, strong) GetCooperationMyGroupOp *rsp_mygroupOp;
+@property (nonatomic, strong) NSArray *carList;
+@property (nonatomic, strong) GetGroupJoinedInfoOp *rsp_getGroupJoinedInfoOp;
 @property (nonatomic, strong) JTQueue *detailGroups;
 
 

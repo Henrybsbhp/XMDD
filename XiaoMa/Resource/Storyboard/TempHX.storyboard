@@ -674,7 +674,7 @@
                         <barButtonItem key="rightBarButtonItem" image="mins_more" id="kWR-ua-y5z">
                             <color key="tintColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="moreBarButtonClicked:" destination="dN6-lv-iEo" id="IyK-mZ-2Xl"/>
+                                <action selector="actionShowOrHideMenu:" destination="dN6-lv-iEo" id="Qjw-JE-uTZ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

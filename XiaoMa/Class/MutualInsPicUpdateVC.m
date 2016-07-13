@@ -551,13 +551,13 @@
         
         [gToast dismiss];
         
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+        
         MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
-        MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
-        [self.navigationController pushViewController:vc animated:YES];
     }];
 }
 
