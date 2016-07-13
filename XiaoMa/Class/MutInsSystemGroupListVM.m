@@ -42,7 +42,7 @@
 
 #pragma mark - Network
 
--(void)getCooperationGroupList
+- (void)getCooperationGroupList
 {
     @weakify(self)
     GetCooperationGroupOp *op = [GetCooperationGroupOp operation];

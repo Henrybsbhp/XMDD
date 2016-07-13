@@ -13,26 +13,14 @@ typedef enum : NSUInteger {
     MutualGroupTypeSelf,
 } MutualGroupType;
 
-typedef enum : NSUInteger {
-    BtnTypeNotStart,
-    BtnTypeJoinNow,
-    BtnTypeAlready,
-    BtnTypeHidden
-} DetailBtnType;
 
 /// 团介绍页面
 @interface GroupIntroductionVC : HKViewController
 
 @property (nonatomic, weak) UIViewController *originVC;
 
-@property (nonatomic, strong) NSString * titleStr;
 @property (nonatomic, assign) MutualGroupType groupType;
-@property (nonatomic, assign) DetailBtnType btnType;
-@property (nonatomic, strong) NSNumber * groupId;
-@property (nonatomic, strong) NSString *memberId;
-@property (nonatomic, strong) NSString *groupName;
 @property (nonatomic, strong) NSString *groupIntrUrlStr;
 
-@property (nonatomic, strong) NSNumber *originCarId;
 
 @end

@@ -27,14 +27,16 @@
 
 @implementation MutInsCalculateVC
 
--(void)dealloc
+- (void)dealloc
 {
-    
+    DebugLog(@"MutInsCalculateVC dealloc");
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.title = @"费用试算";
     
     [self getCalculateBaseInfo];
     

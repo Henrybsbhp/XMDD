@@ -9,6 +9,10 @@
 #import "MutInsSystemGroupListVC.h"
 #import "MutInsSystemGroupListVM.h"
 #import "GetCooperationGroupOp.h"
+#import "GroupIntroductionVC.h"
+#import "GetCooperationUsercarListOp.h"
+#import "MutualInsPickCarVC.h"
+#import "MutualInsPicUpdateVC.h"
 
 @interface MutInsSystemGroupListVC ()
 @property (weak, nonatomic) IBOutlet UIButton *groupBeginBtn;
@@ -32,10 +36,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupUI];
+    [self setupNavigationBar];
+    
     [self.groupBeginVM getCooperationGroupList];
     [self.groupEndVM getCooperationGroupList];
     
-    [self setupUI];
+    
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -52,10 +59,14 @@
 
 #pragma mark - Setup
 
--(void)setupUI
+- (void)setupNavigationBar
 {
-    @weakify(self)
-    
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
+- (void)setupUI
+{
     self.applyBtn.layer.cornerRadius = 5;
     self.applyBtn.layer.masksToBounds = YES;
     
@@ -64,6 +75,7 @@
     self.groupEndBtn.selected = NO;
     self.groupEndTable.hidden = YES;
     
+    @weakify(self)
     [[self.groupBeginBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
         [self changeUIByVCIsBegin:YES];
@@ -99,11 +111,69 @@
     
 }
 
+- (void)requrstMutualInsCarList
+{
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        
+        GetCooperationUsercarListOp * op = [[GetCooperationUsercarListOp alloc] init];
+        [[[op rac_postRequest] initially:^{
+            
+            [gToast showingWithText:@"获取车辆数据中..." inView:self.view];
+        }] subscribeNext:^(GetCooperationUsercarListOp * x) {
+            
+            [gToast dismissInView:self.view];
+            if (x.rsp_carArray.count)
+            {
+                MutualInsPickCarVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPickCarVC"];
+                vc.mutualInsCarArray = x.rsp_carArray;
+                [vc setFinishPickCar:^(HKMyCar *car) {
+                    
+                    [self gotoIdLicenseInfoupdateWithCar:car];
+                }];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            else
+            {
+                [self gotoIdLicenseInfoupdateWithCar:nil];
+            }
+        } error:^(NSError *error) {
+            
+            [gToast showError:@"获取失败，请重试" inView:self.view];
+        }];
+    }
+}
+
+- (void)gotoIdLicenseInfoupdateWithCar:(HKMyCar *)car
+{
+    MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+    vc.curCar = car;
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - Action
 
 - (IBAction)actionApply:(id)sender
 {
+    NSString * url;
     
+    if (url.length)
+    {
+        GroupIntroductionVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
+        vc.groupType = MutualGroupTypeSystem;
+        vc.groupIntrUrlStr = url;
+        
+        [self.router.navigationController pushViewController:vc animated:YES];
+    }
+    else
+    {
+        [self requrstMutualInsCarList];
+    }
+}
+
+- (void)actionBack:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
