@@ -56,13 +56,14 @@
     [[[op rac_postRequest]initially:^{
         @strongify(self)
         
+        self.tableView.hidden = YES;
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }]subscribeNext:^(GetCalculateBaseInfoOp *op) {
         @strongify(self)
         
         [self.view stopActivityAnimation];
-        
+        self.tableView.hidden = NO;
         
         CKList *list = [CKList list];
         [list addObjectsFromArray:@[[self textFieldCellData],[self btnCellData]]];
@@ -85,7 +86,7 @@
         @strongify(self)
         
         [self.view stopActivityAnimation];
-        
+        self.tableView.hidden = YES;
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取费用试算信息失败。请点击重试" tapBlock:^{
             [self getCalculateBaseInfo];
         }];

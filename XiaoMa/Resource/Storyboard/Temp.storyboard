@@ -351,12 +351,14 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="applyBtn" destination="pg2-ZA-yrP" id="M8G-9R-qbk"/>
+                        <outlet property="bottomView" destination="0X7-Em-OB8" id="Jmh-tI-ATU"/>
                         <outlet property="groupBeginBtn" destination="RMf-ga-91p" id="FOc-MO-ZWD"/>
                         <outlet property="groupBeginLine" destination="OBT-rA-DRD" id="ACU-Km-tWQ"/>
                         <outlet property="groupBeginTable" destination="pWz-tx-o8k" id="QwV-WG-sH4"/>
                         <outlet property="groupEndBtn" destination="kq4-Xy-VbM" id="ycU-6l-KxY"/>
                         <outlet property="groupEndLine" destination="gNg-vZ-7fM" id="z6l-PB-HCR"/>
                         <outlet property="groupEndTable" destination="oLQ-XP-UPd" id="QaO-pO-3qc"/>
+                        <outlet property="segmentView" destination="xH8-4E-3In" id="pkg-Gb-gQT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mg2-pW-XGA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -726,7 +728,7 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8PQ-EP-8eY">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8PQ-EP-8eY">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T1j-Tl-DIO">
