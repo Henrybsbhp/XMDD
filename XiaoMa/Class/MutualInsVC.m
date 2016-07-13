@@ -178,9 +178,6 @@ typedef NS_ENUM(NSInteger, statusValues) {
             self.isEmptyGroup = NO;
             self.fetchedDataSource = rop.carList;
             [self setDataSource];
-            [self.view stopActivityAnimation];
-            [self.tableView.refreshView endRefreshing];
-            self.tableView.hidden = NO;
             
         } else {
             
@@ -191,6 +188,10 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [self.tableView reloadData];
             
         }
+        
+        [self.view stopActivityAnimation];
+        [self.tableView.refreshView endRefreshing];
+        self.tableView.hidden = NO;
         
     } error:^(NSError *error) {
         @strongify(self);
@@ -318,7 +319,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
             // 团长无车
             [dataSource addObject:$(groupInfoCell) forKey:nil];
             
-        } else if ((status.integerValue == XMGroupFailed && numberCnt.integerValue > 0)|| (status.integerValue == XMInReview && numberCnt.integerValue < 1)) {
+        } else if (status.integerValue == XMGroupFailed || (status.integerValue == XMInReview && numberCnt.integerValue < 1)) {
             // 未参团 / 入团失败 / 审核中（有车无团）
             [dataSource addObject:$(normalStatusCell, CKJoin([self getCouponInfoWithData:couponDict sourceDict:dict]), blankCell) forKey:nil];
             
