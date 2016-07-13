@@ -15,7 +15,6 @@
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (nonatomic, strong) ADViewController *adVC;
 
 /// 显示内测计划按钮（返回参数）   0: 不显示  1: 显示
@@ -32,6 +31,13 @@
 
 @implementation MutualInsVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"MutualInsVC deallocated");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -44,12 +50,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    self.bottomView.hidden = YES;
 }
 
 #pragma mark - Actions
@@ -96,17 +96,6 @@
         make.height.mas_equalTo(height);
     }];
     
-    UIImage *image = [UIImage imageNamed:@"Horizontaline"];
-    UIImageView *separator = [[UIImageView alloc] initWithImage:image];
-    separator.frame = CGRectZero;
-    [adContainer addSubview:separator];
-    [separator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(adContainer);
-        make.right.equalTo(adContainer);
-        make.bottom.equalTo(adContainer);
-        make.height.mas_equalTo(1);
-    }];
-    
     self.tableView.tableHeaderView = adContainer;
     
     [self.adVC reloadDataWithForce:YES completed:nil];
@@ -136,7 +125,6 @@
             [self.view stopActivityAnimation];
             [self.tableView.refreshView endRefreshing];
             self.tableView.hidden = NO;
-            self.bottomView.hidden = NO;
             self.isEmptyGroup = NO;
             self.fetchedDataSource = rop.carList;
             [self setDataSource];
@@ -182,7 +170,6 @@
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         self.tableView.hidden = NO;
-        self.bottomView.hidden = NO;
         
     } error:^(NSError *error) {
         [self.tableView.refreshView endRefreshing];
@@ -380,10 +367,29 @@
         NSNumber *status = dict[@"status"];
         if (status.integerValue == 21) {
             [bottomButton setTitle:@"重新上传资料" forState:UIControlStateNormal];
+            [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                
+                
+            }];
+            
         } else if (status.integerValue == 5) {
+            
             [bottomButton setTitle:@"前去支付" forState:UIControlStateNormal];
+            [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                
+                
+            }];
+            
         } else {
+            
             [bottomButton setTitle:@"完善资料" forState:UIControlStateNormal];
+            [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                
+                
+            }];
         }
     });
     
@@ -465,6 +471,7 @@
     tipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UIImageView *firstImageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UIImageView *secondImageView = (UIImageView *)[cell.contentView viewWithTag:103];
+        UIView *separator = (UIView *)[cell.contentView viewWithTag:106];
         UILabel *firstTipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
         UILabel *secondTipsLabel = (UILabel *)[cell.contentView viewWithTag:104];
         NSString *firstString = couponList[0];
@@ -480,6 +487,20 @@
         } else {
             secondImageView.hidden = YES;
             secondTipsLabel.text = @"";
+        }
+        
+        if (gAppMgr.deviceInfo.screenSize.height >= 667) {
+            [firstImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.leading.equalTo(cell).offset(38);
+            }];
+            
+            [firstTipsLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(separator).offset(0);
+            }];
+            
+            [secondImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.leading.equalTo(separator).offset(32);
+            }];
         }
     });
     
@@ -498,9 +519,16 @@
     });
     
     singleTipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
         
         tipsLabel.text = couponString;
+        
+        if (gAppMgr.deviceInfo.screenSize.height >= 667) {
+            [imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.leading.equalTo(cell).offset(38);
+            }];
+        }
     });
     
     return singleTipsCell;
