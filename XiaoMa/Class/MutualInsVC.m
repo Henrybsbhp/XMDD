@@ -17,6 +17,7 @@
 #import "MutualInsStore.h"
 #import "GroupIntroductionVC.h"
 #import "HKPopoverView.h"
+#import "MutInsCalculateVC.h"
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -431,6 +432,8 @@
     
     calculateCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        MutInsCalculateVC * vc = [UIStoryboard vcWithId:@"MutInsCalculateVC" inStoryboard:@"Temp"];
+        [self.navigationController pushViewController:vc animated:YES];
     });
     
     calculateCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -684,7 +687,7 @@
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CKDict *item = [self.dataSource objectAtIndex:indexPath.row];
+    CKDict *item = self.dataSource[indexPath.section][indexPath.row];
     if (item[kCKCellSelected]) {
         ((CKCellSelectedBlock)item[kCKCellSelected])(item, indexPath);
     }
