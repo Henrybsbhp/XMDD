@@ -22,6 +22,7 @@
 - (instancetype)parseResponseObject:(id)rspObj
 {
     self.carList = rspObj[@"carlist"];
+    self.couponList = rspObj[@"couponlist"];
     self.showPlanBtn = rspObj[@"showplanbtn"];
     self.showRegistBtn = rspObj[@"showregistbtn"];
     

@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     /// 未参团 / 参团失败
     XMGroupFailed        = 0,
     
-    /// 有团无车
+    /// 团长无车
     XMGroupWithNoCar     = -1,
     
     /// 资料代完善
@@ -32,6 +32,18 @@ typedef NS_ENUM(NSInteger, statusValues) {
     
     /// 待支付
     XMWaitingForPay      = 5,
+    
+    /// 支付成功
+    XMPaySuccessed       = 6,
+    
+    /// 互助中
+    XMInMutual           = 7,
+    
+    /// 保障中
+    XMInEnsure           = 8,
+    
+    /// 已过期
+    XMOverdue            = 10,
     
     /// 重新上传资料
     XMReuploadData       = 20,
@@ -74,7 +86,12 @@ typedef NS_ENUM(NSInteger, statusValues) {
     
     [self setupTableViewADView];
     [self setupRefreshView];
-    [self fetchAllData];
+    
+    if (!gAppMgr.myUser) {
+        [self fetchDescriptionDataWhenNotLogined];
+    } else {
+        [self fetchAllData];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -141,8 +158,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         @strongify(self);
-        if (!self.fetchedDataSource.count)
-        {
+        if (!self.fetchedDataSource.count) {
             // 防止有数据的时候，下拉刷新导致页面会闪一下
             CGFloat reducingY = self.view.frame.size.height * 0.1056;
             [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
@@ -162,11 +178,20 @@ typedef NS_ENUM(NSInteger, statusValues) {
             self.isEmptyGroup = NO;
             self.fetchedDataSource = rop.carList;
             [self setDataSource];
+            [self.view stopActivityAnimation];
+            [self.tableView.refreshView endRefreshing];
+            self.tableView.hidden = NO;
             
         } else {
+            
             self.isEmptyGroup = YES;
-            [self fetchDescriptionDataWhenNoGroups];
+            CKDict *blankCell = [self setupBlankCellWithDict:nil];
+            self.dataSource = $($([self setupCalculateCell]));
+            [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:rop.couponList sourceDict:nil]), blankCell) forKey:nil];
+            [self.tableView reloadData];
+            
         }
+        
     } error:^(NSError *error) {
         @strongify(self);
         [self.tableView.refreshView endRefreshing];
@@ -180,12 +205,20 @@ typedef NS_ENUM(NSInteger, statusValues) {
     }];
 }
 
-/// 当没有团的时候显示优惠信息的方法
-- (void)fetchDescriptionDataWhenNoGroups
+/// 当没有登录的时候显示优惠信息的方法
+- (void)fetchDescriptionDataWhenNotLogined
 {
     @weakify(self);
     GetCalculateBaseInfoOp *infoOp = [[GetCalculateBaseInfoOp alloc] init];
     [[[infoOp rac_postRequest] initially:^{
+        
+        @strongify(self);
+        if (!self.dataSource.count) {
+            // 防止有数据的时候，下拉刷新导致页面会闪一下
+            CGFloat reducingY = self.view.frame.size.height * 0.1056;
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
+            self.tableView.hidden = YES;
+        }
         
     }] subscribeNext:^(GetCalculateBaseInfoOp *rop) {
         @strongify(self);
@@ -282,20 +315,20 @@ typedef NS_ENUM(NSInteger, statusValues) {
         CKDict *groupInfoCell = [self setupGroupInfoCellWithDict:dict];
         
         if (status.integerValue == XMGroupWithNoCar) {
-            // 有团无车
+            // 团长无车
             [dataSource addObject:$(groupInfoCell) forKey:nil];
             
-        } else if (status.integerValue == XMGroupFailed || (status.integerValue == XMInReview && numberCnt.integerValue < 1)) {
-            // 未参团 / 入团失败 / 审核中（无车无团）
+        } else if ((status.integerValue == XMGroupFailed && numberCnt.integerValue > 0)|| (status.integerValue == XMInReview && numberCnt.integerValue < 1)) {
+            // 未参团 / 入团失败 / 审核中（有车无团）
             [dataSource addObject:$(normalStatusCell, CKJoin([self getCouponInfoWithData:couponDict sourceDict:dict]), blankCell) forKey:nil];
             
         } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
-            // 审核失败（无人）
+            // 审核失败（无团）
             CKList *group = $(statusButtonCell, CKJoin([self getCouponInfoWithData:couponDict sourceDict:dict]), blankCell);
             [dataSource addObject:group forKey:nil];
             
         } else if (status.integerValue == XMWaitingForPay || status.integerValue == XMDataImcompleteV1 || status.integerValue == XMDataImcompleteV2 || (status.integerValue == XMReviewFailed && numberCnt.integerValue > 0)) {
-            // 待支付 / 待完善资料 / 审核失败（有人）
+            // 待支付 / 待完善资料 / 审核失败（有团）
             [dataSource addObject:$(statusButtonCell, groupInfoCell) forKey:nil];
         } else {
             // 保障中 / 互助中 / 支付完成 / 审核中（有车有团）
@@ -414,7 +447,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
         tipsLabel.text = dict[@"tip"];
         
         NSNumber *status = dict[@"status"];
-        if (status.integerValue == 21) {
+        if (status.integerValue == XMReuploadData) {
             [bottomButton setTitle:@"重新上传资料" forState:UIControlStateNormal];
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
@@ -422,7 +455,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
                 
             }];
             
-        } else if (status.integerValue == 5) {
+        } else if (status.integerValue == XMWaitingForPay) {
             
             [bottomButton setTitle:@"前去支付" forState:UIControlStateNormal];
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
