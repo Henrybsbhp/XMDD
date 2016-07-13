@@ -304,8 +304,14 @@
                                                     <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2016-07-05 00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2aE-9v-JfG">
-                                                    <rect key="frame" x="250" y="58" width="333" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="2017-06-05 24:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCM-JA-9TJ">
+                                                    <rect key="frame" x="250" y="79" width="333" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="2016-07-05 00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2aE-9v-JfG">
+                                                    <rect key="frame" x="250" y="57" width="333" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="333" id="58H-hg-Qt3"/>
                                                         <constraint firstAttribute="height" constant="17" id="e9u-gZ-bB8"/>
@@ -313,12 +319,11 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2017-06-05 24:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCM-JA-9TJ">
-                                                    <rect key="frame" x="250" y="79" width="333" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="58H-hg-Qt3"/>
+                                                        </mask>
+                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -352,6 +357,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="2aE-9v-JfG" secondAttribute="trailing" constant="17" id="p4Y-qj-81m"/>
                                                 <constraint firstItem="MCM-JA-9TJ" firstAttribute="top" secondItem="2aE-9v-JfG" secondAttribute="bottom" constant="4" id="pUU-Vp-MCG"/>
                                                 <constraint firstItem="HmL-KR-Huj" firstAttribute="leading" secondItem="mWF-A6-16f" secondAttribute="leading" constant="17" id="pbL-Ia-DvI"/>
+                                                <constraint firstAttribute="trailing" secondItem="MCM-JA-9TJ" secondAttribute="trailing" constant="17" id="qLN-TN-3HG"/>
                                                 <constraint firstItem="s1b-b4-itI" firstAttribute="leading" secondItem="mWF-A6-16f" secondAttribute="leading" constant="17" id="qti-7T-ccA"/>
                                                 <constraint firstItem="2aE-9v-JfG" firstAttribute="top" secondItem="tKq-gP-e8e" secondAttribute="bottom" constant="15" id="rJs-Vv-QDe"/>
                                                 <constraint firstAttribute="bottom" secondItem="s1b-b4-itI" secondAttribute="bottom" constant="20" id="tmy-N3-J2h"/>
@@ -369,7 +375,12 @@
                                                     <exclude reference="2hr-wc-lzV"/>
                                                     <exclude reference="6ft-1U-fN6"/>
                                                     <exclude reference="Brg-2H-TDo"/>
+                                                    <exclude reference="CRu-D3-kVt"/>
+                                                    <exclude reference="I6M-h2-Pfo"/>
+                                                    <exclude reference="b6A-TN-reQ"/>
+                                                    <exclude reference="kez-UL-Tey"/>
                                                     <exclude reference="nJy-il-mu6"/>
+                                                    <exclude reference="PT6-ks-xrG"/>
                                                     <exclude reference="dzC-RT-NZq"/>
                                                     <exclude reference="oVK-rh-tw6"/>
                                                     <exclude reference="yxX-3K-QXg"/>
