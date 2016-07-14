@@ -47,14 +47,6 @@
     
 }
 
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    
-    self.groupBeginVM = nil;
-    self.groupEndVM = nil;
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -184,6 +176,10 @@
 -(void)actionBack
 {
     [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan1"}];
+    
+    self.groupBeginVM = nil;
+    self.groupEndVM = nil;
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

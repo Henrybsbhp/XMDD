@@ -50,30 +50,18 @@
     op.req_status = @(self.status);
     
     [[[op rac_postRequest]initially:^{
-     
+        
         @strongify(self)
-        if (self.status == GroupStatusTypeEnd)
-        {
-            self.targetVC.groupEndTable.hidden = YES;
-        }
-        else
-        {
-            self.targetVC.groupBeginTable.hidden = YES;
-        }
+        self.targetVC.groupEndTable.hidden = YES;
+        self.targetVC.groupBeginTable.hidden = YES;
         
         [self.targetVC.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }]subscribeNext:^(GetCooperationGroupOp *op) {
         @strongify(self)
         
-        if (self.status == GroupStatusTypeEnd)
-        {
-            self.targetVC.groupEndTable.hidden = NO;
-        }
-        else
-        {
-            self.targetVC.groupBeginTable.hidden = NO;
-        }
+        self.targetVC.groupEndTable.hidden = NO;
+        self.targetVC.groupBeginTable.hidden = NO;
         [self.targetVC.view stopActivityAnimation];
         
         
@@ -156,7 +144,7 @@
     NSNumber *showDetailFlag = data[@"showdetailflag"];
     if (showDetailFlag.integerValue == 1)
     {
-//        进入团详情页面
+        //        进入团详情页面
         if (self.status )
         {
             [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan4"}];
