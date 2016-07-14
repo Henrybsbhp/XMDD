@@ -591,6 +591,26 @@ typedef NS_ENUM(NSInteger, statusValues) {
         return 165;
     });
     
+    statusWithButtonCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        NSNumber *status = dict[@"status"];
+        if (status.integerValue == XMReuploadData || status.integerValue == XMReviewFailed) {
+            [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye11"}];
+            // 进入「重新上传资料」页面
+                
+            
+            
+        } else if (status.integerValue == XMWaitingForPay) {
+            // 进入「订单详情」页面
+            
+            
+        } else {
+            [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye9"}];
+            // 进入「完善资料」页面
+                
+            
+        }
+    });
+    
     statusWithButtonCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UIImageView *brandImageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UILabel *carNumLabel = (UILabel *)[cell.contentView viewWithTag:101];
@@ -612,7 +632,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
         tipsLabel.text = dict[@"tip"];
         
         NSNumber *status = dict[@"status"];
-        if (status.integerValue == XMReuploadData) {
+        if (status.integerValue == XMReuploadData || status.integerValue == XMReviewFailed) {
             [bottomButton setTitle:@"重新上传资料" forState:UIControlStateNormal];
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye11"}];
