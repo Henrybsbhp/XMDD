@@ -10,7 +10,6 @@
 #import "CKList.h"
 #import "CKNavigationController.h"
 
-extern NSString *const kCKRouterTitle;
 
 @protocol CKRouterDelegate;
 
@@ -24,6 +23,7 @@ extern NSString *const kCKRouterTitle;
 @property (nonatomic, assign, readonly) BOOL isTargetViewControllerAppearing;
 @property (nonatomic, assign, readonly) BOOL isTargetViewControllerDisappearing;
 @property (nonatomic, assign) BOOL navigationBarHidden;
+@property (nonatomic, strong) NSString *title;
 @property (nonatomic, assign) BOOL disableInteractivePopGestureRecognizer;
 @property (nonatomic, strong) CKDict *userInfo;
 @property (nonatomic, weak) id<CKRouterDelegate> delegate;
@@ -44,3 +44,5 @@ extern NSString *const kCKRouterTitle;
 - (void)router:(CKRouter *)router targetViewControllerDidDisappear:(BOOL)animated;
 
 @end
+
+

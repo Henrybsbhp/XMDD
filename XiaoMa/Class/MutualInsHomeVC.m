@@ -294,7 +294,7 @@
     router.userInfo[kMutInsGroupID] = group.groupId;
     router.userInfo[kMutInsGroupName] = group.groupName;
     router.userInfo[kMutInsMemberID] = group.memberId;
-    router.userInfo[kCKRouterTitle] = group.groupName ? group.groupName : @"团详情";
+    router.title = group.groupName ? group.groupName : @"团详情";
     [self.router.navigationController pushRouter:router animated:YES];
 }
 

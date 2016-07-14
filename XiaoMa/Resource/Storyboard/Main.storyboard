@@ -11,7 +11,7 @@
         <scene sceneID="qkA-rT-bTB">
             <objects>
                 <navigationController title="首页" id="set-AC-AWQ" customClass="HKNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="7" title="首页" image="tab_home_300" id="8po-hQ-M7B">
+                    <tabBarItem key="tabBarItem" tag="7" title="首页" image="tab_home_300" selectedImage="tab_home_highlighted_300" id="8po-hQ-M7B">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0W3-aR-tsx">
@@ -26,10 +26,10 @@
             </objects>
             <point key="canvasLocation" x="-335" y="-419"/>
         </scene>
-        <!--首页-->
+        <!--小马达达-->
         <scene sceneID="aj0-x4-oSF">
             <objects>
-                <viewController title="首页" automaticallyAdjustsScrollViewInsets="NO" id="o8e-Uo-uaL" customClass="HomePageVC" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="o8e-Uo-uaL" customClass="HomePageVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="he6-5z-9hL"/>
                         <viewControllerLayoutGuide type="bottom" id="CDG-9a-uzk"/>
@@ -214,7 +214,7 @@
         <scene sceneID="rdn-8W-bjb">
             <objects>
                 <navigationController title="发现" id="eox-vS-3Yl" customClass="HKNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="13" title="发现" image="tab_discover_300" id="0fT-Ra-4IG">
+                    <tabBarItem key="tabBarItem" tag="13" title="发现" image="tab_discover_300" selectedImage="tab_discover_highlighted_300" id="0fT-Ra-4IG">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="BCp-RH-2zk">
@@ -233,7 +233,7 @@
         <scene sceneID="17A-OG-jFU">
             <objects>
                 <navigationController title="我的" id="GVC-kB-wxZ" customClass="HKNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="9" title="我的" image="tab_mine_300" id="fQD-bC-vum">
+                    <tabBarItem key="tabBarItem" tag="9" title="我的" image="tab_mine_300" selectedImage="tab_mine_highlighted_300" id="fQD-bC-vum">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Se6-Dh-pnv">
@@ -246,12 +246,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QEI-I9-eYo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-335" y="912"/>
+            <point key="canvasLocation" x="-335" y="1011"/>
         </scene>
-        <!--我的-->
+        <!--MineVC-->
         <scene sceneID="FfA-3U-8kh">
             <objects>
-                <viewController storyboardIdentifier="MineVC" title="我的" id="V2u-eJ-eQG" customClass="MineVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MineVC" id="V2u-eJ-eQG" customClass="MineVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NgB-wg-XRH"/>
                         <viewControllerLayoutGuide type="bottom" id="YS1-xo-uzB"/>
@@ -692,7 +692,10 @@
         <image name="me_active_text" width="144" height="32"/>
         <image name="qing" width="43" height="34"/>
         <image name="tab_discover_300" width="26" height="26"/>
+        <image name="tab_discover_highlighted_300" width="26" height="26"/>
         <image name="tab_home_300" width="26" height="26"/>
+        <image name="tab_home_highlighted_300" width="26" height="26"/>
         <image name="tab_mine_300" width="26" height="26"/>
+        <image name="tab_mine_highlighted_300" width="26" height="26"/>
     </resources>
 </document>

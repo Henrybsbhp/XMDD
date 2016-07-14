@@ -11,7 +11,7 @@
 #import "NSString+RectSize.h"
 #import <Masonry.h>
 
-#define kCellMargin      3
+#define kCellMargin      15
 #define kLogoViewLength     45
 
 @interface MutualInsGrouponMsgCell ()
@@ -23,14 +23,21 @@
 @end
 @implementation MutualInsGrouponMsgCell
 
-- (void)awakeFromNib {
-    // Initialization code
+
+- (instancetype)initWithAtRightSide:(BOOL)rightSide reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+    _atRightSide = rightSide;
+    [self __commonInit];
+    return self;
+}
+
+- (void)__commonInit {
     [self.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     self.timeContainerView = [[UIView alloc] initWithFrame:CGRectZero];
     self.timeContainerView.backgroundColor = [UIColor clearColor];
     [self.contentView addSubview:self.timeContainerView];
-
+    
     self.timeContainerBgView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.timeContainerBgView.image = [[UIImage imageNamed:@"mins_bg_gary"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     [self.timeContainerView addSubview:self.timeContainerBgView];
@@ -66,10 +73,12 @@
     self.msgLabel.textColor = kDarkTextColor;
     [self.msgContainerView addSubview:self.msgLabel];
     
-    self.atRightSide = NO;
+    [self updateWithRightSide:self.atRightSide];
+    [self makeConstraints];
 }
 
-- (void)setAtRightSide:(BOOL)atRightSide
+
+- (void)updateWithRightSide:(BOOL)atRightSide
 {
     _atRightSide = atRightSide;
     NSString *strimg = atRightSide ? @"mins_bubble_right" : @"mins_bubble_left";
@@ -84,7 +93,7 @@
     self.msgLabel.text = message;
 }
 
-- (void)updateConstraints
+- (void)makeConstraints
 {
     @weakify(self);
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -104,7 +113,7 @@
         make.centerX.equalTo(self.contentView);
     }];
     
-    [self.logoView mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.logoView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.size.mas_equalTo(CGSizeMake(45, 45));
         make.top.equalTo(self.contentView).offset(35);
@@ -116,7 +125,7 @@
         }
     }];
     
-    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.top.equalTo(self.logoView.mas_top);
         make.height.mas_equalTo(16);
@@ -129,7 +138,7 @@
             make.right.equalTo(self.contentView).offset(-kCellMargin);
         }
     }];
-    [self.msgContainerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.msgContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(3);
         if (self.atRightSide) {
@@ -142,12 +151,12 @@
         }
     }];
     
-    [self.msgBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.msgBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.edges.equalTo(self.msgContainerView);
     }];
- 
-    [self.msgLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+    
+    [self.msgLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.top.equalTo(self.msgContainerView).offset(8);
         make.bottom.equalTo(self.msgContainerView).offset(-8);
@@ -160,8 +169,8 @@
             make.right.equalTo(self.msgContainerView).offset(-10);
         }
     }];
-    [super updateConstraints];
 }
+
 
 + (CGFloat)heightWithBoundsWidth:(CGFloat)width message:(NSString *)msg
 {

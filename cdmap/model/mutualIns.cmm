@@ -48,7 +48,6 @@ class=ApplyCooperationGroupJoin op auth path="/cooperation/group/join/apply"> {
 
 <"照片信息完善"
 class=UpdateCooperationIdlicenseInfo op auth path="/cooperation/idlicense/info/update"> {
-  
    <req> {
     <"身份证地址">idurl
     <"行驶证地址">licenseurl
@@ -71,7 +70,6 @@ class=UpdateCooperationInsInfo op auth path="/cooperation/insurance/info/update"
 
 <"照片信息完善页面信息获取"
 class=GetCooperationIdlicenseInfo op auth path="/cooperation/idlicense/info/get"> {
-  
    <req> {
     <"团ID">groupid:number
   } 
@@ -82,6 +80,7 @@ class=GetCooperationIdlicenseInfo op auth path="/cooperation/idlicense/info/get"
     <"商业险到期日" date=DT10>insenddate
   }
 }
+
 
 
 <"团详情查看"
@@ -296,6 +295,119 @@ class=CheckCooperationPremium op auth path="/cooperation/premium/check"> {
     inprocesslisnums:array
   }
 }
+
+<"用户查看团详情之前，调用该接口获取菜单信息"
+class=GetCooperationGroupConfig op auth path="/cooperation/group/config/get"> {
+  <req> {
+    groupid:number
+    memberid:number
+  }
+  <rsp> {
+    <"是否可以退团 (0：否 1：是)">isexist:int         
+    <"显示邀请按钮标示 (0：不显示 1：显示)">invitebtnflag:int
+    <"团详情使用帮助地址">helpurl
+    <"显示补偿记录按钮标示 (0：不显示， 1：显示)">claimbtnflag:int
+    <"互助金最新更新时间">huzhulstupdatetime:longlong
+    <"动态最新更新时间">newslstupdatetime:longlong
+    <"团名称">groupname
+    <"团员在团的状态，控制按钮跳转页面">status:int
+    <"协议记录ID">contractid:number
+    <"是否当前人是团长本人(0：不是， 1：是)">ifgroupowner:int
+    <"是否可以删团 (0：否。1：是)">isdelete:int
+    <"是否显示“我 (0：否。1：是)">showselfflag:int
+  }
+}
+
+<"用户查看我的车在团中的详情"
+class=GetCooperationGroupMyInfo op auth path="/cooperation/my/detail/get"> {
+  <req> {
+    groupid:number
+    memberid:number
+  }
+  <rsp> {
+    <"车牌号码">licensenumber
+    <"车辆品牌图标url">carlogourl
+    <"状态 (1：待完善资料。3：审核中。5:待支付。6：支付完成。7：互助中。8：保障中。20：重新上传)">status:int
+    <"状态描述">statusdesc
+    <"当前金额">fee
+    <"当前金额描述">feedesc
+    <"帮助他人金额">helpfee
+    <"补偿次数">claimcnt:int
+    <"补偿金额">claimfee
+    <"保障开始时间">insstarttime
+    <"保障结束时间">insendtime
+    <"互助金">sharemoney
+    <"会员费">servicefee
+    <"交强险">forcefee
+    <"车船税">shiptaxfee
+    <"动态描述">tip
+    <"查看我的协议地址(只有status为，7,8该值不为空)">contracturl
+    <"按钮名字">buttonname
+  }
+}
+
+<"用户查看团的互助金详细信息"
+class=GetCooperationGroupSharemoney op auth 
+path="/cooperation/group/sharemoney/detail/get"> {
+  <req> {
+    groupid:number
+  }
+  <rsp> {
+    <"互助金总额">totalpoolamt
+    <"互助金剩余">presentpoolamt
+    <"互助开始时间(yyyy-MM-dd HH:ss)">insstarttime
+    <"互助结束时间(yyyy-MM-dd HH:ss)">insendtime
+    <"动态描述">tip
+    <"剩余互助金百分比">presentpoolpresent
+  }
+}
+
+<"用户查看团的成员列表信息"
+class=GetCooperationGroupMembers op auth 
+path="/cooperation/groupmember/list/get"> {
+  <req> {
+    groupid:number
+    <"上次拉取记录返回的时间戳">lstupdatetime:longlong
+  }
+  <rsp> {
+    <"当前团员人数">membercnt:int
+    <"团员列表">memberlist:[MutualInsMemberInfo2]
+    <"最后拉取到的记录的时间戳">lstupdatetime:longlong
+    <"团描述">toptip
+  }
+}
+
+<"用户查看团的动态信息"
+class=GetCooperationGroupMessageList op auth 
+path="/cooperation/group/messagelist/get"> {
+  <req> {
+    groupid:number
+    <"上次拉取记录返回的时间戳">lstupdatetime:longlong
+  }
+  <rsp> {
+    <"动态列表">list:[MutualInsMessage]
+    <"最后拉取到的记录的时间戳">lstupdatetime:longlong
+  }
+}
+
+<"动态消息"
+class=MutualInsMessage data> {
+  <"消息生成时间">time
+  <"车辆品牌图标url">carlogourl                       
+  <"车牌号码">licensenumber
+  <"动态内容">content
+  <"成员id">memberid:number
+}
+
+<"团员信息2"
+class=MutualInsMemberInfo2 data> {
+  <"状态(1：待完善资料。3：审核中。5：待支付。6：支付完成。8：互助中。10：保障结束。20：重新上传)">status:int                         
+  <"状态描述">statusdesc  
+  <"车辆品牌图标url">carlogourl
+  <"车牌">licensenumber
+  <"其他信息">extendinfo:array
+}
+
 
 <"团员信息"
 class=MutualInsMemberInfo data> {

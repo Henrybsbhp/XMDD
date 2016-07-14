@@ -8,6 +8,8 @@
 
 #import "HKViewController.h"
 
+extern NSString *const kIgnoreBaseInfo;
+
 @interface MutualInsGroupDetailVC : HKViewController
 
 @end

@@ -5,7 +5,7 @@
 (import "cdmap/template/dataset.cmt")
 (define node-list
   '(file
-    (id a81aef9d-70e3-3a4f-bada-b11a3456695e)
+    (id e1319224-92b4-3124-8120-9a03bf6dc8e7)
     (name "mutualIns.cmm")
     (node
      (attr
@@ -401,6 +401,208 @@
       (attr (rsp))
       (node (id licensenumbers) (type array) (value #f))
       (node (id inprocesslisnums) (type array) (value #f))))
+    (node
+     (attr
+      (*def* "用户查看团详情之前，调用该接口获取菜单信息")
+      (class GetCooperationGroupConfig)
+      (op)
+      (auth)
+      (path "/cooperation/group/config/get"))
+     (node
+      (attr (req))
+      (node (id groupid) (type number) (value #f))
+      (node (id memberid) (type number) (value #f)))
+     (node
+      (attr (rsp))
+      (node
+       (attr (*def* "是否可以退团 (0：否 1：是)"))
+       (id isexist)
+       (type int)
+       (value #f))
+      (node
+       (attr (*def* "显示邀请按钮标示 (0：不显示 1：显示)"))
+       (id invitebtnflag)
+       (type int)
+       (value #f))
+      (node (attr (*def* "团详情使用帮助地址")) (id helpurl) (type #f) (value #f))
+      (node
+       (attr (*def* "显示补偿记录按钮标示 (0：不显示， 1：显示)"))
+       (id claimbtnflag)
+       (type int)
+       (value #f))
+      (node
+       (attr (*def* "互助金最新更新时间"))
+       (id huzhulstupdatetime)
+       (type longlong)
+       (value #f))
+      (node
+       (attr (*def* "动态最新更新时间"))
+       (id newslstupdatetime)
+       (type longlong)
+       (value #f))
+      (node (attr (*def* "团名称")) (id groupname) (type #f) (value #f))
+      (node
+       (attr (*def* "团员在团的状态，控制按钮跳转页面"))
+       (id status)
+       (type int)
+       (value #f))
+      (node (attr (*def* "协议记录ID")) (id contractid) (type number) (value #f))
+      (node
+       (attr (*def* "是否当前人是团长本人(0：不是， 1：是)"))
+       (id ifgroupowner)
+       (type int)
+       (value #f))
+      (node
+       (attr (*def* "是否可以删团 (0：否。1：是)"))
+       (id isdelete)
+       (type int)
+       (value #f))
+      (node
+       (attr (*def* "是否显示“我 (0：否。1：是)"))
+       (id showselfflag)
+       (type int)
+       (value #f))))
+    (node
+     (attr
+      (*def* "用户查看我的车在团中的详情")
+      (class GetCooperationGroupMyInfo)
+      (op)
+      (auth)
+      (path "/cooperation/my/detail/get"))
+     (node
+      (attr (req))
+      (node (id groupid) (type number) (value #f))
+      (node (id memberid) (type number) (value #f)))
+     (node
+      (attr (rsp))
+      (node (attr (*def* "车牌号码")) (id licensenumber) (type #f) (value #f))
+      (node (attr (*def* "车辆品牌图标url")) (id carlogourl) (type #f) (value #f))
+      (node
+       (attr (*def* "状态 (1：待完善资料。3：审核中。5:待支付。6：支付完成。7：互助中。8：保障中。20：重新上传)"))
+       (id status)
+       (type int)
+       (value #f))
+      (node (attr (*def* "状态描述")) (id statusdesc) (type #f) (value #f))
+      (node (attr (*def* "当前金额")) (id fee) (type #f) (value #f))
+      (node (attr (*def* "当前金额描述")) (id feedesc) (type #f) (value #f))
+      (node (attr (*def* "帮助他人金额")) (id helpfee) (type #f) (value #f))
+      (node (attr (*def* "补偿次数")) (id claimcnt) (type int) (value #f))
+      (node (attr (*def* "补偿金额")) (id claimfee) (type #f) (value #f))
+      (node (attr (*def* "保障开始时间")) (id insstarttime) (type #f) (value #f))
+      (node (attr (*def* "保障结束时间")) (id insendtime) (type #f) (value #f))
+      (node (attr (*def* "互助金")) (id sharemoney) (type #f) (value #f))
+      (node (attr (*def* "会员费")) (id servicefee) (type #f) (value #f))
+      (node (attr (*def* "交强险")) (id forcefee) (type #f) (value #f))
+      (node (attr (*def* "车船税")) (id shiptaxfee) (type #f) (value #f))
+      (node (attr (*def* "动态描述")) (id tip) (type #f) (value #f))
+      (node
+       (attr (*def* "查看我的协议地址(只有status为，7,8该值不为空)"))
+       (id contracturl)
+       (type #f)
+       (value #f))
+      (node (attr (*def* "按钮名字")) (id buttonname) (type #f) (value #f))))
+    (node
+     (attr
+      (*def* "用户查看团的互助金详细信息")
+      (class GetCooperationGroupSharemoney)
+      (op)
+      (auth)
+      (path "/cooperation/group/sharemoney/detail/get"))
+     (node (attr (req)) (node (id groupid) (type number) (value #f)))
+     (node
+      (attr (rsp))
+      (node (attr (*def* "互助金总额")) (id totalpoolamt) (type #f) (value #f))
+      (node (attr (*def* "互助金剩余")) (id presentpoolamt) (type #f) (value #f))
+      (node
+       (attr (*def* "互助开始时间(yyyy-MM-dd HH:ss)"))
+       (id insstarttime)
+       (type #f)
+       (value #f))
+      (node
+       (attr (*def* "互助结束时间(yyyy-MM-dd HH:ss)"))
+       (id insendtime)
+       (type #f)
+       (value #f))
+      (node (attr (*def* "动态描述")) (id tip) (type #f) (value #f))
+      (node
+       (attr (*def* "剩余互助金百分比"))
+       (id presentpoolpresent)
+       (type #f)
+       (value #f))))
+    (node
+     (attr
+      (*def* "用户查看团的成员列表信息")
+      (class GetCooperationGroupMembers)
+      (op)
+      (auth)
+      (path "/cooperation/groupmember/list/get"))
+     (node
+      (attr (req))
+      (node (id groupid) (type number) (value #f))
+      (node
+       (attr (*def* "上次拉取记录返回的时间戳"))
+       (id lstupdatetime)
+       (type longlong)
+       (value #f)))
+     (node
+      (attr (rsp))
+      (node (attr (*def* "当前团员人数")) (id membercnt) (type int) (value #f))
+      (node
+       (attr (*def* "团员列表"))
+       (id memberlist)
+       (type (array-type MutualInsMemberInfo2))
+       (value #f))
+      (node
+       (attr (*def* "最后拉取到的记录的时间戳"))
+       (id lstupdatetime)
+       (type longlong)
+       (value #f))
+      (node (attr (*def* "团描述")) (id toptip) (type #f) (value #f))))
+    (node
+     (attr
+      (*def* "用户查看团的动态信息")
+      (class GetCooperationGroupMessageList)
+      (op)
+      (auth)
+      (path "/cooperation/group/messagelist/get"))
+     (node
+      (attr (req))
+      (node (id groupid) (type number) (value #f))
+      (node
+       (attr (*def* "上次拉取记录返回的时间戳"))
+       (id lstupdatetime)
+       (type longlong)
+       (value #f)))
+     (node
+      (attr (rsp))
+      (node
+       (attr (*def* "动态列表"))
+       (id list)
+       (type (array-type MutualInsMessage))
+       (value #f))
+      (node
+       (attr (*def* "最后拉取到的记录的时间戳"))
+       (id lstupdatetime)
+       (type longlong)
+       (value #f))))
+    (node
+     (attr (*def* "动态消息") (class MutualInsMessage) (data))
+     (node (attr (*def* "消息生成时间")) (id time) (type #f) (value #f))
+     (node (attr (*def* "车辆品牌图标url")) (id carlogourl) (type #f) (value #f))
+     (node (attr (*def* "车牌号码")) (id licensenumber) (type #f) (value #f))
+     (node (attr (*def* "动态内容")) (id content) (type #f) (value #f))
+     (node (attr (*def* "成员id")) (id memberid) (type number) (value #f)))
+    (node
+     (attr (*def* "团员信息2") (class MutualInsMemberInfo2) (data))
+     (node
+      (attr (*def* "状态(1：待完善资料。3：审核中。5：待支付。6：支付完成。8：互助中。10：保障结束。20：重新上传)"))
+      (id status)
+      (type int)
+      (value #f))
+     (node (attr (*def* "状态描述")) (id statusdesc) (type #f) (value #f))
+     (node (attr (*def* "车辆品牌图标url")) (id carlogourl) (type #f) (value #f))
+     (node (attr (*def* "车牌")) (id licensenumber) (type #f) (value #f))
+     (node (attr (*def* "其他信息")) (id extendinfo) (type array) (value #f)))
     (node
      (attr (*def* "团员信息") (class MutualInsMemberInfo) (data))
      (node (attr (*def* "车牌")) (id licensenumber) (type #f) (value #f))

@@ -57,6 +57,8 @@
     #define PayCenterNotifyUrl @"http://dev01.xiaomadada.com/paaweb/general/order/paynotify"
     #define OrderDetailsUrl @"http://dev01.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
     #define LogUploadUrl @"http://dev01.xiaomadada.com/log/upload"
+    //小马互助团详情使用帮助
+    #define MutualInsGroupDetailHelpUrl @"http://dev01.xiaomadada.com/apphtml/tuanxiangqing-help.html"
 
 #elif XMDDEnvironment==1
 //测试环境
@@ -69,6 +71,8 @@
     #define PayCenterNotifyUrl @"https://dev.xiaomadada.com/paaweb/general/order/paynotify"
     #define OrderDetailsUrl @"https://dev.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
     #define LogUploadUrl @"http://dev01.xiaomadada.com/log/upload"
+    //小马互助团详情使用帮助
+    #define MutualInsGroupDetailHelpUrl @"http://dev.xiaomadada.com/apphtml/tuanxiangqing-help.html"
 #else
 //开发环境
     #define kInsuranceIntroUrl  @"http://www.xiaomadada.com/apphtml/baoxianfuwu.html"  //保险服务首页介绍
