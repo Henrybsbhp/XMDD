@@ -26,6 +26,8 @@
 @property (nonatomic,strong) NSString* req_licensenumber;
 ///车id
 @property (nonatomic,strong) NSNumber* req_carid;
+///团id
+@property (nonatomic,strong) NSNumber* req_groupid;
 
 @property (nonatomic,strong)NSDictionary * couponDict;
 

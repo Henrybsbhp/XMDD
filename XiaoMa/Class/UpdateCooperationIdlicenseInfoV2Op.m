@@ -22,6 +22,7 @@
     [params safetySetObject:self.req_isbuyfroceins ? @(1):@(0) forKey:@"isbuyfroceins"];
     [params safetySetObject:self.req_licensenumber forKey:@"licensenumber"];
     [params safetySetObject:self.req_carid ?: @(0) forKey:@"usercarid"];
+    [params safetySetObject:self.req_groupid ?: @(0) forKey:@"groupid"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
