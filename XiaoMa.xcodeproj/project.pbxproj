@@ -391,6 +391,8 @@
 		4E0700051D34A0CF001EEAC5 /* MutInsCalculateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0700041D34A0CF001EEAC5 /* MutInsCalculateVC.m */; };
 		4E0700141D34A0E0001EEAC5 /* MutInsCalculateResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0700131D34A0E0001EEAC5 /* MutInsCalculateResultVC.m */; };
 		4E1FEF321CBB97C100A9BA6F /* PopAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FEF311CBB97C100A9BA6F /* PopAnimation.m */; };
+		4E2F01041D37865900C810A7 /* MutualInsAdModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2F01031D37865900C810A7 /* MutualInsAdModel.m */; };
+		4E2F01121D378AB300C810A7 /* Temp_YZC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E2F01111D378AB300C810A7 /* Temp_YZC.storyboard */; };
 		4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */; };
 		4E30E6D51CFD92C3000157D4 /* GetPicListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D41CFD92C3000157D4 /* GetPicListOp.m */; };
 		4E30E6DB1CFD92E7000157D4 /* UpdateClaimPicOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D91CFD92E7000157D4 /* UpdateClaimPicOp.m */; };
@@ -1635,6 +1637,9 @@
 		4E0700131D34A0E0001EEAC5 /* MutInsCalculateResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutInsCalculateResultVC.m; sourceTree = "<group>"; };
 		4E1FEF301CBB97C100A9BA6F /* PopAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PopAnimation.h; path = Class/PopAnimation.h; sourceTree = "<group>"; };
 		4E1FEF311CBB97C100A9BA6F /* PopAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PopAnimation.m; path = Class/PopAnimation.m; sourceTree = "<group>"; };
+		4E2F01021D37865900C810A7 /* MutualInsAdModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MutualInsAdModel.h; path = Class/MutualInsAdModel.h; sourceTree = "<group>"; };
+		4E2F01031D37865900C810A7 /* MutualInsAdModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MutualInsAdModel.m; path = Class/MutualInsAdModel.m; sourceTree = "<group>"; };
+		4E2F01111D378AB300C810A7 /* Temp_YZC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Temp_YZC.storyboard; sourceTree = "<group>"; };
 		4E30E6CF1CFD8492000157D4 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
 		4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
 		4E30E6D11CFD8492000157D4 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
@@ -3701,6 +3706,8 @@
 				6BCD94FB1C9FA5CA00BE3E8C /* PasteboardModel.m */,
 				C35EFD701D0FA96000DB7018 /* PayInfoModel.h */,
 				C35EFD711D0FA96000DB7018 /* PayInfoModel.m */,
+				4E2F01021D37865900C810A7 /* MutualInsAdModel.h */,
+				4E2F01031D37865900C810A7 /* MutualInsAdModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -5291,6 +5298,7 @@
 				50A1E06D1C1EA12800176572 /* Valuation.storyboard */,
 				184452F11C8D18F4007B895D /* MutualInsGroupon.storyboard */,
 				C3F451571D2E78F500BA9BC4 /* Assistive.storyboard */,
+				4E2F01111D378AB300C810A7 /* Temp_YZC.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -5852,6 +5860,7 @@
 				6B5B78191BA7CC7600295B77 /* ProvinceChooseView.xib in Resources */,
 				18CECC291C30F8890075B7F9 /* LICENSE in Resources */,
 				6BD293C81B943EF1006482A4 /* About.storyboard in Resources */,
+				4E2F01121D378AB300C810A7 /* Temp_YZC.storyboard in Resources */,
 				C359C1461D29FAC200B2275A /* MapBottomV2View.xib in Resources */,
 				18D62B3F1B60EBF800E3FDB2 /* 90_0.gpx in Resources */,
 				4ECB96491D33370E00FE70CF /* Temp.storyboard in Resources */,
@@ -6011,6 +6020,7 @@
 				1844FB381CD9C8880085A0D4 /* NSObject+Notify.m in Sources */,
 				505E5FD61BD73B9300857819 /* DetailWebVC.m in Sources */,
 				18988CB21BC79A76001DECD5 /* HKUserStore.m in Sources */,
+				4E2F01041D37865900C810A7 /* MutualInsAdModel.m in Sources */,
 				189B39641AF9E32400B83F1B /* DeleteCarOp.m in Sources */,
 				6BC80C921C96BD6800C7BA3D /* GetCoorperationClaimConfigOp.m in Sources */,
 				1844FB3B1CD9C8880085A0D4 /* NSString+Compare.m in Sources */,
