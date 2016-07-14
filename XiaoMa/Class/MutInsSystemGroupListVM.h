@@ -21,6 +21,6 @@ typedef enum : NSInteger {
 
 - (void)getCooperationGroupList;
 
-@property (strong, nonatomic) NSString *url;
+@property (strong, nonatomic) NSString *groupLinkUrl;
 
 @end

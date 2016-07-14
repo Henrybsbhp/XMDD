@@ -18,6 +18,8 @@
 #import "GroupIntroductionVC.h"
 #import "HKPopoverView.h"
 #import "MutInsCalculateVC.h"
+#import "MutualInsPicUpdateVC.h"
+#import "MutualInsOrderInfoVC.h"
 
 typedef NS_ENUM(NSInteger, statusValues) {
     /// 未参团 / 参团失败
@@ -93,8 +95,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     // Do any additional setup after loading the view.
     
     [self setupNavigationBar];
-    if (gAppMgr.myUser)
-        [self setupTableViewADView];
+    [self setupTableViewADView];
     [self setupRefreshView];
     
     [self setItemList];
@@ -116,6 +117,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 {
     [super viewWillDisappear:animated];
     [self.popoverMenu dismissWithAnimated:YES];
+    self.isMenuOpen = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -187,7 +189,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 
 - (void)actionGotoCalculateVC
 {
-    MutInsCalculateVC * vc = [UIStoryboard vcWithId:@"MutInsCalculateVC" inStoryboard:@"Temp"];
+    MutInsCalculateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateVC"];
     vc.router.userInfo = [[CKDict alloc] init];
     vc.router.userInfo[kOriginRoute] = self.router;
     
@@ -196,12 +198,40 @@ typedef NS_ENUM(NSInteger, statusValues) {
 
 - (void)actionGotoSystemGroupListVC
 {
-    MutInsSystemGroupListVC * vc = [UIStoryboard vcWithId:@"MutInsSystemGroupListVC" inStoryboard:@"Temp"];
+    MutInsSystemGroupListVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsSystemGroupListVC"];
     
     vc.router.userInfo = [[CKDict alloc] init];
     vc.router.userInfo[kOriginRoute] = self.router;
     
     [self.router.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionGotoUpdateInfoVC:(HKMyCar *)car
+{
+    MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+    vc.curCar = car;
+    
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionGotoPayVC
+{
+    MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
+//    vc.contractId = self.groupDetail.rsp_contractid;
+//    vc.group = self.group;
+    
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionGotoGroupDetailVC
+{
+    
 }
 
 #pragma mark - Setups
@@ -211,7 +241,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     UIView *adContainer = [[UIView alloc] initWithFrame:CGRectZero];
     adContainer.backgroundColor = kBackgroundColor;
     
-    self.adVC = [ADViewController vcWithMutualADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:@"huzhushouye" mobBaseEventDict:@{@"huzhushouye" : @"huzhushouye3"}];
+    self.adVC = [ADViewController vcWithMutualADType:AdvertisementMutualInsTop boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:@"huzhushouye" mobBaseEventDict:@{@"huzhushouye" : @"huzhushouye3"}];
     CGFloat height = floor(self.adVC.adView.frame.size.height);
     adContainer.frame = CGRectMake(0, 0, self.view.frame.size.width, height);
     [self.tableView addSubview:adContainer];
@@ -269,10 +299,12 @@ typedef NS_ENUM(NSInteger, statusValues) {
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
-        vc.originVC = self;
         vc.groupType = MutualGroupTypeSelf;
-        vc.originVC = self;
-        [self.navigationController pushViewController:vc animated:YES];
+        
+        vc.router.userInfo = [[CKDict alloc] init];
+        vc.router.userInfo[kOriginRoute] = self.router;
+        
+        [self.router.navigationController pushViewController:vc animated:YES];
     });
     return dict;
 }
@@ -355,6 +387,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
         if (!self.dataSource.count) {
             // 防止有数据的时候，下拉刷新导致页面会闪一下
             CGFloat reducingY = self.view.frame.size.height * 0.1056;
+            [self.view hideDefaultEmptyView];
             [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
             self.tableView.hidden = YES;
         }
@@ -378,7 +411,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
             self.isEmptyGroup = YES;
             CKDict *blankCell = [self setupBlankCellWithDict:nil];
             self.dataSource = $($([self setupCalculateCell]));
-            [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:self.minsStore.couponList sourceDict:nil]), blankCell) forKey:nil];
+            [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:self.minsStore.couponDict sourceDict:nil]), blankCell) forKey:nil];
             [self.tableView reloadData];
         }
         [self setItemList];
@@ -637,7 +670,10 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye11"}];
                 
-                
+                HKMyCar * car = [[HKMyCar alloc] init];
+                car.carId = dict[@"usercarid"];
+                car.licencenumber = dict[@"licensenum"];
+                [self actionGotoUpdateInfoVC:car];
             }];
             
         } else if (status.integerValue == XMWaitingForPay) {
@@ -646,7 +682,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye12"}];
                 
-                
+                [self actionGotoPayVC];
             }];
             
         } else {
@@ -655,7 +691,14 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye9"}];
                 
-                
+                HKMyCar * car;
+                if (dict[@"usercarid"] && dict[@"licensenum"])
+                {
+                    car = [[HKMyCar alloc] init];
+                    car.carId = dict[@"usercarid"];
+                    car.licencenumber = dict[@"licensenum"];
+                }
+                [self actionGotoUpdateInfoVC:car];
             }];
         }
     });
@@ -674,7 +717,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     groupInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         // 进入团详情页面
         [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye10"}];
-        
+        [self actionGotoGroupDetailVC];
     });
     
     groupInfoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {

@@ -74,11 +74,11 @@
         }
     });
     
-    NSArray * tempArray = [self getTipsInfoWithData:self.tipsDict];
+    CKList * tipList = [self getTipsInfoWithData:self.tipsDict];
     
     
     self.datasource = $($(cell0));
-    [self.datasource addObjectsFromArray:tempArray];
+    [self.datasource addObject:tipList forKey:nil];
 }
 
 - (CKDict *)setupTipsHeaderCell
@@ -210,19 +210,19 @@
 }
 
 #pragma mark - Utilitly
-- (NSMutableArray *)getTipsInfoWithData:(NSDictionary *)data
+- (CKList *)getTipsInfoWithData:(NSDictionary *)data
 {
-    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    CKList * list = [CKList list];
     NSArray *insuranceList = data[@"insurancelist"];
     if (insuranceList.count > 0) {
         NSMutableArray *newArray = [self splitArrayIntoDoubleNewArray:insuranceList];
         CKDict *tipsHeaderCell = [self setupTipsHeaderCell];
         CKDict *insuranceTitleCell = [self setupTipsTitleCellWithText:@"保障"];
-        [tempArray addObject:tipsHeaderCell];
-        [tempArray addObject:insuranceTitleCell];
+        [list addObject:tipsHeaderCell forKey:nil];
+        [list addObject:insuranceTitleCell forKey:nil];
         for (NSArray *array in newArray) {
             CKDict *insuranceCell = [self setupTipsCellWithCouponList:array];
-            [tempArray addObject:insuranceCell];
+            [list addObject:insuranceCell forKey:nil];
         }
     }
     
@@ -230,24 +230,24 @@
     if (data.count > 0) {
         NSMutableArray *newArray = [self splitArrayIntoDoubleNewArray:couponList];
         CKDict *couponTitleCell = [self setupTipsTitleCellWithText:@"福利"];
-        [tempArray addObject:couponTitleCell];
+        [list addObject:couponTitleCell forKey:nil];
         for (NSArray *array in newArray) {
             CKDict *couponCell = [self setupTipsCellWithCouponList:array];
-            [tempArray addObject:couponCell];
+            [list addObject:couponCell forKey:nil];
         }
     }
     
     NSArray *activityList = data[@"activitylist"];
     if (activityList.count > 0) {
         CKDict *activityCell = [self setupTipsTitleCellWithText:@"活动"];
-        [tempArray addObject:activityCell];
+        [list addObject:activityCell forKey:nil];
         for (NSString *string in activityList) {
             CKDict *activityCell = [self setupSingleTipsCellWithCouponString:string];
-            [tempArray addObject:activityCell];
+            [list addObject:activityCell forKey:nil];
         }
     }
     
-    return tempArray;
+    return list;
 }
 
 
@@ -331,5 +331,6 @@
         block(data, indexPath);
     }
 }
+
 
 @end

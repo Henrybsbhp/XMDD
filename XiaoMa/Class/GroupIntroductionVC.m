@@ -79,7 +79,6 @@
         self.webView.scrollView.contentInset = UIEdgeInsetsZero;
         self.webView.scrollView.contentSize = self.webView.frame.size;
         
-        
         [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
     });
 }
@@ -89,8 +88,9 @@
 {
     if (self.groupType == MutualGroupTypeSystem)
     {
-        self.navigationItem.title = @"入团要求";
+        [self.selfGroupView removeFromSuperview];
         
+        self.navigationItem.title = @"入团要求";
         [self.sysJoinBtn setTitle:@"加入互助" forState:UIControlStateNormal];
     }
     else
@@ -229,7 +229,7 @@
 
 - (void)gotoIdLicenseInfoupdateWithCar:(HKMyCar *)car
 {
-    MutualInsPicUpdateVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+    MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
     vc.curCar = car;
     [self.navigationController pushViewController:vc animated:YES];
 }

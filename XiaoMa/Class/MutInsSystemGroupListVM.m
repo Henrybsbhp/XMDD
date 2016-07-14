@@ -77,6 +77,7 @@
         [self.targetVC.view stopActivityAnimation];
         
         
+        self.groupLinkUrl = op.rsp_groupLinkUrl;
         self.dataSource = op.rsp_groupList;
         [self.tableView reloadData];
         
