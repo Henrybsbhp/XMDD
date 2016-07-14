@@ -553,6 +553,7 @@
     op.req_secinscomp = self.lastYearInsCompany ?: @"";
     op.req_memberid = self.memberId;
     op.req_isbuyfroceins = self.isNeedBuyStrongInsurance;
+    op.req_groupid = self.groupId;
     if (self.curCar.licencenumber)
     {
         op.req_licensenumber = self.curCar.licencenumber;
