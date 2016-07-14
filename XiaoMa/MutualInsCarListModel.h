@@ -8,6 +8,45 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, MutualInsGroupStatus) {
+    /// 未参团 / 参团失败
+    XMGroupFailed        = 0,
+    
+    /// 团长无车
+    XMGroupWithNoCar     = -1,
+    
+    /// 资料代完善
+    XMDataImcompleteV1   = 1,
+    
+    /// 资料代完善
+    XMDataImcompleteV2   = 2,
+    
+    /// 审核中
+    XMInReview           = 3,
+    
+    /// 待支付
+    XMWaitingForPay      = 5,
+    
+    /// 支付成功
+    XMPaySuccessed       = 6,
+    
+    /// 互助中
+    XMInMutual           = 7,
+    
+    /// 保障中
+    XMInEnsure           = 8,
+    
+    /// 已过期
+    XMOverdue            = 10,
+    
+    /// 重新上传资料
+    XMReuploadData       = 20,
+    
+    /// 审核失败
+    XMReviewFailed       = 21
+};
+
+
 @interface MutualInsCarListModel : NSObject
 
 /// 车型 Logo
@@ -20,7 +59,7 @@
 @property (nonatomic, copy) NSString *tip;
 
 /// 车在互助团中的状态
-@property (nonatomic, strong) NSNumber *status;
+@property (nonatomic) MutualInsGroupStatus status;
 
 /// 状态描述文案
 @property (nonatomic, copy) NSString *statusDesc;
