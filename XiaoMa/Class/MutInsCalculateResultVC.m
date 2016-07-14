@@ -75,7 +75,7 @@
     
     [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo2"}];
     
-    MutInsSystemGroupListVC * vc = [UIStoryboard vcWithId:@"MutInsSystemGroupListVC" inStoryboard:@"Temp"];
+    MutInsSystemGroupListVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsSystemGroupListVC"];
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 

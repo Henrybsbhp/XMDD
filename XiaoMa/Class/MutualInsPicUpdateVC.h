@@ -20,8 +20,5 @@
 
 /// 团id，用于自主团
 @property (nonatomic,strong)NSNumber * groupId;
-/// 团名称，用于自主团
-@property (nonatomic,strong)NSString * groupName;
-
 
 @end

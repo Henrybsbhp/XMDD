@@ -26,9 +26,9 @@
 
 @implementation MutInsSystemGroupListVC
 
--(void)dealloc
+- (void)dealloc
 {
-    
+    DebugLog(@"MutInsSystemGroupListVC dealloc");
 }
 
 - (void)viewDidLoad {
@@ -156,7 +156,7 @@
     NSString * url;
     
     [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan5"}];
-    
+    NSString * url = self.groupBeginVM.groupLinkUrl.length ? self.groupBeginVM.groupLinkUrl : self.groupEndVM.groupLinkUrl;
     if (url.length)
     {
         GroupIntroductionVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];

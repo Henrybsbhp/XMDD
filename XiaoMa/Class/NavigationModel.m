@@ -379,13 +379,11 @@
             {
                 if ([vc isKindOfClass:[MutualInsVC class]])
                 {
-//                    @fq TODO
-//                    [((MutualInsHomeVC *)vc) reloadIfNeeded];
                     [self.curNavCtrl popViewControllerAnimated:YES];
                     return YES;
                 }
             }
-            MutualInsVC *vc = [UIStoryboard vcWithId:@"MutualInsVC" inStoryboard:@"TempHX"];
+            MutualInsVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         //加入小马互助团系统团

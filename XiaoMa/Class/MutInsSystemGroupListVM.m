@@ -69,6 +69,7 @@
         self.targetVC.groupEndBtn.enabled = YES;
         self.targetVC.groupBeginBtn.enabled = YES;
         
+        self.groupLinkUrl = op.rsp_groupLinkUrl;
         self.dataSource = op.rsp_groupList;
         [self.tableView reloadData];
         

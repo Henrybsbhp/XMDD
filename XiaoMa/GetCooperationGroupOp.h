@@ -13,5 +13,6 @@
 @property (strong, nonatomic) NSNumber *req_status;
 
 @property (strong, nonatomic) NSArray *rsp_groupList;
+@property (copy, nonatomic) NSString *rsp_groupLinkUrl;
 
 @end

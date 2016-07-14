@@ -114,7 +114,7 @@
         
         [gToast dismiss];
         
-        MutInsCalculateResultVC *vc = [UIStoryboard vcWithId:@"MutInsCalculateResultVC" inStoryboard:@"Temp"];
+        MutInsCalculateResultVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateResultVC"];
         vc.model = op;
         [self.navigationController pushViewController:vc animated:YES];
         
