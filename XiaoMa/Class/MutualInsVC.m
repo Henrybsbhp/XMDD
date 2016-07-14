@@ -18,6 +18,7 @@
 #import "GroupIntroductionVC.h"
 #import "HKPopoverView.h"
 #import "MutInsCalculateVC.h"
+#import "MutualInsCarListModel.h"
 #import "MutualInsPicUpdateVC.h"
 #import "MutualInsOrderInfoVC.h"
 
@@ -409,9 +410,8 @@ typedef NS_ENUM(NSInteger, statusValues) {
         else
         {
             self.isEmptyGroup = YES;
-            CKDict *blankCell = [self setupBlankCellWithDict:nil];
             self.dataSource = $($([self setupCalculateCell]));
-            [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:self.minsStore.couponDict sourceDict:nil]), blankCell) forKey:nil];
+            [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:self.minsStore.couponDict sourceDict:nil])) forKey:nil];
             [self.tableView reloadData];
         }
         [self setItemList];
@@ -463,18 +463,8 @@ typedef NS_ENUM(NSInteger, statusValues) {
                                @"couponlist" : rop.couponList,
                                @"activitylist" : rop.activityList,
                                };
-        CKList *cellList = [CKList list];
-        CKDict *blankCell = [self setupBlankCellWithDict:nil];
-        NSArray *blankArray = @[blankCell];
-        NSMutableArray *dataArray = [[NSMutableArray alloc] init];
-        NSMutableArray *tempArray = [self getCouponInfoWithData:dict sourceDict:nil];
-        CKDict *caculateCell = [self setupCalculateCell];
-        CKList *caculateList = $(caculateCell);
-        [dataArray addObject:caculateList];
-        [cellList addObjectsFromArray:tempArray];
-        [cellList addObjectsFromArray:blankArray];
-        [dataArray addObject:cellList];
-        self.dataSource = [CKList listWithArray:dataArray];
+        self.dataSource = $($([self setupCalculateCell]));
+        [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:dict sourceDict:nil])) forKey:nil];
         [self.tableView reloadData];
         
         [self.tableView.refreshView endRefreshing];
@@ -497,13 +487,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 {
     CKList *dataSource = $($([self setupCalculateCell]));
     
-    for (NSDictionary *dict in self.fetchedDataSource) {
-        NSNumber *status = dict[@"status"];
-        NSNumber *numberCnt = dict[@"numbercnt"];
-        NSDictionary *couponDict = dict[@"couponlist"];
-        
-        // 增加底部留白的空白 Cell
-        CKDict *blankCell = [self setupBlankCellWithDict:dict];
+    for (MutualInsCarListModel *dict in self.fetchedDataSource) {
         
         CKDict *normalStatusCell = [self setupNormalStatusCellWithDict:dict];
         
@@ -511,21 +495,21 @@ typedef NS_ENUM(NSInteger, statusValues) {
         
         CKDict *groupInfoCell = [self setupGroupInfoCellWithDict:dict];
         
-        if (status.integerValue == XMGroupWithNoCar) {
+        if (dict.status.integerValue == XMGroupWithNoCar) {
             // 团长无车
             [dataSource addObject:$(groupInfoCell) forKey:nil];
             
 
-        } else if (status.integerValue == XMGroupFailed|| (status.integerValue == XMInReview && numberCnt.integerValue < 1)) {
+        } else if (dict.status.integerValue == XMGroupFailed|| (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1)) {
             // 未参团 / 入团失败 / 审核中（有车无团）
-            [dataSource addObject:$(normalStatusCell, CKJoin([self getCouponInfoWithData:couponDict sourceDict:dict]), blankCell) forKey:nil];
+            [dataSource addObject:$(normalStatusCell, CKJoin([self getCouponInfoWithData:dict.couponList sourceDict:dict])) forKey:nil];
             
-        } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
+        } else if (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 审核失败（无团）
-            CKList *group = $(statusButtonCell, CKJoin([self getCouponInfoWithData:couponDict sourceDict:dict]), blankCell);
+            CKList *group = $(statusButtonCell, CKJoin([self getCouponInfoWithData:dict.couponList sourceDict:dict]));
             [dataSource addObject:group forKey:nil];
             
-        } else if (status.integerValue == XMWaitingForPay || status.integerValue == XMDataImcompleteV1 || status.integerValue == XMDataImcompleteV2 || (status.integerValue == XMReviewFailed && numberCnt.integerValue > 0)) {
+        } else if (dict.status.integerValue == XMWaitingForPay || dict.status.integerValue == XMDataImcompleteV1 || dict.status.integerValue == XMDataImcompleteV2 || (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue > 0)) {
             // 待支付 / 待完善资料 / 审核失败（有团）
             [dataSource addObject:$(statusButtonCell, groupInfoCell) forKey:nil];
         } else {
@@ -561,7 +545,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 }
 
 /// 设置带有品牌车 logo 和车牌号信息的 Cell
-- (CKDict *)setupNormalStatusCellWithDict:(NSDictionary *)dict
+- (CKDict *)setupNormalStatusCellWithDict:(MutualInsCarListModel *)dict
 {
     CKDict *normalStatusCell = [CKDict dictWith:@{kCKItemKey: @"normalStatusCell", kCKCellID: @"NormalStatusCell"}];
     normalStatusCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -570,17 +554,15 @@ typedef NS_ENUM(NSInteger, statusValues) {
     
     normalStatusCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye8"}];
-        NSNumber *status = dict[@"status"];
-        NSNumber *numberCnt = dict[@"numbercnt"];
         
         // 有车无团「未参团」状态
-        if (status.integerValue == XMGroupFailed) {
+        if (dict.status.integerValue == XMGroupFailed) {
             
             [self actionGotoSystemGroupListVC];
-        } else if (status.integerValue == XMInReview && numberCnt.integerValue < 1) {
+        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
-        } else if (status.integerValue == XMInReview && numberCnt.integerValue > 0) {
+        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue > 0) {
             // 有车有团审核中状态
             /// 进入「团详情」页面
             
@@ -605,19 +587,19 @@ typedef NS_ENUM(NSInteger, statusValues) {
         statusContainerView.layer.borderColor = HEXCOLOR(@"#FF7428").CGColor;
         statusContainerView.layer.masksToBounds = YES;
         
-        [brandImageView setImageByUrl:dict[@"brandlogo"] withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
-        carNumLabel.text = dict[@"licensenum"];
-        statusLabel.text = dict[@"statusdesc"];
+        [brandImageView setImageByUrl:dict.brandLogo withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
+        carNumLabel.text = dict.licenseNum;
+        statusLabel.text = dict.statusDesc;
         tipsLabel.font = [UIFont systemFontOfSize:13];
         tipsLabel.textColor = HEXCOLOR(@"#888888");
-        tipsLabel.text = dict[@"tip"];
+        tipsLabel.text = dict.tip;
     });
     
     return normalStatusCell;
 }
 
 // 设置带有品牌车 logo 和车牌号信息的 Cell（带有 Button）
-- (CKDict *)setupStatusButtonCellWithDict:(NSDictionary *)dict
+- (CKDict *)setupStatusButtonCellWithDict:(MutualInsCarListModel *)dict
 {
     CKDict *statusWithButtonCell = [CKDict dictWith:@{kCKItemKey: @"tatusWithButtonCell", kCKCellID: @"StatusWithButtonCell"}];
     statusWithButtonCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -625,14 +607,13 @@ typedef NS_ENUM(NSInteger, statusValues) {
     });
     
     statusWithButtonCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        NSNumber *status = dict[@"status"];
-        if (status.integerValue == XMReuploadData || status.integerValue == XMReviewFailed) {
+        if (dict.status.integerValue == XMReuploadData || dict.status.integerValue == XMReviewFailed) {
             [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye11"}];
             // 进入「重新上传资料」页面
                 
             
             
-        } else if (status.integerValue == XMWaitingForPay) {
+        } else if (dict.status.integerValue == XMWaitingForPay) {
             // 进入「订单详情」页面
             
             
@@ -657,26 +638,25 @@ typedef NS_ENUM(NSInteger, statusValues) {
         statusContainerView.layer.borderColor = HEXCOLOR(@"#FF7428").CGColor;
         statusContainerView.layer.masksToBounds = YES;
         
-        [brandImageView setImageByUrl:dict[@"brandlogo"] withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
-        carNumLabel.text = dict[@"licensenum"];
-        statusLabel.text = dict[@"statusdesc"];
+        [brandImageView setImageByUrl:dict.brandLogo withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
+        carNumLabel.text = dict.licenseNum;
+        statusLabel.text = dict.statusDesc;
         tipsLabel.font = [UIFont systemFontOfSize:13];
         tipsLabel.textColor = HEXCOLOR(@"#888888");
-        tipsLabel.text = dict[@"tip"];
+        tipsLabel.text = dict.tip;
         
-        NSNumber *status = dict[@"status"];
-        if (status.integerValue == XMReuploadData || status.integerValue == XMReviewFailed) {
+        if (dict.status.integerValue == XMReuploadData || dict.status.integerValue == XMReviewFailed) {
             [bottomButton setTitle:@"重新上传资料" forState:UIControlStateNormal];
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye11"}];
                 
                 HKMyCar * car = [[HKMyCar alloc] init];
-                car.carId = dict[@"usercarid"];
-                car.licencenumber = dict[@"licensenum"];
+                car.carId = dict.userCarID;
+                car.licencenumber = dict.licenseNum;
                 [self actionGotoUpdateInfoVC:car];
             }];
             
-        } else if (status.integerValue == XMWaitingForPay) {
+        } else if (dict.status.integerValue == XMWaitingForPay) {
             
             [bottomButton setTitle:@"前去支付" forState:UIControlStateNormal];
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -692,11 +672,11 @@ typedef NS_ENUM(NSInteger, statusValues) {
                 [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye9"}];
                 
                 HKMyCar * car;
-                if (dict[@"usercarid"] && dict[@"licensenum"])
+                if (dict.userCarID && dict.licenseNum)
                 {
                     car = [[HKMyCar alloc] init];
-                    car.carId = dict[@"usercarid"];
-                    car.licencenumber = dict[@"licensenum"];
+                    car.carId = dict.userCarID;
+                    car.licencenumber = dict.licenseNum;
                 }
                 [self actionGotoUpdateInfoVC:car];
             }];
@@ -707,11 +687,12 @@ typedef NS_ENUM(NSInteger, statusValues) {
 }
 
 /// 设置显示团名，时间，人数信息的 Cell
-- (CKDict *)setupGroupInfoCellWithDict:(NSDictionary *)dict
+- (CKDict *)setupGroupInfoCellWithDict:(MutualInsCarListModel *)dict
 {
     CKDict *groupInfoCell = [CKDict dictWith:@{kCKItemKey: @"groupInfoCell", kCKCellID: @"GroupInfoCell"}];
     groupInfoCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 117;
+        CGFloat pointY = 24;
+        return pointY * dict.extendInfo.count + 14 + 55;
     });
     
     groupInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -723,21 +704,57 @@ typedef NS_ENUM(NSInteger, statusValues) {
     groupInfoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:100];
         UILabel *numCntLabel = (UILabel *)[cell.contentView viewWithTag:101];
-        UILabel *startTimeLabel = (UILabel *)[cell.contentView viewWithTag:102];
-        UILabel *endTimeLabel = (UILabel *)[cell.contentView viewWithTag:103];
         
-        NSNumber *numberCnt = dict[@"numbercnt"];
-        titleLabel.text = dict[@"groupname"];
-        numCntLabel.text = [NSString stringWithFormat:@"%ld", (long)numberCnt.integerValue];
-        startTimeLabel.text = dict[@"insstarttime"];
-        endTimeLabel.text = dict[@"insendtime"];
+        // 根据下发的信息生成左右 Label
+        NSMutableString *titleString = [NSMutableString new];
+        NSMutableString *contentString = [NSMutableString new];
+        for (NSDictionary *dic in dict.extendInfo) {
+            NSString *tString = [NSString stringWithFormat:@"%@", dic.allKeys.firstObject];
+            [titleString appendString:tString];
+            [titleString appendString:@"\n"];
+            NSString *cString = [NSString stringWithFormat:@"%@", dic.allValues.firstObject];
+            [contentString appendString:cString];
+            [contentString appendString:@"\n"];
+        }
+        
+        CGSize titleSize = [titleString labelSizeWithWidth:103 font:[UIFont systemFontOfSize:13]];
+        CGSize contentSize = [contentString labelSizeWithWidth:cell.contentView.frame.size.width - 140 - 17 font:[UIFont systemFontOfSize:13]];
+        
+        UILabel *firstLabel = (UILabel *)[cell.contentView viewWithTag:103];
+        if (!firstLabel) {
+            firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(17, 55, 103, titleSize.height)];
+            firstLabel.tag = 103;
+            firstLabel.font = [UIFont systemFontOfSize:13];
+            firstLabel.textColor = HEXCOLOR(@"#888888");
+            firstLabel.numberOfLines = 0;
+            [cell.contentView addSubview:firstLabel];
+        }
+        
+        firstLabel.attributedText = [self generateAttributedStringWithLineSpacing:titleString];
+        firstLabel.textAlignment = NSTextAlignmentLeft;
+        
+        UILabel *secondLabel = (UILabel *)[cell.contentView viewWithTag:104];
+        if (!secondLabel) {
+            secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 55, cell.contentView.frame.size.width - 140 - 17 , contentSize.height)];
+            secondLabel.tag = 104;
+            secondLabel.font = [UIFont systemFontOfSize:13];
+            secondLabel.textColor = HEXCOLOR(@"#888888");
+            secondLabel.numberOfLines = 0;
+            [cell.contentView addSubview:secondLabel];
+        }
+        
+        secondLabel.attributedText = [self generateAttributedStringWithLineSpacing:contentString];
+        secondLabel.textAlignment = NSTextAlignmentRight;
+        
+        titleLabel.text = dict.groupName;
+        numCntLabel.text = [NSString stringWithFormat:@"%ld", (long)dict.numberCnt.integerValue];
     });
     
     return groupInfoCell;
 }
 
 /// 优惠信息的 Header，如：「加入互助后即享」
-- (CKDict *)setupTipsHeaderCellWithDict:(NSDictionary *)dict
+- (CKDict *)setupTipsHeaderCellWithDict:(MutualInsCarListModel *)dict
 {
     CKDict *tipsHeaderCell = [CKDict dictWith:@{kCKItemKey: @"tipsHeaderCell", kCKCellID: @"TipsHeaderCell"}];
     tipsHeaderCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -746,19 +763,17 @@ typedef NS_ENUM(NSInteger, statusValues) {
     
     tipsHeaderCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye5"}];
-        NSNumber *status = dict[@"status"];
-        NSNumber *numberCnt = dict[@"numbercnt"];
         
         // 有车无团「未参团」状态
-        if (status.integerValue == XMGroupFailed) {
+        if (dict.status.integerValue == XMGroupFailed) {
             
             [self actionGotoSystemGroupListVC];
             
-        } else if (status.integerValue == XMInReview && numberCnt.integerValue < 1) {
+        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
             
-        } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
+        } else if (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
             
@@ -778,7 +793,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 }
 
 /// 优惠信息的标题，如：「保障，福利，活动」等
-- (CKDict *)setupTipsTitleCellWithText:(NSString *)title withDict:(NSDictionary *)dict
+- (CKDict *)setupTipsTitleCellWithText:(NSString *)title withDict:(MutualInsCarListModel *)dict
 {
     CKDict *tipsTitleCell = [CKDict dictWith:@{kCKItemKey: @"tipsTitleCell", kCKCellID: @"TipsTitleCell"}];
     tipsTitleCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -786,18 +801,16 @@ typedef NS_ENUM(NSInteger, statusValues) {
     });
     
     tipsTitleCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        NSNumber *status = dict[@"status"];
-        NSNumber *numberCnt = dict[@"numbercnt"];
         
         // 有车无团「未参团」状态
-        if (status.integerValue == XMGroupFailed) {
+        if (dict.status.integerValue == XMGroupFailed) {
             
             [self actionGotoSystemGroupListVC];
-        } else if (status.integerValue == XMInReview && numberCnt.integerValue < 1) {
+        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
             
-        } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
+        } else if (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
             
@@ -831,7 +844,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 }
 
 /// 设置显示优惠信息的双 Label Cell
-- (CKDict *)setupTipsCellWithCouponList:(NSArray *)couponList withDict:(NSDictionary *)dict
+- (CKDict *)setupTipsCellWithCouponList:(NSArray *)couponList withDict:(MutualInsCarListModel *)dict
 {
     CKDict *tipsCell = [CKDict dictWith:@{kCKItemKey: @"tipsCell", kCKCellID: @"TipsCell"}];
     tipsCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -839,19 +852,17 @@ typedef NS_ENUM(NSInteger, statusValues) {
     });
     
     tipsCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        NSNumber *status = dict[@"status"];
-        NSNumber *numberCnt = dict[@"numbercnt"];
-        
+
         // 有车无团「未参团」状态
-        if (status.integerValue == XMGroupFailed) {
+        if (dict.status.integerValue == XMGroupFailed) {
             
             [self actionGotoSystemGroupListVC];
             
-        } else if (status.integerValue == XMInReview && numberCnt.integerValue < 1) {
+        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
             
-        } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
+        } else if (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
             
@@ -904,7 +915,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 }
 
 /// 设置显示优惠信息的单 Label Cell
-- (CKDict *)setupSingleTipsCellWithCouponString:(NSString *)couponString withDict:(NSDictionary *)dict
+- (CKDict *)setupSingleTipsCellWithCouponString:(NSString *)couponString withDict:(MutualInsCarListModel *)dict
 {
     CKDict *singleTipsCell = [CKDict dictWith:@{kCKItemKey: @"singleTipsCell", kCKCellID: @"SingleTipsCell"}];
     singleTipsCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -916,18 +927,16 @@ typedef NS_ENUM(NSInteger, statusValues) {
     });
     
     singleTipsCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        NSNumber *status = dict[@"status"];
-        NSNumber *numberCnt = dict[@"numbercnt"];
         
         // 有车无团「未参团」状态
-        if (status.integerValue == XMGroupFailed) {
+        if (dict.status.integerValue == XMGroupFailed) {
             
             [self actionGotoSystemGroupListVC];
-        } else if (status.integerValue == XMInReview && numberCnt.integerValue < 1) {
+        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
             
-        } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
+        } else if (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
             
@@ -957,7 +966,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 }
 
 /// 作为一个给底部留白的 Cell，防止 Cell 的底部留白不够
-- (CKDict *)setupBlankCellWithDict:(NSDictionary *)dict
+- (CKDict *)setupBlankCellWithDict:(MutualInsCarListModel *)dict
 {
     CKDict *blankCell = [CKDict dictWith:@{kCKItemKey: @"blankCell", kCKCellID: @"BlankCell"}];
     blankCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -965,18 +974,16 @@ typedef NS_ENUM(NSInteger, statusValues) {
     });
     
     blankCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        NSNumber *status = dict[@"status"];
-        NSNumber *numberCnt = dict[@"numbercnt"];
         
         // 有车无团「未参团」状态
-        if (status.integerValue == XMGroupFailed) {
+        if (dict.status.integerValue == XMGroupFailed) {
             
             [self actionGotoSystemGroupListVC];
-        } else if (status.integerValue == XMInReview && numberCnt.integerValue < 1) {
+        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
             
-        } else if (status.integerValue == XMReviewFailed && numberCnt.integerValue == 0) {
+        } else if (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
             
@@ -1127,11 +1134,24 @@ typedef NS_ENUM(NSInteger, statusValues) {
     return newArray;
 }
 
+/// 生成带有行高的 NSAttributedString
+- (NSAttributedString *)generateAttributedStringWithLineSpacing:(NSString *)string
+{
+    NSMutableParagraphStyle *style =  [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    style.alignment = NSTextAlignmentJustified;
+    style.lineSpacing = 6.0f;
+    
+    NSAttributedString *attrText = [[NSAttributedString alloc] initWithString:string attributes:@{ NSParagraphStyleAttributeName : style}];
+    
+    return attrText;
+}
+
 /// 拼接优惠信息 Cell 的方法
-- (NSMutableArray *)getCouponInfoWithData:(NSDictionary *)data sourceDict:(NSDictionary *)dict
+- (NSMutableArray *)getCouponInfoWithData:(NSDictionary *)data sourceDict:(MutualInsCarListModel *)dict
 {
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
     NSArray *insuranceList = data[@"insurancelist"];
+    CKDict *blankCell = [self setupBlankCellWithDict:dict];
     if (insuranceList.count > 0) {
         NSMutableArray *newArray = [self splitArrayIntoDoubleNewArray:insuranceList];
         CKDict *tipsHeaderCell = [self setupTipsHeaderCellWithDict:dict];
@@ -1164,6 +1184,8 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [tempArray addObject:activityCell];
         }
     }
+    
+    [tempArray addObject:blankCell];
     
     return tempArray;
 }
