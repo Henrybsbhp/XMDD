@@ -20,7 +20,7 @@
     carListModel.brandLogo = rsp[@"brandlogo"];
     carListModel.licenseNum = rsp[@"licensenum"];
     carListModel.tip = rsp[@"tip"];
-    carListModel.status = rsp[@"status"];
+    carListModel.status = [rsp[@"status"] integerValue];
     carListModel.statusDesc = rsp[@"statusdesc"];
     carListModel.couponList = rsp[@"couponlist"];
     carListModel.numberCnt = rsp[@"numbercnt"];
