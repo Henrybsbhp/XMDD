@@ -28,9 +28,9 @@
 
 @implementation MutInsSystemGroupListVC
 
--(void)dealloc
+- (void)dealloc
 {
-    
+    DebugLog(@"MutInsSystemGroupListVC dealloc");
 }
 
 - (void)viewDidLoad {
@@ -41,17 +41,8 @@
     
     [self.groupBeginVM getCooperationGroupList];
     [self.groupEndVM getCooperationGroupList];
-    
-    
 }
 
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    
-    self.groupBeginVM = nil;
-    self.groupEndVM = nil;
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -155,8 +146,7 @@
 
 - (IBAction)actionApply:(id)sender
 {
-    NSString * url;
-    
+    NSString * url = self.groupBeginVM.groupLinkUrl.length ? self.groupBeginVM.groupLinkUrl : self.groupEndVM.groupLinkUrl;
     if (url.length)
     {
         GroupIntroductionVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];

@@ -74,7 +74,7 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
         else if (self.oldType == CouponTypeXMHZ) {
-            MutualInsVC * vc = [UIStoryboard vcWithId:@"MutualInsVC" inStoryboard:@"TempHX"];
+            MutualInsVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

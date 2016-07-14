@@ -17,7 +17,7 @@
 /// 车辆信息
 @property (nonatomic, strong) NSArray *carList;
 /// 优惠信息
-@property (nonatomic, strong) NSArray *couponList;
+@property (nonatomic, strong) NSDictionary *couponDict;
 @property (nonatomic, strong) GetGroupJoinedInfoOp *rsp_getGroupJoinedInfoOp;
 @property (nonatomic, strong) JTQueue *detailGroups;
 

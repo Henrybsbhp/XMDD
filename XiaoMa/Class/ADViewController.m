@@ -166,6 +166,10 @@
     {
         defaultImage = @"hp_bottom_ad_default";
     }
+    else if (self.adType == AdvertisementMutualInsTop)
+    {
+        defaultImage = @"ad_default_mutualIns_top";
+    }
     [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:defaultImage errorImage:defaultImage];
     
     UITapGestureRecognizer *tap = imgV.customObject;
@@ -190,8 +194,12 @@
         else {
             if (_adType == AdvertisementHomePageBottom)
             {
-                UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
+                UIViewController *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
                 [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+            }
+            else if (_adType == AdvertisementMutualInsTop)
+            {
+                
             }
             else if (_adType != AdvertisementValuation) {
                 
@@ -199,6 +207,8 @@
                 vc.url = ADDEFINEWEB;
                 [self.targetVC.navigationController pushViewController:vc animated:YES];
             }
+
+            
         }
     }];
     

@@ -19,6 +19,8 @@
 #import "HKPopoverView.h"
 #import "MutInsCalculateVC.h"
 #import "MutualInsCarListModel.h"
+#import "MutualInsPicUpdateVC.h"
+#import "MutualInsOrderInfoVC.h"
 
 typedef NS_ENUM(NSInteger, statusValues) {
     /// 未参团 / 参团失败
@@ -94,8 +96,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     // Do any additional setup after loading the view.
     
     [self setupNavigationBar];
-    if (gAppMgr.myUser)
-        [self setupTableViewADView];
+    [self setupTableViewADView];
     [self setupRefreshView];
     
     [self setItemList];
@@ -117,6 +118,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 {
     [super viewWillDisappear:animated];
     [self.popoverMenu dismissWithAnimated:YES];
+    self.isMenuOpen = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -188,7 +190,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 
 - (void)actionGotoCalculateVC
 {
-    MutInsCalculateVC * vc = [UIStoryboard vcWithId:@"MutInsCalculateVC" inStoryboard:@"Temp"];
+    MutInsCalculateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateVC"];
     vc.router.userInfo = [[CKDict alloc] init];
     vc.router.userInfo[kOriginRoute] = self.router;
     
@@ -197,12 +199,40 @@ typedef NS_ENUM(NSInteger, statusValues) {
 
 - (void)actionGotoSystemGroupListVC
 {
-    MutInsSystemGroupListVC * vc = [UIStoryboard vcWithId:@"MutInsSystemGroupListVC" inStoryboard:@"Temp"];
+    MutInsSystemGroupListVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsSystemGroupListVC"];
     
     vc.router.userInfo = [[CKDict alloc] init];
     vc.router.userInfo[kOriginRoute] = self.router;
     
     [self.router.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionGotoUpdateInfoVC:(HKMyCar *)car
+{
+    MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+    vc.curCar = car;
+    
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionGotoPayVC
+{
+    MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
+//    vc.contractId = self.groupDetail.rsp_contractid;
+//    vc.group = self.group;
+    
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionGotoGroupDetailVC
+{
+    
 }
 
 #pragma mark - Setups
@@ -212,7 +242,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     UIView *adContainer = [[UIView alloc] initWithFrame:CGRectZero];
     adContainer.backgroundColor = kBackgroundColor;
     
-    self.adVC = [ADViewController vcWithMutualADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:@"huzhushouye" mobBaseEventDict:@{@"huzhushouye" : @"huzhushouye3"}];
+    self.adVC = [ADViewController vcWithMutualADType:AdvertisementMutualInsTop boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:@"huzhushouye" mobBaseEventDict:@{@"huzhushouye" : @"huzhushouye3"}];
     CGFloat height = floor(self.adVC.adView.frame.size.height);
     adContainer.frame = CGRectMake(0, 0, self.view.frame.size.width, height);
     [self.tableView addSubview:adContainer];
@@ -270,10 +300,12 @@ typedef NS_ENUM(NSInteger, statusValues) {
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
-        vc.originVC = self;
         vc.groupType = MutualGroupTypeSelf;
-        vc.originVC = self;
-        [self.navigationController pushViewController:vc animated:YES];
+        
+        vc.router.userInfo = [[CKDict alloc] init];
+        vc.router.userInfo[kOriginRoute] = self.router;
+        
+        [self.router.navigationController pushViewController:vc animated:YES];
     });
     return dict;
 }
@@ -356,6 +388,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
         if (!self.dataSource.count) {
             // 防止有数据的时候，下拉刷新导致页面会闪一下
             CGFloat reducingY = self.view.frame.size.height * 0.1056;
+            [self.view hideDefaultEmptyView];
             [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
             self.tableView.hidden = YES;
         }
@@ -378,7 +411,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
         {
             self.isEmptyGroup = YES;
             self.dataSource = $($([self setupCalculateCell]));
-            [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:self.minsStore.couponList sourceDict:nil])) forKey:nil];
+            [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:self.minsStore.couponDict sourceDict:nil])) forKey:nil];
             [self.tableView reloadData];
         }
         [self setItemList];
@@ -617,7 +650,10 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye11"}];
                 
-                
+                HKMyCar * car = [[HKMyCar alloc] init];
+                car.carId = dict.userCarID;
+                car.licencenumber = dict.licenseNum;
+                [self actionGotoUpdateInfoVC:car];
             }];
             
         } else if (dict.status.integerValue == XMWaitingForPay) {
@@ -626,7 +662,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye12"}];
                 
-                
+                [self actionGotoPayVC];
             }];
             
         } else {
@@ -635,7 +671,14 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye9"}];
                 
-                
+                HKMyCar * car;
+                if (dict.userCarID && dict.licenseNum)
+                {
+                    car = [[HKMyCar alloc] init];
+                    car.carId = dict.userCarID;
+                    car.licencenumber = dict.licenseNum;
+                }
+                [self actionGotoUpdateInfoVC:car];
             }];
         }
     });
@@ -648,25 +691,63 @@ typedef NS_ENUM(NSInteger, statusValues) {
 {
     CKDict *groupInfoCell = [CKDict dictWith:@{kCKItemKey: @"groupInfoCell", kCKCellID: @"GroupInfoCell"}];
     groupInfoCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 117;
+        CGFloat pointY = 24;
+        return pointY * dict.extendInfo.count + 14 + 55;
     });
     
     groupInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         // 进入团详情页面
         [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye10"}];
-        
+        [self actionGotoGroupDetailVC];
     });
     
     groupInfoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:100];
         UILabel *numCntLabel = (UILabel *)[cell.contentView viewWithTag:101];
-        UILabel *startTimeLabel = (UILabel *)[cell.contentView viewWithTag:102];
-        UILabel *endTimeLabel = (UILabel *)[cell.contentView viewWithTag:103];
+        
+        // 根据下发的信息生成左右 Label
+        NSMutableString *titleString = [NSMutableString new];
+        NSMutableString *contentString = [NSMutableString new];
+        for (NSDictionary *dic in dict.extendInfo) {
+            NSString *tString = [NSString stringWithFormat:@"%@", dic.allKeys.firstObject];
+            [titleString appendString:tString];
+            [titleString appendString:@"\n"];
+            NSString *cString = [NSString stringWithFormat:@"%@", dic.allValues.firstObject];
+            [contentString appendString:cString];
+            [contentString appendString:@"\n"];
+        }
+        
+        CGSize titleSize = [titleString labelSizeWithWidth:103 font:[UIFont systemFontOfSize:13]];
+        CGSize contentSize = [contentString labelSizeWithWidth:cell.contentView.frame.size.width - 140 - 17 font:[UIFont systemFontOfSize:13]];
+        
+        UILabel *firstLabel = (UILabel *)[cell.contentView viewWithTag:103];
+        if (!firstLabel) {
+            firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(17, 55, 103, titleSize.height)];
+            firstLabel.tag = 103;
+            firstLabel.font = [UIFont systemFontOfSize:13];
+            firstLabel.textColor = HEXCOLOR(@"#888888");
+            firstLabel.numberOfLines = 0;
+            [cell.contentView addSubview:firstLabel];
+        }
+        
+        firstLabel.attributedText = [self generateAttributedStringWithLineSpacing:titleString];
+        firstLabel.textAlignment = NSTextAlignmentLeft;
+        
+        UILabel *secondLabel = (UILabel *)[cell.contentView viewWithTag:104];
+        if (!secondLabel) {
+            secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 55, cell.contentView.frame.size.width - 140 - 17 , contentSize.height)];
+            secondLabel.tag = 104;
+            secondLabel.font = [UIFont systemFontOfSize:13];
+            secondLabel.textColor = HEXCOLOR(@"#888888");
+            secondLabel.numberOfLines = 0;
+            [cell.contentView addSubview:secondLabel];
+        }
+        
+        secondLabel.attributedText = [self generateAttributedStringWithLineSpacing:contentString];
+        secondLabel.textAlignment = NSTextAlignmentRight;
         
         titleLabel.text = dict.groupName;
         numCntLabel.text = [NSString stringWithFormat:@"%ld", (long)dict.numberCnt.integerValue];
-        startTimeLabel.text = dict.insStartTime;
-        endTimeLabel.text = dict.insEndTime;
     });
     
     return groupInfoCell;
@@ -1051,6 +1132,18 @@ typedef NS_ENUM(NSInteger, statusValues) {
     }
     
     return newArray;
+}
+
+/// 生成带有行高的 NSAttributedString
+- (NSAttributedString *)generateAttributedStringWithLineSpacing:(NSString *)string
+{
+    NSMutableParagraphStyle *style =  [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    style.alignment = NSTextAlignmentJustified;
+    style.lineSpacing = 6.0f;
+    
+    NSAttributedString *attrText = [[NSAttributedString alloc] initWithString:string attributes:@{ NSParagraphStyleAttributeName : style}];
+    
+    return attrText;
 }
 
 /// 拼接优惠信息 Cell 的方法

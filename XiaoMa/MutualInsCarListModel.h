@@ -34,11 +34,8 @@
 /// 订单记录 ID
 @property (nonatomic, strong) NSNumber *contractID;
 
-/// 互助开始日期
-@property (nonatomic, copy) NSString *insStartTime;
-
-/// 互助结束日期
-@property (nonatomic, copy) NSString *insEndTime;
+/// 其他信息
+@property (nonatomic, copy) NSArray *extendInfo;
 
 /// 团名子
 @property (nonatomic, copy) NSString *groupName;

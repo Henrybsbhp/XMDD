@@ -25,8 +25,7 @@
     carListModel.couponList = rsp[@"couponlist"];
     carListModel.numberCnt = rsp[@"numbercnt"];
     carListModel.contractID = rsp[@"contractid"];
-    carListModel.insStartTime = rsp[@"insstarttime"];
-    carListModel.insEndTime = rsp[@"insendtime"];
+    carListModel.extendInfo = rsp[@"extendinfo"];
     carListModel.groupName = rsp[@"groupname"];
     carListModel.groupID = rsp[@"groupid"];
     carListModel.memberID = rsp[@"memberid"];
