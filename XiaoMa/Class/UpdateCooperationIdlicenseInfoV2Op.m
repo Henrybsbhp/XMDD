@@ -19,7 +19,7 @@
     [params safetySetObject:self.req_firstinscomp forKey:@"firstinscomp"];
     [params safetySetObject:self.req_secinscomp forKey:@"secinscomp"];
     [params safetySetObject:self.req_memberid ?: @(0) forKey:@"memberid"];
-    [params safetySetObject:@(self.req_isbuyfroceins) forKey:@"isbuyfroceins"];
+    [params safetySetObject:self.req_isbuyfroceins ? @(1):@(0) forKey:@"isbuyfroceins"];
     [params safetySetObject:self.req_licensenumber forKey:@"licensenumber"];
     [params safetySetObject:self.req_carid ?: @(0) forKey:@"usercarid"];
     
@@ -28,7 +28,7 @@
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-    
+    self.couponDict = rspObj[@"couponlist"];
     return self;
 }
 

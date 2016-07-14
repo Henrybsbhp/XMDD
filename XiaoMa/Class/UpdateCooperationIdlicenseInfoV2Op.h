@@ -27,4 +27,6 @@
 ///车id
 @property (nonatomic,strong) NSNumber* req_carid;
 
+@property (nonatomic,strong)NSDictionary * couponDict;
+
 @end

@@ -48,6 +48,8 @@
 
 @property (nonatomic,strong)CKList * datasource;
 
+@property (nonatomic,strong)NSString * lisenceNumberArea;
+@property (nonatomic,strong)NSString * lisenceNumberSuffix;
 
 
 @end
@@ -95,10 +97,13 @@
         [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0007"}];
         
         @strongify(self)
-        if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
+        if (!self.curCar.licencenumber)
         {
-            [gToast showMistake:@"请等待图片上传成功"];
-            return ;
+            if (![self verifiedLicenseNumberFrom:[self.lisenceNumberArea append:self.lisenceNumberSuffix]])
+            {
+                [gToast showMistake:@"请输入正确的车牌号码"];
+                return ;
+            }
         }
         if (!self.idPictureRecord.url.length)
         {
@@ -115,6 +120,12 @@
             [gToast showMistake:@"请选择现保险公司"];
             return ;
         }
+        if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
+        {
+            [gToast showMistake:@"请等待图片上传成功"];
+            return ;
+        }
+        
         
         if (!self.isNeedBuyStrongInsurance)
         {
@@ -198,7 +209,7 @@
                  
                  @strongify(self);
                  NSString * key = [d.allKeys safetyObjectAtIndex:0];
-                 self.curCar.licenceArea = key;
+                 self.lisenceNumberArea = key;
                  [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
              }];
              [self presentViewController:nav animated:YES completion:nil];
@@ -219,10 +230,11 @@
             @strongify(self);
             NSString *newtext = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
             field.text = [newtext uppercaseString];
-            self.curCar.licenceSuffix = field.text;
+            self.lisenceNumberSuffix = field.text;
         }];
         
         chooseV.displayLb.text = lisenceArea.length ? lisenceArea : [self getCurrentProvince];
+        self.lisenceNumberArea = lisenceArea.length ? lisenceArea : [self getCurrentProvince];
         field.text = lisenceSuffix.length ? lisenceSuffix : @"";
     });
 
@@ -541,19 +553,27 @@
     op.req_secinscomp = self.lastYearInsCompany ?: @"";
     op.req_memberid = self.memberId;
     op.req_isbuyfroceins = self.isNeedBuyStrongInsurance;
-    op.req_licensenumber = self.curCar.licencenumber;
+    if (self.curCar.licencenumber)
+    {
+        op.req_licensenumber = self.curCar.licencenumber;
+    }
+    else
+    {
+        op.req_licensenumber = [self.lisenceNumberArea append:self.lisenceNumberSuffix];;
+    }
     op.req_carid = self.curCar.carId;
     
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"信息上传中"];
-    }] subscribeNext:^(id x) {
+    }] subscribeNext:^(UpdateCooperationIdlicenseInfoV2Op * op) {
         
         [gToast dismiss];
         
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
         
         MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
+        vc.tipsDict = op.couponDict;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
@@ -747,6 +767,21 @@
     return @"浙";
 }
 
+- (NSString *)verifiedLicenseNumberFrom:(NSString *)licenseNumber
+{
+    if (!licenseNumber)
+        return nil;
+    
+    NSString *pattern = @"^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵黔粤粵青藏川宁琼使][a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
+    //    NSString *pattern = @"^[a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
+    NSRegularExpression *regexp = [[NSRegularExpression alloc] initWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+    NSTextCheckingResult *rst = [regexp firstMatchInString:licenseNumber options:0 range:NSMakeRange(0, [licenseNumber length])];
+    if (!rst) {
+        return nil;
+    }
+    return [licenseNumber uppercaseString];
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -787,6 +822,8 @@
     return _pickInsCompanysVC;
     
 }
+
+
 
 #pragma mark - Getter
 - (UIImage *)defImage

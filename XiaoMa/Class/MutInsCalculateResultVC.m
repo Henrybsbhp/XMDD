@@ -72,7 +72,7 @@
 
 - (IBAction)actionJoin:(id)sender {
     
-    MutInsSystemGroupListVC * vc = [UIStoryboard vcWithId:@"MutInsSystemGroupListVC" inStoryboard:@"Temp"];
+    MutInsSystemGroupListVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsSystemGroupListVC"];
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 

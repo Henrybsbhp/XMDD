@@ -187,7 +187,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 
 - (void)actionGotoCalculateVC
 {
-    MutInsCalculateVC * vc = [UIStoryboard vcWithId:@"MutInsCalculateVC" inStoryboard:@"Temp"];
+    MutInsCalculateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateVC"];
     vc.router.userInfo = [[CKDict alloc] init];
     vc.router.userInfo[kOriginRoute] = self.router;
     
@@ -196,7 +196,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 
 - (void)actionGotoSystemGroupListVC
 {
-    MutInsSystemGroupListVC * vc = [UIStoryboard vcWithId:@"MutInsSystemGroupListVC" inStoryboard:@"Temp"];
+    MutInsSystemGroupListVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsSystemGroupListVC"];
     
     vc.router.userInfo = [[CKDict alloc] init];
     vc.router.userInfo[kOriginRoute] = self.router;
@@ -378,7 +378,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
             self.isEmptyGroup = YES;
             CKDict *blankCell = [self setupBlankCellWithDict:nil];
             self.dataSource = $($([self setupCalculateCell]));
-            [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:self.minsStore.couponList sourceDict:nil]), blankCell) forKey:nil];
+            [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:self.minsStore.couponDict sourceDict:nil]), blankCell) forKey:nil];
             [self.tableView reloadData];
         }
         [self setItemList];
