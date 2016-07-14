@@ -15,11 +15,9 @@
 #import "MutualInsPicUpdateVC.h"
 
 @interface MutInsSystemGroupListVC ()
-@property (weak, nonatomic) IBOutlet UIButton *groupBeginBtn;
-@property (weak, nonatomic) IBOutlet UIButton *groupEndBtn;
 @property (weak, nonatomic) IBOutlet UIView *groupBeginLine;
 @property (weak, nonatomic) IBOutlet UIView *groupEndLine;
-@property (weak, nonatomic) IBOutlet UIButton *applyBtn;
+
 
 @property (strong, nonatomic) MutInsSystemGroupListVM *groupBeginVM;
 @property (strong, nonatomic) MutInsSystemGroupListVM *groupEndVM;

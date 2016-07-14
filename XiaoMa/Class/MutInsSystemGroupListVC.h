@@ -12,5 +12,8 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *groupBeginTable;
 @property (weak, nonatomic) IBOutlet UITableView *groupEndTable;
+@property (weak, nonatomic) IBOutlet UIButton *groupBeginBtn;
+@property (weak, nonatomic) IBOutlet UIButton *groupEndBtn;
+@property (weak, nonatomic) IBOutlet UIButton *applyBtn;
 
 @end

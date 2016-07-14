@@ -54,6 +54,9 @@
         @strongify(self)
         self.targetVC.groupEndTable.hidden = YES;
         self.targetVC.groupBeginTable.hidden = YES;
+        self.targetVC.applyBtn.enabled = NO;
+        self.targetVC.groupEndBtn.enabled = NO;
+        self.targetVC.groupBeginBtn.enabled = NO;
         
         [self.targetVC.view startActivityAnimationWithType:GifActivityIndicatorType];
         
@@ -62,18 +65,21 @@
         
         self.targetVC.groupEndTable.hidden = NO;
         self.targetVC.groupBeginTable.hidden = NO;
-        [self.targetVC.view stopActivityAnimation];
-        
+        self.targetVC.applyBtn.enabled = YES;
+        self.targetVC.groupEndBtn.enabled = YES;
+        self.targetVC.groupBeginBtn.enabled = YES;
         
         self.dataSource = op.rsp_groupList;
         [self.tableView reloadData];
+        
+        [self.targetVC.view stopActivityAnimation];
         
     }error:^(NSError *error) {
         
         @strongify(self)
         [self.targetVC.view stopActivityAnimation];
         
-        [self.targetVC.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取团列表失败。请点击重试" tapBlock:^{
+        [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取团列表失败。请点击重试" tapBlock:^{
             @strongify(self)
             [self getCooperationGroupList];
         }];
@@ -248,6 +254,7 @@
     label.layer.cornerRadius = 8.5;
     label.layer.borderColor = HEXCOLOR(@"#FF7428").CGColor;
     label.layer.borderWidth = 1;
+    label.layer.shouldRasterize = YES;
 }
 
 
