@@ -18,6 +18,8 @@
 #import "GroupIntroductionVC.h"
 #import "HKPopoverView.h"
 #import "MutInsCalculateVC.h"
+#import "MutualInsPicUpdateVC.h"
+#import "MutualInsOrderInfoVC.h"
 
 typedef NS_ENUM(NSInteger, statusValues) {
     /// 未参团 / 参团失败
@@ -202,6 +204,34 @@ typedef NS_ENUM(NSInteger, statusValues) {
     vc.router.userInfo[kOriginRoute] = self.router;
     
     [self.router.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionGotoUpdateInfoVC
+{
+    MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+    vc.curCar = car;
+    
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionGotoPayVC
+{
+    MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
+//    vc.contractId = self.groupDetail.rsp_contractid;
+//    vc.group = self.group;
+    
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionGotoGroupDetailVC
+{
+    
 }
 
 #pragma mark - Setups
@@ -617,7 +647,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye11" attributes:@{@"huzhushouye" : @"huzhushouye"}];
                 
-                
+                [self actionGotoUpdateInfoVC];
             }];
             
         } else if (status.integerValue == XMWaitingForPay) {
@@ -626,7 +656,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye12" attributes:@{@"huzhushouye" : @"huzhushouye"}];
                 
-                
+                [self actionGotoPayVC];
             }];
             
         } else {
@@ -635,7 +665,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye9" attributes:@{@"huzhushouye" : @"huzhushouye"}];
                 
-                
+                [self actionGotoUpdateInfoVC];
             }];
         }
     });
@@ -654,7 +684,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     groupInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         // 进入团详情页面
         [MobClick event:@"huzhushouye10" attributes:@{@"huzhushouye" : @"huzhushouye"}];
-        
+        [self actionGotoGroupDetailVC];
     });
     
     groupInfoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
