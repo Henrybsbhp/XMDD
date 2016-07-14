@@ -95,8 +95,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     // Do any additional setup after loading the view.
     
     [self setupNavigationBar];
-    if (gAppMgr.myUser)
-        [self setupTableViewADView];
+    [self setupTableViewADView];
     [self setupRefreshView];
     
     [self setItemList];
@@ -118,6 +117,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
 {
     [super viewWillDisappear:animated];
     [self.popoverMenu dismissWithAnimated:YES];
+    self.isMenuOpen = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -206,7 +206,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)actionGotoUpdateInfoVC
+- (void)actionGotoUpdateInfoVC:(HKMyCar *)car
 {
     MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
     vc.curCar = car;
@@ -241,7 +241,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     UIView *adContainer = [[UIView alloc] initWithFrame:CGRectZero];
     adContainer.backgroundColor = kBackgroundColor;
     
-    self.adVC = [ADViewController vcWithMutualADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:@"huzhushouye" mobBaseEventDict:@{@"huzhushouye" : @"huzhushouye3"}];
+    self.adVC = [ADViewController vcWithMutualADType:AdvertisementMutualInsTop boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:@"huzhushouye" mobBaseEventDict:@{@"huzhushouye" : @"huzhushouye3"}];
     CGFloat height = floor(self.adVC.adView.frame.size.height);
     adContainer.frame = CGRectMake(0, 0, self.view.frame.size.width, height);
     [self.tableView addSubview:adContainer];
@@ -299,10 +299,12 @@ typedef NS_ENUM(NSInteger, statusValues) {
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
-        vc.originVC = self;
         vc.groupType = MutualGroupTypeSelf;
-        vc.originVC = self;
-        [self.navigationController pushViewController:vc animated:YES];
+        
+        vc.router.userInfo = [[CKDict alloc] init];
+        vc.router.userInfo[kOriginRoute] = self.router;
+        
+        [self.router.navigationController pushViewController:vc animated:YES];
     });
     return dict;
 }
@@ -385,6 +387,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
         if (!self.dataSource.count) {
             // 防止有数据的时候，下拉刷新导致页面会闪一下
             CGFloat reducingY = self.view.frame.size.height * 0.1056;
+            [self.view hideDefaultEmptyView];
             [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
             self.tableView.hidden = YES;
         }
@@ -667,7 +670,10 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye11"}];
                 
-                [self actionGotoUpdateInfoVC];
+                HKMyCar * car = [[HKMyCar alloc] init];
+                car.carId = dict[@"usercarid"];
+                car.licencenumber = dict[@"licensenum"];
+                [self actionGotoUpdateInfoVC:car];
             }];
             
         } else if (status.integerValue == XMWaitingForPay) {
@@ -685,7 +691,14 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye9"}];
                 
-                [self actionGotoUpdateInfoVC];
+                HKMyCar * car;
+                if (dict[@"usercarid"] && dict[@"licensenum"])
+                {
+                    car = [[HKMyCar alloc] init];
+                    car.carId = dict[@"usercarid"];
+                    car.licencenumber = dict[@"licensenum"];
+                }
+                [self actionGotoUpdateInfoVC:car];
             }];
         }
     });

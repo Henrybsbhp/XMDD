@@ -23,6 +23,7 @@
 {
     NSDictionary *dic = rspObj;
     self.rsp_groupList = dic[@"grouplist"];
+    self.rsp_groupLinkUrl = dic[@"grouplinkurl"];
     return self;
 }
 

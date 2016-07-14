@@ -3556,14 +3556,6 @@
 				1816F4AD1ACE75C900BBCC96 /* CarWash */,
 				1883D9281ACCD80F002A4D19 /* Home */,
 				1883D9241ACCD689002A4D19 /* MainTab */,
-				4ECB964A1D3339C200FE70CF /* MutInsSystemGroupListVC.h */,
-				4ECB964B1D3339C200FE70CF /* MutInsSystemGroupListVC.m */,
-				4ECB96531D33468D00FE70CF /* MutInsSystemGroupListVM.h */,
-				4ECB96541D33468D00FE70CF /* MutInsSystemGroupListVM.m */,
-				4E0700031D34A0CF001EEAC5 /* MutInsCalculateVC.h */,
-				4E0700041D34A0CF001EEAC5 /* MutInsCalculateVC.m */,
-				4E0700121D34A0E0001EEAC5 /* MutInsCalculateResultVC.h */,
-				4E0700131D34A0E0001EEAC5 /* MutInsCalculateResultVC.m */,
 			);
 			name = View;
 			path = Class;
@@ -4556,6 +4548,14 @@
 		505BC1BC1C87D42C00253F6D /* MutualInsJoin */ = {
 			isa = PBXGroup;
 			children = (
+				4ECB964A1D3339C200FE70CF /* MutInsSystemGroupListVC.h */,
+				4ECB964B1D3339C200FE70CF /* MutInsSystemGroupListVC.m */,
+				4ECB96531D33468D00FE70CF /* MutInsSystemGroupListVM.h */,
+				4ECB96541D33468D00FE70CF /* MutInsSystemGroupListVM.m */,
+				4E0700031D34A0CF001EEAC5 /* MutInsCalculateVC.h */,
+				4E0700041D34A0CF001EEAC5 /* MutInsCalculateVC.m */,
+				4E0700121D34A0E0001EEAC5 /* MutInsCalculateResultVC.h */,
+				4E0700131D34A0E0001EEAC5 /* MutInsCalculateResultVC.m */,
 				5029A84D1C9121C2006B3438 /* GroupIntroductionVC.h */,
 				5029A84E1C9121C2006B3438 /* GroupIntroductionVC.m */,
 				FA93A7BC1C9978AB00CBD565 /* CreateGroupVC.h */,

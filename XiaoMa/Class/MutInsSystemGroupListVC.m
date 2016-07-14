@@ -146,8 +146,7 @@
 
 - (IBAction)actionApply:(id)sender
 {
-    NSString * url;
-    
+    NSString * url = self.groupBeginVM.groupLinkUrl.length ? self.groupBeginVM.groupLinkUrl : self.groupEndVM.groupLinkUrl;
     if (url.length)
     {
         GroupIntroductionVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
