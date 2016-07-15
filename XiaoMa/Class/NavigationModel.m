@@ -24,7 +24,6 @@
 #import "InsCheckResultsVC.h"
 #import "ValuationHomeVC.h"
 #import "MutualInsOrderInfoVC.h"
-#import "MutualInsGrouponVC.h"
 #import "MutualInsAskForCompensationVC.h"
 #import "MoreSubmodulesVC.h"
 #import "ParkingShopGasInfoVC.h"
@@ -407,13 +406,11 @@
             
             if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
                 return YES;
-            
-            MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-            HKMutualGroup * group = [[HKMutualGroup alloc] init];
-            group.groupId = @([value integerValue]);
-            group.memberId = @([value2 integerValue]);
-            vc.group = group;
-            [self.curNavCtrl pushViewController:vc animated:YES];
+            CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGrouponVC"];
+            router.userInfo = [[CKDict alloc] init];
+            router.userInfo[kMutInsGroupID] = @([value integerValue]);
+            router.userInfo[kMutInsMemberID] = @([value2 integerValue]);
+            [(HKNavigationController *)self.curNavCtrl pushRouter:router animated:YES];
         }
         ///补偿详情
         else if ([@"coincldtlo" equalByCaseInsensitive:name]) {

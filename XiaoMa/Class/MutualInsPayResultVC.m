@@ -11,7 +11,6 @@
 #import "UIView+Shake.h"
 #import "UpdateCooperationContractDeliveryinfoOp.h"
 #import "MutualInsOrderInfoVC.h"
-#import "MutualInsGrouponVC.h"
 #import "GetShareButtonOpV2.h"
 #import "SocialShareViewController.h"
 #import "ShareResponeManager.h"

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		18039AF51B0C5BCE00264059 /* GetAutomobileModelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */; };
-		180538B51C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 180538B41C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m */; };
 		180538E61C9BFB6000D896A1 /* HKFoldingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 180538E51C9BFB6000D896A1 /* HKFoldingTableView.m */; };
 		180539421C9FC0CE00D896A1 /* HKImageAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 180539411C9FC0CE00D896A1 /* HKImageAlertVC.m */; };
 		180539461C9FCDE600D896A1 /* MutualInsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 180539451C9FCDE600D896A1 /* MutualInsStore.m */; };
@@ -29,7 +28,6 @@
 		180F4A471CAA63F800EB73B0 /* NSDate+PrettyFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 180F4A461CAA63F800EB73B0 /* NSDate+PrettyFormat.m */; };
 		181355931C925FC600894CA1 /* HKAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181355921C925FC600894CA1 /* HKAlertVC.m */; };
 		181355961C928AA900894CA1 /* MutualInsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181355951C928AA900894CA1 /* MutualInsAlertVC.m */; };
-		181355991C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181355981C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m */; };
 		1813559C1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813559B1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.m */; };
 		181355C11C96935300894CA1 /* HKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181355C01C96935300894CA1 /* HKProgressView.m */; };
 		1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */; };
@@ -108,14 +106,8 @@
 		18401EAB1C7DA22A002B265C /* GasChargePackage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18401EAA1C7DA22A002B265C /* GasChargePackage.m */; };
 		184452EC1C893F5B007B895D /* BankStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 184452EB1C893F5B007B895D /* BankStore.m */; };
 		184452F21C8D18F4007B895D /* MutualInsGroupon.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 184452F11C8D18F4007B895D /* MutualInsGroupon.storyboard */; };
-		184452F51C8D19A5007B895D /* MutualInsGrouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184452F41C8D19A5007B895D /* MutualInsGrouponVC.m */; };
-		184452F81C8D1DCC007B895D /* MutualInsGrouponSubVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184452F71C8D1DCC007B895D /* MutualInsGrouponSubVC.m */; };
-		184452FC1C8D4ADA007B895D /* AddCloseAnimationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 184452FB1C8D4ADA007B895D /* AddCloseAnimationButton.m */; };
-		184453021C8D6249007B895D /* PullDownAnimationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 184453011C8D6249007B895D /* PullDownAnimationButton.m */; };
 		184453181C8DA458007B895D /* HKPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 184453171C8DA458007B895D /* HKPopoverView.m */; };
 		1844531D1C8EA30F007B895D /* AhaWaterWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844531C1C8EA30F007B895D /* AhaWaterWaveView.m */; };
-		184453201C8EA35A007B895D /* WaterWaveProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844531F1C8EA35A007B895D /* WaterWaveProgressView.m */; };
-		184453231C8FC6E2007B895D /* MutualInsGrouponCarsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184453221C8FC6E2007B895D /* MutualInsGrouponCarsCell.m */; };
 		1844532D1C8FEE81007B895D /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844532A1C8FEE81007B895D /* UIImage+RoundedCorner.m */; };
 		1844532E1C8FEE81007B895D /* UIView+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844532C1C8FEE81007B895D /* UIView+RoundedCorner.m */; };
 		184453311C90465F007B895D /* HKTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184453301C90465F007B895D /* HKTableViewController.m */; };
@@ -219,6 +211,7 @@
 		188EF0D21D367309000D01D6 /* MutualInsGroupDetailMeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 188EF0D11D367309000D01D6 /* MutualInsGroupDetailMeVC.m */; };
 		188EF0D51D367388000D01D6 /* MutualInsGroupMyDetailHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 188EF0D41D367388000D01D6 /* MutualInsGroupMyDetailHeaderCell.m */; };
 		188EF0D81D379E80000D01D6 /* GetCooperationGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 188EF0D71D379E80000D01D6 /* GetCooperationGroupOp.m */; };
+		188EF0E21D38D106000D01D6 /* AddCloseAnimationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 188EF0E11D38D106000D01D6 /* AddCloseAnimationButton.m */; };
 		18900B441C1E7503003DA439 /* GetInsCarListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18900B431C1E7503003DA439 /* GetInsCarListOp.m */; };
 		18900B471C1E8567003DA439 /* InsuranceStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18900B461C1E8567003DA439 /* InsuranceStore.m */; };
 		18900B4A1C1E8634003DA439 /* UserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18900B491C1E8634003DA439 /* UserStore.m */; };
@@ -353,8 +346,6 @@
 		18E5923B1C1A7C27006010D9 /* InsSubmitResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E5923A1C1A7C27006010D9 /* InsSubmitResultVC.m */; };
 		18E7565A1B69D696001B0869 /* InsuranceOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756591B69D696001B0869 /* InsuranceOrderVC.m */; };
 		18E756A41B73335C00874601 /* MyBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E756A31B73335C00874601 /* MyBankVC.m */; };
-		18F312DC1C98F90B00992A37 /* MutualInsGrouponContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F312DB1C98F90B00992A37 /* MutualInsGrouponContainerView.m */; };
-		18F312DF1C9977A600992A37 /* MutualInsGrouponMembersVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F312DE1C9977A600992A37 /* MutualInsGrouponMembersVC.m */; };
 		18F362B41CBCB6C200D7F7BA /* HKAlertActionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F362B31CBCB6C200D7F7BA /* HKAlertActionItem.m */; };
 		18F41DA91B784CD8000409E1 /* GetBankcardListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F41DA81B784CD8000409E1 /* GetBankcardListOp.m */; };
 		18F41DAC1B787F5D000409E1 /* UnbindBankcardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F41DAB1B787F5D000409E1 /* UnbindBankcardOp.m */; };
@@ -802,8 +793,6 @@
 /* Begin PBXFileReference section */
 		18039AF31B0C5BCE00264059 /* GetAutomobileModelOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetAutomobileModelOp.h; path = Class/GetAutomobileModelOp.h; sourceTree = "<group>"; };
 		18039AF41B0C5BCE00264059 /* GetAutomobileModelOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetAutomobileModelOp.m; path = Class/GetAutomobileModelOp.m; sourceTree = "<group>"; };
-		180538B31C9AA61D00D896A1 /* MutualInsGrouponButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponButtonCell.h; sourceTree = "<group>"; };
-		180538B41C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponButtonCell.m; sourceTree = "<group>"; };
 		180538E41C9BFB6000D896A1 /* HKFoldingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKFoldingTableView.h; path = Class/HKFoldingTableView.h; sourceTree = "<group>"; };
 		180538E51C9BFB6000D896A1 /* HKFoldingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKFoldingTableView.m; path = Class/HKFoldingTableView.m; sourceTree = "<group>"; };
 		180539401C9FC0CE00D896A1 /* HKImageAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKImageAlertVC.h; path = Class/HKImageAlertVC.h; sourceTree = "<group>"; };
@@ -845,8 +834,6 @@
 		181355921C925FC600894CA1 /* HKAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAlertVC.m; path = Class/HKAlertVC.m; sourceTree = "<group>"; };
 		181355941C928AA900894CA1 /* MutualInsAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsAlertVC.h; sourceTree = "<group>"; };
 		181355951C928AA900894CA1 /* MutualInsAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsAlertVC.m; sourceTree = "<group>"; };
-		181355971C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponSubMsgVC.h; sourceTree = "<group>"; };
-		181355981C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponSubMsgVC.m; sourceTree = "<group>"; };
 		1813559A1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponMsgCell.h; sourceTree = "<group>"; };
 		1813559B1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponMsgCell.m; sourceTree = "<group>"; };
 		181355BF1C96935300894CA1 /* HKProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKProgressView.h; sourceTree = "<group>"; };
@@ -1001,23 +988,11 @@
 		184452EA1C893F5B007B895D /* BankStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BankStore.h; path = Class/BankStore.h; sourceTree = "<group>"; };
 		184452EB1C893F5B007B895D /* BankStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BankStore.m; path = Class/BankStore.m; sourceTree = "<group>"; };
 		184452F11C8D18F4007B895D /* MutualInsGroupon.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsGroupon.storyboard; sourceTree = "<group>"; };
-		184452F31C8D19A5007B895D /* MutualInsGrouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponVC.h; sourceTree = "<group>"; };
-		184452F41C8D19A5007B895D /* MutualInsGrouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponVC.m; sourceTree = "<group>"; };
-		184452F61C8D1DCC007B895D /* MutualInsGrouponSubVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponSubVC.h; sourceTree = "<group>"; };
-		184452F71C8D1DCC007B895D /* MutualInsGrouponSubVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponSubVC.m; sourceTree = "<group>"; };
-		184452FA1C8D4ADA007B895D /* AddCloseAnimationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCloseAnimationButton.h; sourceTree = "<group>"; };
-		184452FB1C8D4ADA007B895D /* AddCloseAnimationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCloseAnimationButton.m; sourceTree = "<group>"; };
 		184452FE1C8D552D007B895D /* MutualInsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MutualInsConstants.h; sourceTree = "<group>"; };
-		184453001C8D6249007B895D /* PullDownAnimationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullDownAnimationButton.h; sourceTree = "<group>"; };
-		184453011C8D6249007B895D /* PullDownAnimationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullDownAnimationButton.m; sourceTree = "<group>"; };
 		184453161C8DA458007B895D /* HKPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKPopoverView.h; sourceTree = "<group>"; };
 		184453171C8DA458007B895D /* HKPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKPopoverView.m; sourceTree = "<group>"; };
 		1844531B1C8EA30F007B895D /* AhaWaterWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AhaWaterWaveView.h; sourceTree = "<group>"; };
 		1844531C1C8EA30F007B895D /* AhaWaterWaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AhaWaterWaveView.m; sourceTree = "<group>"; };
-		1844531E1C8EA35A007B895D /* WaterWaveProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterWaveProgressView.h; sourceTree = "<group>"; };
-		1844531F1C8EA35A007B895D /* WaterWaveProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterWaveProgressView.m; sourceTree = "<group>"; };
-		184453211C8FC6E2007B895D /* MutualInsGrouponCarsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponCarsCell.h; sourceTree = "<group>"; };
-		184453221C8FC6E2007B895D /* MutualInsGrouponCarsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponCarsCell.m; sourceTree = "<group>"; };
 		184453291C8FEE81007B895D /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
 		1844532A1C8FEE81007B895D /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
 		1844532B1C8FEE81007B895D /* UIView+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RoundedCorner.h"; sourceTree = "<group>"; };
@@ -1233,6 +1208,8 @@
 		188EF0D41D367388000D01D6 /* MutualInsGroupMyDetailHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGroupMyDetailHeaderCell.m; sourceTree = "<group>"; };
 		188EF0D61D379E80000D01D6 /* GetCooperationGroupOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetCooperationGroupOp.h; path = Class/GetCooperationGroupOp.h; sourceTree = "<group>"; };
 		188EF0D71D379E80000D01D6 /* GetCooperationGroupOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetCooperationGroupOp.m; path = Class/GetCooperationGroupOp.m; sourceTree = "<group>"; };
+		188EF0E01D38D106000D01D6 /* AddCloseAnimationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCloseAnimationButton.h; sourceTree = "<group>"; };
+		188EF0E11D38D106000D01D6 /* AddCloseAnimationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCloseAnimationButton.m; sourceTree = "<group>"; };
 		18900B421C1E7503003DA439 /* GetInsCarListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetInsCarListOp.h; sourceTree = "<group>"; };
 		18900B431C1E7503003DA439 /* GetInsCarListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetInsCarListOp.m; sourceTree = "<group>"; };
 		18900B451C1E8567003DA439 /* InsuranceStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsuranceStore.h; path = Class/InsuranceStore.h; sourceTree = "<group>"; };
@@ -1492,10 +1469,6 @@
 		18E756591B69D696001B0869 /* InsuranceOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsuranceOrderVC.m; sourceTree = "<group>"; };
 		18E756A21B73335C00874601 /* MyBankVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBankVC.h; sourceTree = "<group>"; };
 		18E756A31B73335C00874601 /* MyBankVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBankVC.m; sourceTree = "<group>"; };
-		18F312DA1C98F90B00992A37 /* MutualInsGrouponContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponContainerView.h; sourceTree = "<group>"; };
-		18F312DB1C98F90B00992A37 /* MutualInsGrouponContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponContainerView.m; sourceTree = "<group>"; };
-		18F312DD1C9977A600992A37 /* MutualInsGrouponMembersVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGrouponMembersVC.h; sourceTree = "<group>"; };
-		18F312DE1C9977A600992A37 /* MutualInsGrouponMembersVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGrouponMembersVC.m; sourceTree = "<group>"; };
 		18F362B21CBCB6C200D7F7BA /* HKAlertActionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKAlertActionItem.h; path = Class/HKAlertActionItem.h; sourceTree = "<group>"; };
 		18F362B31CBCB6C200D7F7BA /* HKAlertActionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKAlertActionItem.m; path = Class/HKAlertActionItem.m; sourceTree = "<group>"; };
 		18F41DA71B784CD8000409E1 /* GetBankcardListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetBankcardListOp.h; path = Class/GetBankcardListOp.h; sourceTree = "<group>"; };
@@ -2691,6 +2664,12 @@
 		181878AF1D34E938000F5264 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				188EF0E01D38D106000D01D6 /* AddCloseAnimationButton.h */,
+				188EF0E11D38D106000D01D6 /* AddCloseAnimationButton.m */,
+				184453161C8DA458007B895D /* HKPopoverView.h */,
+				184453171C8DA458007B895D /* HKPopoverView.m */,
+				181355941C928AA900894CA1 /* MutualInsAlertVC.h */,
+				181355951C928AA900894CA1 /* MutualInsAlertVC.m */,
 				1813559A1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.h */,
 				1813559B1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.m */,
 				188EF09C1D350D81000D01D6 /* MutualInsGroupMemberCell.h */,
@@ -3002,56 +2981,13 @@
 			path = SDPhotoBrowser;
 			sourceTree = "<group>";
 		};
-		184452ED1C8D169A007B895D /* MutualInsGroupon */ = {
-			isa = PBXGroup;
-			children = (
-				184452F31C8D19A5007B895D /* MutualInsGrouponVC.h */,
-				184452F41C8D19A5007B895D /* MutualInsGrouponVC.m */,
-				184452F61C8D1DCC007B895D /* MutualInsGrouponSubVC.h */,
-				184452F71C8D1DCC007B895D /* MutualInsGrouponSubVC.m */,
-				181355971C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.h */,
-				181355981C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m */,
-				18F312DD1C9977A600992A37 /* MutualInsGrouponMembersVC.h */,
-				18F312DE1C9977A600992A37 /* MutualInsGrouponMembersVC.m */,
-				184452FF1C8D6211007B895D /* View */,
-			);
-			name = MutualInsGroupon;
-			sourceTree = "<group>";
-		};
-		184452FF1C8D6211007B895D /* View */ = {
-			isa = PBXGroup;
-			children = (
-				184452FA1C8D4ADA007B895D /* AddCloseAnimationButton.h */,
-				184452FB1C8D4ADA007B895D /* AddCloseAnimationButton.m */,
-				184453001C8D6249007B895D /* PullDownAnimationButton.h */,
-				184453011C8D6249007B895D /* PullDownAnimationButton.m */,
-				184453161C8DA458007B895D /* HKPopoverView.h */,
-				184453171C8DA458007B895D /* HKPopoverView.m */,
-				1844531E1C8EA35A007B895D /* WaterWaveProgressView.h */,
-				1844531F1C8EA35A007B895D /* WaterWaveProgressView.m */,
-				184453211C8FC6E2007B895D /* MutualInsGrouponCarsCell.h */,
-				184453221C8FC6E2007B895D /* MutualInsGrouponCarsCell.m */,
-				180538B31C9AA61D00D896A1 /* MutualInsGrouponButtonCell.h */,
-				180538B41C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m */,
-				181355941C928AA900894CA1 /* MutualInsAlertVC.h */,
-				181355951C928AA900894CA1 /* MutualInsAlertVC.m */,
-				18F312DA1C98F90B00992A37 /* MutualInsGrouponContainerView.h */,
-				18F312DB1C98F90B00992A37 /* MutualInsGrouponContainerView.m */,
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
 		184453191C8E70D9007B895D /* MutualIns */ = {
 			isa = PBXGroup;
 			children = (
+				188EF0E31D38D99F000D01D6 /* Home */,
 				185A8D8E1D33389800B423A0 /* GroupDetail */,
 				184452FE1C8D552D007B895D /* MutualInsConstants.h */,
 				180539431C9FC88000D896A1 /* Model */,
-				184452ED1C8D169A007B895D /* MutualInsGroupon */,
-				FAA6B9AE1D333734004D922F /* MutualInsVC.h */,
-				FAA6B9AF1D333734004D922F /* MutualInsVC.m */,
-				C30685871D37B243007CB4C4 /* MutualInsHomeAdVC.h */,
-				C30685881D37B243007CB4C4 /* MutualInsHomeAdVC.m */,
 			);
 			name = MutualIns;
 			sourceTree = "<group>";
@@ -3674,6 +3610,17 @@
 				188EF0AE1D351A0F000D01D6 /* UILabel+MarkupExtensions.m */,
 			);
 			path = MarkupLabel;
+			sourceTree = "<group>";
+		};
+		188EF0E31D38D99F000D01D6 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				FAA6B9AE1D333734004D922F /* MutualInsVC.h */,
+				FAA6B9AF1D333734004D922F /* MutualInsVC.m */,
+				C30685871D37B243007CB4C4 /* MutualInsHomeAdVC.h */,
+				C30685881D37B243007CB4C4 /* MutualInsHomeAdVC.m */,
+			);
+			name = Home;
 			sourceTree = "<group>";
 		};
 		189371161B0DA69B0030FDE1 /* Message */ = {
@@ -5650,7 +5597,6 @@
 			files = (
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				188EF0B21D351A0F000D01D6 /* NSString+MarkupExtensions.m in Sources */,
-				184453021C8D6249007B895D /* PullDownAnimationButton.m in Sources */,
 				1833F5911BCD373B000E1DA1 /* GetGaschargeConfigOp.m in Sources */,
 				508F65321CACC8AE00F88744 /* HKPageSliderView.m in Sources */,
 				186984FB1B00CC50000A182A /* CarwashOrderDetailVC.m in Sources */,
@@ -5772,7 +5718,6 @@
 				18B62CBC1CE1AA1C00E5AE48 /* NSData+MD5Digest.m in Sources */,
 				50ACC6A81C2138F9006E984E /* CarEvaluateOp.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
-				181355991C92B4F300894CA1 /* MutualInsGrouponSubMsgVC.m in Sources */,
 				6BB884BB1AE0BB9600EBD8F4 /* JTTableView.m in Sources */,
 				188EF0B01D351A0F000D01D6 /* CMarkupTransformer.m in Sources */,
 				180AD8351BD88CB700E608F9 /* BankCardStore.m in Sources */,
@@ -5869,7 +5814,6 @@
 				FAE897F01D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m in Sources */,
 				181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */,
 				186985041B01CC2C000A182A /* SubmitCommentOp.m in Sources */,
-				184452FC1C8D4ADA007B895D /* AddCloseAnimationButton.m in Sources */,
 				184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */,
 				18273F2B1C7FEE88004192B3 /* GasCZBVC.m in Sources */,
 				6B88C1311C1E8D7000BB6071 /* InsuranceSelectModel.m in Sources */,
@@ -5917,7 +5861,6 @@
 				6BBAB8B01ADB754500EC342F /* GetTokenOp.m in Sources */,
 				6B747A651AF08C7B00106BFD /* PhoneHelper.m in Sources */,
 				508EE5DC1C2BA09800873602 /* TopMenuScrollView.m in Sources */,
-				184453231C8FC6E2007B895D /* MutualInsGrouponCarsCell.m in Sources */,
 				1833F5921BCD373B000E1DA1 /* GetGaschargeInfoOp.m in Sources */,
 				6BE2BD4F1AE6232C00A69875 /* HKAdvertisement.m in Sources */,
 				18BF42011BD0D5A20039F210 /* GasAddCardVC.m in Sources */,
@@ -6019,7 +5962,6 @@
 				6BBE83BD1C218D2300FEB101 /* GetUserResourcesGaschargeOp.m in Sources */,
 				4E7927991CA011470099CB70 /* MutualInsClaimsHistoryVC.m in Sources */,
 				2E77A4A31C325FCC00264FC9 /* HKRescueHistory.m in Sources */,
-				18F312DC1C98F90B00992A37 /* MutualInsGrouponContainerView.m in Sources */,
 				50B508871C7C075800B6151E /* UIView+Genie.m in Sources */,
 				6BD3D0F01C55E62B008F07EE /* GetSystemJSPatchOp.m in Sources */,
 				505E5FD31BD73B7D00857819 /* ListWebVC.m in Sources */,
@@ -6052,6 +5994,7 @@
 				187532D31ACCDEEF004CB777 /* HomePageVC.m in Sources */,
 				1833F5991BCD3BF7000E1DA1 /* CancelGaschargeOp.m in Sources */,
 				6BC2209F1AD7AC9D00A4310E /* NSString+MD5.m in Sources */,
+				188EF0E21D38D106000D01D6 /* AddCloseAnimationButton.m in Sources */,
 				1883D9101ACBBE30002A4D19 /* main.m in Sources */,
 				6B0DB8221BEB277A007BE693 /* GetCarwashOrderListV3Op.m in Sources */,
 				C359C1451D29FAC200B2275A /* MapBottomV2View.m in Sources */,
@@ -6071,7 +6014,6 @@
 				5073810A1BA12A6800B29756 /* CarWashCouponVModel.m in Sources */,
 				6B16D6391C92CBD600322B70 /* GetCooperationMyGroupOp.m in Sources */,
 				188EF0B11D351A0F000D01D6 /* CSimpleMarkupParser.m in Sources */,
-				184452F51C8D19A5007B895D /* MutualInsGrouponVC.m in Sources */,
 				6BBC4A281B0C8236003F3081 /* SocialShareView.m in Sources */,
 				1833F59D1BCD47AD000E1DA1 /* GasVC.m in Sources */,
 				1844531D1C8EA30F007B895D /* AhaWaterWaveView.m in Sources */,
@@ -6117,7 +6059,6 @@
 				18FB68F01C2A911C00AD7341 /* InsCoverageSelectVC.m in Sources */,
 				6B26EEB21C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.m in Sources */,
 				1833F5931BCD373B000E1DA1 /* GetGaschargeRecordListOp.m in Sources */,
-				184453201C8EA35A007B895D /* WaterWaveProgressView.m in Sources */,
 				4E34529D1C96A9BF00E2AFE2 /* MutualInsScencePageVC.m in Sources */,
 				18FC01E11C4E6C6F00FD61BF /* IQTextView.m in Sources */,
 				6BC220961AD7801C00A4310E /* BaseOp.m in Sources */,
@@ -6266,7 +6207,6 @@
 				189B30C31AD64310001D7288 /* ChooseCouponVC.m in Sources */,
 				6BBF7DA61B00A78900E45967 /* UpdateUserInfoOp.m in Sources */,
 				6B26EF931C91599400428EC4 /* MutualInsPhotoBrowserVC.m in Sources */,
-				180538B51C9AA61D00D896A1 /* MutualInsGrouponButtonCell.m in Sources */,
 				50FAC2681C23AA8200F8990F /* PickerAutoModelVC.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
 				18A9E8CF1BDF15430061D3BC /* EditCarVC.m in Sources */,
@@ -6320,10 +6260,8 @@
 				1833F53F1BCCB680000E1DA1 /* HKLoginModel.m in Sources */,
 				189B394F1AF8576600B83F1B /* GetUserBaseInfoOp.m in Sources */,
 				18BF42081BD0E2470039F210 /* NSString+Split.m in Sources */,
-				18F312DF1C9977A600992A37 /* MutualInsGrouponMembersVC.m in Sources */,
 				189B30C71AD664D7001D7288 /* InsuranceVC.m in Sources */,
 				6B21A89C1BD495B3006D0556 /* GetUserFavoriteV2Op.m in Sources */,
-				184452F81C8D1DCC007B895D /* MutualInsGrouponSubVC.m in Sources */,
 				18088D8B1B1DC921007438FC /* UsedCouponVModel.m in Sources */,
 				2E77A48F1C325F2F00264FC9 /* GetRescueApplyHostCarOp.m in Sources */,
 				1833F58F1BCD373B000E1DA1 /* GetCzbpayVcodeOp.m in Sources */,

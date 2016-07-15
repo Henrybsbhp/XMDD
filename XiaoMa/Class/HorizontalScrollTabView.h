@@ -18,6 +18,7 @@
 
 - (void)reloadDataWithBoundsSize:(CGSize)size andSelectedIndex:(NSInteger)index;
 - (void)setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated;
+- (void)setDotHidden:(BOOL)hidden atIndex:(NSInteger)index;
 
 @end
 
@@ -28,4 +29,9 @@
 
 + (instancetype)itemWithTitle:(NSString *)title normalColor:(UIColor *)normalColor selectedColor:(UIColor *)selectedColor;
 
+@end
+
+@interface HorizontalScrollTabItemView : UIView
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIImageView *dotView;
 @end

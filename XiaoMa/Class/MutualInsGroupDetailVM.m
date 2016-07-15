@@ -157,4 +157,15 @@ NSInteger const kFetchPageAmount = 10;
     }];
 }
 
+- (BOOL)saveTimetagIfNeeded:(long long)timetag forKey:(NSString *)key {
+    NSString *fullkey = [NSString stringWithFormat:@"$MutualIns.Group.Detail.%@.%@.Timetag.%@",
+                         self.groupID, self.memberID, key];
+    long long oldTimetag = [[[NSUserDefaults standardUserDefaults] objectForKey:fullkey] longLongValue];
+    if (oldTimetag < timetag) {
+        [[NSUserDefaults standardUserDefaults] setObject:@(timetag) forKey:fullkey];
+        return YES;
+    }
+    return NO;
+}
+
 @end
