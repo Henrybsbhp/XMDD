@@ -187,11 +187,10 @@
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)actionGotoPayVC
+- (void)actionGotoPayVC:(NSNumber *)contractId
 {
     MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
-//    vc.contractId = self.groupDetail.rsp_contractid;
-//    vc.group = self.group;
+    vc.contractId = contractId;
     
     vc.router.userInfo = [[CKDict alloc] init];
     vc.router.userInfo[kOriginRoute] = self.router;
@@ -662,7 +661,7 @@
                 [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye12"}];
                 @strongify(self);
                 
-                [self actionGotoPayVC];
+                [self actionGotoPayVC:dict.contractID];
             }];
             
         } else {
