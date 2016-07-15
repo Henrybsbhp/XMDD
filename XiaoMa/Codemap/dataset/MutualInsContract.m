@@ -16,6 +16,8 @@
     self.status = [dict[@"status"] intValue];
     self.insurancedname = dict[@"insurancedname"];
     self.contractperiod = dict[@"contractperiod"];
+    self.contractperiodbegin = dict[@"insstarttime"];
+    self.contractperiodend = dict[@"insendtime"];
     self.licencenumber = dict[@"licencenumber"];
     self.idno = dict[@"idno"];
     self.total = [dict[@"total"] floatValue];
