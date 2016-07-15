@@ -182,6 +182,10 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     }
 }
 
+- (void)actionGotoOrderInfoVC
+{
+}
+
 #pragma mark - Menu
 - (void)reloadNavMenu {
     [self.popoverMenu dismissWithAnimated:YES];
@@ -274,7 +278,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
         @strongify(self);
         [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing0012"}];
         
-
+        
     });
     return dict;
 }

@@ -8,6 +8,7 @@
 
 #import "MutInsSystemGroupListVM.h"
 #import "GetCooperationGroupOp.h"
+#import "MutualInsConstants.h"
 
 @interface MutInsSystemGroupListVM()<UITableViewDelegate,UITableViewDataSource>
 
@@ -155,7 +156,7 @@
     NSNumber *showDetailFlag = data[@"showdetailflag"];
     if (showDetailFlag.integerValue == 1)
     {
-        [self actionGotoGroupDetailVC];
+        [self actionGotoGroupDetailVC:data[@"groupid"] andGroupName:data[@"groupname"]];
     }
     
 }
@@ -252,9 +253,13 @@
 }
 
 
-- (void)actionGotoGroupDetailVC
+- (void)actionGotoGroupDetailVC:(NSNumber *)groupID andGroupName:(NSString *)groupName
 {
-    
+    CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGroupDetailVC"];
+    router.userInfo = [[CKDict alloc] init];
+    router.userInfo[kMutInsGroupID] = groupID;
+    router.userInfo[kMutInsGroupName] = groupName;
+    [self.targetVC.router.navigationController pushRouter:router animated:YES];
 }
 
 @end

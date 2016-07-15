@@ -499,15 +499,22 @@
 
 - (void)actionPop
 {
-    for (UIViewController * vc in self.navigationController.viewControllers)
+    if (self.router.userInfo[kOriginRoute])
     {
-        if ([vc isKindOfClass:[MutualInsGrouponVC class]])
+        [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
+    }
+    else
+    {
+        CKRouter * route = [self.router.navigationController.routerList objectForKey:@"MutualInsVC"];
+        if (route)
         {
-            [self.navigationController popToViewController:vc animated:YES];
-            return;
+            [self.router.navigationController popToRouter:route animated:YES];
+        }
+        else
+        {
+            [self.navigationController popToRootViewControllerAnimated:YES];
         }
     }
-    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 
