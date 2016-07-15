@@ -15,6 +15,7 @@
 #import "ShareResponeManager.h"
 #import "ReactTestViewController.h"
 #import "RRFPSBar.h"
+#import "ScanQRCodeVC.h"
 
 @interface AboutViewController ()
 
@@ -97,6 +98,10 @@
                             
                             @strongify(self)
                             [self actionShowRequestParamsAlert];
+                        }}, @{@"title":@"二维码扫描",@"action":^(void){
+                            
+                            @strongify(self);
+                            [self goToQRScanVC];
                         }}];
     }
     else
@@ -159,6 +164,10 @@
                                 
                                 @strongify(self)
                                 [self actionShowRequestParamsAlert];
+                            }}, @{@"title":@"二维码扫描",@"action":^(void){
+                                
+                                @strongify(self);
+                                [self goToQRScanVC];
                             }}];
     }
 #else
@@ -383,6 +392,12 @@
     }];
 }
 
+- (void)goToQRScanVC
+{
+    ScanQRCodeVC *vc = [[ScanQRCodeVC alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)switchSurrounding
 {
     gAppMgr.isSwitchToFormalSurrounding = !gAppMgr.isSwitchToFormalSurrounding;
@@ -401,7 +416,7 @@
 #pragma mark - FPS
 - (void)setupFPSObserver
 {
-    [[RRFPSBar sharedInstance] setHidden:![RRFPSBar sharedInstance].hidden];
+    [gAssistiveMgr showFPSObserver];
 }
 
 #pragma mark - RN
@@ -421,7 +436,7 @@
 
 #pragma mark - Network request parameters
 - (void)actionShowRequestParamsAlert {
-    gAppMgr.isShowRequestParamsAlert = !gAppMgr.isShowRequestParamsAlert;
+    [gAssistiveMgr switchShowLogWithAlertView];
 }
 
 @end

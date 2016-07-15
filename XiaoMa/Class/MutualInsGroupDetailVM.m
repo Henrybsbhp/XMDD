@@ -8,7 +8,7 @@
 
 #import "MutualInsGroupDetailVM.h"
 
-#define kSimulateResponse  YES
+#define kSimulateResponse  NO
 NSInteger const kFetchPageAmount = 10;
 
 @implementation MutualInsGroupDetailVM

@@ -10,9 +10,11 @@
 #import "MutualInsGroupDetailVM.h"
 #import "MutualInsGroupMemberCell.h"
 #import "MutualInsGroupMemberSectionCell.h"
+#import "CMarkupTransformer.h"
 
 @interface MutualInsGroupDetailMembersVC ()
 @property (nonatomic, strong) MutualInsGroupDetailVM *viewModel;
+@property (nonatomic, assign) long long curTimetag;
 @end
 
 @implementation MutualInsGroupDetailMembersVC
@@ -96,7 +98,7 @@
             
             @strongify(self);
             [self.tableView.tableFooterView stopActivityAnimation];
-            [(CKList *)self.datasource[@"sections"] addObjectsFromArray:[self itemsForMemberList:op.rsp_memberlist]];
+            [(CKList *)self.datasource[@"members"] addObjectsFromArray:[self itemsForMemberList:op.rsp_memberlist]];
             [self.tableView reloadData];
         } error:^(NSError *error) {
             
@@ -151,6 +153,12 @@
 
 - (CKDict *)itemForMember:(MutualInsMemberInfo2 *)member {
     CKDict *item = [CKDict dictWith:@{kCKCellID: @"Member", @"object":member}];
+    item[@"extends"] = [member.extendinfo arrayByMappingOperator:^id(NSDictionary *dict) {
+        NSString *key = dict.allKeys[0];
+        NSString *text = dict[key];
+        return RACTuplePack(key, text);
+    }];
+    
     
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
@@ -163,7 +171,7 @@
         MutualInsMemberInfo2 *info = data[@"object"];
         [cell.logoView setImageByUrl:info.carlogourl withType:ImageURLTypeOrigin defImage:@"mins_def" errorImage:@"mins_def"];
         cell.titleLabel.text = info.licensenumber;
-        cell.extendInfoList = info.extendinfo;
+        cell.extendInfoList = item[@"extends"];
         if (info.statusdesc.length > 0) {
             cell.tipButton.hidden = NO;
             [cell.tipButton setTitle:info.statusdesc forState:UIControlStateNormal];

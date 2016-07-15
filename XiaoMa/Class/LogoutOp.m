@@ -21,4 +21,9 @@
     return NO;
 }
 
+- (NSString *)description
+{
+    return @"退出登录";
+}
+
 @end

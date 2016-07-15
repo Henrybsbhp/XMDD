@@ -17,34 +17,22 @@
     RACSubject *signal = [RACSubject subject];
     
     NSMutableURLRequest *req = [self requestWithMethod:method parameters:parameters requestId:requestId];
-    
-    NSString *str = [[NSString alloc] initWithData:req.HTTPBody encoding:NSUTF8StringEncoding];
-    DebugGreenLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata = %@ \n", req.URL, str);
-    
-    if (gAppMgr.isShowRequestParamsAlert) {
-        NSString *requestParamsString = [NSString stringWithFormat:@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata = %@ \n", req.URL, str];
-        UIAlertView *requestParamsAlertView = [[UIAlertView alloc] initWithTitle:@"请求参数" message:requestParamsString delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil, nil];
-        [requestParamsAlertView show];
-    }
+    DebugGreenLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata =  \n %@ \n", req.URL, parameters);
     
     AFHTTPRequestOperation * op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
-//    op.responseSerializer = [AFJSONRequestSerializer serializer];
     [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSError * error;
-        
-        NSString *unicodeObj = [NSString stringWithUTF8Data:responseObject];
-        NSString *chineseObj = [self unicodeToChinese:unicodeObj];
-        DebugGreenLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response = %@\nmethod = %@ (id: %@)\ndata = %@ \n", req.URL, method, requestId, chineseObj);
         
         NSDictionary *jsonObject =  [NSJSONSerialization
                                   JSONObjectWithData:responseObject
                                   options:NSJSONReadingMutableLeaves
                                   error:&error];
         
+        DebugGreenLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response = %@\nmethod = %@ (id: %@)\ndata = \n %@ \n", req.URL, method, requestId, jsonObject);
+        
         if (!error)
         {
-//            NSLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response Json : \n %@ \n",jsonObject);
             [signal sendNext:RACTuplePack(operation,jsonObject)];
             [signal sendCompleted];
         }

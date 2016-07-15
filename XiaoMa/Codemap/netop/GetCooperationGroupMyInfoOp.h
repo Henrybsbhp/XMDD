@@ -41,6 +41,8 @@
 @property (nonatomic,strong) NSString* rsp_contracturl;
 ///按钮名字
 @property (nonatomic,strong) NSString* rsp_buttonname;
+///用户车辆id
+@property (nonatomic,strong) NSNumber* rsp_usercarid;
 
 
 @end

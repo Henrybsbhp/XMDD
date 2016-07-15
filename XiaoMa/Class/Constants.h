@@ -60,6 +60,7 @@ typedef enum : NSUInteger {
     AdvertisementAlert = 13,
     AdvertisementHomePageBottom = 14,
     AdvertisementMutualIns = 15,
+    AdvertisementMutualInsTop = 16,
     AdvertisementTypeActivities = 20,
     AdvertisementTypeLeaunch = 30
 } AdvertisementType;
@@ -142,6 +143,7 @@ typedef enum : NSUInteger {
 #define gPhoneHelper  ([PhoneHelper sharedHelper])
 #define gAdMgr [AdvertisementManager sharedManager]
 #define gSupportFileMgr [SupportFileManager sharedManager]
+#define gAssistiveMgr [AssistiveManager sharedManager]
 
 #define mainStoryboard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define carWashStoryboard [UIStoryboard storyboardWithName:@"Carwash" bundle:nil]
@@ -174,6 +176,7 @@ typedef enum : NSUInteger {
 //key定义
 #define kOriginVC       @"originVC"
 #define kNextVC         @"nextVC"
+#define kOriginRoute    @"kOriginRoute"
 
 
 /// 相关网页地址

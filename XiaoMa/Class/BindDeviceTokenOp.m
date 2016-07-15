@@ -23,4 +23,9 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (NSString *)description
+{
+    return @"绑定设备的推送token";
+}
+
 @end

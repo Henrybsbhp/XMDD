@@ -18,7 +18,7 @@
     self.rsp_carlogourl = dict[@"carlogourl"];
     self.rsp_status = [dict[@"status"] intValue];
     self.rsp_statusdesc = dict[@"statusdesc"];
-    self.rsp_fee = dict[@"fee"];
+    self.rsp_fee = [dict stringParamForName:@"fee"];
     self.rsp_feedesc = dict[@"feedesc"];
     self.rsp_helpfee = dict[@"helpfee"];
     self.rsp_claimcnt = [dict[@"claimcnt"] intValue];
@@ -32,6 +32,7 @@
     self.rsp_tip = dict[@"tip"];
     self.rsp_contracturl = dict[@"contracturl"];
     self.rsp_buttonname = dict[@"buttonname"];
+    self.rsp_usercarid = dict[@"usercarid"];
 	
     return self;
 }

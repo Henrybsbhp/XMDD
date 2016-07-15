@@ -293,24 +293,12 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
         id theAttributeValue = [NSNull null];
 
         if ([inScanner scanString:@"=" intoString:NULL] == YES)
-            {
-            if ([inScanner scanString:@"\"" intoString:NULL] == NO)
-                {
-                inScanner.scanLocation = theSavedScanLocation;
-                inScanner.charactersToBeSkipped = theSavedCharactersToBeSkipped;
-                return(NO);
-                }
-
-            [inScanner scanUpToString:@"\"" intoString:&theAttributeValue];
-
-            if ([inScanner scanString:@"\"" intoString:NULL] == NO)
-                {
-                inScanner.scanLocation = theSavedScanLocation;
-                inScanner.charactersToBeSkipped = theSavedCharactersToBeSkipped;
-                return(NO);
+        {
+            if (![self scanner:inScanner scanValue:&theAttributeValue withQuotes:@"\""] &&
+                ![self scanner:inScanner scanValue:&theAttributeValue withQuotes:@"\'"]) {
+                return NO;
                 }
             }
-
         theAttributes[theAttributeName] = theAttributeValue;
         }
 
@@ -334,6 +322,29 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
     inScanner.charactersToBeSkipped = theSavedCharactersToBeSkipped;
     return(YES);
     }
+
+- (BOOL)scanner:(NSScanner *)inScanner scanValue:(id*)outValue withQuotes:(NSString *)quotes
+{
+    NSUInteger theSavedScanLocation = inScanner.scanLocation;
+    NSCharacterSet *theSavedCharactersToBeSkipped = inScanner.charactersToBeSkipped;
+    id theValue;
+    if ([inScanner scanString:quotes intoString:NULL] == NO)
+    {
+        inScanner.scanLocation = theSavedScanLocation;
+        inScanner.charactersToBeSkipped = theSavedCharactersToBeSkipped;
+        return NO;
+    }
+    [inScanner scanUpToString:quotes intoString:&theValue];
+
+    if ([inScanner scanString:quotes intoString:NULL] == NO)
+    {
+        inScanner.scanLocation = theSavedScanLocation;
+        inScanner.charactersToBeSkipped = theSavedCharactersToBeSkipped;
+        return NO;
+    }
+    *outValue = theValue;
+    return YES;
+}
 
 - (BOOL)scanner:(NSScanner *)inScanner scanCloseMarkupTag:(NSString **)outTag
     {

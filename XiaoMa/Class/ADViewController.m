@@ -22,6 +22,14 @@
     return adctrl;
 }
 
++ (instancetype)vcWithMutualADType:(AdvertisementType)type boundsWidth:(CGFloat)width
+                    targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
+            mobBaseEventDict:(NSDictionary *)dict
+{
+    ADViewController *adctrl = [[ADViewController alloc] initWithMutualADType:type boundsWidth:width targetVC:vc mobBaseEvent:event mobBaseEventDict:dict];
+    return adctrl;
+}
+
 - (instancetype)initWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
                       targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
 {
@@ -34,6 +42,43 @@
         _navModel = [[NavigationModel alloc] init];
         _navModel.curNavCtrl = _targetVC.navigationController;
         CGFloat height = floor(width*184.0/640);
+        SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+        adView.delegate = self;
+        adView.dataSource = self;
+        adView.pageGapWidth = 0;
+        adView.pageControl.hidden = YES;
+        _adView = adView;
+        
+        [adView setCurrentPageIndex:0];
+        @weakify(self);
+        RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            NSInteger index = adView.currentPageIndex + 1;
+            if (index > (int)(self.adList.count)-1) {
+                index = 0;
+            }
+            if (index != adView.currentPageIndex) {
+                [adView setCurrentPageIndex:index animated:YES];
+            }
+        }];
+        [[self rac_deallocDisposable] addDisposable:dis];
+    }
+    return self;
+}
+
+- (instancetype)initWithMutualADType:(AdvertisementType)type boundsWidth:(CGFloat)width
+                      targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
+{
+    self = [super init];
+    if (self) {
+        _targetVC = vc;
+        _adType = type;
+        _mobBaseEvent = event;
+        _mobBaseEventDict = dict;
+        _navModel = [[NavigationModel alloc] init];
+        _navModel.curNavCtrl = _targetVC.navigationController;
+        CGFloat height = floor(width/4.15);
         SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
         adView.delegate = self;
         adView.dataSource = self;
@@ -121,6 +166,10 @@
     {
         defaultImage = @"hp_bottom_ad_default";
     }
+    else if (self.adType == AdvertisementMutualInsTop)
+    {
+        defaultImage = @"ad_default_mutualIns_top";
+    }
     [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:defaultImage errorImage:defaultImage];
     
     UITapGestureRecognizer *tap = imgV.customObject;
@@ -145,8 +194,12 @@
         else {
             if (_adType == AdvertisementHomePageBottom)
             {
-                UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
+                UIViewController *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
                 [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+            }
+            else if (_adType == AdvertisementMutualInsTop)
+            {
+                
             }
             else if (_adType != AdvertisementValuation) {
                 
@@ -154,6 +207,8 @@
                 vc.url = ADDEFINEWEB;
                 [self.targetVC.navigationController pushViewController:vc animated:YES];
             }
+
+            
         }
     }];
     

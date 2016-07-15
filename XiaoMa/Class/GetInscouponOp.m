@@ -42,4 +42,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"获取当前用户的可用保险优惠券";
+}
+
 @end

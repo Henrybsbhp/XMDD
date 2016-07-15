@@ -14,14 +14,13 @@
 #import "InviteCompleteVC.h"
 #import "InviteByCodeVC.h"
 #import "MutualInsPicUpdateVC.h"
-#import "PickCarVC.h"
-#import "ApplyCooperationGroupJoinOp.h"
-#import "MutualInsHomeVC.h"
-#import "EditCarVC.h"
 #import "HKImageAlertVC.h"
 #import "MutualInsStore.h"
 #import "SJKeyboardManager.h"
 #import "IQKeyboardManager.h"
+#import "MutualInsPickCarVC.h"
+#import "GetCooperationUsercarListOp.h"
+#import "ApplyCooperationGroupJoinOp.h"
 
 @interface CreateGroupVC () <UITextFieldDelegate>
 
@@ -40,6 +39,11 @@
 @end
 
 @implementation CreateGroupVC
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 - (void)dealloc
 {
@@ -91,6 +95,7 @@
 }
 
 
+#pragma mark - Setup
 - (void)setupButtomView
 {
     UIButton *confirmButton = (UIButton *)[self.bottomView viewWithTag:112];
@@ -98,6 +103,8 @@
     confirmButton.clipsToBounds = YES;
 }
 
+
+#pragma mark -  Action
 - (IBAction)confirmButtonDidClick:(id)sender
 {
     if (self.textFieldString.length)
@@ -121,46 +128,85 @@
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)requestGetGroupName
+- (void)jumpToPickCarVCWithGroupID:(NSNumber *)groupId groupName:(NSString *)groupname
 {
-    ApplyCooperationGroupOp * op = [[ApplyCooperationGroupOp alloc] init];
+    GetCooperationUsercarListOp * op = [[GetCooperationUsercarListOp alloc] init];
     [[[op rac_postRequest] initially:^{
         
-        self.isLoadingGroupName = YES;
-    }] subscribeNext:^(ApplyCooperationGroupOp * rop) {
+        [gToast showingWithText:@"获取车辆数据中..." inView:self.view];
+    }] subscribeNext:^(GetCooperationUsercarListOp * x) {
         
-        self.isLoadingGroupName = NO;
-        self.groupNameString = rop.rsp_name;
+        [gToast dismissInView:self.view];
+        if (x.rsp_carArray.count)
+        {
+            MutualInsPickCarVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPickCarVC"];
+            vc.mutualInsCarArray = x.rsp_carArray;
+            [vc setFinishPickCar:^(HKMyCar *car) {
+                
+                [self requestApplyJoinGroupWithID:groupId carModel:car];
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else
+        {
+            MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+            vc.groupId = groupId;
+            /// 没车，没memberid
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     } error:^(NSError *error) {
         
-        self.isLoadingGroupName = NO;
+        [gToast showError:@"获取失败，请重试" inView:self.view];
     }];
 }
 
-- (void)requestCreateGroup:(NSString *)groupNameToCreate
+- (void)jumpToInviteByCodeVC:(NSNumber *)groupId
 {
-    CreateGroupOp *op = [[CreateGroupOp alloc] init];
-    op.req_name = groupNameToCreate;
-    
-    [[[op rac_postRequest] initially:^{
-        
-        [gToast showingWithText:@"建团中..."];
-    }] subscribeNext:^(CreateGroupOp *rop) {
-        
-        [gToast dismiss];
-        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
-        [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
-
-    } error:^(NSError *error) {
-        
-        [gToast showError:error.domain];
-    }];
+    InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
+    vc.groupId = groupId;
+    [self.navigationController pushViewController:vc animated:YES];
 }
+
+- (void)jumpToGroupOnVC:(NSNumber *)groupId
+{
+    MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
+    HKMutualGroup * group = [[HKMutualGroup alloc] init];
+    group.groupId = groupId;
+    vc.group = group;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)jumpToHomePage
+{
+    if (self.router.userInfo[kOriginRoute])
+    {
+        [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
+    }
+    else
+    {
+        CKRouter * route = [self.router.navigationController.routerList objectForKey:@"MutualInsVC"];
+        if (route)
+        {
+            [self.router.navigationController popToRouter:route animated:YES];
+        }
+        else
+        {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
+}
+
+- (void)jumpToUpdateInfoVC:(NSNumber *)memberId andGroupId:(NSNumber *)groupId
+{
+    MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+    vc.originVC = self.originVC;
+    vc.memberId = memberId;
+    vc.groupId = groupId;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
+
 
 #pragma mark - Utilitly
 - (void)showAlertView:(NSString *)groupName andCipher:(NSString *)cipher andGroupId:(NSNumber *)groupId
@@ -193,96 +239,66 @@
     }];
 }
 
-- (void)jumpToPickCarVCWithGroupID:(NSNumber *)groupId groupName:(NSString *)groupname
+- (void)requestGetGroupName
 {
-    PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
-    vc.isShowBottomView = YES;
-    @weakify(self);
-    [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
-        @strongify(self);
-        //爱车页面入团按钮委托实现
-        [self requestApplyJoinGroupWithID:groupId groupName:groupname carModel:carModel loadingView:loadingView];
+    ApplyCooperationGroupOp * op = [[ApplyCooperationGroupOp alloc] init];
+    [[[op rac_postRequest] initially:^{
+        
+        self.isLoadingGroupName = YES;
+    }] subscribeNext:^(ApplyCooperationGroupOp * rop) {
+        
+        self.isLoadingGroupName = NO;
+        self.groupNameString = rop.rsp_name;
+    } error:^(NSError *error) {
+        
+        self.isLoadingGroupName = NO;
     }];
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)jumpToInviteByCodeVC:(NSNumber *)groupId
+- (void)requestCreateGroup:(NSString *)groupNameToCreate
 {
-    InviteByCodeVC * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
-    vc.groupId = groupId;
-    vc.originVC = self.originVC;
-    [self.navigationController pushViewController:vc animated:YES];
+    CreateGroupOp *op = [[CreateGroupOp alloc] init];
+    op.req_name = groupNameToCreate;
+    
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"建团中..."];
+    }] subscribeNext:^(CreateGroupOp *rop) {
+        
+        [gToast dismiss];
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+        [self showAlertView:groupNameToCreate andCipher:rop.rsp_cipher andGroupId:rop.rsp_groupid];
+        
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+    }];
 }
 
-- (void)jumpToGroupOnVC:(NSNumber *)groupId
-{
-    MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-    HKMutualGroup * group = [[HKMutualGroup alloc] init];
-    group.groupId = groupId;
-    vc.group = group;
-    [self.navigationController pushViewController:vc animated:YES];
-}
 
-- (void)jumpToHomePage
-{
-    for (UIViewController * vc in self.navigationController.viewControllers)
-    {
-        if ([vc isKindOfClass:NSClassFromString(@"MutualInsHomeVC")])
-        {
-            [self.navigationController popToViewController:vc animated:YES];
-            return ;
-        }
-    }
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-- (void)requestApplyJoinGroupWithID:(NSNumber *)groupId groupName:(NSString *)groupName
-                           carModel:(MyCarListVModel *)carModel loadingView:(UIView *)view
+- (void)requestApplyJoinGroupWithID:(NSNumber *)groupId carModel:(HKMyCar *)car
 {
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
-    op.req_carid = carModel.selectedCar.carId;
+    op.req_carid = car.carId;
     
     @weakify(self)
     [[[op rac_postRequest] initially:^{
         
-        [gToast showingWithText:@"团队加入中..." inView:view];
+        [gToast showingWithText:@"团队加入中..." inView:self.view];
     }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
         
         @strongify(self)
-        [gToast dismissInView:view];
+        [gToast dismissInView:self.view];
         
-        MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
-        vc.originVC = self.originVC;
+        MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
         vc.memberId = rop.rsp_memberid;
         vc.groupId = groupId;
-        vc.groupName = groupName;
+        vc.curCar = car;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
-        @strongify(self)
-        if (error.code == 6115804) {
-            [gToast dismissInView:view];
-            HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
-            alert.topTitle = @"温馨提示";
-            alert.imageName = @"mins_bulb";
-            alert.message = error.domain;
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-            @weakify(self);
-            HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-                @strongify(self);
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                carModel.originVC = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
-                vc.originCar = carModel.selectedCar;
-                vc.model = carModel;
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
-            alert.actionItems = @[cancel, improve];
-            [alert show];
-        }
-        else {
-            [gToast showError:error.domain inView:view];
-        }
+        [gToast showError:error.domain inView:self.view];
     }];
 }
 

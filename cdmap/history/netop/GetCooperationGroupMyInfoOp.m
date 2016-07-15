@@ -32,6 +32,7 @@
     self.rsp_tip = dict[@"tip"];
     self.rsp_contracturl = dict[@"contracturl"];
     self.rsp_buttonname = dict[@"buttonname"];
+    self.rsp_usercarid = dict[@"usercarid"];
 	
     return self;
 }

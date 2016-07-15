@@ -500,7 +500,8 @@
        (id contracturl)
        (type #f)
        (value #f))
-      (node (attr (*def* "按钮名字")) (id buttonname) (type #f) (value #f))))
+      (node (attr (*def* "按钮名字")) (id buttonname) (type #f) (value #f))
+      (node (attr (*def* "用户车辆id")) (id usercarid) (type number) (value #f))))
     (node
      (attr
       (*def* "用户查看团的互助金详细信息")

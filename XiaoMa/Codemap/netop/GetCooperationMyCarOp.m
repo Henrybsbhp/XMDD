@@ -15,5 +15,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取车列表，在快速理赔的时候需要选择一辆车";
+}
 @end
 

@@ -37,4 +37,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"红包分享后通知";
+}
 @end

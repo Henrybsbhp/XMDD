@@ -149,7 +149,7 @@
         
         @weakify(self);
         [[[op rac_postRequest] initially:^{
-            
+            @strongify(self);
             if (!self.fetchedDataSource.count)
             {
                 // 防止有数据的时候，下拉刷新导致页面会闪一下

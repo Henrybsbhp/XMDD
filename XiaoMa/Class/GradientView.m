@@ -239,9 +239,10 @@
     self.percentLabel.textColor = [self gradientColorWithPercent:percentValue];
     
     if (animate) {
-//        POPBasicAnimation *animation = [POPBasicAnimation easeInEaseOutAnimation];
-        POPSpringAnimation *animation = [POPSpringAnimation animation];
-        animation.velocity = @0.3;
+        POPBasicAnimation *animation = [POPBasicAnimation easeOutAnimation];
+        animation.duration = 0.6;
+//        POPSpringAnimation *animation = [POPSpringAnimation animation];
+//        animation.velocity = @0.3;
         animation.property = [POPAnimatableProperty propertyWithName:kPOPShapeLayerStrokeEnd];
         animation.toValue = @(percentValue);
         animation.removedOnCompletion = NO;

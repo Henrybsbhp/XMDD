@@ -29,4 +29,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取订单ID对应的保险订单详情";
+}
 @end

@@ -33,4 +33,8 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"意见反馈接口";
+}
 @end

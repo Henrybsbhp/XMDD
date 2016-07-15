@@ -13,7 +13,6 @@
 #import "GetShareButtonOpV2.h"
 #import "SocialShareViewController.h"
 #import "InviteAlertVC.h"
-#import "MutualInsHomeVC.h"
 #import "MutualInsStore.h"
 #import "NSString+RectSize.h"
 
@@ -55,13 +54,21 @@
 #pragma mark - Utilitly
 - (void)actionBack:(id)sender
 {
-    if (self.originVC)
+    if (self.router.userInfo[kOriginRoute])
     {
-        [self.navigationController popToViewController:self.originVC animated:YES];
+        [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
     }
     else
     {
-        [self.navigationController popViewControllerAnimated:YES];
+        CKRouter * route = [self.router.navigationController.routerList objectForKey:@"MutualInsVC"];
+        if (route)
+        {
+            [self.router.navigationController popToRouter:route animated:YES];
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }
 }
 

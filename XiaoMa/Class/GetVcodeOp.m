@@ -27,4 +27,9 @@
     return @{@"rc":@0};
 }
 
+- (NSString *)description
+{
+    return @"获取验证码";
+}
+
 @end

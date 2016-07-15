@@ -37,4 +37,9 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"商户加盟";
+}
 @end

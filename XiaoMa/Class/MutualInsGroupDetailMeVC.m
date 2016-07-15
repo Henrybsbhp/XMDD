@@ -13,7 +13,10 @@
 #import "MutualInsGroupMySimpleHeaderCell.h"
 #import "MutualInsGroupMyDetailHeaderCell.h"
 #import "MutualInsGroupMyDetailCell.h"
+#import "MutualInsPicUpdateVC.h"
 #import "MutualInsConstants.h"
+#import "HKMyCar.h"
+
 
 @interface MutualInsGroupDetailMeVC ()
 @property (nonatomic, strong) MutualInsGroupDetailVM *viewModel;
@@ -78,7 +81,18 @@
 #pragma mark - Action
 /// 完善资料
 - (void)actionFillInfo {
-    
+
+    HKMyCar * car = [[HKMyCar alloc] init];
+    car.carId = self.viewModel.myInfo.rsp_usercarid;
+    car.licencenumber = self.viewModel.myInfo.rsp_licensenumber;
+
+    MutualInsPicUpdateVC* vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+    vc.curCar = car;
+    vc.groupId = self.viewModel.myInfo.req_groupid;
+    vc.memberId = self.viewModel.myInfo.req_memberid;
+    vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
 /// 我的协议

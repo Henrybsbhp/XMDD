@@ -37,4 +37,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"查询活动剩余结束时间";
+}
+
 @end

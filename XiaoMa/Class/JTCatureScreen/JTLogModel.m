@@ -19,6 +19,13 @@
 
 @implementation JTLogModel
 
+- (void)dealloc
+{
+    
+}
+
+
+
 - (void)addToScreen
 {
     self.prepareUploadLogIndex = -1;
@@ -38,13 +45,18 @@
     self.logAlertView.backgroundColor = [UIColor clearColor];
     self.logAlertView.logArray = self.logArray;
 
-    
+    @weakify(self)
     [[self.logAlertView.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        @strongify(self)
         [self.logAlertView removeFromSuperview];
         self.islogViewAppear = NO;
     }];
     
+    
     [[self.logAlertView.okBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        @strongify(self)
         if (self.prepareUploadLogIndex < 0)
         {
             [gToast showError:@"请选择需要上传的日志"];
@@ -59,7 +71,7 @@
     }];
     
     self.islogViewAppear = YES;
-    [[[UIApplication sharedApplication] keyWindow] addSubview:self.logAlertView];
+    [gAppDelegate.window addSubview:self.logAlertView];
 }
 
 - (void)submitLog:(NSData *)imageData
@@ -93,53 +105,6 @@
     } error:^(NSError *error) {
         [gToast showError:error.domain];
     }];
-
-    
-//    UploadLogOp * op = [[UploadLogOp alloc] init];
-//    op.appname = self.appname;
-//    op.version = [[[NSBundle mainBundle] infoDictionary]
-//                  objectForKey:(NSString *)kCFBundleVersionKey];
-//    op.phone = self.userid;
-//    op.filename = filename;
-//    op.fileData = data;
-//    
-//    UploadLogOp * op2 = [[UploadLogOp alloc] init];
-//    op2.appname = self.appname;
-//    op2.version = [[[NSBundle mainBundle] infoDictionary]
-//                   objectForKey:(NSString *)kCFBundleVersionKey];
-//    op2.phone = self.userid;
-//    op2.filename = [NSString stringWithFormat:@"%@.png",filename];
-//    op2.fileData = imageData;
-//    
-//    RACSignal * uploadLogSignal = [op postRequest];
-//    
-//    [[uploadLogSignal initially:^{
-//        [gToast showingWithText:@"上传log..."];
-//    }] subscribeNext:^(id x) {
-//        
-//        [gToast showingWithText:@"上传img..."];
-//        [[[op2 postRequest] initially:^{
-//            
-//        }] subscribeNext:^(id x) {
-//            
-//            [gToast showError:@"成功"];
-//            self.prepareUploadLogIndex = -1;
-//            self.islogViewAppear = NO;
-//            [self.logAlertView removeFromSuperview];
-//        } error:^(NSError *error) {
-//            
-//            [gToast showError:@"失败，请重试"];
-//            self.prepareUploadLogIndex = -1;
-//            self.islogViewAppear = NO;
-//            [self.logAlertView removeFromSuperview];
-//        }] ;
-//    } error:^(NSError *error) {
-//        
-//        [gToast showError:@"失败，请重试"];
-//        self.prepareUploadLogIndex = -1;
-//        self.islogViewAppear = NO;
-//        [self.logAlertView removeFromSuperview];
-//    }];
 }
 
 @end

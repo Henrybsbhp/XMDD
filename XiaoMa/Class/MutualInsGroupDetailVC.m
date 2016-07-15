@@ -122,6 +122,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
             @strongify(self);
             [self.view stopActivityAnimation];
             [self.containerView setHidden:NO animated:YES];
+            self.navigationItem.title = self.viewModel.baseInfo.rsp_groupname;
             [self reloadTabBar];
             [self reloadNavMenu];
         } error:^(NSError *error) {

@@ -38,6 +38,7 @@
 #import "PhoneHelper.h"
 #import "AdvertisementManager.h"
 #import "SupportFileManager.h"
+#import "AssistiveManager.h"
 #import <SDWebImageManager.h>
 
 //基类
@@ -71,6 +72,7 @@
 #import "RACSignal+Extension.h"
 #import "UIScrollView+RefreshView.h"
 #import "NSString+Safe.h"
+#import "NSNumber+Safety.h"
 
 
 #endif

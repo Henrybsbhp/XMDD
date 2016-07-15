@@ -10,9 +10,11 @@
 #import "XiaoMa.h"
 #import "UIView+ShowDot.h"
 #import "GuideStore.h"
+#import "DTouchButton.h"
 
 @interface MainTabBarVC ()<UITabBarControllerDelegate>
-@property (nonatomic, strong) GuideStore *guideStore;
+@property (nonatomic, strong)GuideStore *guideStore;
+@property (nonatomic, strong)DTouchButton * assistiveBtn;
 @end
 
 @implementation MainTabBarVC
@@ -24,6 +26,10 @@
     [self setupTabBar];
     gAppMgr.navModel.curNavCtrl = [self.viewControllers safetyObjectAtIndex:0];
     [self setupGuideStore];
+    
+#ifdef DEBUG
+    [self setupAssistiveTouchView];
+#endif
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,6 +59,54 @@
         @strongify(self);
         //刷新小圆点
         [self reloadMineTabDotWith:[evt signal]];
+    }];
+}
+
+- (void)setupAssistiveTouchView
+{
+    if (!self.assistiveBtn)
+    {
+        DTouchButton * assistiveBtn = [[DTouchButton alloc] initWithFrame:CGRectMake(0, 64, 44, 44)];
+        assistiveBtn.userInteractionEnabled = YES;
+        assistiveBtn.userInteractionEnabled_DT = YES;
+        [self.view addSubview:assistiveBtn];
+        
+        self.assistiveBtn = assistiveBtn;
+    }
+    
+    @weakify(self)
+    [[[self.assistiveBtn rac_signalForSelector:@selector(tapGestureRecognizer)] flattenMap:^RACStream *(id value) {
+        
+        @strongify(self)
+        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"辅助功能" delegate:nil cancelButtonTitle:@"取消"
+                                             destructiveButtonTitle:nil otherButtonTitles:@"上传日志",@"实时日志",gAssistiveMgr.isRecordLog ? @"停止日志录制":@"日志录制",@"FPS开关",nil];
+        [sheet showInView:self.view];
+        return [sheet rac_buttonClickedSignal];
+    }] subscribeNext:^(NSNumber *x) {
+        
+        NSInteger index = [x integerValue];
+        if (index == 0)
+        {
+            [gAssistiveMgr uploadLog];
+        }
+        else if (index == 1)
+        {
+            [gAssistiveMgr switchShowLogWithAlertView];
+        }
+        else if (index == 2)
+        {
+            [gAssistiveMgr switchShowLogWithTableVC];
+        }
+        else if (index == 3)
+        {
+            [gAssistiveMgr showFPSObserver];
+        }
+    }];
+    
+    [RACObserve(gAssistiveMgr, isShowAssistiveView) subscribeNext:^(NSNumber * number) {
+        
+        BOOL flag = [number integerValue];
+        self.assistiveBtn.hidden  = !flag;
     }];
 }
 

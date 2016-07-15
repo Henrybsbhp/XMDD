@@ -16,5 +16,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"退出团";
+}
 @end
 

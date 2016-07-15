@@ -105,7 +105,7 @@ static char s_viewControllerRouterKey;
 
 #pragma mark - RouterList
 - (nonnull CKList *)routerList {
-    if (_viewControllerStack) {
+    if (!_viewControllerStack) {
         _viewControllerStack = [[CKList alloc] init];
     }
     return _viewControllerStack;

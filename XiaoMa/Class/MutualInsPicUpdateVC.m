@@ -12,12 +12,16 @@
 #import "DatePickerVC.h"
 #import "PictureRecord.h"
 #import "HKImageView.h"
-#import "UpdateCooperationIdlicenseInfoOp.h"
+#import "UpdateCooperationIdlicenseInfoV2Op.h"
 #import "EstimatedPriceVC.h"
-#import "MutualInsHomeVC.h"
 #import "GetCooperationIdlicenseInfoOp.h"
 #import "MutualInsStore.h"
 #import "MutualInsGrouponVC.h"
+#import "ProvinceChooseView.h"
+#import "OETextField.h"
+#import "UIView+RoundedCorner.h"
+#import "CollectionChooseVC.h"
+#import "MutualInsPicUpdateResultVC.h"
 
 @interface MutualInsPicUpdateVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -30,18 +34,22 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 @property (nonatomic, strong) PictureRecord * idPictureRecord;
 @property (nonatomic, strong) PictureRecord * drivingLicensePictureRecord;
-//先保险公司
+//现保险公司
 @property (nonatomic, copy)NSString * insCompany;
 //上一年度保险公司
 @property (nonatomic, copy)NSString * lastYearInsCompany;
-// 保险到期日
-@property (nonatomic, strong)NSDate *insuranceExpirationDate;
-// 服务器下发的最小保险到期日
-@property (nonatomic, strong)NSDate *minInsuranceExpirationDate;
-@property (nonatomic, strong)DatePickerVC *datePicker;
+
 @property (nonatomic, strong)PictureRecord * currentRecord;
 
+/// 是否代买交强险
+@property (nonatomic)BOOL isNeedBuyStrongInsurance;
+
 @property (nonatomic,strong)PickInsCompaniesVC * pickInsCompanysVC;
+
+@property (nonatomic,strong)CKList * datasource;
+
+@property (nonatomic,strong)NSString * lisenceNumberArea;
+@property (nonatomic,strong)NSString * lisenceNumberSuffix;
 
 
 @end
@@ -56,12 +64,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupNavigationBar];
-    [self setupNextBtn];
-    [self setupDatePicker];
+    self.isNeedBuyStrongInsurance = YES;
     
-    [self requesLastIdLicenseInfo];
+    [self setupUI];
+    [self setupDatasource];
+    [self.tableView reloadData];
     
+    if (self.memberId)
+    {
+        // 有memeber说明是重新上传的
+        [self requesLastIdLicenseInfo];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,10 +82,11 @@
 }
 
 #pragma mark - Setup UI
-- (void)setupDatePicker
+- (void)setupUI
 {
-    self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
-    self.datePicker.datePickerTitle = @"保险到期大致时间";
+    [self setupNavigationBar];
+    [self setupNextBtn];
+    self.tableView.backgroundColor = kBackgroundColor;
 }
 
 - (void)setupNextBtn
@@ -83,10 +97,13 @@
         [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0007"}];
         
         @strongify(self)
-        if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
+        if (!self.curCar.licencenumber)
         {
-            [gToast showMistake:@"请等待图片上传成功"];
-            return ;
+            if (![self verifiedLicenseNumberFrom:[self.lisenceNumberArea append:self.lisenceNumberSuffix]])
+            {
+                [gToast showMistake:@"请输入正确的车牌号码"];
+                return ;
+            }
         }
         if (!self.idPictureRecord.url.length)
         {
@@ -103,13 +120,32 @@
             [gToast showMistake:@"请选择现保险公司"];
             return ;
         }
-        if (!self.insuranceExpirationDate)
+        if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
         {
-            [gToast showMistake:@"请选择商业险到期日期"];
+            [gToast showMistake:@"请等待图片上传成功"];
             return ;
         }
         
+        
+        if (!self.isNeedBuyStrongInsurance)
+        {
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"我要买" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                @strongify(self)
+                self.isNeedBuyStrongInsurance = YES;
+                
+                [self requestUpdateImageInfo];
+            }];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"不要买" color:kGrayTextColor clickBlock:^(id alertVC) {
+                @strongify(self)
+                self.isNeedBuyStrongInsurance = NO;
+            }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确认无需本平台为您代理购买交强险/车船税？" ActionItems:@[confirm,cancel]];
+            [alert show];
+            return;
+        }
+        
         [self requestUpdateImageInfo];
+        
     }];
 }
 
@@ -119,86 +155,200 @@
     self.navigationItem.leftBarButtonItem = back;
 }
 
-#pragma mark - UITableViewDelegate and datasource
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (void)setupDatasource
 {
-    return 4;
+    CKDict * cell0 = [self setupLinsenceCell];
+    
+    CKDict * cell1_0 = [self setupTitleCell:@"请上传车主身份证照片"];
+    CKDict * cell1_1 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
+    CKDict * cell1_2 = [self setupTitleCell:@"请上传车车辆行驶证照片"];
+    CKDict * cell1_3 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:3 inSection:1]];
+    
+    CKDict * cell2_0 = [self setupTitleCell:@"请选择保险公司"];
+    CKDict * cell2_1 = [self setupInsCompanyCellWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+    CKDict * cell2_2 = [self setupInsCompanyCellWithIndexPath:[NSIndexPath indexPathForRow:1 inSection:2]];
+    
+    CKDict * cell3 = [self setupCheckCell];
+    
+    self.datasource = $($(cell0),$(cell1_0,cell1_1,cell1_2,cell1_3),$(cell2_0,cell2_1,cell2_2),$(cell3));
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (CKDict *)setupLinsenceCell
 {
-    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
-    view.backgroundColor = [UIColor whiteColor];
-    UILabel * headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 12, 0, 0)];
-    headerLabel.textColor = kGrayTextColor;
-    headerLabel.font = [UIFont systemFontOfSize:16];
-    if (section == 0) {
-        headerLabel.text = @"请上传车主身份证照片";
-    }
-    else if (section == 1) {
-        headerLabel.text = @"请上传车辆行驶证照片";
-    }
-    else if (section == 2) {
-        headerLabel.text = @"请选择保险公司";
-    }
-    else{
-        headerLabel.text = @"请选择商业险到期日期";
-    }
-    [headerLabel sizeToFit];
-    [view addSubview:headerLabel];
-    return view;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (section == 2) {
-        return 2;
-    }
-    return 1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 30;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    if (section == 3) {
-        return 15;
-    }
-    return CGFLOAT_MIN;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0 || indexPath.section == 1) {
+    CKDict * cell0 = [CKDict dictWith:@{kCKCellID:@"PlateNumberCell"}];
+    cell0[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
+        return 45;
+    });
+    cell0[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
+        ProvinceChooseView *chooseV = (ProvinceChooseView *)[cell.contentView viewWithTag:1002];
+        OETextField *field = (OETextField *)[cell.contentView viewWithTag:1003];
+        [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
+        field.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
+        
+        cell.contentView.userInteractionEnabled  = !self.curCar;
+        
+        label.text = @"车牌号码";
+        
+        [chooseV setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
+        
+        NSString * lisenceArea = [self.curCar.licencenumber safteySubstringToIndexIndex:1];
+        NSString * lisenceSuffix = [self.curCar.licencenumber safteySubstringFromIndex:1];
+
+        @weakify(self);
+        [[[chooseV rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+             
+             @strongify(self);
+             CollectionChooseVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"CollectionChooseVC"];
+             HKNavigationController *nav = [[HKNavigationController alloc] initWithRootViewController:vc];
+             vc.datasource = gAppMgr.getProvinceArray;
+             [vc setSelectAction:^(NSDictionary * d) {
+                 
+                 @strongify(self);
+                 NSString * key = [d.allKeys safetyObjectAtIndex:0];
+                 self.lisenceNumberArea = key;
+                 [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+             }];
+             [self presentViewController:nav animated:YES completion:nil];
+         }];
+        
+        
+        field.textLimit = 6;
+        
+        [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
+            field.placeholder = nil;
+        }];
+        
+        [field setDidEndEditingBlock:^(CKLimitTextField *field) {
+            field.placeholder = @"A12345";
+        }];
+        
+        [field setTextDidChangedBlock:^(CKLimitTextField *field) {
+            @strongify(self);
+            NSString *newtext = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+            field.text = [newtext uppercaseString];
+            self.lisenceNumberSuffix = field.text;
+        }];
+        
+        chooseV.displayLb.text = lisenceArea.length ? lisenceArea : [self getCurrentProvince];
+        self.lisenceNumberArea = lisenceArea.length ? lisenceArea : [self getCurrentProvince];
+        field.text = lisenceSuffix.length ? lisenceSuffix : @"";
+    });
+
+    return cell0;
+}
+
+- (CKDict *)setupImageCellWithIndexPath:(NSIndexPath *)indexPath
+{
+    CKDict * imageCell = [CKDict dictWith:@{kCKCellID:@"SelectImgCell"}];
+    imageCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        // 图片
         CGFloat width = gAppMgr.deviceInfo.screenSize.width - 60;
-        CGFloat height = 666.0 / 1024 * width;
+        CGFloat height = 330.0 / 620.0 * width;
         return height;
-    }
-    return 58;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell;
-    if (indexPath.section == 0 || indexPath.section == 1) {
-        cell = [self sImageCellAtIndexPath:indexPath];
-    }
-    else{
-        cell = [self sOtherCellAtIndexPath:indexPath];
-    }
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0 || indexPath.section == 1)
-    {
-        if (indexPath.section == 0)
+    });
+    
+    imageCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        PictureRecord * record = indexPath.row == 1 ? self.idPictureRecord : self.drivingLicensePictureRecord;
+        
+        HKImageView * selectImgView = (HKImageView *)[cell.contentView viewWithTag:1001];
+     
+           UIImageView * camView = (UIImageView *)[cell.contentView viewWithTag:1002];
+        
+        record.customArray = [NSMutableArray arrayWithArray:@[selectImgView,camView]];
+        [selectImgView removeTagGesture];
+        UIImageView *maskView = selectImgView.customObject;
+        selectImgView.hidden = !record.image;
+        selectImgView.image = record.image;
+        camView.hidden = (BOOL)record.image;
+        
+        
+        if (!maskView) {
+            maskView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cm_watermark"]];
+            [selectImgView insertSubview:maskView atIndex:0];
+            selectImgView.customObject = maskView;
+        }
+        @weakify(self)
+        [[[selectImgView.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            
+            @strongify(self)
+            self.currentRecord = indexPath.row == 1 ? self.idPictureRecord : self.drivingLicensePictureRecord;
+            [self actionUpload:self.currentRecord withImageView:selectImgView];
+        }];
+        
+        [[[selectImgView.pickImageButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            
+            @strongify(self)
+            self.currentRecord = indexPath.row == 1 ? self.idPictureRecord : self.drivingLicensePictureRecord;
+            [self pickImageWithIndex:indexPath];
+        }];
+        
+        
+        
+        
+        [[RACObserve(record, image) takeUntilForCell:cell] subscribeNext:^(UIImage * img) {
+            
+            selectImgView.hidden = !img;
+            selectImgView.image = img;
+            camView.hidden = (BOOL)img;
+        }];
+        
+        
+        [[RACObserve(record, url) takeUntilForCell:cell] subscribeNext:^(NSString * url) {
+            
+            @strongify(self)
+            if (url.length && !record.image)
+            {
+                camView.hidden = YES;
+                [selectImgView setImageByUrl:record.url withType:ImageURLTypeMedium defImageObj:[self defImage] errorImageObj:[self errorImage]];
+            }
+        }];
+        
+        
+        /// 图片适应
+        [[RACObserve(selectImgView, image) takeUntilForCell:cell] subscribeNext:^(UIImage *img) {
+            
+            @strongify(self)
+            if (!img || [[self defImage] isEqual:img] || [[self errorImage] isEqual:img]) {
+                maskView.hidden = YES;
+                selectImgView.hidden = YES;
+                camView.hidden = NO;
+                return ;
+            }
+            maskView.hidden = NO;
+            selectImgView.hidden = NO;
+            camView.hidden = YES;
+            
+            if (img.size.width > 0 && img.size.height > 0) {
+                CGFloat imgRatio = img.size.height / img.size.width;
+                CGFloat boundsRatio = (selectImgView.frame.size.height-10) / (selectImgView.frame.size.width-10);
+                CGFloat maskRatio = 330.0/620;
+                CGSize size = CGSizeZero;
+                //高度优先
+                if (imgRatio > boundsRatio) {
+                    size.width = ceil((selectImgView.frame.size.height-10) / imgRatio);
+                    size.height = ceil(size.width * maskRatio);
+                }
+                else {
+                    size.width = selectImgView.frame.size.width-10;
+                    size.height = ceil(size.width*maskRatio);
+                }
+                
+                [maskView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.size.mas_equalTo(size);
+                    make.center.equalTo(selectImgView);
+                }];
+            }
+        }];
+    });
+    imageCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        if (indexPath.row == 1)
         {
             [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0002"}];
         }
@@ -206,12 +356,45 @@
         {
             [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0003"}];
         }
-        self.currentRecord = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
+        self.currentRecord = indexPath.row == 1 ? self.idPictureRecord : self.drivingLicensePictureRecord;
         [self pickImageWithIndex:indexPath];
-    }
-    if (indexPath.section == 2)
-    {
-        if (indexPath.row == 0)
+    });
+    
+    return imageCell;
+}
+
+- (CKDict *)setupInsCompanyCellWithIndexPath:(NSIndexPath *)indexPath
+{
+    CKDict * insCompanyCell = [CKDict dictWith:@{kCKCellID:@"SelectOtherCell"}];
+    insCompanyCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+
+        return 50;
+    });
+    
+    insCompanyCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UILabel * lb = (UILabel *)[cell.contentView viewWithTag:20101];
+        if (indexPath.row == 1)
+        {
+            [[RACObserve(self, insCompany) takeUntilForCell:cell] subscribeNext:^(NSString * str) {
+                
+                lb.text = str.length ? str : @"请选择当前投保的保险公司";
+                lb.textColor = str.length ? kDarkTextColor : kGrayTextColor;
+            }];
+        }
+        else
+        {
+            [[RACObserve(self, lastYearInsCompany) takeUntilForCell:cell] subscribeNext:^(NSString * str) {
+                
+                lb.text = str.length ? str : @"请选择3年内投保过的其他保险公司(选填)";
+                lb.textColor = str.length ? kDarkTextColor : kGrayTextColor;
+            }];
+        }
+    });
+    
+    insCompanyCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        if (indexPath.row == 1)
         {
             [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0004"}];
         }
@@ -223,191 +406,174 @@
         [self.pickInsCompanysVC setPickedBlock:^(NSString *name) {
             
             @strongify(self)
-            if (indexPath.row == 0)
+            if (indexPath.row == 1)
+            {
                 self.insCompany = name;
+            }
             else
+            {
                 self.lastYearInsCompany = name;
+            }
         }];
         
         [self.navigationController pushViewController:self.pickInsCompanysVC animated:YES];
-    }
-    if (indexPath.section == 3)
-    {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0006"}];
-        if (self.minInsuranceExpirationDate)
-        {
-            NSDate *nextDat = [NSDate dateWithTimeInterval:24*60*60 sinceDate:self.minInsuranceExpirationDate];//后一天
-            self.datePicker.minimumDate = nextDat;
-        }
-        NSDate *selectedDate = self.insuranceExpirationDate ? self.insuranceExpirationDate : nil;
+    });
+    
+    return insCompanyCell;
+}
+
+- (CKDict *)setupCheckCell
+{
+    CKDict * checkCell = [CKDict dictWith:@{kCKCellID:@"CheckCell"}];
+    checkCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
-        @weakify(self)
-        [[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:selectedDate]
-         subscribeNext:^(NSDate *date) {
-             @strongify(self);
+        return 56;
+    });
+    
+    checkCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UIButton * checkBtn = [cell viewWithTag:101];
+        [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
              
-             self.insuranceExpirationDate = [date laterDate:self.minInsuranceExpirationDate];
+             self.isNeedBuyStrongInsurance = !self.isNeedBuyStrongInsurance;
          }];
-    }
-}
-
-#pragma mark - About Cell
-- (UITableViewCell *)sImageCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"SelectImgCell" forIndexPath:indexPath];
-    
-    PictureRecord * record = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
-    
-    HKImageView * selectImgView = (HKImageView *)[cell.contentView viewWithTag:1001];
-    UIImageView * camView = (UIImageView *)[cell.contentView viewWithTag:1002];
-    
-    record.customArray = [NSMutableArray arrayWithArray:@[selectImgView,camView]];
-    
-    [selectImgView removeTagGesture];
-    UIImageView *maskView = selectImgView.customObject;
-    selectImgView.hidden = !record.image;
-    selectImgView.image = record.image;
-    camView.hidden = record.image;
-    
-    
-    if (!maskView) {
-        maskView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cm_watermark"]];
-        [selectImgView insertSubview:maskView atIndex:0];
-        selectImgView.customObject = maskView;
-    }
-    @weakify(self)
-    [[[selectImgView.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        @strongify(self)
-        self.currentRecord = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
-        [self actionUpload:self.currentRecord withImageView:selectImgView];
-    }];
-    
-    [[[selectImgView.pickImageButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        @strongify(self)
-        self.currentRecord = indexPath.section == 0 ? self.idPictureRecord : self.drivingLicensePictureRecord;
-        [self pickImageWithIndex:indexPath];
-    }];
-    
-    
-    
-    
-    [[RACObserve(record, image) takeUntilForCell:cell] subscribeNext:^(UIImage * img) {
-        
-        selectImgView.hidden = !img;
-        selectImgView.image = img;
-        camView.hidden = img;
-    }];
-    
-    
-    [[RACObserve(record, url) takeUntilForCell:cell] subscribeNext:^(NSString * url) {
-        
-        @strongify(self)
-        if (url.length && !record.image)
-        {
-            camView.hidden = YES;
-            [selectImgView setImageByUrl:record.url withType:ImageURLTypeMedium defImageObj:[self defImage] errorImageObj:[self errorImage]];
-        }
-    }];
-    
-    
-    /// 图片适应
-    [[RACObserve(selectImgView, image) takeUntilForCell:cell] subscribeNext:^(UIImage *img) {
-        
-        @strongify(self)
-        if (!img || [[self defImage] isEqual:img] || [[self errorImage] isEqual:img]) {
-            maskView.hidden = YES;
-            selectImgView.hidden = YES;
-            camView.hidden = NO;
-            return ;
-        }
-        maskView.hidden = NO;
-        selectImgView.hidden = NO;
-        camView.hidden = YES;
-        
-        if (img.size.width > 0 && img.size.height > 0) {
-            CGFloat imgRatio = img.size.height / img.size.width;
-            CGFloat boundsRatio = (selectImgView.frame.size.height-10) / (selectImgView.frame.size.width-10);
-            CGFloat maskRatio = 666.0/1024;
-            CGSize size = CGSizeZero;
-            //高度优先
-            if (imgRatio > boundsRatio) {
-                size.width = ceil((selectImgView.frame.size.height-10) / imgRatio);
-                size.height = ceil(size.width * maskRatio);
-            }
-            else {
-                size.width = selectImgView.frame.size.width-10;
-                size.height = ceil(size.width*maskRatio);
-            }
+        [[RACObserve(self, isNeedBuyStrongInsurance) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * x) {
             
-            [maskView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(size);
-                make.center.equalTo(selectImgView);
-            }];
-        }
-    }];
+            BOOL flag = [x boolValue];
+            UIImage * image = flag ? [UIImage imageNamed:@"checkbox_selected"] : [UIImage imageNamed:@"checkbox_normal_301"];
+            [checkBtn setImage:image forState:UIControlStateNormal];
+        }];
+    });
     
-    
-    return cell;
+    return checkCell;
 }
 
-- (UITableViewCell *)sOtherCellAtIndexPath:(NSIndexPath *)indexPath
+- (CKDict *)setupTitleCell:(NSString *)title
 {
-    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:@"SelectOtherCell" forIndexPath:indexPath];
-    UILabel * lb = (UILabel *)[cell.contentView viewWithTag:20101];
-    if (indexPath.section == 2)
+    CKDict * titleCell = [CKDict dictWith:@{kCKCellID:@"TitleCell"}];
+    titleCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 34;
+    });
+    
+    titleCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UILabel * lb = [cell viewWithTag:101];
+        lb.text = title;
+    });
+    
+    return titleCell;
+}
+
+#pragma mark - UITableViewDelegate and datasource
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.datasource.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [[self.datasource objectAtIndex:section] count];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section == 1)
     {
-        if (indexPath.row == 0)
-        {
-            [[RACObserve(self, insCompany) takeUntilForCell:cell] subscribeNext:^(NSString * str) {
-                
-                lb.text = str.length ? str : @"请选择现保险公司";
-                lb.textColor = str.length ? kDarkTextColor : kGrayTextColor;
-            }];
-        }
-        else
-        {
-            [[RACObserve(self, lastYearInsCompany) takeUntilForCell:cell] subscribeNext:^(NSString * str) {
-                
-                lb.text = str.length ? str : @"请选择上一年保险公司";
-                lb.textColor = str.length ? kDarkTextColor : kGrayTextColor;
-            }];
-        }
+        UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 16)];
+        view.backgroundColor = kBackgroundColor;
+        UIView * view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 8)];
+        view2.backgroundColor = [UIColor whiteColor];
+        [view addSubview:view2];
+        return view;
     }
     else
     {
-        [[RACObserve(self, insuranceExpirationDate) takeUntilForCell:cell] subscribeNext:^(NSDate * date) {
-            
-            lb.text = date ? [date dateFormatForYYMMdd] : @"请选择商业险到期日期";
-            lb.textColor = date ? kDarkTextColor : kGrayTextColor;
-        }];
+        UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 8)];
+        view.backgroundColor = kBackgroundColor;
+        return view;
     }
-    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == 1)
+    {
+        return 16;
+    }
+    return 8;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CKDict *data = self.datasource[indexPath.section][indexPath.row];
+    CKCellGetHeightBlock block = data[kCKCellGetHeight];
+    if (block) {
+        return block(data,indexPath);
+    }
+    return CGFLOAT_MIN;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CKDict *data = self.datasource[indexPath.section][indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data[kCKCellID] forIndexPath:indexPath];
+    CKCellPrepareBlock block = data[kCKCellPrepare];
+    if (block) {
+        block(data, cell, indexPath);
+    }
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    CKDict *data = self.datasource[indexPath.section][indexPath.row];
+    CKCellSelectedBlock block = data[kCKCellSelected];
+    if (block) {
+        block(data, indexPath);
+    }
+}
+
 #pragma mark - Request
 - (void)requestUpdateImageInfo
 {
-    UpdateCooperationIdlicenseInfoOp * op = [[UpdateCooperationIdlicenseInfoOp alloc] init];
+    UpdateCooperationIdlicenseInfoV2Op * op = [[UpdateCooperationIdlicenseInfoV2Op alloc] init];
     op.req_idurl = self.idPictureRecord.url;
     op.req_licenseurl = self.drivingLicensePictureRecord.url;
     op.req_firstinscomp = self.insCompany ?: @"";
     op.req_secinscomp = self.lastYearInsCompany ?: @"";
-    op.req_insenddate = [self.insuranceExpirationDate dateFormatForD10] ?: @"";
     op.req_memberid = self.memberId;
+    op.req_isbuyfroceins = self.isNeedBuyStrongInsurance;
+    if (self.curCar.licencenumber)
+    {
+        op.req_licensenumber = self.curCar.licencenumber;
+    }
+    else
+    {
+        op.req_licensenumber = [self.lisenceNumberArea append:self.lisenceNumberSuffix];;
+    }
+    op.req_carid = self.curCar.carId;
     
     [[[op rac_postRequest] initially:^{
         
         [gToast showingWithText:@"信息上传中"];
-    }] subscribeNext:^(id x) {
+    }] subscribeNext:^(UpdateCooperationIdlicenseInfoV2Op * op) {
         
         [gToast dismiss];
         
-        EstimatedPriceVC * vc = [UIStoryboard vcWithId:@"EstimatedPriceVC" inStoryboard:@"MutualInsJoin"];
-        vc.memberId = self.memberId;
-        vc.groupId = self.groupId;
-        vc.groupName = self.groupName;
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+        
+        MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
+        vc.tipsDict = op.couponDict;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
@@ -435,8 +601,6 @@
         self.drivingLicensePictureRecord.url = rop.rsp_licenseurl;
         self.insCompany = rop.rsp_lstinscomp;
         self.lastYearInsCompany = rop.rsp_secinscomp;
-        self.insuranceExpirationDate = rop.rsp_insenddate;
-        self.minInsuranceExpirationDate = rop.rsp_mininsenddate;
     } error:^(NSError *error) {
         
         @weakify(self)
@@ -561,56 +725,8 @@
      }];
 }
 
--(void)back
+- (void)back
 {
-    //刷新团列表信息
-    [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
-    
-    MutualInsGrouponVC *grouponvc;
-    MutualInsHomeVC *homevc;
-    NSInteger homevcIndex = NSNotFound;
-    for (NSInteger i=0; i<self.navigationController.viewControllers.count; i++) {
-        
-        UIViewController *vc = self.navigationController.viewControllers[i];
-        if ([vc isKindOfClass:[MutualInsGrouponVC class]] &&
-            [[(MutualInsGrouponVC *)vc group].groupId isEqual:self.groupId]) {
-
-            grouponvc = (MutualInsGrouponVC *)vc;
-            break;
-        }
-        else if ([vc isKindOfClass:[MutualInsHomeVC class]]) {
-            homevc = (MutualInsHomeVC *)vc;
-            homevcIndex = i;
-        }
-    }
-    if (grouponvc) {
-        [self.navigationController popToViewController:grouponvc animated:YES];
-        //刷新团详情
-        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.memberId andGroupID:self.groupId] send];
-        return;
-    }
-    //创建团详情视图
-    grouponvc  = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-    HKMutualGroup * group = [[HKMutualGroup alloc] init];
-    group.groupId = self.groupId;
-    group.groupName = self.groupName;
-    group.memberId = self.memberId;
-    grouponvc.group = group;
-    
-    NSMutableArray *vcs = [NSMutableArray array];
-    if (homevcIndex != NSNotFound) {
-        NSArray *subvcs = [self.navigationController.viewControllers subarrayToIndex:homevcIndex+1];
-        [vcs addObjectsFromArray:subvcs];
-    }
-    else {
-        //创建团root视图
-        homevc = [UIStoryboard vcWithId:@"MutualInsHomeVC" inStoryboard:@"MutualInsJoin"];
-        [vcs addObject:self.navigationController.viewControllers[0]];
-        [vcs addObject:homevc];
-    }
-    [vcs addObject:grouponvc];
-    [vcs addObject:self];
-    self.navigationController.viewControllers = vcs;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -619,7 +735,7 @@
     
     [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0001"}];
     
-    if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany.length || self.insuranceExpirationDate || self.lastYearInsCompany.length || self.idPictureRecord.url.length || self.drivingLicensePictureRecord.url.length)
+    if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany.length  || self.lastYearInsCompany.length || self.idPictureRecord.url.length || self.drivingLicensePictureRecord.url.length)
     {
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:kGrayTextColor clickBlock:^(id alertVC) {
@@ -632,6 +748,38 @@
     {
         [self back];
     }
+}
+
+- (NSString *)getCurrentProvince
+{
+    for (NSDictionary * d in gAppMgr.getProvinceArray)
+    {
+        NSString * key = [d.allKeys safetyObjectAtIndex:0];
+        NSString * value = [d objectForKey:key];
+        NSString * v = [value stringByReplacingOccurrencesOfString:@"(" withString:@""];
+        v = [v stringByReplacingOccurrencesOfString:@")" withString:@""];
+        NSString *province = gMapHelper.addrComponent.province;
+        if (province && [province hasSubstring:v])
+        {
+            return  key;
+        }
+    }
+    return @"浙";
+}
+
+- (NSString *)verifiedLicenseNumberFrom:(NSString *)licenseNumber
+{
+    if (!licenseNumber)
+        return nil;
+    
+    NSString *pattern = @"^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵黔粤粵青藏川宁琼使][a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
+    //    NSString *pattern = @"^[a-z][a-z0-9]{5}[警港澳领学]{0,1}$";
+    NSRegularExpression *regexp = [[NSRegularExpression alloc] initWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+    NSTextCheckingResult *rst = [regexp firstMatchInString:licenseNumber options:0 range:NSMakeRange(0, [licenseNumber length])];
+    if (!rst) {
+        return nil;
+    }
+    return [licenseNumber uppercaseString];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -674,6 +822,8 @@
     return _pickInsCompanysVC;
     
 }
+
+
 
 #pragma mark - Getter
 - (UIImage *)defImage

@@ -32,4 +32,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取附近停车，4S店，加油站等信息";
+}
+
 @end

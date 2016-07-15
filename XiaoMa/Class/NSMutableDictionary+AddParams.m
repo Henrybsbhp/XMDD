@@ -64,7 +64,14 @@ static char s_firstparamKey;
 
 - (NSString *)stringParamForName:(NSString *)name
 {
-    return (NSString *)[self paramForName:name];
+    id result = [self paramForName:name];
+    if ([result isKindOfClass:[NSString class]]) {
+        return result;
+    }
+    else if ([result isKindOfClass:[NSNumber class]]) {
+        return [result description];
+    }
+    return nil;
 }
 - (float)floatParamForName:(NSString *)name
 {

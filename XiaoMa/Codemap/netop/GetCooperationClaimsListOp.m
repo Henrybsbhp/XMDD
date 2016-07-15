@@ -23,5 +23,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"理赔记录列表";
+}
 @end
 

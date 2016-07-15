@@ -31,5 +31,10 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取已绑定的银行卡";
+}
+
 
 @end

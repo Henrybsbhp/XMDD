@@ -46,4 +46,10 @@
     return self;
     
 }
+
+
+- (NSString *)description
+{
+    return @"救援首页，获取救援列表(没有登录的情况下)";
+}
 @end

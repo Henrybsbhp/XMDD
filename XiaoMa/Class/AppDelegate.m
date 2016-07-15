@@ -14,13 +14,12 @@
 #import "WXApi.h"
 #import "WeiboSDK.h"
 #import <JPEngine.h>
+#import "RRFPSBar.h"
 
 #import "DefaultStyleModel.h"
 
 #import "HKLoginModel.h"
 #import "MapHelper.h"
-#import "JTLogModel.h"
-#import "RRFPSBar.h"
 
 #import "HKLaunchManager.h"
 #import "ShareResponeManager.h"
@@ -41,11 +40,6 @@
 #import "WelcomeVC.h"
 
 
-#ifndef __OPTIMIZE__
-#import "RRFPSBar.h"
-#endif
-
-
 
 #define RequestWeatherInfoInterval 60 * 10
 //#define RequestWeatherInfoInterval 5
@@ -53,8 +47,6 @@
 @interface AppDelegate ()<WXApiDelegate,TencentSessionDelegate,CrashlyticsDelegate>
 
 @property (nonatomic, strong) DDFileLogger *fileLogger;
-/// 日志
-@property (nonatomic,strong)JTLogModel * logModel;
 
 @property (nonatomic, strong) HKLaunchManager *launchMgr;
 
@@ -96,7 +88,7 @@
     
     [self setupPasteboard];
     
-    [self setupFPSObserver];
+    [self setupAssistive];
     
     //设置崩溃捕捉(官方建议放在最后面)
     [self setupCrashlytics];
@@ -510,6 +502,7 @@
 #pragma mark - JSPatch
 - (void)setupJSPatch
 {
+    return;
     RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
     RACSignal * areaSignal = [[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
         return ac.province.length || ac.city.length || ac.district.length;
@@ -561,27 +554,17 @@
 }
 
 
-#pragma mark - 日志
+#pragma mark - 辅助功能
+- (void)setupAssistive
+{
+    [gAssistiveMgr setupFPSObserver];
+}
+
 #pragma mark - UIResponser
 - (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
 #ifdef DEBUG
-    if (motion != UIEventSubtypeMotionShake)
-        return;
-    if (!self.logModel)
-    {
-        self.logModel = [[JTLogModel alloc] init];
-    }
-    else
-    {
-        if (self.logModel.islogViewAppear)
-        {
-            return;
-        }
-    }
-    self.logModel.userid = gAppMgr.myUser.userID ? gAppMgr.myUser.userID : @"00000000000";
-    self.logModel.appname = @"com.huika.xmdd";
-    [self.logModel addToScreen];
+    gAssistiveMgr.isShowAssistiveView = !gAssistiveMgr.isShowAssistiveView;
 #endif
 }
 @end

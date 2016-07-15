@@ -36,4 +36,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"保险订单支付";
+}
 @end

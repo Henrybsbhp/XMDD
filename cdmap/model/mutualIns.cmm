@@ -343,6 +343,7 @@ class=GetCooperationGroupMyInfo op auth path="/cooperation/my/detail/get"> {
     <"动态描述">tip
     <"查看我的协议地址(只有status为，7,8该值不为空)">contracturl
     <"按钮名字">buttonname
+    <"用户车辆id">usercarid:number
   }
 }
 

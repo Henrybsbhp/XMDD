@@ -106,21 +106,18 @@
 - (void)addExtendLabelsInView:(UIView *)view {
     id topObject = view.mas_top;
     CGFloat padding = 0;
-    for (NSDictionary *info in self.extendInfoList) {
-        NSString *key = info.allKeys[0];
-        NSString *value = info[key];
-        
+    for (RACTuple *tuple in self.extendInfoList) {
         UILabel *leftL = [[UILabel alloc] initWithFrame:CGRectZero];
         leftL.textColor = kGrayTextColor;
         leftL.font = [UIFont systemFontOfSize:kDetailLabelFontSize];
-        leftL.text = key;
+        leftL.text = tuple.first;
         [leftL setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
         [view addSubview:leftL];
         
         UILabel *rightL = [[UILabel alloc] initWithFrame:CGRectZero];
         rightL.textAlignment = NSTextAlignmentRight;
         rightL.font = [UIFont systemFontOfSize:kDetailLabelFontSize];
-        [rightL setMarkup:value];
+        [rightL setMarkup:tuple.second];
         [rightL setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
         [view addSubview:rightL];
         

@@ -18,5 +18,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取浙商默认打折信息";
+}
 @end
 
