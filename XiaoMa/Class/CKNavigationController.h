@@ -10,6 +10,12 @@
 #import "CKList.h"
 @class CKRouter;
 
+@interface UIViewController (CKNavigator)
+
+@property (nonatomic, strong, readonly, nullable) CKRouter *router;
+
+@end
+
 @interface CKNavigationController : UINavigationController
 @property(nullable, nonatomic, weak) id<UINavigationControllerDelegate> ckdelegate;
 
@@ -20,3 +26,6 @@
 - (void)popToRouter:(nonnull CKRouter *)router animated:(BOOL)animated;
 
 @end
+
+
+

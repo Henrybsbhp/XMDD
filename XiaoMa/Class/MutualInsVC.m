@@ -12,6 +12,7 @@
 #import "GetGroupJoinedInfoOp.h"
 #import "GetCalculateBaseInfoOp.h"
 #import "RTLabel.h"
+#import "MutualInsConstants.h"
 #import "MutInsSystemGroupListVC.h"
 #import "MutualInsAskForCompensationVC.h"
 #import "MutualInsStore.h"
@@ -198,9 +199,14 @@
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)actionGotoGroupDetailVC
+- (void)actionGotoGroupDetailVC:(NSDictionary *)dict
 {
-    
+    CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGroupDetailVC"];
+    router.userInfo = [[CKDict alloc] init];
+    router.userInfo[kMutInsGroupID] = dict[@"groupid"];
+    router.userInfo[kMutInsGroupName] = dict[@"groupname"];
+    router.userInfo[kMutInsMemberID] = dict[@"memberid"];
+    [self.router.navigationController pushRouter:router animated:YES];
 }
 
 #pragma mark - Setups
@@ -687,6 +693,7 @@
 {
     @weakify(self);
     CKDict *groupInfoCell = [CKDict dictWith:@{kCKItemKey: @"groupInfoCell", kCKCellID: @"GroupInfoCell"}];
+    groupInfoCell[@"dict"] = dict;
     groupInfoCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 55;
     });
@@ -695,7 +702,7 @@
         // 进入团详情页面
         @strongify(self);
         [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye10"}];
-        [self actionGotoGroupDetailVC];
+        [self actionGotoGroupDetailVC:data[@"dict"]];
     });
     
     groupInfoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -713,6 +720,7 @@
 - (CKDict *)setupExtendedInfoCellWithDict:(NSDictionary *)dict sourceDict:(MutualInsCarListModel *)sourceDict
 {
     CKDict *extendedInfoCell = [CKDict dictWith:@{kCKItemKey: @"extendedInfoCell", kCKCellID: @"ExtendedInfoCell"}];
+    extendedInfoCell[@"dict"] = dict;
     @weakify(self);
     extendedInfoCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         NSString *titleString = [NSString stringWithFormat:@"%@", dict.allKeys.firstObject];
@@ -731,7 +739,7 @@
         // 进入团详情页面
         @strongify(self);
         [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye10"}];
-        [self actionGotoGroupDetailVC];
+        [self actionGotoGroupDetailVC:data[@"dict"]];
     });
     
     extendedInfoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {

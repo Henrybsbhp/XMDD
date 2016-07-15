@@ -8,7 +8,23 @@
 
 #import "CKNavigationController.h"
 #import "CKRouter.h"
-#import "UIViewController+CKNavigator.h"
+#import <objc/runtime.h>
+
+static char s_viewControllerRouterKey;
+
+@implementation UIViewController (CKNavigator)
+@dynamic router;
+
+- (CKRouter *)router {
+    CKRouter *routerObj = objc_getAssociatedObject(self, &s_viewControllerRouterKey);
+    if (!routerObj) {
+        routerObj = [CKRouter routerWithTargetViewController:self];
+        objc_setAssociatedObject(self, &s_viewControllerRouterKey, routerObj, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return routerObj;
+}
+
+@end
 
 @interface CKNavigationController ()<UIGestureRecognizerDelegate, UINavigationControllerDelegate, CKRouterDelegate> {
     CKList *_viewControllerStack;
@@ -56,6 +72,7 @@
 
 - (void)pushRouter:(nonnull CKRouter *)router animated:(BOOL)animated
 {
+    objc_setAssociatedObject(router.targetViewController, &s_viewControllerRouterKey, router, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self pushViewController:router.targetViewController animated:animated];
 }
 
@@ -108,6 +125,7 @@
     }
     [self.routerList addObject:router forKey:router.key];
     router.delegate = self;
+    vc.title = vc.title ? vc.title : router.title;
 }
 
 - (void)updateViewControllersByRouterList {
@@ -190,3 +208,9 @@
 
 
 @end
+
+
+
+
+
+

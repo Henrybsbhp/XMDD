@@ -78,8 +78,10 @@
 #else
     payload[@"os"] = @(IOSAPPID);
 #endif
-
-    NSString * urlStr = [NSString stringWithFormat:@"%@%@", [self.baseURL absoluteString],method];
+    if ([method hasPrefix:@"/"]) {
+        method = [method stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""];
+    }
+    NSString *urlStr = [[self.baseURL URLByAppendingPathComponent:method] absoluteString];
     return [self.requestSerializer requestWithMethod:@"POST" URLString:urlStr parameters:payload error:nil];
 }
 

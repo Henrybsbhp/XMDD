@@ -11,7 +11,7 @@
 
 
 typedef enum : NSInteger {
-    MutInsStatusNeedCar = 0,                //完善爱车信息
+    MutInsStatusNeedCar = 0,                //团长无车，完善爱车信息
     MutInsStatusNeedDriveLicense = 1,       //完善行驶证信息
     MutInsStatusNeedInsList = 2,            //完善保险列表
     MutInsStatusUnderReview = 3,            //资料审核中
@@ -34,5 +34,8 @@ typedef enum : NSInteger {
 #define kMutInsGroupID      @"groupID"
 #define kMutInsMemberID     @"memberID"
 #define kMutInsGroupName    @"groupName"
+
+//storyboard定义
+#define kMutInsGroupDetailStoryboard    @"MutualInsGroupDetail"
 
 #endif /* MutualInsConstants_h */

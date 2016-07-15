@@ -9,6 +9,7 @@
 #ifndef HKUIConstants_h
 #define HKUIConstants_h
 
+//颜色
 #define kDefTintColor               HEXCOLOR(@"#18d06a")
 #define kDefLineColor               HEXCOLOR(@"#ebebeb")
 #define kDarkLineColor              HEXCOLOR(@"#e0e0e0")
@@ -20,6 +21,9 @@
 #define kLightTextColor             HEXCOLOR(@"#dbdbdb")
 #define kBackgroundColor            HEXCOLOR(@"#f7f7f8")
 #define kOrangeColor                HEXCOLOR(@"#ff7428")
+
+//图片名
+#define kImageFailConnect       @"def_failConnect"
 
 
 #endif /* HKUIConstants_h */

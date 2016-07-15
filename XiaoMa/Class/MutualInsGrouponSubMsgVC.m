@@ -86,7 +86,7 @@
         @strongify(self);
         MutualInsGrouponMsgCell *msgcell = (MutualInsGrouponMsgCell *)cell;
         msgcell.timeLabel.text = [data[@"time"] prettyDateFormat];
-        msgcell.atRightSide = ![data[@"left"] boolValue];
+//        msgcell.atRightSide = ![data[@"left"] boolValue];
         msgcell.titleLabel.text = data[@"title"];
         [msgcell.logoView setImageByUrl:data[@"img"] withType:ImageURLTypeOrigin defImage:@"mins_def" errorImage:@"mins_def"];
         msgcell.message = data[@"msg"];
