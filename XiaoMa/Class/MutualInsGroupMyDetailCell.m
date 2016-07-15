@@ -63,17 +63,17 @@
     @weakify(self);
     [self.feeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.leftMargin.mas_equalTo(kHorMargin);
-        make.rightMargin.mas_equalTo(-kHorMargin);
-        make.topMargin.mas_equalTo(8);
+        make.left.equalTo(self.contentView).offset(kHorMargin);
+        make.right.equalTo(self.contentView).offset(-kHorMargin);
+        make.top.equalTo(self.contentView).offset(8);
         make.height.mas_equalTo(40);
     }];
     
     [self.feeDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         
         @strongify(self);
-        make.leftMargin.mas_equalTo(kHorMargin);
-        make.rightMargin.mas_equalTo(-kHorMargin);
+        make.left.equalTo(self.contentView).offset(kHorMargin);
+        make.right.equalTo(self.contentView).offset(-kHorMargin);
         make.topMargin.equalTo(self.feeLabel.mas_bottom).offset(14);
         make.height.mas_equalTo(18);
     }];
@@ -81,23 +81,24 @@
     [self.pricesContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
         
         @strongify(self);
-        make.top.mas_equalTo(self.feeDescLabel.mas_bottom).offset(8);
+        make.top.equalTo(self.feeDescLabel.mas_bottom).offset(8);
         make.height.mas_equalTo(59);
         make.centerX.equalTo(self.contentView);
     }];
 
     [self.descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
        
-        make.leftMargin.mas_equalTo(kHorMargin);
-        make.rightMargin.mas_equalTo(-kHorMargin);
-        make.bottomMargin.mas_equalTo(-17);
+        @strongify(self);
+        make.left.equalTo(self.contentView).offset(kHorMargin);
+        make.right.equalTo(self.contentView).offset(-kHorMargin);
+        make.bottom.equalTo(self.contentView).offset(-17);
     }];
     
     [self.timesContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
        
         @strongify(self);
-        make.leftMargin.mas_equalTo(kHorMargin);
-        make.rightMargin.mas_equalTo(-kHorMargin);
+        make.left.equalTo(self.contentView).offset(kHorMargin);
+        make.right.equalTo(self.contentView).offset(-kHorMargin);
         make.top.equalTo(self.pricesContainerView.mas_bottom);
     }];
 }
@@ -159,25 +160,25 @@
         
         [priceL mas_makeConstraints:^(MASConstraintMaker *make) {
             
-            make.topMargin.mas_equalTo(0);
-            make.leftMargin.mas_equalTo(0);
-            make.rightMargin.mas_equalTo(0);
+            make.top.equalTo(container);
+            make.left.equalTo(container);
+            make.right.equalTo(container);
             make.height.mas_equalTo(18);
         }];
         
         [descL mas_makeConstraints:^(MASConstraintMaker *make) {
            
-            make.bottomMargin.mas_equalTo(0);
-            make.leftMargin.mas_equalTo(0);
-            make.rightMargin.mas_equalTo(0);
+            make.bottom.equalTo(container);
+            make.left.equalTo(container);
+            make.right.equalTo(container);
         }];
         
         [line mas_makeConstraints:^(MASConstraintMaker *make) {
             
             make.width.mas_equalTo(1);
-            make.topMargin.mas_equalTo(0);
-            make.leftMargin.mas_equalTo(0);
-            make.bottomMargin.mas_equalTo(0);
+            make.top.equalTo(container);
+            make.left.equalTo(container);
+            make.bottom.equalTo(container);
         }];
         
         leftObject = container.mas_right;
@@ -192,6 +193,7 @@
     
     id topObject = self.timesContainerView.mas_top;
 
+    @weakify(self);
     for (RACTuple *tuple in timeTuples) {
         UILabel *leftL = [[UILabel alloc] initWithFrame:CGRectZero];
         leftL.font = [UIFont systemFontOfSize:13];
@@ -210,13 +212,15 @@
         
         [leftL mas_makeConstraints:^(MASConstraintMaker *make) {
             
-            make.leftMargin.mas_equalTo(0);
+            @strongify(self);
+            make.left.equalTo(self.timesContainerView);
             make.top.equalTo(topObject).offset(8);
         }];
         
         [rightL mas_makeConstraints:^(MASConstraintMaker *make) {
            
-            make.rightMargin.mas_equalTo(0);
+            @strongify(self);
+            make.right.equalTo(self.timesContainerView);
             make.left.equalTo(leftL.mas_right).offset(5);
             make.baseline.equalTo(leftL);
         }];

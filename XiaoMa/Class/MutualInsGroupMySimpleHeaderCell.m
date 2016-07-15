@@ -79,8 +79,8 @@
     [self.descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         
         @strongify(self);
-        make.leftMargin.mas_equalTo(kHorMargin);
-        make.rightMargin.mas_equalTo(-kHorMargin);
+        make.left.equalTo(self.contentView).offset(kHorMargin);
+        make.right.equalTo(self.contentView).offset(-kHorMargin);
         make.top.equalTo(self.logoView.mas_bottom).offset(12);
     }];
 }
