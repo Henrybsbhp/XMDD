@@ -182,6 +182,19 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     }
 }
 
+- (void)actionGotoOrderInfoVC
+{
+    MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
+    vc.contractId = contractId;
+    
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    vc.router.userInfo[kMutInsGroupID] = self.router.userInfo[kMutInsGroupID];
+    vc.router.userInfo[kMutInsGroupID] = self.router.userInfo[kMutInsGroupID];
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - Menu
 - (void)reloadNavMenu {
     [self.popoverMenu dismissWithAnimated:YES];
@@ -274,7 +287,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
         @strongify(self);
         [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing0012"}];
         
-
+        
     });
     return dict;
 }
