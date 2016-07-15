@@ -363,15 +363,11 @@
         @strongify(self);
         [self gotoPaidSuccessVC];
         
-        NSString * groupId = self.router.userInfo[kMutInsGroupID];
-        NSString * memberId = self.router.userInfo[kMutInsMemberID];
+        NSNumber *groupId = self.router.userInfo[kMutInsGroupID];
+        NSNumber *memberId = self.router.userInfo[kMutInsMemberID];
         
         /// 如果有说明是从团详情进入的
-        if (groupId && memberId)
-        {
-//            @jjc TODO
-            [[MutualInsGroupDetailVM fetchExistsStore] fetchMyInfoForce:NO];
-        }
+        [[MutualInsGroupDetailVM fetchForGroupID:groupId memberID:memberId] fetchMyInfoForce:NO];
         
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];

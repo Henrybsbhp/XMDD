@@ -125,6 +125,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
             self.navigationItem.title = self.viewModel.baseInfo.rsp_groupname;
             [self reloadTabBar];
             [self reloadNavMenu];
+            [self reloadDotView];
         } error:^(NSError *error) {
             
             @strongify(self);
@@ -337,6 +338,17 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     return dict;
 }
 
+#pragma mark - DotView
+- (void)reloadDotView {
+    long long timetag =  self.viewModel.baseInfo.rsp_huzhulstupdatetime;
+    if ([self.viewModel saveTimetagIfNeeded:timetag forKey:@"fund"]) {
+        [self.tabBar setDotHidden:NO atIndex:[self.tabItems indexOfObjectForKey:@"fund"]];
+    }
+    timetag = self.viewModel.baseInfo.rsp_newslstupdatetime;
+    if ([self.viewModel saveTimetagIfNeeded:timetag forKey:@"message"]) {
+        [self.tabBar setDotHidden:NO atIndex:[self.tabItems indexOfObjectForKey:@"message"]];
+    }
+}
 
 #pragma mark - TabBar
 - (void)reloadTabBar {
@@ -372,6 +384,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         [self.viewModel fetchFundInfoForce:NO];
+        [self.tabBar setDotHidden:YES atIndex:[self.tabItems indexOfObjectForKey:item.key]];
     });
     return item;
     
@@ -389,11 +402,12 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 }
 
 - (CKDict *)tabItemMessages {
-    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"dynamic", @"title": @"动态", @"class": @"MutualInsGroupDetailMessagesVC"}];
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"message", @"title": @"动态", @"class": @"MutualInsGroupDetailMessagesVC"}];
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         [self.viewModel fetchMessagesInfoForce:NO];
+        [self.tabBar setDotHidden:YES atIndex:[self.tabItems indexOfObjectForKey:item.key]];
     });
     return item;
 }
