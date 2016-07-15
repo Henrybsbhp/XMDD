@@ -105,13 +105,16 @@
         
         [self.sysGroupView removeFromSuperview];
         
+        @weakify(self)
         [[self.selfGroupJoinBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
+            @strongify(self)
             [self selfGroupJoin];
         }];
         
         [[self.selfGroupTourBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
+            @strongify(self)
             [self selfGroupTour];
         }];
     }
@@ -149,6 +152,7 @@
     
     [RACObserve(self, linsenceFlag) subscribeNext:^(NSNumber * number) {
         
+        @strongify(self)
         BOOL flag = [number boolValue];
         self.checkBtn.selected = flag;
         
@@ -205,12 +209,15 @@
     
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
+        @weakify(self)
         GetCooperationUsercarListOp * op = [[GetCooperationUsercarListOp alloc] init];
         [[[op rac_postRequest] initially:^{
             
+            @strongify(self)
             [gToast showingWithText:@"获取车辆数据中..." inView:self.view];
         }] subscribeNext:^(GetCooperationUsercarListOp * x) {
             
+            @strongify(self)
             [gToast dismissInView:self.view];
             if (x.rsp_carArray.count)
             {
@@ -228,6 +235,7 @@
             }
         } error:^(NSError *error) {
             
+            @strongify(self)
             [gToast showError:@"获取失败，请重试" inView:self.view];
         }];
     }

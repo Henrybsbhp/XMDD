@@ -3726,6 +3726,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="bottomView" destination="WN2-mp-j5l" id="eja-P1-11k"/>
                         <outlet property="tableView" destination="kSH-q7-rW6" id="tNl-t6-j32"/>
                     </connections>
                 </viewController>

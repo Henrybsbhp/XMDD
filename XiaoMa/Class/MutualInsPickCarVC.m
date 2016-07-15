@@ -21,6 +21,11 @@
 
 @implementation MutualInsPickCarVC
 
+- (void)dealloc
+{
+    DebugLog(@"MutualInsPickCarVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -46,6 +51,8 @@
         NSString * licensenNumber = dict[@"licensenumber"];
         NSNumber * carId = dict[@"usercarid"];
         CKDict * carCell = [CKDict dictWith:@{kCKCellID:@"CarCell"}];
+        
+        @weakify(self)
         carCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
             
             return 82;
@@ -69,6 +76,7 @@
         
         carCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
             
+            @strongify(self)
             HKMyCar * car = [[HKMyCar alloc] init];
             car.carId = carId;
             car.licencenumber = licensenNumber;
@@ -82,6 +90,7 @@
         [list addObject:carCell forKey:nil];
     }
     
+    @weakify(self)
     CKDict * addCell = [CKDict dictWith:@{kCKCellID:@"AddCell"}];
     addCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
@@ -90,6 +99,7 @@
     
     addCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        @strongify(self)
         if (self.finishPickCar)
         {
             self.finishPickCar(nil);
