@@ -18,6 +18,8 @@
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) UITableView *tableView;
 
+@property (nonatomic)BOOL isShowdetailflag;
+
 @end
 
 @implementation MutInsSystemGroupListVM
@@ -76,6 +78,7 @@
         }
         [self.targetVC.view stopActivityAnimation];
         
+        self.isShowdetailflag = op.rsp_isShowdetailflag;
         self.dataSource = op.rsp_groupList;
         [self.tableView reloadData];
         
@@ -153,8 +156,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.section];
-    NSNumber *showDetailFlag = data[@"showdetailflag"];
-    if (showDetailFlag.integerValue == 1)
+    if (self.isShowdetailflag)
     {
         [self actionGotoGroupDetailVC:data[@"groupid"] andGroupName:data[@"groupname"]];
     }
