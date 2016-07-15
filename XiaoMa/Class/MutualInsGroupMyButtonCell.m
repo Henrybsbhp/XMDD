@@ -33,10 +33,13 @@
 }
 
 - (void)makeDefaultConstraints {
+    @weakify(self);
     [self.actionButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leftMargin.mas_equalTo(kHorMargin);
-        make.rightMargin.mas_equalTo(-kHorMargin);
-        make.topMargin.mas_equalTo(0);
+        
+        @strongify(self);
+        make.left.equalTo(self.contentView).offset(kHorMargin);
+        make.right.equalTo(self.contentView).offset(-kHorMargin);
+        make.top.equalTo(self.contentView).offset(0);
         make.size.mas_equalTo(50);
     }];
 }

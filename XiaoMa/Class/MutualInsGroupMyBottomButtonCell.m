@@ -34,7 +34,7 @@
 - (void)makeDefaultConstraints {
     [self.actionButton mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.edges.mas_equalTo(UIEdgeInsetsZero);
+        make.edges.equalTo(self.contentView).insets(UIEdgeInsetsZero);
     }];
 }
 
