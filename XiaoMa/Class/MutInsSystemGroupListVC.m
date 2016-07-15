@@ -124,7 +124,7 @@
 {
     if (!_groupBeginVM)
     {
-        _groupBeginVM = [[MutInsSystemGroupListVM alloc]initWithTableView:self.groupBeginTable andType:GroupStatusTypeBegin andTargetVC:self];
+        _groupBeginVM = [[MutInsSystemGroupListVM alloc] initWithTableView:self.groupBeginTable andType:GroupStatusTypeBegin andTargetVC:self];
     }
     return _groupBeginVM;
 }
@@ -133,7 +133,7 @@
 {
     if (!_groupEndVM)
     {
-        _groupEndVM = [[MutInsSystemGroupListVM alloc]initWithTableView:self.groupEndTable andType:GroupStatusTypeEnd andTargetVC:self];
+        _groupEndVM = [[MutInsSystemGroupListVM alloc] initWithTableView:self.groupEndTable andType:GroupStatusTypeEnd andTargetVC:self];
     }
     return _groupEndVM;
 }

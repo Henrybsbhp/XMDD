@@ -26,13 +26,17 @@
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *adVC;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
 
+/// 菜单视图
 @property (nonatomic, weak) HKPopoverView *popoverMenu;
+/// 菜单数据源
 @property (nonatomic, strong) CKList *menuItems;
+/// 菜单是否打开
+@property (nonatomic)BOOL isMenuOpen;
 
 /// 判断是否有团有车
 @property (nonatomic) BOOL isEmptyGroup;
-
 ///数据源
 @property (nonatomic, strong) CKList *dataSource;
 /// 获取到的数据，需要处理
@@ -40,7 +44,7 @@
 
 @property (nonatomic, strong) MutualInsStore *minsStore;
 
-@property (nonatomic)BOOL isMenuOpen;
+
 
 
 @end
@@ -360,6 +364,7 @@
             [self.tableView.refreshView beginRefreshing];
             self.tableView.hidden = NO;
         }
+        [self.view bringSubviewToFront:self.bottomView];
     }] subscribeNext:^(id x) {
         
         @strongify(self);
@@ -383,10 +388,6 @@
         [self.tableView.refreshView endRefreshing];
         self.tableView.hidden = NO;
         
-        [self.view stopActivityAnimation];
-        [self.tableView.refreshView endRefreshing];
-        self.tableView.hidden = NO;
-        
     } error:^(NSError *error) {
         
         @strongify(self);
@@ -396,6 +397,7 @@
             @strongify(self);
             [[self.minsStore reloadSimpleGroups] send];
         }];
+        [self.view bringSubviewToFront:self.bottomView];
     }];
 }
 
