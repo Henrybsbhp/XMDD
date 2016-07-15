@@ -74,7 +74,7 @@
         @strongify(self);
         make.left.equalTo(self.contentView).offset(kHorMargin);
         make.right.equalTo(self.contentView).offset(-kHorMargin);
-        make.topMargin.equalTo(self.feeLabel.mas_bottom).offset(14);
+        make.top.equalTo(self.feeLabel.mas_bottom).offset(14);
         make.height.mas_equalTo(18);
     }];
     

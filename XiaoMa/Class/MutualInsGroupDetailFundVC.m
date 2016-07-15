@@ -8,11 +8,6 @@
 
 #import "MutualInsGroupDetailFundVC.h"
 #import "MutualInsGroupFundCell.h"
-#import "MutualInsGroupDetailVM.h"
-
-@interface MutualInsGroupDetailFundVC ()
-@property (nonatomic, strong) MutualInsGroupDetailVM *viewModel;
-@end
 
 @implementation MutualInsGroupDetailFundVC
 
@@ -33,8 +28,6 @@
 }
 
 - (void)subscribeReloadSignal {
-    self.viewModel = [MutualInsGroupDetailVM fetchOrCreateStore];
-    
     @weakify(self);
     [[RACObserve(self.viewModel, reloadFundInfoSignal) distinctUntilChanged] subscribeNext:^(RACSignal *signal) {
         

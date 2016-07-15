@@ -7,7 +7,6 @@
 //
 
 #import "MutualInsGroupDetailMeVC.h"
-#import "MutualInsGroupDetailVM.h"
 #import "MutualInsGroupMyBottomButtonCell.h"
 #import "MutualInsGroupMyButtonCell.h"
 #import "MutualInsGroupMySimpleHeaderCell.h"
@@ -19,7 +18,6 @@
 
 
 @interface MutualInsGroupDetailMeVC ()
-@property (nonatomic, strong) MutualInsGroupDetailVM *viewModel;
 @end
 
 @implementation MutualInsGroupDetailMeVC
@@ -46,8 +44,6 @@
 
 #pragma mark - Subscribe
 - (void)subscribeReloadSignal {
-    self.viewModel = [MutualInsGroupDetailVM fetchOrCreateStore];
-    
     @weakify(self);
     [[RACObserve(self.viewModel, reloadMyInfoSignal) distinctUntilChanged] subscribeNext:^(RACSignal *signal) {
         
@@ -92,18 +88,25 @@
     vc.memberId = self.viewModel.myInfo.req_memberid;
     vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
     vc.router.userInfo[kOriginRoute] = self.router;
-    [self.router.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 /// 我的协议
 - (void)actionAgreement {
-    
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing0015"}];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.title = @"我的协议";
+    vc.url = self.viewModel.myInfo.rsp_contracturl;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 /// 去支付
 - (void)actionPay {
-    CKRouter *router = [CKRouter routerWithViewControllerName:@"UIViewController"];
-    [self.router.navigationController pushRouter:router animated:YES];
+    UIViewController *vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
+    [vc setValue:self.viewModel.baseInfo.rsp_contractid forKey:@"contractId"];
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.parentViewController.router;
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark - Datasource
 - (void)reloadDatasource {

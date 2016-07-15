@@ -88,7 +88,7 @@
     if (self.delegate) {
         return [self.delegate navigationControllerForRouter:self];
     }
-    return nil;
+    return (CKNavigationController *)self.targetViewController.navigationController;
 }
 
 - (void)setNavigationBarHidden:(BOOL)navigationBarHidden {
