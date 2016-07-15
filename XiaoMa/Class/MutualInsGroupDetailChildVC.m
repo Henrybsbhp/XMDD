@@ -7,13 +7,10 @@
 //
 
 #import "MutualInsGroupDetailChildVC.h"
-#import "MutualInsGroupDetailVM.h"
-
-@interface MutualInsGroupDetailChildVC ()
-
-@end
+#import "MutualInsConstants.h"
 
 @implementation MutualInsGroupDetailChildVC
+@synthesize viewModel = _viewModel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,7 +36,11 @@
 }
 
 - (MutualInsGroupDetailVM *)viewModel {
-    return self.router.userInfo[@"groupDetailViewModel"];
+    if (!_viewModel) {
+        _viewModel = [MutualInsGroupDetailVM fetchOrCreateForGroupID:self.router.userInfo[kMutInsGroupID]
+                                                            memberID:self.router.userInfo[kMutInsMemberID]];
+    }
+    return _viewModel;
 }
 
 #pragma mark - UITableView
