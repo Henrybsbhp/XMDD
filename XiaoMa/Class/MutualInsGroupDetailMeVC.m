@@ -102,7 +102,8 @@
 
 /// 去支付
 - (void)actionPay {
-    
+    CKRouter *router = [CKRouter routerWithViewControllerName:@"UIViewController"];
+    [self.router.navigationController pushRouter:router animated:YES];
 }
 #pragma mark - Datasource
 - (void)reloadDatasource {
