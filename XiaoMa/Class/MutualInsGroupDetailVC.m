@@ -52,11 +52,11 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     [super viewWillDisappear:animated];
     [self.popoverMenu dismissWithAnimated:YES];
 }
+
 #pragma mark - Setup
 - (void)setupViewModel {
-    self.viewModel = [MutualInsGroupDetailVM fetchOrCreateStore];
-    self.viewModel.groupID = self.router.userInfo[kMutInsGroupID];
-    self.viewModel.memberID = self.router.userInfo[kMutInsMemberID];
+    self.viewModel = [MutualInsGroupDetailVM fetchOrCreateForGroupID:self.router.userInfo[kMutInsGroupID]
+                                                            memberID:self.router.userInfo[kMutInsMemberID]];
 }
 
 - (void)setupNavigation {
@@ -91,7 +91,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 
 - (void)setupChildVCWithTabItem:(CKDict *)item {
     UIViewController *vc = [[NSClassFromString(item[@"class"]) alloc] init];
-    vc.router.userInfo = self.router.userInfo;
+    vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
     [self addChildViewController:vc];
     [self.viewControllers addObject:vc forKey:item.key];
 }
@@ -255,7 +255,6 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         [MobClick event:@"xiaomahuzhu" attributes:@{@"tuanxiangqing":@"tuanxiangqing0009"}];
-        
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [gPhoneHelper makePhone:@"4007111111"];
@@ -266,15 +265,22 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     return dict;
 }
 
-- (CKDict *)menuItemMyOrder {
+- (id)menuItemMyOrder {
+    if ([self.viewModel.baseInfo.rsp_contractid integerValue] == 0) {
+        return CKNULL;
+    }
+    
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Order",@"title":@"我的订单",@"img":@"mins_order"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
         [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing0012"}];
-        
-
+        UIViewController *vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
+        [vc setValue:self.viewModel.baseInfo.rsp_contractid forKey:@"contractId"];
+        vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
+        vc.router.userInfo[kOriginRoute]= self.router;
+        [self.navigationController pushViewController:vc animated:YES];
     });
     return dict;
 }
@@ -311,6 +317,9 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 //使用帮助
 - (id)menuItemUsinghelp
 {
+    if (self.viewModel.baseInfo.rsp_helpurl.length == 0) {
+        return CKNULL;
+    }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Help",@"title":@"使用帮助",@"img":@"mins_question"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {

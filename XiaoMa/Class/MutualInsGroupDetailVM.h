@@ -36,6 +36,9 @@ extern NSInteger const kFetchPageAmount;
 @property (nonatomic, strong) GetCooperationGroupMembersOp *membersInfo;
 @property (nonatomic, strong) GetCooperationGroupMessageListOp *messagesInfo;
 
++ (instancetype)fetchForGroupID:(NSNumber *)groupID memberID:(NSNumber *)memberID;
++ (instancetype)fetchOrCreateForGroupID:(NSNumber *)groupID memberID:(NSNumber *)memberID;
+
 - (void)fetchBaseInfoForce:(BOOL)force;
 - (void)fetchMyInfoForce:(BOOL)force;
 - (void)fetchFundInfoForce:(BOOL)force;

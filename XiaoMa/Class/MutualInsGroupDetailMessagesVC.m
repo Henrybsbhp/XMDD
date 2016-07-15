@@ -7,13 +7,8 @@
 //
 
 #import "MutualInsGroupDetailMessagesVC.h"
-#import "MutualInsGroupDetailVM.h"
 #import "MutualInsConstants.h"
 #import "MutualInsGrouponMsgCell.h"
-
-@interface MutualInsGroupDetailMessagesVC ()
-@property (nonatomic, strong) MutualInsGroupDetailVM *viewModel;
-@end
 
 @implementation MutualInsGroupDetailMessagesVC
 
@@ -39,7 +34,6 @@
 
 #pragma mark - Subscribe
 - (void)subscribeReloadSignal {
-    self.viewModel = [MutualInsGroupDetailVM fetchOrCreateStore];
     @weakify(self);
     [[RACObserve(self.viewModel, reloadMessagesInfoSignal) distinctUntilChanged] subscribeNext:^(RACSignal *signal) {
         
@@ -81,7 +75,6 @@
 }
 
 - (void)subscribeLoadMoreSignal {
-    self.viewModel = [MutualInsGroupDetailVM fetchOrCreateStore];
     @weakify(self);
     [[RACObserve(self.viewModel, loadMoreMessagesInfoSignal) distinctUntilChanged] subscribeNext:^(RACSignal *signal) {
         

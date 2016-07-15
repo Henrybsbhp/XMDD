@@ -7,14 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-@class MutualInsGroupDetailVM;
+#import "MutualInsGroupDetailVM.h"
 
 @interface MutualInsGroupDetailChildVC : UIViewController<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) CKList *datasource;
-
-- (MutualInsGroupDetailVM *)viewModel;
-///@Override
-- (CKList *)createDatasource;
+@property (nonatomic, strong, readonly) MutualInsGroupDetailVM *viewModel;
 
 @end
