@@ -723,6 +723,7 @@
 		C25DF9761AFCA7D3009C4041 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DF9751AFCA7D3009C4041 /* MyCouponVC.m */; };
 		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
 		C30041381CCE0370001CBFCA /* WelcomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C30041371CCE0370001CBFCA /* WelcomeVC.m */; };
+		C30685891D37B243007CB4C4 /* MutualInsHomeAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C30685881D37B243007CB4C4 /* MutualInsHomeAdVC.m */; };
 		C30B89801D33BA390022AA53 /* UpdateCooperationIdlicenseInfoV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = C30B897F1D33BA390022AA53 /* UpdateCooperationIdlicenseInfoV2Op.m */; };
 		C30B89921D33C5CE0022AA53 /* NSNumber+Safety.m in Sources */ = {isa = PBXBuildFile; fileRef = C30B89911D33C5CE0022AA53 /* NSNumber+Safety.m */; };
 		C30B89DD1D34F6610022AA53 /* MutualInsPicUpdateResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C30B89DC1D34F6610022AA53 /* MutualInsPicUpdateResultVC.m */; };
@@ -2337,6 +2338,8 @@
 		C26489B31AF8A70A00F1E318 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		C30041361CCE0370001CBFCA /* WelcomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeVC.h; sourceTree = "<group>"; };
 		C30041371CCE0370001CBFCA /* WelcomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeVC.m; sourceTree = "<group>"; };
+		C30685871D37B243007CB4C4 /* MutualInsHomeAdVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsHomeAdVC.h; sourceTree = "<group>"; };
+		C30685881D37B243007CB4C4 /* MutualInsHomeAdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsHomeAdVC.m; sourceTree = "<group>"; };
 		C30B897E1D33BA390022AA53 /* UpdateCooperationIdlicenseInfoV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateCooperationIdlicenseInfoV2Op.h; path = Class/UpdateCooperationIdlicenseInfoV2Op.h; sourceTree = "<group>"; };
 		C30B897F1D33BA390022AA53 /* UpdateCooperationIdlicenseInfoV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateCooperationIdlicenseInfoV2Op.m; path = Class/UpdateCooperationIdlicenseInfoV2Op.m; sourceTree = "<group>"; };
 		C30B89901D33C5CE0022AA53 /* NSNumber+Safety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNumber+Safety.h"; path = "Class/NSNumber+Safety.h"; sourceTree = "<group>"; };
@@ -3102,6 +3105,8 @@
 				184452ED1C8D169A007B895D /* MutualInsGroupon */,
 				FAA6B9AE1D333734004D922F /* MutualInsVC.h */,
 				FAA6B9AF1D333734004D922F /* MutualInsVC.m */,
+				C30685871D37B243007CB4C4 /* MutualInsHomeAdVC.h */,
+				C30685881D37B243007CB4C4 /* MutualInsHomeAdVC.m */,
 			);
 			name = MutualIns;
 			sourceTree = "<group>";
@@ -6128,6 +6133,7 @@
 				18FC01E21C4E6C6F00FD61BF /* IQBarButtonItem.m in Sources */,
 				FA3E5E011CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m in Sources */,
 				180539461C9FCDE600D896A1 /* MutualInsStore.m in Sources */,
+				C30685891D37B243007CB4C4 /* MutualInsHomeAdVC.m in Sources */,
 				1884ACE31BA2A59E00E5CACF /* InsuranceInfoSubmitingVC.m in Sources */,
 				1844FB3E1CD9C8880085A0D4 /* UIColor+ColorWithHexString.m in Sources */,
 				1844FB361CD9C8880085A0D4 /* NSMutableDictionary+Safety.m in Sources */,

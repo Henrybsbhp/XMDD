@@ -62,7 +62,13 @@
     
     if (self.groupType == MutualGroupTypeSystem)
     {
-        urlStr = self.groupIntrUrlStr;
+#if XMDDEnvironment==0
+        urlStr = @"http://dev01.xiaomadada.com/apphtml/requirement.html";
+#elif XMDDEnvironment==1
+        urlStr = @"http://dev.xiaomadada.com/apphtml/requirement.html";
+#else
+        urlStr = @"http://www.xiaomadada.com/apphtml/requirement.html";
+#endif
     }
     else
     {
@@ -241,7 +247,6 @@
     if ([LoginViewModel loginIfNeededForTargetViewController:self])
     {
         CreateGroupVC * vc = [UIStoryboard vcWithId:@"CreateGroupVC" inStoryboard:@"MutualInsJoin"];
-        vc.originVC = self.originVC;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
