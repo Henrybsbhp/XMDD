@@ -307,13 +307,21 @@
 {
     /// 设置delegate必须在前面，（先关闭）
 //    CrashlyticsKit.delegate = self;
+    
+#ifdef DEBUG
+    
+#else
+    #if XMDDEnvironment==2
     [Fabric with:@[CrashlyticsKit]];
     
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser *user) {
-       
+        
         NSString * userIdentifier = user ? user.userID : @"";
         [CrashlyticsKit setUserIdentifier:userIdentifier];
     }];
+    #endif
+#endif
+    
 }
 
 - (void)crashlyticsDidDetectReportForLastExecution:(CLSReport *)report completionHandler:(void (^)(BOOL))completionHandler

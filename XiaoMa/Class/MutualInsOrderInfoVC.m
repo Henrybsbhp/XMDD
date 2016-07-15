@@ -306,7 +306,8 @@
     [array safetyAddObject:@{@"id":@"ProgressCell"}];
     
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"互助团员",@"content":self.contract.insurancedname ?: @""}];
-    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保障期限",@"content":self.contract.contractperiod ?: @""}];
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保障开始",@"content":self.contract.contractperiodbegin ?: @""}];
+    [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"保障结束",@"content":self.contract.contractperiodend ?: @""}];
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"证件号码",@"content":self.contract.idno ?: @""}];
     [array safetyAddObject:@{@"id":@"InfoCell",@"title":@"被保障车辆",@"content":self.contract.licencenumber ?: @""}];
     

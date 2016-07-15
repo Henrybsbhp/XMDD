@@ -7,6 +7,7 @@
 //
 
 #import "GetGroupJoinedInfoOp.h"
+#import "MutualInsCarListModel.h"
 
 @implementation GetGroupJoinedInfoOp
 
@@ -21,7 +22,13 @@
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-    self.carList = rspObj[@"carlist"];
+    NSArray *list = rspObj[@"carlist"];
+    NSMutableArray *array = [NSMutableArray array];
+    for (NSDictionary *dict in list) {
+        MutualInsCarListModel *carListModel = [MutualInsCarListModel carlistWithJSONResponse:dict];
+        [array safetyAddObject:carListModel];
+    }
+    self.carList = [NSArray arrayWithArray:array];
     self.isShowPlanBtn = [rspObj boolParamForName:@"showplanbtn"];
     self.isShowRegistBtn = [rspObj boolParamForName:@"showregistbtn"];
     self.couponList = rspObj[@"couponlist"];

@@ -12,7 +12,7 @@
 @interface MutInsSystemGroupListVM()<UITableViewDelegate,UITableViewDataSource>
 
 @property (assign, nonatomic) GroupStatusType status;
-@property (strong, nonatomic) MutInsSystemGroupListVC *targetVC;
+@property (weak, nonatomic) MutInsSystemGroupListVC *targetVC;
 
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) UITableView *tableView;
@@ -23,7 +23,7 @@
 
 -(void)dealloc
 {
-    
+    DebugLog(@"MutInsSystemGroupListVM dealloc");
 }
 
 -(id)initWithTableView:(UITableView *)tableView andType:(GroupStatusType)groupStatusType andTargetVC:(MutInsSystemGroupListVC *)groupListVC
@@ -44,11 +44,10 @@
 
 - (void)getCooperationGroupList
 {
-    @weakify(self)
     GetCooperationGroupOp *op = [GetCooperationGroupOp operation];
-    
     op.req_status = @(self.status);
     
+    @weakify(self)
     [[[op rac_postRequest]initially:^{
      
         @strongify(self)
@@ -64,8 +63,8 @@
         [self.targetVC.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }]subscribeNext:^(GetCooperationGroupOp *op) {
-        @strongify(self)
         
+        @strongify(self)
         if (self.status == GroupStatusTypeEnd)
         {
             self.targetVC.groupEndTable.hidden = NO;
@@ -76,8 +75,6 @@
         }
         [self.targetVC.view stopActivityAnimation];
         
-        
-        self.groupLinkUrl = op.rsp_groupLinkUrl;
         self.dataSource = op.rsp_groupList;
         [self.tableView reloadData];
         
@@ -86,6 +83,7 @@
         @strongify(self)
         [self.targetVC.view stopActivityAnimation];
         
+        @weakify(self)
         [self.targetVC.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取团列表失败。请点击重试" tapBlock:^{
             @strongify(self)
             [self getCooperationGroupList];
@@ -157,7 +155,7 @@
     NSNumber *showDetailFlag = data[@"showdetailflag"];
     if (showDetailFlag.integerValue == 1)
     {
-//        进入团详情页面
+        [self actionGotoGroupDetailVC];
     }
     
 }
@@ -166,7 +164,6 @@
 
 -(void)configDetailView:(UIView *)detailView WithExtendinfo:(NSArray *)extendinfo
 {
-    
     [detailView removeSubviews];
     NSLayoutConstraint *constraint = detailView.constraints.firstObject;
     constraint.constant = extendinfo.count * 17 + (extendinfo.count - 1) * 10;
@@ -254,5 +251,10 @@
     label.layer.borderWidth = 1;
 }
 
+
+- (void)actionGotoGroupDetailVC
+{
+    
+}
 
 @end

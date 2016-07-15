@@ -9,6 +9,10 @@
 @property (nonatomic,strong) NSString* insurancedname;
 ///协议期限
 @property (nonatomic,strong) NSString* contractperiod;
+///协议开始时间
+@property (nonatomic,strong) NSString* contractperiodbegin;
+///协议结束时间
+@property (nonatomic,strong) NSString* contractperiodend;
 ///车牌
 @property (nonatomic,strong) NSString* licencenumber;
 ///证件号
