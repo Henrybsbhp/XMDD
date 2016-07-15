@@ -621,7 +621,6 @@
     [[[howBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         if ([dict[@"title"] isEqualToString:@"发动机号"])
         {
-//            @fq TODO
             [self showPicture:@"violation_eg"];
         }
         else

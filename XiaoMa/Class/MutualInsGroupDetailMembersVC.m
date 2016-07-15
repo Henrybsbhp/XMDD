@@ -7,13 +7,11 @@
 //
 
 #import "MutualInsGroupDetailMembersVC.h"
-#import "MutualInsGroupDetailVM.h"
 #import "MutualInsGroupMemberCell.h"
 #import "MutualInsGroupMemberSectionCell.h"
 #import "CMarkupTransformer.h"
 
 @interface MutualInsGroupDetailMembersVC ()
-@property (nonatomic, strong) MutualInsGroupDetailVM *viewModel;
 @property (nonatomic, assign) long long curTimetag;
 @end
 
@@ -44,7 +42,6 @@
 
 #pragma mark - Subscribe
 - (void)subscribeReloadSignal {
-    self.viewModel = [MutualInsGroupDetailVM fetchOrCreateStore];
     @weakify(self);
     [[RACObserve(self.viewModel, reloadMembersInfoSignal) distinctUntilChanged] subscribeNext:^(RACSignal *signal) {
         
@@ -85,7 +82,6 @@
 }
 
 - (void)subscribeLoadMoreSignal {
-    self.viewModel = [MutualInsGroupDetailVM fetchOrCreateStore];
     @weakify(self);
     [[RACObserve(self.viewModel, loadMoreMembersInfoSignal) distinctUntilChanged] subscribeNext:^(RACSignal *signal) {
         

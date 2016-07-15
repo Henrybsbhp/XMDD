@@ -45,9 +45,6 @@
 
 @property (nonatomic, strong) MutualInsStore *minsStore;
 
-
-
-
 @end
 
 @implementation MutualInsVC

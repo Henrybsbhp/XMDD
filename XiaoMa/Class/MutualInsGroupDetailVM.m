@@ -13,6 +13,23 @@ NSInteger const kFetchPageAmount = 10;
 
 @implementation MutualInsGroupDetailVM
 
++ (instancetype)fetchForGroupID:(NSNumber *)groupID memberID:(NSNumber *)memberID {
+    MutualInsGroupDetailVM *vm = [self fetchExistsStoreForKey:[self keyWithGroupID:groupID andMemberID:memberID]];
+    vm.groupID = groupID;
+    vm.memberID = memberID;
+    return vm;
+}
++ (instancetype)fetchOrCreateForGroupID:(NSNumber *)groupID memberID:(NSNumber *)memberID {
+    MutualInsGroupDetailVM *vm = [self fetchOrCreateStoreForKey:[self keyWithGroupID:groupID andMemberID:memberID]];
+    vm.groupID = groupID;
+    vm.memberID = memberID;
+    return vm;
+}
+
++ (NSString *)keyWithGroupID:(NSNumber *)groupID andMemberID:(NSNumber *)memberID {
+    return [NSString stringWithFormat:@"MutualIns.Group.Detail.ViewModel.%@.%@", groupID, memberID];
+}
+
 - (void)fetchBaseInfoForce:(BOOL)force {
     if (!force && self.reloadBaseInfoSignal) {
         return;
