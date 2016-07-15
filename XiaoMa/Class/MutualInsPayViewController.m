@@ -369,7 +369,7 @@
         /// 如果有说明是从团详情进入的
         if (groupId && memberId)
         {
-            @jjc TODO
+//            @jjc TODO
             [[MutualInsGroupDetailVM fetchExistsStore] fetchMyInfoForce:NO];
         }
         
