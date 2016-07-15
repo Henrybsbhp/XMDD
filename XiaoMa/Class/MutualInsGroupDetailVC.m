@@ -184,15 +184,6 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 
 - (void)actionGotoOrderInfoVC
 {
-    MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
-    vc.contractId = contractId;
-    
-    vc.router.userInfo = [[CKDict alloc] init];
-    vc.router.userInfo[kOriginRoute] = self.router;
-    vc.router.userInfo[kMutInsGroupID] = self.router.userInfo[kMutInsGroupID];
-    vc.router.userInfo[kMutInsGroupID] = self.router.userInfo[kMutInsGroupID];
-    
-    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Menu
