@@ -720,6 +720,7 @@
 - (CKDict *)setupExtendedInfoCellWithDict:(NSDictionary *)dict sourceDict:(MutualInsCarListModel *)sourceDict
 {
     CKDict *extendedInfoCell = [CKDict dictWith:@{kCKItemKey: @"extendedInfoCell", kCKCellID: @"ExtendedInfoCell"}];
+    extendedInfoCell[@"dict"] = dict;
     @weakify(self);
     extendedInfoCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         NSString *titleString = [NSString stringWithFormat:@"%@", dict.allKeys.firstObject];
@@ -738,7 +739,7 @@
         // 进入团详情页面
         @strongify(self);
         [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye10"}];
-        [self actionGotoGroupDetailVC];
+        [self actionGotoGroupDetailVC:data[@"dict"]];
     });
     
     extendedInfoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
