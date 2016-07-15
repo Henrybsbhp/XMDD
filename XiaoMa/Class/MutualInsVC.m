@@ -199,13 +199,13 @@
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)actionGotoGroupDetailVC:(NSDictionary *)dict
+- (void)actionGotoGroupDetailVC:(MutualInsCarListModel *)dict
 {
     CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGroupDetailVC"];
     router.userInfo = [[CKDict alloc] init];
-    router.userInfo[kMutInsGroupID] = dict[@"groupid"];
-    router.userInfo[kMutInsGroupName] = dict[@"groupname"];
-    router.userInfo[kMutInsMemberID] = dict[@"memberid"];
+    router.userInfo[kMutInsGroupID] = dict.groupID;
+    router.userInfo[kMutInsGroupName] = dict.groupName;
+    router.userInfo[kMutInsMemberID] = dict.memberID;
     [self.router.navigationController pushRouter:router animated:YES];
 }
 
@@ -720,7 +720,7 @@
 - (CKDict *)setupExtendedInfoCellWithDict:(NSDictionary *)dict sourceDict:(MutualInsCarListModel *)sourceDict
 {
     CKDict *extendedInfoCell = [CKDict dictWith:@{kCKItemKey: @"extendedInfoCell", kCKCellID: @"ExtendedInfoCell"}];
-    extendedInfoCell[@"dict"] = dict;
+    extendedInfoCell[@"dict"] = sourceDict;
     @weakify(self);
     extendedInfoCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         NSString *titleString = [NSString stringWithFormat:@"%@", dict.allKeys.firstObject];
