@@ -182,6 +182,10 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     }
 }
 
+- (void)actionGotoOrderInfoVC
+{
+}
+
 #pragma mark - Menu
 - (void)reloadNavMenu {
     [self.popoverMenu dismissWithAnimated:YES];

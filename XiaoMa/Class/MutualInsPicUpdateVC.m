@@ -13,7 +13,6 @@
 #import "PictureRecord.h"
 #import "HKImageView.h"
 #import "UpdateCooperationIdlicenseInfoV2Op.h"
-#import "EstimatedPriceVC.h"
 #import "GetCooperationIdlicenseInfoOp.h"
 #import "MutualInsStore.h"
 #import "MutualInsGrouponVC.h"

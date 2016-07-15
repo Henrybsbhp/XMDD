@@ -14,27 +14,6 @@
 
 + (UIImage *)captureScreen
 {
-    
-//    @fq 下次上AppStore一定要去掉
-//    CGImageRef UIGetScreenImage();
-//    CGImageRef cgScreen = UIGetScreenImage();
-//    if (cgScreen) {
-//        UIImage *result = [UIImage imageWithCGImage:cgScreen];
-//        CGImageRelease(cgScreen);
-//        return result;
-//    }
-//    return nil;
-    
-    
-//    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-//    CGRect rect = [keyWindow bounds];
-//    UIGraphicsBeginImageContext(rect.size);
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-//    [keyWindow.layer renderInContext:context];
-//    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    return img;
-    
     UIImage * image = [JTCaptureScreen screenshotWithStatusBar:YES];
     return image;
 }
