@@ -29,6 +29,7 @@
 #import "MoreSubmodulesVC.h"
 #import "ParkingShopGasInfoVC.h"
 #import "MutualInsVC.h"
+#import "MutualInsHomeAdVC.h"
 
 #import "AppDelegate.h"
 
@@ -372,24 +373,23 @@
             UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
+        //加入小马互助长条广告
+        else if ([@"coinsad" equalByCaseInsensitive:name]) {
+            
+            MutualInsHomeAdVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsHomeAdVC"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+            return YES;
+        }
         //加入小马互助团
         else if ([@"coins" equalByCaseInsensitive:name]) {
             
-            for (UIViewController * vc in self.curNavCtrl.viewControllers)
-            {
-                if ([vc isKindOfClass:[MutualInsVC class]])
-                {
-                    [self.curNavCtrl popViewControllerAnimated:YES];
-                    return YES;
-                }
-            }
             MutualInsVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         //加入小马互助团系统团
         else if ([@"cosys" equalByCaseInsensitive:name]) {
             
-            UIViewController *vc = [UIStoryboard vcWithId:@"SystemGroupListVC" inStoryboard:@"MutualInsJoin"];
+            UIViewController *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsSystemGroupListVC"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         /// 小马互助订单详情

@@ -22,43 +22,6 @@
 #import "MutualInsPicUpdateVC.h"
 #import "MutualInsOrderInfoVC.h"
 
-typedef NS_ENUM(NSInteger, statusValues) {
-    /// 未参团 / 参团失败
-    XMGroupFailed        = 0,
-    
-    /// 团长无车
-    XMGroupWithNoCar     = -1,
-    
-    /// 资料代完善
-    XMDataImcompleteV1   = 1,
-    
-    /// 资料代完善
-    XMDataImcompleteV2   = 2,
-    
-    /// 审核中
-    XMInReview           = 3,
-    
-    /// 待支付
-    XMWaitingForPay      = 5,
-    
-    /// 支付成功
-    XMPaySuccessed       = 6,
-    
-    /// 互助中
-    XMInMutual           = 7,
-    
-    /// 保障中
-    XMInEnsure           = 8,
-    
-    /// 已过期
-    XMOverdue            = 10,
-    
-    /// 重新上传资料
-    XMReuploadData       = 20,
-    
-    /// 审核失败
-    XMReviewFailed       = 21
-};
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -502,21 +465,21 @@ typedef NS_ENUM(NSInteger, statusValues) {
             [extentedInfoArray addObject:[self setupExtendedInfoCellWithDict:secDict sourceDict:dict]];
         }
         
-        if (dict.status.integerValue == XMGroupWithNoCar) {
+        if (dict.status == XMGroupWithNoCar) {
             // 团长无车
             [dataSource addObject:$(groupInfoCell, CKJoin(extentedInfoArray)) forKey:nil];
             
 
-        } else if (dict.status.integerValue == XMGroupFailed|| (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1)) {
+        } else if (dict.status == XMGroupFailed|| (dict.status == XMInReview && dict.numberCnt.integerValue < 1)) {
             // 未参团 / 入团失败 / 审核中（有车无团）
             [dataSource addObject:$(normalStatusCell, CKJoin([self getCouponInfoWithData:dict.couponList sourceDict:dict])) forKey:nil];
             
-        } else if (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue == 0) {
+        } else if (dict.status == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 审核失败（无团）
             CKList *group = $(statusButtonCell, CKJoin([self getCouponInfoWithData:dict.couponList sourceDict:dict]));
             [dataSource addObject:group forKey:nil];
             
-        } else if (dict.status.integerValue == XMWaitingForPay || dict.status.integerValue == XMDataImcompleteV1 || dict.status.integerValue == XMDataImcompleteV2 || (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue > 0)) {
+        } else if (dict.status == XMWaitingForPay || dict.status == XMDataImcompleteV1 || dict.status == XMDataImcompleteV2 || (dict.status == XMReviewFailed && dict.numberCnt.integerValue > 0)) {
             // 待支付 / 待完善资料 / 审核失败（有团）
             [dataSource addObject:$(statusButtonCell, groupInfoCell, CKJoin(extentedInfoArray)) forKey:nil];
         } else {
@@ -568,13 +531,13 @@ typedef NS_ENUM(NSInteger, statusValues) {
         @strongify(self);
         
         // 有车无团「未参团」状态
-        if (dict.status.integerValue == XMGroupFailed) {
+        if (dict.status == XMGroupFailed) {
             
             [self actionGotoSystemGroupListVC];
-        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1) {
+        } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
-        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue > 0) {
+        } else if (dict.status == XMInReview && dict.numberCnt.integerValue > 0) {
             // 有车有团审核中状态
             /// 进入「团详情」页面
             
@@ -620,13 +583,13 @@ typedef NS_ENUM(NSInteger, statusValues) {
     });
     
     statusWithButtonCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        if (dict.status.integerValue == XMReuploadData || dict.status.integerValue == XMReviewFailed) {
+        if (dict.status == XMReuploadData || dict.status == XMReviewFailed) {
             [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye11"}];
             // 进入「重新上传资料」页面
                 
             
             
-        } else if (dict.status.integerValue == XMWaitingForPay) {
+        } else if (dict.status == XMWaitingForPay) {
             // 进入「订单详情」页面
             
             
@@ -659,7 +622,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
         tipsLabel.textColor = HEXCOLOR(@"#888888");
         tipsLabel.text = dict.tip;
         
-        if (dict.status.integerValue == XMReuploadData || dict.status.integerValue == XMReviewFailed) {
+        if (dict.status == XMReuploadData || dict.status == XMReviewFailed) {
             [bottomButton setTitle:@"重新上传资料" forState:UIControlStateNormal];
             @weakify(self);
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -672,7 +635,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
                 [self actionGotoUpdateInfoVC:car];
             }];
             
-        } else if (dict.status.integerValue == XMWaitingForPay) {
+        } else if (dict.status == XMWaitingForPay) {
             
             [bottomButton setTitle:@"前去支付" forState:UIControlStateNormal];
             @weakify(self);
@@ -706,7 +669,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     return statusWithButtonCell;
 }
 
-/// 设置显示团名，时间，人数信息的 Cell
+/// 设置显示团名，人数信息的 Cell
 - (CKDict *)setupGroupInfoCellWithDict:(MutualInsCarListModel *)dict
 {
     @weakify(self);
@@ -734,6 +697,7 @@ typedef NS_ENUM(NSInteger, statusValues) {
     return groupInfoCell;
 }
 
+/// 设置显示时间等其他信息的 Cell
 - (CKDict *)setupExtendedInfoCellWithDict:(NSDictionary *)dict sourceDict:(MutualInsCarListModel *)sourceDict
 {
     CKDict *extendedInfoCell = [CKDict dictWith:@{kCKItemKey: @"extendedInfoCell", kCKCellID: @"ExtendedInfoCell"}];
@@ -783,15 +747,15 @@ typedef NS_ENUM(NSInteger, statusValues) {
         @strongify(self);
         
         // 有车无团「未参团」状态
-        if (dict.status.integerValue == XMGroupFailed) {
+        if (dict.status == XMGroupFailed) {
             
             [self actionGotoSystemGroupListVC];
             
-        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1) {
+        } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
             
-        } else if (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue == 0) {
+        } else if (dict.status == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
             
@@ -822,14 +786,14 @@ typedef NS_ENUM(NSInteger, statusValues) {
     tipsTitleCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         // 有车无团「未参团」状态
-        if (dict.status.integerValue == XMGroupFailed) {
+        if (dict.status == XMGroupFailed) {
             
             [self actionGotoSystemGroupListVC];
-        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1) {
+        } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
             
-        } else if (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue == 0) {
+        } else if (dict.status == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
             
@@ -874,15 +838,15 @@ typedef NS_ENUM(NSInteger, statusValues) {
     tipsCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         // 有车无团「未参团」状态
-        if (dict.status.integerValue == XMGroupFailed) {
+        if (dict.status == XMGroupFailed) {
             
             [self actionGotoSystemGroupListVC];
             
-        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1) {
+        } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
             
-        } else if (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue == 0) {
+        } else if (dict.status == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
             
@@ -951,14 +915,14 @@ typedef NS_ENUM(NSInteger, statusValues) {
         @strongify(self);
         
         // 有车无团「未参团」状态
-        if (dict.status.integerValue == XMGroupFailed) {
+        if (dict.status == XMGroupFailed) {
             
             [self actionGotoSystemGroupListVC];
-        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1) {
+        } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
             
-        } else if (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue == 0) {
+        } else if (dict.status == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
             
@@ -999,14 +963,14 @@ typedef NS_ENUM(NSInteger, statusValues) {
     blankCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         // 有车无团「未参团」状态
-        if (dict.status.integerValue == XMGroupFailed) {
+        if (dict.status == XMGroupFailed) {
             
             [self actionGotoSystemGroupListVC];
-        } else if (dict.status.integerValue == XMInReview && dict.numberCnt.integerValue < 1) {
+        } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
             
-        } else if (dict.status.integerValue == XMReviewFailed && dict.numberCnt.integerValue == 0) {
+        } else if (dict.status == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
             

@@ -13,11 +13,10 @@
 
 @property (nonatomic, weak) UIViewController *originVC;
 
-/// 车
+/// 车(带入的车辆必须包含id和lisenceNumber)
 @property (nonatomic,strong)HKMyCar * curCar;
 /// 成员id
 @property (nonatomic,strong)NSNumber * memberId;
-
 /// 团id，用于自主团
 @property (nonatomic,strong)NSNumber * groupId;
 
