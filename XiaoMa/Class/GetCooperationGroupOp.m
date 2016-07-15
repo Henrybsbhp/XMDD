@@ -23,7 +23,7 @@
 {
     NSDictionary *dic = rspObj;
     self.rsp_groupList = dic[@"grouplist"];
-    self.rsp_groupLinkUrl = dic[@"grouplinkurl"];
+    self.rsp_isShowdetailflag = [dic boolParamForName:@"showdetailflag"];
     return self;
 }
 
