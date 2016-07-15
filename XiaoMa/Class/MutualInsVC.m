@@ -539,7 +539,12 @@
     CKDict *normalStatusCell = [CKDict dictWith:@{kCKItemKey: @"normalStatusCell", kCKCellID: @"NormalStatusCell"}];
     normalStatusCell[@"dict"] = dict;
     normalStatusCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 105;
+        MutualInsCarListModel *dataModel = data[@"dict"];
+        CGSize tipsSize = [dataModel.tip labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 34 font:[UIFont systemFontOfSize:13]];
+        
+        CGFloat height = tipsSize.height + 88;
+        
+        return MAX(height, 105);
     });
     
     normalStatusCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -569,7 +574,7 @@
     normalStatusCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UIImageView *brandImageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UILabel *carNumLabel = (UILabel *)[cell.contentView viewWithTag:101];
-        RTLabel *tipsLabel = (RTLabel *)[cell.contentView viewWithTag:102];
+        UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:102];
         UILabel *statusLabel = (UILabel *)[cell.contentView viewWithTag:103];
         UIView *statusContainerView = (UIView *)[cell.contentView viewWithTag:104];
         
@@ -597,7 +602,11 @@
     @weakify(self);
     CKDict *statusWithButtonCell = [CKDict dictWith:@{kCKItemKey: @"tatusWithButtonCell", kCKCellID: @"StatusWithButtonCell"}];
     statusWithButtonCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 165;
+        CGSize tipsSize = [dict.tip labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 34 font:[UIFont systemFontOfSize:13]];
+        
+        CGFloat height = tipsSize.height + 148;
+        
+        return MAX(height, 165);
     });
     
     statusWithButtonCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -623,7 +632,7 @@
         @strongify(self);
         UIImageView *brandImageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UILabel *carNumLabel = (UILabel *)[cell.contentView viewWithTag:101];
-        RTLabel *tipsLabel = (RTLabel *)[cell.contentView viewWithTag:102];
+        UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:102];
         UILabel *statusLabel = (UILabel *)[cell.contentView viewWithTag:103];
         UIView *statusContainerView = (UIView *)[cell.contentView viewWithTag:104];
         UIButton *bottomButton = (UIButton *)[cell.contentView viewWithTag:105];
