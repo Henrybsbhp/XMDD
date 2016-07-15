@@ -85,7 +85,10 @@
 }
 
 - (CKNavigationController *)navigationController {
-    return [self.delegate navigationControllerForRouter:self];
+    if (self.delegate) {
+        return [self.delegate navigationControllerForRouter:self];
+    }
+    return nil;
 }
 
 - (void)setNavigationBarHidden:(BOOL)navigationBarHidden {
