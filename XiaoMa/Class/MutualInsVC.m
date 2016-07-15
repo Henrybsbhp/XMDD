@@ -174,10 +174,11 @@
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)actionGotoUpdateInfoVC:(HKMyCar *)car
+- (void)actionGotoUpdateInfoVC:(HKMyCar *)car andMemberId:(NSNumber *)memberId
 {
     MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
     vc.curCar = car;
+    vc.memberId = memberId;
     
     vc.router.userInfo = [[CKDict alloc] init];
     vc.router.userInfo[kOriginRoute] = self.router;
@@ -233,7 +234,17 @@
     @weakify(self);
     [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
         @strongify(self);
-        [[self.minsStore reloadSimpleGroups] send];
+        
+        if (!gAppMgr.myUser)
+        {
+            /// 获取描述信息
+            [self fetchDescriptionDataWhenNotLogined];
+        }
+        else
+        {
+            /// 获取团列表
+            [[self.minsStore reloadSimpleGroups] send];
+        }
     }];
 }
 
@@ -634,7 +645,7 @@
                 HKMyCar * car = [[HKMyCar alloc] init];
                 car.carId = dict.userCarID;
                 car.licencenumber = dict.licenseNum;
-                [self actionGotoUpdateInfoVC:car];
+                [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             }];
             
         } else if (dict.status == XMWaitingForPay) {
@@ -663,7 +674,7 @@
                     car.carId = dict.userCarID;
                     car.licencenumber = dict.licenseNum;
                 }
-                [self actionGotoUpdateInfoVC:car];
+                [self actionGotoUpdateInfoVC:car andMemberId:nil];
             }];
         }
     });
