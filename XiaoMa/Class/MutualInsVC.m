@@ -686,7 +686,6 @@
     });
     
     groupInfoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        @strongify(self);
         UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:100];
         UILabel *numCntLabel = (UILabel *)[cell.contentView viewWithTag:101];
         
@@ -707,7 +706,7 @@
         NSString *contentString = [NSString stringWithFormat:@"%@", dict.allValues.firstObject];
         
         CGSize titleSize = [titleString labelSizeWithWidth:130 font:[UIFont systemFontOfSize:13]];
-        CGSize contentSize = [contentString labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 34 - 198 font:[UIFont systemFontOfSize:13]];
+        CGSize contentSize = [contentString labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 34 - 132 font:[UIFont systemFontOfSize:13]];
         
         CGFloat height = titleSize.height + 10;
         CGFloat height2 = contentSize.height + 10;

@@ -3390,7 +3390,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="29"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DtG-H2-b1H">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DtG-H2-b1H">
                                                     <rect key="frame" x="17" y="0.0" width="130" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="130" id="T3i-kP-OFX"/>
@@ -3399,8 +3399,8 @@
                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sw0-5k-KOE">
-                                                    <rect key="frame" x="215" y="1" width="368" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sw0-5k-KOE">
+                                                    <rect key="frame" x="149" y="1" width="434" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -3413,7 +3413,7 @@
                                                 <constraint firstItem="sw0-5k-KOE" firstAttribute="top" secondItem="dbU-zH-EUS" secondAttribute="top" constant="1" id="Mzf-WU-WKw"/>
                                                 <constraint firstItem="DtG-H2-b1H" firstAttribute="trailing" secondItem="dbU-zH-EUS" secondAttribute="trailing" constant="20" symbolic="YES" id="P0Q-PZ-uYC"/>
                                                 <constraint firstItem="DtG-H2-b1H" firstAttribute="leading" secondItem="dbU-zH-EUS" secondAttribute="leading" constant="17" id="ioX-ic-xtj"/>
-                                                <constraint firstItem="sw0-5k-KOE" firstAttribute="leading" secondItem="DtG-H2-b1H" secondAttribute="trailing" constant="68" id="pSs-Os-izv"/>
+                                                <constraint firstItem="sw0-5k-KOE" firstAttribute="leading" secondItem="DtG-H2-b1H" secondAttribute="trailing" constant="2" id="pSs-Os-izv"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
