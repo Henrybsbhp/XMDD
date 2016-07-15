@@ -393,6 +393,8 @@
 		4E1FEF321CBB97C100A9BA6F /* PopAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FEF311CBB97C100A9BA6F /* PopAnimation.m */; };
 		4E2F01041D37865900C810A7 /* MutualInsAdModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2F01031D37865900C810A7 /* MutualInsAdModel.m */; };
 		4E2F01121D378AB300C810A7 /* Temp_YZC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E2F01111D378AB300C810A7 /* Temp_YZC.storyboard */; };
+		4E2F01451D37908B00C810A7 /* MutualInsAdPageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2F01441D37908B00C810A7 /* MutualInsAdPageVC.m */; };
+		4E2F01541D3790A100C810A7 /* MutualInsAdPicVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2F01531D3790A100C810A7 /* MutualInsAdPicVC.m */; };
 		4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */; };
 		4E30E6D51CFD92C3000157D4 /* GetPicListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D41CFD92C3000157D4 /* GetPicListOp.m */; };
 		4E30E6DB1CFD92E7000157D4 /* UpdateClaimPicOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D91CFD92E7000157D4 /* UpdateClaimPicOp.m */; };
@@ -1638,6 +1640,10 @@
 		4E2F01021D37865900C810A7 /* MutualInsAdModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MutualInsAdModel.h; path = Class/MutualInsAdModel.h; sourceTree = "<group>"; };
 		4E2F01031D37865900C810A7 /* MutualInsAdModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MutualInsAdModel.m; path = Class/MutualInsAdModel.m; sourceTree = "<group>"; };
 		4E2F01111D378AB300C810A7 /* Temp_YZC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Temp_YZC.storyboard; sourceTree = "<group>"; };
+		4E2F01431D37908B00C810A7 /* MutualInsAdPageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsAdPageVC.h; sourceTree = "<group>"; };
+		4E2F01441D37908B00C810A7 /* MutualInsAdPageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsAdPageVC.m; sourceTree = "<group>"; };
+		4E2F01521D3790A100C810A7 /* MutualInsAdPicVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsAdPicVC.h; sourceTree = "<group>"; };
+		4E2F01531D3790A100C810A7 /* MutualInsAdPicVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsAdPicVC.m; sourceTree = "<group>"; };
 		4E30E6CF1CFD8492000157D4 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
 		4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
 		4E30E6D11CFD8492000157D4 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
@@ -4584,6 +4590,10 @@
 				C3F451B41D338EA500BA9BC4 /* MutualInsPickCarVC.m */,
 				C30B89DB1D34F6610022AA53 /* MutualInsPicUpdateResultVC.h */,
 				C30B89DC1D34F6610022AA53 /* MutualInsPicUpdateResultVC.m */,
+				4E2F01431D37908B00C810A7 /* MutualInsAdPageVC.h */,
+				4E2F01441D37908B00C810A7 /* MutualInsAdPageVC.m */,
+				4E2F01521D3790A100C810A7 /* MutualInsAdPicVC.h */,
+				4E2F01531D3790A100C810A7 /* MutualInsAdPicVC.m */,
 			);
 			name = MutualInsJoin;
 			sourceTree = "<group>";
@@ -5936,6 +5946,8 @@
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				184453021C8D6249007B895D /* PullDownAnimationButton.m in Sources */,
 				1833F5911BCD373B000E1DA1 /* GetGaschargeConfigOp.m in Sources */,
+				4E2F01541D3790A100C810A7 /* MutualInsAdPicVC.m in Sources */,
+				4E2F01451D37908B00C810A7 /* MutualInsAdPageVC.m in Sources */,
 				508F65321CACC8AE00F88744 /* HKPageSliderView.m in Sources */,
 				186984FB1B00CC50000A182A /* CarwashOrderDetailVC.m in Sources */,
 				184452EC1C893F5B007B895D /* BankStore.m in Sources */,

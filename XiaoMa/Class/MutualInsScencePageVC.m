@@ -68,7 +68,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark UIPageViewControllerDelegate
+#pragma mark - UIPageViewControllerDelegate
 
 
 -(UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
@@ -82,7 +82,7 @@
 }
 
 
-#pragma mark Init
+#pragma mark - Init
 
 -(void)configPageVC
 {
@@ -153,7 +153,8 @@
 }
 
 
-#pragma mark Utility
+#pragma mark - Utility
+
 -(void)addCorner:(UIView *)view
 {
     view.layer.cornerRadius = 5;
@@ -166,7 +167,7 @@
     view.layer.borderWidth = 1;
 }
 
-#pragma mark Action
+#pragma mark - Action
 
 -(void)back
 {
@@ -273,8 +274,7 @@
     }
 }
 
-
-#pragma mark LazyLoad
+#pragma mark - LazyLoad
 
 -(UIPageViewController *)pageVC
 {
