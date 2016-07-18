@@ -47,6 +47,7 @@ extern NSInteger const kFetchPageAmount;
 
 - (void)fetchMoreMessagesInfo;
 - (void)fetchMoreMembersInfo;
+
 - (BOOL)saveTimetagIfNeeded:(long long)timetag forKey:(NSString *)key;
 
 @end
