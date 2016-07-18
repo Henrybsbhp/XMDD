@@ -103,6 +103,11 @@
                 return ;
             }
         }
+        if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
+        {
+            [gToast showMistake:@"请等待图片上传成功"];
+            return ;
+        }
         if (!self.idPictureRecord.url.length)
         {
             [gToast showMistake:@"请上传身份证照片"];
@@ -118,11 +123,7 @@
             [gToast showMistake:@"请选择现保险公司"];
             return ;
         }
-        if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
-        {
-            [gToast showMistake:@"请等待图片上传成功"];
-            return ;
-        }
+
         
         
         if (!self.isNeedBuyStrongInsurance)

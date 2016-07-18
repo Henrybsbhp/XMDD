@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -251,6 +251,12 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X1T-gW-PLF">
                                 <rect key="frame" x="0.0" y="510" width="600" height="20"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="Ojb-0g-55Z">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="TCj-hb-3lB"/>
+                                        </constraints>
+                                    </imageView>
                                     <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AZc-Rx-PSw">
                                         <rect key="frame" x="270" y="6" width="18" height="18"/>
                                         <constraints>
@@ -269,10 +275,13 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="Ojb-0g-55Z" firstAttribute="leading" secondItem="X1T-gW-PLF" secondAttribute="leading" id="81C-30-smb"/>
                                     <constraint firstItem="KB6-HJ-iLa" firstAttribute="centerY" secondItem="AZc-Rx-PSw" secondAttribute="centerY" constant="1" id="HSB-m1-eLN"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ojb-0g-55Z" secondAttribute="trailing" id="Hj3-Cs-C4O"/>
                                     <constraint firstItem="KB6-HJ-iLa" firstAttribute="centerX" secondItem="X1T-gW-PLF" secondAttribute="centerX" id="dFd-Co-MCQ"/>
                                     <constraint firstItem="AZc-Rx-PSw" firstAttribute="centerY" secondItem="X1T-gW-PLF" secondAttribute="centerY" constant="5" id="g3v-Bo-cgT"/>
                                     <constraint firstItem="KB6-HJ-iLa" firstAttribute="leading" secondItem="AZc-Rx-PSw" secondAttribute="trailing" constant="12" id="gGc-0k-Ot9"/>
+                                    <constraint firstItem="Ojb-0g-55Z" firstAttribute="top" secondItem="X1T-gW-PLF" secondAttribute="top" id="pZL-Tc-224"/>
                                     <constraint firstAttribute="height" constant="20" id="sNT-SK-q9N"/>
                                 </constraints>
                             </view>
@@ -3757,6 +3766,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BAr-dw-1Qp">
                                 <rect key="frame" x="0.0" y="540" width="600" height="60"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="rnu-rD-iLh">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
+                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="72w-Eu-Ii5">
                                         <rect key="frame" x="20" y="5" width="560" height="50"/>
                                         <color key="backgroundColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -3775,9 +3787,12 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="rnu-rD-iLh" firstAttribute="leading" secondItem="BAr-dw-1Qp" secondAttribute="leading" id="9Jj-P9-G9C"/>
                                     <constraint firstItem="72w-Eu-Ii5" firstAttribute="leading" secondItem="BAr-dw-1Qp" secondAttribute="leading" constant="20" id="GuG-no-MLk"/>
                                     <constraint firstAttribute="height" constant="60" id="JZD-5D-lFC"/>
+                                    <constraint firstAttribute="trailing" secondItem="rnu-rD-iLh" secondAttribute="trailing" id="aik-wl-CZ0"/>
                                     <constraint firstItem="72w-Eu-Ii5" firstAttribute="centerX" secondItem="BAr-dw-1Qp" secondAttribute="centerX" id="byK-m0-Jha"/>
+                                    <constraint firstItem="rnu-rD-iLh" firstAttribute="top" secondItem="BAr-dw-1Qp" secondAttribute="top" id="iAS-PF-ia9"/>
                                     <constraint firstItem="72w-Eu-Ii5" firstAttribute="centerY" secondItem="BAr-dw-1Qp" secondAttribute="centerY" id="w3H-Yp-nOr"/>
                                     <constraint firstItem="72w-Eu-Ii5" firstAttribute="top" secondItem="BAr-dw-1Qp" secondAttribute="top" constant="5" id="xRR-Ga-QbU"/>
                                 </constraints>
