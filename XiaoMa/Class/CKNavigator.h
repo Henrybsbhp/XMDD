@@ -10,7 +10,6 @@
 #define CKNavigator_h
 
 #import "CKNavigationController.h"
-#import "UIViewController+CKNavigator.h"
 #import "CKRouter.h"
 
 #endif /* CKNavigator_h */

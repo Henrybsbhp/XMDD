@@ -77,10 +77,15 @@
         self.alpha = 1;
         [view addSubview:self];
     }
+    _isActivated = YES;
 }
 
 - (void)dismissWithAnimated:(BOOL)animated
 {
+    if (!self.isActivated) {
+        return;
+    }
+    _isActivated = NO;
     if (animated) {
         self.tableView.userInteractionEnabled = NO;
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{

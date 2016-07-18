@@ -7,7 +7,7 @@
 //
 
 #import "HKView.h"
-#import "RCTRootView.h"
+//#import "RCTRootView.h"
 
 
 @interface ReactView : HKView

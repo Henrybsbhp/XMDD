@@ -13,15 +13,14 @@
 #import "PictureRecord.h"
 #import "HKImageView.h"
 #import "UpdateCooperationIdlicenseInfoV2Op.h"
-#import "EstimatedPriceVC.h"
 #import "GetCooperationIdlicenseInfoOp.h"
 #import "MutualInsStore.h"
-#import "MutualInsGrouponVC.h"
 #import "ProvinceChooseView.h"
 #import "OETextField.h"
 #import "UIView+RoundedCorner.h"
 #import "CollectionChooseVC.h"
 #import "MutualInsPicUpdateResultVC.h"
+#import "MyCarStore.h"
 
 @interface MutualInsPicUpdateVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -105,6 +104,11 @@
                 return ;
             }
         }
+        if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
+        {
+            [gToast showMistake:@"请等待图片上传成功"];
+            return ;
+        }
         if (!self.idPictureRecord.url.length)
         {
             [gToast showMistake:@"请上传身份证照片"];
@@ -120,11 +124,7 @@
             [gToast showMistake:@"请选择现保险公司"];
             return ;
         }
-        if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
-        {
-            [gToast showMistake:@"请等待图片上传成功"];
-            return ;
-        }
+
         
         
         if (!self.isNeedBuyStrongInsurance)
@@ -163,11 +163,11 @@
     CKDict * cell1_1 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
     CKDict * cell1_2 = [self setupTitleCell:@"请上传车车辆行驶证照片"];
     CKDict * cell1_3 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:3 inSection:1]];
-    
+//
     CKDict * cell2_0 = [self setupTitleCell:@"请选择保险公司"];
     CKDict * cell2_1 = [self setupInsCompanyCellWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     CKDict * cell2_2 = [self setupInsCompanyCellWithIndexPath:[NSIndexPath indexPathForRow:1 inSection:2]];
-    
+//
     CKDict * cell3 = [self setupCheckCell];
     
     self.datasource = $($(cell0),$(cell1_0,cell1_1,cell1_2,cell1_3),$(cell2_0,cell2_1,cell2_2),$(cell3));
@@ -180,22 +180,29 @@
         
         return 45;
     });
+    
+    @weakify(self);
     cell0[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self);
         UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
+        label.text = @"车牌号码";
         ProvinceChooseView *chooseV = (ProvinceChooseView *)[cell.contentView viewWithTag:1002];
+        [chooseV setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
+        
         OETextField *field = (OETextField *)[cell.contentView viewWithTag:1003];
         [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
         field.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
         
+
+
         cell.contentView.userInteractionEnabled  = !self.curCar;
         
-        label.text = @"车牌号码";
-        
-        [chooseV setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
-        
-        NSString * lisenceArea = [self.curCar.licencenumber safteySubstringToIndexIndex:1];
-        NSString * lisenceSuffix = [self.curCar.licencenumber safteySubstringFromIndex:1];
+        if (self.curCar.licencenumber)
+        {
+            self.lisenceNumberArea = [self.curCar.licencenumber safteySubstringToIndexIndex:1];
+            self.lisenceNumberSuffix = [self.curCar.licencenumber safteySubstringFromIndex:1];
+        }
 
         @weakify(self);
         [[[chooseV rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
@@ -207,7 +214,6 @@
              vc.datasource = gAppMgr.getProvinceArray;
              [vc setSelectAction:^(NSDictionary * d) {
                  
-                 @strongify(self);
                  NSString * key = [d.allKeys safetyObjectAtIndex:0];
                  self.lisenceNumberArea = key;
                  [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -217,15 +223,6 @@
         
         
         field.textLimit = 6;
-        
-        [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            field.placeholder = nil;
-        }];
-        
-        [field setDidEndEditingBlock:^(CKLimitTextField *field) {
-            field.placeholder = @"A12345";
-        }];
-        
         [field setTextDidChangedBlock:^(CKLimitTextField *field) {
             @strongify(self);
             NSString *newtext = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -233,9 +230,9 @@
             self.lisenceNumberSuffix = field.text;
         }];
         
-        chooseV.displayLb.text = lisenceArea.length ? lisenceArea : [self getCurrentProvince];
-        self.lisenceNumberArea = lisenceArea.length ? lisenceArea : [self getCurrentProvince];
-        field.text = lisenceSuffix.length ? lisenceSuffix : @"";
+        self.lisenceNumberArea = self.lisenceNumberArea.length ? self.lisenceNumberArea : [self getCurrentProvince];
+        chooseV.displayLb.text = self.lisenceNumberArea.length ? self.lisenceNumberArea : [self getCurrentProvince];
+        field.text = self.lisenceNumberSuffix.length ? self.lisenceNumberSuffix : @"";
     });
 
     return cell0;
@@ -252,8 +249,11 @@
         return height;
     });
     
+    @weakify(self)
     imageCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        
+        @strongify(self)
         PictureRecord * record = indexPath.row == 1 ? self.idPictureRecord : self.drivingLicensePictureRecord;
         
         HKImageView * selectImgView = (HKImageView *)[cell.contentView viewWithTag:1001];
@@ -348,6 +348,7 @@
     });
     imageCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        @strongify(self)
         if (indexPath.row == 1)
         {
             [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0002"}];
@@ -371,8 +372,10 @@
         return 50;
     });
     
+    @weakify(self)
     insCompanyCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
         UILabel * lb = (UILabel *)[cell.contentView viewWithTag:20101];
         if (indexPath.row == 1)
         {
@@ -402,6 +405,7 @@
         {
             [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0005"}];
         }
+        @strongify(self)
         @weakify(self)
         [self.pickInsCompanysVC setPickedBlock:^(NSString *name) {
             
@@ -430,14 +434,17 @@
         return 56;
     });
     
+    @weakify(self)
     checkCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
         UIButton * checkBtn = [cell viewWithTag:101];
         [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              
              self.isNeedBuyStrongInsurance = !self.isNeedBuyStrongInsurance;
          }];
+        
         
         [[RACObserve(self, isNeedBuyStrongInsurance) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * x) {
             
@@ -553,6 +560,7 @@
     op.req_secinscomp = self.lastYearInsCompany ?: @"";
     op.req_memberid = self.memberId;
     op.req_isbuyfroceins = self.isNeedBuyStrongInsurance;
+    op.req_groupid = self.groupId;
     if (self.curCar.licencenumber)
     {
         op.req_licensenumber = self.curCar.licencenumber;
@@ -571,6 +579,7 @@
         [gToast dismiss];
         
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+        [[[MyCarStore fetchExistsStore] getAllCars] send];
         
         MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
         vc.tipsDict = op.couponDict;
@@ -585,14 +594,18 @@
 {
     GetCooperationIdlicenseInfoOp * op = [[GetCooperationIdlicenseInfoOp alloc] init];
     op.req_memberId = self.memberId;
+    
+    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
+        @strongify(self)
         self.tableView.hidden = YES;
         self.bottomView.hidden = YES;
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] subscribeNext:^(GetCooperationIdlicenseInfoOp * rop) {
         
+        @strongify(self)
         self.tableView.hidden = NO;
         self.bottomView.hidden = NO;
         [self.view hideDefaultEmptyView];
@@ -603,10 +616,11 @@
         self.lastYearInsCompany = rop.rsp_secinscomp;
     } error:^(NSError *error) {
         
-        @weakify(self)
+        @strongify(self)
         self.tableView.hidden = YES;
         self.bottomView.hidden = YES;
         [self.view stopActivityAnimation];
+        @weakify(self)
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:[NSString stringWithFormat:@"%@ \n点击再试一次",error.domain] tapBlock:^{
             @strongify(self)
             [self requesLastIdLicenseInfo];

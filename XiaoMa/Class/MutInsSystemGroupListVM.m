@@ -9,14 +9,17 @@
 #import "MutInsSystemGroupListVM.h"
 #import "GetCooperationGroupOp.h"
 #import "NSString+RectSize.h"
+#import "MutualInsConstants.h"
 
 @interface MutInsSystemGroupListVM()<UITableViewDelegate,UITableViewDataSource>
 
 @property (assign, nonatomic) GroupStatusType status;
-@property (strong, nonatomic) MutInsSystemGroupListVC *targetVC;
+@property (weak, nonatomic) MutInsSystemGroupListVC *targetVC;
 
 @property (strong, nonatomic) CKList *dataSource;
 @property (strong, nonatomic) UITableView *tableView;
+
+@property (nonatomic)BOOL isShowdetailflag;
 
 @end
 
@@ -24,7 +27,7 @@
 
 -(void)dealloc
 {
-    
+    DebugLog(@"MutInsSystemGroupListVM dealloc");
 }
 
 -(id)initWithTableView:(UITableView *)tableView andType:(GroupStatusType)groupStatusType andTargetVC:(MutInsSystemGroupListVC *)groupListVC
@@ -46,11 +49,10 @@
 
 - (void)getCooperationGroupList
 {
-    @weakify(self)
     GetCooperationGroupOp *op = [GetCooperationGroupOp operation];
-    
     op.req_status = @(self.status);
     
+    @weakify(self)
     [[[op rac_postRequest]initially:^{
         
         @strongify(self)
@@ -63,7 +65,6 @@
         [self.targetVC.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }]subscribeNext:^(GetCooperationGroupOp *op) {
-        @strongify(self)
         
         self.targetVC.groupEndTable.hidden = NO;
         self.targetVC.groupBeginTable.hidden = NO;
@@ -74,7 +75,6 @@
         self.groupLinkUrl = op.rsp_groupLinkUrl;
         
         [self configDataSourceWithGroupList:op.rsp_groupList];
-        
         [self.tableView reloadData];
         
         [self.targetVC.view stopActivityAnimation];

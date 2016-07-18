@@ -15,7 +15,6 @@
 #import "GetMutualInsListOp.h"
 #import "UpdateCooperationInsInfoOp.h"
 #import "MutualInsStore.h"
-#import "MutualInsGrouponVC.h"
 #import "PopAnimation.h"
 
 @interface EstimatedPriceVC ()

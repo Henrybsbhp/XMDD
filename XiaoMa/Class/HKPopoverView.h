@@ -12,6 +12,7 @@
 
 @interface HKPopoverView : UIView
 @property (nonatomic, readonly) NSArray *items;
+@property (nonatomic, assign, readonly) BOOL isActivated;
 @property (nonatomic, copy) void(^didSelectedBlock)(NSUInteger index);
 @property (nonatomic, copy) void(^didDismissedBlock)(BOOL animated);
 

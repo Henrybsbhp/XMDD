@@ -111,9 +111,8 @@
                     [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
                 }
                 else {
-                    GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
+                    GroupIntroductionVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
                     vc.groupType = MutualGroupTypeSystem;
-                    vc.groupIntrUrlStr = rop.rsp_urlStr;
                     [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
                 }
             }

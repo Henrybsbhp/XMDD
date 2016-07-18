@@ -14,6 +14,7 @@
 #import "WXApi.h"
 #import "WeiboSDK.h"
 #import <JPEngine.h>
+#import "RRFPSBar.h"
 
 #import "DefaultStyleModel.h"
 
@@ -33,7 +34,6 @@
 #import "DeviceInfo.h"
 #import "HKAdvertisement.h"
 #import "FMDeviceManager.h"
-#import "ReactNativeManager.h"
 
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
@@ -89,8 +89,6 @@
     [self setupPasteboard];
     
     [self setupAssistive];
-    
-//    [self setupReactNativeManager];
     
     //设置崩溃捕捉(官方建议放在最后面)
     [self setupCrashlytics];
@@ -309,13 +307,21 @@
 {
     /// 设置delegate必须在前面，（先关闭）
 //    CrashlyticsKit.delegate = self;
+    
+#ifdef DEBUG
+    
+#else
+    #if XMDDEnvironment==2
     [Fabric with:@[CrashlyticsKit]];
     
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser *user) {
-       
+        
         NSString * userIdentifier = user ? user.userID : @"";
         [CrashlyticsKit setUserIdentifier:userIdentifier];
     }];
+    #endif
+#endif
+    
 }
 
 - (void)crashlyticsDidDetectReportForLastExecution:(CLSReport *)report completionHandler:(void (^)(BOOL))completionHandler
@@ -546,12 +552,15 @@
 }
 
 
-#pragma mark - ReactNativeManager
-- (void)setupReactNativeManager
+#pragma mark - FPS
+- (void)setupFPSObserver
 {
-    ReactNativeManager *mgr = [ReactNativeManager sharedManager];
-    [mgr loadDefaultBundle];
+#ifndef __OPTIMIZE__
+    [[RRFPSBar sharedInstance] setShowsAverage:YES];
+    [[RRFPSBar sharedInstance] setHidden:YES];
+#endif
 }
+
 
 #pragma mark - 辅助功能
 - (void)setupAssistive

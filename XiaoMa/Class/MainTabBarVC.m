@@ -39,11 +39,6 @@
 
 - (void)setupTabBar
 {
-    static NSString *selectedImages[] = {@"tab_home_highlighted_300", @"tab_discover_highlighted_300", @"tab_mine_highlighted_300"};
-    for (int i = 0; i < self.tabBar.items.count; i++) {
-        UITabBarItem *item = self.tabBar.items[i];
-        item.selectedImage = [UIImage imageNamed:selectedImages[i]];
-    }
     //"我的"
     RACSignal *signal = [[RACObserve(gAppMgr, myUser) distinctUntilChanged] flattenMap:^RACStream *(JTUser *user) {
         

@@ -28,7 +28,6 @@
 
 #import "HKNavigationController.h"
 #import "CarsListVC.h"
-#import "ReactNativeViewController.h"
 #import "ShopDetailVC.h"
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>

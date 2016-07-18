@@ -109,45 +109,6 @@
     
 }
 
-- (void)requrstMutualInsCarList
-{
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        
-        GetCooperationUsercarListOp * op = [[GetCooperationUsercarListOp alloc] init];
-        [[[op rac_postRequest] initially:^{
-            
-            [gToast showingWithText:@"获取车辆数据中..." inView:self.view];
-        }] subscribeNext:^(GetCooperationUsercarListOp * x) {
-            
-            [gToast dismissInView:self.view];
-            if (x.rsp_carArray.count)
-            {
-                MutualInsPickCarVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPickCarVC"];
-                vc.mutualInsCarArray = x.rsp_carArray;
-                [vc setFinishPickCar:^(HKMyCar *car) {
-                    
-                    [self gotoIdLicenseInfoupdateWithCar:car];
-                }];
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-            else
-            {
-                [self gotoIdLicenseInfoupdateWithCar:nil];
-            }
-        } error:^(NSError *error) {
-            
-            [gToast showError:@"获取失败，请重试" inView:self.view];
-        }];
-    }
-}
-
-- (void)gotoIdLicenseInfoupdateWithCar:(HKMyCar *)car
-{
-    MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
-    vc.curCar = car;
-    
-    [self.router.navigationController pushViewController:vc animated:YES];
-}
 
 #pragma mark - Action
 
@@ -186,7 +147,7 @@
 {
     if (!_groupBeginVM)
     {
-        _groupBeginVM = [[MutInsSystemGroupListVM alloc]initWithTableView:self.groupBeginTable andType:GroupStatusTypeBegin andTargetVC:self];
+        _groupBeginVM = [[MutInsSystemGroupListVM alloc] initWithTableView:self.groupBeginTable andType:GroupStatusTypeBegin andTargetVC:self];
     }
     return _groupBeginVM;
 }
@@ -195,7 +156,7 @@
 {
     if (!_groupEndVM)
     {
-        _groupEndVM = [[MutInsSystemGroupListVM alloc]initWithTableView:self.groupEndTable andType:GroupStatusTypeEnd andTargetVC:self];
+        _groupEndVM = [[MutInsSystemGroupListVM alloc] initWithTableView:self.groupEndTable andType:GroupStatusTypeEnd andTargetVC:self];
     }
     return _groupEndVM;
 }

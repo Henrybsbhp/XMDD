@@ -36,6 +36,14 @@
 }
 
 #pragma mark - Animate
+- (void)setDotHidden:(BOOL)hidden atIndex:(NSInteger)index {
+    if (index == NSNotFound) {
+        return;
+    }
+    HorizontalScrollTabItemView *itemView = [self viewWithTag:index + 1000];
+    itemView.dotView.hidden = hidden;
+}
+
 - (void)setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated {
     _selectedIndex = selectedIndex;
     CGRect rect = self.scrollTabBar.frame;
@@ -51,23 +59,19 @@
     }
     for (NSInteger i=0; i<self.items.count; i++) {
         HorizontalScrollTabItem *item = self.items[i];
-        UILabel *label = [self viewWithTag:i+1000];
-        label.textColor = i == selectedIndex ? item.selectedColor : item.normalColor;
+        HorizontalScrollTabItemView *itemView = [self viewWithTag:i+1000];
+        itemView.titleLabel.textColor = i == selectedIndex ? item.selectedColor : item.normalColor;
     }
 }
 
 #pragma mark - Private
-- (UILabel *)createTabViewWithTabItem:(HorizontalScrollTabItem *)item {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:16];
-    label.text = item.title;
-    label.textAlignment = NSTextAlignmentCenter;
-    label.userInteractionEnabled = YES;
+- (UIView *)createTabViewWithTabItem:(HorizontalScrollTabItem *)item {
+
+    HorizontalScrollTabItemView *view = [[HorizontalScrollTabItemView alloc] initWithFrame:CGRectZero];
+    view.titleLabel.text = item.title;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionTap:)];
-    [label addGestureRecognizer:tap];
-    
-    return label;
+    [view addGestureRecognizer:tap];
+    return view;
 }
 
 #pragma mark - Action
@@ -95,4 +99,42 @@
     return item;
 }
 
+@end
+
+@implementation HorizontalScrollTabItemView
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    [self __commonInit];
+    return self;
+}
+
+- (void)__commonInit {
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:16];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.userInteractionEnabled = YES;
+    [self addSubview:label];
+    self.titleLabel = label;
+    
+    UIImageView *dotView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    dotView.hidden = YES;
+    dotView.image = [UIImage imageNamed:@"cm_dot_300"];
+    [self addSubview:dotView];
+    self.dotView = dotView;
+    
+    @weakify(self);
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        @strongify(self);
+        make.center.equalTo(self).centerOffset(CGPointZero);
+    }];
+    
+    [dotView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(label.mas_top).offset(-3);
+        make.left.equalTo(label.mas_right).offset(3);
+    }];
+}
 @end

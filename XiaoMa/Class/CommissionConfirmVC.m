@@ -17,6 +17,7 @@
 #import "UIView+Layer.h"
 #import "HKTableViewCell.h"
 #import "NSDate+DateForText.h"
+#import "EditCarVC.h"
 
 
 #define kWidth [UIScreen mainScreen].bounds.size.width
@@ -94,6 +95,30 @@
      *  开始协办点击事件
      */
     [MobClick event:@"rp802_2"];
+    
+    if (![self.defaultCar isCarInfoCompleted])
+    {
+        HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+        alert.topTitle = @"温馨提示";
+        alert.imageName = @"mins_bulb";
+        alert.message = @"您的爱车信息不完整，信息不完善的车辆将无法进行洗车服务，是否现在完善？";
+        @weakify(self);
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:kGrayTextColor clickBlock:^(id alertVC) {
+            @strongify(self);
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            @strongify(self);
+            [MobClick event:@"rp104_9"];
+            EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+            vc.originCar = self.defaultCar;
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+        alert.actionItems = @[cancel, improve];
+        [alert show];
+        return;
+    }
+    
     self.tableView.backgroundColor = [UIColor colorWithRed:153 green:153 blue:153 alpha:1.0];
     if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 1 - 1) {
         [self.underlyingView addSubview:self.alertV];

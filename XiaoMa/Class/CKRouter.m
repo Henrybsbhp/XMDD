@@ -10,6 +10,7 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <ReactiveCocoa/RACEXTScope.h>
 
+
 @interface CKRouter ()
 @property (nonatomic, strong) id itemKey;
 @end
@@ -24,9 +25,16 @@
     return router;
 }
 
++ (instancetype)routerWithViewControllerName:(NSString *)vcName {
+    UIViewController *vc = [[NSClassFromString(vcName) alloc] init];
+    return [self routerWithTargetViewController:vc];
+}
+
+
 + (instancetype)routerWithTargetViewController:(UIViewController *)targetVC {
-    CKRouter *router = [[self alloc] init];
+    CKRouter *router = [[CKRouter alloc] init];
     router->_targetViewController = targetVC;
+    [router setKey:NSStringFromClass(targetVC.class)];
     [router observeTargetVC];
     return router;
 }
@@ -77,7 +85,10 @@
 }
 
 - (CKNavigationController *)navigationController {
-    return [self.delegate navigationControllerForRouter:self];
+    if (self.delegate) {
+        return [self.delegate navigationControllerForRouter:self];
+    }
+    return (CKNavigationController *)self.targetViewController.navigationController;
 }
 
 - (void)setNavigationBarHidden:(BOOL)navigationBarHidden {

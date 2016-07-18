@@ -25,7 +25,7 @@
 
 -(void)dealloc
 {
-    
+    DebugLog(@"MutInsCalculateResultVC dealloc");
 }
 
 - (void)viewDidLoad

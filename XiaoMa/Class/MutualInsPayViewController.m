@@ -21,6 +21,8 @@
 #import "HKArrowView.h"
 #import "GetPayStatusOp.h"
 #import "InsLicensePopVC.h"
+#import "MutualInsGroupDetailVM.h"
+#import "MutualInsGroupDetailVC.h"
 
 @interface MutualInsPayViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 
@@ -361,7 +363,12 @@
         @strongify(self);
         [self gotoPaidSuccessVC];
         
-        [[[MutualInsStore fetchExistsStore] reloadDetailGroupByMemberID:self.group.memberId andGroupID:self.group.groupId] send];
+        NSNumber *groupId = self.router.userInfo[kMutInsGroupID];
+        NSNumber *memberId = self.router.userInfo[kMutInsMemberID];
+        
+        /// 如果有说明是从团详情进入的
+        [[MutualInsGroupDetailVM fetchForGroupID:groupId memberID:memberId] fetchBaseInfoForce:YES];
+        
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 5;

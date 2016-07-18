@@ -10,7 +10,7 @@
 
 @interface ReactView()
 
-@property (nonatomic,strong)RCTRootView * rctRootView;
+//@property (nonatomic,strong)RCTRootView * rctRootView;
 
 @end
 
@@ -42,20 +42,20 @@
 
 - (void)rct_requestWithUrl:(NSURL *)url modulName:(NSString *)model properties:(NSDictionary *)properties
 {
-    if (self.rctRootView)
-    {
-        [self.rctRootView removeFromSuperview];
-    }
-    
-    RCTRootView * rootView = [[RCTRootView alloc] initWithBundleURL:url
-                                                         moduleName:model
-                                                  initialProperties:properties
-                                                      launchOptions:nil];
-    [self addSubview:rootView];
-    rootView.frame = self.bounds;
-    
-    
-    self.rctRootView = rootView;
+//    if (self.rctRootView)
+//    {
+//        [self.rctRootView removeFromSuperview];
+//    }
+//    
+//    RCTRootView * rootView = [[RCTRootView alloc] initWithBundleURL:url
+//                                                         moduleName:model
+//                                                  initialProperties:properties
+//                                                      launchOptions:nil];
+//    [self addSubview:rootView];
+//    rootView.frame = self.bounds;
+//    
+//    
+//    self.rctRootView = rootView;
 }
 
 - (void)rct_requestWithUrl:(NSURL *)url andModulName:(NSString *)model

@@ -57,6 +57,8 @@
     #define OrderDetailsUrl @"http://dev01.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
     #define kInsuranceIntroUrl  @"http://dev.xiaomadada.com/apphtml/baoxianfuwu.html"  //保险服务首页介绍
     #define LogUploadUrl @"http://dev01.xiaomadada.com/log/upload"
+    //小马互助团详情使用帮助
+    #define MutualInsGroupDetailHelpUrl @"http://dev01.xiaomadada.com/apphtml/tuan-help.html"
 
 #elif XMDDEnvironment==1
 //测试环境
@@ -69,6 +71,8 @@
     #define OrderDetailsUrl @"https://dev.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
     #define kInsuranceIntroUrl  @"http://dev.xiaomadada.com/apphtml/baoxianfuwu.html"  //保险服务首页介绍
     #define LogUploadUrl @"http://dev01.xiaomadada.com/log/upload"
+    //小马互助团详情使用帮助
+    #define MutualInsGroupDetailHelpUrl @"http://dev.xiaomadada.com/apphtml/tuan-help.html"
 #else
 //开发环境
     #define XmddBaseUrl @"https://www.xiaomadada.com"
@@ -80,4 +84,6 @@
     #define OrderDetailsUrl @"https://www.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 正式地址
     #define kInsuranceIntroUrl  @"http://www.xiaomadada.com/apphtml/baoxianfuwu.html"  //保险服务首页介绍
     #define LogUploadUrl @"http://dev01.xiaomadada.com/log/upload"
+    //小马互助团详情使用帮助
+    #define MutualInsGroupDetailHelpUrl @"http://www.xiaomadada.com/apphtml/tuan-help.html"
 #endif

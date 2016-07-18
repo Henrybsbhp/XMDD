@@ -8,7 +8,6 @@
 
 #import "CreateGroupVC.h"
 #import "CreateGroupOp.h"
-#import "MutualInsGrouponVC.h"
 #import "ApplyCooperationGroupOp.h"
 #import <QuartzCore/QuartzCore.h>
 #import "InviteCompleteVC.h"
@@ -128,7 +127,7 @@
     }
 }
 
-- (void)jumpToPickCarVCWithGroupID:(NSNumber *)groupId groupName:(NSString *)groupname
+- (void)jumpToPickCarVCWithGroupID:(NSNumber *)groupId
 {
     GetCooperationUsercarListOp * op = [[GetCooperationUsercarListOp alloc] init];
     [[[op rac_postRequest] initially:^{
@@ -143,16 +142,20 @@
             vc.mutualInsCarArray = x.rsp_carArray;
             [vc setFinishPickCar:^(HKMyCar *car) {
                 
-                [self requestApplyJoinGroupWithID:groupId carModel:car];
+                if (car)
+                {
+                    [self requestApplyJoinGroupWithID:groupId carModel:car];
+                }
+                else
+                {
+                    [self jumpToUpdateInfoVC:nil andGroupId:groupId];
+                }
             }];
             [self.navigationController pushViewController:vc animated:YES];
         }
         else
         {
-            MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
-            vc.groupId = groupId;
-            /// 没车，没memberid
-            [self.navigationController pushViewController:vc animated:YES];
+            [self jumpToUpdateInfoVC:nil andGroupId:groupId];
         }
     } error:^(NSError *error) {
         
@@ -169,11 +172,10 @@
 
 - (void)jumpToGroupOnVC:(NSNumber *)groupId
 {
-    MutualInsGrouponVC *vc = [mutInsGrouponStoryboard instantiateViewControllerWithIdentifier:@"MutualInsGrouponVC"];
-    HKMutualGroup * group = [[HKMutualGroup alloc] init];
-    group.groupId = groupId;
-    vc.group = group;
-    [self.navigationController pushViewController:vc animated:YES];
+    CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGrouponVC"];
+    router.userInfo = [[CKDict alloc] init];
+    router.userInfo[kMutInsGroupID] = groupId;
+    [self.router.navigationController pushRouter:router animated:YES];
 }
 
 - (void)jumpToHomePage
@@ -229,7 +231,7 @@
         [alertView dismiss];
         if (index) {
             
-            [self jumpToPickCarVCWithGroupID:groupId groupName:groupName];
+            [self jumpToPickCarVCWithGroupID:groupId];
         }
         else {
             

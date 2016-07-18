@@ -10,10 +10,12 @@
 #import "CKList.h"
 #import "CKNavigationController.h"
 
+
 @protocol CKRouterDelegate;
 
 @interface CKRouter : NSObject<CKItemDelegate>
 
++ (instancetype)routerWithViewControllerName:(NSString *)vcName;
 + (instancetype)routerWithTargetViewController:(UIViewController *)targetVC;
 + (instancetype)routerWithStoryboard:(NSString *)sbname andViewControllerID:(NSString *)sbid;
 
@@ -21,6 +23,7 @@
 @property (nonatomic, assign, readonly) BOOL isTargetViewControllerAppearing;
 @property (nonatomic, assign, readonly) BOOL isTargetViewControllerDisappearing;
 @property (nonatomic, assign) BOOL navigationBarHidden;
+@property (nonatomic, strong) NSString *title;
 @property (nonatomic, assign) BOOL disableInteractivePopGestureRecognizer;
 @property (nonatomic, strong) CKDict *userInfo;
 @property (nonatomic, weak) id<CKRouterDelegate> delegate;
@@ -41,3 +44,5 @@
 - (void)router:(CKRouter *)router targetViewControllerDidDisappear:(BOOL)animated;
 
 @end
+
+
