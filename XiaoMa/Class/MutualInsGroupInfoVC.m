@@ -12,6 +12,8 @@
 #import "MutualInsPicUpdateVC.h"
 #import "HKImageAlertVC.h"
 #import "EditCarVC.h"
+#import "MutualInsPickCarVC.h"
+#import "GetCooperationUsercarListOp.h"
 
 @interface MutualInsGroupInfoVC ()
 
@@ -56,62 +58,75 @@
 
 - (IBAction)confirmButtonClicked:(id)sender
 {
-    PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
-    vc.model.originVC = self;
-    vc.isShowBottomView = YES;
-    @weakify(self);
-    [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
-        @strongify(self);
-        //爱车页面入团按钮委托实现
-        [self requestApplyJoinGroup:self.groupId andCarModel:carModel andLoadingView:loadingView];
+    GetCooperationUsercarListOp * op = [[GetCooperationUsercarListOp alloc] init];
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"获取车辆数据中..." inView:self.view];
+    }] subscribeNext:^(GetCooperationUsercarListOp * x) {
+        
+        [gToast dismissInView:self.view];
+        if (x.rsp_carArray.count)
+        {
+            MutualInsPickCarVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPickCarVC"];
+            vc.mutualInsCarArray = x.rsp_carArray;
+            [vc setFinishPickCar:^(HKMyCar *car) {
+                
+                if (car)
+                {
+                    [self requestApplyJoinGroupWithID:self.groupId carModel:car];
+                }
+                else
+                {
+                    [self jumpToUpdateInfoVC:nil andGroupId:self.groupId];
+                }
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else
+        {
+            [self jumpToUpdateInfoVC:nil andGroupId:self.groupId];
+        }
+    } error:^(NSError *error) {
+        
+        [gToast showError:@"获取失败，请重试" inView:self.view];
     }];
+}
+
+- (void)jumpToUpdateInfoVC:(NSNumber *)memberId andGroupId:(NSNumber *)groupId
+{
+    MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+    vc.originVC = self.originVC;
+    vc.memberId = memberId;
+    vc.groupId = groupId;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)requestApplyJoinGroup:(NSNumber *)groupId andCarModel:(MyCarListVModel *)carModel andLoadingView:(UIView *)view
+
+- (void)requestApplyJoinGroupWithID:(NSNumber *)groupId carModel:(HKMyCar *)car
 {
     ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
     op.req_groupid = groupId;
-    op.req_carid = carModel.selectedCar.carId;
+    op.req_carid = car.carId;
+    
+    @weakify(self)
     [[[op rac_postRequest] initially:^{
         
-        [gToast showingWithText:@"申请加入中..." inView:view];
+        [gToast showingWithText:@"团队加入中..." inView:self.view];
     }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
         
-        [gToast dismissInView:view];
+        @strongify(self)
+        [gToast dismissInView:self.view];
         
-        MutualInsPicUpdateVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateVC" inStoryboard:@"MutualInsJoin"];
-        vc.originVC = self;
+        MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
         vc.memberId = rop.rsp_memberid;
-        vc.groupId = rop.req_groupid;
+        vc.groupId = groupId;
+        vc.curCar = car;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
-        if (error.code == 6115804) {
-            [gToast dismissInView:view];
-            HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
-            alert.topTitle = @"温馨提示";
-            alert.imageName = @"mins_bulb";
-            alert.message = error.domain;
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-            @weakify(self);
-            HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-                @strongify(self);
-                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                carModel.originVC = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
-                vc.originCar = carModel.selectedCar;
-                vc.model = carModel;
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
-            alert.actionItems = @[cancel, improve];
-            [alert show];
-        }
-        else {
-            [gToast showError:error.domain inView:view];
-        }
+        [gToast showError:error.domain inView:self.view];
     }];
 }
-
 
 
 #pragma mark - UITableViewDelegate and datasource
