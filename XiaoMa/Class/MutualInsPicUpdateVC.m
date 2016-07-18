@@ -20,6 +20,7 @@
 #import "UIView+RoundedCorner.h"
 #import "CollectionChooseVC.h"
 #import "MutualInsPicUpdateResultVC.h"
+#import "MyCarStore.h"
 
 @interface MutualInsPicUpdateVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -167,9 +168,9 @@
     CKDict * cell2_1 = [self setupInsCompanyCellWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     CKDict * cell2_2 = [self setupInsCompanyCellWithIndexPath:[NSIndexPath indexPathForRow:1 inSection:2]];
 //
-//    CKDict * cell3 = [self setupCheckCell];
+    CKDict * cell3 = [self setupCheckCell];
     
-    self.datasource = $($(cell0),$(cell1_0,cell1_1,cell1_2,cell1_3),$(cell2_0,cell2_1,cell2_2));
+    self.datasource = $($(cell0),$(cell1_0,cell1_1,cell1_2,cell1_3),$(cell2_0,cell2_1,cell2_2),$(cell3));
 }
 
 - (CKDict *)setupLinsenceCell
@@ -185,19 +186,23 @@
         
         @strongify(self);
         UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
+        label.text = @"车牌号码";
         ProvinceChooseView *chooseV = (ProvinceChooseView *)[cell.contentView viewWithTag:1002];
+        [chooseV setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
+        
         OETextField *field = (OETextField *)[cell.contentView viewWithTag:1003];
         [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
         field.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
         
+
+
         cell.contentView.userInteractionEnabled  = !self.curCar;
         
-        label.text = @"车牌号码";
-        
-        [chooseV setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
-        
-        NSString * lisenceArea = [self.curCar.licencenumber safteySubstringToIndexIndex:1];
-        NSString * lisenceSuffix = [self.curCar.licencenumber safteySubstringFromIndex:1];
+        if (self.curCar.licencenumber)
+        {
+            self.lisenceNumberArea = [self.curCar.licencenumber safteySubstringToIndexIndex:1];
+            self.lisenceNumberSuffix = [self.curCar.licencenumber safteySubstringFromIndex:1];
+        }
 
         @weakify(self);
         [[[chooseV rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
@@ -218,15 +223,6 @@
         
         
         field.textLimit = 6;
-        
-        [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            field.placeholder = nil;
-        }];
-        
-        [field setDidEndEditingBlock:^(CKLimitTextField *field) {
-            field.placeholder = @"A12345";
-        }];
-        
         [field setTextDidChangedBlock:^(CKLimitTextField *field) {
             @strongify(self);
             NSString *newtext = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -234,9 +230,9 @@
             self.lisenceNumberSuffix = field.text;
         }];
         
-        chooseV.displayLb.text = lisenceArea.length ? lisenceArea : [self getCurrentProvince];
-        self.lisenceNumberArea = lisenceArea.length ? lisenceArea : [self getCurrentProvince];
-        field.text = lisenceSuffix.length ? lisenceSuffix : @"";
+        self.lisenceNumberArea = self.lisenceNumberArea.length ? self.lisenceNumberArea : [self getCurrentProvince];
+        chooseV.displayLb.text = self.lisenceNumberArea.length ? self.lisenceNumberArea : [self getCurrentProvince];
+        field.text = self.lisenceNumberSuffix.length ? self.lisenceNumberSuffix : @"";
     });
 
     return cell0;
@@ -583,6 +579,7 @@
         [gToast dismiss];
         
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+        [[[MyCarStore fetchExistsStore] getAllCars] send];
         
         MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
         vc.tipsDict = op.couponDict;

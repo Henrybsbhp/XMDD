@@ -126,12 +126,12 @@
 {
     [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye2"}];
     
-    if (self.isMenuOpen && self.popoverMenu) {
+    
+    if (self.popoverMenu.isActivated) {
         [self.popoverMenu dismissWithAnimated:YES];
-        self.isMenuOpen = NO;
+        return;
     }
-    else if (!self.isMenuOpen && !self.popoverMenu) {
-        
+    
         NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
             return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
         }];
@@ -149,8 +149,6 @@
         [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
                             inView:self.navigationController.view dismissTargetView:self.view animated:YES];
         self.popoverMenu = popover;
-        self.isMenuOpen = YES;
-    }
 }
 
 - (void)actionGotoCalculateVC
