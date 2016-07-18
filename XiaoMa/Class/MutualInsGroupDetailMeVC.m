@@ -142,7 +142,9 @@
         
         @strongify(self);
         GetCooperationGroupMyInfoOp *info = self.viewModel.myInfo;
+        cell.logoView.hidden = info.rsp_licensenumber.length == 0;
         [cell.logoView setImageByUrl:info.rsp_carlogourl withType:ImageURLTypeOrigin defImage:@"mins_def" errorImage:@"mins_def"];
+        cell.titleLabel.hidden = info.rsp_licensenumber.length == 0;
         cell.titleLabel.text = info.rsp_licensenumber;
         cell.descLabel.text = info.rsp_tip;
         cell.tipButton.hidden = [info.rsp_statusdesc length] == 0;
