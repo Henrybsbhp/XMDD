@@ -161,7 +161,7 @@
         
         HKMyCar *car = [self.datasource safetyObjectAtIndex:indexPath.row];
         
-        [brandImageV setImageByUrl:car.brandLogo withType:ImageURLTypeOrigin defImage:@"avatar_default" errorImage:@"avatar_default"];
+        [brandImageV setImageByUrl:car.brandLogo withType:ImageURLTypeOrigin defImage:@"mins_def" errorImage:@"mins_def"];
         licensenoL.text = car.licencenumber;
         NSString *brandAndSeries = [NSString stringWithFormat:@"%@ %@", car.brand, car.seriesModel.seriesname];
         brandLabel.text = brandAndSeries;
