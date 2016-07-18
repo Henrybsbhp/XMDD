@@ -169,17 +169,19 @@
         
         @strongify(self);
         [cell.actionButton setTitle:self.viewModel.myInfo.rsp_buttonname forState:UIControlStateNormal];
+        [[[cell.actionButton rac_signalForControlEvents:UIControlEventTouchUpInside]
+          takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            switch (self.viewModel.myInfo.rsp_status) {
+                case 1: case 20:
+                    [self actionFillInfo];
+                    break;
+            }
+        }];
+        [cell.actionButton addTarget:self action:@selector(actionFillInfo) forControlEvents:UIControlEventTouchUpInside];
     });
     
-    item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
-        @strongify(self);
-        switch (self.viewModel.myInfo.rsp_status) {
-            case 1: case 20:
-                [self actionFillInfo];
-                break;
-        }
-    });
     return item;
 }
 

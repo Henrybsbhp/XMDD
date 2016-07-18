@@ -12,9 +12,6 @@
 NSInteger const kFetchPageAmount = 10;
 
 @implementation MutualInsGroupDetailVM
-- (void)dealloc {
-    
-}
 
 + (instancetype)fetchForGroupID:(NSNumber *)groupID memberID:(NSNumber *)memberID {
     MutualInsGroupDetailVM *vm = [self fetchExistsStoreForKey:[self keyWithGroupID:groupID andMemberID:memberID]];
