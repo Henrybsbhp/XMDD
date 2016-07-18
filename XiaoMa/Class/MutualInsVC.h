@@ -10,4 +10,6 @@
 
 @interface MutualInsVC : UIViewController
 
+-(void)presentAdPageVC;
+
 @end

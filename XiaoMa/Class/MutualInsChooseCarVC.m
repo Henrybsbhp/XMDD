@@ -115,7 +115,7 @@
 #pragma mark Action
 -(void)setBackAction
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0006"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0006"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

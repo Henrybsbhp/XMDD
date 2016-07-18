@@ -15,11 +15,9 @@
 #import "MutualInsPicUpdateVC.h"
 
 @interface MutInsSystemGroupListVC ()
-@property (weak, nonatomic) IBOutlet UIButton *groupBeginBtn;
-@property (weak, nonatomic) IBOutlet UIButton *groupEndBtn;
 @property (weak, nonatomic) IBOutlet UIView *groupBeginLine;
 @property (weak, nonatomic) IBOutlet UIView *groupEndLine;
-@property (weak, nonatomic) IBOutlet UIButton *applyBtn;
+
 
 @property (strong, nonatomic) MutInsSystemGroupListVM *groupBeginVM;
 @property (strong, nonatomic) MutInsSystemGroupListVM *groupEndVM;
@@ -41,8 +39,11 @@
     
     [self.groupBeginVM getCooperationGroupList];
     [self.groupEndVM getCooperationGroupList];
+    
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    
+    
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -69,11 +70,17 @@
     @weakify(self)
     [[self.groupBeginBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
+        
+        [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan2"}];
+        
         [self changeUIByVCIsBegin:YES];
     }];
     
     [[self.groupEndBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
+        
+        [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan3"}];
+        
         [self changeUIByVCIsBegin:NO];
     }];
 }
@@ -107,13 +114,19 @@
 
 - (IBAction)actionApply:(id)sender
 {
+    [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan5"}];
     GroupIntroductionVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
     vc.groupType = MutualGroupTypeSystem;
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)actionBack:(id)sender
+-(void)actionBack
 {
+    [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan1"}];
+    
+    self.groupBeginVM = nil;
+    self.groupEndVM = nil;
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

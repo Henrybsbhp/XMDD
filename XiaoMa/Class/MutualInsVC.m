@@ -22,6 +22,8 @@
 #import "MutualInsCarListModel.h"
 #import "MutualInsPicUpdateVC.h"
 #import "MutualInsOrderInfoVC.h"
+#import "MutualInsAdModel.h"
+#import "MutualInsStoryAdPageVC.h"
 
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
@@ -44,6 +46,8 @@
 @property (nonatomic, copy) NSArray *fetchedDataSource;
 
 @property (nonatomic, strong) MutualInsStore *minsStore;
+
+@property (strong, nonatomic) MutualInsAdModel *adModel;
 
 @end
 
@@ -77,6 +81,10 @@
         /// 获取团列表
         [[self.minsStore reloadSimpleGroups] send];
     }
+    
+    /// 获取广告信息
+    [self.adModel getSystemPromotion];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -1137,6 +1145,13 @@
 }
 
 #pragma mark - Utilities
+
+-(void)presentAdPageVC
+{
+    [MutualInsStoryAdPageVC presentWithModel:self.adModel];
+}
+
+
 /// 把一个 Array 分成另一个嵌套 mutableArray，该 mutableArray 里面有各个以 2 个为一组的子 mutableArray，这个方法主要配合显示双 Label 的优惠信息 Cell 使用。
 - (NSMutableArray *)splitArrayIntoDoubleNewArray:(NSArray *)array
 {
@@ -1218,5 +1233,12 @@
     return tempArray;
 }
 
-
+-(MutualInsAdModel *)adModel
+{
+    if (!_adModel)
+    {
+        _adModel = [[MutualInsAdModel alloc]init];
+    }
+    return _adModel;
+}
 @end

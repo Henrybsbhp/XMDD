@@ -180,7 +180,7 @@
 
 -(void)setBackAction
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0020"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0020"}];
     
     for (UIViewController * vc in self.navigationController.viewControllers)
     {
@@ -197,7 +197,7 @@
 
 - (IBAction)call:(id)sender
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0019"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0019"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#888888") clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#ff7428") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
@@ -221,7 +221,7 @@
     @weakify(self)
     [[self.agreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0023"}];
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0023"}];
         
         NSString * bankno = [self.bankcardnoStr stringByReplacingOccurrencesOfString:@" " withString:@""];
         if (bankno)
@@ -252,7 +252,7 @@
     }];
     [[self.disagreeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0024"}];
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0024"}];
         
         NSString * bankno = [self.bankcardnoStr stringByReplacingOccurrencesOfString:@" " withString:@""];
         if (!bankno)
@@ -272,7 +272,7 @@
     }];
     [[self.takePhotoBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         @strongify(self)
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0021"}];
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0021"}];
         
         GetCoorperationClaimConfigOp *op = [[GetCoorperationClaimConfigOp alloc]init];
         [[[op rac_postRequest] initially:^{

@@ -38,6 +38,8 @@
     
     self.navigationItem.title = @"费用试算";
     
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    
     [self getCalculateBaseInfo];
     
 }
@@ -201,6 +203,8 @@
         UIButton *calculateBtn = [cell viewWithTag:100];
         [[calculateBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
             @strongify(self)
+            
+            [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan3"}];
             
             if ([self checkFrameNo])
             {
@@ -396,6 +400,9 @@
 
 -(void)showLicenseTips
 {
+    
+    [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan2"}];
+    
     CGSize size = CGSizeMake(300, 200);
     UIViewController *vc = [[UIViewController alloc] init];
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:size viewController:vc];
@@ -476,6 +483,14 @@
     {
         return CGFLOAT_MIN;
     }
+}
+
+#pragma mark - Action
+
+-(void)actionBack
+{
+    [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan1"}];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

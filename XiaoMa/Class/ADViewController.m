@@ -8,6 +8,7 @@
 
 #import "ADViewController.h"
 #import "NavigationModel.h"
+#import "MutualInsVC.h"
 
 @interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource>
 @property (nonatomic, strong) NavigationModel *navModel;
@@ -199,7 +200,11 @@
             }
             else if (_adType == AdvertisementMutualInsTop)
             {
-                
+                if ([gAppMgr.navModel.curNavCtrl.topViewController isKindOfClass:[MutualInsVC class]])
+                {
+                    MutualInsVC * vc = (MutualInsVC *)gAppMgr.navModel.curNavCtrl.topViewController;
+                    [vc presentAdPageVC];
+                }
             }
             else if (_adType != AdvertisementValuation) {
                 

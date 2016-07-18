@@ -23,7 +23,7 @@
 
 - (IBAction)actionEnter:(id)sender {
     
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"baoxianshouye",@"values":@"baoxianshouye0002"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"baoxianshouye":@"baoxianshouye0002"}];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         InsuranceVC *vc = [UIStoryboard vcWithId:@"InsuranceVC" inStoryboard:@"Insurance"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -32,7 +32,7 @@
 
 -(void)actionBack
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"baoxianshouye",@"values":@"baoxianshouye0001"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"baoxianshouye":@"baoxianshouye0001"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

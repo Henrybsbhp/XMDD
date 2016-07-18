@@ -70,7 +70,10 @@
 
 #pragma mark - Action
 
-- (IBAction)actionJoin:(id)sender {
+- (IBAction)actionJoin:(id)sender
+{
+    
+    [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo2"}];
     
     MutInsSystemGroupListVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsSystemGroupListVC"];
     [self.router.navigationController pushViewController:vc animated:YES];
@@ -78,6 +81,10 @@
 
 - (void)actionBack:(id)sender
 {
+    
+    [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo1"}];
+    
+    
     if (self.router.userInfo[kOriginRoute])
     {
         [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];

@@ -173,7 +173,7 @@
         }
         
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:^(id alertVC) {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0038"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0038"}];
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:errStr ActionItems:@[cancel]];
         [alert show];
@@ -181,7 +181,7 @@
     else if (![self checkPhotoIsUploading])
     {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:kDefTintColor clickBlock:^(id alertVC) {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0038"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0038"}];
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有的照片正在上传中，请上传完成后提交" ActionItems:@[cancel]];
         [alert show];
@@ -192,7 +192,7 @@
              self.licencePhotos.count == self.licencePhotosCopy.count )
     {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:kDefTintColor clickBlock:^(id alertVC) {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0038"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0038"}];
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有未重拍的照片，请先重拍后提交" ActionItems:@[cancel]];
         [alert show];
@@ -484,7 +484,7 @@
         @strongify(self)
         // 点击上传按钮。上传图片。
         
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0033"}];
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0033"}];
         
         [self updateClaimPic];
     }];
@@ -543,7 +543,7 @@
             [[[deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
                 @strongify(self)
                 
-                [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0032"}];
+                [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0032"}];
                 
                 HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
                 HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
@@ -810,7 +810,7 @@
     if ([picRcd isKindOfClass:[NSDictionary class]])
     {
         
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0030"}];
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0030"}];
         
         UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
         UIImageView *imgView = [cell viewWithTag:100];
@@ -830,7 +830,7 @@
         if(!picRecd.needReupload)
         {
             
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0030"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0030"}];
             
             UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
             UIImageView *imgView = [cell viewWithTag:100];
@@ -859,7 +859,7 @@
 -(void)takePhotoWithIndexPath:(NSIndexPath *)indexPath
 {
     
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0031"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0031"}];
     __block PictureRecord *picRcd = [[PictureRecord alloc] init];
     
 #if !TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
@@ -1055,7 +1055,7 @@
         }];
         [[takePhotoBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
             // 跳转至拍照页面
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0039"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0039"}];
             [self getScencePageData];
             
         }];
@@ -1121,7 +1121,7 @@
 -(void)actionBack
 {
     
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0029"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0029"}];
     
     if (self.sceneDiff > 0 ||
         self.damageDiff > 0 ||
@@ -1129,10 +1129,10 @@
         self.licenceDiff > 0)
     {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0034"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0034"}];
         }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"去意已决" color:kDefTintColor clickBlock:^(id alertVC) {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0035"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0035"}];
             [self.navigationController popViewControllerAnimated:YES];
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否放弃重新拍摄的照片并且返回？" ActionItems:@[cancel,confirm]];
@@ -1156,10 +1156,10 @@
              self.licenceDiff == 0)
     {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0036"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0036"}];
         }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"去意已决" color:kDefTintColor clickBlock:^(id alertVC) {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0037"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0037"}];
             [self.navigationController popViewControllerAnimated:YES];
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您仍有照片需要拍摄上传，请确认是否返回？" ActionItems:@[cancel,confirm]];

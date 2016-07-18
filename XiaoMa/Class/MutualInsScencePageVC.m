@@ -68,7 +68,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark UIPageViewControllerDelegate
+#pragma mark - UIPageViewControllerDelegate
 
 
 -(UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
@@ -82,7 +82,7 @@
 }
 
 
-#pragma mark Init
+#pragma mark - Init
 
 -(void)configPageVC
 {
@@ -153,7 +153,8 @@
 }
 
 
-#pragma mark Utility
+#pragma mark - Utility
+
 -(void)addCorner:(UIView *)view
 {
     view.layer.cornerRadius = 5;
@@ -166,21 +167,21 @@
     view.layer.borderWidth = 1;
 }
 
-#pragma mark Action
+#pragma mark - Action
 
 -(void)back
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0007"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0007"}];
     MutualInsScencePhotoVC *scencePhotoVC = self.viewArr.firstObject;
     if (![[scencePhotoVC canPush] isEqualToString:@"请先拍照"])
     {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0014"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0014"}];
             [self.scencePhotoVM deleteAllInfo];
             [self.navigationController popViewControllerAnimated:YES];
         }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续上传" color:kGrayTextColor clickBlock:^(id alertVC) {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0015"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0015"}];
         }];
         HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您还未保存照片，现在返回将导致照片无法保存，是否现在返回？" ActionItems:@[confirm,cancel]];
         [alert show];
@@ -192,7 +193,7 @@
 }
 
 - (IBAction)lastStepAction:(id)sender {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0012"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0012"}];
     MutualInsScencePhotoVC *scencePhotoVC = self.pageVC.viewControllers.firstObject;
     NSInteger index = [self.viewArr indexOfObject:scencePhotoVC];
     [self.pageVC setViewControllers:@[[self.viewArr safetyObjectAtIndex:index - 1] ] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
@@ -205,13 +206,13 @@
     NSInteger index = [self.viewArr indexOfObject:scencePhotoVC];
     if ([scencePhotoVC canPush].length == 0 && index != self.viewArr.count - 1)
     {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0011"}];
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0011"}];
         [self.pageVC setViewControllers:@[[self.viewArr safetyObjectAtIndex:index + 1] ] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
         [self setSelectedIndex];
     }
     else if([scencePhotoVC canPush].length != 0)
     {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0013"}];
+        [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0013"}];
         [gToast showMistake:[scencePhotoVC canPush]];
     }
     else
@@ -223,7 +224,7 @@
         }
         else
         {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0013"}];
+            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0013"}];
             self.scene = [self.scencePhotoVM URLStringForIndex:0];
             self.cardamage = [self.scencePhotoVM URLStringForIndex:1];
             self.carinfo = [self.scencePhotoVM URLStringForIndex:2];
@@ -273,8 +274,7 @@
     }
 }
 
-
-#pragma mark LazyLoad
+#pragma mark - LazyLoad
 
 -(UIPageViewController *)pageVC
 {
