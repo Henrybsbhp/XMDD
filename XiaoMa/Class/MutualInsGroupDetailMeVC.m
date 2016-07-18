@@ -104,7 +104,7 @@
 - (void)actionPay {
     UIViewController *vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
     [vc setValue:self.viewModel.baseInfo.rsp_contractid forKey:@"contractId"];
-    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
     vc.router.userInfo[kOriginRoute] = self.parentViewController.router;
     [self.router.navigationController pushViewController:vc animated:YES];
 }
