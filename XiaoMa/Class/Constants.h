@@ -45,6 +45,7 @@ typedef enum : NSUInteger {
 //12-估值广告
 //13-首页悬浮广告
 //14-首页第二栏广告
+//17-互助首页广告
 //20：活动类
 typedef enum : NSUInteger {
     AdvertisementHomePage = 1,
@@ -61,6 +62,7 @@ typedef enum : NSUInteger {
     AdvertisementHomePageBottom = 14,
     AdvertisementMutualIns = 15,
     AdvertisementMutualInsTop = 16,
+    AdvertisementMutualInsHome = 17,
     AdvertisementTypeActivities = 20,
     AdvertisementTypeLeaunch = 30
 } AdvertisementType;

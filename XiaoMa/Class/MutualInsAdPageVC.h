@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MutualInsAdModel.h"
 
 @interface MutualInsAdPageVC : UIViewController
 
 @property (strong, nonatomic) UIViewController *targetVC;
 
-+ (instancetype)presentInTargetVC:(UIViewController *)targetVC;
++ (instancetype)presentWithModel:(MutualInsAdModel *)model;
 
 @end

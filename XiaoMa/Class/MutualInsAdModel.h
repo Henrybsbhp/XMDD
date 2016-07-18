@@ -10,4 +10,16 @@
 
 @interface MutualInsAdModel : NSObject
 
+- (void)getSystemPromotion;
+
+@property (strong, nonatomic) NSMutableArray *imgArr;
+
+@property (strong, nonatomic) NSString *imgStr;
+
+@property (strong, nonatomic) NSString *adLink;
+
+@property (assign, nonatomic) CGFloat imgCount;
+
+@property (assign, nonatomic) BOOL haveRetry;
+
 @end

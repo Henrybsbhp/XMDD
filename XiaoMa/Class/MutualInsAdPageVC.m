@@ -8,14 +8,16 @@
 
 #import "MutualInsAdPageVC.h"
 #import "MutualInsAdPicVC.h"
-
+#import "HomePageVC.h"
 
 @interface MutualInsAdPageVC () <UIPageViewControllerDelegate,UIPageViewControllerDataSource>
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (weak, nonatomic) IBOutlet UIView *pageView;
+@property (weak, nonatomic) IBOutlet UIButton *closeBtn;
+@property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
 @property (strong, nonatomic) UIPageViewController *pageVC;
 @property (strong, nonatomic) NSArray *viewArr;
-@property (weak, nonatomic) IBOutlet UIButton *closeBtn;
+@property (strong, nonatomic) MutualInsAdModel *model;
 
 @end
 
@@ -27,40 +29,30 @@
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
-    [self setupUI];
+    @weakify(self)
     [self setupPageVC];
+    [self setupUI];
     
+    [RACObserve(self.model, imgStr)subscribeNext:^(NSString *imgStr) {
+        @strongify(self)
+        if (self.model.imgArr.count != 0)
+        {
+            for (UIImage *img in self.model.imgArr)
+            {
+                NSInteger index = img.customTag;
+                MutualInsAdPicVC *vc = [self.viewArr safetyObjectAtIndex:index];
+                vc.img = img;
+            }
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Network
-
-- (RACSignal *)rac_getImageByUrl:(NSString *)strurl withType:(ImageURLType)type
-{
-    return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        NSString *realStrUrl = [gMediaMgr urlWith:strurl imageType:type];
-        NSURL *url = strurl ? [NSURL URLWithString:realStrUrl] : nil;
-        SDWebImageManager *mgr = [SDWebImageManager sharedManager];
-        if (url && ![mgr cachedImageExistsForURL:url]) {
-            [subscriber sendNext:nil];
-        }
-        [mgr downloadImageWithURL:url options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-            if (image) {
-                [subscriber sendNext:image];
-            }
-            else {
-                [subscriber sendError:error];
-            }
-            [subscriber sendCompleted];
-        }];
-        return nil;
-    }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
 #pragma mark - Setup
@@ -76,7 +68,7 @@
 
 -(void)setupUI
 {
-    self.pageControl.numberOfPages = 5;
+    self.pageControl.numberOfPages = self.viewArr.count;
 }
 
 #pragma mark - UIPageViewControllerDelegate
@@ -84,6 +76,14 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray* )previousViewControllers transitionCompleted:(BOOL)completed
 {
     self.pageControl.currentPage = [self.viewArr indexOfObject:self.pageVC.viewControllers.firstObject];
+    if (self.pageControl.currentPage == self.model.imgCount - 1)
+    {
+        self.tapGesture.enabled = YES;
+    }
+    else
+    {
+        self.tapGesture.enabled = NO;
+    }
 }
 
 #pragma mark - UIPageViewControllerDataSource
@@ -117,37 +117,64 @@
 
 #pragma mark - Utility
 
-+ (instancetype)presentInTargetVC:(UIViewController *)targetVC
++ (instancetype)presentWithModel:(MutualInsAdModel *)model
 {
     MutualInsAdPageVC *vc = [UIStoryboard vcWithId:@"MutualInsAdPageVC" inStoryboard:@"Temp_YZC"];
-    vc.targetVC = targetVC;
-    
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:gAppMgr.deviceInfo.screenSize viewController:vc];
-    sheet.shadowRadius = 0;
-    sheet.shadowOpacity = 0;
-    sheet.transitionStyle = MZFormSheetTransitionStyleBounce;
-    sheet.shouldDismissOnBackgroundViewTap = NO;
-    sheet.shouldCenterVertically = YES;
-    [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
-    [sheet presentAnimated:YES completionHandler:nil];
-    
-    [[vc.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
-    
+    if (model.imgCount != 0)
+    {
+        vc.model = model;
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:gAppMgr.deviceInfo.screenSize viewController:vc];
+        [MZFormSheetController sharedBackgroundWindow].backgroundBlurEffect = NO;
+        sheet.shadowRadius = 0;
+        sheet.shadowOpacity = 0;
+        sheet.transitionStyle = MZFormSheetTransitionStyleBounce;
+        sheet.shouldDismissOnBackgroundViewTap = NO;
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+        [[vc.tapGesture rac_gestureSignal]subscribeNext:^(id x) {
+            [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+                
+                if (model.adLink.length > 0)
+                {
+                    [gAppMgr.navModel pushToViewControllerByUrl:model.adLink];
+                }
+            }];
+        }];
+    }
     return vc;
 }
 
 #pragma mark - LazyLoad
+
+-(UITapGestureRecognizer *)tapGesture
+{
+    if (!_tapGesture)
+    {
+        _tapGesture = [[UITapGestureRecognizer alloc]init];
+        _tapGesture.enabled = NO;
+        [self.view addGestureRecognizer:_tapGesture];
+    }
+    return _tapGesture;
+}
+
 
 -(UIPageViewController *)pageVC
 {
     if (!_pageVC)
     {
         _pageVC = [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-        [_pageVC setViewControllers:@[self.viewArr.firstObject] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
         _pageVC.dataSource = self;
         _pageVC.delegate = self;
+        
+        if (self.viewArr.firstObject)
+        {
+            [_pageVC setViewControllers:@[self.viewArr.firstObject] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+        }
     }
     return _pageVC;
 }
@@ -157,15 +184,11 @@
     if (!_viewArr)
     {
         NSMutableArray *tempArr = [[NSMutableArray alloc]init];
-        for (NSInteger i = 0; i < 5; i++)
+        for (NSInteger i = 0; i < self.model.imgCount; i++)
         {
             MutualInsAdPicVC *vc = [UIStoryboard vcWithId:@"MutualInsAdPicVC" inStoryboard:@"Temp_YZC"];
             
-            vc.userInteractionEnabled = i == 4;
-            
-            [[self rac_getImageByUrl:[NSString stringWithFormat:@"http://7xjclc.com1.z0.glb.clouddn.com/android_step_%ld.png",i + 1] withType:ImageURLTypeOrigin]subscribeNext:^(UIImage *img) {
-                vc.img = img;
-            }];
+            vc.userInteractionEnabled = ( i == self.model.imgCount - 1 );
             
             [tempArr addObject:vc];
         }

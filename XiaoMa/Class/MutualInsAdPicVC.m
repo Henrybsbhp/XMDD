@@ -26,12 +26,7 @@
     [super viewDidLoad];
     
     [self setupImg];
-    
-    if (self.userInteractionEnabled)
-    {
-        [self setupTapGesture];
-    }
-    
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,19 +50,6 @@
             self.imgView.image = self.img;
         }
     }];
-}
-
--(void)setupTapGesture
-{
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(actionJumpToMutualIns)];
-    [self.view addGestureRecognizer:tapGesture];
-}
-
-#pragma mark - Action
-
--(void)actionJumpToMutualIns
-{
-    NSLog(@"tap");
 }
 
 @end

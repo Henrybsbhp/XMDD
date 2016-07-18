@@ -7,11 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MutualInsAdModel.h"
 
 @interface MutualInsAdPicVC : UIViewController
 
 @property (strong, nonatomic) UIImage *img;
 
+@property (strong, nonatomic) NSString *adLink;
+
 @property (assign, nonatomic) BOOL userInteractionEnabled;
+
+@property (strong, nonatomic) MutualInsAdModel *model;
 
 @end
