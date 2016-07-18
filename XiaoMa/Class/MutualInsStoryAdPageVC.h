@@ -1,5 +1,5 @@
 //
-//  MutualInsAdPageVC.h
+//  MutualInsStoryAdPageVC.h
 //  XiaoMa
 //
 //  Created by RockyYe on 16/7/14.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MutualInsAdModel.h"
 
-@interface MutualInsAdPageVC : UIViewController
+@interface MutualInsStoryAdPageVC : UIViewController
 
 @property (strong, nonatomic) UIViewController *targetVC;
 

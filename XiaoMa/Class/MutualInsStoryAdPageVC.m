@@ -6,11 +6,11 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "MutualInsAdPageVC.h"
-#import "MutualInsAdPicVC.h"
+#import "MutualInsStoryAdPageVC.h"
+#import "MutualInsStoryAdPicVC.h"
 #import "HomePageVC.h"
 
-@interface MutualInsAdPageVC () <UIPageViewControllerDelegate,UIPageViewControllerDataSource>
+@interface MutualInsStoryAdPageVC () <UIPageViewControllerDelegate,UIPageViewControllerDataSource>
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (weak, nonatomic) IBOutlet UIView *pageView;
 @property (weak, nonatomic) IBOutlet UIButton *closeBtn;
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation MutualInsAdPageVC
+@implementation MutualInsStoryAdPageVC
 
 -(void)dealloc
 {
@@ -43,7 +43,7 @@
             for (UIImage *img in self.model.imgArr)
             {
                 NSInteger index = img.customTag;
-                MutualInsAdPicVC *vc = [self.viewArr safetyObjectAtIndex:index];
+                MutualInsStoryAdPicVC *vc = [self.viewArr safetyObjectAtIndex:index];
                 vc.img = img;
             }
         }
@@ -119,7 +119,7 @@
 
 + (instancetype)presentWithModel:(MutualInsAdModel *)model
 {
-    MutualInsAdPageVC *vc = [UIStoryboard vcWithId:@"MutualInsAdPageVC" inStoryboard:@"Temp_YZC"];
+    MutualInsStoryAdPageVC *vc = [UIStoryboard vcWithId:@"MutualInsAdPageVC" inStoryboard:@"Temp_YZC"];
     if (model.imgCount != 0)
     {
         vc.model = model;
@@ -186,7 +186,7 @@
         NSMutableArray *tempArr = [[NSMutableArray alloc]init];
         for (NSInteger i = 0; i < self.model.imgCount; i++)
         {
-            MutualInsAdPicVC *vc = [UIStoryboard vcWithId:@"MutualInsAdPicVC" inStoryboard:@"Temp_YZC"];
+            MutualInsStoryAdPicVC *vc = [UIStoryboard vcWithId:@"MutualInsAdPicVC" inStoryboard:@"Temp_YZC"];
             
             vc.userInteractionEnabled = ( i == self.model.imgCount - 1 );
             

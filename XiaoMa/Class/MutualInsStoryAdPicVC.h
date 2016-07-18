@@ -1,5 +1,5 @@
 //
-//  MutualInsAdPicVC.h
+//  MutualInsStoryAdPicVC.h
 //  XiaoMa
 //
 //  Created by RockyYe on 16/7/14.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MutualInsAdModel.h"
 
-@interface MutualInsAdPicVC : UIViewController
+@interface MutualInsStoryAdPicVC : UIViewController
 
 @property (strong, nonatomic) UIImage *img;
 

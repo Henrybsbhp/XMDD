@@ -29,6 +29,7 @@
 #import "ParkingShopGasInfoVC.h"
 #import "MutualInsVC.h"
 #import "MutualInsHomeAdVC.h"
+#import "MutualInsStoryAdPageVC.h"
 
 #import "AppDelegate.h"
 
@@ -376,6 +377,13 @@
         else if ([@"coinsad" equalByCaseInsensitive:name]) {
             
             MutualInsHomeAdVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsHomeAdVC"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+            return YES;
+        }
+        //加入小马互助5页宣传页
+        else if ([@"coinsstory" equalByCaseInsensitive:name]) {
+            
+            MutualInsStoryAdPageVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsStoryAdPageVC"];
             [self.curNavCtrl pushViewController:vc animated:YES];
             return YES;
         }

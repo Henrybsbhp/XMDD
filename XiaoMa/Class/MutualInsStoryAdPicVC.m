@@ -1,21 +1,21 @@
 //
-//  MutualInsAdPicVC.m
+//  MutualInsStoryAdPicVC.m
 //  XiaoMa
 //
 //  Created by RockyYe on 16/7/14.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "MutualInsAdPicVC.h"
+#import "MutualInsStoryAdPicVC.h"
 
-@interface MutualInsAdPicVC ()
+@interface MutualInsStoryAdPicVC ()
 @property (weak, nonatomic) IBOutlet UIImageView *imgView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *activityView;
 
 @end
 
-@implementation MutualInsAdPicVC
+@implementation MutualInsStoryAdPicVC
 
 -(void)dealloc
 {

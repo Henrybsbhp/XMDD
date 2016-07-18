@@ -317,7 +317,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BGU-Lu-OH5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2113" y="409"/>
+            <point key="canvasLocation" x="1701" y="352"/>
         </scene>
         <!--完善入团信息-->
         <scene sceneID="oyf-1W-kLf">
@@ -951,7 +951,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="haM-3w-LLi">
                                 <rect key="frame" x="0.0" y="534" width="600" height="66"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="xwG-nb-R1O">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="xwG-nb-R1O">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
                                     </imageView>
                                     <button opaque="NO" tag="112" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Vt-KN-v0l">
@@ -1280,7 +1280,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="12a-3D-Q3B">
                                 <rect key="frame" x="0.0" y="534" width="600" height="66"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="U6L-1E-0nV">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="U6L-1E-0nV">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
                                     </imageView>
                                     <button opaque="NO" tag="111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y2A-ef-QNQ">
@@ -1682,7 +1682,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2P4-Vi-eRL">
                                 <rect key="frame" x="0.0" y="534" width="600" height="66"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="ulv-do-LMW">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="ulv-do-LMW">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
                                     </imageView>
                                     <button opaque="NO" tag="106" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NAi-7R-l37">
@@ -2587,7 +2587,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e8t-Yx-d7L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="586" y="341"/>
+            <point key="canvasLocation" x="-406" y="365"/>
         </scene>
         <!--Mut Ins CalculateVC-->
         <scene sceneID="I34-Ef-xS2">
@@ -3126,7 +3126,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nln-5P-74g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1658" y="352"/>
+            <point key="canvasLocation" x="1944" y="-399"/>
         </scene>
         <!--小马互助-->
         <scene sceneID="tgX-Px-XdC">
@@ -3386,7 +3386,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupInfoCell" rowHeight="50" id="Tvq-Fh-KCj">
-                                        <rect key="frame" x="0.0" y="369" width="600" height="50"/>
+                                        <rect key="frame" x="0.0" y="368.5" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tvq-Fh-KCj" id="Uik-BO-Whw">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
@@ -3434,7 +3434,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ExtendedInfoCell" rowHeight="29" id="89S-H8-oVl">
-                                        <rect key="frame" x="0.0" y="419" width="600" height="29"/>
+                                        <rect key="frame" x="0.0" y="418.5" width="600" height="29"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="89S-H8-oVl" id="dbU-zH-EUS">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="29"/>
@@ -3474,7 +3474,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TipsHeaderCell" rowHeight="35" id="pM6-MG-NYo">
-                                        <rect key="frame" x="0.0" y="448" width="600" height="35"/>
+                                        <rect key="frame" x="0.0" y="447.5" width="600" height="35"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pM6-MG-NYo" id="rNc-Go-y2j">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="35"/>
@@ -3537,7 +3537,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TipsTitleCell" rowHeight="30" id="hkm-GP-Q0J">
-                                        <rect key="frame" x="0.0" y="483" width="600" height="30"/>
+                                        <rect key="frame" x="0.0" y="482.5" width="600" height="30"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hkm-GP-Q0J" id="K6V-KC-eQ9">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
@@ -3567,7 +3567,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TipsCell" rowHeight="22" id="hte-oQ-Ujb">
-                                        <rect key="frame" x="0.0" y="513" width="600" height="22"/>
+                                        <rect key="frame" x="0.0" y="512.5" width="600" height="22"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hte-oQ-Ujb" id="m82-tG-mNu">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="22"/>
@@ -3629,7 +3629,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SingleTipsCell" rowHeight="22" id="rgS-RE-QwT">
-                                        <rect key="frame" x="0.0" y="572.5" width="600" height="22"/>
+                                        <rect key="frame" x="0.0" y="534.5" width="600" height="22"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rgS-RE-QwT" id="OrZ-9g-ReC">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="22"/>
@@ -3667,7 +3667,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BlankCell" rowHeight="10" id="JJr-7t-yyy">
-                                        <rect key="frame" x="0.0" y="557" width="600" height="10"/>
+                                        <rect key="frame" x="0.0" y="556.5" width="600" height="10"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JJr-7t-yyy" id="fbh-K6-Fdi">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="10"/>
@@ -3806,7 +3806,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BAr-dw-1Qp">
                                 <rect key="frame" x="0.0" y="540" width="600" height="60"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="rnu-rD-iLh">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="rnu-rD-iLh">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="72w-Eu-Ii5">
@@ -3857,6 +3857,119 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sc4-LI-NZ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--Mutual Ins Story Ad PicVC-->
+        <scene sceneID="Xji-5V-qUJ">
+            <objects>
+                <viewController storyboardIdentifier="MutualInsStoryAdPicVC" id="OFR-P4-OXK" customClass="MutualInsStoryAdPicVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Wnz-qQ-MF3"/>
+                        <viewControllerLayoutGuide type="bottom" id="VGG-nS-3Rv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bxx-bT-rbv">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aOm-3G-Vo8">
+                                <rect key="frame" x="15" y="10" width="345" height="647"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="LJM-ZX-Axh">
+                                        <rect key="frame" x="162.5" y="313.5" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="LJM-ZX-Axh" firstAttribute="centerY" secondItem="aOm-3G-Vo8" secondAttribute="centerY" id="5tx-g6-T69"/>
+                                    <constraint firstItem="LJM-ZX-Axh" firstAttribute="centerX" secondItem="aOm-3G-Vo8" secondAttribute="centerX" id="gJd-5m-4I5"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LaC-wQ-nhT">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="aOm-3G-Vo8" secondAttribute="trailing" constant="15" id="5jm-T7-Npl"/>
+                            <constraint firstItem="aOm-3G-Vo8" firstAttribute="top" secondItem="Wnz-qQ-MF3" secondAttribute="bottom" constant="10" id="69t-EU-3xc"/>
+                            <constraint firstAttribute="trailing" secondItem="LaC-wQ-nhT" secondAttribute="trailing" id="EUc-rP-dYw"/>
+                            <constraint firstItem="LaC-wQ-nhT" firstAttribute="top" secondItem="Wnz-qQ-MF3" secondAttribute="bottom" id="GUr-TR-Dw9"/>
+                            <constraint firstItem="aOm-3G-Vo8" firstAttribute="leading" secondItem="bxx-bT-rbv" secondAttribute="leading" constant="15" id="ITz-EA-Jxm"/>
+                            <constraint firstItem="VGG-nS-3Rv" firstAttribute="top" secondItem="aOm-3G-Vo8" secondAttribute="bottom" constant="10" id="gqc-kY-iZT"/>
+                            <constraint firstItem="VGG-nS-3Rv" firstAttribute="top" secondItem="LaC-wQ-nhT" secondAttribute="bottom" id="oDk-uW-cQH"/>
+                            <constraint firstItem="LaC-wQ-nhT" firstAttribute="leading" secondItem="bxx-bT-rbv" secondAttribute="leading" id="uLi-83-aT2"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="LJM-ZX-Axh" id="02Y-ab-oFm"/>
+                        <outlet property="activityView" destination="aOm-3G-Vo8" id="Pzp-Ql-5wx"/>
+                        <outlet property="imgView" destination="LaC-wQ-nhT" id="gZf-jQ-rVy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hWw-d3-jsV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1344.5" y="-365.5"/>
+        </scene>
+        <!--Mutual Ins Story Ad PageVC-->
+        <scene sceneID="4D7-Ng-8ki">
+            <objects>
+                <viewController storyboardIdentifier="MutualInsStoryAdPageVC" id="j40-mS-2wC" customClass="MutualInsStoryAdPageVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="usJ-WT-IXA"/>
+                        <viewControllerLayoutGuide type="bottom" id="YHa-uO-rNV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gcA-2a-Avs">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OWx-vp-CNd">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="260"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MJX-RZ-4vh">
+                                <rect key="frame" x="200" y="0.0" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="5HH-RC-W23"/>
+                                    <constraint firstAttribute="height" constant="100" id="cGt-JS-uHQ"/>
+                                </constraints>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Miz-EN-w2r">
+                                <rect key="frame" x="0.0" y="260" width="300" height="40"/>
+                                <subviews>
+                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="GDx-BE-Bd8">
+                                        <rect key="frame" x="114" y="1" width="71" height="37"/>
+                                    </pageControl>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="GDx-BE-Bd8" firstAttribute="centerX" secondItem="Miz-EN-w2r" secondAttribute="centerX" id="58w-DC-tAq"/>
+                                    <constraint firstItem="GDx-BE-Bd8" firstAttribute="centerY" secondItem="Miz-EN-w2r" secondAttribute="centerY" id="LvA-FU-DxN"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="OWx-vp-CNd" firstAttribute="leading" secondItem="gcA-2a-Avs" secondAttribute="leading" id="6Mf-eD-hPu"/>
+                            <constraint firstItem="YHa-uO-rNV" firstAttribute="top" secondItem="Miz-EN-w2r" secondAttribute="bottom" id="ApL-Ff-btq"/>
+                            <constraint firstItem="Miz-EN-w2r" firstAttribute="leading" secondItem="gcA-2a-Avs" secondAttribute="leading" id="Nhc-nU-Hmp"/>
+                            <constraint firstItem="YHa-uO-rNV" firstAttribute="top" secondItem="OWx-vp-CNd" secondAttribute="bottom" constant="40" id="eaH-Ze-BCG"/>
+                            <constraint firstAttribute="trailing" secondItem="Miz-EN-w2r" secondAttribute="trailing" id="lp3-7a-e96"/>
+                            <constraint firstAttribute="trailing" secondItem="OWx-vp-CNd" secondAttribute="trailing" id="puP-Le-8NH"/>
+                            <constraint firstItem="OWx-vp-CNd" firstAttribute="top" secondItem="usJ-WT-IXA" secondAttribute="bottom" id="tfI-pM-ImI"/>
+                            <constraint firstItem="Miz-EN-w2r" firstAttribute="top" secondItem="OWx-vp-CNd" secondAttribute="bottom" id="xmg-fJ-DwH"/>
+                            <constraint firstItem="MJX-RZ-4vh" firstAttribute="top" secondItem="usJ-WT-IXA" secondAttribute="bottom" id="y74-02-mTm"/>
+                            <constraint firstAttribute="trailing" secondItem="MJX-RZ-4vh" secondAttribute="trailing" id="yjT-X0-PC0"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="300" height="300"/>
+                    <connections>
+                        <outlet property="closeBtn" destination="MJX-RZ-4vh" id="Wgm-7k-Fwg"/>
+                        <outlet property="pageControl" destination="GDx-BE-Bd8" id="Dhh-7U-xDM"/>
+                        <outlet property="pageView" destination="OWx-vp-CNd" id="Pco-0C-Cpa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xwl-bb-R0b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="860" y="-432"/>
         </scene>
     </scenes>
     <resources>
