@@ -77,7 +77,13 @@
 #pragma mark - Action
 /// 完善资料
 - (void)actionFillInfo {
-
+    if (self.viewModel.myInfo.rsp_status == 1) {
+        [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing7"}];
+    }
+    else if (self.viewModel.myInfo.rsp_status == 20) {
+        [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing8"}];
+    }
+    
     HKMyCar * car = [[HKMyCar alloc] init];
     car.carId = self.viewModel.myInfo.rsp_usercarid;
     car.licencenumber = self.viewModel.myInfo.rsp_licensenumber;
@@ -93,7 +99,7 @@
 
 /// 我的协议
 - (void)actionAgreement {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing0015"}];
+    [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing9"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"我的协议";
     vc.url = self.viewModel.myInfo.rsp_contracturl;

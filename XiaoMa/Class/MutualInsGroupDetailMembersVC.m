@@ -162,6 +162,10 @@
         return [MutualInsGroupMemberCell heightWithExtendInfoCount:info.extendinfo.count];
     });
     
+    item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing10"}];
+    });
+    
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, MutualInsGroupMemberCell *cell, NSIndexPath *indexPath) {
         
         MutualInsMemberInfo2 *info = data[@"object"];
