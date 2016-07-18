@@ -13,7 +13,7 @@
 
 @property (nonatomic, assign) BOOL isShowBottomView;
 
-@property (nonatomic, assign) HKMyCar *defaultCar;
+@property (nonatomic, strong) HKMyCar *defaultCar;
 @property (nonatomic, strong) MyCarListVModel *model;
 
 @property (nonatomic, copy) void(^finishPickCar)(MyCarListVModel *carModel, UIView * loadingView);

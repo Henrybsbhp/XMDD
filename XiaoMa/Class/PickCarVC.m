@@ -186,6 +186,37 @@
         else {
             HKMyCar *car = [self.datasource safetyObjectAtIndex:indexPath.row];
             self.model.selectedCar = car;
+            
+            //如果爱车信息不完整
+            if (self.model.selectedCar && ![self.model.selectedCar isCarInfoCompleted]) {
+                
+                HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+                alert.topTitle = @"温馨提示";
+                alert.imageName = @"mins_bulb";
+                alert.message = @"您的爱车信息不完整，信息不完善的车辆将无法进行洗车，协办等服务，是否现在完善？";
+                @weakify(self);
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:kGrayTextColor clickBlock:^(id alertVC) {
+                    @strongify(self);
+                    if (self.model.originVC) {
+                        [self.navigationController popToViewController:self.model.originVC animated:YES];
+                    }
+                    else {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }
+                }];
+                HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                    @strongify(self);
+                    [MobClick event:@"rp104_9"];
+                    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                    vc.originCar = self.model.selectedCar;
+                    vc.model = self.model;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }];
+                alert.actionItems = @[cancel, improve];
+                [alert show];
+                return;
+            }
+            
             if (self.finishPickCar) {
                 self.finishPickCar(self.model, self.view);
             }
@@ -211,6 +242,37 @@
 
 - (IBAction)joinAction:(id)sender {
     if (self.model.selectedCar) {
+        
+        //如果爱车信息不完整
+        if (self.model.allowAutoChangeSelectedCar && self.model.selectedCar && ![self.model.selectedCar isCarInfoCompleted]) {
+            
+            HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+            alert.topTitle = @"温馨提示";
+            alert.imageName = @"mins_bulb";
+            alert.message = @"您的爱车信息不完整，信息不完善的车辆将无法进行洗车，协办等服务，是否现在完善？";
+            @weakify(self);
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:kGrayTextColor clickBlock:^(id alertVC) {
+                @strongify(self);
+                if (self.model.originVC) {
+                    [self.navigationController popToViewController:self.model.originVC animated:YES];
+                }
+                else {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }];
+            HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                @strongify(self);
+                [MobClick event:@"rp104_9"];
+                EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                vc.originCar = self.model.selectedCar;
+                vc.model = self.model;
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
+            alert.actionItems = @[cancel, improve];
+            [alert show];
+            return;
+        }
+        
         if (self.finishPickCar) {
             self.finishPickCar(self.model, self.view);
         }

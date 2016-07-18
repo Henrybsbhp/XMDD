@@ -20,6 +20,7 @@
 #import "UIView+RoundedCorner.h"
 #import "CollectionChooseVC.h"
 #import "MutualInsPicUpdateResultVC.h"
+#import "MyCarStore.h"
 
 @interface MutualInsPicUpdateVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -578,6 +579,7 @@
         [gToast dismiss];
         
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+        [[[MyCarStore fetchExistsStore] getAllCars] send];
         
         MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
         vc.tipsDict = op.couponDict;
