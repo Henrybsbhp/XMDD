@@ -65,7 +65,7 @@
             UILabel * tagLb = [cell.contentView viewWithTag:103];
             
             [imageView setImageByUrl:logoUrl
-                        withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
+                        withType:ImageURLTypeThumbnail defImage:@"mins_def" errorImage:@"mins_def"];
             lb.text = licensenNumber;
             tagLb.text = @"未参团";
             tagLb.layer.cornerRadius = 12.0f;
