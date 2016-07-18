@@ -229,6 +229,7 @@
             self.lisenceNumberSuffix = field.text;
         }];
         
+        self.lisenceNumberArea = self.lisenceNumberArea.length ? self.lisenceNumberArea : [self getCurrentProvince];
         chooseV.displayLb.text = self.lisenceNumberArea.length ? self.lisenceNumberArea : [self getCurrentProvince];
         field.text = self.lisenceNumberSuffix.length ? self.lisenceNumberSuffix : @"";
     });
