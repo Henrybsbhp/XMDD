@@ -119,7 +119,7 @@
 
 + (instancetype)presentWithModel:(MutualInsAdModel *)model
 {
-    MutualInsStoryAdPageVC *vc = [UIStoryboard vcWithId:@"MutualInsAdPageVC" inStoryboard:@"Temp_YZC"];
+    MutualInsStoryAdPageVC *vc = [UIStoryboard vcWithId:@"MutualInsStoryAdPageVC" inStoryboard:@"MutualInsJoin"];
     if (model.imgCount != 0)
     {
         vc.model = model;
@@ -186,7 +186,7 @@
         NSMutableArray *tempArr = [[NSMutableArray alloc]init];
         for (NSInteger i = 0; i < self.model.imgCount; i++)
         {
-            MutualInsStoryAdPicVC *vc = [UIStoryboard vcWithId:@"MutualInsAdPicVC" inStoryboard:@"Temp_YZC"];
+            MutualInsStoryAdPicVC *vc = [UIStoryboard vcWithId:@"MutualInsStoryAdPicVC" inStoryboard:@"MutualInsJoin"];
             
             vc.userInteractionEnabled = ( i == self.model.imgCount - 1 );
             

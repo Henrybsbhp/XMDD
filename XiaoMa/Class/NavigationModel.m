@@ -37,7 +37,7 @@
 
 - (BOOL)pushToViewControllerByUrl:(NSString *)url
 {
-//    url = @"xmdd://j?t=cl&id=47898";
+    //    url = @"xmdd://j?t=cl&id=47898";
     BOOL flag = NO;
     //是内部跳转链接(以xmdd://开头)
     if ([url hasPrefix:@"xmdd://"]) {
@@ -350,7 +350,7 @@
         }
         //商店详情
         else if ([@"sd" equalByCaseInsensitive:name]) {
-
+            
         }
         //加油记录
         else if ([@"gl" equalByCaseInsensitive:name]) {
@@ -383,8 +383,11 @@
         //加入小马互助5页宣传页
         else if ([@"coinsstory" equalByCaseInsensitive:name]) {
             
-            MutualInsStoryAdPageVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsStoryAdPageVC"];
-            [self.curNavCtrl pushViewController:vc animated:YES];
+            if ([self.curNavCtrl.topViewController isKindOfClass:[MutualInsVC class]])
+            {
+                MutualInsVC * vc = (MutualInsVC *)self.curNavCtrl.topViewController;
+                [vc presentAdPageVC];
+            }
             return YES;
         }
         //加入小马互助团
@@ -431,7 +434,7 @@
         }
         ///首页更多模块
         else if ([@"moresubmodule" equalByCaseInsensitive:name]) {
-        
+            
             MoreSubmodulesVC *vc =  [[MoreSubmodulesVC alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.curNavCtrl pushViewController:vc animated:YES];

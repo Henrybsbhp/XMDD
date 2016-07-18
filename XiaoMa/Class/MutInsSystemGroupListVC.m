@@ -115,19 +115,9 @@
 - (IBAction)actionApply:(id)sender
 {
     [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan5"}];
-    NSString * url = self.groupBeginVM.groupLinkUrl.length ? self.groupBeginVM.groupLinkUrl : self.groupEndVM.groupLinkUrl;
-    if (url.length)
-    {
-        GroupIntroductionVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
-        vc.groupType = MutualGroupTypeSystem;
-        vc.groupIntrUrlStr = url;
-        
-        [self.router.navigationController pushViewController:vc animated:YES];
-    }
-    else
-    {
-        [self requrstMutualInsCarList];
-    }
+    GroupIntroductionVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
+    vc.groupType = MutualGroupTypeSystem;
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)actionBack
