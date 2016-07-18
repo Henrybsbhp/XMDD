@@ -39,11 +39,8 @@ typedef NS_ENUM(NSInteger, MutualInsGroupStatus) {
     /// 已过期
     XMOverdue            = 10,
     
-    /// 重新上传资料
-    XMReuploadData       = 20,
-    
     /// 审核失败
-    XMReviewFailed       = 21
+    XMReviewFailed       = 20
 };
 
 

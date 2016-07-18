@@ -537,8 +537,14 @@
 {
     @weakify(self);
     CKDict *normalStatusCell = [CKDict dictWith:@{kCKItemKey: @"normalStatusCell", kCKCellID: @"NormalStatusCell"}];
+    normalStatusCell[@"dict"] = dict;
     normalStatusCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 105;
+        MutualInsCarListModel *dataModel = data[@"dict"];
+        CGSize tipsSize = [dataModel.tip labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 34 font:[UIFont systemFontOfSize:13]];
+        
+        CGFloat height = tipsSize.height + 88;
+        
+        return MAX(height, 105);
     });
     
     normalStatusCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -555,12 +561,12 @@
         } else if (dict.status == XMInReview && dict.numberCnt.integerValue > 0) {
             // 有车有团审核中状态
             /// 进入「团详情」页面
-            
+            [self actionGotoGroupDetailVC:data[@"dict"]];
             
         } else {
             // 「保障中」等状态
             // 进入「团详情」页面
-            
+            [self actionGotoGroupDetailVC:data[@"dict"]];
             
         }
     });
@@ -568,7 +574,7 @@
     normalStatusCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UIImageView *brandImageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UILabel *carNumLabel = (UILabel *)[cell.contentView viewWithTag:101];
-        RTLabel *tipsLabel = (RTLabel *)[cell.contentView viewWithTag:102];
+        UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:102];
         UILabel *statusLabel = (UILabel *)[cell.contentView viewWithTag:103];
         UIView *statusContainerView = (UIView *)[cell.contentView viewWithTag:104];
         
@@ -577,12 +583,14 @@
         statusContainerView.layer.borderColor = HEXCOLOR(@"#FF7428").CGColor;
         statusContainerView.layer.masksToBounds = YES;
         
+        MutualInsCarListModel *dictModel = data[@"dict"];
+        
         [brandImageView setImageByUrl:dict.brandLogo withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
-        carNumLabel.text = dict.licenseNum;
-        statusLabel.text = dict.statusDesc;
+        carNumLabel.text = dictModel.licenseNum;
+        statusLabel.text = dictModel.statusDesc;
         tipsLabel.font = [UIFont systemFontOfSize:13];
         tipsLabel.textColor = HEXCOLOR(@"#888888");
-        tipsLabel.text = dict.tip;
+        tipsLabel.text = dictModel.tip;
     });
     
     return normalStatusCell;
@@ -594,11 +602,15 @@
     @weakify(self);
     CKDict *statusWithButtonCell = [CKDict dictWith:@{kCKItemKey: @"tatusWithButtonCell", kCKCellID: @"StatusWithButtonCell"}];
     statusWithButtonCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 165;
+        CGSize tipsSize = [dict.tip labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 34 font:[UIFont systemFontOfSize:13]];
+        
+        CGFloat height = tipsSize.height + 148;
+        
+        return MAX(height, 165);
     });
     
     statusWithButtonCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        if (dict.status == XMReuploadData || dict.status == XMReviewFailed) {
+        if (dict.status == XMReviewFailed) {
             [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye11"}];
             // 进入「重新上传资料」页面
                 
@@ -620,7 +632,7 @@
         @strongify(self);
         UIImageView *brandImageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UILabel *carNumLabel = (UILabel *)[cell.contentView viewWithTag:101];
-        RTLabel *tipsLabel = (RTLabel *)[cell.contentView viewWithTag:102];
+        UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:102];
         UILabel *statusLabel = (UILabel *)[cell.contentView viewWithTag:103];
         UIView *statusContainerView = (UIView *)[cell.contentView viewWithTag:104];
         UIButton *bottomButton = (UIButton *)[cell.contentView viewWithTag:105];
@@ -637,7 +649,7 @@
         tipsLabel.textColor = HEXCOLOR(@"#888888");
         tipsLabel.text = dict.tip;
         
-        if (dict.status == XMReuploadData || dict.status == XMReviewFailed) {
+        if (dict.status == XMReviewFailed) {
             [bottomButton setTitle:@"重新上传资料" forState:UIControlStateNormal];
             @weakify(self);
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -774,7 +786,10 @@
         } else if (dict.status == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
-            
+            HKMyCar * car = [[HKMyCar alloc] init];
+            car.carId = dict.userCarID;
+            car.licencenumber = dict.licenseNum;
+            [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             
         } else {
             
@@ -812,7 +827,10 @@
         } else if (dict.status == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
-            
+            HKMyCar * car = [[HKMyCar alloc] init];
+            car.carId = dict.userCarID;
+            car.licencenumber = dict.licenseNum;
+            [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             
         } else {
             
@@ -865,7 +883,10 @@
         } else if (dict.status == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
-            
+            HKMyCar * car = [[HKMyCar alloc] init];
+            car.carId = dict.userCarID;
+            car.licencenumber = dict.licenseNum;
+            [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             
         } else {
             
@@ -941,7 +962,10 @@
         } else if (dict.status == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
-            
+            HKMyCar * car = [[HKMyCar alloc] init];
+            car.carId = dict.userCarID;
+            car.licencenumber = dict.licenseNum;
+            [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             
         } else {
             
@@ -989,7 +1013,10 @@
         } else if (dict.status == XMReviewFailed && dict.numberCnt.integerValue == 0) {
             // 有车无团「审核失败」状态
             // 进入「重新上传资料」页面
-            
+            HKMyCar * car = [[HKMyCar alloc] init];
+            car.carId = dict.userCarID;
+            car.licencenumber = dict.licenseNum;
+            [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             
         } else {
             

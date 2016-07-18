@@ -3178,7 +3178,7 @@
                                                     <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="与团内成员互助第1天，剩余394天" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E0i-VB-h8E">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="与团内成员互助第1天，剩余394天" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E0i-VB-h8E">
                                                     <rect key="frame" x="17" y="72" width="566" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -3236,6 +3236,7 @@
                                                     <exclude reference="AHp-xn-m5G"/>
                                                     <exclude reference="Gf9-ig-6tS"/>
                                                     <exclude reference="tg0-1l-uev"/>
+                                                    <exclude reference="glp-Mo-2ze"/>
                                                     <exclude reference="aMM-8H-UrA"/>
                                                     <exclude reference="pgi-ve-8Uy"/>
                                                 </mask>
@@ -3264,7 +3265,7 @@
                                                     <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2016年6月2日24:00前支付成功后即可加入互助" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cYg-Eg-VjA">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2016年6月2日24:00前支付成功后即可加入互助" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cYg-Eg-VjA">
                                                     <rect key="frame" x="17" y="75" width="566" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -3400,7 +3401,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sw0-5k-KOE">
-                                                    <rect key="frame" x="149" y="1" width="434" height="16"/>
+                                                    <rect key="frame" x="149" y="0.0" width="434" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -3410,7 +3411,7 @@
                                                 <constraint firstItem="DtG-H2-b1H" firstAttribute="top" secondItem="dbU-zH-EUS" secondAttribute="top" id="5jv-6O-AaT"/>
                                                 <constraint firstItem="sw0-5k-KOE" firstAttribute="leading" secondItem="DtG-H2-b1H" secondAttribute="trailing" constant="8" id="Hbt-Hm-eLI"/>
                                                 <constraint firstAttribute="trailing" secondItem="sw0-5k-KOE" secondAttribute="trailing" constant="17" id="Jyc-gc-6gR"/>
-                                                <constraint firstItem="sw0-5k-KOE" firstAttribute="top" secondItem="dbU-zH-EUS" secondAttribute="top" constant="1" id="Mzf-WU-WKw"/>
+                                                <constraint firstItem="sw0-5k-KOE" firstAttribute="top" secondItem="dbU-zH-EUS" secondAttribute="top" id="Mzf-WU-WKw"/>
                                                 <constraint firstItem="DtG-H2-b1H" firstAttribute="trailing" secondItem="dbU-zH-EUS" secondAttribute="trailing" constant="20" symbolic="YES" id="P0Q-PZ-uYC"/>
                                                 <constraint firstItem="DtG-H2-b1H" firstAttribute="leading" secondItem="dbU-zH-EUS" secondAttribute="leading" constant="17" id="ioX-ic-xtj"/>
                                                 <constraint firstItem="sw0-5k-KOE" firstAttribute="leading" secondItem="DtG-H2-b1H" secondAttribute="trailing" constant="2" id="pSs-Os-izv"/>
@@ -3616,7 +3617,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BlankCell" rowHeight="10" id="JJr-7t-yyy">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BlankCell" rowHeight="10" id="JJr-7t-yyy">
                                         <rect key="frame" x="0.0" y="556.5" width="600" height="10"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JJr-7t-yyy" id="fbh-K6-Fdi">
