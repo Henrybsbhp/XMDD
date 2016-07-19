@@ -14,6 +14,7 @@
 #import "EditCarVC.h"
 #import "MutualInsPickCarVC.h"
 #import "GetCooperationUsercarListOp.h"
+#import "MutualInsStore.h"
 
 @interface MutualInsGroupInfoVC ()
 
@@ -116,6 +117,9 @@
         
         @strongify(self)
         [gToast dismissInView:self.view];
+        
+        /// 需要刷新团列表
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
         
         MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
         vc.memberId = rop.rsp_memberid;
