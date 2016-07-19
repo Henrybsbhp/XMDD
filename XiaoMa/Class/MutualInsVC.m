@@ -591,7 +591,7 @@
         
         MutualInsCarListModel *dictModel = data[@"dict"];
         
-        [brandImageView setImageByUrl:dict.brandLogo withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
+        [brandImageView setImageByUrl:dict.brandLogo withType:ImageURLTypeMedium defImage:@"mins_def" errorImage:@"mins_def"];
         carNumLabel.text = dictModel.licenseNum;
         statusLabel.text = dictModel.statusDesc;
         tipsLabel.font = [UIFont systemFontOfSize:13];

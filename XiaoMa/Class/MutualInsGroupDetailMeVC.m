@@ -181,7 +181,6 @@
                     break;
             }
         }];
-        [cell.actionButton addTarget:self action:@selector(actionFillInfo) forControlEvents:UIControlEventTouchUpInside];
     });
     
     return item;
