@@ -754,7 +754,9 @@
 		FA024A321CAE500500481F59 /* BankCardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA024A311CAE500500481F59 /* BankCardDetailVC.m */; };
 		FA154FED1D00059C0011C4FC /* MutualInsAcceptCompensationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA154FEC1D00059C0011C4FC /* MutualInsAcceptCompensationVC.m */; };
 		FA1721FA1D2220AF00D3F151 /* ParkingShopGasInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1721F91D2220AF00D3F151 /* ParkingShopGasInfoVC.m */; };
-		FA1CB4081D373C260099983C /* MutualInsCarListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1CB4071D373C260099983C /* MutualInsCarListModel.m */; };
+		FA2B23801D3CAE6400D837C6 /* MutualInsCarListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B237F1D3CAE6400D837C6 /* MutualInsCarListModel.m */; };
+		FA2B238A1D3DC94500D837C6 /* UPApplePayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B23891D3DC94500D837C6 /* UPApplePayHelper.m */; };
+		FA2B23911D3E0D5600D837C6 /* libUPAPayPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA2B23901D3E0D5600D837C6 /* libUPAPayPlugin.a */; };
 		FA3E5E011CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E5E001CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
 		FA93A7B41C9961ED00CBD565 /* CreateGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93A7B31C9961ED00CBD565 /* CreateGroupOp.m */; };
@@ -2321,8 +2323,14 @@
 		FA154FEC1D00059C0011C4FC /* MutualInsAcceptCompensationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsAcceptCompensationVC.m; sourceTree = "<group>"; };
 		FA1721F81D2220AF00D3F151 /* ParkingShopGasInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParkingShopGasInfoVC.h; sourceTree = "<group>"; };
 		FA1721F91D2220AF00D3F151 /* ParkingShopGasInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParkingShopGasInfoVC.m; sourceTree = "<group>"; };
-		FA1CB4061D373C260099983C /* MutualInsCarListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsCarListModel.h; sourceTree = "<group>"; };
-		FA1CB4071D373C260099983C /* MutualInsCarListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsCarListModel.m; sourceTree = "<group>"; };
+		FA1CEC591D3C7BDA00B8F27A /* XiaoMa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = XiaoMa.entitlements; sourceTree = "<group>"; };
+		FA2B237E1D3CAE6400D837C6 /* MutualInsCarListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MutualInsCarListModel.h; path = Class/MutualInsCarListModel.h; sourceTree = "<group>"; };
+		FA2B237F1D3CAE6400D837C6 /* MutualInsCarListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MutualInsCarListModel.m; path = Class/MutualInsCarListModel.m; sourceTree = "<group>"; };
+		FA2B23881D3DC94500D837C6 /* UPApplePayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UPApplePayHelper.h; path = Class/UPApplePayHelper.h; sourceTree = "<group>"; };
+		FA2B23891D3DC94500D837C6 /* UPApplePayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UPApplePayHelper.m; path = Class/UPApplePayHelper.m; sourceTree = "<group>"; };
+		FA2B238D1D3E0D5600D837C6 /* UPAPayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPAPayPlugin.h; sourceTree = "<group>"; };
+		FA2B238E1D3E0D5600D837C6 /* UPAPayPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPAPayPluginDelegate.h; sourceTree = "<group>"; };
+		FA2B23901D3E0D5600D837C6 /* libUPAPayPlugin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUPAPayPlugin.a; sourceTree = "<group>"; };
 		FA3E5DFF1CF7DE9D005CC988 /* MutualInsAskForCompensationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsAskForCompensationVC.h; sourceTree = "<group>"; };
 		FA3E5E001CF7DE9D005CC988 /* MutualInsAskForCompensationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsAskForCompensationVC.m; sourceTree = "<group>"; };
 		FA8496601CBE367700631062 /* SJKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJKeyboardManager.h; sourceTree = "<group>"; };
@@ -2357,6 +2365,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA2B23911D3E0D5600D837C6 /* libUPAPayPlugin.a in Frameworks */,
 				FA941B3F1D13A5AA00F56B96 /* PassKit.framework in Frameworks */,
 				FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */,
 				FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */,
@@ -2463,6 +2472,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				FA2B238B1D3E0D5600D837C6 /* ApplePaySDK */,
 				188EF0A21D351A0F000D01D6 /* MarkupLabel */,
 				C3F4514E1D2E3A6F00BA9BC4 /* TouchButton */,
 				FA84965F1CBE367700631062 /* SJKeyboardManager */,
@@ -3204,8 +3214,8 @@
 				50F0FF6D1C9A9780009A94A3 /* HKMutualInsList.m */,
 				50BF30141CABEE0100D0FC07 /* AdListData.h */,
 				50BF30151CABEE0100D0FC07 /* AdListData.m */,
-				FA1CB4061D373C260099983C /* MutualInsCarListModel.h */,
-				FA1CB4071D373C260099983C /* MutualInsCarListModel.m */,
+				FA2B237E1D3CAE6400D837C6 /* MutualInsCarListModel.h */,
+				FA2B237F1D3CAE6400D837C6 /* MutualInsCarListModel.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -3338,6 +3348,7 @@
 		1883D8E11ACB99AC002A4D19 /* XiaoMa */ = {
 			isa = PBXGroup;
 			children = (
+				FA1CEC591D3C7BDA00B8F27A /* XiaoMa.entitlements */,
 				1844FAFC1CD9C8880085A0D4 /* ckkit */,
 				1833F56A1BCD373B000E1DA1 /* Codemap */,
 				6BBAB8C81ADD351800EC342F /* Helper */,
@@ -4110,6 +4121,8 @@
 				6BD7AE5A1AE8927C00BEF30E /* WeChatHelper.m */,
 				18E28A1A1B93F1FF0070E759 /* UPPayHelper.h */,
 				18E28A1B1B93F1FF0070E759 /* UPPayHelper.m */,
+				FA2B23881D3DC94500D837C6 /* UPApplePayHelper.h */,
+				FA2B23891D3DC94500D837C6 /* UPApplePayHelper.m */,
 			);
 			name = Payment;
 			sourceTree = "<group>";
@@ -5348,6 +5361,32 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		FA2B238B1D3E0D5600D837C6 /* ApplePaySDK */ = {
+			isa = PBXGroup;
+			children = (
+				FA2B238C1D3E0D5600D837C6 /* inc */,
+				FA2B238F1D3E0D5600D837C6 /* libs */,
+			);
+			path = ApplePaySDK;
+			sourceTree = "<group>";
+		};
+		FA2B238C1D3E0D5600D837C6 /* inc */ = {
+			isa = PBXGroup;
+			children = (
+				FA2B238D1D3E0D5600D837C6 /* UPAPayPlugin.h */,
+				FA2B238E1D3E0D5600D837C6 /* UPAPayPluginDelegate.h */,
+			);
+			path = inc;
+			sourceTree = "<group>";
+		};
+		FA2B238F1D3E0D5600D837C6 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				FA2B23901D3E0D5600D837C6 /* libUPAPayPlugin.a */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
 		FA84965F1CBE367700631062 /* SJKeyboardManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -5810,6 +5849,7 @@
 				508D06801B900CF800B835BB /* InsuranceOrderPayOp.m in Sources */,
 				4ECF21951C9C0BE5004E76DD /* MutualInsActivityVC.m in Sources */,
 				6BAF301E1AE6947F00E35E08 /* DeviceInfo.m in Sources */,
+				FA2B23801D3CAE6400D837C6 /* MutualInsCarListModel.m in Sources */,
 				1813559C1C92B6AE00894CA1 /* MutualInsGrouponMsgCell.m in Sources */,
 				FAE897F01D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m in Sources */,
 				181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */,
@@ -6172,7 +6212,6 @@
 				188EF0D21D367309000D01D6 /* MutualInsGroupDetailMeVC.m in Sources */,
 				187CC95F1AEF6A89004D1F28 /* UpdateInsuranceCalculateOp.m in Sources */,
 				C3396E8F1CC09527007DF22D /* GetSystemHomeModuleNoLoginOp.m in Sources */,
-				FA1CB4081D373C260099983C /* MutualInsCarListModel.m in Sources */,
 				506A30991B8EF84A002F1F14 /* GetInsuranceOrderDetailsOp.m in Sources */,
 				189C69891B74ADC700E56E4A /* BindBankCardVC.m in Sources */,
 				18E756A41B73335C00874601 /* MyBankVC.m in Sources */,
@@ -6217,6 +6256,7 @@
 				4E30E6DB1CFD92E7000157D4 /* UpdateClaimPicOp.m in Sources */,
 				6BBAB9791ADE77E500EC342F /* GetUserResourcesOp.m in Sources */,
 				1844FB391CD9C8880085A0D4 /* NSObject+Runtime.m in Sources */,
+				FA2B238A1D3DC94500D837C6 /* UPApplePayHelper.m in Sources */,
 				18F93CD41B6F044D000325DD /* BorderLineLabel.m in Sources */,
 				181878AD1D33C817000F5264 /* CKObjectHolder.m in Sources */,
 				18E592311C1919C2006010D9 /* InsCouponView.m in Sources */,
@@ -6401,6 +6441,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = XiaoMa/XiaoMa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -6452,6 +6493,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor",
 					"$(PROJECT_DIR)/XiaoMa/applePaySDK/libs",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/ApplePaySDK/libs",
+					"$(PROJECT_DIR)/XiaoMa/ApplePaySDK/libs",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -6500,6 +6542,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = XiaoMa/XiaoMa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				ENABLE_BITCODE = NO;
@@ -6551,6 +6594,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor",
 					"$(PROJECT_DIR)/XiaoMa/applePaySDK/libs",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/ApplePaySDK/libs",
+					"$(PROJECT_DIR)/XiaoMa/ApplePaySDK/libs",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

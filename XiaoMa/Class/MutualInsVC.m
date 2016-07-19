@@ -378,6 +378,7 @@
             self.tableView.hidden = NO;
         }
         [self.view bringSubviewToFront:self.bottomView];
+        
     }] subscribeNext:^(id x) {
         
         @strongify(self);

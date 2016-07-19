@@ -10,6 +10,7 @@
 #import "UPPayHelper.h"
 #import "AlipayHelper.h"
 #import "WeChatHelper.h"
+#import "UPApplePayHelper.h"
 
 @interface PaymentHelper ()
 @property (nonatomic, strong) id helper;
@@ -39,6 +40,13 @@
 - (void)resetForUPPayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc
 {
     _platformType = PaymentPlatformTypeUPPay;
+    _tradeNumber = tn;
+    _targetVC = tvc;
+}
+
+- (void)resetForUPApplePayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc
+{
+    _platformType = PaymentPlatformTypeApplePay;
     _tradeNumber = tn;
     _targetVC = tvc;
 }
@@ -87,6 +95,12 @@
         signal = [helper rac_payWithPayInfo:self.wechatPayInfo andTradeNO:self.tradeNumber];
         self.helper = helper;
     }
+    // ApplePay支付
+    else if (_platformType == PaymentPlatformTypeApplePay) {
+        UPApplePayHelper *helper = [[UPApplePayHelper alloc] init];
+        signal = [helper rac_applePayWithTradeNumber:self.tradeNumber targetVC:self.targetVC];
+        self.helper = helper;
+    }
     
     return [[signal map:^id(id value) {
         return self;
@@ -103,6 +117,7 @@
         case PaymentPlatformTypeWeChat: return 3;
         case PaymentPlatformTypeUPPay: return 8;
         case PaymentPlatformTypeCreditCard: return 7;
+        case PaymentPlatformTypeApplePay: return 9;
     }
     return 0;
 }

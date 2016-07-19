@@ -10,4 +10,6 @@
 
 @interface UPApplePayHelper : NSObject
 
+- (RACSignal *)rac_applePayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc;
+
 @end
