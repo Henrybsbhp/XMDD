@@ -129,14 +129,14 @@
         priceL.textColor = kOrangeColor;
         priceL.font = [UIFont systemFontOfSize:13];
         priceL.textAlignment = NSTextAlignmentCenter;
-        priceL.text = tuple.first;
+        priceL.text = tuple.second;
         [container addSubview:priceL];
         
         UILabel *descL = [[UILabel alloc] initWithFrame:CGRectZero];
         descL.font = [UIFont systemFontOfSize:13];
         descL.textAlignment = NSTextAlignmentCenter;
         descL.textColor = kGrayTextColor;
-        descL.text = tuple.second;
+        descL.text = tuple.first;
         [container addSubview:descL];
         
         CKLine *line = [[CKLine alloc] initWithFrame:CGRectZero];
