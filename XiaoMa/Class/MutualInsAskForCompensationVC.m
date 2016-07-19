@@ -93,7 +93,7 @@
 /// navigationBar 上「新手指南」的点击事件
 - (IBAction)newbieGuideBarButtonClicked:(id)sender
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0002"}];
+    [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang2"}];
     
     // 只要点按过「新手指南」图标，则让该图标变为不带红点状态
     self.newbieGuideBarButtonItem.image = [[UIImage imageNamed:@"mutualIns_newbieGuideButtonNoRedDot_barButtonItem"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -125,7 +125,7 @@
 
 - (IBAction)serviceCallButtonClicked:(id)sender
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0003"}];
+    [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang3"}];
     
     HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
     alert.topTitle = @"温馨提示";
@@ -735,7 +735,7 @@
             [[[takePhotoButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
                 
-                    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei" : @"woyaopei0026"}];
+                [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang6"}];
                 
                 MutualInsPicListVC * vc = [UIStoryboard vcWithId:@"MutualInsPicListVC" inStoryboard:@"MutualInsClaimsPicList"];
                 vc.claimID = dict[@"claimid"];
@@ -747,7 +747,7 @@
             [[[takePhotoButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
                 
-                    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0004"}];
+                [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang5"}];
                 
                 MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
                 //                scencePageVC.noticeArr = self.tempArr;
@@ -805,7 +805,7 @@
         // 「接受补偿」按键的点击事件
         [[[acceptCompensationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
-                [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0023"}];
+            [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang8"}];
             
             MutualInsAcceptCompensationVC *acceptCompensationVC = [UIStoryboard vcWithId:@"MutualInsAcceptCompensationVC" inStoryboard:@"MutualInsClaims"];
             acceptCompensationVC.descriptionString = self.bankCardDescription;
@@ -818,18 +818,18 @@
         // 「价格不满意」按钮的点击事件
         [[[declineButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
-                [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0024"}];
+            [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang7"}];
             
             HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
             alert.topTitle = @"温馨提示";
             alert.message = @"如出现价格不满意等原因造成不愿意接受补偿，可进行拒绝补偿的操作，拒绝后客服会与您取得联系，并做进一步沟通";
             alert.imageName = @"mins_bulb";
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
-                    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0027"}];
+                [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang9"}];
             }];
             
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认拒绝" color:kDefTintColor clickBlock:^(id alertVC) {
-                    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0028"}];
+                [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang10"}];
                 [self confirmClaimWithAgreement:@(1) claimID:dict[@"claimid"] andBankNo:dict[@"bankcardno"]];
             }];
             alert.actionItems = @[cancel, confirm];
@@ -919,7 +919,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0025"}];
+    [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang4"}];
     
     NSDictionary *dataDict = [self.fetchedDataSource safetyObjectAtIndex:indexPath.section];
     
@@ -1006,7 +1006,7 @@
 
 -(void)setBackAction
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0001"}];
+    [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang1"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

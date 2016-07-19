@@ -456,9 +456,7 @@
         // 判断后台是否支持上传。判断是否已经添加。判断是否点击最后一个。
         if ([self canAddNewPhotoWithIndexPath:indexPath])
         {
-            
             [self takePhotoWithIndexPath:indexPath];
-            
         }
         else
         {
@@ -483,8 +481,8 @@
     [[[commitBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
         @strongify(self)
         // 点击上传按钮。上传图片。
-        
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0033"}];
+    
+        [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang16"}];
         
         [self updateClaimPic];
     }];
@@ -810,8 +808,6 @@
     if ([picRcd isKindOfClass:[NSDictionary class]])
     {
         
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0030"}];
-        
         UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
         UIImageView *imgView = [cell viewWithTag:100];
         self.img = imgView.image;
@@ -829,8 +825,6 @@
         PictureRecord *picRecd = picRcd;
         if(!picRecd.needReupload)
         {
-            
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0030"}];
             
             UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
             UIImageView *imgView = [cell viewWithTag:100];
@@ -858,8 +852,7 @@
 
 -(void)takePhotoWithIndexPath:(NSIndexPath *)indexPath
 {
-    
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0031"}];
+    [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang12"}];
     __block PictureRecord *picRcd = [[PictureRecord alloc] init];
     
 #if !TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
@@ -1055,7 +1048,7 @@
         }];
         [[takePhotoBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
             // 跳转至拍照页面
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0039"}];
+            [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang12"}];
             [self getScencePageData];
             
         }];
@@ -1120,8 +1113,7 @@
 
 -(void)actionBack
 {
-    
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0029"}];
+    [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang11"}];
     
     if (self.sceneDiff > 0 ||
         self.damageDiff > 0 ||
