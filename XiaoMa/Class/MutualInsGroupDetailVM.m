@@ -130,7 +130,9 @@ NSInteger const kFetchPageAmount = 10;
 }
 
 - (void)fetchMoreMessagesInfo {
-    
+    if (self.messagesInfo.rsp_lstupdatetime == 0) {
+        return;
+    }
     GetCooperationGroupMessageListOp *op = [GetCooperationGroupMessageListOp operation];
     op.req_groupid = self.groupID;
     op.req_lstupdatetime = self.messagesInfo.rsp_lstupdatetime;
@@ -150,6 +152,9 @@ NSInteger const kFetchPageAmount = 10;
 }
 
 - (void)fetchMoreMembersInfo {
+    if (self.membersInfo.rsp_lstupdatetime == 0) {
+        return;
+    }
     GetCooperationGroupMembersOp *op = [GetCooperationGroupMembersOp operation];
     op.req_groupid = self.groupID;
     op.req_lstupdatetime = self.membersInfo.rsp_lstupdatetime;
