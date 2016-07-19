@@ -10,6 +10,7 @@
 #import "HorizontalScrollTabView.h"
 #import "MutualInsGroupDetailVM.h"
 #import "MutualInsConstants.h"
+#import "MutualInsStore.h"
 #import "HKPopoverView.h"
 #import "ExitCooperationOp.h"
 #import "DeleteCooperationGroupOp.h"
@@ -239,7 +240,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 }
 
 - (id)menuItemQuit {
-    if (self.viewModel.baseInfo.rsp_isexist == 0) {
+    if (self.viewModel.baseInfo.rsp_isexit == 0) {
         return CKNULL;
     }
     
@@ -432,7 +433,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     }] subscribeNext:^(ExitCooperationOp * rop) {
         @strongify(self);
         [gToast dismiss];
-        //TODO:reload simpleGroups
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
         [self actionBack:nil];
     } error:^(NSError *error) {
         
@@ -452,7 +453,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
         
         @strongify(self);
         [gToast showSuccess:@"删除成功！"];
-        //TODO:reload simpleGroups
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
         [self actionBack:nil];
     } error:^(NSError *error) {
         

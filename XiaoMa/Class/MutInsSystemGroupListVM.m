@@ -40,7 +40,6 @@
         self.tableView = tableView;
         self.status = groupStatusType;
         self.targetVC = groupListVC;
-//        []
     }
     return self;
 }
@@ -71,7 +70,7 @@
         self.targetVC.applyBtn.enabled = YES;
         self.targetVC.groupEndBtn.enabled = YES;
         self.targetVC.groupBeginBtn.enabled = YES;
-    
+        
         
         [self configDataSourceWithGroupList:op.rsp_groupList];
         [self.tableView reloadData];
@@ -145,6 +144,14 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.status = GroupStatusTypeBegin)
+    {
+        [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan4"}];
+    }
+    else
+    {
+        [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan6"}];
+    }
     CKDict *data = self.dataSource[indexPath.section][indexPath.row];
     CKCellSelectedBlock block = data[kCKCellSelected];
     if (block)
@@ -166,15 +173,15 @@
         
         @strongify(self)
         
-            UILabel *groupNameLabel = [cell viewWithTag:100];
-            groupNameLabel.text = [NSString stringWithFormat:@"%@",dic[@"groupname"]];
+        UILabel *groupNameLabel = [cell viewWithTag:100];
+        groupNameLabel.text = [NSString stringWithFormat:@"%@",dic[@"groupname"]];
         
-            UILabel *totalCntLabel = [cell viewWithTag:101];
-            NSNumber *totalcnt = dic[@"totalcnt"];
-            totalCntLabel.text = [NSString stringWithFormat:@"%ld",(long)totalcnt.integerValue];
+        UILabel *totalCntLabel = [cell viewWithTag:101];
+        NSNumber *totalcnt = dic[@"totalcnt"];
+        totalCntLabel.text = [NSString stringWithFormat:@"%ld",(long)totalcnt.integerValue];
         
-            UIView *groupTagsView = [cell viewWithTag:102];
-            [self configTagView:groupTagsView andTags:dic[@"grouptags"]];
+        UIView *groupTagsView = [cell viewWithTag:102];
+        [self configTagView:groupTagsView andTags:dic[@"grouptags"]];
         
     });
     return data;
@@ -195,7 +202,7 @@
         return MAX(ceil(keyStrSize.height + 10), (valueStrSize.height + 10));
     });
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-
+        
         UILabel *leftLabel = [cell viewWithTag:100];
         leftLabel.text = [NSString stringWithFormat:@"%@",dic.allKeys.firstObject];
         
