@@ -218,7 +218,7 @@
                        RACTuplePack(@"保障结束时间", self.viewModel.myInfo.rsp_insendtime)];
     if (info.rsp_status == 5) {
         CKList *list = $(RACTuplePack(@"互助金", info.rsp_sharemoney),
-                         RACTuplePack(@"会员费", info.rsp_servicefee),
+                         RACTuplePack(@"服务费", info.rsp_servicefee),
                          info.rsp_forcefee.length ==0 ? CKNULL : RACTuplePack(@"交强险", info.rsp_forcefee),
                          info.rsp_shiptaxfee.length == 0 ? CKNULL : RACTuplePack(@"车船税", info.rsp_shiptaxfee));
         item[@"prices"] = [list allObjects];
