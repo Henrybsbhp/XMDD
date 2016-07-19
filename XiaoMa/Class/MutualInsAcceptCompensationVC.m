@@ -50,7 +50,7 @@
 
 -(void)setBackAction
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0040"}];
+    [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang17"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -59,7 +59,7 @@
 - (IBAction)confirmButtonClicked:(id)sender
 {
     
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0041"}];
+    [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang18"}];
     
     if (self.bankCardTextField.text.length < 1) {
         [gToast showMistake:@"请输入卡号"];
