@@ -143,7 +143,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         [imguploadDic addParam:[data numberParamForName:@"type"] forName:@"type"];
         [imguploadDic addParam:[data numberParamForName:@"uploadUrl"] forName:@"uploadUrl"];
         HKImagePicker *picker = [HKImagePicker imagePicker];
-        picker.allowsEditing = YES;
+        picker.allowsEditing = NO;
         picker.shouldShowBigImage = NO;
         @strongify(self);
         @weakify(self);
