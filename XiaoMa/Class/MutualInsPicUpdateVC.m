@@ -93,7 +93,7 @@
     @weakify(self);
     [[self.nextBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0007"}];
+        [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao7"}];
         
         @strongify(self)
         if (!self.curCar.licencenumber)
@@ -351,11 +351,11 @@
         @strongify(self)
         if (indexPath.row == 1)
         {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0002"}];
+            [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao2"}];
         }
         else
         {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0003"}];
+            [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao3"}];
         }
         self.currentRecord = indexPath.row == 1 ? self.idPictureRecord : self.drivingLicensePictureRecord;
         [self pickImageWithIndex:indexPath];
@@ -399,11 +399,11 @@
         
         if (indexPath.row == 1)
         {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0004"}];
+            [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao4"}];
         }
         else
         {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0005"}];
+            [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao5"}];
         }
         @strongify(self)
         @weakify(self)
@@ -442,6 +442,7 @@
         [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              
+             [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao6"}];
              self.isNeedBuyStrongInsurance = !self.isNeedBuyStrongInsurance;
          }];
         
@@ -747,7 +748,7 @@
 
 - (void)actionBack:(id)sender {
     
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"shenhe":@"shenhe0001"}];
+    [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao1"}];
     
     if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany.length  || self.lastYearInsCompany.length || self.idPictureRecord.url.length || self.drivingLicensePictureRecord.url.length)
     {
