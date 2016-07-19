@@ -149,7 +149,9 @@
     cell.titleLabel.text = data[@"title"];
     [cell.logoView setImageByUrl:data[@"avatar"] withType:ImageURLTypeOrigin defImage:@"mins_def" errorImage:@"mins_def"];
     cell.message = data[@"content"];
-    
+    [[[cell.logoViewTapGesture rac_gestureSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing11"}];
+    }];
     return cell;
 }
 

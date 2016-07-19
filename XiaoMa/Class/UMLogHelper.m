@@ -102,6 +102,20 @@
                              
                              //违章查询
                              @"ViolationItemViewController":@{@"pagetag":@"rp901"},//违章查询
+                             
+                             //小马互助
+                             @"MutualInsVC":@{@"pagetag":@"huzhushouye"},//互助首页
+                             @"MutInsCalculateVC":@{@"pagetag":@"feiyongshisuan"},//费用试算
+                             @"MutInsCalculateResultVC":@{@"pagetag":@"shisuanjieguo"},//试算结果
+                             @"MutInsSystemGroupListVC":@{@"pagetag":@"huzhutuan"},//互助团
+                             @"GroupIntroductionVC":@{@"pagetag":@"rutuanyaoqiu"},//入团要求
+                             @"MutualInsPickCarVC":@{@"pagetag":@"xuanzecheliang"},//选择车辆
+                             @"MutualInsPicUpdateVC":@{@"pagetag":@"wanshanziliao"},//完善资料
+                             @"MutualInsPicUpdateResultVC":@{@"pagetag":@"tijiaochenggong"},//提交成功
+                             @"MutualInsGroupDetailVC":@{@"pagetag":@"tuanxiangqing"},//团详情
+                             @"MutualInsPicListVC":@{@"pagetag":@"woyaobuchang"},//我要补偿
+                             
+                             
                              };
     });
     return g_pagesUMLogInfo;

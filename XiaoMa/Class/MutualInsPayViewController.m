@@ -367,7 +367,7 @@
         NSNumber *memberId = self.router.userInfo[kMutInsMemberID];
         
         /// 如果有说明是从团详情进入的
-        [[MutualInsGroupDetailVM fetchForGroupID:groupId memberID:memberId] fetchMyInfoForce:NO];
+        [[MutualInsGroupDetailVM fetchForGroupID:groupId memberID:memberId] fetchBaseInfoForce:YES];
         
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];

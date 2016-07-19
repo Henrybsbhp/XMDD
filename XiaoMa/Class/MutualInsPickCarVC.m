@@ -29,9 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"互助团";
-    self.tableView.backgroundColor = kBackgroundColor;
-
+    [self setupNavigationBar];
     [self setupDatasource:self.mutualInsCarArray];
 }
 
@@ -41,6 +39,15 @@
 }
 
 #pragma mark - Setup
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
+    
+    self.navigationItem.title = @"互助团";
+    self.tableView.backgroundColor = kBackgroundColor;
+}
+
 - (void)setupDatasource:(NSArray *)array
 {
     CKList * list = [CKList list];
@@ -65,7 +72,7 @@
             UILabel * tagLb = [cell.contentView viewWithTag:103];
             
             [imageView setImageByUrl:logoUrl
-                        withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
+                        withType:ImageURLTypeThumbnail defImage:@"mins_def" errorImage:@"mins_def"];
             lb.text = licensenNumber;
             tagLb.text = @"未参团";
             tagLb.layer.cornerRadius = 12.0f;
@@ -77,6 +84,9 @@
         carCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
             
             @strongify(self)
+            
+            [MobClick event:@"xuanzecheliang" attributes:@{@"xuanzecheliang" : @"xuanzecheliang2"}];
+            
             HKMyCar * car = [[HKMyCar alloc] init];
             car.carId = carId;
             car.licencenumber = licensenNumber;
@@ -99,6 +109,8 @@
     
     addCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        [MobClick event:@"xuanzecheliang" attributes:@{@"xuanzecheliang" : @"xuanzecheliang3"}];
+        
         @strongify(self)
         if (self.finishPickCar)
         {
@@ -113,6 +125,13 @@
 
 
 #pragma mark - Utilitly
+- (void)actionBack:(id)sender
+{
+    [MobClick event:@"xuanzecheliang" attributes:@{@"xuanzecheliang" : @"xuanzecheliang1"}];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
 - (void)requestGetUserMutualInsCars
 {
     GetCooperationUsercarListOp * op = [[GetCooperationUsercarListOp alloc] init];

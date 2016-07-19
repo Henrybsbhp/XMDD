@@ -377,7 +377,7 @@
     else {
         [MobClick event:@"rp105_6_2"];
     }
-    [[[[[MyCarStore fetchExistsStore] getDefaultCar] send] catch:^RACSignal *(NSError *error) {
+    [[[[[MyCarStore fetchOrCreateStore] getDefaultCar] send] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
     }] subscribeNext:^(HKMyCar *car) {
@@ -400,7 +400,7 @@
         vc.originVC = self;
         vc.shop = self.shop;
         vc.service = service;
-        vc.defaultCar = [car isCarInfoCompletedForCarWash] ? car : nil;
+        vc.defaultCar = car;
         [self.navigationController pushViewController:vc animated:YES];
     }];
 }

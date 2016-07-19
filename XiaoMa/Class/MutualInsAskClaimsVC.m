@@ -166,7 +166,7 @@
 
 -(void)guideSectionAction
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0002"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0002"}];
     
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.originVC = self;
@@ -185,7 +185,7 @@
 
 -(void)crimeReportSectionAction
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0003"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0003"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
@@ -196,14 +196,14 @@
 
 - (void)scenePageSectionAction
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0004"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0004"}];
     [self getNoticeArr];
     [self getCarListData];
 }
 
 -(void)historySectionAction
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0005"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0005"}];
     
     if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
         return;
@@ -217,7 +217,7 @@
 
 -(void)setBackAction
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"woyaopei",@"values":@"woyaopei0001"}];
+    [MobClick event:@"xiaomahuzhu" attributes:@{@"woyaopei":@"woyaopei0001"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

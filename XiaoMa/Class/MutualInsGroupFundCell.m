@@ -73,7 +73,8 @@
 
 + (CGFloat)heightWithTupleInfoCount:(NSInteger)count andDesc:(NSString *)desc {
     CGFloat descHeight = ceil([desc labelSizeWithWidth:ScreenWidth-2*kHorMargin font:[UIFont systemFontOfSize:15]].height);
-    return 11 + 229 + 20 + (20+8)*count + 32 + descHeight + 32;
+    CGFloat offset = count == 0 ? -15 : 0;
+    return 11 + 229 + 20 + (20+8)*count + 32 + descHeight + 32 + offset;
 }
 
 - (void)setTupleInfoList:(NSArray *)tupleInfoList {

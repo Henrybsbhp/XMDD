@@ -8,6 +8,7 @@
 
 #import "MutInsSystemGroupListVM.h"
 #import "GetCooperationGroupOp.h"
+#import "NSString+RectSize.h"
 #import "MutualInsConstants.h"
 
 @interface MutInsSystemGroupListVM()<UITableViewDelegate,UITableViewDataSource>
@@ -15,7 +16,7 @@
 @property (assign, nonatomic) GroupStatusType status;
 @property (weak, nonatomic) MutInsSystemGroupListVC *targetVC;
 
-@property (strong, nonatomic) NSArray *dataSource;
+@property (strong, nonatomic) CKList *dataSource;
 @property (strong, nonatomic) UITableView *tableView;
 
 @property (nonatomic)BOOL isShowdetailflag;
@@ -52,43 +53,36 @@
     
     @weakify(self)
     [[[op rac_postRequest]initially:^{
-     
+        
         @strongify(self)
-        if (self.status == GroupStatusTypeEnd)
-        {
-            self.targetVC.groupEndTable.hidden = YES;
-        }
-        else
-        {
-            self.targetVC.groupBeginTable.hidden = YES;
-        }
+        self.targetVC.groupEndTable.hidden = YES;
+        self.targetVC.groupBeginTable.hidden = YES;
+        self.targetVC.applyBtn.enabled = NO;
+        self.targetVC.groupEndBtn.enabled = NO;
+        self.targetVC.groupBeginBtn.enabled = NO;
         
         [self.targetVC.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }]subscribeNext:^(GetCooperationGroupOp *op) {
         
-        @strongify(self)
-        if (self.status == GroupStatusTypeEnd)
-        {
-            self.targetVC.groupEndTable.hidden = NO;
-        }
-        else
-        {
-            self.targetVC.groupBeginTable.hidden = NO;
-        }
-        [self.targetVC.view stopActivityAnimation];
+        self.targetVC.groupEndTable.hidden = NO;
+        self.targetVC.groupBeginTable.hidden = NO;
+        self.targetVC.applyBtn.enabled = YES;
+        self.targetVC.groupEndBtn.enabled = YES;
+        self.targetVC.groupBeginBtn.enabled = YES;
         
-        self.isShowdetailflag = op.rsp_isShowdetailflag;
-        self.dataSource = op.rsp_groupList;
+        
+        [self configDataSourceWithGroupList:op.rsp_groupList];
         [self.tableView reloadData];
+        
+        [self.targetVC.view stopActivityAnimation];
         
     }error:^(NSError *error) {
         
         @strongify(self)
         [self.targetVC.view stopActivityAnimation];
         
-        @weakify(self)
-        [self.targetVC.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取团列表失败。请点击重试" tapBlock:^{
+        [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取团列表失败。请点击重试" tapBlock:^{
             @strongify(self)
             [self getCooperationGroupList];
         }];
@@ -104,26 +98,20 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    CKList *cellList = self.dataSource[section];
+    return cellList.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.section];
+    CKDict *item = self.dataSource[indexPath.section][indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:item[kCKCellID]];
+    CKCellPrepareBlock block = item[kCKCellPrepare];
     
-    UILabel *groupNameLabel = [cell viewWithTag:100];
-    groupNameLabel.text = [NSString stringWithFormat:@"%@",data[@"groupname"]];
-    
-    UILabel *totalCntLabel = [cell viewWithTag:101];
-    NSNumber *totalcnt = data[@"totalcnt"];
-    totalCntLabel.text = [NSString stringWithFormat:@"%ld",(long)totalcnt.integerValue];
-    
-    UIView *groupTagsView = [cell viewWithTag:102];
-    [self configTagView:groupTagsView andTags:data[@"grouptags"]];
-    
-    UIView *groupDetailView = [cell viewWithTag:103];
-    [self configDetailView:groupDetailView WithExtendinfo:data[@"extendinfo"]];
+    if (block)
+    {
+        block(item, cell, indexPath);
+    }
     
     return cell;
 }
@@ -132,11 +120,12 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.section];
-    NSArray *grouptags = data[@"grouptags"];
-    NSArray *extendinfo = data[@"extendinfo"];
-    CGFloat height = 30 + (grouptags.count == 0 ? 0 : 40) + 30 * extendinfo.count;
-    return height;
+    CKDict *item = [[self.dataSource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    if (item[kCKCellGetHeight])
+    {
+        return ((CKCellGetHeightBlock)item[kCKCellGetHeight])(item, indexPath);
+    }
+    return 44;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -155,53 +144,104 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.section];
-    if (self.isShowdetailflag)
+    if (self.status = GroupStatusTypeBegin)
     {
-        [self actionGotoGroupDetailVC:data[@"groupid"] andGroupName:data[@"groupname"]];
+        [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan4"}];
     }
-    
+    else
+    {
+        [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan6"}];
+    }
+    CKDict *data = self.dataSource[indexPath.section][indexPath.row];
+    CKCellSelectedBlock block = data[kCKCellSelected];
+    if (block)
+    {
+        block(data, indexPath);
+    }
+}
+
+#pragma mark - CellData
+
+-(CKDict *)titleCellDataWithDic:(NSDictionary *)dic
+{
+    @weakify(self)
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"TitleCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 85;
+    });
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self)
+        
+        UILabel *groupNameLabel = [cell viewWithTag:100];
+        groupNameLabel.text = [NSString stringWithFormat:@"%@",dic[@"groupname"]];
+        
+        UILabel *totalCntLabel = [cell viewWithTag:101];
+        NSNumber *totalcnt = dic[@"totalcnt"];
+        totalCntLabel.text = [NSString stringWithFormat:@"%ld",(long)totalcnt.integerValue];
+        
+        UIView *groupTagsView = [cell viewWithTag:102];
+        [self configTagView:groupTagsView andTags:dic[@"grouptags"]];
+        
+    });
+    return data;
+}
+
+-(CKDict *)detailCellDataWithDic:(NSDictionary *)dic
+{
+    @weakify(self)
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"DetailCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        @strongify(self)
+        NSString *valueStr = [NSString stringWithFormat:@"%@",dic.allValues.firstObject];
+        NSString *keyStr = [NSString stringWithFormat:@"%@",dic.allKeys.firstObject];
+        CGSize keyStrSize = [keyStr labelSizeWithWidth:100 font:[UIFont systemFontOfSize:13]];
+        CGSize valueStrSize = [valueStr labelSizeWithWidth:self.tableView.frame.size.width - 100 font:[UIFont systemFontOfSize:13]];
+        
+        return MAX(ceil(keyStrSize.height + 10), (valueStrSize.height + 10));
+    });
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UILabel *leftLabel = [cell viewWithTag:100];
+        leftLabel.text = [NSString stringWithFormat:@"%@",dic.allKeys.firstObject];
+        
+        UILabel *rightLabel = [cell viewWithTag:101];
+        rightLabel.text = [NSString stringWithFormat:@"%@",dic.allValues.firstObject];
+        
+    });
+    return data;
+}
+
+-(CKDict *)blankCellData
+{
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"BlankCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 10;
+    });
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+    });
+    return data;
 }
 
 #pragma mark - Utility
 
--(void)configDetailView:(UIView *)detailView WithExtendinfo:(NSArray *)extendinfo
+-(void)configDataSourceWithGroupList:(NSArray *)groupList
 {
-    [detailView removeSubviews];
-    NSLayoutConstraint *constraint = detailView.constraints.firstObject;
-    constraint.constant = extendinfo.count * 17 + (extendinfo.count - 1) * 10;
-    CGFloat height = 0;
-    for (NSDictionary *dic in extendinfo)
+    
+    self.dataSource = [CKList list];
+    
+    for (NSDictionary *dic in groupList)
     {
-        UILabel *leftLabel = [[UILabel alloc]init];
-        UILabel *rightLabel = [[UILabel alloc]init];
-        
-        leftLabel.numberOfLines = 0;
-        rightLabel.numberOfLines = 0;
-        
-        [detailView addSubview:leftLabel];
-        [detailView addSubview:rightLabel];
-        
-        leftLabel.font = [UIFont systemFontOfSize:13];
-        leftLabel.textColor = HEXCOLOR(@"#888888");
-        rightLabel.font = [UIFont systemFontOfSize:13];
-        rightLabel.textColor = HEXCOLOR(@"#888888");
-        
-        leftLabel.text = [NSString stringWithFormat:@"%@",dic.allKeys.firstObject];
-        rightLabel.text = [NSString stringWithFormat:@"%@",dic.allValues.firstObject];
-        
-        [leftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(height);
-            make.left.mas_equalTo(15);
-        }];
-        
-        [rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(height);
-            make.right.mas_equalTo(-15);
-        }];
-        
-        height += 25;
-        
+        CKList *tempList = [CKList list];
+        [tempList addObject:[self titleCellDataWithDic:dic] forKey:nil];
+        for (NSDictionary *extendinfo in dic[@"extendinfo"])
+        {
+            [tempList addObject:[self detailCellDataWithDic:extendinfo] forKey:nil];
+        }
+        [tempList addObject:[self blankCellData] forKey:nil];
+        [self.dataSource addObject:tempList forKey:nil];
     }
 }
 
@@ -252,16 +292,7 @@
     label.layer.cornerRadius = 8.5;
     label.layer.borderColor = HEXCOLOR(@"#FF7428").CGColor;
     label.layer.borderWidth = 1;
-}
-
-
-- (void)actionGotoGroupDetailVC:(NSNumber *)groupID andGroupName:(NSString *)groupName
-{
-    CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGroupDetailVC"];
-    router.userInfo = [[CKDict alloc] init];
-    router.userInfo[kMutInsGroupID] = groupID;
-    router.userInfo[kMutInsGroupName] = groupName;
-    [self.targetVC.router.navigationController pushRouter:router animated:YES];
+    label.layer.shouldRasterize = YES;
 }
 
 @end

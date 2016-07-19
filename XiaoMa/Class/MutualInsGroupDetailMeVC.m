@@ -77,7 +77,13 @@
 #pragma mark - Action
 /// 完善资料
 - (void)actionFillInfo {
-
+    if (self.viewModel.myInfo.rsp_status == 1) {
+        [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing7"}];
+    }
+    else if (self.viewModel.myInfo.rsp_status == 20) {
+        [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing8"}];
+    }
+    
     HKMyCar * car = [[HKMyCar alloc] init];
     car.carId = self.viewModel.myInfo.rsp_usercarid;
     car.licencenumber = self.viewModel.myInfo.rsp_licensenumber;
@@ -93,7 +99,7 @@
 
 /// 我的协议
 - (void)actionAgreement {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing0015"}];
+    [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing9"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"我的协议";
     vc.url = self.viewModel.myInfo.rsp_contracturl;
@@ -104,7 +110,7 @@
 - (void)actionPay {
     UIViewController *vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
     [vc setValue:self.viewModel.baseInfo.rsp_contractid forKey:@"contractId"];
-    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
     vc.router.userInfo[kOriginRoute] = self.parentViewController.router;
     [self.router.navigationController pushViewController:vc animated:YES];
 }
@@ -136,7 +142,9 @@
         
         @strongify(self);
         GetCooperationGroupMyInfoOp *info = self.viewModel.myInfo;
+        cell.logoView.hidden = info.rsp_licensenumber.length == 0;
         [cell.logoView setImageByUrl:info.rsp_carlogourl withType:ImageURLTypeOrigin defImage:@"mins_def" errorImage:@"mins_def"];
+        cell.titleLabel.hidden = info.rsp_licensenumber.length == 0;
         cell.titleLabel.text = info.rsp_licensenumber;
         cell.descLabel.text = info.rsp_tip;
         cell.tipButton.hidden = [info.rsp_statusdesc length] == 0;
@@ -163,17 +171,19 @@
         
         @strongify(self);
         [cell.actionButton setTitle:self.viewModel.myInfo.rsp_buttonname forState:UIControlStateNormal];
+        [[[cell.actionButton rac_signalForControlEvents:UIControlEventTouchUpInside]
+          takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            switch (self.viewModel.myInfo.rsp_status) {
+                case 1: case 20:
+                    [self actionFillInfo];
+                    break;
+            }
+        }];
+        [cell.actionButton addTarget:self action:@selector(actionFillInfo) forControlEvents:UIControlEventTouchUpInside];
     });
     
-    item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
-        @strongify(self);
-        switch (self.viewModel.myInfo.rsp_status) {
-            case 1: case 20:
-                [self actionFillInfo];
-                break;
-        }
-    });
     return item;
 }
 
@@ -208,7 +218,7 @@
                        RACTuplePack(@"保障结束时间", self.viewModel.myInfo.rsp_insendtime)];
     if (info.rsp_status == 5) {
         CKList *list = $(RACTuplePack(@"互助金", info.rsp_sharemoney),
-                         RACTuplePack(@"会员费", info.rsp_servicefee),
+                         RACTuplePack(@"服务费", info.rsp_servicefee),
                          info.rsp_forcefee.length ==0 ? CKNULL : RACTuplePack(@"交强险", info.rsp_forcefee),
                          info.rsp_shiptaxfee.length == 0 ? CKNULL : RACTuplePack(@"车船税", info.rsp_shiptaxfee));
         item[@"prices"] = [list allObjects];

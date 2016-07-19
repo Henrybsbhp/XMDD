@@ -22,6 +22,8 @@
 #import "MutualInsCarListModel.h"
 #import "MutualInsPicUpdateVC.h"
 #import "MutualInsOrderInfoVC.h"
+#import "MutualInsAdModel.h"
+#import "MutualInsStoryAdPageVC.h"
 
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
@@ -44,6 +46,8 @@
 @property (nonatomic, copy) NSArray *fetchedDataSource;
 
 @property (nonatomic, strong) MutualInsStore *minsStore;
+
+@property (strong, nonatomic) MutualInsAdModel *adModel;
 
 @end
 
@@ -77,6 +81,10 @@
         /// 获取团列表
         [[self.minsStore reloadSimpleGroups] send];
     }
+    
+    /// 获取广告信息
+    [self.adModel getSystemPromotion];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -126,12 +134,12 @@
 {
     [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye2"}];
     
-    if (self.isMenuOpen && self.popoverMenu) {
+    
+    if (self.popoverMenu.isActivated) {
         [self.popoverMenu dismissWithAnimated:YES];
-        self.isMenuOpen = NO;
+        return;
     }
-    else if (!self.isMenuOpen && !self.popoverMenu) {
-        
+    
         NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
             return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
         }];
@@ -149,8 +157,6 @@
         [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
                             inView:self.navigationController.view dismissTargetView:self.view animated:YES];
         self.popoverMenu = popover;
-        self.isMenuOpen = YES;
-    }
 }
 
 - (void)actionGotoCalculateVC
@@ -321,7 +327,7 @@
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"help",@"title":@"使用帮助",@"img":@"mins_question"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0012"}];
+        [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye13"}];
         @strongify(self);
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
@@ -345,7 +351,7 @@
 {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"phone",@"title":@"联系客服",@"img":@"mins_phone"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0013"}];
+        [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye14"}];
         
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
@@ -1140,6 +1146,13 @@
 }
 
 #pragma mark - Utilities
+
+-(void)presentAdPageVC
+{
+    [MutualInsStoryAdPageVC presentWithModel:self.adModel];
+}
+
+
 /// 把一个 Array 分成另一个嵌套 mutableArray，该 mutableArray 里面有各个以 2 个为一组的子 mutableArray，这个方法主要配合显示双 Label 的优惠信息 Cell 使用。
 - (NSMutableArray *)splitArrayIntoDoubleNewArray:(NSArray *)array
 {
@@ -1221,5 +1234,12 @@
     return tempArray;
 }
 
-
+-(MutualInsAdModel *)adModel
+{
+    if (!_adModel)
+    {
+        _adModel = [[MutualInsAdModel alloc]init];
+    }
+    return _adModel;
+}
 @end

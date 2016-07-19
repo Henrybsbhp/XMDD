@@ -14,4 +14,7 @@
 
 @property (nonatomic, strong) NSArray *noticeArr;
 
+@property (strong, nonatomic) UIViewController *targetVC;
+
+
 @end
