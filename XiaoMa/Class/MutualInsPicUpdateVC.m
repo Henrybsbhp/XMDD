@@ -138,6 +138,8 @@
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"不要买" color:kGrayTextColor clickBlock:^(id alertVC) {
                 @strongify(self)
                 self.isNeedBuyStrongInsurance = NO;
+                
+                [self requestUpdateImageInfo];
             }];
             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确认无需本平台为您代理购买交强险/车船税？" ActionItems:@[confirm,cancel]];
             [alert show];
@@ -742,7 +744,21 @@
 
 - (void)back
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.groupId)
+    {
+        if (self.router.userInfo[kOriginRoute])
+        {
+            [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+    else
+    {
+         [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 
