@@ -365,9 +365,9 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     }];
     
     [self.tabBar reloadDataWithBoundsSize:CGSizeMake(ScreenWidth, 45) andSelectedIndex:selectedIndex];
-    [self actionSelectTabItem:self.tabItems[selectedIndex]];
+    CKDict *item = self.tabItems[selectedIndex];
+    [self actionSelectTabItem:item];
 }
-
 
 - (id)tabItemMe {
     if (self.viewModel.baseInfo.rsp_showselfflag == 0 || [self.router.userInfo[kIgnoreBaseInfo] boolValue]) {
@@ -379,6 +379,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
         @strongify(self);
         [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing3"}];
         [self.viewModel fetchMyInfoForce:NO];
+
     });
     return item;
 }
@@ -391,7 +392,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
         @strongify(self);
         [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing4"}];
         [self.viewModel fetchFundInfoForce:NO];
-        [self.tabBar setDotHidden:YES atIndex:[self.tabItems indexOfObjectForKey:item.key]];
+        [self.tabBar setDotHidden:YES atIndex:[self.tabItems indexOfObjectForKey:data.key]];
     });
     return item;
     

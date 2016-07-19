@@ -12,6 +12,13 @@
 NSInteger const kFetchPageAmount = 10;
 
 @implementation MutualInsGroupDetailVM
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _reloadBaseInfoSignal = [RACSubject subject];
+    }
+    return self;
+}
 
 + (instancetype)fetchForGroupID:(NSNumber *)groupID memberID:(NSNumber *)memberID {
     MutualInsGroupDetailVM *vm = [self fetchExistsStoreForKey:[self keyWithGroupID:groupID andMemberID:memberID]];
@@ -44,6 +51,10 @@ NSInteger const kFetchPageAmount = 10;
         
         @strongify(self);
         self.baseInfo = x;
+        self.reloadMyInfoSignal = nil;
+        self.reloadMembersInfoSignal = nil;
+        self.reloadFundInfoSignal = nil;
+        self.reloadMessagesInfoSignal = nil;
     }];
 }
 

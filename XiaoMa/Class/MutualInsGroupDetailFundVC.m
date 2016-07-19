@@ -63,13 +63,15 @@
     if (!datasource) {
         datasource = $($(@{kCKItemKey: @"Fund", kCKCellID: @"Fund"}));
     }
+    GetCooperationGroupSharemoneyOp *info = self.viewModel.fundInfo;
+    CKList *tuples = $(info.rsp_insstarttime.length == 0 ? CKNULL : RACTuplePack(@"互助开始时间", info.rsp_insstarttime),
+                       info.rsp_insendtime.length == 0 ? CKNULL : RACTuplePack(@"互助结束时间", info.rsp_insendtime));
     CKDict *item = datasource[0][@"Fund"];
-    item[@"tuples"] = @[RACTuplePack(@"互助开始时间", self.viewModel.fundInfo.rsp_insstarttime),
-                        RACTuplePack(@"互助结束时间", self.viewModel.fundInfo.rsp_insendtime)];
-    item[@"desc"] = self.viewModel.fundInfo.rsp_tip;
-    item[@"percent"] = self.viewModel.fundInfo.rsp_presentpoolpresent;
-    item[@"remain"] = self.viewModel.fundInfo.rsp_presentpoolamt;
-    item[@"total"] = self.viewModel.fundInfo.rsp_totalpoolamt;
+    item[@"tuples"] = nil; [tuples allObjects];
+    item[@"desc"] = info.rsp_tip;
+    item[@"percent"] = info.rsp_presentpoolpresent;
+    item[@"remain"] = info.rsp_presentpoolamt;
+    item[@"total"] = info.rsp_totalpoolamt;
     
     item[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
