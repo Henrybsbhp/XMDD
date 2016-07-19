@@ -6,7 +6,7 @@
 @property (nonatomic,strong) NSNumber* req_memberid;
 
 ///是否可以退团 (0：否 1：是)
-@property (nonatomic,assign) int rsp_isexist;
+@property (nonatomic,assign) int rsp_isexit;
 ///显示邀请按钮标示 (0：不显示 1：显示)
 @property (nonatomic,assign) int rsp_invitebtnflag;
 ///团详情使用帮助地址
