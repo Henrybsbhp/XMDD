@@ -416,7 +416,7 @@
       (attr (rsp))
       (node
        (attr (*def* "是否可以退团 (0：否 1：是)"))
-       (id isexist)
+       (id isexit)
        (type int)
        (value #f))
       (node
