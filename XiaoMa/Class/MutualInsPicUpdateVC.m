@@ -86,6 +86,7 @@
     [self setupNavigationBar];
     [self setupNextBtn];
     self.tableView.backgroundColor = kBackgroundColor;
+
 }
 
 - (void)setupNextBtn
@@ -155,6 +156,8 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     self.navigationItem.leftBarButtonItem = back;
+    
+    self.navigationItem.title = @"完善资料";
 }
 
 - (void)setupDatasource
@@ -383,7 +386,7 @@
         {
             [[RACObserve(self, insCompany) takeUntilForCell:cell] subscribeNext:^(NSString * str) {
                 
-                lb.text = str.length ? str : @"请选择当前投保的保险公司";
+                lb.text = str.length ? str : @"当前投保的保险公司(必填)";
                 lb.textColor = str.length ? kDarkTextColor : kGrayTextColor;
             }];
         }
@@ -391,7 +394,7 @@
         {
             [[RACObserve(self, lastYearInsCompany) takeUntilForCell:cell] subscribeNext:^(NSString * str) {
                 
-                lb.text = str.length ? str : @"请选择3年内投保过的其他保险公司(选填)";
+                lb.text = str.length ? str : @"上年度投保的保险公司(选填)";
                 lb.textColor = str.length ? kDarkTextColor : kGrayTextColor;
             }];
         }
