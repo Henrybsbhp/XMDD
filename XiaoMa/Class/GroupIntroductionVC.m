@@ -92,6 +92,9 @@
 #pragma mark - SetupUI
 - (void)setupUI
 {
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    self.navigationItem.leftBarButtonItem = back;
+    
     if (self.groupType == MutualGroupTypeSystem)
     {
         [self.selfGroupView removeFromSuperview];
@@ -200,12 +203,12 @@
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0009"}];
+    [MobClick event:@"rutuanyaoqiu" attributes:@{@"rutuanyaoqiu" : @"rutuanyaoqiu1"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)joinAction:(id)sender {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"qurutuan" : @"qurutuan0010"}];
+    [MobClick event:@"rutuanyaoqiu" attributes:@{@"rutuanyaoqiu" : @"rutuanyaoqiu2"}];
     
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         

@@ -191,6 +191,8 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
+    [MobClick event:@"tijiaochenggong" attributes:@{@"tijiaochenggong":@"tijiaochenggong1"}];
+    
     if (self.router.userInfo[kOriginRoute])
     {
         [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
