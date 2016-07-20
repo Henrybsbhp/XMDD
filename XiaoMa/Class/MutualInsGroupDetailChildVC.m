@@ -79,4 +79,11 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    CKDict *item = self.datasource[indexPath.section][indexPath.row];
+    CKCellSelectedBlock block = item[kCKCellSelected];
+    if (block) {
+        block(item, indexPath);
+    }
+}
 @end
