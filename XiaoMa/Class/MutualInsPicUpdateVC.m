@@ -156,8 +156,6 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     self.navigationItem.leftBarButtonItem = back;
-    
-    self.navigationItem.title = @"完善资料";
 }
 
 - (void)setupDatasource
