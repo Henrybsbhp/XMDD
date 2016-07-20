@@ -654,7 +654,7 @@
     frame = CGRectMake((frame.size.width-290)/2, (frame.size.height-230)/2, 290, 230);
     UIImageView *imgV = [[UIImageView alloc] initWithFrame:frame];
     imgV.contentMode = UIViewContentModeScaleAspectFit;
-    UIImage *img = indexPath.section ?  [UIImage imageNamed:@"ins_pic2"] : [UIImage imageNamed:@"ins_pic1"];
+    UIImage *img = indexPath.row == 1 ?  [UIImage imageNamed:@"ins_pic1"] : [UIImage imageNamed:@"ins_pic2"];
     imgV.image = img;
     CGFloat offset = 0;
     if (img.size.width > 0) {
