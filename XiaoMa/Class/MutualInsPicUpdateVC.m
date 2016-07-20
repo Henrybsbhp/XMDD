@@ -21,6 +21,7 @@
 #import "CollectionChooseVC.h"
 #import "MutualInsPicUpdateResultVC.h"
 #import "MyCarStore.h"
+#import "MutualInsGroupDetailVM.h"
 
 @interface MutualInsPicUpdateVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -582,8 +583,12 @@
         
         [gToast dismiss];
         
+        /// 更新团列表
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+        /// 更新爱车信息
         [[[MyCarStore fetchExistsStore] getAllCars] send];
+        /// 更新团详情
+        [[MutualInsGroupDetailVM fetchForGroupID:self.groupId memberID:self.memberId] fetchBaseInfoForce:YES];
         
         MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
         vc.tipsDict = op.couponDict;

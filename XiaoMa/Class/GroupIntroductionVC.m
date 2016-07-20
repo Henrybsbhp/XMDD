@@ -100,7 +100,7 @@
         [self.selfGroupView removeFromSuperview];
         
         self.navigationItem.title = @"入团要求";
-        [self.sysJoinBtn setTitle:@"加入互助" forState:UIControlStateNormal];
+        [self.sysJoinBtn setTitle:@"下一步" forState:UIControlStateNormal];
     }
     else
     {
