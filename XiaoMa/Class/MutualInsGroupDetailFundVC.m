@@ -67,7 +67,7 @@
     CKList *tuples = $(info.rsp_insstarttime.length == 0 ? CKNULL : RACTuplePack(@"互助开始时间", info.rsp_insstarttime),
                        info.rsp_insendtime.length == 0 ? CKNULL : RACTuplePack(@"互助结束时间", info.rsp_insendtime));
     CKDict *item = datasource[0][@"Fund"];
-    item[@"tuples"] = nil; [tuples allObjects];
+    item[@"tuples"] = [tuples allObjects];
     item[@"desc"] = info.rsp_tip;
     item[@"percent"] = info.rsp_presentpoolpresent;
     item[@"remain"] = info.rsp_presentpoolamt;
