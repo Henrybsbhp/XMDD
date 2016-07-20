@@ -44,7 +44,7 @@
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     self.navigationItem.leftBarButtonItem = back;
     
-    self.navigationItem.title = @"互助团";
+    self.navigationItem.title = @"选择车辆";
     self.tableView.backgroundColor = kBackgroundColor;
 }
 
