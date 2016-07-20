@@ -11,8 +11,6 @@
 
 @interface MutualInsPicUpdateVC : HKViewController
 
-@property (nonatomic, weak) UIViewController *originVC;
-
 /// 车(带入的车辆必须包含id和lisenceNumber)
 @property (nonatomic,strong)HKMyCar * curCar;
 /// 成员id(重新上传或者自助团会有此值,注意自助团团长无车会出现没有memberID的情况)
