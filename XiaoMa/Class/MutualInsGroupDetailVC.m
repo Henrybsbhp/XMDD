@@ -331,9 +331,6 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 //使用帮助
 - (id)menuItemUsinghelp
 {
-    if (self.viewModel.baseInfo.rsp_helpurl.length == 0) {
-        return CKNULL;
-    }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Help",@"title":@"使用帮助",@"img":@"mins_question"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
