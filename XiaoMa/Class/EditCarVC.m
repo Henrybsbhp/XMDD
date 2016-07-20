@@ -197,7 +197,7 @@
         HKCellData *cell4_0 = [HKCellData dataWithCellID:@"Delete" tag:nil];
         [datasource addObject:@[cell4_0]];
     }
-
+    
     self.datasource = datasource;
 }
 
@@ -269,7 +269,7 @@
     cell1_3.customInfo[@"disable"] = @(!(self.curCar.editMask & HKCarEditableEditCarModel));
     cell1_3.object = [[RACObserve(self.curCar, brand) merge:RACObserve(self.curCar, seriesModel.seriesname)] map:^id(id value) {
         @strongify(self);
-        if (self.curCar.brand && self.curCar.seriesModel.seriesname) {
+        if (self.curCar.brand.length != 0 && self.curCar.seriesModel.seriesname) {
             return [NSString stringWithFormat:@"%@ %@", self.curCar.brand, self.curCar.seriesModel.seriesname];
         }
         return nil;
@@ -297,6 +297,10 @@
             self.curCar.brandLogo = brand.brandLogo;
             self.curCar.seriesModel = series;
             self.curCar.detailModel = model;
+            
+            
+            [self showDatePicker];
+            
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }];
@@ -339,6 +343,8 @@
                 self.curCar.brandLogo = brand.brandLogo;
                 self.curCar.seriesModel = series;
                 self.curCar.detailModel = model;
+                
+                [self showDatePicker];
             }];
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -421,7 +427,7 @@
         @strongify(self);
         [self showPicture:@"ins_eg_pic1"];
     } copy];
-
+    
     HKCellData *cell2_3 = [HKCellData dataWithCellID:@"Field" tag:nil];
     cell2_3.customInfo[@"title"] = @"发动机号";
     cell2_3.customInfo[@"placehold"] = @"请填写发动机号";
@@ -446,7 +452,7 @@
             rFiled.text = [temp uppercaseString];
             self.curCar.engineno = rFiled.text;
         }];
-
+        
     } copy];
     cell2_3.customInfo[@"howAction"] = [^(void){
         
@@ -489,7 +495,7 @@
         field.keyboardType = UIKeyboardTypeDecimalPad;
         field.clearsOnBeginEditing = YES;
         field.textLimit = 12;
-//        field.regexpPattern = @"[1-9]\\d*|^0(?=$|0+$)";
+        //        field.regexpPattern = @"[1-9]\\d*|^0(?=$|0+$)";
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
             [MobClick event:@"rp312_7"];
         }];
@@ -609,7 +615,7 @@
             }
         }
     }
-
+    
     MyCarStore *store = [MyCarStore fetchOrCreateStore];
     CKEvent *evt = self.isEditingModel ? [store updateCar:self.curCar] : [store addCar:self.curCar];
     @weakify(self);
@@ -851,9 +857,9 @@
     OETextField *field = (OETextField *)[cell.contentView viewWithTag:1003];
     [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
     field.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
-
+    
     cell.contentView.userInteractionEnabled  = self.curCar.editMask & HKCarEditableEditPlateNumber;
-
+    
     label.text = data.customInfo[@"title"];
     
     [chooseV setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
@@ -861,22 +867,22 @@
     @weakify(self);
     [[[chooseV rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
-
-        @strongify(self);
-        CollectionChooseVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"CollectionChooseVC"];
-        HKNavigationController *nav = [[HKNavigationController alloc] initWithRootViewController:vc];
-        vc.datasource = gAppMgr.getProvinceArray;
-        [vc setSelectAction:^(NSDictionary * d) {
-
-            @strongify(self);
-            NSString * key = [d.allKeys safetyObjectAtIndex:0];
-            self.curCar.licenceArea = key;
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        }];
-        [self presentViewController:nav animated:YES completion:nil];
-    }];
+         
+         @strongify(self);
+         CollectionChooseVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"CollectionChooseVC"];
+         HKNavigationController *nav = [[HKNavigationController alloc] initWithRootViewController:vc];
+         vc.datasource = gAppMgr.getProvinceArray;
+         [vc setSelectAction:^(NSDictionary * d) {
+             
+             @strongify(self);
+             NSString * key = [d.allKeys safetyObjectAtIndex:0];
+             self.curCar.licenceArea = key;
+             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+         }];
+         [self presentViewController:nav animated:YES completion:nil];
+     }];
     
-
+    
     field.textLimit = 6;
     field.text = self.curCar.licenceSuffix;
     
@@ -885,7 +891,7 @@
     }];
     
     [field setDidEndEditingBlock:^(CKLimitTextField *field) {
-        field.placeholder = @"A12345";
+        field.placeholder = @"请填写车牌号";
     }];
     
     [field setTextDidChangedBlock:^(CKLimitTextField *field) {
@@ -893,6 +899,13 @@
         NSString *newtext = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
         field.text = [newtext uppercaseString];
         self.curCar.licenceSuffix = field.text;
+        
+        if (field.text.length == 6 && !self.curCar.detailModel)
+        {
+            [self showPickAutomobileBrandVC];
+            [field endEditing:YES];
+        }
+        
     }];
 }
 
@@ -905,7 +918,7 @@
     BOOL disable = [data.customInfo[@"disable"] boolValue];
     cell.selectionStyle = disable ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleDefault;
     arrow.hidden = disable;
-
+    
     label.text = data.customInfo[@"title"];
     
     field.placeholder = data.customInfo[@"placehold"];
@@ -945,6 +958,7 @@
     [[[howBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         howAction();
+        
     }];
     
 }
@@ -973,6 +987,44 @@
 }
 
 #pragma mark - Utility
+
+- (void)showDatePicker
+{
+    if (!self.curCar.purchasedate)
+    {
+        @weakify(self)
+        [[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:[NSDate date]]
+         subscribeNext:^(NSDate *date) {
+             @strongify(self);
+             self.curCar.purchasedate = date;
+         }];
+    }
+}
+
+- (void)showPickAutomobileBrandVC
+{
+    @weakify(self)
+    if (self.curCar.brand.length == 0)
+    {
+        PickAutomobileBrandVC *vc = [UIStoryboard vcWithId:@"PickerAutomobileBrandVC" inStoryboard:@"Car"];
+        vc.originVC = self;
+        [vc setCompleted:^(AutoBrandModel *brand, AutoSeriesModel *series, AutoDetailModel *model) {
+            
+            @strongify(self)
+            
+            self.curCar.brandid = brand.brandid;
+            self.curCar.brand = brand.brandname;
+            self.curCar.brandLogo = brand.brandLogo;
+            self.curCar.seriesModel = series;
+            self.curCar.detailModel = model;
+            
+            [self showDatePicker];
+            
+        }];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
 - (void)showErrorAtIndexPath:(NSIndexPath *)indexPath errorMsg:(NSString *)msg
 {
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
