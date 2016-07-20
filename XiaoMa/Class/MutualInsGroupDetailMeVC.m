@@ -84,16 +84,24 @@
         [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing8"}];
     }
     
-    HKMyCar * car = [[HKMyCar alloc] init];
-    car.carId = self.viewModel.myInfo.rsp_usercarid;
-    car.licencenumber = self.viewModel.myInfo.rsp_licensenumber;
+    HKMyCar * car;
+    if (self.viewModel.myInfo.rsp_usercarid && self.viewModel.myInfo.rsp_licensenumber)
+    {
+        car = [[HKMyCar alloc] init];
+        car.carId = self.viewModel.myInfo.rsp_usercarid;
+        car.licencenumber = self.viewModel.myInfo.rsp_licensenumber;
+    }
 
     MutualInsPicUpdateVC* vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
     vc.curCar = car;
     vc.groupId = self.viewModel.myInfo.req_groupid;
     vc.memberId = self.viewModel.myInfo.req_memberid;
     vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
-    vc.router.userInfo[kOriginRoute] = self.parentViewController.router;
+    if ([self.viewModel.myInfo.req_memberid integerValue] > 0)
+    {
+        /// 有member的时候完善信息成功后返回到此页面。如果出现memberid为0的情况只会是团长没车的情况
+        vc.router.userInfo[kOriginRoute] = self.parentViewController.router;
+    }
     [self.navigationController pushViewController:vc animated:YES];
 }
 
