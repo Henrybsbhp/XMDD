@@ -747,9 +747,10 @@
 {
     if (self.groupId)
     {
-        if (self.router.userInfo[kOriginRoute])
+        CKRouter * router = self.router.userInfo[kOriginRoute];
+        if (router)
         {
-            [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
+            [self.router.navigationController popToRouter:router animated:YES];
         }
         else
         {

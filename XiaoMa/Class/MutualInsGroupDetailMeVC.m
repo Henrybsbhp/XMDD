@@ -93,7 +93,7 @@
     vc.groupId = self.viewModel.myInfo.req_groupid;
     vc.memberId = self.viewModel.myInfo.req_memberid;
     vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
-    vc.router.userInfo[kOriginRoute] = self.router;
+    vc.router.userInfo[kOriginRoute] = self.parentViewController.router;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
