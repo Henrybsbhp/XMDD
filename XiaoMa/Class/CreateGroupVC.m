@@ -19,7 +19,6 @@
 #import "IQKeyboardManager.h"
 #import "MutualInsPickCarVC.h"
 #import "GetCooperationUsercarListOp.h"
-#import "ApplyCooperationGroupJoinOp.h"
 
 @interface CreateGroupVC () <UITextFieldDelegate>
 
@@ -142,14 +141,7 @@
             vc.mutualInsCarArray = x.rsp_carArray;
             [vc setFinishPickCar:^(HKMyCar *car) {
                 
-                if (car)
-                {
-                    [self requestApplyJoinGroupWithID:groupId carModel:car];
-                }
-                else
-                {
-                    [self jumpToUpdateInfoVC:nil andGroupId:groupId];
-                }
+                [self jumpToUpdateInfoVC:car andGroupId:groupId];
             }];
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -198,16 +190,14 @@
     }
 }
 
-- (void)jumpToUpdateInfoVC:(NSNumber *)memberId andGroupId:(NSNumber *)groupId
+- (void)jumpToUpdateInfoVC:(HKMyCar *)car andGroupId:(NSNumber *)groupId
 {
     MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
-    vc.originVC = self.originVC;
-    vc.memberId = memberId;
+    vc.curCar = car;
+    vc.memberId = nil;// 挑选车说明没有memberId
     vc.groupId = groupId;
     [self.navigationController pushViewController:vc animated:YES];
 }
-
-
 
 
 #pragma mark - Utilitly
@@ -274,33 +264,6 @@
     } error:^(NSError *error) {
         
         [gToast showError:error.domain];
-    }];
-}
-
-
-- (void)requestApplyJoinGroupWithID:(NSNumber *)groupId carModel:(HKMyCar *)car
-{
-    ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
-    op.req_groupid = groupId;
-    op.req_carid = car.carId;
-    
-    @weakify(self)
-    [[[op rac_postRequest] initially:^{
-        
-        [gToast showingWithText:@"团队加入中..." inView:self.view];
-    }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
-        
-        @strongify(self)
-        [gToast dismissInView:self.view];
-        
-        MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
-        vc.memberId = rop.rsp_memberid;
-        vc.groupId = groupId;
-        vc.curCar = car;
-        [self.navigationController pushViewController:vc animated:YES];
-    } error:^(NSError *error) {
-        
-        [gToast showError:error.domain inView:self.view];
     }];
 }
 

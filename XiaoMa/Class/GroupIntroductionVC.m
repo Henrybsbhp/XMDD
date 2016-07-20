@@ -13,7 +13,6 @@
 #import "MutualInsPickCarVC.h"
 #import "HKImageAlertVC.h"
 
-#import "ApplyCooperationGroupJoinOp.h"
 #import "GetCooperationUsercarListOp.h"
 
 #import "JTAttributedLabel.h"

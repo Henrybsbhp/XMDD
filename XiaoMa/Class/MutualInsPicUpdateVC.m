@@ -70,7 +70,7 @@
     [self setupDatasource];
     [self.tableView reloadData];
     
-    if (self.memberId)
+    if ([self.memberId integerValue] > 0)
     {
         // 有memeber说明是重新上传的
         [self requesLastIdLicenseInfo];
