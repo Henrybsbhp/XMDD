@@ -146,7 +146,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.status = GroupStatusTypeBegin)
+    if (self.status == GroupStatusTypeBegin)
     {
         [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan4"}];
     }
