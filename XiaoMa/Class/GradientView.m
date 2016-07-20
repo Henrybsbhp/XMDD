@@ -136,10 +136,13 @@
         _presentpoolamtLabel.text = [NSString stringWithFormat:@"%.2f",0.00];
         _presentpoolamtLabel.textAlignment = NSTextAlignmentCenter;
         _presentpoolamtLabel.font = [UIFont systemFontOfSize:43];
+        _presentpoolamtLabel.adjustsFontSizeToFitWidth = YES;
+        _presentpoolamtLabel.minimumScaleFactor = 0.7;
         [self addSubview:_presentpoolamtLabel];
         [_presentpoolamtLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(0);
-            make.centerX.mas_equalTo(0);
+            make.left.mas_equalTo(15);
+            make.right.mas_equalTo(-15);
         }];
         
     }
