@@ -274,6 +274,8 @@
         [self.view hideDefaultEmptyView];
         
         self.contract = rop.rsp_contractorder;
+        /// 交强险默认选择
+        self.isInsProxy = YES;
         [self setupDateSource];
         
         [self refreshUI];

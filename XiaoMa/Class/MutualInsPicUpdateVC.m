@@ -21,6 +21,7 @@
 #import "CollectionChooseVC.h"
 #import "MutualInsPicUpdateResultVC.h"
 #import "MyCarStore.h"
+#import "MutualInsGroupDetailVM.h"
 
 @interface MutualInsPicUpdateVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -86,6 +87,7 @@
     [self setupNavigationBar];
     [self setupNextBtn];
     self.tableView.backgroundColor = kBackgroundColor;
+
 }
 
 - (void)setupNextBtn
@@ -138,6 +140,8 @@
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"不要买" color:kGrayTextColor clickBlock:^(id alertVC) {
                 @strongify(self)
                 self.isNeedBuyStrongInsurance = NO;
+                
+                [self requestUpdateImageInfo];
             }];
             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确认无需本平台为您代理购买交强险/车船税？" ActionItems:@[confirm,cancel]];
             [alert show];
@@ -381,7 +385,7 @@
         {
             [[RACObserve(self, insCompany) takeUntilForCell:cell] subscribeNext:^(NSString * str) {
                 
-                lb.text = str.length ? str : @"请选择当前投保的保险公司";
+                lb.text = str.length ? str : @"当前投保的保险公司(必填)";
                 lb.textColor = str.length ? kDarkTextColor : kGrayTextColor;
             }];
         }
@@ -389,7 +393,7 @@
         {
             [[RACObserve(self, lastYearInsCompany) takeUntilForCell:cell] subscribeNext:^(NSString * str) {
                 
-                lb.text = str.length ? str : @"请选择3年内投保过的其他保险公司(选填)";
+                lb.text = str.length ? str : @"上年度投保的保险公司(选填)";
                 lb.textColor = str.length ? kDarkTextColor : kGrayTextColor;
             }];
         }
@@ -579,8 +583,12 @@
         
         [gToast dismiss];
         
+        /// 更新团列表
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+        /// 更新爱车信息
         [[[MyCarStore fetchExistsStore] getAllCars] send];
+        /// 更新团详情
+        [[MutualInsGroupDetailVM fetchForGroupID:self.groupId memberID:self.memberId] fetchBaseInfoForce:YES];
         
         MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
         vc.tipsDict = op.couponDict;
@@ -651,7 +659,7 @@
     frame = CGRectMake((frame.size.width-290)/2, (frame.size.height-230)/2, 290, 230);
     UIImageView *imgV = [[UIImageView alloc] initWithFrame:frame];
     imgV.contentMode = UIViewContentModeScaleAspectFit;
-    UIImage *img = indexPath.section ?  [UIImage imageNamed:@"ins_pic2"] : [UIImage imageNamed:@"ins_pic1"];
+    UIImage *img = indexPath.row == 1 ?  [UIImage imageNamed:@"ins_pic1"] : [UIImage imageNamed:@"ins_pic2"];
     imgV.image = img;
     CGFloat offset = 0;
     if (img.size.width > 0) {
@@ -742,7 +750,22 @@
 
 - (void)back
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.groupId)
+    {
+        CKRouter * router = self.router.userInfo[kOriginRoute];
+        if (router)
+        {
+            [self.router.navigationController popToRouter:router animated:YES];
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+    else
+    {
+         [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 

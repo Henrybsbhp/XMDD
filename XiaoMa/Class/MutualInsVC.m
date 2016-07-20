@@ -592,7 +592,7 @@
         
         MutualInsCarListModel *dictModel = data[@"dict"];
         
-        [brandImageView setImageByUrl:dict.brandLogo withType:ImageURLTypeMedium defImage:@"avatar_default" errorImage:@"avatar_default"];
+        [brandImageView setImageByUrl:dict.brandLogo withType:ImageURLTypeMedium defImage:@"mins_def" errorImage:@"mins_def"];
         carNumLabel.text = dictModel.licenseNum;
         statusLabel.text = dictModel.statusDesc;
         tipsLabel.font = [UIFont systemFontOfSize:13];
@@ -626,17 +626,35 @@
         if (dict.status == XMReviewFailed) {
             [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye11"}];
             // 进入「重新上传资料」页面
-                
+            @strongify(self);
             
+            HKMyCar * car = [[HKMyCar alloc] init];
+            car.carId = dict.userCarID;
+            car.licencenumber = dict.licenseNum;
+            [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             
         } else if (dict.status == XMWaitingForPay) {
             // 进入「订单详情」页面
             
+            [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye10"}];
+            @strongify(self);
+            
+            [self actionGotoPayVC:dict.contractID];
             
         } else {
             [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye9"}];
             // 进入「完善资料」页面
-                
+            
+            @strongify(self);
+            
+            HKMyCar * car;
+            if (dict.userCarID && dict.licenseNum) {
+                car = [[HKMyCar alloc] init];
+                car.carId = dict.userCarID;
+                car.licencenumber = dict.licenseNum;
+            }
+            
+            [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             
         }
     });

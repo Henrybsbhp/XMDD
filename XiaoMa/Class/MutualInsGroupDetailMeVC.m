@@ -77,7 +77,7 @@
 #pragma mark - Action
 /// 完善资料
 - (void)actionFillInfo {
-    if (self.viewModel.myInfo.rsp_status == 1) {
+    if (self.viewModel.myInfo.rsp_status == 1 || self.viewModel.myInfo.rsp_status == 0) {
         [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing7"}];
     }
     else if (self.viewModel.myInfo.rsp_status == 20) {
@@ -93,7 +93,7 @@
     vc.groupId = self.viewModel.myInfo.req_groupid;
     vc.memberId = self.viewModel.myInfo.req_memberid;
     vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
-    vc.router.userInfo[kOriginRoute] = self.router;
+    vc.router.userInfo[kOriginRoute] = self.parentViewController.router;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -176,12 +176,11 @@
             
             @strongify(self);
             switch (self.viewModel.myInfo.rsp_status) {
-                case 1: case 20:
+                case 0: case 1: case 20:
                     [self actionFillInfo];
                     break;
             }
         }];
-        [cell.actionButton addTarget:self action:@selector(actionFillInfo) forControlEvents:UIControlEventTouchUpInside];
     });
     
     return item;

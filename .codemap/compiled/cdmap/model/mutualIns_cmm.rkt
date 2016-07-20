@@ -416,7 +416,7 @@
       (attr (rsp))
       (node
        (attr (*def* "是否可以退团 (0：否 1：是)"))
-       (id isexist)
+       (id isexit)
        (type int)
        (value #f))
       (node
@@ -478,7 +478,8 @@
       (node (attr (*def* "车牌号码")) (id licensenumber) (type #f) (value #f))
       (node (attr (*def* "车辆品牌图标url")) (id carlogourl) (type #f) (value #f))
       (node
-       (attr (*def* "状态 (1：待完善资料。3：审核中。5:待支付。6：支付完成。7：互助中。8：保障中。20：重新上传)"))
+       (attr
+        (*def* "状态 (0：团长无车。1：待完善资料。3：审核中。5:待支付。6：支付完成。7：互助中。8：保障中。20：重新上传)"))
        (id status)
        (type int)
        (value #f))

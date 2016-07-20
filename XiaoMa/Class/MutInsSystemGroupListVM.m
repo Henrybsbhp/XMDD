@@ -10,6 +10,7 @@
 #import "GetCooperationGroupOp.h"
 #import "NSString+RectSize.h"
 #import "MutualInsConstants.h"
+#import "MutualInsGroupDetailVC.h"
 
 @interface MutInsSystemGroupListVM()<UITableViewDelegate,UITableViewDataSource>
 
@@ -19,7 +20,8 @@
 @property (strong, nonatomic) CKList *dataSource;
 @property (strong, nonatomic) UITableView *tableView;
 
-@property (nonatomic)BOOL isShowdetailflag;
+/// 是否能够点击进入团详情
+@property (nonatomic)BOOL isShowDetailFlag;
 
 @end
 
@@ -71,7 +73,7 @@
         self.targetVC.groupEndBtn.enabled = YES;
         self.targetVC.groupBeginBtn.enabled = YES;
         
-        
+        self.isShowDetailFlag = op.rsp_isShowdetailflag;
         [self configDataSourceWithGroupList:op.rsp_groupList];
         [self.tableView reloadData];
         
@@ -144,7 +146,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.status = GroupStatusTypeBegin)
+    if (self.status == GroupStatusTypeBegin)
     {
         [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan4"}];
     }
@@ -162,7 +164,7 @@
 
 #pragma mark - CellData
 
--(CKDict *)titleCellDataWithDic:(NSDictionary *)dic
+-(CKDict *)titleCellDataWithGroupInfo:(NSDictionary *)groupInfo
 {
     @weakify(self)
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"TitleCell"}];
@@ -174,28 +176,40 @@
         @strongify(self)
         
         UILabel *groupNameLabel = [cell viewWithTag:100];
-        groupNameLabel.text = [NSString stringWithFormat:@"%@",dic[@"groupname"]];
+        groupNameLabel.text = [NSString stringWithFormat:@"%@",groupInfo[@"groupname"]];
         
         UILabel *totalCntLabel = [cell viewWithTag:101];
-        NSNumber *totalcnt = dic[@"totalcnt"];
+        NSNumber *totalcnt = groupInfo[@"totalcnt"];
         totalCntLabel.text = [NSString stringWithFormat:@"%ld",(long)totalcnt.integerValue];
         
         UIView *groupTagsView = [cell viewWithTag:102];
-        [self configTagView:groupTagsView andTags:dic[@"grouptags"]];
+        [self configTagView:groupTagsView andTags:groupInfo[@"grouptags"]];
+    });
+    
+    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        if (self.isShowDetailFlag)
+        {
+            CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGroupDetailVC"];
+            router.userInfo = [[CKDict alloc] init];
+            router.userInfo[kMutInsGroupID] = groupInfo[@"groupid"];
+            router.userInfo[kMutInsGroupName] = groupInfo[@"groupname"];
+            router.userInfo[kIgnoreBaseInfo] = @YES;
+            [self.targetVC.router.navigationController pushRouter:router animated:YES];
+        }
     });
     return data;
 }
 
--(CKDict *)detailCellDataWithDic:(NSDictionary *)dic
+-(CKDict *)detailCellDataWithExtendinfo:(NSDictionary *)extendinfo andGroupInfo:(NSDictionary *)groupInfo
 {
     @weakify(self)
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"DetailCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self)
-        NSString *valueStr = [NSString stringWithFormat:@"%@",dic.allValues.firstObject];
-        NSString *keyStr = [NSString stringWithFormat:@"%@",dic.allKeys.firstObject];
+        NSString *valueStr = [NSString stringWithFormat:@"%@",extendinfo.allValues.firstObject];
+        NSString *keyStr = [NSString stringWithFormat:@"%@",extendinfo.allKeys.firstObject];
         CGSize keyStrSize = [keyStr labelSizeWithWidth:100 font:[UIFont systemFontOfSize:13]];
         CGSize valueStrSize = [valueStr labelSizeWithWidth:self.tableView.frame.size.width - 100 font:[UIFont systemFontOfSize:13]];
         
@@ -204,16 +218,28 @@
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
         UILabel *leftLabel = [cell viewWithTag:100];
-        leftLabel.text = [NSString stringWithFormat:@"%@",dic.allKeys.firstObject];
+        leftLabel.text = [NSString stringWithFormat:@"%@",extendinfo.allKeys.firstObject];
         
         UILabel *rightLabel = [cell viewWithTag:101];
-        rightLabel.text = [NSString stringWithFormat:@"%@",dic.allValues.firstObject];
+        rightLabel.text = [NSString stringWithFormat:@"%@",extendinfo.allValues.firstObject];
+    });
+    
+    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        if (self.isShowDetailFlag)
+        {
+            CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGroupDetailVC"];
+            router.userInfo = [[CKDict alloc] init];
+            router.userInfo[kMutInsGroupID] = groupInfo[@"groupid"];
+            router.userInfo[kMutInsGroupName] = groupInfo[@"groupname"];
+            router.userInfo[kIgnoreBaseInfo] = @YES;
+            [self.targetVC.router.navigationController pushRouter:router animated:YES];
+        }
     });
     return data;
 }
 
--(CKDict *)blankCellData
+-(CKDict *)blankCellDataWithGroupInfo:(NSDictionary *)groupInfo
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"BlankCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -221,6 +247,19 @@
     });
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+    });
+    
+    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        if (self.isShowDetailFlag)
+        {
+            CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGroupDetailVC"];
+            router.userInfo = [[CKDict alloc] init];
+            router.userInfo[kMutInsGroupID] = groupInfo[@"groupid"];
+            router.userInfo[kMutInsGroupName] = groupInfo[@"groupname"];
+            router.userInfo[kIgnoreBaseInfo] = @YES;
+            [self.targetVC.router.navigationController pushRouter:router animated:YES];
+        }
     });
     return data;
 }
@@ -232,15 +271,15 @@
     
     self.dataSource = [CKList list];
     
-    for (NSDictionary *dic in groupList)
+    for (NSDictionary *groupInfo in groupList)
     {
         CKList *tempList = [CKList list];
-        [tempList addObject:[self titleCellDataWithDic:dic] forKey:nil];
-        for (NSDictionary *extendinfo in dic[@"extendinfo"])
+        [tempList addObject:[self titleCellDataWithGroupInfo:groupInfo] forKey:nil];
+        for (NSDictionary *extendinfo in groupInfo[@"extendinfo"])
         {
-            [tempList addObject:[self detailCellDataWithDic:extendinfo] forKey:nil];
+            [tempList addObject:[self detailCellDataWithExtendinfo:extendinfo andGroupInfo:groupInfo] forKey:nil];
         }
-        [tempList addObject:[self blankCellData] forKey:nil];
+        [tempList addObject:[self blankCellDataWithGroupInfo:groupInfo] forKey:nil];
         [self.dataSource addObject:tempList forKey:nil];
     }
 }

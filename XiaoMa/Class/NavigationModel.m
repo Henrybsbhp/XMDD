@@ -33,6 +33,13 @@
 
 #import "AppDelegate.h"
 
+@interface NavigationModel()
+
+/// 应用内推送的弹框是否展示
+@property (nonatomic)BOOL isForgroundNotificationAlert;
+
+@end
+
 @implementation NavigationModel
 
 - (BOOL)pushToViewControllerByUrl:(NSString *)url
@@ -455,6 +462,46 @@
         flag = YES;
     }
     return flag;
+}
+
+- (void)handleForgroundNotification:(NSString *)url
+{
+    if (self.isForgroundNotificationAlert)
+        return ;
+    
+    NSString * message;
+    //是内部跳转链接(以xmdd://开头)
+    if ([url hasPrefix:@"xmdd://"])
+    {
+        
+        NSDictionary *params = [self getActionParamsFromUrl:url];
+        NSString *name = params[@"t"];
+        
+        if ([@"coinso" equalByCaseInsensitive:name]) {
+            
+            if (!gAppMgr.myUser) {
+                return;
+            }
+            
+            message = @"恭喜您的爱车通过互助审核并且报价成功，是否点击查看详情";
+        }
+    }
+    
+    if (message.length)
+    {
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
+        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+            
+            self.isForgroundNotificationAlert = NO;
+            [MobClick event:@"rp001"];
+            if ([number integerValue] == 1)
+            {
+                [self pushToViewControllerByUrl:url];
+            }
+        }];
+        [av show];
+        self.isForgroundNotificationAlert = YES;
+    }
 }
 
 #pragma mark - Utility

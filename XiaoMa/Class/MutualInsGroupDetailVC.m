@@ -10,6 +10,7 @@
 #import "HorizontalScrollTabView.h"
 #import "MutualInsGroupDetailVM.h"
 #import "MutualInsConstants.h"
+#import "MutualInsStore.h"
 #import "HKPopoverView.h"
 #import "ExitCooperationOp.h"
 #import "DeleteCooperationGroupOp.h"
@@ -40,7 +41,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     [self setupContainerView];
     [self setupTabBar];
     [self subscribeSignals];
-    [self fetchBaseInfoIfNeeded];
+    [self refetchData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,6 +61,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 }
 
 - (void)setupNavigation {
+    self.navigationItem.title = self.router.userInfo[kMutInsGroupName];
     if (![self.router.userInfo[kIgnoreBaseInfo] boolValue]) {
         UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mins_menu"]
                                                                  style:UIBarButtonItemStylePlain
@@ -96,7 +98,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     [self.viewControllers addObject:vc forKey:item.key];
 }
 
-- (void)fetchBaseInfoIfNeeded {
+- (void)refetchData {
     if (![self.router.userInfo[kIgnoreBaseInfo] boolValue]) {
         [self.viewModel fetchBaseInfoForce:YES];
     }
@@ -107,8 +109,11 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 #pragma mark - Signal
 - (void)subscribeSignals {
     @weakify(self);
-    [[RACObserve(self.viewModel, reloadBaseInfoSignal) distinctUntilChanged]
-      subscribeNext:^(RACSignal *signal) {
+    [[[RACObserve(self.viewModel, reloadBaseInfoSignal) distinctUntilChanged] filter:^BOOL(id value) {
+         
+         @strongify(self);
+         return ![self.router.userInfo[kIgnoreBaseInfo] boolValue];
+     }] subscribeNext:^(RACSignal *signal) {
         
         @strongify(self);
         [[signal initially:^{
@@ -239,7 +244,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 }
 
 - (id)menuItemQuit {
-    if (self.viewModel.baseInfo.rsp_isexist == 0) {
+    if (self.viewModel.baseInfo.rsp_isexit == 0) {
         return CKNULL;
     }
     
@@ -432,7 +437,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     }] subscribeNext:^(ExitCooperationOp * rop) {
         @strongify(self);
         [gToast dismiss];
-        //TODO:reload simpleGroups
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
         [self actionBack:nil];
     } error:^(NSError *error) {
         
@@ -452,7 +457,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
         
         @strongify(self);
         [gToast showSuccess:@"删除成功！"];
-        //TODO:reload simpleGroups
+        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
         [self actionBack:nil];
     } error:^(NSError *error) {
         
