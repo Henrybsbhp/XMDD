@@ -598,6 +598,12 @@
         tipsLabel.font = [UIFont systemFontOfSize:13];
         tipsLabel.textColor = HEXCOLOR(@"#888888");
         tipsLabel.text = dictModel.tip;
+        CGSize tipsSize = [dictModel.tip labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 34 font:[UIFont systemFontOfSize:13]];
+        CGSize singleSize = [dictModel.tip sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]}];
+        CGFloat numberOfText = ceil(tipsSize.height / singleSize.height);
+        if (numberOfText > 1) {
+            tipsLabel.textAlignment = NSTextAlignmentLeft;
+        }
     });
     
     return normalStatusCell;
@@ -655,6 +661,12 @@
         tipsLabel.font = [UIFont systemFontOfSize:13];
         tipsLabel.textColor = HEXCOLOR(@"#888888");
         tipsLabel.text = dict.tip;
+        CGSize tipsSize = [dict.tip labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 34 font:[UIFont systemFontOfSize:13]];
+        CGSize singleSize = [dict.tip sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]}];
+        CGFloat numberOfText = ceil(tipsSize.height / singleSize.height);
+        if (numberOfText > 1) {
+            tipsLabel.textAlignment = NSTextAlignmentLeft;
+        }
         
         if (dict.status == XMReviewFailed) {
             [bottomButton setTitle:@"重新上传资料" forState:UIControlStateNormal];
