@@ -77,7 +77,7 @@
 #pragma mark - Action
 /// 完善资料
 - (void)actionFillInfo {
-    if (self.viewModel.myInfo.rsp_status == 1) {
+    if (self.viewModel.myInfo.rsp_status == 1 || self.viewModel.myInfo.rsp_status == 0) {
         [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing7"}];
     }
     else if (self.viewModel.myInfo.rsp_status == 20) {
@@ -176,7 +176,7 @@
             
             @strongify(self);
             switch (self.viewModel.myInfo.rsp_status) {
-                case 1: case 20:
+                case 0: case 1: case 20:
                     [self actionFillInfo];
                     break;
             }

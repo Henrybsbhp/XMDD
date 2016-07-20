@@ -9,7 +9,7 @@
 @property (nonatomic,strong) NSString* rsp_licensenumber;
 ///车辆品牌图标url
 @property (nonatomic,strong) NSString* rsp_carlogourl;
-///状态 (1：待完善资料。3：审核中。5:待支付。6：支付完成。7：互助中。8：保障中。20：重新上传)
+///状态 (0：团长无车。1：待完善资料。3：审核中。5:待支付。6：支付完成。7：互助中。8：保障中。20：重新上传)
 @property (nonatomic,assign) int rsp_status;
 ///状态描述
 @property (nonatomic,strong) NSString* rsp_statusdesc;

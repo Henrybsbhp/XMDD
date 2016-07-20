@@ -41,7 +41,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     [self setupContainerView];
     [self setupTabBar];
     [self subscribeSignals];
-    [self fetchBaseInfoIfNeeded];
+    [self refetchData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,6 +61,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 }
 
 - (void)setupNavigation {
+    self.navigationItem.title = self.router.userInfo[kMutInsGroupName];
     if (![self.router.userInfo[kIgnoreBaseInfo] boolValue]) {
         UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mins_menu"]
                                                                  style:UIBarButtonItemStylePlain
@@ -97,7 +98,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     [self.viewControllers addObject:vc forKey:item.key];
 }
 
-- (void)fetchBaseInfoIfNeeded {
+- (void)refetchData {
     if (![self.router.userInfo[kIgnoreBaseInfo] boolValue]) {
         [self.viewModel fetchBaseInfoForce:YES];
     }
@@ -108,8 +109,11 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 #pragma mark - Signal
 - (void)subscribeSignals {
     @weakify(self);
-    [[RACObserve(self.viewModel, reloadBaseInfoSignal) distinctUntilChanged]
-      subscribeNext:^(RACSignal *signal) {
+    [[[RACObserve(self.viewModel, reloadBaseInfoSignal) distinctUntilChanged] filter:^BOOL(id value) {
+         
+         @strongify(self);
+         return ![self.router.userInfo[kIgnoreBaseInfo] boolValue];
+     }] subscribeNext:^(RACSignal *signal) {
         
         @strongify(self);
         [[signal initially:^{
