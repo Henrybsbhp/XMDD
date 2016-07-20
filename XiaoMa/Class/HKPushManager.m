@@ -48,6 +48,10 @@
         [self.notifyQueue removeAllObjects];
         [self.notifyQueue addObject:info forKey:nil];
     }
+    else
+    {
+        [gAppMgr.navModel handleForgroundNotification:info[@"url"]];
+    }
 }
 
 #pragma mark - Public
@@ -87,6 +91,5 @@
                  rspOp.req_deviceToken, rspOp.req_deviceID);
     }];
 }
-
 
 @end

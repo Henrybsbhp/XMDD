@@ -15,6 +15,7 @@
 @end
 
 @interface PushManager : NSObject<PushManagerDelegate>
+/// 后台推送队列
 @property (nonatomic, strong) JTQueue *notifyQueue;
 - (void)setupWithOptions:(NSDictionary *)launchOptions;
 
