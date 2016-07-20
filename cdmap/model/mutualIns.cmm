@@ -383,6 +383,7 @@ class=GetCooperationGroupMessageList op auth
 path="/cooperation/group/messagelist/get"> {
   <req> {
     groupid:number
+    memberid:number
     <"上次拉取记录返回的时间戳">lstupdatetime:longlong
   }
   <rsp> {

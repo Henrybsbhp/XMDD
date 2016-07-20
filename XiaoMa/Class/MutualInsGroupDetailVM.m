@@ -117,10 +117,10 @@ NSInteger const kFetchPageAmount = 10;
     }
     GetCooperationGroupMessageListOp *op = [GetCooperationGroupMessageListOp operation];
     op.req_groupid = self.groupID;
+    op.req_memberid = self.memberID;
     op.req_lstupdatetime = 0;
     op.simulateResponse = kSimulateResponse;
     op.simulateResponseDelay = 1;
-    
     @weakify(self);
     self.reloadMessagesInfoSignal = [[op rac_postRequest] doNext:^(id x) {
         
@@ -135,6 +135,7 @@ NSInteger const kFetchPageAmount = 10;
     }
     GetCooperationGroupMessageListOp *op = [GetCooperationGroupMessageListOp operation];
     op.req_groupid = self.groupID;
+    op.req_memberid = self.memberID;
     op.req_lstupdatetime = self.messagesInfo.rsp_lstupdatetime;
     op.simulateResponse = kSimulateResponse;
     op.simulateResponseDelay = 1;
