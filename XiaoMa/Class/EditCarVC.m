@@ -891,7 +891,7 @@
     }];
     
     [field setDidEndEditingBlock:^(CKLimitTextField *field) {
-        field.placeholder = @"A12345";
+        field.placeholder = @"请填写车牌";
     }];
     
     [field setTextDidChangedBlock:^(CKLimitTextField *field) {
