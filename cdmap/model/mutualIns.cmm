@@ -303,7 +303,7 @@ class=GetCooperationGroupConfig op auth path="/cooperation/group/config/get"> {
     memberid:number
   }
   <rsp> {
-    <"是否可以退团 (0：否 1：是)">isexist:int         
+    <"是否可以退团 (0：否 1：是)">isexit:int         
     <"显示邀请按钮标示 (0：不显示 1：显示)">invitebtnflag:int
     <"团详情使用帮助地址">helpurl
     <"显示补偿记录按钮标示 (0：不显示， 1：显示)">claimbtnflag:int

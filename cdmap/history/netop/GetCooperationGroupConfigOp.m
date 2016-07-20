@@ -14,7 +14,7 @@
 - (instancetype)parseResponseObject:(id)rspObj
 {
     NSDictionary *dict = rspObj;
-    self.rsp_isexist = [dict[@"isexist"] intValue];
+    self.rsp_isexit = [dict[@"isexit"] intValue];
     self.rsp_invitebtnflag = [dict[@"invitebtnflag"] intValue];
     self.rsp_helpurl = dict[@"helpurl"];
     self.rsp_claimbtnflag = [dict[@"claimbtnflag"] intValue];
