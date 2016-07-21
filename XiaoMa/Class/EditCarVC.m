@@ -101,6 +101,7 @@
 - (void)setupDatePicker
 {
     self.datePicker = [DatePickerVC datePickerVCWithMaximumDate:nil];
+    self.datePicker.datePickerTitle = @"请选择购车时间";
 }
 
 - (void)setupNavigationBar
