@@ -19,6 +19,7 @@
 - (void)reloadDataWithBoundsSize:(CGSize)size andSelectedIndex:(NSInteger)index;
 - (void)setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated;
 - (void)setDotHidden:(BOOL)hidden atIndex:(NSInteger)index;
+- (BOOL)dotIsHiddenAtIndex:(NSInteger)index;
 
 @end
 

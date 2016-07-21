@@ -16,7 +16,7 @@
 
 @implementation HorizontalScrollTabView
 
-#pragma mark - Reload
+#pragma mark - Public
 - (void)reloadDataWithBoundsSize:(CGSize)size andSelectedIndex:(NSInteger)index {
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     CGFloat itemWidth = size.width/MAX(1, self.items.count);
@@ -35,7 +35,12 @@
     [self setSelectedIndex:index animated:NO];
 }
 
-#pragma mark - Animate
+#pragma mark - DotView
+- (BOOL)dotIsHiddenAtIndex:(NSInteger)index {
+    HorizontalScrollTabItemView *itemView = [self viewWithTag:index + 1000];
+    return itemView.dotView.hidden;
+}
+
 - (void)setDotHidden:(BOOL)hidden atIndex:(NSInteger)index {
     if (index == NSNotFound) {
         return;
@@ -44,6 +49,7 @@
     itemView.dotView.hidden = hidden;
 }
 
+#pragma mark - Animate
 - (void)setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated {
     _selectedIndex = selectedIndex;
     CGRect rect = self.scrollTabBar.frame;
