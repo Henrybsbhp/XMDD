@@ -407,7 +407,6 @@
 		4E70143F1CB7B0770010C130 /* Carwash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E70143E1CB7B0770010C130 /* Carwash.storyboard */; };
 		4E7927991CA011470099CB70 /* MutualInsClaimsHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7927981CA011470099CB70 /* MutualInsClaimsHistoryVC.m */; };
 		4E818D891D3F842D000B9364 /* OEButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E818D861D3F842D000B9364 /* OEButton.m */; };
-		4E818D8D1D3F845B000B9364 /* MutualInsCarListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E818D8C1D3F845B000B9364 /* MutualInsCarListModel.m */; };
 		4E97D7111C9000E500FC418F /* MutualInsAskClaimsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7101C9000E500FC418F /* MutualInsAskClaimsVC.m */; };
 		4E97D7141C90011200FC418F /* MutualInsClaims.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E97D7131C90011200FC418F /* MutualInsClaims.storyboard */; };
 		4E97D7171C9001C700FC418F /* HKInclinedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7161C9001C700FC418F /* HKInclinedLabel.m */; };
@@ -418,6 +417,7 @@
 		4ECB964C1D3339C200FE70CF /* MutInsSystemGroupListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECB964B1D3339C200FE70CF /* MutInsSystemGroupListVC.m */; };
 		4ECB96551D33468D00FE70CF /* MutInsSystemGroupListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECB96541D33468D00FE70CF /* MutInsSystemGroupListVM.m */; };
 		4ECF21951C9C0BE5004E76DD /* MutualInsActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF21941C9C0BE5004E76DD /* MutualInsActivityVC.m */; };
+		4ED2EDCA1D40997400ECCB9A /* MutualInsCarListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E818D8C1D3F845B000B9364 /* MutualInsCarListModel.m */; };
 		4EF12DED1C1EBC900098B8C6 /* SecondCarValuationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF12DEC1C1EBC900098B8C6 /* SecondCarValuationVC.m */; };
 		4EF4949C1C9A7D8D008A8E4D /* GetSystemTimeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF4949B1C9A7D8D008A8E4D /* GetSystemTimeOp.m */; };
 		4EF94AF21C321D020092CB55 /* RescueCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF94AF01C321D020092CB55 /* RescueCommentsVC.m */; };
@@ -5445,7 +5445,7 @@
 						DevelopmentTeam = 7A3B9332PS;
 						SystemCapabilities = {
 							com.apple.OMC = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Wallet = {
 								enabled = 0;
@@ -5610,6 +5610,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4ED2EDCA1D40997400ECCB9A /* MutualInsCarListModel.m in Sources */,
 				4E24A63F1D3CD26000FC6E12 /* MutualInsGroupDetailMembersVC.m in Sources */,
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				188EF0B21D351A0F000D01D6 /* NSString+MarkupExtensions.m in Sources */,
@@ -5792,7 +5793,6 @@
 				1853DEB71AE0B92400C39175 /* AuthByPwdOp.m in Sources */,
 				6B26EF071C8EF89B00428EC4 /* ReactTestViewController.m in Sources */,
 				6BE47F951C27F4E600DBD969 /* SecondCarValuationOp.m in Sources */,
-				4E818D8D1D3F845B000B9364 /* MutualInsCarListModel.m in Sources */,
 				1844FAE41CD8F9EB0085A0D4 /* DownloadFileOp.m in Sources */,
 				4EF94AF31C321D020092CB55 /* RescueHistoryViewController.m in Sources */,
 				5040B37D1C06D50200ADE77F /* ApplyUnionOp.m in Sources */,
@@ -6419,8 +6419,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6470,6 +6471,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor",
 					"$(PROJECT_DIR)/XiaoMa/applePaySDK/libs",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/ApplePaySDK/libs",
+					"$(PROJECT_DIR)/XiaoMa/ApplePaySDK/libs",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -6507,7 +6509,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "86d6669a-9d41-413a-a618-335e7e698cc1";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -6518,8 +6520,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6569,6 +6572,7 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor",
 					"$(PROJECT_DIR)/XiaoMa/applePaySDK/libs",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/ApplePaySDK/libs",
+					"$(PROJECT_DIR)/XiaoMa/ApplePaySDK/libs",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -6606,7 +6610,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9df2c481-f7b2-4061-bf66-32967e913518";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
