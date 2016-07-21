@@ -406,7 +406,6 @@
 		4E6CA5FD1CFC2D2B005F5F10 /* MutualInsPicListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6CA5FC1CFC2D2B005F5F10 /* MutualInsPicListVC.m */; };
 		4E70143F1CB7B0770010C130 /* Carwash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E70143E1CB7B0770010C130 /* Carwash.storyboard */; };
 		4E7927991CA011470099CB70 /* MutualInsClaimsHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7927981CA011470099CB70 /* MutualInsClaimsHistoryVC.m */; };
-		4E818D7E1D3F7CDD000B9364 /* TurtleBezierPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E818D7D1D3F7CDD000B9364 /* TurtleBezierPath.m */; };
 		4E818D891D3F842D000B9364 /* OEButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E818D861D3F842D000B9364 /* OEButton.m */; };
 		4E818D8D1D3F845B000B9364 /* MutualInsCarListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E818D8C1D3F845B000B9364 /* MutualInsCarListModel.m */; };
 		4E97D7111C9000E500FC418F /* MutualInsAskClaimsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7101C9000E500FC418F /* MutualInsAskClaimsVC.m */; };
@@ -1594,8 +1593,6 @@
 		4E70143E1CB7B0770010C130 /* Carwash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Carwash.storyboard; sourceTree = "<group>"; };
 		4E7927971CA011470099CB70 /* MutualInsClaimsHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsClaimsHistoryVC.h; sourceTree = "<group>"; };
 		4E7927981CA011470099CB70 /* MutualInsClaimsHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsClaimsHistoryVC.m; sourceTree = "<group>"; };
-		4E818D7C1D3F7CDD000B9364 /* TurtleBezierPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TurtleBezierPath.h; sourceTree = "<group>"; };
-		4E818D7D1D3F7CDD000B9364 /* TurtleBezierPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TurtleBezierPath.m; sourceTree = "<group>"; };
 		4E818D851D3F842D000B9364 /* OEButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEButton.h; path = Class/OEButton.h; sourceTree = "<group>"; };
 		4E818D861D3F842D000B9364 /* OEButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEButton.m; path = Class/OEButton.m; sourceTree = "<group>"; };
 		4E818D8B1D3F845B000B9364 /* MutualInsCarListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MutualInsCarListModel.h; path = Class/MutualInsCarListModel.h; sourceTree = "<group>"; };
@@ -2475,7 +2472,6 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				4E818D7B1D3F7CDD000B9364 /* TurtleBezierPath */,
 				188EF0A21D351A0F000D01D6 /* MarkupLabel */,
 				C3F4514E1D2E3A6F00BA9BC4 /* TouchButton */,
 				FA84965F1CBE367700631062 /* SJKeyboardManager */,
@@ -4309,15 +4305,6 @@
 			name = PopAnimation;
 			sourceTree = "<group>";
 		};
-		4E818D7B1D3F7CDD000B9364 /* TurtleBezierPath */ = {
-			isa = PBXGroup;
-			children = (
-				4E818D7C1D3F7CDD000B9364 /* TurtleBezierPath.h */,
-				4E818D7D1D3F7CDD000B9364 /* TurtleBezierPath.m */,
-			);
-			path = TurtleBezierPath;
-			sourceTree = "<group>";
-		};
 		4E97D7121C9000FC00FC418F /* MutualInsClaims */ = {
 			isa = PBXGroup;
 			children = (
@@ -5758,7 +5745,6 @@
 				18C52C3E1BA6CEB900F6C38B /* HKImageView.m in Sources */,
 				6BC80C911C96BD6800C7BA3D /* GetCooperationMygroupDetailOp.m in Sources */,
 				1809C3001CF582E300AE56EB /* CKNavigationController.m in Sources */,
-				4E818D7E1D3F7CDD000B9364 /* TurtleBezierPath.m in Sources */,
 				18A9E8C91BDDC0950061D3BC /* GetInsCompanyListOp.m in Sources */,
 				1833F5901BCD373B000E1DA1 /* GetGascardListOp.m in Sources */,
 				18E155811C3E3DA600C1CF87 /* InsLicensePopVC.m in Sources */,

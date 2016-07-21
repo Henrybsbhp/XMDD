@@ -15,6 +15,46 @@
 
 @implementation OEButton
 
+-(instancetype)init
+{
+    if (self = [super init])
+    {
+        [self addTarget:self action:@selector(handleTouchDown) forControlEvents:UIControlEventTouchDown];
+        [self addTarget:self action:@selector(handleTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return self;
+}
+
+-(instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame])
+    {
+        [self addTarget:self action:@selector(handleTouchDown) forControlEvents:UIControlEventTouchDown];
+        [self addTarget:self action:@selector(handleTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return self;
+}
+
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super initWithCoder:aDecoder])
+    {
+        [self addTarget:self action:@selector(handleTouchDown) forControlEvents:UIControlEventTouchDown];
+        [self addTarget:self action:@selector(handleTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return self;
+}
+
+-(void)handleTouchDown
+{
+    [self setNeedsDisplay];
+}
+
+-(void)handleTouchUpInside
+{
+    [self setNeedsDisplay];
+}
+
 -(void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
