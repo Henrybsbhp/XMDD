@@ -14,6 +14,7 @@
 #import "HKPopoverView.h"
 #import "ExitCooperationOp.h"
 #import "DeleteCooperationGroupOp.h"
+#import "MutualInsClaimsHistoryVC.h"
 
 NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 
@@ -219,7 +220,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing16"}];
-        UIViewController *vc = [UIStoryboard vcWithId:@"MutualInsClaimsHistoryVC" inStoryboard:@"MutualInsClaims"];
+        MutualInsClaimsHistoryVC *vc = [UIStoryboard vcWithId:@"MutualInsClaimsHistoryVC" inStoryboard:@"MutualInsClaims"];
         [vc setValue:self.router.userInfo[kMutInsGroupID] forKey:@"gid"];
         [self.navigationController pushViewController:vc animated:YES];
     });
