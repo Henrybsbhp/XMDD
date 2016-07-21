@@ -88,6 +88,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
         @strongify(self);
         CKDict *curItem = self.tabItems[index];
         [self actionSelectTabItem:curItem];
+        [self reloadDotView];
     }];
 }
 
@@ -130,7 +131,6 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
             self.navigationItem.title = self.viewModel.baseInfo.rsp_groupname;
             [self reloadTabBar];
             [self reloadNavMenu];
-            [self reloadDotView];
         } error:^(NSError *error) {
             
             @strongify(self);
@@ -348,13 +348,12 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 #pragma mark - DotView
 - (void)reloadDotView {
     long long timetag =  self.viewModel.baseInfo.rsp_huzhulstupdatetime;
-    if ([self.viewModel saveTimetagIfNeeded:timetag forKey:@"fund"]) {
-        [self.tabBar setDotHidden:NO atIndex:[self.tabItems indexOfObjectForKey:@"fund"]];
-    }
+    BOOL hidden = ![self.viewModel shouldUpdateTimetag:timetag forKey:@"fund"];
+    [self.tabBar setDotHidden:hidden atIndex:[self.tabItems indexOfObjectForKey:@"fund"]];
+    
     timetag = self.viewModel.baseInfo.rsp_newslstupdatetime;
-    if ([self.viewModel saveTimetagIfNeeded:timetag forKey:@"message"]) {
-        [self.tabBar setDotHidden:NO atIndex:[self.tabItems indexOfObjectForKey:@"message"]];
-    }
+    hidden = ![self.viewModel shouldUpdateTimetag:timetag forKey:@"message"];
+    [self.tabBar setDotHidden:hidden atIndex:[self.tabItems indexOfObjectForKey:@"message"]];
 }
 
 #pragma mark - TabBar
@@ -365,8 +364,11 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     self.tabBar.items = [[self.tabItems allObjects] arrayByMappingOperator:^id(CKDict *dict) {
         return [HorizontalScrollTabItem itemWithTitle:dict[@"title"] normalColor:kBlackTextColor selectedColor:kDefTintColor];
     }];
-    
+    //显示所有tab
     [self.tabBar reloadDataWithBoundsSize:CGSizeMake(ScreenWidth, 45) andSelectedIndex:selectedIndex];
+    //加载小红点
+    [self reloadDotView];
+    //选中一个tab
     CKDict *item = self.tabItems[selectedIndex];
     [self actionSelectTabItem:item];
 }
@@ -389,12 +391,15 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 
 - (CKDict *)tabItemFund {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"fund", @"title": @"互助金", @"class": @"MutualInsGroupDetailFundVC"}];
+    
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing4"}];
+        NSString *key = data[kCKItemKey];
         [self.viewModel fetchFundInfoForce:NO];
-        [self.tabBar setDotHidden:YES atIndex:[self.tabItems indexOfObjectForKey:data.key]];
+        //保存时间戳
+        [self.viewModel saveTimetagIfNeeded:self.viewModel.baseInfo.rsp_huzhulstupdatetime forKey:key];
     });
     return item;
     
@@ -402,6 +407,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 
 - (CKDict *)tabItemMembers {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"member", @"title": @"成员", @"class": @"MutualInsGroupDetailMembersVC"}];
+
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
@@ -414,12 +420,15 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 
 - (CKDict *)tabItemMessages {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"message", @"title": @"动态", @"class": @"MutualInsGroupDetailMessagesVC"}];
+    
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing6"}];
+        NSString *key = data[kCKItemKey];
         [self.viewModel fetchMessagesInfoForce:NO];
-        [self.tabBar setDotHidden:YES atIndex:[self.tabItems indexOfObjectForKey:item.key]];
+        //保存时间戳
+        [self.viewModel saveTimetagIfNeeded:self.viewModel.baseInfo.rsp_newslstupdatetime forKey:key];
     });
     return item;
 }

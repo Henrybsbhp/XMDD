@@ -99,7 +99,7 @@ NSInteger const kFetchPageAmount = 10;
     }
     GetCooperationGroupMembersOp *op = [GetCooperationGroupMembersOp operation];
     op.req_groupid = self.groupID;
-    op.req_lstupdatetime = self.membersInfo ? self.membersInfo.rsp_lstupdatetime : 0;
+    op.req_lstupdatetime = 0;
     op.simulateResponse = kSimulateResponse;
     op.simulateResponseDelay = 1;
     
@@ -174,9 +174,25 @@ NSInteger const kFetchPageAmount = 10;
     }];
 }
 
+- (BOOL)shouldUpdateTimetag:(long long)timetag forKey:(NSString *)key {
+    //只有登录时才需要判断小红点
+    if (gAppMgr.myUser) {
+        NSString *fullkey = [NSString stringWithFormat:@"$MutualIns.Group.Detail.%@.%@.Timetag.%@",
+                             gAppMgr.myUser.userID, self.groupID, key];
+        long long oldTimetag = [[[NSUserDefaults standardUserDefaults] objectForKey:fullkey] longLongValue];
+        return oldTimetag < timetag;
+    }
+    
+    return NO;
+}
+
 - (BOOL)saveTimetagIfNeeded:(long long)timetag forKey:(NSString *)key {
+    //没有登录不需要判断小红点
+    if (!gAppMgr.myUser) {
+        return NO;
+    }
     NSString *fullkey = [NSString stringWithFormat:@"$MutualIns.Group.Detail.%@.%@.Timetag.%@",
-                         self.groupID, self.memberID, key];
+                         gAppMgr.myUser.userID, self.groupID, key];
     long long oldTimetag = [[[NSUserDefaults standardUserDefaults] objectForKey:fullkey] longLongValue];
     if (oldTimetag < timetag) {
         [[NSUserDefaults standardUserDefaults] setObject:@(timetag) forKey:fullkey];
