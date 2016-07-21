@@ -570,6 +570,7 @@
      (node
       (attr (req))
       (node (id groupid) (type number) (value #f))
+      (node (id memberid) (type number) (value #f))
       (node
        (attr (*def* "上次拉取记录返回的时间戳"))
        (id lstupdatetime)

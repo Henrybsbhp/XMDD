@@ -277,7 +277,7 @@
     else if(info.rsp_status == 6 || info.rsp_status == 7 || info.rsp_status == 8) {
         CKList *list =  $(RACTuplePack(@"补偿次数", ([NSString stringWithFormat:@"%d次", info.rsp_claimcnt])),
                           RACTuplePack(@"补偿金额", info.rsp_claimfee),
-                          RACTuplePack(@"帮助他人", info.rsp_helpfee));
+                          RACTuplePack(@"补偿均摊", info.rsp_helpfee));
         item[@"prices"] = [list allObjects];
     }
     

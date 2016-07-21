@@ -6,6 +6,7 @@
     self.req_method = @"/cooperation/group/messagelist/get";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_groupid forKey:@"groupid"];
+    [params safetySetObject:self.req_memberid forKey:@"memberid"];
     [params safetySetObject:@(self.req_lstupdatetime) forKey:@"lstupdatetime"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
