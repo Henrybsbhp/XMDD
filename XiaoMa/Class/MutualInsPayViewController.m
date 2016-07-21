@@ -96,11 +96,11 @@
     NSArray * section1;
     if (self.proxybuy)
     {
-        section1 = @[[self celldataFor0_0],[self celldataFor0_1],[self celldataFor0_2],[self celldataFor0_3],[self celldataFor0_4]];
+        section1 = @[[self celldataFor0_0],[self celldataFor0_1],[self celldataFor0_20],[self celldataFor0_21],[self celldataFor0_3],[self celldataFor0_4]];
     }
     else
     {
-        section1 = @[[self celldataFor0_0],[self celldataFor0_1],[self celldataFor0_2],[self celldataFor0_3]];
+        section1 = @[[self celldataFor0_0],[self celldataFor0_1],[self celldataFor0_20],[self celldataFor0_21],[self celldataFor0_3]];
     }
     
     NSMutableArray * section2 = [NSMutableArray arrayWithArray:@[[self celldataFor1_0],[self celldataFor1_1]]];
@@ -689,12 +689,22 @@
     return celldata;
 }
 
-- (HKCellData *)celldataFor0_2
+- (HKCellData *)celldataFor0_20
 {
     HKCellData *celldata = [HKCellData dataWithCellID:@"InfoItemCell" tag:nil];
-    celldata.object = @"保障期限";
-    celldata.tag = self.contract.contractperiod;
-    celldata.customObject = [NSString stringWithFormat:@"(%@个月)",self.contract.totalmonth];
+    celldata.object = @"保障开始";
+    celldata.tag = self.contract.contractperiodbegin;
+    [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 27;
+    }];
+    return celldata;
+}
+
+- (HKCellData *)celldataFor0_21
+{
+    HKCellData *celldata = [HKCellData dataWithCellID:@"InfoItemCell" tag:nil];
+    celldata.object = @"保障结束";
+    celldata.tag = self.contract.contractperiodend ;
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 27;
     }];
