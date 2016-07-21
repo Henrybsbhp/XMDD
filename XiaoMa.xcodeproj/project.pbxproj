@@ -515,7 +515,6 @@
 		6B16D6461C9664F400322B70 /* MutualInsClaimInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6411C9664F400322B70 /* MutualInsClaimInfo.m */; };
 		6B16D6471C9664F400322B70 /* MutualInsContract.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6431C9664F400322B70 /* MutualInsContract.m */; };
 		6B16D6481C9664F400322B70 /* MutualInsMemberInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D6451C9664F400322B70 /* MutualInsMemberInfo.m */; };
-		6B16D6661C96651100322B70 /* ApplyCooperationGroupJoinOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B16D64C1C96651100322B70 /* ApplyCooperationGroupJoinOp.m */; };
 		6B1D93D31B8573A000740628 /* PayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D93D21B8573A000740628 /* PayModel.m */; };
 		6B21A8961BD49399006D0556 /* GetShopByRangeV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8951BD49399006D0556 /* GetShopByRangeV2Op.m */; };
 		6B21A8991BD493F8006D0556 /* GetShopByDistanceV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B21A8981BD493F8006D0556 /* GetShopByDistanceV2Op.m */; };
@@ -1803,8 +1802,6 @@
 		6B16D6431C9664F400322B70 /* MutualInsContract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsContract.m; sourceTree = "<group>"; };
 		6B16D6441C9664F400322B70 /* MutualInsMemberInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsMemberInfo.h; sourceTree = "<group>"; };
 		6B16D6451C9664F400322B70 /* MutualInsMemberInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsMemberInfo.m; sourceTree = "<group>"; };
-		6B16D64B1C96651100322B70 /* ApplyCooperationGroupJoinOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyCooperationGroupJoinOp.h; sourceTree = "<group>"; };
-		6B16D64C1C96651100322B70 /* ApplyCooperationGroupJoinOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyCooperationGroupJoinOp.m; sourceTree = "<group>"; };
 		6B1D93D11B8573A000740628 /* PayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayModel.h; path = Class/PayModel.h; sourceTree = "<group>"; };
 		6B1D93D21B8573A000740628 /* PayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PayModel.m; path = Class/PayModel.m; sourceTree = "<group>"; };
 		6B21A8941BD49399006D0556 /* GetShopByRangeV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetShopByRangeV2Op.h; path = Class/GetShopByRangeV2Op.h; sourceTree = "<group>"; };
@@ -2877,8 +2874,6 @@
 				6BC80C801C96BD6800C7BA3D /* SearchCooperationGroupOp.m */,
 				6BC80C811C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.h */,
 				6BC80C821C96BD6800C7BA3D /* UpdateCooperationContractDeliveryinfoOp.m */,
-				6B16D64B1C96651100322B70 /* ApplyCooperationGroupJoinOp.h */,
-				6B16D64C1C96651100322B70 /* ApplyCooperationGroupJoinOp.m */,
 				18273F231C7ED1F8004192B3 /* GascardChargeByStagesOp.h */,
 				18273F241C7ED1F8004192B3 /* GascardChargeByStagesOp.m */,
 				18B6E5C91C463D0300697DAB /* CancelInsOrderOp.h */,
@@ -6065,7 +6060,6 @@
 				50BE7C921B6716B500675887 /* SelectScrollView.m in Sources */,
 				18900B4A1C1E8634003DA439 /* UserStore.m in Sources */,
 				6BCD94FC1C9FA5CA00BE3E8C /* PasteboardModel.m in Sources */,
-				6B16D6661C96651100322B70 /* ApplyCooperationGroupJoinOp.m in Sources */,
 				6B1D93D31B8573A000740628 /* PayModel.m in Sources */,
 				1844FB441CD9C8880085A0D4 /* CKMethods.m in Sources */,
 				6BEF74891BD9D002007F8DE1 /* GetsSystemSwitchConfigOp.m in Sources */,

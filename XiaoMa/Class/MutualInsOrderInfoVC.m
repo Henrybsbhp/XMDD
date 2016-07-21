@@ -274,8 +274,15 @@
         [self.view hideDefaultEmptyView];
         
         self.contract = rop.rsp_contractorder;
-        /// 交强险默认选择
-        self.isInsProxy = YES;
+        
+        /// 交强险存在。如果待支付，用户可选择；交强险默认勾选
+        if (self.contract.insperiod.length)
+        {
+            if (self.contract.status == 1)
+            {
+                self.isInsProxy = YES;
+            }
+        }
         [self setupDateSource];
         
         [self refreshUI];

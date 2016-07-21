@@ -725,7 +725,7 @@
                     car.carId = dict.userCarID;
                     car.licencenumber = dict.licenseNum;
                 }
-                [self actionGotoUpdateInfoVC:car andMemberId:nil];
+                [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             }];
         }
     });
