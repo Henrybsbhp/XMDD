@@ -20,11 +20,10 @@ typedef enum : NSUInteger {
 
 typedef enum : NSInteger
 {
-    PaymentPlatformTypeCreditCard = 0,        // 信用卡支付
-    PaymentPlatformTypeAlipay,                // 支付宝支付
-    PaymentPlatformTypeWeChat,                // 微信支付
-    PaymentPlatformTypeUPPay,                 // 银联支付
-    PaymentPlatformTypeApplePay               // Apple Pay 支付
+    PaymentPlatformTypeCreditCard = 0,        //信用卡支付
+    PaymentPlatformTypeAlipay,                //支付宝支付
+    PaymentPlatformTypeWeChat,                //微信支付
+    PaymentPlatformTypeUPPay                  //银联支付
 }PaymentPlatformType;
 
 @interface PaymentHelper : NSObject
@@ -44,7 +43,6 @@ typedef enum : NSInteger
 - (void)resetForAlipayWithTradeNumber:(NSString *)tn alipayInfo:(NSString *)alipayInfo;
 - (void)resetForWeChatWithTradeNumber:(NSString *)tn andPayInfoModel:(WechatPayInfo *)wechatPayInfo andTradeType:(TradeType)type;
 - (void)resetForUPPayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc;
-- (void)resetForUPApplePayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc;
 
 - (RACSignal *)rac_startPay;
 - (RACSignal *)rac_startPay2;
