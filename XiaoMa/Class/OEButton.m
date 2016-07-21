@@ -7,12 +7,9 @@
 //
 
 #import "OEButton.h"
-#import "OEButtonView.h"
 
 /// 仿系统键盘默认按钮
 @interface OEButton()
-
-@property (strong, nonatomic) OEButtonView *buttonView;
 
 @end
 
@@ -42,53 +39,6 @@
     
     self.layer.cornerRadius = 4;
     self.layer.masksToBounds = YES;
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-    [self setNeedsDisplay];
-    
-    [self updateButtonPosition];
-}
-
-- (void)updateButtonPosition
-{
-    
-    CGFloat leftPadding = CGRectGetMinX(self.frame);
-    CGFloat rightPadding = CGRectGetMaxX(self.superview.frame) - CGRectGetMaxX(self.frame);
-    CGFloat minimumClearance = CGRectGetWidth(self.frame) / 2 + 8;
-    
-    if (leftPadding >= minimumClearance && rightPadding >= minimumClearance)
-    {
-        self.type = OEButtonPositionInner;
-    }
-    else if (leftPadding > rightPadding)
-    {
-        self.type = OEButtonPositionLeft;
-    }
-    else
-    {
-        self.type = OEButtonPositionRight;
-    }
-}
-
-- (void)showInputView
-{
-    [self hideInputView];
-    
-    self.buttonView = [[OEButtonView alloc] initWithKeyboardButton:self];
-    
-    [self.window addSubview:self.buttonView];
-}
-
-- (void)hideInputView
-{
-    [self.buttonView removeFromSuperview];
-    self.buttonView = nil;
-    
-    [self setNeedsDisplay];
 }
 
 @end

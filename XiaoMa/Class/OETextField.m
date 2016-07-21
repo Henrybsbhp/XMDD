@@ -44,19 +44,6 @@
                 [btn setTitle:[NSString stringWithFormat:@"%@",obj] forState:UIControlStateNormal];
             }
             
-            if ([dataArr.firstObject isEqual:obj])
-            {
-                btn.type = OEButtonPositionLeft;
-            }
-            else if ([dataArr.lastObject isEqual:obj])
-            {
-                btn.type = OEButtonPositionRight;
-            }
-            else
-            {
-                btn.type = OEButtonPositionInner;
-            }
-            
             [inputAccessoryView addSubview:btn];
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(3);

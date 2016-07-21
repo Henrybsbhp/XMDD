@@ -409,7 +409,6 @@
 		4E818D7E1D3F7CDD000B9364 /* TurtleBezierPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E818D7D1D3F7CDD000B9364 /* TurtleBezierPath.m */; };
 		4E818D891D3F842D000B9364 /* OEButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E818D861D3F842D000B9364 /* OEButton.m */; };
 		4E818D8D1D3F845B000B9364 /* MutualInsCarListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E818D8C1D3F845B000B9364 /* MutualInsCarListModel.m */; };
-		4E818D901D3FA542000B9364 /* OEButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E818D8F1D3FA542000B9364 /* OEButtonView.m */; };
 		4E97D7111C9000E500FC418F /* MutualInsAskClaimsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7101C9000E500FC418F /* MutualInsAskClaimsVC.m */; };
 		4E97D7141C90011200FC418F /* MutualInsClaims.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E97D7131C90011200FC418F /* MutualInsClaims.storyboard */; };
 		4E97D7171C9001C700FC418F /* HKInclinedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D7161C9001C700FC418F /* HKInclinedLabel.m */; };
@@ -1601,8 +1600,6 @@
 		4E818D861D3F842D000B9364 /* OEButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEButton.m; path = Class/OEButton.m; sourceTree = "<group>"; };
 		4E818D8B1D3F845B000B9364 /* MutualInsCarListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MutualInsCarListModel.h; path = Class/MutualInsCarListModel.h; sourceTree = "<group>"; };
 		4E818D8C1D3F845B000B9364 /* MutualInsCarListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MutualInsCarListModel.m; path = Class/MutualInsCarListModel.m; sourceTree = "<group>"; };
-		4E818D8E1D3FA542000B9364 /* OEButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEButtonView.h; path = Class/OEButtonView.h; sourceTree = "<group>"; };
-		4E818D8F1D3FA542000B9364 /* OEButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEButtonView.m; path = Class/OEButtonView.m; sourceTree = "<group>"; };
 		4E97D70F1C9000E500FC418F /* MutualInsAskClaimsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsAskClaimsVC.h; sourceTree = "<group>"; };
 		4E97D7101C9000E500FC418F /* MutualInsAskClaimsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsAskClaimsVC.m; sourceTree = "<group>"; };
 		4E97D7131C90011200FC418F /* MutualInsClaims.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsClaims.storyboard; sourceTree = "<group>"; };
@@ -3972,8 +3969,6 @@
 		18BF42091BD2732A0039F210 /* TextField */ = {
 			isa = PBXGroup;
 			children = (
-				4E818D8E1D3FA542000B9364 /* OEButtonView.h */,
-				4E818D8F1D3FA542000B9364 /* OEButtonView.m */,
 				4E818D851D3F842D000B9364 /* OEButton.h */,
 				4E818D861D3F842D000B9364 /* OEButton.m */,
 				18BF420A1BD273C70039F210 /* CKLimitTextField.h */,
@@ -5990,7 +5985,6 @@
 				2E77A4921C325F2F00264FC9 /* GetRescueHistoryOp.m in Sources */,
 				181878AA1D33C40E000F5264 /* CKBaseStore.m in Sources */,
 				FA93A7BE1C9978AB00CBD565 /* CreateGroupVC.m in Sources */,
-				4E818D901D3FA542000B9364 /* OEButtonView.m in Sources */,
 				6BCA5F431B102D5700E1E630 /* GetUserCouponPkgOp.m in Sources */,
 				188EF0A11D3511C6000D01D6 /* MutualInsGroupMemberSectionCell.m in Sources */,
 				18E155841C3E5BE000C1CF87 /* GetInsUserInfoOp.m in Sources */,

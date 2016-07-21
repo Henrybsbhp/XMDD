@@ -12,6 +12,4 @@
 /// 仿系统键盘默认按钮
 @interface OEButton : UIButton
 
-@property (assign, nonatomic) OEButtonPositionType type;
-
 @end
