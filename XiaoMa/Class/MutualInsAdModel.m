@@ -29,10 +29,14 @@
 {
     @weakify(self)
     GetSystemPromotionOp *op = [GetSystemPromotionOp operation];
-    
     op.type = AdvertisementMutualInsHome;
+    op.province = gMapHelper.addrComponent.province;
+    //如果地理位置在上海，高德返回“上海” “（空字符）”“松江”
+    op.city = gMapHelper.addrComponent.city.length ? gMapHelper.addrComponent.city :gMapHelper.addrComponent.province;
+    op.district = gMapHelper.addrComponent.district;
+    op.version = gAppMgr.clientInfo.clientVersion;
     
-    [[op rac_postRequest]subscribeNext:^(GetSystemPromotionOp *op) {
+    [[op rac_postRequest] subscribeNext:^(GetSystemPromotionOp *op) {
         
         @strongify(self)
         

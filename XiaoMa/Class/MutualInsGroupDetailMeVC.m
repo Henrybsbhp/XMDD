@@ -14,6 +14,8 @@
 #import "MutualInsGroupMyDetailCell.h"
 #import "MutualInsPicUpdateVC.h"
 #import "MutualInsConstants.h"
+#import "GetCooperationUsercarListOp.h"
+#import "MutualInsPickCarVC.h"
 #import "HKMyCar.h"
 
 
@@ -77,24 +79,64 @@
 #pragma mark - Action
 /// 完善资料
 - (void)actionFillInfo {
-    if (self.viewModel.myInfo.rsp_status == 1) {
+    if (self.viewModel.myInfo.rsp_status == 1 || self.viewModel.myInfo.rsp_status == 0) {
         [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing7"}];
     }
     else if (self.viewModel.myInfo.rsp_status == 20) {
         [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing8"}];
     }
     
-    HKMyCar * car = [[HKMyCar alloc] init];
-    car.carId = self.viewModel.myInfo.rsp_usercarid;
-    car.licencenumber = self.viewModel.myInfo.rsp_licensenumber;
+    
+    if (self.viewModel.myInfo.rsp_usercarid && self.viewModel.myInfo.rsp_licensenumber)
+    {
+        // 有车
+        HKMyCar *car = [[HKMyCar alloc] init];
+        car.carId = self.viewModel.myInfo.rsp_usercarid;
+        car.licencenumber = self.viewModel.myInfo.rsp_licensenumber;
+        
+        MutualInsPicUpdateVC* vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+        vc.curCar = car;
+        vc.groupId = self.viewModel.myInfo.req_groupid;
+        vc.memberId = self.viewModel.myInfo.req_memberid;
+        vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
+        if ([self.viewModel.myInfo.req_memberid integerValue] > 0)
+        {
+            /// 有member的时候完善信息成功后返回到此页面。如果出现memberid为0的情况只会是团长没车的情况
+            vc.router.userInfo[kOriginRoute] = self.parentViewController.router;
+        }
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else
+    {
+        // 没车，此情况比较少见，（团长无车） @fq
+        GetCooperationUsercarListOp * op = [[GetCooperationUsercarListOp alloc] init];
+        [[[op rac_postRequest] initially:^{
+            
+            [gToast showingWithText:@"获取车辆数据中..." inView:self.view];
+        }] subscribeNext:^(GetCooperationUsercarListOp * x) {
+            
+            [gToast dismissInView:self.view];
+            if (x.rsp_carArray.count)
+            {
+                MutualInsPickCarVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPickCarVC"];
+                vc.mutualInsCarArray = x.rsp_carArray;
+                [vc setFinishPickCar:^(HKMyCar *car) {
+                    
+                    [self jumpToUpdateInfoVC:car andGroupId:self.viewModel.myInfo.req_groupid];
+                }];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            else
+            {
+                [self jumpToUpdateInfoVC:nil andGroupId:self.viewModel.myInfo.req_groupid];
+            }
+        } error:^(NSError *error) {
+            
+            [gToast showError:@"获取失败，请重试" inView:self.view];
+        }];
+    }
 
-    MutualInsPicUpdateVC* vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
-    vc.curCar = car;
-    vc.groupId = self.viewModel.myInfo.req_groupid;
-    vc.memberId = self.viewModel.myInfo.req_memberid;
-    vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
-    vc.router.userInfo[kOriginRoute] = self.router;
-    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 /// 我的协议
@@ -114,6 +156,16 @@
     vc.router.userInfo[kOriginRoute] = self.parentViewController.router;
     [self.router.navigationController pushViewController:vc animated:YES];
 }
+
+- (void)jumpToUpdateInfoVC:(HKMyCar *)car andGroupId:(NSNumber *)groupId
+{
+    MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+    vc.curCar = car;
+    vc.memberId = nil;// 挑选车说明没有memberId
+    vc.groupId = groupId;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - Datasource
 - (void)reloadDatasource {
     switch (self.viewModel.myInfo.rsp_status) {
@@ -176,7 +228,7 @@
             
             @strongify(self);
             switch (self.viewModel.myInfo.rsp_status) {
-                case 1: case 20:
+                case 0: case 1: case 20:
                     [self actionFillInfo];
                     break;
             }
@@ -225,7 +277,7 @@
     else if(info.rsp_status == 6 || info.rsp_status == 7 || info.rsp_status == 8) {
         CKList *list =  $(RACTuplePack(@"补偿次数", ([NSString stringWithFormat:@"%d次", info.rsp_claimcnt])),
                           RACTuplePack(@"补偿金额", info.rsp_claimfee),
-                          RACTuplePack(@"帮助他人", info.rsp_helpfee));
+                          RACTuplePack(@"补偿均摊", info.rsp_helpfee));
         item[@"prices"] = [list allObjects];
     }
     

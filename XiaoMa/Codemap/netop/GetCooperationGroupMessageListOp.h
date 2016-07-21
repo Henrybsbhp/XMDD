@@ -4,6 +4,7 @@
 @interface GetCooperationGroupMessageListOp : BaseOp
 
 @property (nonatomic,strong) NSNumber* req_groupid;
+@property (nonatomic,strong) NSNumber* req_memberid;
 ///上次拉取记录返回的时间戳
 @property (nonatomic,assign) long long req_lstupdatetime;
 

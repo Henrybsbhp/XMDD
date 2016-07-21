@@ -478,7 +478,8 @@
       (node (attr (*def* "车牌号码")) (id licensenumber) (type #f) (value #f))
       (node (attr (*def* "车辆品牌图标url")) (id carlogourl) (type #f) (value #f))
       (node
-       (attr (*def* "状态 (1：待完善资料。3：审核中。5:待支付。6：支付完成。7：互助中。8：保障中。20：重新上传)"))
+       (attr
+        (*def* "状态 (0：团长无车。1：待完善资料。3：审核中。5:待支付。6：支付完成。7：互助中。8：保障中。20：重新上传)"))
        (id status)
        (type int)
        (value #f))
@@ -569,6 +570,7 @@
      (node
       (attr (req))
       (node (id groupid) (type number) (value #f))
+      (node (id memberid) (type number) (value #f))
       (node
        (attr (*def* "上次拉取记录返回的时间戳"))
        (id lstupdatetime)

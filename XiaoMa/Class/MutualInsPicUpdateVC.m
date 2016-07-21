@@ -21,6 +21,7 @@
 #import "CollectionChooseVC.h"
 #import "MutualInsPicUpdateResultVC.h"
 #import "MyCarStore.h"
+#import "MutualInsGroupDetailVM.h"
 
 @interface MutualInsPicUpdateVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -69,7 +70,7 @@
     [self setupDatasource];
     [self.tableView reloadData];
     
-    if (self.memberId)
+    if ([self.memberId integerValue] > 0)
     {
         // 有memeber说明是重新上传的
         [self requesLastIdLicenseInfo];
@@ -582,8 +583,12 @@
         
         [gToast dismiss];
         
+        /// 更新团列表
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+        /// 更新爱车信息
         [[[MyCarStore fetchExistsStore] getAllCars] send];
+        /// 更新团详情
+        [[MutualInsGroupDetailVM fetchForGroupID:self.groupId memberID:self.memberId] fetchBaseInfoForce:YES];
         
         MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
         vc.tipsDict = op.couponDict;
@@ -654,7 +659,7 @@
     frame = CGRectMake((frame.size.width-290)/2, (frame.size.height-230)/2, 290, 230);
     UIImageView *imgV = [[UIImageView alloc] initWithFrame:frame];
     imgV.contentMode = UIViewContentModeScaleAspectFit;
-    UIImage *img = indexPath.section ?  [UIImage imageNamed:@"ins_pic2"] : [UIImage imageNamed:@"ins_pic1"];
+    UIImage *img = indexPath.row == 1 ?  [UIImage imageNamed:@"ins_pic1"] : [UIImage imageNamed:@"ins_pic2"];
     imgV.image = img;
     CGFloat offset = 0;
     if (img.size.width > 0) {
@@ -747,9 +752,10 @@
 {
     if (self.groupId)
     {
-        if (self.router.userInfo[kOriginRoute])
+        CKRouter * router = self.router.userInfo[kOriginRoute];
+        if (router)
         {
-            [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
+            [self.router.navigationController popToRouter:router animated:YES];
         }
         else
         {

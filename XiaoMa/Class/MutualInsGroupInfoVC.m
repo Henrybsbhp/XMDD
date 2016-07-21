@@ -7,7 +7,6 @@
 //
 
 #import "MutualInsGroupInfoVC.h"
-#import "ApplyCooperationGroupJoinOp.h"
 #import "PickCarVC.h"
 #import "MutualInsPicUpdateVC.h"
 #import "HKImageAlertVC.h"
@@ -72,14 +71,7 @@
             vc.mutualInsCarArray = x.rsp_carArray;
             [vc setFinishPickCar:^(HKMyCar *car) {
                 
-                if (car)
-                {
-                    [self requestApplyJoinGroupWithID:self.groupId carModel:car];
-                }
-                else
-                {
-                    [self jumpToUpdateInfoVC:nil andGroupId:self.groupId];
-                }
+                [self jumpToUpdateInfoVC:car andGroupId:self.groupId];
             }];
             [self.navigationController pushViewController:vc animated:YES];
         }
@@ -93,43 +85,13 @@
     }];
 }
 
-- (void)jumpToUpdateInfoVC:(NSNumber *)memberId andGroupId:(NSNumber *)groupId
+- (void)jumpToUpdateInfoVC:(HKMyCar *)car andGroupId:(NSNumber *)groupId
 {
     MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
-    vc.originVC = self.originVC;
-    vc.memberId = memberId;
+    vc.curCar = car;
+    vc.memberId = nil;// 挑选车说明没有memberId
     vc.groupId = groupId;
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-
-- (void)requestApplyJoinGroupWithID:(NSNumber *)groupId carModel:(HKMyCar *)car
-{
-    ApplyCooperationGroupJoinOp * op = [[ApplyCooperationGroupJoinOp alloc] init];
-    op.req_groupid = groupId;
-    op.req_carid = car.carId;
-    
-    @weakify(self)
-    [[[op rac_postRequest] initially:^{
-        
-        [gToast showingWithText:@"团队加入中..." inView:self.view];
-    }] subscribeNext:^(ApplyCooperationGroupJoinOp * rop) {
-        
-        @strongify(self)
-        [gToast dismissInView:self.view];
-        
-        /// 需要刷新团列表
-        [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
-        
-        MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
-        vc.memberId = rop.rsp_memberid;
-        vc.groupId = groupId;
-        vc.curCar = car;
-        [self.navigationController pushViewController:vc animated:YES];
-    } error:^(NSError *error) {
-        
-        [gToast showError:error.domain inView:self.view];
-    }];
 }
 
 

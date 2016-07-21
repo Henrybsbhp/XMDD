@@ -327,7 +327,7 @@ class=GetCooperationGroupMyInfo op auth path="/cooperation/my/detail/get"> {
   <rsp> {
     <"车牌号码">licensenumber
     <"车辆品牌图标url">carlogourl
-    <"状态 (1：待完善资料。3：审核中。5:待支付。6：支付完成。7：互助中。8：保障中。20：重新上传)">status:int
+    <"状态 (0：团长无车。1：待完善资料。3：审核中。5:待支付。6：支付完成。7：互助中。8：保障中。20：重新上传)">status:int
     <"状态描述">statusdesc
     <"当前金额">fee
     <"当前金额描述">feedesc
@@ -383,6 +383,7 @@ class=GetCooperationGroupMessageList op auth
 path="/cooperation/group/messagelist/get"> {
   <req> {
     groupid:number
+    memberid:number
     <"上次拉取记录返回的时间戳">lstupdatetime:longlong
   }
   <rsp> {

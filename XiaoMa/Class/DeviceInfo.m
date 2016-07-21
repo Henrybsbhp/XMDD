@@ -54,7 +54,7 @@
     NSDictionary *dict = [def persistentDomainForName:name];
     NSString *version = dict[@"$app_version"];
     //当前版本大于上次检测到的版本
-    if ([self.appVersion compare:version options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
+    if ([self.appVersion compare:version options:NSCaseInsensitiveSearch | NSNumericSearch] == NSOrderedDescending) {
         [self _saveKey:key forDomain:dict withName:name];
         return YES;
     }
@@ -74,7 +74,7 @@
     NSString *version = dict[@"$app_version"];
     
     //当前版本大于上次检测到的版本
-    if ([self.appVersion compare:version options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
+    if ([self.appVersion compare:version options:NSCaseInsensitiveSearch | NSNumericSearch] == NSOrderedDescending) {
         return NO;
     }
     //如果还不存在这个key
@@ -95,7 +95,7 @@
         return YES;
     }
     //如果该版本大于上次检测到的版本
-    if ([version compare:oldVersion options:NSCaseInsensitiveSearch] == NSOrderedDescending) {
+    if ([version compare:oldVersion options:NSCaseInsensitiveSearch | NSNumericSearch] == NSOrderedDescending) {
         [def setObject:version forKey:name];
     }
     return NO;
