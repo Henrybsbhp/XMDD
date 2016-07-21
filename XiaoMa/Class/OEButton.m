@@ -62,7 +62,7 @@
     
     if (self.state == UIControlStateHighlighted)
     {
-        color = RGBCOLOR(213, 215, 216);
+        color = RGBCOLOR(136, 138, 142);
     }
     
     UIColor *shadow = RGBCOLOR(136, 138, 142);

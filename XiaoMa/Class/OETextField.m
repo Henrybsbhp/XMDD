@@ -23,8 +23,8 @@
     if (dataArr.count > 0)
     {
         CGFloat screenWidth = [[UIScreen mainScreen]bounds].size.width;
-        CGFloat equalWidth = screenWidth / dataArr.count - 8;
-        CGFloat leftContraint = 4;
+        CGFloat equalWidth = screenWidth / dataArr.count - 5;
+        CGFloat leftContraint = 2.5;
         
         OEView *inputAccessoryView = [[OEView alloc] init];
         inputAccessoryView.frame = CGRectMake(0, 0, screenWidth, OEHeight);
@@ -51,7 +51,7 @@
                 make.bottom.mas_equalTo(-5);
             }];
             btn.backgroundColor = [UIColor colorWithRed:187/255.0 green:194/255.0 blue:201/255.0 alpha:1.0];
-            leftContraint += (equalWidth + 8);
+            leftContraint += (equalWidth + 5);
             [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
                 [self insertText:btn.titleLabel.text];
             }];
