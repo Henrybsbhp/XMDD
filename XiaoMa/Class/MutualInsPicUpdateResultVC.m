@@ -223,8 +223,18 @@
         [list addObject:tipsHeaderCell forKey:nil];
         [list addObject:insuranceTitleCell forKey:nil];
         for (NSArray *array in newArray) {
-            CKDict *insuranceCell = [self setupTipsCellWithCouponList:array];
-            [list addObject:insuranceCell forKey:nil];
+            
+            CKDict * couponCell;
+            if (array.count == 2)
+            {
+                couponCell = [self setupTipsCellWithCouponList:array];
+            }
+            else
+            {
+                couponCell = [self setupSingleTipsCellWithCouponString:array.firstObject];
+            }
+            
+            [list addObject:couponCell forKey:nil];
         }
     }
     
@@ -234,7 +244,17 @@
         CKDict *couponTitleCell = [self setupTipsTitleCellWithText:@"福利"];
         [list addObject:couponTitleCell forKey:nil];
         for (NSArray *array in newArray) {
-            CKDict *couponCell = [self setupTipsCellWithCouponList:array];
+            
+            CKDict * couponCell;
+            if (array.count == 2)
+            {
+                couponCell = [self setupTipsCellWithCouponList:array];
+            }
+            else
+            {
+                couponCell = [self setupSingleTipsCellWithCouponString:array.firstObject];
+            }
+            
             [list addObject:couponCell forKey:nil];
         }
     }
@@ -244,6 +264,7 @@
         CKDict *activityCell = [self setupTipsTitleCellWithText:@"活动"];
         [list addObject:activityCell forKey:nil];
         for (NSString *string in activityList) {
+            
             CKDict *activityCell = [self setupSingleTipsCellWithCouponString:string];
             [list addObject:activityCell forKey:nil];
         }
