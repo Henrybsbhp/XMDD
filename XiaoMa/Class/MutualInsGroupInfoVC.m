@@ -88,6 +88,9 @@
 - (void)jumpToUpdateInfoVC:(HKMyCar *)car andGroupId:(NSNumber *)groupId
 {
     MutualInsPicUpdateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPicUpdateVC"];
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kMutInsGroupID] = self.groupId;
+    vc.router.userInfo[kMutInsGroupName] = self.groupName;
     vc.curCar = car;
     vc.memberId = nil;// 挑选车说明没有memberId
     vc.groupId = groupId;
