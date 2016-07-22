@@ -215,7 +215,7 @@
         return;
     }
     
-    if (![self.defaultCar isCarInfoCompleted])
+    if (![self.defaultCar isCarInfoCompletedForCarWash])
     {
         HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
         alert.topTitle = @"温馨提示";

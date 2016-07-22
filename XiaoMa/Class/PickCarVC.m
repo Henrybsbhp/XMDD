@@ -188,7 +188,7 @@
             self.model.selectedCar = car;
             
             //如果爱车信息不完整
-            if (self.model.selectedCar && ![self.model.selectedCar isCarInfoCompleted]) {
+            if (self.model.selectedCar && ![self.model.selectedCar isCarInfoCompletedForCarWash]) {
                 
                 HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
                 alert.topTitle = @"温馨提示";
