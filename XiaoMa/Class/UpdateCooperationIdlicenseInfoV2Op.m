@@ -30,6 +30,7 @@
 - (instancetype)parseResponseObject:(id)rspObj
 {
     self.couponDict = rspObj[@"couponlist"];
+    self.rsp_memberid = rspObj[@"memberid"];
     return self;
 }
 

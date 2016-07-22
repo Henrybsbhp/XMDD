@@ -582,16 +582,19 @@
     }] subscribeNext:^(UpdateCooperationIdlicenseInfoV2Op * op) {
         
         [gToast dismiss];
-        
+        NSNumber *memberID = [self.memberId integerValue] > 0 ? self.memberId : op.rsp_memberid;
         /// 更新团列表
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
         /// 更新爱车信息
         [[[MyCarStore fetchExistsStore] getAllCars] send];
         /// 更新团详情
-        [[MutualInsGroupDetailVM fetchForGroupID:self.groupId memberID:self.memberId] fetchBaseInfoForce:YES];
-        
+        if ([memberID integerValue] > 0) {
+            [[MutualInsGroupDetailVM fetchForGroupID:self.groupId memberID:memberID] fetchBaseInfoForce:YES];
+        }
         MutualInsPicUpdateResultVC * vc = [UIStoryboard vcWithId:@"MutualInsPicUpdateResultVC" inStoryboard:@"MutualInsJoin"];
         vc.tipsDict = op.couponDict;
+        vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
+        vc.router.userInfo[kMutInsMemberID] = memberID;
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         

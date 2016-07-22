@@ -63,6 +63,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 
 - (void)setupNavigation {
     self.navigationItem.title = self.router.userInfo[kMutInsGroupName];
+    
     if (![self.router.userInfo[kIgnoreBaseInfo] boolValue]) {
         UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mins_menu"]
                                                                  style:UIBarButtonItemStylePlain
