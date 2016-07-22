@@ -30,5 +30,7 @@
 @property (nonatomic,strong) NSNumber* req_groupid;
 
 @property (nonatomic,strong)NSDictionary * couponDict;
+///团员记录ID
+@property (nonatomic,strong) NSNumber* rsp_memberid;
 
 @end
