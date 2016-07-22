@@ -347,7 +347,17 @@
         [tempArray addObject:tipsHeaderCell];
         [tempArray addObject:insuranceTitleCell];
         for (NSArray *array in newArray) {
-            CKDict *insuranceCell = [self setupTipsCellWithCouponList:array];
+            
+            CKDict *insuranceCell;
+            
+            if (array.count == 2)
+            {
+                insuranceCell = [self setupTipsCellWithCouponList:array];
+            }
+            else
+            {
+                insuranceCell = [self setupSingleTipsCellWithCouponString:array.firstObject];
+            }
             [tempArray addObject:insuranceCell];
         }
     }
@@ -357,9 +367,20 @@
         NSMutableArray *newArray = [self splitArrayIntoDoubleNewArray:couponList];
         CKDict *couponTitleCell = [self setupTipsTitleCellWithText:@"福利"];
         [tempArray addObject:couponTitleCell];
-        for (NSArray *array in newArray) {
-            CKDict *couponCell = [self setupTipsCellWithCouponList:array];
+        for (NSArray *array in newArray)
+        {
+            CKDict *couponCell;
+            
+            if (array.count == 2)
+            {
+                couponCell = [self setupTipsCellWithCouponList:array];
+            }
+            else
+            {
+                couponCell = [self setupSingleTipsCellWithCouponString:array.firstObject];
+            }
             [tempArray addObject:couponCell];
+            
         }
     }
     
