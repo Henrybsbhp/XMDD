@@ -17,7 +17,6 @@
 @interface MoreSubmodulesVC ()
 
 @property (nonatomic,strong)UIScrollView * scrollView;
-//@property (nonatomic,strong)UIView * whiteBackgroungView;
 @property (nonatomic,strong)NSArray * submoduleArray;
 
 // 九宫格按钮的dispoable数据，控制点击事件释放
@@ -72,11 +71,6 @@
     scrollView.contentSize = CGSizeMake(gAppMgr.deviceInfo.screenSize.width, MAX(CGRectGetHeight(self.view.frame), squaresHeight));
     
     self.scrollView = scrollView;
-    
-//    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, squaresHeight)];
-//    view.backgroundColor = [UIColor whiteColor];
-//    [self.scrollView addSubview:view];
-//    self.whiteBackgroungView = view;
 }
 
 - (void)setupSquaresView
