@@ -230,10 +230,9 @@
                 
                 [flAnimatedImageView drawLineWithDirection:CKViewBorderDirectionRight withEdge:UIEdgeInsetsZero];
             }
-            if ((tag - SubModuleViewTag) < (self.submoduleArray.count - self.numOfRow))
-            {
-                [flAnimatedImageView drawLineWithDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
-            }
+            
+
+            [flAnimatedImageView drawLineWithDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
         }
     }
 }
