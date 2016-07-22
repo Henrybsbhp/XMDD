@@ -137,6 +137,10 @@
     return height;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CKDict *data = self.datasource[indexPath.row];
     MutualInsGrouponMsgCell *cell = [tableView dequeueReusableCellWithIdentifier:data[kCKCellID]];
