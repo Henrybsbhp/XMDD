@@ -17,7 +17,7 @@
 @interface MoreSubmodulesVC ()
 
 @property (nonatomic,strong)UIScrollView * scrollView;
-@property (nonatomic,strong)UIView * whiteBackgroungView;
+//@property (nonatomic,strong)UIView * whiteBackgroungView;
 @property (nonatomic,strong)NSArray * submoduleArray;
 
 // 九宫格按钮的dispoable数据，控制点击事件释放
@@ -73,10 +73,10 @@
     
     self.scrollView = scrollView;
     
-    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, squaresHeight)];
-    view.backgroundColor = [UIColor whiteColor];
-    [self.scrollView addSubview:view];
-    self.whiteBackgroungView = view;
+//    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, squaresHeight)];
+//    view.backgroundColor = [UIColor whiteColor];
+//    [self.scrollView addSubview:view];
+//    self.whiteBackgroungView = view;
 }
 
 - (void)setupSquaresView
@@ -85,7 +85,7 @@
     {
         HomeItem *item = [self.submoduleArray safetyObjectAtIndex:i];
         
-        [self mainButtonWithSubmudule:item index:i inContainer:self.whiteBackgroungView width:self.squareWidth height:self.squareHeight];
+        [self mainButtonWithSubmudule:item index:i inContainer:self.scrollView width:self.squareWidth height:self.squareHeight];
     }
 }
 
@@ -225,7 +225,7 @@
 
 - (void)drawLine
 {
-    for (UIView * view in self.whiteBackgroungView.subviews)
+    for (UIView * view in self.scrollView.subviews)
     {
         if ([view isKindOfClass:[FLAnimatedImageView class]])
         {
