@@ -297,13 +297,15 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeadCell"];
     //背景图片
     UIImageView * logo = (UIImageView *)[cell viewWithTag:1006];
-    logo.layer.cornerRadius = 22;
-    logo.layer.masksToBounds = YES;
-    logo.image = [UIImage imageNamed:@"coupon_logo"];
     UILabel * nameLabel = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel * subnameLabel = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel * describeLabel = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel * validDate = (UILabel *)[cell.contentView viewWithTag:1004];
+
+    logo.layer.cornerRadius = 22;
+    logo.layer.masksToBounds = YES;
+    logo.image = [UIImage imageNamed:@"coupon_logo"];
+    [logo setImageByUrl:self.couponDic.logo withType:ImageURLTypeThumbnail defImage:@"coupon_logo" errorImage:@"coupon_logo"];
     
     UIImageView *imgView = [cell viewWithTag:1005];
     UIImage *img = [[UIImage imageNamed:@"coupon_detailsawtooth"]resizableImageWithCapInsets:UIEdgeInsetsMake(1, -0.5, 1, -0.5) resizingMode:UIImageResizingModeTile];
