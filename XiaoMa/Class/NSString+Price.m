@@ -30,9 +30,25 @@
     return [scan scanInt:&val] && [scan isAtEnd];
 }
 
++ (NSString *)formatForDiscount:(CGFloat)discount
+{
+    NSString * originStr = [NSString stringWithFormat:@"%.1f",discount];
+    NSString * decimal = [originStr substringFromIndex:originStr.length - 1];
+    NSString * displayStr = originStr;
+    if ([decimal isEqualToString:@"0"])
+    {
+        displayStr = [originStr substringToIndex:originStr.length - 2];
+    }
+    
+    return displayStr;
+}
 
 + (NSString *)formatForPrice:(CGFloat)price
 {
+    if (price < 0)
+    {
+        return @"0";
+    }
     NSString * originStr = [NSString stringWithFormat:@"%.2f",price];
     NSString * decimal = [originStr substringFromIndex:originStr.length - 2];
     NSString * displayStr = originStr;
@@ -40,7 +56,7 @@
     {
         displayStr = [originStr substringToIndex:originStr.length - 3];
     }
-
+    
     return displayStr;
 }
 
@@ -63,4 +79,26 @@
         return displayStr;
     }
 }
+
++ (NSString *)formatForPriceWithFloat:(CGFloat)price
+{
+    NSString * originStr = [NSString stringWithFormat:@"%.2f",price];
+    return originStr;
+}
+
++ (NSString *)formatForPriceWithFloatWithDecimal:(CGFloat)price;
+{
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+    formatter.numberStyle = kCFNumberFormatterDecimalStyle;
+    NSString *priceTag = [formatter stringFromNumber:[NSNumber numberWithFloat:price]];
+    if ([priceTag hasSubstring:@"."])
+    {
+        return priceTag;
+    }
+    else
+    {
+        return [priceTag append:@".00"];
+    }
+}
+
 @end

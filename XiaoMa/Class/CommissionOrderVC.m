@@ -48,21 +48,10 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp801"];
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp801"];
-}
 
 #pragma mark - Action
 - (IBAction)actionCommissionClick:(UIButton *)sender {
-    [MobClick event:@"rp801-2"];
+    [MobClick event:@"rp801_2"];
     if (gAppMgr.myUser != nil) {
         self.carStore = [MyCarStore fetchOrCreateStore];
         @weakify(self);
@@ -75,15 +64,13 @@
             @strongify(self);
             if (self.carStore.cars.count == 0) {
                 //TODO:1
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有添加爱车, 请先添加爱车" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-                    NSInteger i = [n integerValue];
-                    if (i == 1) {
-                        EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                        [self.navigationController pushViewController:vc animated:YES];
-                    }else{
-                    }
+                
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+                HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"添加爱车" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+                    [self.navigationController pushViewController:vc animated:YES];
                 }];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您还没有添加爱车, 请先添加爱车" ActionItems:@[cancel,confirm]];
                 [alert show];
             }
             else {
@@ -116,18 +103,15 @@
         
     }error:^(NSError *error) {
         if (error.code == 611139001) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"您还没有协办券哦!\n点击省钱攻略,此等优惠岂能错过" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
-            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-                NSInteger i = [n integerValue];
-                if (i == 1) {
-                    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-                    vc.title = @"省钱攻略";
-                    vc.url = kMoneySavingStrategiesUrl;
-                    [self.navigationController pushViewController:vc animated:YES];
-                }else{
-                    
-                }
+            
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"省钱攻略" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+                vc.title = @"省钱攻略";
+                vc.url = kMoneySavingStrategiesUrl;
+                [self.navigationController pushViewController:vc animated:YES];
             }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"亲,暂时只支持协办券办理哦!\n点击省钱攻略免费获取协办券!" ActionItems:@[cancel,confirm]];
             [alert show];
         }
     }];
@@ -158,7 +142,7 @@
         [self.tableView reloadData];
     } error:^(NSError *error) {
         if (self.dataSourceArray.count == 0) {
-            [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
                 [self actionNetwork];
             }];
         }
@@ -167,7 +151,7 @@
 }
 
 - (void)commissionHistory {
-    [MobClick event:@"rp801-1"];
+    [MobClick event:@"rp801_1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         RescueHistoryViewController *vc  =[rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHistoryViewController"];
         vc.type = 2;

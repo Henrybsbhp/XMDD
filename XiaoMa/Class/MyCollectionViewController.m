@@ -46,10 +46,14 @@
     [self refreshBottomView];
     
     self.selectSet = [[NSMutableIndexSet alloc] init];
-    [[gAppMgr.myUser.favorites rac_requestData] subscribeNext:^(id x) {
-      
-        [self.tableView reloadData];
+    
+    @weakify(self);
+    [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged]subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [self getData];
     }];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,22 +64,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [MobClick beginLogPageView:@"rp316"];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    
     [self reloadData];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp316"];
     [gToast dismiss];
 }
 
@@ -90,12 +84,24 @@
 {
     [self.tableView reloadData];
     if (gAppMgr.myUser.favorites.favoritesArray.count == 0) {
-        [self.tableView showDefaultEmptyViewWithText:@"您暂未收藏商户"];
+        [self.view showImageEmptyViewWithImageName:@"def_withoutCollection" text:@"您暂未收藏商户"];
     }
     else {
-        [self.tableView hideDefaultEmptyView];
+        [self.view hideDefaultEmptyView];
     }
 }
+
+-(void)getData
+{
+    @weakify(self);
+    [[gAppMgr.myUser.favorites rac_requestData]subscribeNext:^(id x) {
+        
+        @strongify(self);
+        [self.tableView reloadData];
+        [self.tableView.refreshView endRefreshing];
+    }];
+}
+
 #pragma mark - SetupUI
 - (void)initUI
 {
@@ -120,9 +126,10 @@
         offsetY = 0;
     }
     [UIView animateWithDuration:0.5f animations:^{
-        
+        @weakify(self);
         [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
             
+            @strongify(self);
             make.top.mas_equalTo(self.view.mas_bottom).offset(offsetY);
             make.height.mas_equalTo(45);
         }];
@@ -146,7 +153,7 @@
     @weakify(self)
     [[self.allSelectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp316-8"];
+        [MobClick event:@"rp316_8"];
         @strongify(self)
         if (self.selectSet.count == gAppMgr.myUser.favorites.favoritesArray.count)
         {
@@ -167,11 +174,17 @@
     
     [[self.deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp316-9"];
+        [MobClick event:@"rp316_9"];
         @strongify(self)
         if (self.selectSet.count)
         {
-            [self requestDeleteFavorites];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                @strongify(self);
+                [self requestDeleteFavorites];
+            }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您确定删除收藏的店铺?" ActionItems:@[cancel,confirm]];
+            [alert show];
         }
         else
         {
@@ -185,9 +198,9 @@
 - (void)editActions:(id)sender
 {
     if (self.isEditing && sender)
-        [MobClick event:@"rp316-5"];
+        [MobClick event:@"rp316_5"];
     if (!self.isEditing)
-        [MobClick event:@"rp316-1"];
+        [MobClick event:@"rp316_1"];
     self.isEditing = !self.isEditing;
     
     [self refreshBottomView];
@@ -234,11 +247,12 @@
         [array addObject:shop.shopID];
     }];
     
+    @weakify(self)
     [[[gAppMgr.myUser.favorites rac_removeFavorite:array] initially:^{
         
         [gToast showingWithText:@"移除中..."];
     }] subscribeNext:^(id x) {
-        
+        @strongify(self)
         [gToast showText:@"移除成功！"];
         
         [self.selectSet removeAllIndexes];
@@ -332,7 +346,7 @@
     
     if (!self.isEditing)
     {
-        [MobClick event:@"rp316-2"];
+        [MobClick event:@"rp316_2"];
         JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
         ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
         vc.hidesBottomBarWhenPushed = YES;
@@ -344,7 +358,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger mask = indexPath.row == 0 ? CKViewBorderDirectionBottom : CKViewBorderDirectionBottom | CKViewBorderDirectionTop;
-    [cell.contentView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:mask];
+    [cell.contentView setBorderLineColor:kDarkLineColor forDirectionMask:mask];
     [cell.contentView setBorderLineInsets:UIEdgeInsetsMake(0, 0, 8, 0) forDirectionMask:mask];
     [cell.contentView showBorderLineWithDirectionMask:mask];
 }
@@ -500,10 +514,12 @@
     
     [checkBtn setSelected:[self.selectSet containsIndex:indexPath.section]];
     @weakify(checkBtn)
+    @weakify(self);
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp316-7"];
+        [MobClick event:@"rp316_7"];
         @strongify(checkBtn)
+        @strongify(self);
         if ([self.selectSet containsIndex:indexPath.section])
         {
             [self.selectSet removeIndex:indexPath.section];
@@ -531,6 +547,7 @@
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
+    UILabel *originalPriceLabel = (UILabel *)[cell.contentView viewWithTag:2004];
     
     JTShopService * service = [shop.shopServiceArray safetyObjectAtIndex:indexPath.row - 1];
     
@@ -540,8 +557,16 @@
         return tcc.paymentChannelType == PaymentChannelABCIntegral;
     }];
     
+    NSAttributedString *originalPrice = [self priceStringWithOldPrice:@(service.oldOriginPrice) curPrice:nil];
+    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"原价" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+    
+    [titleString appendAttributedString:originalPrice];
+    
+    originalPriceLabel.hidden = service.oldOriginPrice <= service.origprice ? YES : NO;
+    
     integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
+    originalPriceLabel.attributedText = titleString;
     
     return cell;
 }
@@ -567,8 +592,9 @@
         
         if (shop.shopPhone.length == 0)
         {
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
-            [av show];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
+            [alert show];
             return ;
         }
         

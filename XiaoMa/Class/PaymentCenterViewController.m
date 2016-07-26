@@ -75,6 +75,8 @@
         
         GetGeneralActivityLefttimeOp * lefttimeOp = [[GetGeneralActivityLefttimeOp alloc] init];
         lefttimeOp.tradeType = self.tradeType;
+        lefttimeOp.tradeNo = self.tradeNo;
+        lefttimeOp.panchannel = self.paychannel;
         [[[lefttimeOp rac_postRequest] initially:^{
             
             [gToast showingWithText:@"支付信息获取中..."];
@@ -84,7 +86,7 @@
             {
                 [gToast dismiss];
                 @strongify(self)
-                [self actionPay];
+                [self actionPay:rop];
             }
             else
             {
@@ -142,25 +144,9 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)actionPay
+- (void)actionPay:(GetGeneralActivityLefttimeOp *)op
 {
-    [self.paymentArray enumerateObjectsUsingBlock:^(NSMutableDictionary *d, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        UIButton * btn = [d objectForKey:@"btn"];
-        if (btn && [btn isKindOfClass:[UIButton class]])
-        {
-            if (btn.selected)
-            {
-                self.paychannel = [[d objectForKey:@"paymentType"] integerValue];
-                *stop = YES;
-            }
-        }
-    }];
     NSString * tradeno = self.getGeneralOrderdetailOp.tradeNo;
-//    NSString * tradetype = self.getGeneralOrderdetailOp.tradeType;
-    CGFloat fee = self.getGeneralOrderdetailOp.rsp_fee;
-    NSString * productName = self.getGeneralOrderdetailOp.rsp_prodname;
-    NSString * submitTime = [[NSDate date] dateFormatForDT8];
     // 如果是银联支付需要请求服务器得到银联流水号
     if (self.getGeneralOrderdetailOp.rsp_fee)
     {
@@ -170,11 +156,11 @@
         }
         else if (self.paychannel == PaymentChannelAlipay)
         {
-            [self requestAliPay:nil andTradeId:tradeno andPrice:fee andProductName:productName andDescription:productName andTime:submitTime];
+            [self requestAliPayWithTradeId:tradeno andAlipayInfo:op.rsp_payInfoModel.alipayInfo];
         }
         else if (self.paychannel == PaymentChannelWechat)
         {
-            [self requestWechatPay:nil andTradeId:tradeno andPrice:fee andProductName:productName andTime:submitTime];
+            [self requestWechatPayWithTradeId:tradeno andWechatPayInfo:op.rsp_payInfoModel.wechatInfo];
         }
     }
     else
@@ -240,7 +226,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    return  CGFLOAT_MIN;
+    if (section == 0)
+        return  CGFLOAT_MIN;
+    return 10;
 }
 
 
@@ -294,25 +282,9 @@
             return;
         }
         
-        for (NSDictionary * dict  in self.paymentArray)
-        {
-            NSObject * obj = [dict objectForKey:@"btn"];
-            if (obj && [obj isKindOfClass:[UIButton class]] && [obj.customObject isKindOfClass:[NSIndexPath class]])
-            {
-                UIButton * btn = (UIButton *)obj;
-                NSIndexPath * path = (NSIndexPath *)obj.customObject;
-                
-                if (indexPath.section == path.section &&
-                    indexPath.row == path.row)
-                {
-                    btn.selected = YES;
-                }
-                else
-                {
-                    btn.selected = NO;
-                }
-            }
-        }
+        NSMutableDictionary * dict = [self.paymentArray safetyObjectAtIndex:indexPath.row - 1];
+        PaymentChannelType paychannel = [dict[@"paymentType"] integerValue];
+        self.paychannel = paychannel;
     }
 }
 
@@ -360,65 +332,29 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView paymentCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    UIImageView *iconV;
-    UILabel *titleLb,*noteLb,*recommendLB;
-    UIButton *boxB;
+    UIImageView *iconImgV,*tickImgV;
+    UILabel *titleLb,*recommendLB;
+    
+    cell = [self.tableView dequeueReusableCellWithIdentifier:@"PayPlatformCell"];
+    iconImgV = (UIImageView *)[cell searchViewWithTag:101];
+    titleLb = (UILabel *)[cell searchViewWithTag:102];
+    tickImgV = (UIImageView *)[cell searchViewWithTag:103];
+    recommendLB = (UILabel *)[cell searchViewWithTag:104];
+    recommendLB.cornerRadius = 3.0f;
+    recommendLB.layer.masksToBounds = YES;
     
     NSMutableDictionary * dict = [self.paymentArray safetyObjectAtIndex:indexPath.row - 1];
-    cell = [self.tableView dequeueReusableCellWithIdentifier:@"PaymentPlatformCellA"];
-    iconV = (UIImageView *)[cell.contentView viewWithTag:1001];
-    titleLb = (UILabel *)[cell.contentView viewWithTag:1002];
-    noteLb = (UILabel *)[cell.contentView viewWithTag:1004];
-    boxB = (UIButton *)[cell.contentView viewWithTag:1003];
-    recommendLB = (UILabel *)[cell.contentView viewWithTag:1005];
     
-    [boxB setImage:[UIImage imageNamed:@"cw_box2"] forState:UIControlStateNormal];
-    [boxB setImage:[UIImage imageNamed:@"cw_box3"] forState:UIControlStateSelected];
-    [boxB setImage:[UIImage imageNamed:@"cw_box3"] forState:UIControlStateHighlighted];
-    
-    iconV.image = [UIImage imageNamed:dict[@"logo"]];
+    iconImgV.image = [UIImage imageNamed:dict[@"logo"]];
     titleLb.text = dict[@"title"];
-    noteLb.text = dict[@"subTitle"];
     
     PaymentChannelType paychannel = [dict[@"paymentType"] integerValue];
     recommendLB.hidden = paychannel != PaymentChannelAlipay;
     [recommendLB makeCornerRadius:3.0f];
     
-    
-    UIButton * btn = [dict objectForKey:@"btn"];
-    if (!btn)
-    {
-        boxB.customObject = indexPath;
-        [dict safetySetObject:boxB forKey:@"btn"];
-    }
-    else
-    {
-        if ([btn.customObject isKindOfClass:[NSIndexPath class]])
-        {
-            NSIndexPath * path = (NSIndexPath *)btn.customObject;
-            if (path.section == indexPath.section && path.row == indexPath.row)
-            {
-                btn = boxB;
-            }
-        }
-    }
-    
-    boxB.selected = [dict[@"paymentType"] integerValue] == self.paychannel;
-    
-    @weakify(boxB)
-    [[[boxB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+    [[RACObserve(self, paychannel) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
         
-        [self.paymentArray enumerateObjectsUsingBlock:^(NSMutableDictionary *d, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            UIButton * btn = [d objectForKey:@"btn"];
-            if (btn && [btn isKindOfClass:[UIButton class]])
-            {
-                btn.selected = NO;
-            }
-        }];
-        
-        @strongify(boxB)
-        boxB.selected = YES;
+        tickImgV.hidden = paychannel != [number integerValue];
     }];
     
     return cell;
@@ -466,7 +402,7 @@
                                           @{@"paymentType":@(PaymentChannelAlipay),
                                             @"title":@"支付宝支付",
                                             @"subTitle":@"推荐支付宝用户使用",
-                                            @"logo":@"cw_alipay"}];
+                                            @"logo":@"alipay_logo_66"}];
             [tArray safetyAddObject:dict];
         }
         else if ([paychannelStr isEqualToString:@"3"])
@@ -477,7 +413,7 @@
                                               @{@"paymentType":@(PaymentChannelWechat),
                                                 @"title":@"微信支付",
                                                 @"subTitle":@"推荐微信用户使用",
-                                                @"logo":@"cw_wechat"}];
+                                                @"logo":@"wechat_logo_66"}];
                 [tArray safetyAddObject:dict];
             }
         }
@@ -496,7 +432,7 @@
                                           @{@"paymentType":@(PaymentChannelUPpay),
                                             @"title":@"银联支付",
                                             @"subTitle":@"推荐银联用户使用",
-                                            @"logo":@"ins_uppay"}];
+                                            @"logo":@"uppay_logo_66"}];
             [tArray safetyAddObject:dict];
         }
     }
@@ -505,11 +441,10 @@
 
 
 
-- (void)requestAliPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
-             andPrice:(CGFloat)price andProductName:(NSString *)name andDescription:(NSString *)desc andTime:(NSString *)time
+- (void)requestAliPayWithTradeId:(NSString *)tradeId andAlipayInfo:(NSString *)alipayInfo
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForAlipayWithTradeNumber:tradeId productName:name productDescription:desc price:price];
+    [helper resetForAlipayWithTradeNumber:tradeId alipayInfo:alipayInfo];
     
     [[helper rac_startPay2] subscribeNext:^(id x) {
         
@@ -533,12 +468,10 @@
     }];
 }
 
-- (void)requestWechatPay:(NSNumber *)orderId andTradeId:(NSString *)tradeId
-                andPrice:(CGFloat)price andProductName:(NSString *)name
-                 andTime:(NSString *)time
+- (void)requestWechatPayWithTradeId:(NSString *)tradeId andWechatPayInfo:(WechatPayInfo *)wechatPayInfo
 {
     PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForWeChatWithTradeNumber:tradeId productName:name price:price];
+    [helper resetForWeChatWithTradeNumber:tradeId andPayInfoModel:wechatPayInfo andTradeType:TradeTypeGeneral];
     [[helper rac_startPay2] subscribeNext:^(NSString * info) {
         
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];

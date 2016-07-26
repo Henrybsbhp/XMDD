@@ -27,9 +27,14 @@
     self.rsp_seatcount = dict[@"seatcount"];
     self.rsp_mstartdate = dict[@"mstartdate"];
     self.rsp_fstartdate = dict[@"fstartdate"];
+    self.rsp_brandlist = dict[@"brandlist"];
 	
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取认证车辆详细信息";
+}
 @end
 

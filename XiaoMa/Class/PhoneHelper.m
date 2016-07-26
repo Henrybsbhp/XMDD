@@ -12,6 +12,7 @@
 #import <MapKit/MapKit.h>
 #import "DistanceCalcHelper.h"
 #import "WXApi.h"
+#import <AVFoundation/AVFoundation.h>
 
 @implementation PhoneHelper
 
@@ -112,6 +113,36 @@
         }
     }];
     [av show];
+}
+
+- (BOOL)isCameraAuthStatusAllowed
+{
+    NSString *mediaType = AVMediaTypeVideo;//读取媒体类型
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+    if(authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied){
+        
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)handleCameraAuthStatusDenied
+{
+    NSString *mediaType = AVMediaTypeVideo;//读取媒体类型
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+    if(authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied){
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+           
+            if (IOSVersionGreaterThanOrEqualTo(@"8.0")){
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+            }
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您没有开启摄像头权限,请前往设置打开" ActionItems:@[cancel]];
+        [alert show];
+        return NO;
+    }
+    return YES;
 }
 
 @end

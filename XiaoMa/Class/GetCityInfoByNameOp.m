@@ -39,4 +39,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"根据省，市查询城市对应的各对接城市代码信息";
+}
 @end

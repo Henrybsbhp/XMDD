@@ -44,4 +44,8 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"修改用户个人信息";
+}
 @end

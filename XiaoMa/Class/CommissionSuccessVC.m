@@ -8,6 +8,8 @@
 
 #import "CommissionSuccessVC.h"
 #import "CommissionOrderVC.h"
+
+
 @interface CommissionSuccessVC ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -23,20 +25,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStyleDone target:self action:@selector(popOrderVC)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(popOrderVC)];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp803"];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp803"];
-}
 
 - (void)popOrderVC {
     for(UIViewController *controller in self.navigationController.viewControllers) {
@@ -75,9 +66,14 @@
             /**
              *  联系客服事件
              */
-            [MobClick event:@"rp803-1"];
-            NSString * number = @"4007111111";
-            [gPhoneHelper makePhone:number andInfo:@"客服电话: 4007-111-111"];
+            
+            [MobClick event:@"rp803_1"];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                [gPhoneHelper makePhone:@"4007111111"];
+            }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
+            [alert show];
         }];
         return cell;
     }

@@ -39,14 +39,15 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"暂无协办券";
+    return @{@"title":@"暂无协办券",@"image":@"def_withoutCoupon"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
-    return @"获取失败，点击重试";
+    return @{@"title":@"获取失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
@@ -125,7 +126,6 @@
         CouponDetailsVC *vc = [UIStoryboard vcWithId:@"CouponDetailsVC" inStoryboard:@"Mine"];
         HKCoupon *hkcoupon = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
         vc.couponId = hkcoupon.couponId;
-        vc.rgbStr = hkcoupon.rgbColor;
         vc.isShareble = hkcoupon.isshareble;
         vc.oldType = hkcoupon.conponType;
         vc.newType = CouponNewTypeOthers;

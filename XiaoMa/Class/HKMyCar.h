@@ -13,8 +13,9 @@
 typedef enum : NSInteger
 {
     HKCarEditableNone = 0,
-    HKCarEditableEdit = 0x01,
+    HKCarEditableEditPlateNumber = 0x01,
     HKCarEditableDelete = 0x02,
+    HKCarEditableEditCarModel = 0x04,
     HKCarEditableAll = 0xff
 }HKCarEditableMask;
 
@@ -83,9 +84,9 @@ typedef enum : NSInteger
 @property (nonatomic,copy)NSString * provinceName;
 ///城市名称
 @property (nonatomic,copy)NSString * cityName;
-///省名称
+///省ID
 @property (nonatomic,strong)NSNumber * provinceId;
-///城市名称
+///城市ID
 @property (nonatomic,strong)NSNumber * cityId;
 ///发动机号
 @property (nonatomic,copy)NSString * engineno;

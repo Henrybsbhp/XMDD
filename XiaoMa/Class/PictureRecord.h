@@ -21,6 +21,10 @@
 @property (nonatomic, assign) BOOL deleteable;
 ///当前行驶证的图片
 @property (nonatomic, strong) UIImage *image;
+///是否正在上传
+@property (nonatomic)BOOL isUploading;
+///是否需要再次上传
+@property (nonatomic)BOOL needReupload;
 
 + (instancetype)pictureRecordWithJSONResponse:(NSDictionary *)rsp;
 @end

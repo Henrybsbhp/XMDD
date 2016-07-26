@@ -17,8 +17,6 @@
 #import "AreaTablePickerVC.h"
 #import "CarIDCodeCheckModel.h"
 #import "CKLimitTextField.h"
-
-#import "MyUIPageControl.h"
 #import "OETextField.h"
 
 
@@ -33,9 +31,6 @@
 @property (nonatomic,weak)UIButton * queryBtn;
 @property (nonatomic,strong)CABasicAnimation * animation;
 @property (nonatomic)BOOL isQuerying;
-
-/// 是否展开
-@property (nonatomic)BOOL isSpread;
 
 /// 是否城市信息获取的状态
 @property (nonatomic)BOOL isCityLoading;
@@ -54,17 +49,6 @@
     DebugLog(@"ViolationItemViewController dealloc");
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp901"];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp901"];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -96,12 +80,8 @@
     
     self.animation = rotationAnimation;
     
-    
-    CGFloat inset = self.carArray.count ? 30 : 10;
-    self.tableView.contentInset = UIEdgeInsetsMake(inset, 0, 0, 0);
-    [self.tableView setContentOffset:CGPointMake(0, -inset) animated:YES];
     self.tableView.backgroundColor = [UIColor clearColor];
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = kBackgroundColor;
 }
 
 
@@ -142,13 +122,7 @@
             // 说明进行过城市信息的获取
             if ([obj isKindOfClass:[GetCityInfoByNameOp class]])
             {
-                self.isSpread = YES;
                 self.model.cityInfo = ((GetCityInfoByNameOp *)obj).cityInfo;
-            }
-            // 从本地获取的城市信息
-            else
-            {
-                self.isSpread = !self.model.queryDate;
             }
             self.isCityLoading = NO;
             self.tempCityName = self.model.cityInfo.cityName;
@@ -159,7 +133,6 @@
             self.isCityLoading = NO;
         }];
     }
-    self.isSpread = !self.model.queryDate;
     self.tempCityName = self.model.cityInfo.cityName;
 }
 - (void)handleViolationCityInfo
@@ -199,7 +172,6 @@
         
         self.isQuerying = NO;
         [self stopQueryTransform];
-        self.isSpread = NO;
         
         [self handleViolationCityInfo];
         [self.tableView reloadData];
@@ -232,7 +204,6 @@
 #pragma mark - Utility
 - (void)queryAction
 {
-    
     if (self.model.cityInfo.cityCode.length <=  0)
     {
         /// 此城市从爱车带过来，但是不支持违章
@@ -255,13 +226,7 @@
             if ((feild.text.length < num && num > 0) ||
                 feild.text.length == 0)
             {
-                CGFloat delay = self.isSpread ? 0.0f : 1.0f;
-                
-                [self insertCityInfoCell];
-                
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [feild.superview.subviews makeObjectsPerformSelector:@selector(shake)];
-                });
+                [feild.superview.subviews makeObjectsPerformSelector:@selector(shake)];
                 return;
             }
             
@@ -287,13 +252,7 @@
         {
             if (self.model.engineno.length == 0 && self.model.classno.length == 0)
             {
-                CGFloat delay = self.isSpread ? 0.0f : 1.0f;
-                
-                [self insertCityInfoCell];
-                
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [feild.superview.subviews makeObjectsPerformSelector:@selector(shake)];
-                });
+                [feild.superview.subviews makeObjectsPerformSelector:@selector(shake)];
                 return;
             }
         }
@@ -342,40 +301,6 @@
 }
 
 
-- (void)insertCityInfoCell
-{
-    if (self.isSpread)
-        return;
-    self.isSpread = YES;
-    NSMutableArray * array = [NSMutableArray array];
-    for (NSInteger i = 0; i < self.infoArray.count; i++)
-    {
-        NSIndexPath  * path = [NSIndexPath indexPathForRow:i + 2 inSection:0];
-        [array safetyAddObject:path];
-    }
-    NSIndexPath  * path = [NSIndexPath indexPathForRow:self.infoArray.count + 2 inSection:0];
-    [array safetyAddObject:path];
-    
-    [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationBottom];
-}
-
-- (void)deleteCityInfoCell
-{
-    if (!self.isSpread)
-        return;
-    self.isSpread = NO;
-    NSMutableArray * array = [NSMutableArray array];
-    for (NSInteger i = 0; i < self.infoArray.count; i++)
-    {
-        NSIndexPath  * path = [NSIndexPath indexPathForRow:i + 2 inSection:0];
-        [array safetyAddObject:path];
-    }
-    NSIndexPath  * path = [NSIndexPath indexPathForRow:self.infoArray.count + 2 inSection:0];
-    [array safetyAddObject:path];
-    [self.tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationTop];
-}
-
-
 - (void)selectCityAction
 {
     AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self.parentViewController];
@@ -400,7 +325,6 @@
     }] subscribeNext:^(GetCityInfoByNameOp * op) {
         
         self.isCityLoading = NO;
-        self.isSpread = YES;
         
         if (op.cityInfo.cityCode.length)
         {
@@ -437,7 +361,7 @@
     }
     else
     {
-        signal =[[gMapHelper rac_getInvertGeoInfo] flattenMap:^RACStream *(id value) {
+        signal =[[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyKilometer] flattenMap:^RACStream *(id value) {
             
             return [self rac_requestCityInfoWithProvince:gMapHelper.addrComponent.province andCith:gMapHelper.addrComponent.city];
         }];
@@ -449,10 +373,10 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     if (textField.customTag == 1031) {
-        [MobClick event:@"rp901-4"];
+        [MobClick event:@"rp901_4"];
     }
     else {
-        [MobClick event:@"rp901-5"];
+        [MobClick event:@"rp901_5"];
     }
 }
 
@@ -460,81 +384,31 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 1)
-    {
-        return CGFLOAT_MIN;
-    }
-    return 8.0f;
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    return 10.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat height =  44;
+    CGFloat height =  40;
     
     if (!self.car)
     {
-        return 200;
+        return 250;
     }
     
     if (indexPath.section == 0)
     {
-        NSInteger num;
-        if (self.isSpread)
+        NSInteger num = 0;
+        /// num = 城市 + self.infoArray.count + 搜索框
+        num = 2 + self.infoArray.count;
+        if (indexPath.row == num - 1)
         {
-            /// num = 车牌 + 城市 + self.infoArray.count +如何填写 + 分割线 + 搜索框
-            num = 5 + self.infoArray.count;
-            
-            if (indexPath.row == 0)
-            {
-                height = 40;
-            }
-            else if (indexPath.row == 1)
-            {
-                height = 44;
-            }
-            else if (indexPath.row == num - 1)
-            {
-                height = 84;
-            }
-            else if (indexPath.row == num - 2)
-            {
-                height = 24;
-            }
-            else if (indexPath.row == num - 3)
-            {
-                height = 26;
-            }
-            else
-            {
-                height = 44;
-            }
-        }
-        else
-        {
-            /// 4 = 车牌 + 城市 + 分割线 + 搜索框
-            num = 4;
-            
-            if (indexPath.row == 0)
-            {
-                height = 40;
-            }
-            else if (indexPath.row == 1)
-            {
-                height = 44;
-            }
-            else if (indexPath.row == num - 1)
-            {
-                height = 84;
-            }
-            else if (indexPath.row == num - 2)
-            {
-                height = 24;
-            }
+            height = 112;
         }
     }
     else
@@ -543,7 +417,7 @@
         {
             if (self.model.violationArray.count)
             {
-                height = 44;
+                height = 50;
             }
             else
             {
@@ -554,18 +428,13 @@
         {
             HKViolation * violation = [self.model.violationArray safetyObjectAtIndex:indexPath.row - 1];
             
-            //            if (!violation.customTag)
-            {
-                CGFloat width1 = gAppMgr.deviceInfo.screenSize.width - 60;
-                CGSize size1 = [violation.violationArea labelSizeWithWidth:width1 font:[UIFont systemFontOfSize:12]];
-                
-                CGFloat width2 = gAppMgr.deviceInfo.screenSize.width - 45;
-                CGSize size2 = [violation.violationAct labelSizeWithWidth:width2 font:[UIFont systemFontOfSize:15]];
-                
-                height = 63 + size1.height + 16 + size2.height + 14;
-                //                violation.customTag = height;
-            }
-            //            height = violation.customTag;
+            CGFloat width1 = gAppMgr.deviceInfo.screenSize.width - 60;
+            CGSize size1 = [violation.violationArea labelSizeWithWidth:width1 font:[UIFont systemFontOfSize:12]];
+            
+            CGFloat width2 = gAppMgr.deviceInfo.screenSize.width - 45;
+            CGSize size2 = [violation.violationAct labelSizeWithWidth:width2 font:[UIFont systemFontOfSize:15]];
+            
+            height = 63 + size1.height + 16 + size2.height + 14;
         }
     }
     return height;
@@ -608,16 +477,8 @@
     }
     if (section == 0)
     {
-        if (self.isSpread)
-        {
-            /// 5 = 车牌 + 城市 + 如何填写 + 分割线 + 搜索框
-            num = 5 + self.infoArray.count;
-        }
-        else
-        {
-            /// 4 = 车牌 + 城市 + 分割线 + 搜索框
-            num = 4;
-        }
+        /// num = 城市  + 搜索框 + self.infoArray
+        num = 2 + self.infoArray.count;
     }
     else
     {
@@ -626,10 +487,10 @@
     return num;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 8)];
-    view.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
+    view.backgroundColor = section == 0 ? [UIColor whiteColor] : kBackgroundColor;
     
     return view;
 }
@@ -645,58 +506,21 @@
     if (indexPath.section == 0)
     {
         NSInteger num;
-        if (self.isSpread)
-        {
-            /// num = 车牌 + 城市 + self.infoArray.count +如何填写 + 分割线 + 搜索框
-            num = 5 + self.infoArray.count;
+            /// num = 城市 + self.infoArray.count 搜索框
+        num = 2 + self.infoArray.count;
             
             if (indexPath.row == 0)
-            {
-                cell = [self lisenceNumCellAtIndexPath:indexPath];
-            }
-            else if (indexPath.row == 1)
             {
                 cell = [self cityInputCellAtIndexPath:indexPath];
             }
             else if (indexPath.row == num - 1)
             {
                 cell = [self searchBtnCellAtIndexPath:indexPath];
-            }
-            else if (indexPath.row == num - 2)
-            {
-                cell = [self separatorCellAtIndexPath:indexPath];
-            }
-            else if (indexPath.row == num - 3)
-            {
-                cell = [self howInputCellAtIndexPath:indexPath];
             }
             else
             {
                 cell = [self infoInputCellAtIndexPath:indexPath];
             }
-        }
-        else
-        {
-            /// 4 = 车牌 + 城市 + 分割线 + 搜索框
-            num = 4;
-            
-            if (indexPath.row == 0)
-            {
-                cell = [self lisenceNumCellAtIndexPath:indexPath];
-            }
-            else if (indexPath.row == 1)
-            {
-                cell = [self cityInputCellAtIndexPath:indexPath];
-            }
-            else if (indexPath.row == num - 1)
-            {
-                cell = [self searchBtnCellAtIndexPath:indexPath];
-            }
-            else
-            {
-                cell = [self separatorCellAtIndexPath:indexPath];
-            }
-        }
     }
     else
     {
@@ -724,29 +548,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if ([cell.reuseIdentifier isEqualToString:@"AddCarCell"])
     {
         /**
          *  添加车辆点击事件
          */
-        [MobClick event:@"rp901-1"];
+        [MobClick event:@"rp901_1"];
         EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
         [self.navigationController pushViewController:vc animated:YES];
-    }
-    else if ([cell.reuseIdentifier  isEqualToString:@"SeparatorCell"])
-    {
-        [MobClick event:@"rp901-7"];
-        UIImageView * statusImgV = (UIImageView *)[cell searchViewWithTag:101];
-        if (self.isSpread)
-        {
-            [self deleteCityInfoCell];
-            
-        }
-        else
-        {
-            [self insertCityInfoCell];
-        }
-        statusImgV.transform = CGAffineTransformRotate(statusImgV.transform,M_PI);
     }
 }
 
@@ -772,8 +582,7 @@
     ai.animating = self.isCityLoading;
     
     UIButton * cityBtn = (UIButton *)[cell searchViewWithTag:101];
-    
-    cityBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    cityBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     
     [[RACObserve(self, isCityLoading) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
         
@@ -789,7 +598,7 @@
     @weakify(self)
     [[[cityBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp901-3"];
+        [MobClick event:@"rp901_3"];
         @strongify(self)
         [self selectCityAction];
     }];
@@ -802,15 +611,29 @@
 - (UITableViewCell *)infoInputCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"InfoInputCell"];
-    NSMutableDictionary * dict = [self.infoArray safetyObjectAtIndex:indexPath.row - 2];
+    NSMutableDictionary * dict = [self.infoArray safetyObjectAtIndex:indexPath.row - 1];
     
     // 标题
     UILabel * titleLb = (UILabel *)[cell searchViewWithTag:101];
     titleLb.text = dict[@"title"];
     
+    UIButton * howBtn = (UIButton *)[cell searchViewWithTag:102];
+    [[[howBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        if ([dict[@"title"] isEqualToString:@"发动机号"])
+        {
+            [self showPicture:@"violation_eg"];
+        }
+        else
+        {
+            [self showPicture:@"violation_eg"];
+        }
+    }];
+    
     // 副标题
-    UILabel * subtitleLb = (UILabel *)[cell searchViewWithTag:102];
+    UILabel * subtitleLb = (UILabel *)[cell searchViewWithTag:103];
     NSInteger num = [dict[@"suffixno"] integerValue];
+
+    
     if (num > 0)
     {
         subtitleLb.text = [NSString stringWithFormat:@"(后%ld位)",(long)num];
@@ -821,13 +644,16 @@
     }
     
     //输入框
-    OETextField * field = (OETextField *)[cell searchViewWithTag:103];
+    OETextField * field = (OETextField *)[cell searchViewWithTag:104];
     [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
     field.text = [dict objectForKey:@"no"];
     [dict safetySetObject:field forKey:@"feild"];
+    
+    
+    field.placeholder = [NSString stringWithFormat:@"请输入%@%@",dict[@"title"],num ? [NSString stringWithFormat:@"后%ld位",(long)num]:@"全部"];
 
     [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp901-4"];
+        [MobClick event:@"rp901_4"];
     }];
 
     @weakify(self);
@@ -894,10 +720,10 @@
     @weakify(self)
     [[[queryBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         if (!self.model.queryDate) {
-            [MobClick event:@"rp901-2"];
+            [MobClick event:@"rp901_2"];
         }
         else {
-            [MobClick event:@"rp901-6"];
+            [MobClick event:@"rp901_6"];
         }
         @strongify(self)
         if (!self.isQuerying)
@@ -916,7 +742,7 @@
     UILabel * subtitleLb = (UILabel *)[cell searchViewWithTag:102];
     if (self.model.queryDate)
     {
-        NSString * str = [NSString stringWithFormat:@"您于%@更新了%ld条信息",[self.model.queryDate dateFormatForYYYYMMddHHmm2],(unsigned long)self.model.violationArray.count];
+        NSString * str = [NSString stringWithFormat:@"您于%@更新了%ld条信息",[self.model.queryDate dateFormatForYYYYMMddHHmmss],(unsigned long)self.model.violationArray.count];
         subtitleLb.text = str;
     }
     else
@@ -944,12 +770,6 @@
     
     HKViolation * violation = [self.model.violationArray safetyObjectAtIndex:indexPath.row - 1];
     
-    ///罚款icon
-    UIImageView * moneyImgV = (UIImageView *)[cell searchViewWithTag:107];
-    
-    ///罚分icon
-    UIImageView * fenImgV = (UIImageView *)[cell searchViewWithTag:108];
-    
     ///罚款标志
     UILabel * moneyLb = (UILabel *)[cell searchViewWithTag:101];
     moneyLb.text = violation.violationMoney.length ? violation.violationMoney : @"未知";
@@ -975,19 +795,11 @@
     
     if ([violation.ishandled isEqualToString:@"1"])
     {
-        moneyImgV.image = [UIImage imageNamed:@"penalty_money_green_icon"];
-        fenImgV.image = [UIImage imageNamed:@"penalty_fraction_green_icon"];
-        handleIcon.image = [UIImage imageNamed:@"handle_icon"];
-        moneyLb.textColor = [UIColor colorWithHex:@"#20ab2a" alpha:1.0f];
-        fenLb.textColor = [UIColor colorWithHex:@"#20ab2a" alpha:1.0f];
+        handleIcon.image = [UIImage imageNamed:@"handle_icon_300"];
     }
     else
     {
-        moneyImgV.image = [UIImage imageNamed:@"penalty_money_icon"];
-        fenImgV.image = [UIImage imageNamed:@"penalty_fraction_icon"];
-        handleIcon.image = [UIImage imageNamed:@"unhandle_icon"];
-        moneyLb.textColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0f];
-        fenLb.textColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0f];
+        handleIcon.image = [UIImage imageNamed:@"unhandle_icon_300"];
     }
     
     
@@ -1006,28 +818,7 @@
     return cell;
 }
 
-- (UITableViewCell *)howInputCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"HowInputCell"];
-    
-    UIButton * btn = (UIButton *)[cell searchViewWithTag:101];
-    [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        
-        [self showPicture:@"violation_eg"];
-    }];
-    return cell;
-}
 
-- (UITableViewCell *)separatorCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SeparatorCell"];
-    
-    UIImageView * statusImgV = (UIImageView *)[cell searchViewWithTag:101];
-    
-    statusImgV.image = self.isSpread ? [UIImage imageNamed:@"violation_push"]:[UIImage imageNamed:@"violation_pull"];
-    
-    return cell;
-}
 
 - (void)showPicture:(NSString *)picname
 {

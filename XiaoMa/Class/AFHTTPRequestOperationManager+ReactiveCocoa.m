@@ -17,28 +17,22 @@
     RACSubject *signal = [RACSubject subject];
     
     NSMutableURLRequest *req = [self requestWithMethod:method parameters:parameters requestId:requestId];
-    
-    NSString *str = [[NSString alloc] initWithData:req.HTTPBody encoding:NSUTF8StringEncoding];
-    DebugLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata = %@", req.URL, str);
+    DebugGreenLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata =  \n %@ \n", req.URL, parameters);
     
     AFHTTPRequestOperation * op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
-//    op.responseSerializer = [AFJSONRequestSerializer serializer];
     [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSError * error;
-        
-        NSString *unicodeObj = [NSString stringWithUTF8Data:responseObject];
-        NSString *chineseObj = [self unicodeToChinese:unicodeObj];
-        DebugLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response = %@\nmethod = %@ (id: %@)\ndata = %@", req.URL, method, requestId, chineseObj);
         
         NSDictionary *jsonObject =  [NSJSONSerialization
                                   JSONObjectWithData:responseObject
                                   options:NSJSONReadingMutableLeaves
                                   error:&error];
         
+        DebugGreenLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response = %@\nmethod = %@ (id: %@)\ndata = \n %@ \n", req.URL, method, requestId, jsonObject);
+        
         if (!error)
         {
-//            NSLog(@"█ ▉ ▇ ▆ ▅ ▄ ▃ ▂ Response Json : \n %@ \n",jsonObject);
             [signal sendNext:RACTuplePack(operation,jsonObject)];
             [signal sendCompleted];
         }
@@ -76,17 +70,19 @@
     }
     
     NSMutableDictionary *payload = [NSMutableDictionary dictionary];
-//    payload[@"jsonrpc"] = @"2.0";
-//    payload[@"method"] = method;
     payload[@"params"] = parameters;
     payload[@"id"] = [requestId description];
-    
-    NSString * serverStr = (!gAppMgr.isSwitchToFormalSurrounding ) ? ApiBaseUrl : ApiFormalUrl;
-    NSString * urlStr = [NSString stringWithFormat:@"%@%@", serverStr,method];
-    NSData *data = [NSJSONSerialization dataWithJSONObject:payload options:0 error:nil];
+    payload[@"version"] = gAppMgr.deviceInfo.appVersion;
+#if XMDDENT
+    payload[@"os"] = @(1003);
+#else
+    payload[@"os"] = @(IOSAPPID);
+#endif
+    if ([method hasPrefix:@"/"]) {
+        method = [method stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""];
+    }
+    NSString *urlStr = [[self.baseURL URLByAppendingPathComponent:method] absoluteString];
     return [self.requestSerializer requestWithMethod:@"POST" URLString:urlStr parameters:payload error:nil];
-    
-//    return [self.requestSerializer requestWithMethod:@"POST" URLString:[self.endpointURL absoluteString] parameters:payload error:nil];
 }
 
 - (RACSignal *)rac_invokeMethod:(NSString *)method parameters:(id)parameters

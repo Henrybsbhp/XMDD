@@ -39,4 +39,5 @@
 
 - (void)requestGetUserResource:(BOOL)needAutoSelect;
 
+
 @end

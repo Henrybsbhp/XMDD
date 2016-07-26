@@ -10,7 +10,27 @@
 
 @implementation GasReminderCell
 
+- (void)dealloc
+{
+    
+}
+
 - (void)awakeFromNib {
+    [self __commonInit];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self __commonInit];
+        self.frame = frame;
+    }
+    return self;
+}
+
+- (void)__commonInit
+{
     if (!_titleLb) {
         _titleLb = [[UILabel alloc] initWithFrame:CGRectZero];
         _titleLb.frame = CGRectMake(0, 0, 150, 20);

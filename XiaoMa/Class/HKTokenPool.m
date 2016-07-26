@@ -24,7 +24,9 @@
 
 - (void)removeToken:(NSString *)token forAccount:(NSString *)account
 {
-    [self.pool safetyRemoveObjectForKey:account];
+    if (account) {
+        [self.pool removeObjectForKey:account];
+    }
 }
 
 - (void)setToken:(NSString *)token forAccount:(NSString *)account

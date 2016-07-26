@@ -31,4 +31,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"查询优惠券详情";
+}
 @end

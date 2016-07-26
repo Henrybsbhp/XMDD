@@ -44,4 +44,8 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"礼券获取";
+}
 @end

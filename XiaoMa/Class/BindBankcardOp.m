@@ -29,5 +29,9 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"绑定银行卡";
+}
 
 @end

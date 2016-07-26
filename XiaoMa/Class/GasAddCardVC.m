@@ -7,12 +7,12 @@
 //
 
 #import "GasAddCardVC.h"
-#import "GasCardStore.h"
+#import "GasCard.h"
+#import "GasStore.h"
 #import "HKTableViewCell.h"
 #import "NSString+Split.h"
 #import "CKLimitTextField.h"
 #import "UIView+Shake.h"
-#import "KeyboardManager.h"
 
 @interface GasAddCardVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -22,6 +22,7 @@
 @property (nonatomic, strong) GasCard *cnpcCard;
 ///当前选择的油卡
 @property (nonatomic, weak) GasCard *curCard;
+
 @end
 
 @implementation GasAddCardVC
@@ -52,40 +53,21 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [MobClick endLogPageView:@"rp504"];
-    [super viewWillDisappear:animated];
-    [IQKeyboardManager sharedManager].shouldShowTextFieldPlaceholder = YES;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp504"];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
 #pragma mark - Action
 - (IBAction)actionSwitch:(UIButton *)sender
 {
     if (sender.tag == 1001) {
-        [MobClick event:@"rp504-1"];
+        [MobClick event:@"rp504_1"];
     }
     else {
-        [MobClick event:@"rp504-2"];
+        [MobClick event:@"rp504_2"];
     }
     self.curCard = sender.tag == 1001 ? self.snpnCard : self.cnpcCard;
 }
 
 - (IBAction)actionAddCard:(id)sender
 {
-    [MobClick event:@"rp504-5"];
+    [MobClick event:@"rp504_5"];
     if (self.curCard.gascardno.length != [self.curCard maxCardNumberLength]) {
         [self shakeTextFieldCellAtRow:1];
         return;
@@ -94,9 +76,11 @@
         [self shakeTextFieldCellAtRow:2];
         return;
     }
-    GasCardStore *store = [GasCardStore fetchOrCreateStore];
+    
+    GasStore *store = [GasStore fetchOrCreateStore];
+
     @weakify(self);
-    [[[[store sendEvent:[store addCard:self.curCard]] signal] initially:^{
+    [[[[store addGasCard:self.curCard] sendAndIgnoreError] initially:^{
         
         [gToast showingWithText:@"正在添加..."];
     }] subscribeNext:^(id x) {
@@ -118,7 +102,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return 120;
+        return 152;
     }
     return 44;
 }
@@ -139,33 +123,32 @@
     UIImageView *checkedV1 = (UIImageView *)[cell.contentView viewWithTag:1003];
     UIImageView *checkedV2 = (UIImageView *)[cell.contentView viewWithTag:1004];
     
-    iconBtn1.layer.borderWidth = 0.5;
+    iconBtn1.layer.borderWidth = 1;
     iconBtn1.layer.cornerRadius = 5;
     iconBtn1.layer.masksToBounds = YES;
-    iconBtn2.layer.borderWidth = 0.5;
+    iconBtn2.layer.borderWidth = 1;
     iconBtn2.layer.cornerRadius = 5;
     iconBtn2.layer.masksToBounds = YES;
     [[RACObserve(self, curCard) takeUntilForCell:cell] subscribeNext:^(GasCard *card) {
         if (card.cardtype == 2) {
             iconBtn1.borderColor = HEXCOLOR(@"#dddddd");
-            iconBtn2.borderColor = HEXCOLOR(@"#20ab2a");
+            iconBtn2.borderColor = kDefTintColor;
             checkedV1.hidden = YES;
             checkedV2.hidden = NO;
         } else {
             iconBtn2.borderColor = HEXCOLOR(@"#dddddd");
-            iconBtn1.borderColor = HEXCOLOR(@"#20ab2a");
+            iconBtn1.borderColor = kDefTintColor;
             checkedV2.hidden = YES;
             checkedV1.hidden = NO;
         }
     }];
-    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsZero];
-    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsZero];
+    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 16, 0, 0)];
     return cell;
 }
 
 - (UITableViewCell *)cardCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    HKTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     CKLimitTextField *field = (CKLimitTextField *)[cell.contentView viewWithTag:1002];
     
@@ -181,9 +164,9 @@
         }
         [field setDidBeginEditingBlock:^(CKLimitTextField *textField) {
             if (indexPath.row == 1) {
-                [MobClick event:@"rp504-3"];
+                [MobClick event:@"rp504_3"];
             } else {
-                [MobClick event:@"rp504-4"];
+                [MobClick event:@"rp504_4"];
             }
             
         }];
@@ -219,8 +202,6 @@
         }];
     }];
     
-    UIEdgeInsets insets = indexPath.row == 2 ? UIEdgeInsetsZero : UIEdgeInsetsMake(0, 12, 0, 0);
-    [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:insets];
     return cell;
 }
 

@@ -9,14 +9,16 @@
 #import "ViolationViewController.h"
 #import "ViolationItemViewController.h"
 #import "MyCarStore.h"
-#import "MyUIPageControl.h"
+#import "HKPageSliderView.h"
+
+#define kAddCarTitle @"添加爱车"
 
 
-@interface ViolationViewController ()<UIScrollViewDelegate>
+@interface ViolationViewController ()<UIScrollViewDelegate,PageSliderDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UIView *headView;
-@property (strong,nonatomic)MyUIPageControl * pageController;
+@property (strong,nonatomic)HKPageSliderView * pageController;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic,strong)NSArray * datasource;
 @property (nonatomic,strong) MyCarStore *carStore;
@@ -24,6 +26,8 @@
 @property (nonatomic)BOOL isloading;
 
 @property (nonatomic)NSInteger currentIndex;
+
+@property (nonatomic,strong)RACDisposable * offsetDisposable;
 
 /// 用于自动跳转到新添加或默认的爱车页面
 @property (nonatomic,strong)HKMyCar * defaultSelectCar;
@@ -37,31 +41,18 @@
     DebugLog(@"ViolationViewController dealloc");
 }
 
+- (void)awakeFromNib {
+    self.router.disableInteractivePopGestureRecognizer = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupNavigation];
-    CKAsyncMainQueue(^{
-        
-        [self setupPageController];
-        [self setupScrollView];
-    });
     
     // 设置数据源&获取所有爱车
     [self setupCarStore];
     [[self.carStore getAllCars] send];
-}
-
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -92,79 +83,101 @@
     NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
     NSInteger current = self.currentIndex;
     
-    if (!self.pageController)
+    NSMutableArray * tArray = [NSMutableArray array];
+    NSArray * licenceArray = [[self.carStore.cars allObjects] arrayByMappingOperator:^id(HKMyCar * car) {
+        
+        return car.licencenumber;
+    }];
+    [tArray safetyAddObjectsFromArray:licenceArray];
+    if (licenceArray.count < 5)
     {
-        self.pageController = [[MyUIPageControl alloc] init];
+        [tArray safetyAddObject:kAddCarTitle];
     }
-    self.pageController.numberOfPages = total;
-    self.pageController.currentPage = current;
-    self.pageController.hidden = total <= 1;
     
-    [self.pageController removeFromSuperview];
-    
-    UIView * headView = self.headView;
-    self.pageController.center = headView.center;
-    [headView addSubview:self.pageController];
-}
+    self.pageController = nil;
+    self.pageController.delegate = nil;
+    self.pageController.contentScrollView.delegate = nil;
+    [self.offsetDisposable dispose];
 
-- (void)refreshPageController
-{
-    NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
-    NSInteger current = self.currentIndex;
-    self.pageController.numberOfPages = total;
-    self.pageController.currentPage = current;
+    
+    HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:self.headView.frame andTitleArray:tArray andStyle:HKTabBarStyleCleanMenu atIndex:current];
+    self.pageController = pageSliderView;
+    self.pageController.delegate = self;
     self.pageController.hidden = total <= 1;
+    [self.headView removeSubviews];
+    
+    if (total <= 1)
+    {
+        [self.headView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            
+            make.height.equalTo(@0);
+        }];
+    }else
+    {
+        [self.headView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            
+            make.height.equalTo(@50);
+        }];
+    }
+    
+    self.pageController.center = self.headView.center;
+    [self.headView addSubview:self.pageController];
 }
 
 - (void)setupScrollView
 {
-    self.view.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
+    self.view.backgroundColor = [UIColor colorWithHex:@"#f7f7f8" alpha:1.0f];
     self.scrollView.directionalLockEnabled = YES;
     self.scrollView.delegate = self;
     self.scrollView.backgroundColor = [UIColor clearColor];
-
-    @weakify(self);
-    [self.scrollView mas_updateConstraints:^(MASConstraintMaker *make) {
-        @strongify(self);
-        make.top.equalTo(self.view);
-        make.bottom.equalTo(self.view);
-    }];
+    
+    [self observeScrollViewOffset];
 }
+
+#pragma mark - Utility
+- (void)refreshPageController
+{
+    NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
+    self.pageController.hidden = total <= 1;
+}
+
+
 
 - (void)refreshScrollView
 {
-//    CKAsyncMainQueue(^{
+    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    for (NSInteger i = 0; i < self.datasource.count; i++) {
+        
+        NSString * obj = [self.datasource safetyObjectAtIndex:i];
+        [self createIllegalCardWithCar:obj];
+    }
     
-        [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        for (NSInteger i = 0; i < self.datasource.count; i++) {
-            
-            NSObject * obj = [self.datasource safetyObjectAtIndex:i];
-            [self createIllegalCardWithCar:obj];
-        }
-        
-        if (self.datasource.count < 5)
-        {
-            [self createIllegalCardWithCar:nil];
-        }
-        
-        NSInteger index = NSNotFound;
-        
-        if (self.defaultSelectCar) {
-            index = [self.datasource indexOfObject:self.defaultSelectCar];
-        }
-        if (index == NSNotFound) {
-            index = 0;
-        }
+    if (self.datasource.count < 5)
+    {
+        [self createIllegalCardWithCar:nil];
+    }
+    
+    NSInteger index = NSNotFound;
+    
+    if (self.defaultSelectCar) {
+        index = [self.datasource indexOfObject:self.defaultSelectCar];
+    }
+    if (index == NSNotFound) {
+        index = 0;
+    }
     
     self.currentIndex = index;
+    
+    CKAsyncMainQueue(^{
         [self loadPageIndex:index animated:NO];
-//    });
+    });
+    
 }
 
 - (void)createIllegalCardWithCar:(NSObject *)car
 {
     CGFloat w = CGRectGetWidth(self.view.frame);
-    CGFloat h= CGRectGetHeight(self.view.frame);
+    CGFloat h= CGRectGetHeight(self.view.frame) - self.headView.frame.size.height;
     CGFloat x = self.scrollView.subviews.count * w;
     
     self.scrollView.contentSize = CGSizeMake(x + w, h);
@@ -225,15 +238,18 @@
         }
         
         self.datasource = [self.carStore.cars allObjects];
-        self.defaultSelectCar  = car;
-        [self refreshScrollView];
+        self.defaultSelectCar = car;
+        self.currentIndex = [[self.carStore.cars allObjects] indexOfObject:car];
         [self setupPageController];
+        [self setupScrollView];
+        [self refreshScrollView];
     } error:^(NSError *error) {
         
         @strongify(self);
         [gToast showError:error.domain];
         [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        [self.view showDefaultEmptyViewWithText:@"获取爱车信息失败，点击重试" tapBlock:^{
+        
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取爱车信息失败，点击重试" tapBlock:^{
             @strongify(self);
             [[self.carStore getAllCars] send];
         }];
@@ -257,7 +273,29 @@
     NSInteger index = scrollView.contentOffset.x / w;
     self.currentIndex = index;
     [self refreshPageController];
+    [self.pageController selectAtIndex:index];
 }
 
+
+
+#pragma mark - PageSliderDelegate
+- (void)pageClickAtIndex:(NSInteger)index
+{
+    self.currentIndex = index;
+    [self loadPageIndex:index animated:YES];
+}
+
+- (BOOL)observeScrollViewOffset
+{
+    @weakify(self)
+    self.offsetDisposable = [[RACObserve(self.scrollView,contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * value) {
+        
+        @strongify(self)
+        CGPoint p = [value CGPointValue];
+        [self.pageController slideOffsetX:p.x andTotleW:self.scrollView.contentSize.width andPageW:gAppMgr.deviceInfo.screenSize.width];
+    }];
+    
+    return YES;
+}
 
 @end

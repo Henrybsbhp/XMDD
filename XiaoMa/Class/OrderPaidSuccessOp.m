@@ -21,4 +21,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"支付成功的通知接口";
+}
 @end

@@ -33,4 +33,8 @@
     return @{@"rc":@0, @"orders":@[], @"id":@17, @"newmsg":@0};
 }
 
+- (NSString *)description
+{
+    return @"查看用户的保险订单列表";
+}
 @end

@@ -7,6 +7,8 @@
 //
 
 #import "BaseOp.h"
+#import "PayInfoModel.h"
+
 
 @interface CheckoutServiceOrderV4Op : BaseOp
 
@@ -48,5 +50,10 @@
 
 ///洗车返加油券
 @property (nonatomic, assign) CGFloat rsp_gasCouponAmount;
+
+///推送地址
+@property (nonatomic,copy) NSString * rsp_notifyUrlStr;
+///支付信息
+@property (nonatomic,strong)PayInfoModel * rsp_payInfoModel;
 
 @end

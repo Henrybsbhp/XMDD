@@ -45,4 +45,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"查询一定范围之内的商户";
+}
 @end

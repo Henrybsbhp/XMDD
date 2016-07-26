@@ -1,4 +1,4 @@
- //
+//
 //  HistoryCollectionVC.m
 //  XiaoMa
 //
@@ -37,19 +37,6 @@
     self.tableView.dataSource = nil;
     DebugLog(@"HistoryCollectionVC dealloc");
 }
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp603"];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp603"];
-}
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -117,10 +104,10 @@
     UILabel *evaluateZone = (UILabel *)[cell searchViewWithTag:1006];
     licenseNo.text = model[@"licenseNo"];
     modelName.text = model[@"modelname"];
-    modelName.preferredMaxLayoutWidth = self.view.bounds.size.width - 50;
+    modelName.preferredMaxLayoutWidth = self.view.bounds.size.width - 100;
     mile.text = [NSString stringWithFormat:@"%@万公里",[NSString formatForPrice:[model floatParamForName:@"mile"]]];
     price.text=[NSString stringWithFormat:@"%@万元",[NSString formatForPrice:[model floatParamForName:@"price"]]];
-    evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
+    evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm2]];
     evaluateZone.text = model[@"evaluatezone"];
     [imgView setImageByUrl:model[@"logo"] withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     return cell;
@@ -142,10 +129,10 @@
     
     licenseNo.text = model[@"licenseNo"];
     modelName.text = model[@"modelname"];
-    modelName.preferredMaxLayoutWidth = self.view.bounds.size.width - 50;
+    modelName.preferredMaxLayoutWidth = self.view.bounds.size.width - 100;
     mile.text = [NSString stringWithFormat:@"%@万公里",[NSString formatForPrice:[model floatParamForName:@"mile"]]];
     price.text=[NSString stringWithFormat:@"%@万元",[NSString formatForPrice:[model floatParamForName:@"price"]]];
-    evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm]];
+    evaluateTime.text = [NSString stringWithFormat:@"%@",[[NSDate dateWithUTS:model[@"evaluatetime"]]dateFormatForYYYYMMddHHmm2]];
     evaluateZone.text = model[@"evaluatezone"];
     
     
@@ -235,9 +222,9 @@
     /**
      *  编辑事件
      */
-    [MobClick event:@"rp603-1"];
+    [MobClick event:@"rp603_1"];
     self.isEditing = !self.isEditing;
-
+    
     if (self.dataArr.count == 0)
     {
         self.navigationItem.rightBarButtonItem = nil;
@@ -260,11 +247,13 @@
         self.tableView.showBottomLoadingView = NO;
         self.navigationItem.rightBarButtonItem = nil;
         [self refreshBottomView];
-        [self.tableView showDefaultEmptyViewWithText:@"暂无估值记录"];
+        self.tableView.hidden = YES;
+        [self.view showImageEmptyViewWithImageName:@"def_withoutValuationHistory" text:@"暂无估值记录"];
     }
     else
     {
-        [self.tableView hideDefaultEmptyView];
+        self.tableView.hidden = NO;
+        [self.view hideDefaultEmptyView];
     }
     /**
      *  保证在清空历史的时候也能进行一次reloadData操作
@@ -283,10 +272,10 @@
     {
         UIBarButtonItem * rightBtn = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
         
-//        [rightBtn setTitleTextAttributes:@{
-//                                           NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
-//                                           } forState:UIControlStateNormal];
-        self.navigationItem.rightBarButtonItem = rightBtn;
+        //        [rightBtn setTitleTextAttributes:@{
+        //                                           NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
+        //                                           } forState:UIControlStateNormal];
+        [self.navigationItem setRightBarButtonItem:rightBtn animated:YES]; //防抖动
     }
 }
 
@@ -295,7 +284,7 @@
     CGFloat offsetY = 0;
     if (self.isEditing)
     {
-        offsetY = -50;
+        offsetY = -60;
         
     }
     else
@@ -307,7 +296,7 @@
         [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
             
             make.top.mas_equalTo(self.view.mas_bottom).offset(offsetY);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(60);
         }];
     }];
     /**
@@ -357,14 +346,14 @@
 {
     HistoryCollectionOp *op = [HistoryCollectionOp new];
     op.req_evaluateTime = @(0);
-
+    
     [[[op rac_postRequest] initially:^{
-
+        
         self.isLoading = YES;
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }]  subscribeNext:^(HistoryCollectionOp *op) {
-
+        
         self.isLoading = NO;
         [self.view stopActivityAnimation];
         
@@ -373,11 +362,13 @@
         {
             self.tableView.showBottomLoadingView = YES;
             [self.tableView.bottomLoadingView hideIndicatorText];
-            [self.tableView showDefaultEmptyViewWithText:@"暂无估值记录"];
+            self.tableView.hidden = YES;
+            [self.view showImageEmptyViewWithImageName:@"def_withoutValuationHistory" text:@"暂无估值记录"];
         }
         else
         {
-            [self.tableView hideDefaultEmptyView];
+            self.tableView.hidden = NO;
+            [self.view hideDefaultEmptyView];
             if (op.rsp_dataArr.count >= 10)
             {
                 self.isExist = YES;
@@ -386,20 +377,18 @@
             else
             {
                 self.isExist = NO;
-                self.tableView.showBottomLoadingView = YES;
-                [self.tableView.bottomLoadingView showIndicatorTextWith:@"已经到底了"];
             }
         }
         [self.tableView reloadData];
         [self setupNavi];
-    
+        
     } error:^(NSError *error) {
         
         self.isLoading = NO;
         [self.view stopActivityAnimation];
         
         @weakify(self)
-        [self.view showDefaultEmptyViewWithText:@"估值记录获取失败，请点击屏幕重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"估值记录获取失败，请点击屏幕重试" tapBlock:^{
             @strongify(self);
             [self requestValuationHistory];
         }];
@@ -465,7 +454,7 @@
     /**
      *  删除事件
      */
-    [MobClick event:@"rp603-3"];
+    [MobClick event:@"rp603_3"];
     if (self.deleteArr.count)
     {
         NSMutableArray *deleteStrArr = [NSMutableArray new];
@@ -487,15 +476,16 @@
     /**
      *  清空事件
      */
-    [MobClick event:@"rp603-2"];
-
-    UIAlertView *alerView = [[UIAlertView alloc]initWithTitle:nil message:@"请确认是否清空估值记录" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [alerView show];
-    [[alerView rac_buttonClickedSignal] subscribeNext:^(NSNumber *index) {
-        if (index.integerValue == 1)
-        {
-            [self uploadDeletaArr:@"all"];
-        }
+    self.selectedAllBtn.selected = YES;
+    [MobClick event:@"rp603_2"];
+    
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
+        self.selectedAllBtn.selected = NO;
     }];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        [self uploadDeletaArr:@"all"];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否清空估值记录" ActionItems:@[cancel,confirm]];
+    [alert show];
 }
 @end

@@ -25,5 +25,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取浙商卡当月优惠信息";
+}
 @end
 

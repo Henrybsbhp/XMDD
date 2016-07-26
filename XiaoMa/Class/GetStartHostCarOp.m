@@ -31,4 +31,10 @@
     
 }
 
+
+- (NSString *)description
+{
+    return @"获取开始救援的车辆";
+}
+
 @end

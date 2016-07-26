@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PayInfoModel.h"
 
 @interface InsuranceOrderPayOp : BaseOp
 
@@ -23,5 +24,10 @@
 @property (nonatomic, assign) CGFloat rsp_total;
 //交易号
 @property (nonatomic, strong) NSString * rsp_tradeno;
+///推送地址
+@property (nonatomic,copy) NSString * rsp_notifyUrlStr;
+
+///支付信息
+@property (nonatomic,strong)PayInfoModel * rsp_payInfoModel;
 
 @end

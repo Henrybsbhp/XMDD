@@ -30,7 +30,12 @@
         NSAssert(NO,errorInfo);
     }
     return self;
-    
+}
+
+
+- (NSString *)description
+{
+    return @"剩余协办次数";
 }
 
 @end

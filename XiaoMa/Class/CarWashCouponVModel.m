@@ -11,6 +11,7 @@
 #import "CouponDetailsVC.h"
 #import "UIImageView+WebImage.h"
 #import "MyCouponVC.h"
+#import "UIView+RoundedCorner.h"
 
 @interface CarWashCouponVModel ()<HKLoadingModelDelegate>
 @property (nonatomic, assign) NSInteger curPageno;
@@ -42,23 +43,25 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
+    
     if (self.couponNewType == CouponNewTypeCarWash) {
-        return @"您还没有洗车优惠券";
+        return @{@"title":@"您还没有洗车优惠券",@"image":@"def_withoutCoupon"};
     }
     else if (self.couponNewType == CouponNewTypeGas) {
-        return @"您还没有加油优惠券";
+        return @{@"title":@"您还没有加油优惠券",@"image":@"def_withoutCoupon"};
     }
     else if (self.couponNewType == CouponNewTypeInsurance) {
-        return @"您还没有保险优惠券";
+        return @{@"title":@"您还没有保险优惠券",@"image":@"def_withoutCoupon"};
     }
-    return @"您还没有其他优惠券";
+    return @{@"title":@"您还没有其他优惠券",@"image":@"def_withoutCoupon"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
-    return @"获取优惠券失败，点击重试";
+    return @{@"title":@"获取优惠券失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (NSArray *)loadingModel:(HKLoadingModel *)model datasourceFromLoadedData:(NSArray *)data withType:(HKLoadingTypeMask)type
@@ -143,7 +146,7 @@
         
         UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
         [btn setTitle:@"下列优惠券已失效" forState:UIControlStateNormal];
-        btn.titleLabel.font = [UIFont systemFontOfSize:15];
+        btn.titleLabel.font = [UIFont systemFontOfSize:13];
         [btn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         
         if (self.spreadFlag) {
@@ -183,7 +186,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 90;
+    return 115;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -193,6 +196,19 @@
     
     //优惠名称
     UILabel *name = (UILabel *)[cell.contentView viewWithTag:1002];
+    //backgroundViwe
+    UIView *backgroundView = [cell viewWithTag:100];
+    backgroundView.layer.cornerRadius = 5;
+    backgroundView.layer.masksToBounds = YES;
+    
+    UIView *topView = [cell viewWithTag:1010];
+    
+    
+    
+    UIImageView *imgView = [cell viewWithTag:10101];
+    UIImage *img = [[UIImage imageNamed:@"coupon_sawtooth"]resizableImageWithCapInsets:UIEdgeInsetsMake(0.5, -1, -0.5, 0) resizingMode:UIImageResizingModeTile];
+    imgView.image = img;
+    
     //优惠描述
     UILabel *description = (UILabel *)[cell.contentView viewWithTag:1003];
     //优惠有效期
@@ -204,18 +220,13 @@
     
     HKCoupon *couponDic = [[self.loadingModel.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
     if (indexPath.section == 0) {
+        topView.backgroundColor = [UIColor colorWithHex:@"#18d06a" alpha:1];
         markV.hidden = YES;
-        UIImage *bgImg = [UIImage imageNamed:@"coupon_background"];
-        if (couponDic.rgbColor.length > 0) {
-            NSString *strColor = [NSString stringWithFormat:@"#%@", couponDic.rgbColor];
-            UIColor *color = HEXCOLOR(strColor);
-            bgImg = [bgImg imageByFilledWithColor:color];
-        }
-        backgroundImg.image = bgImg;
         [logoV setImageByUrl:couponDic.logo
                           withType:ImageURLTypeThumbnail defImage:@"coupon_logo" errorImage:@"coupon_logo"];
     }
     else {
+        topView.backgroundColor = [UIColor colorWithHex:@"#dedfe0" alpha:1];
         markV.hidden = NO;
         backgroundImg.image = [[UIImage imageNamed:@"coupon_background"] imageByFilledWithColor:[UIColor colorWithHex:@"#d0d0d0" alpha:1.0f]];
         [logoV setImageByUrl:couponDic.logo
@@ -245,13 +256,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    [MobClick event:@"rp304-5"];
+    [MobClick event:@"rp304_5"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         CouponDetailsVC *vc = [UIStoryboard vcWithId:@"CouponDetailsVC" inStoryboard:@"Mine"];
         HKCoupon *hkcoupon = [[self.loadingModel.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
         vc.couponId = hkcoupon.couponId;
-        vc.rgbStr = hkcoupon.rgbColor;
         vc.isShareble = hkcoupon.isshareble;
         vc.oldType = hkcoupon.conponType;
         vc.newType = self.couponNewType;
@@ -275,5 +285,7 @@
     CGContextRelease(context);
     return grayImage;
 }
+
+
 
 @end

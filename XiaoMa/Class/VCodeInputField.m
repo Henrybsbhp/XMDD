@@ -27,6 +27,15 @@
     });
 }
 
+- (void)showRightViewAfterInterval:(NSTimeInterval)interval withFilter:(BOOL(^)(void))filter
+{
+    CKAfter(interval, ^{
+        if (filter && filter()) {
+            self.rightViewMode = UITextFieldViewModeAlways;
+        }
+    });
+}
+
 - (void)hideRightView
 {
     self.rightViewMode = UITextFieldViewModeNever;

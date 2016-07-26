@@ -17,18 +17,8 @@
 
 @implementation JoinResultViewController
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
-    [MobClick beginLogPageView:@"rp334"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
-    [MobClick endLogPageView:@"rp334"];
+- (void)awakeFromNib {
+    self.router.disableInteractivePopGestureRecognizer = YES;
 }
 
 - (void)viewDidLoad {
@@ -99,7 +89,7 @@
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp334-1"];
+    [MobClick event:@"rp334_1"];
     for (UIViewController * vc in self.navigationController.viewControllers) {
         if ([vc isKindOfClass:[AboutViewController class]]) {
             [self.navigationController popToViewController:vc animated:YES];

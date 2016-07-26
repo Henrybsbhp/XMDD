@@ -26,4 +26,10 @@
     return error;
 }
 
+
+- (NSString *)description
+{
+    return @"协办取消申请";
+}
+
 @end

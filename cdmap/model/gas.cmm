@@ -35,6 +35,9 @@ class=GetGaschargeConfig op path="/user/gascharge/config/get"> {
      <"折扣率">discountrate:int
      <"有优惠充值上限">couponupplimit:int
      <"充值上限">chargeupplimit:int
+     <"加油公告">tip
+     <"分期可充值金额列表">supportamt:array
+     <"折扣方案">packages:[GasChargePackage]
   }
 }
 
@@ -58,12 +61,32 @@ class=GascardCharge op auth path="/user/gascard/charge"> {
      <"支付方式">paychannel:int
      <"支付验证码">vcode
      <"订单id">orderid:number
+     <"是否开发票(1:开发票，0:不开)">bill:int
   }
   <rsp> {
      <"交易流水">tradeid
      <"记录ID">orderid:number
      <"支付金额">total:int
      <"优惠金额">couponmoney:int
+  }
+}
+
+<"分期加油"
+class=GascardChargeByStages op auth path="/order/gascard/fqjy/charge"> {
+  <req>{
+    <"油卡id">cardid:number
+    <"是否开发票(1:开发票，0:不开)">bill:int
+    <"套餐id">pkgid:number
+    <"每月充值金额">permonthamt:int
+    <"支付方式">paychannel:int
+    <"优惠券记录id">cid:number
+  }
+  <rsp>{
+    <"交易流水">tradeid
+    <"记录id">orderid:number
+    <"支付金额">total:float
+    <"实际优惠金额">couponmoney:float
+    <"支付完成后的提示">tip
   }
 }
 
@@ -145,4 +168,11 @@ class=GasChargeRecord data> {
   <"状态说明">statusdesc
   <"支付金额">paymoney:int
   <"充值金额">chargemoney:int
+}
+
+<"分期加油配置信息"
+class=GasChargePackage data> {
+  <"折扣率">discount
+  <"分期月份">month:int
+  <套餐id>pkgid:number                       
 }

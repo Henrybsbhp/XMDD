@@ -32,11 +32,6 @@
     [self setupUI];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
@@ -71,6 +66,10 @@
         if (self.pkgCodeTxtFeild.text.length)
         {
             [self requestGainPkg];
+        }
+        else
+        {
+            [gToast showText:@"请输入礼包兑换码"];
         }
     }];
 }

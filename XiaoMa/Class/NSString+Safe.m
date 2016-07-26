@@ -23,4 +23,11 @@
         return nil;
     return [self substringToIndex:i];
 }
+
+- (NSString *)trimmeSpacesInFontAndEnd
+{
+    NSString *trimmedString = [self stringByTrimmingCharactersInSet:
+                               [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return trimmedString;
+}
 @end

@@ -1,3 +1,4 @@
 ;$(import "cdmap/model/gas.cmm")
 ;$(import "cdmap/model/car.cmm")
-$(import "cdmap/model/insurance.cmm")
+;$(import "cdmap/model/insurance.cmm")
+$(import "cdmap/model/mutualIns.cmm")

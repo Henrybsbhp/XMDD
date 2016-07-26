@@ -20,7 +20,7 @@
 #import "InsInputInfoVC.h"
 #import "InsAlertVC.h"
 
-@interface InsCheckResultsVC ()
+@interface InsCheckResultsVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIView *containerView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
@@ -56,17 +56,6 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp1004"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp1004"];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -106,7 +95,7 @@
         
         @strongify(self);
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"获取核保结果失败，点击重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取核保结果失败，点击重试" tapBlock:^{
             @strongify(self);
             [self requestPremiums];
         }];
@@ -172,14 +161,14 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1004-1"];
+    [MobClick event:@"rp1004_1"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 ///重新核保
 - (IBAction)actionReUnderwrite:(id)sender
 {
-    [MobClick event:@"rp1004-2"];
+    [MobClick event:@"rp1004_2"];
     InsInputInfoVC *infoVC = [UIStoryboard vcWithId:@"InsInputInfoVC" inStoryboard:@"Insurance"];
     infoVC.insModel = self.insModel;
     [self.navigationController pushViewController:infoVC animated:YES];
@@ -204,7 +193,7 @@
 
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 280, lbh)];
     label.font = [UIFont systemFontOfSize:14];
-    label.textColor = HEXCOLOR(@"#888888");
+    label.textColor = kGrayTextColor;
     label.text = errmsg;
     [vc.view addSubview:label];
 }
@@ -251,7 +240,7 @@
         [self resetUpponCell:cell forData:data atIndexPath:indexPath];
     }
     else if ([data equalByCellID:@"Down" tag:nil]){
-        [self resetDownCell:cell forData:data];
+        [self resetDownCell:cell forData:data atIndexPath:indexPath];
     }
     else if ([data equalByCellID:@"Fail" tag:nil]) {
         [self resetFailCell:cell forData:data];
@@ -301,7 +290,7 @@
     attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:HEXCOLOR(@"#FFB20C")};
     [text appendAttributedString:[[NSAttributedString alloc] initWithString:@"达达报价" attributes:attr1]];
     if (premium.restriction.length > 0) {
-        attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:12], NSForegroundColorAttributeName:HEXCOLOR(@"#888888")};
+        attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:12], NSForegroundColorAttributeName:kGrayTextColor};
         NSString *str = [NSString stringWithFormat:@"(%@)", premium.restriction];
         [text appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr2]];
     }
@@ -330,13 +319,13 @@
         insModel.inscomp = premium.inscomp;
         insModel.inscompname = premium.inscompname;
         if (buyable) {
-            [MobClick event:@"rp1004-3"];
+            [MobClick event:@"rp1004_3"];
             InsBuyVC *vc = [UIStoryboard vcWithId:@"InsBuyVC" inStoryboard:@"Insurance"];
             vc.insModel = insModel;
             [self.navigationController pushViewController:vc animated:YES];
         }
         else {
-            [MobClick event:@"rp1004-4"];
+            [MobClick event:@"rp1004_4"];
             InsAppointmentVC *vc = [UIStoryboard vcWithId:@"InsAppointmentVC" inStoryboard:@"Insurance"];
             vc.insModel = insModel;
             vc.insPremium = premium;
@@ -379,13 +368,14 @@
     }];
 }
 
-- (void)resetDownCell:(UITableViewCell *)cell forData:(HKCellData *)data
+- (void)resetDownCell:(UITableViewCell *)cell forData:(HKCellData *)data atIndexPath:(NSIndexPath *)indexPath
 {
     CKLine *line1 = [cell viewWithTag:10001];
     CKLine *line2 = [cell viewWithTag:10002];
     CKLine *line3 = [cell viewWithTag:10003];
     InsCouponView *couponV = [cell viewWithTag:1001];
 
+    data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
     InsPremium *premium = data.object;
     
     line1.lineAlignment = CKLineAlignmentVerticalLeft;
@@ -404,6 +394,9 @@
         @strongify(self);
         [InsAlertVC showInView:self.navigationController.view withMessage:name.customObject];
     }];
+    
+    //必须重新布局，否则页面不会刷新
+    [couponV setNeedsLayout];
 }
 
 - (void)resetFailCell:(UITableViewCell *)cell forData:(HKCellData *)data
@@ -436,7 +429,7 @@
     
     [[[callB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
-        [MobClick event:@"rp1004-5"];
+        [MobClick event:@"rp1004_5"];
         [gPhoneHelper makePhone:@"4007111111" andInfo:@"客服电话: 4007-111-111"];
     }];
 
@@ -454,7 +447,7 @@
          
          @strongify(self);
          if (overflow) {
-             [MobClick event:@"rp1004-6"];
+             [MobClick event:@"rp1004_6"];
              [InsAlertVC showInView:self.navigationController.view withMessage:premium.errmsg];
          }
     }];

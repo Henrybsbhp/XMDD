@@ -29,7 +29,8 @@ typedef enum : NSUInteger {
     PaymentChannelABCIntegral,
     PaymentChannelCoupon,
     PaymentChannelCZBCreditCard,
-    PaymentChannelUPpay
+    PaymentChannelUPpay,
+    PaymentChannelApplePay
 } PaymentChannelType;
 
 /// 支付渠道
@@ -43,6 +44,9 @@ typedef enum : NSUInteger {
 //10-APP滑动广告
 //11-保险广告
 //12-估值广告
+//13-首页悬浮广告
+//14-首页第二栏广告
+//17-互助首页广告
 //20：活动类
 typedef enum : NSUInteger {
     AdvertisementHomePage = 1,
@@ -55,6 +59,11 @@ typedef enum : NSUInteger {
     AdvertisementAppSlide = 10,
     AdvertisementInsurance = 11,
     AdvertisementValuation = 12,
+    AdvertisementAlert = 13,
+    AdvertisementHomePageBottom = 14,
+    AdvertisementMutualIns = 15,
+    AdvertisementMutualInsTop = 16,
+    AdvertisementMutualInsHome = 17,
     AdvertisementTypeActivities = 20,
     AdvertisementTypeLeaunch = 30
 } AdvertisementType;
@@ -65,7 +74,13 @@ typedef enum : NSUInteger {
 //4-保险支付完成分享
 //5-油卡充值完成分享
 //6-优惠券分享（转赠）
-//7-其他分享（jsbridge中的分享和App分享）
+//7-爱车估值结果分享
+//8-提交卖车app分享
+//9-app分享
+//10: 在互助团里的APP分享
+//11:小马互助晒单炫耀
+//100-其他分享（jsbridge中的分享）
+
 typedef enum : NSUInteger {
     ShareSceneCarwash = 2,
     ShareSceneGain = 3,
@@ -73,7 +88,10 @@ typedef enum : NSUInteger {
     ShareSceneGas = 5,
     ShareSceneCoupon = 6,
     ShareSceneValuation = 7,
-    ShareSceneApp = 8,
+    ShareSceneAppCarSell = 8,
+    ShareSceneAppAbout = 9,
+    ShareSceneCipher = 10,
+    ShareSceneShowXmddIns = 11,
     ShareSceneLocalShare = 100
 } ShareSceneType;
 
@@ -97,10 +115,6 @@ typedef enum : NSUInteger {
 #define XIAMMAWEB @"http://www.xiaomadada.com"
 #define ADDEFINEWEB @"http://www.xiaomadada.com/apphtml/couponpkg.html?jump=t"
 
-#define kDefTintColor   HEXCOLOR(@"#15ac1f")
-#define kDefLineColor   HEXCOLOR(@"#ebebeb")
-#define kDarkLineColor  HEXCOLOR(@"#e0e0e0")
-
 #define kKeyChainBaseServer     @"com.huika.xmdd"
 
 //字符串定义
@@ -119,6 +133,9 @@ typedef enum : NSUInteger {
 #define BaiduNavigationStr @"百度地图"
 #define AMapNavigationStr @"高德地图"
 
+#define XMINSPrefix @"#小马互助"
+
+#define ScreenWidth     [UIScreen mainScreen].bounds.size.width
 //单例别名
 #define gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)
 #define gAppMgr     [AppManager sharedManager]
@@ -129,6 +146,7 @@ typedef enum : NSUInteger {
 #define gPhoneHelper  ([PhoneHelper sharedHelper])
 #define gAdMgr [AdvertisementManager sharedManager]
 #define gSupportFileMgr [SupportFileManager sharedManager]
+#define gAssistiveMgr [AssistiveManager sharedManager]
 
 #define mainStoryboard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define carWashStoryboard [UIStoryboard storyboardWithName:@"Carwash" bundle:nil]
@@ -142,19 +160,31 @@ typedef enum : NSUInteger {
 #define violationStoryboard [UIStoryboard storyboardWithName:@"Violation" bundle:nil]
 #define valuationStoryboard [UIStoryboard storyboardWithName:@"Valuation" bundle:nil]
 #define gasStoryboard [UIStoryboard storyboardWithName:@"Gas" bundle:nil]
+#define mutualInsPayStoryboard [UIStoryboard storyboardWithName:@"MutualInsPay" bundle:nil]
+#define mutInsGrouponStoryboard [UIStoryboard storyboardWithName:@"MutualInsGroupon" bundle:nil]
+#define mutualInsJoinStoryboard [UIStoryboard storyboardWithName:@"MutualInsJoin" bundle:nil]
+#define aboutStoryboard [UIStoryboard storyboardWithName:@"About" bundle:nil]
+
 
 #define LocationFail 7001
 #define WechatPayFail 7002
 
 //通知定义
-#define kNotifyRefreshMyCarList             @"com.huika.xmdd.RefreshMyCarList"
-#define kNotifyRefreshMyCarwashOrders       @"com.huika.xmdd.RefreshMyCarwashOrders"
 #define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
 #define kNotifyRefreshMyCouponList          @"com.huika.xmdd.RefreshMyCouponList"
 
+///通知MutualInsAskForCompensationVC进行fetchAllData操作
+#define kNotifyUpdateClaimList              @"k.notification.MutualInsAskForCompensationVC.fetchAllData"
+
+//key定义
+#define kOriginVC       @"originVC"
+#define kNextVC         @"nextVC"
+#define kOriginRoute    @"kOriginRoute"
 
 
 /// 相关网页地址
+#define kDevGasOrderPaidUrl @"http://dev.xiaomadada.com/paaweb/general/order/paynotify"
+#define kGasOrderPaidUrl @"http://www.xiaomadada.com/paaweb/general/order/paynotify"
 #define kInsuranceOlineUrl  @"https://www.xiaomadada.com/apphtml/aichebao.html"
 #define kServiceLicenseUrl @"https://www.xiaomadada.com/apphtml/license.html"
 #define kServiceHelpUrl     @"https://www.xiaomadada.com/apphtml/shiyongbangzhu.html"
@@ -167,6 +197,7 @@ typedef enum : NSUInteger {
 #define kAboutCouponPkgUrl      @"https://www.xiaomadada.com/apphtml/guanyulibao.html"
 #define kWeeklyCouponUrl    @"https://www.xiaomadada.com/apphtml/weeklycoupon.html"
 #define kAddGasNoticeUrl    @"https://xiaomadada.com/apphtml/chongzhishuoming.html"
+#define kInstalmentGasNoticeUrl @"https://www.xiaomadada.com/apphtml/fenqijiayou.html"
 #define kGasPaymentResultUrl      @"https://www.xiaomadada.com/paaweb/general/appDownload?ch=10002"
 #define kGasLicenseUrl          @"https://xiaomadada.com/apphtml/license-youka.html"
 #define kInsuranceDirectSellingUrl  @"https://www.xiaomadada.com/apphtml/chexianzhixiao.html"

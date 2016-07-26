@@ -10,7 +10,6 @@
 #import "GetRescueDetailOp.h"
 #import "HKRescueDetail.h"
 #import "RescueCouponViewController.h"
-#import "GetSystemPromotionOp.h"
 #import "RescueApplyOp.h"
 #import "ADViewController.h"
 #import "NSString+RectSize.h"
@@ -36,41 +35,7 @@
     DebugLog(@"RescueDetailsVC dealloc");
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    switch (self.type) {
-        case 1:
-            [MobClick beginLogPageView:@"rp702"];
-            break;
-        case 2:
-            [MobClick beginLogPageView:@"rp703"];
-            break;
-        case 3:
-            [MobClick beginLogPageView:@"rp704"];
-            break;
-        default:
-            break;
-    }
-}
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    switch (self.type) {
-        case 1:
-            [MobClick endLogPageView:@"rp702"];
-            break;
-        case 2:
-            [MobClick endLogPageView:@"rp703"];
-            break;
-        case 3:
-            [MobClick endLogPageView:@"rp704"];
-            break;
-        default:
-            break;
-    }
-}
 
 - (void)viewDidLoad {
     
@@ -94,13 +59,13 @@
          */
         switch (self.type) {
             case 1:
-                [MobClick event:@"rp702-1"];
+                [MobClick event:@"rp702_1"];
                 break;
             case 2:
-                [MobClick event:@"rp703-1"];
+                [MobClick event:@"rp703_1"];
                 break;
             case 3:
-                [MobClick event:@"rp704-1"];
+                [MobClick event:@"rp704_1"];
                 break;
             default:
                 break;
@@ -115,6 +80,7 @@
     GetRescueDetailOp *op = [GetRescueDetailOp operation];
     op.rescueid = self.type;
     op.type = [NSNumber numberWithInteger:1];
+    @weakify(self)
     [[[[op rac_postRequest] initially:^{
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
@@ -133,7 +99,8 @@
         [self.tableView reloadData];
     } error:^(NSError *error) {
         if (self.dataSourceArray.count == 0) {
-            [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
+                @strongify(self);
                 [self actionFirstEnter];
             }];
         }
@@ -145,13 +112,13 @@
 - (IBAction)actionResource:(UIButton *)sender {
     switch (self.type) {
         case 1:
-            [MobClick event:@"rp702-2"];
+            [MobClick event:@"rp702_2"];
             break;
         case 2:
-            [MobClick event:@"rp703-2"];
+            [MobClick event:@"rp703_2"];
             break;
         case 3:
-            [MobClick event:@"rp704-2"];
+            [MobClick event:@"rp704_2"];
             break;
         default:
             break;
@@ -176,12 +143,21 @@
         } error:^(NSError *error) {
             
         }] ;
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"救援电话:4007-111-111" ActionItems:@[cancel,confirm]];
+        [alert show];
         
     }else{
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"救援电话:4007-111-111" ActionItems:@[cancel,confirm]];
+        [alert show];
     }
 }
 
@@ -189,13 +165,13 @@
 - (void)setupADView
 {
     if (self.type == 1) {
-        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailer boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp702-3"];
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailer boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp702_3" mobBaseEventDict:nil];
         [self.adctrl reloadDataForTableView:self.tableView];
     }else if (self.type == 2){
-        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPower boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp703-3"];
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPower boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp703_3" mobBaseEventDict:nil];
         [self.adctrl reloadDataForTableView:self.tableView];
     }else if (self.type == 3){
-        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPowerChangeTheTire boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp704-3"];
+        self.adctrl = [ADViewController vcWithADType:AdvertisementTrailerPumpPowerChangeTheTire boundsWidth:self.view.bounds.size.width targetVC:self mobBaseEvent:@"rp704_3" mobBaseEventDict:nil];
         [self.adctrl reloadDataForTableView:self.tableView];
     }
 }

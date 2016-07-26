@@ -44,6 +44,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *whiteBackBtn;
 @property (weak, nonatomic) IBOutlet UIButton *greenStarBtn;
 @property (weak, nonatomic) IBOutlet UIButton *whiteStarBtn;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 - (IBAction)collectionAction:(id)sender;
 /// 服务列表展开
 @property (nonatomic, assign) BOOL serviceExpanded;
@@ -53,9 +54,15 @@
 @property (nonatomic)BOOL titleShow;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *roundBgWidth;
 
+@property (nonatomic)BOOL isloadingShopComments;
+
 @end
 
 @implementation ShopDetailVC
+
+- (void)awakeFromNib {
+    self.router.navigationBarHidden = YES;
+}
 
 - (void)viewDidLoad
 {
@@ -82,16 +89,15 @@
     
     [self.roundLb refreshLabels];
     
-    [MobClick beginLogPageView:@"rp105"];
     if([gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] == nil){
         self.favorite = NO;
-        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
-        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
+        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star_300"] forState:UIControlStateNormal];
+        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star_300"] forState:UIControlStateNormal];
     }
     else {
         self.favorite = YES;
-        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar"] forState:UIControlStateNormal];
-        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar"] forState:UIControlStateNormal];
+        [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar_300"] forState:UIControlStateNormal];
+        [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar_300"] forState:UIControlStateNormal];
     }
     
     if (self.needRequestShopComments)
@@ -101,11 +107,6 @@
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp105"];
-}
 - (void)dealloc
 {
     self.tableView.delegate = nil;
@@ -227,7 +228,7 @@
 
 
 - (IBAction)collectionAction:(id)sender {
-    [MobClick event:@"rp105-1"];
+    [MobClick event:@"rp105_1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self])
     {
         if (self.favorite)
@@ -241,8 +242,8 @@
                 @strongify(self);
                 [gToast dismiss];
                 self.favorite = NO;
-                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
-                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star_300"] forState:UIControlStateNormal];
+                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star_300"] forState:UIControlStateNormal];
                 
                 NSArray * array = self.navigationController.viewControllers;
                 UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
@@ -267,8 +268,8 @@
                 @strongify(self);
                 [gToast dismiss];
                 self.favorite = YES;
-                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar"] forState:UIControlStateNormal];
-                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar"] forState:UIControlStateNormal];
+                [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_fillstar_300"] forState:UIControlStateNormal];
+                [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_fillstar_300"] forState:UIControlStateNormal];
                 NSArray * array = self.navigationController.viewControllers;
                 UIViewController * vc = [array safetyObjectAtIndex:array.count - 2];
                 if (vc && [vc isKindOfClass:[NearbyShopsViewController class]])
@@ -282,8 +283,8 @@
                 if (error.code == 7002)
                 {
                     self.favorite = YES;
-                    [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star"] forState:UIControlStateNormal];
-                    [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star"] forState:UIControlStateNormal];
+                    [self.whiteStarBtn setImage:[UIImage imageNamed:@"shop_white_star_300"] forState:UIControlStateNormal];
+                    [self.greenStarBtn setImage:[UIImage imageNamed:@"shop_green_star_300"] forState:UIControlStateNormal];
                     [gToast dismiss];
                 }
                 else {
@@ -299,8 +300,21 @@
     GetShopRatesOp * op = [GetShopRatesOp operation];
     op.shopId = self.shop.shopID;
     op.pageno = 1;
-    [[op rac_postRequest] subscribeNext:^(GetShopRatesOp * op) {
+    [[[op rac_postRequest] initially:^{
         
+        self.isloadingShopComments = YES;
+    }] subscribeNext:^(id x) {
+        
+        self.isloadingShopComments = NO;
+        self.shop.shopCommentArray = op.rsp_shopCommentArray;
+        self.shop.commentNumber = op.rsp_totalNum;
+        
+        NSIndexSet *indexSet= [[NSIndexSet alloc] initWithIndex:1];
+        
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+    } error:^(NSError *error) {
+        
+        self.isloadingShopComments = NO;
         self.shop.shopCommentArray = op.rsp_shopCommentArray;
         self.shop.commentNumber = op.rsp_totalNum;
         
@@ -333,7 +347,7 @@
 
 - (IBAction)actionMap:(id)sender
 {
-    [MobClick event:@"rp105-4"];
+    [MobClick event:@"rp105_4"];
     CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
     vc.shop = self.shop;
     [self.navigationController pushViewController:vc animated:YES];
@@ -341,16 +355,15 @@
 
 - (void)actionShowPhotos:(UITapGestureRecognizer *)tap
 {
-    [MobClick event:@"rp105-2"];
+    [MobClick event:@"rp105_2"];
     if (self.shop.picArray.count > 0)
     {
         SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
-        UIView *sourceImgV1 = self.headImgView;
-        UIView *sourceImgV2 = self.imageCountLabel;
-        browser.sourceImageViews = @[sourceImgV1, sourceImgV2]; // 原图的容器
+        browser.sourceImagesContainerView = self.containerView;// 原图的容器
         browser.imageCount = self.shop.picArray.count; // 图片总数
         browser.currentImageIndex = 0;
         browser.delegate = self;
+        browser.sourceImagesContainerViewContentMode = sourceImagesContainerViewContentFill;
         [browser show];
     }
 }
@@ -358,12 +371,13 @@
 - (void)gotoPaymentVCWithService:(JTShopService *)service
 {
     if (service.shopServiceType == ShopServiceCarWash) {
-        [MobClick event:@"rp105-6_1"];
+        
+        [MobClick event:@"rp105_6_1"];
     }
     else {
-        [MobClick event:@"rp105-6_2"];
+        [MobClick event:@"rp105_6_2"];
     }
-    [[[[[MyCarStore fetchExistsStore] getDefaultCar] send] catch:^RACSignal *(NSError *error) {
+    [[[[[MyCarStore fetchOrCreateStore] getDefaultCar] send] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal return:nil];
     }] subscribeNext:^(HKMyCar *car) {
@@ -386,7 +400,7 @@
         vc.originVC = self;
         vc.shop = self.shop;
         vc.service = service;
-        vc.defaultCar = [car isCarInfoCompletedForCarWash] ? car : nil;
+        vc.defaultCar = car;
         [self.navigationController pushViewController:vc animated:YES];
     }];
 }
@@ -466,12 +480,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return section == 0 ? CGFLOAT_MIN : 9;
+    return section == 0 ? CGFLOAT_MIN : 6;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 9;
+    return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -522,11 +536,6 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    JTTableViewCell *jtcell = (JTTableViewCell *)cell;
-    [jtcell prepareCellForTableView:tableView atIndexPath:indexPath];
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -536,13 +545,13 @@
     {
         if (indexPath.row == 0)
         {
-            [MobClick event:@"rp105-9"];
+            [MobClick event:@"rp105_9"];
         }
         if (indexPath.row == 1)
         {
 //            [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:gMapHelper.coordinate andView:self.view];
             
-            [MobClick event:@"rp105-3"];
+            [MobClick event:@"rp105_3"];
             CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
             vc.shop = self.shop;
             vc.favorite = self.favorite;
@@ -550,11 +559,12 @@
         }
         else if (indexPath.row == 2)
         {
-            [MobClick event:@"rp105-5"];
+            [MobClick event:@"rp105_5"];
             if (self.shop.shopPhone.length == 0)
             {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
-                [av show];
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
+                [alert show];
                 return ;
             }
             
@@ -566,7 +576,7 @@
     {
         if (self.shop.shopCommentArray.count)
         {
-            [MobClick event:@"rp105-8"];
+            [MobClick event:@"rp105_8"];
             CommentListViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CommentListViewController"];
             vc.shopid = self.shop.shopID;
             vc.commentArray = self.shop.shopCommentArray;
@@ -613,7 +623,7 @@
     {
         if ([self isBetween:shop.openHour and:shop.closeHour]) {
             statusL.text = @"营业中";
-            statusL.backgroundColor = HEXCOLOR(@"#1bb745");
+            statusL.backgroundColor = kDefTintColor;
         }
         else {
             statusL.text = @"已休息";
@@ -640,7 +650,7 @@
     @weakify(self)
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp105-4"];
+        [MobClick event:@"rp105_4"];
         @strongify(self)
         CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
         vc.shop = self.shop;
@@ -665,8 +675,9 @@
         @strongify(self)
         if (self.shop.shopPhone.length == 0)
         {
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
-            [av show];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:kDefTintColor clickBlock:nil];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
+            [alert show];
             return ;
         }
         
@@ -682,8 +693,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ServiceCell"];
     UILabel *titleL = (UILabel*)[cell.contentView viewWithTag:1001];
-    UIImageView *iconV = (UIImageView *)[cell.contentView viewWithTag:1002];
-    UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:1003];
+    UILabel *originalPriceLabel = (UILabel *)[cell.contentView viewWithTag:1009];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *introL = (UILabel *)[cell.contentView viewWithTag:1005];
     UIButton *payB = (UIButton*)[cell.contentView viewWithTag:1006];
@@ -702,7 +712,15 @@
     {
         payB.enabled = YES;
     }
+    
+    originalPriceLabel.hidden = service.oldOriginPrice <= service.origprice ? YES : NO;
+    
+    NSAttributedString *originalPrice = [self priceStringWithOldPrice:@(service.oldOriginPrice) curPrice:nil];
+    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"原价" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13], NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+    [titleString appendAttributedString:originalPrice];
+    
     titleL.text = service.serviceName;
+    originalPriceLabel.attributedText = titleString;
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
     introL.text = service.serviceDescription;
     
@@ -723,7 +741,7 @@
     UIButton *btn = (UIButton *)[cell.contentView viewWithTag:1001];
     @weakify(self);
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        [MobClick event:@"rp105-7"];
+        [MobClick event:@"rp105_7"];
         @strongify(self);
         
         self.serviceExpanded = YES;
@@ -736,7 +754,15 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CommentTitleCell"];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
-    label.text = [NSString stringWithFormat:@"商户评价 ( %d )", (int)self.shop.commentNumber];
+    
+    if (self.isloadingShopComments)
+    {
+        label.text = [NSString stringWithFormat:@"商户评价"];
+    }
+    else
+    {
+        label.text = [NSString stringWithFormat:@"商户评价 ( %d )", (int)self.shop.commentNumber];
+    }
     return cell;
 }
 
@@ -767,6 +793,8 @@
 - (UITableViewCell *)shopNoCommentCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"NoCommentCell"];
+    UILabel *titleL = (UILabel*)[cell.contentView viewWithTag:101];
+    titleL.text = self.isloadingShopComments ? @"加载中...":@"暂无评价，您可以成为第一人";
     
     return cell;
 }
@@ -872,7 +900,7 @@
 {
     NSMutableAttributedString *str = [NSMutableAttributedString attributedString];
     if (price1) {
-        NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
+        NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:13],
                                 NSForegroundColorAttributeName:[UIColor lightGrayColor],
                                 NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
         NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price1 floatValue]]];
@@ -882,7 +910,7 @@
     
     if (price2) {
         NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
-                                NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
+                                NSForegroundColorAttributeName:kOrangeColor};
         NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price2 floatValue]]];
         NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:p attributes:attr2];
         [str appendAttributedString:attrStr2];

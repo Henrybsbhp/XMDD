@@ -13,6 +13,7 @@
 #import "LogoutOp.h"
 #import <SFHFKeychainUtils.h>
 #import "NSString+MD5.h"
+#import "FMDeviceManager.h"
 
 #define kNealyLoginInfoKey @"loginModel.nearlyLoginInfo"
 #if XMDDENT
@@ -46,6 +47,11 @@ typedef enum : NSInteger {
     op.req_deviceID = gAppMgr.deviceInfo.deviceID;
     op.req_deviceModel = gAppMgr.deviceInfo.deviceModel;
     op.req_appVersion = gAppMgr.deviceInfo.appLongVersion;
+    
+    FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
+    NSString *blackBox = manager->getDeviceInfo();
+    op.req_blackBox = blackBox;
+    
     NSString *token = [gAppMgr.tokenPool tokenForAccount:account];
     return [[self rac_commonValidateTokenOp:op account:account token:token] doNext:^(id x) {
         [gAppMgr resetWithAccount:account];
@@ -108,7 +114,7 @@ typedef enum : NSInteger {
                 return [RACSignal return:ad];
             }
             return [RACSignal error:[NSError errorWithDomain:@"自动登录失败，用户密码缺失" code:0 userInfo:0]];
-        }] deliverOn:[RACScheduler mainThreadScheduler]];
+        }]  deliverOn:[RACScheduler mainThreadScheduler]];
     }
     return [RACSignal error:[NSError errorWithDomain:@"自动登录失败，无用户信息" code:0 userInfo:0]];
 }
@@ -185,6 +191,11 @@ typedef enum : NSInteger {
             op.req_deviceID = gAppMgr.deviceInfo.deviceID;
             op.req_deviceModel = gAppMgr.deviceInfo.deviceModel;
             op.req_appVersion = gAppMgr.deviceInfo.appLongVersion;
+            
+            FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
+            NSString *blackBox = manager->getDeviceInfo();
+            op.req_blackBox = blackBox;
+            
             return [self rac_commonValidateTokenOp:op account:ad token:nil];
         }
     }] replay];
@@ -289,6 +300,7 @@ typedef enum : NSInteger {
 
 + (void)logoutWithoutNetworking
 {
+    [gAppMgr.tokenPool removeToken:gNetworkMgr.token forAccount:gAppMgr.myUser.userID];
     gNetworkMgr.token = nil;
     gNetworkMgr.skey = nil;
     [gAppMgr resetWithAccount:nil];

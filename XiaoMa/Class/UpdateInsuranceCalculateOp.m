@@ -22,4 +22,8 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (NSString *)description
+{
+    return @"更新普通询价为精确询价";
+}
 @end

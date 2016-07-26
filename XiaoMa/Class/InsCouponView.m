@@ -7,6 +7,7 @@
 //
 
 #import "InsCouponView.h"
+#import "UIView+RoundedCorner.h"
 
 #define HorizontalSpacing   26
 #define VerticalSpacing     8
@@ -35,8 +36,9 @@
 {
     self.backgroundColor = [UIColor clearColor];
     _buttonHeight = 25;
-    _buttonTitleColor = HEXCOLOR(@"#888888");
+    _buttonTitleColor = kGrayTextColor;
     _buttonBorderColor = HEXCOLOR(@"#E3E3E3");
+    [self setup];
 }
 
 - (void)setup
@@ -88,13 +90,15 @@
 - (UIButton *)createBaseButton
 {
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectZero];
-    [btn setBackgroundColor:[UIColor whiteColor]];
     btn.titleLabel.font = [UIFont systemFontOfSize:14];
     [btn setTitleColor:self.buttonTitleColor forState:UIControlStateNormal];
-    btn.layer.cornerRadius = self.buttonHeight / 2.0;
-    btn.layer.borderWidth  = 0.5;
-    btn.layer.borderColor = [self.buttonBorderColor CGColor];
-    btn.layer.masksToBounds = YES;
+    [btn setBackgroundColor:[UIColor clearColor]];
+    [btn setCornerRadius:self.buttonHeight / 2.0 withBorderColor:self.buttonBorderColor borderWidth:0.5
+         backgroundColor:[UIColor whiteColor] backgroundImage:nil contentMode:UIViewContentModeScaleToFill];
+//    btn.layer.cornerRadius = self.buttonHeight / 2.0;
+//    btn.layer.borderWidth  = 0.5;
+//    btn.layer.borderColor = [self.buttonBorderColor CGColor];
+//    btn.layer.masksToBounds = YES;
     [btn addTarget:self action:@selector(actionClick:) forControlEvents:UIControlEventTouchUpInside];
     return btn;
 }

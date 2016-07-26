@@ -27,6 +27,7 @@
         self.rsp_total = [rspObj integerParamForName:@"total"];
         self.rsp_isused = [rspObj boolParamForName:@"isused"];
         self.rsp_carwashflag = [rspObj boolParamForName:@"washcarflag"];
+        self.zeroWashLink = [rspObj stringParamForName:@"zerowashlink"];
     }
     else
     {
@@ -44,4 +45,8 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"检查用户是否可以领取礼券";
+}
 @end

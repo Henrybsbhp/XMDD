@@ -21,28 +21,19 @@
     self.helper = nil;
 }
 
-- (void)resetForAlipayWithTradeNumber:(NSString *)tn productName:(NSString *)pn productDescription:pd price:(CGFloat)price
+- (void)resetForAlipayWithTradeNumber:(NSString *)tn alipayInfo:(NSString *)alipayInfo
 {
-#ifdef DEBUG
-    pn = [@"【测试】" append:pn];
-    pd = [@"【测试】" append:pd];
-#endif
     _platformType = PaymentPlatformTypeAlipay;
     _tradeNumber = tn;
-    _productName = pn;
-    _productDescription = pd;
-    _price = price;
+    _alipayInfo = alipayInfo;
 }
 
-- (void)resetForWeChatWithTradeNumber:(NSString *)tn productName:(NSString *)pn price:(CGFloat)price
+- (void)resetForWeChatWithTradeNumber:(NSString *)tn andPayInfoModel:(WechatPayInfo *)wechatPayInfo andTradeType:(TradeType)type
 {
-#ifdef DEBUG
-    pn = [@"【测试】" append:pn];
-#endif
     _platformType = PaymentPlatformTypeWeChat;
     _tradeNumber = tn;
-    _productName = pn;
-    _price = price;
+    _wechatPayInfo = wechatPayInfo;
+    _tradeType = type;
 }
 
 - (void)resetForUPPayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc
@@ -86,19 +77,22 @@
     //支付宝支付
     else if (_platformType == PaymentPlatformTypeAlipay) {
         AlipayHelper *helper = [[AlipayHelper alloc] init];
-        signal = [helper rac_payWithTradeNumber:self.tradeNumber productName:self.productName
-                    productDescription:self.productDescription price:self.price];
+        signal = [helper rac_payWithTradeNumber:self.tradeNumber alipayInfo:self.alipayInfo];
         self.helper = helper;
     }
     //微信支付
     else if (_platformType == PaymentPlatformTypeWeChat) {
         WeChatHelper *helper = [[WeChatHelper alloc] init];
-        signal = [helper rac_payWithTradeNumber:self.tradeNumber productName:self.productName price:self.price];
+        helper.tradeType = self.tradeType;
+        signal = [helper rac_payWithPayInfo:self.wechatPayInfo andTradeNO:self.tradeNumber];
         self.helper = helper;
     }
     
-    return [signal map:^id(id value) {
+    return [[signal map:^id(id value) {
         return self;
+    }] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal error:error];
     }];
 }
 

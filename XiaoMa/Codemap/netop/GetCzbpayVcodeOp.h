@@ -8,6 +8,8 @@
 @property (nonatomic,assign) int req_chargeamt;
 ///油卡id
 @property (nonatomic,strong) NSNumber* req_gid;
+///是否开发票(1:开发票，0:不开)
+@property (nonatomic,assign) NSInteger req_bill;
 
 ///订单记录id
 @property (nonatomic,strong) NSNumber* rsp_orderid;

@@ -31,4 +31,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"获取当前用户首次洗车信息";
+}
+
 @end

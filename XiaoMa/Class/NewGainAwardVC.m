@@ -10,8 +10,7 @@
 #import "HYScratchCardView.h"
 #import "CheckUserAwardOp.h"
 #import "GainUserAwardOp.h"
-#import "GetShareButtonOp.h"
-#import "GetShareDetailOp.h"
+#import "GetShareButtonOpV2.h"
 #import "SocialShareViewController.h"
 #import "ShareResponeManager.h"
 #import "SharedNotifyOp.h"
@@ -20,6 +19,7 @@
 #import "CarWashTableVC.h"
 #import "DetailWebVC.h"
 #import "GuideStore.h"
+#import "HKAddressComponent.h"
 
 @interface NewGainAwardVC ()
 
@@ -51,18 +51,12 @@
     [self requestOperation];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [MobClick beginLogPageView:@"rp402"];
-    [super viewWillAppear:animated];
-}
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    self.otherActionFlag = YES;
-    
-    [MobClick endLogPageView:@"rp402"];
     [super viewWillDisappear:animated];
+    
+    self.otherActionFlag = YES;
 }
 
 - (IBAction)helpAction:(id)sender {
@@ -95,7 +89,7 @@
                 @strongify(self);
                 
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-                vc.url = @"http://www.xiaomadada.com/apphtml/lingyuanxiche.html";
+                vc.url = op.zeroWashLink;
                 [self.navigationController pushViewController:vc animated:YES];
                 
                 GuideStore * guideStore = [GuideStore fetchExistsStore];
@@ -133,7 +127,7 @@
             self.tipLabel.text = [NSString stringWithFormat:@"已有%ld人领取", (long)op.rsp_total];
             [[self.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
-                [MobClick event:@"rp402-6"];
+                [MobClick event:@"rp402_6"];
                 @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
@@ -145,7 +139,7 @@
             }];
             [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
-                [MobClick event:@"rp402-2"];
+                [MobClick event:@"rp402_2"];
                 @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
@@ -160,7 +154,9 @@
         
         @strongify(self);
         [self.view stopActivityAnimation];
-        [self.coverView showDefaultEmptyViewWithText:@"获取礼券信息失败，请点击重试" tapBlock:^{
+        
+        [self.coverView showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取礼券信息失败，请点击重试" tapBlock:^{
+            @strongify(self)
             [self requestOperation];
         }];
     }];
@@ -179,11 +175,25 @@
         
         self.hyscratchView.completion = ^(id userInfo) {
             @strongify(self);
-            [MobClick event:@"rp402-7"];
-            [self gainAward];
+            [MobClick event:@"rp402_7"];
+            [self gainAwardWithLocation];
         };
         [self.scratchView addSubview:self.hyscratchView];
     });
+}
+
+- (void)gainAwardWithLocation
+{
+    @weakify(self)
+    [[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyKilometer] subscribeNext:^(RACTuple *tuple) {
+        
+        @strongify(self)
+        [self gainAward];
+    } error:^(NSError *error) {
+        
+        @strongify(self)
+        [self gainAward];
+    }];
 }
 
 - (void)gainAward
@@ -247,10 +257,10 @@
 - (void)shareAction
 {
     [gToast showingWithText:@"分享信息拉取中..."];
-    GetShareButtonOp * op = [GetShareButtonOp operation];
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneGain;
     @weakify(self);
-    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         
         [gToast dismiss];
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
@@ -262,7 +272,7 @@
         [sheet presentAnimated:YES completionHandler:nil];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110-7"];
+            [MobClick event:@"rp110_7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
@@ -274,11 +284,7 @@
             @strongify(self)
             [self handleResultCode:code from:type forSheet:sheet];
         }];
-        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
-            
-            @strongify(self)
-            [self handleResultCode:[code integerValue] from:type forSheet:sheet];
-        }];
+        
     } error:^(NSError *error) {
         [gToast showError:@"分享信息拉取失败，请重试"];
     }];
@@ -334,7 +340,7 @@
         /**
          *  去洗车点击事件
          */
-        [MobClick event:@"rp402-3"];
+        [MobClick event:@"rp402_3"];
         @strongify(self);
         [resultSheet dismissAnimated:YES completionHandler:nil];
         CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
@@ -347,12 +353,12 @@
          */
         if(otherVC.sheetType == AwardSheetTypeSuccess)
         {
-            [MobClick event:@"rp402-4"];
+            [MobClick event:@"rp402_4"];
             
         }
         else if(otherVC.sheetType == AwardSheetTypeCancel)
         {
-            [MobClick event:@"rp402-5"];
+            [MobClick event:@"rp402_5"];
         }
         [resultSheet dismissAnimated:YES completionHandler:nil];
     }];

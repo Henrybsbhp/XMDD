@@ -40,26 +40,13 @@
 
 @implementation CarWashTableVC
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp102"];
-}
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp102"];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.carwashLoadingModel = [[HKLoadingModel alloc] initWithTargetView:self.carwashTableView delegate:self];
     self.withheartLoadingModel = [[HKLoadingModel alloc] initWithTargetView:self.withheartTableView delegate:self];
     self.carwashLoadingModel.isSectionLoadMore = YES;
     self.withheartLoadingModel.isSectionLoadMore = YES;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAdList) name:CarwashAdvertiseNotification object:nil];
     
     CKAsyncMainQueue(^{
         [self setupTableView];
@@ -88,9 +75,9 @@
 - (void)setupADView
 {
     self.adctrl = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:self.view.bounds.size.width
-                                        targetVC:self mobBaseEvent:@"rp102-6"];
+                                        targetVC:self mobBaseEvent:@"rp102_6" mobBaseEventDict:nil];
     self.adctrl2 = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:self.view.bounds.size.width
-                                        targetVC:self mobBaseEvent:@"rp102-6"];
+                                        targetVC:self mobBaseEvent:@"rp102_6" mobBaseEventDict:nil];
 }
 
 - (void)reloadAdList
@@ -139,8 +126,6 @@
 
 - (void)setSegmentView
 {
-    [self.carwashBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
-    [self.withheartBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
     self.segHelper = [[CKSegmentHelper alloc] init];
     @weakify(self)
     [self.segHelper addItem:self.carwashBtn forGroupName:@"CarwashTabBar" withChangedBlock:^(id item, BOOL selected) {
@@ -192,7 +177,7 @@
 
 - (IBAction)actionMap:(id)sender
 {
-    [MobClick event:@"rp102-1"];
+    [MobClick event:@"rp102_1"];
     NearbyShopsViewController * nearbyShopView = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
     nearbyShopView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:nearbyShopView animated:YES];
@@ -204,18 +189,19 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"暂无商铺";
+    return @{@"title":@"暂无商铺",@"image":@"def_withoutShop"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
     //定位失败
     if (error.customTag == 1) {
-        return @"定位失败";
+        return @{@"title":@"定位失败",@"image":@"def_withoutShop"};
     }
-    return @"获取商铺失败，点击重试";
+    return @{@"title":@"获取商铺失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (void)loadingModel:(HKLoadingModel *)model didLoadingFailWithType:(HKLoadingTypeMask)type error:(NSError *)error
@@ -254,23 +240,22 @@
             }
             case LocationFail:
             {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
-                    
+                
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                     [self.navigationController popViewControllerAnimated:YES];
                 }];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"城市定位失败,请重试" ActionItems:@[cancel]];
+                [alert show];
                 
-                [av show];
             }
             default:
             {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
-                    
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                     [self.navigationController popViewControllerAnimated:YES];
                 }];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"定位失败，请重试" ActionItems:@[cancel]];
+                [alert show];
                 
-                [av show];
                 break;
             }
         }
@@ -287,7 +272,7 @@
     RACSignal * signal;
     if (!self.userLocation || model.currentPageIndex == 0)
     {
-        signal = [gMapHelper rac_getUserLocation];
+        signal = [gMapHelper rac_getUserLocationWithAccuracy:kCLLocationAccuracyHundredMeters];
     }
     else
     {
@@ -356,12 +341,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 8.0f;
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    return 8;
 }
 
 
@@ -425,7 +410,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp102-3"];
+    [MobClick event:@"rp102_3"];
     HKLoadingModel * model = [self modelForTableView:tableView];
     ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
     vc.couponFordetailsDic = self.couponForWashDic;
@@ -461,7 +446,12 @@
     ratingV.ratingValue = shop.shopRate;
     ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
-    if (shop.ratenumber)
+    
+    if (shop.ratenumber >= 10000)
+    {
+        commentNumL.text = [NSString stringWithFormat:@"%ld万", (long)(shop.ratenumber / 10000)];
+    }
+    else if (shop.ratenumber > 0)
     {
         commentNumL.text = [NSString stringWithFormat:@"%ld", (long)shop.ratenumber];
     }
@@ -510,6 +500,7 @@
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
+    UILabel *originalPriceLabel = (UILabel *)[cell.contentView viewWithTag:2004];
     
     JTShopService * service = [serviceArray safetyObjectAtIndex:indexPath.row - 1];
     
@@ -519,8 +510,16 @@
         return tcc.paymentChannelType == PaymentChannelABCIntegral;
     }];
     
+    NSAttributedString *originalPrice = [self priceStringWithOldPrice:@(service.oldOriginPrice) curPrice:nil];
+    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"原价" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+    
+    [titleString appendAttributedString:originalPrice];
+    
+    originalPriceLabel.hidden = service.oldOriginPrice <= service.origprice ? YES : NO;
+    
     integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
+    originalPriceLabel.attributedText = titleString;
     
     return cell;
 }
@@ -540,18 +539,19 @@
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [MobClick event:@"rp102-4"];
+        [MobClick event:@"rp102_4"];
         
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userLocation.coordinate andView:self.tabBarController.view];
     }];
     
     [[[phoneB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp102-5"];
+        [MobClick event:@"rp102_5"];
         if (shop.shopPhone.length == 0)
         {
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
-            [av show];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
+            [alert show];
             return ;
         }
         
@@ -594,7 +594,7 @@
     
     if (price2) {
         NSDictionary *attr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:18],
-                                NSForegroundColorAttributeName:HEXCOLOR(@"#f93a00")};
+                                NSForegroundColorAttributeName:kOrangeColor};
         NSString * p = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:[price2 floatValue]]];
         NSAttributedString *attrStr2 = [[NSAttributedString alloc] initWithString:p attributes:attr2];
         [str appendAttributedString:attrStr2];

@@ -34,4 +34,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"获取认证车辆询价基本信息";
+}
+
 @end

@@ -30,6 +30,7 @@
     [params addParam:[NSString stringWithFormat:@"%f", self.coordinate.latitude] forName:@"latitude"];
     [params addParam:self.bankCardId ? self.bankCardId : @0 forName:@"cardid"];
     [params addParam:self.blackbox forName:@"blackbox"];
+    [params addParam:@(IOSAPPID) forName:@"os"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
@@ -42,6 +43,8 @@
         self.rsp_price = [rspObj floatParamForName:@"total"];
         self.rsp_orderid = rspObj[@"orderid"];
         self.rsp_gasCouponAmount = [rspObj floatParamForName:@"gascouponamt"];
+        self.rsp_notifyUrlStr = rspObj[@"notifyurl"];
+        self.rsp_payInfoModel = [PayInfoModel payInfoWithJSONResponse:rspObj[@"payinfo"]];
     }
     else
     {
@@ -51,5 +54,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"支付服务类订单";
+}
 
 @end

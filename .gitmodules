@@ -1,0 +1,3 @@
+[submodule "XiaoMa/ckkit"]
+	path = XiaoMa/ckkit
+	url = ssh://git@rm.xiaomadada.com:7999/ckkit/ckkit.git

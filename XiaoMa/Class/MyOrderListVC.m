@@ -10,7 +10,6 @@
 #import "XiaoMa.h"
 #import "GetCarwashOrderListV3Op.h"
 #import "CarwashOrderDetailVC.h"
-#import "CarwashOrderCommentVC.h"
 #import "CarwashOrderViewModel.h"
 #import "InsranceOrderViewModel.h"
 #import "OthersOrderViewModel.h"
@@ -48,14 +47,14 @@
     [self.carwashModel.loadingModel loadDataForTheFirstTime];
     [self.insuranceModel.loadingModel loadDataForTheFirstTime];
     [self.otherModel.loadingModel loadDataForTheFirstTime];
-    
+    self.washBtn.selected = YES;
     @weakify(self);
     [[self.washBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [MobClick event:@"rp318-3"];
-        [self.washBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateNormal];
-        [self.insranceBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
-        [self.otherBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
+        [MobClick event:@"rp318_3"];
+        self.washBtn.selected = YES;
+        self.insranceBtn.selected = NO;
+        self.otherBtn.selected = NO;
         self.carwashTableView.hidden = NO;
         self.insranceTableView.hidden = YES;
         self.otherTableView.hidden = YES;
@@ -66,10 +65,10 @@
 
     [[self.insranceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [MobClick event:@"rp318-4"];
-        [self.washBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
-        [self.insranceBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateNormal];
-        [self.otherBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
+        self.washBtn.selected = NO;
+        self.insranceBtn.selected = YES;
+        self.otherBtn.selected = NO;
+        [MobClick event:@"rp318_4"];
         self.carwashTableView.hidden = YES;
         self.insranceTableView.hidden = NO;
         self.otherTableView.hidden = YES;
@@ -80,10 +79,9 @@
     
     [[self.otherBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self.washBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
-        [self.insranceBtn setTitleColor:[UIColor colorWithHex:@"#4f5051" alpha:1.0f] forState:UIControlStateNormal];
-        [self.otherBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateNormal];
-        
+        self.washBtn.selected = NO;
+        self.insranceBtn.selected = NO;
+        self.otherBtn.selected = YES;
         self.carwashTableView.hidden = YES;
         self.insranceTableView.hidden = YES;
         self.otherTableView.hidden = NO;
@@ -91,19 +89,6 @@
         self.underLineView2.hidden = YES;
         self.underLineView3.hidden = NO;
     }];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp318"];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [MobClick endLogPageView:@"rp318"];
 }
 
 - (void)didReceiveMemoryWarning {

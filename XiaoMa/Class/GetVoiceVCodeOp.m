@@ -20,4 +20,9 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }
 
+- (NSString *)description
+{
+    return @"获取语音短信验证码";
+}
+
 @end

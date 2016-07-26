@@ -10,21 +10,20 @@
 #import "XiaoMa.h"
 #import <AFNetworking.h>
 #import <CocoaLumberjack.h>
-#import <UMengAnalytics/MobClick.h>
 #import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
 #import "WXApi.h"
 #import "WeiboSDK.h"
 #import <JPEngine.h>
+#import "RRFPSBar.h"
 
 #import "DefaultStyleModel.h"
 
 #import "HKLoginModel.h"
-#import "HKCatchErrorModel.h"
 #import "MapHelper.h"
-#import "JTLogModel.h"
 
 #import "HKLaunchManager.h"
 #import "ShareResponeManager.h"
+#import "PasteboardModel.h"
 
 #import "GetSystemTipsOp.h"
 #import "GetSystemVersionOp.h"
@@ -34,10 +33,11 @@
 #import "ClientInfo.h"
 #import "DeviceInfo.h"
 #import "HKAdvertisement.h"
+#import "FMDeviceManager.h"
 
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
-#import "GuideViewController.h"
+#import "WelcomeVC.h"
 
 
 
@@ -47,9 +47,7 @@
 @interface AppDelegate ()<WXApiDelegate,TencentSessionDelegate,CrashlyticsDelegate>
 
 @property (nonatomic, strong) DDFileLogger *fileLogger;
-/// 日志
-@property (nonatomic,strong)JTLogModel * logModel;
-@property (nonatomic, strong) HKCatchErrorModel *errorModel;
+
 @property (nonatomic, strong) HKLaunchManager *launchMgr;
 
 @end
@@ -65,8 +63,8 @@
     //设置默认UI样式
     [DefaultStyleModel setupDefaultStyle];
     
+    ///设置地图
     [gMapHelper setupMapApi];
-    [gMapHelper setupMAMap];
     //设置友盟
     [self setupUmeng];
     //设置url缓存
@@ -81,10 +79,16 @@
     //设置启动页管理器
     [self setupLaunchManager];
     [self setupRootView];
+    //设置同盾
+    [self setFMDeviceManager];
     
     [self setupJSPatch];
     
     [self setupOpenUrlQueue];
+    
+    [self setupPasteboard];
+    
+    [self setupAssistive];
     
     //设置崩溃捕捉(官方建议放在最后面)
     [self setupCrashlytics];
@@ -103,23 +107,18 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIViewController *vc;
-    if ([gAppMgr.deviceInfo firstAppearAtThisVersionForKey:@"$GuideView"]) {
-        vc = [[GuideViewController alloc] init];
+    
+    //如果本地没有启动页的相关信息，则直接进入主页，否则进入启动页
+    HKLaunchInfo *info = [self.launchMgr fetchLatestLaunchInfo];
+    NSString *url = [info croppedPicUrl];
+    if (!info || ![gMediaMgr cachedImageExistsForUrl:url]) {
+        vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
     }
-    else
-    {
-        //如果本地没有启动页的相关信息，则直接进入主页，否则进入启动页
-        HKLaunchInfo *info = [self.launchMgr fetchLatestLaunchInfo];
-        NSString *url = [info croppedPicUrl];
-        if (!info || ![gMediaMgr cachedImageExistsForUrl:url]) {
-            vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
-        }
-        else {
-            LaunchVC *lvc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Launch"];
-            [lvc setImage:[gMediaMgr imageFromDiskCacheForUrl:url]];
-            [lvc setInfo:info];
-            vc = lvc;
-        }
+    else {
+        LaunchVC *lvc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Launch"];
+        [lvc setImage:[gMediaMgr imageFromDiskCacheForUrl:url]];
+        [lvc setInfo:info];
+        vc = lvc;
     }
     [self resetRootViewController:vc];
 }
@@ -135,8 +134,20 @@
     DebugFormat *formatter = [[DebugFormat alloc] init];
     
     [[DDTTYLogger sharedInstance] setLogFormatter:formatter];
-    
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    
+    // xcode 控制台日志
+    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+    // 日志输入颜色控制
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor] forFlag:DDLogFlagVerbose];
+
+    [[DDTTYLogger sharedInstance] setForegroundColor:kDefTintColor backgroundColor:[UIColor blackColor] forFlag:DDLogFlagDebug];
+    
+    [[DDTTYLogger sharedInstance] setForegroundColor:kOrangeColor backgroundColor:[UIColor blackColor] forFlag:DDLogFlagInfo];
+    
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor redColor] backgroundColor:[UIColor whiteColor] forFlag:DDLogFlagWarning];
+    
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor redColor] backgroundColor:[UIColor whiteColor] forFlag:DDLogFlagError];
     
     self.fileLogger = [[DDFileLogger alloc] init];
     self.fileLogger.logFileManager.maximumNumberOfLogFiles = 100;
@@ -145,6 +156,7 @@
     [self.fileLogger setLogFormatter:formatter];
     [DDLog addLogger:self.fileLogger];
     
+    /// 苹果系统日志
     [DDLog addLogger:[DDASLLogger sharedInstance]];
 }
 
@@ -179,6 +191,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     
+
     CKAsyncDefaultQueue(^{
         NSDate * lastLocationTime = [NSDate dateWithText:[gAppMgr getInfo:LastLocationTime]];
         NSTimeInterval timeInterval = [lastLocationTime timeIntervalSinceNow];
@@ -189,8 +202,12 @@
             });
         }
     });
-
-    [self checkVersionUpdating];
+    
+    if (![self checkVersionUpdating])
+    {
+        // 不需要更新的情况下去查询小马互助
+        [self.pasteboardoModel checkPasteboard];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -213,11 +230,11 @@
         return [WeiboSDK handleOpenURL:url delegate:[ShareResponeManager init]];
     }
     else if ([url.absoluteString hasPrefix:[NSString stringWithFormat:@"tencent%@", QQ_API_ID]]) {
-        return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManagerForQQ init]];
+        return [QQApiInterface handleOpenURL:url delegate:[ShareResponeManager init]];
     }
     else if ([url.absoluteString hasPrefix:@"xmdd://"])
     {
-        
+        [MobClick event:@"rp000"];
         NSString * urlStr = url.absoluteString;
         NSDictionary * dict = @{@"url":urlStr};
         [self.openUrlQueue addObject:dict forKey:nil];
@@ -238,6 +255,7 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     DebugLog(@"didReceiveRemoteNotification :%@",userInfo);
+    [MobClick event:@"rp000"];
     [self.pushMgr handleNofitication:userInfo forApplication:application];
 }
 
@@ -260,8 +278,12 @@
 #pragma mark - 友盟
 - (void)setupUmeng
 {
-    [MobClick setCrashReportEnabled:NO];
-    [MobClick startWithAppkey:UMeng_API_ID reportPolicy:BATCH   channelId:@"iOS"];
+    UMConfigInstance.appKey = UMeng_API_ID;
+    UMConfigInstance.channelId = @"App Store";
+    UMConfigInstance.bCrashReportEnabled = NO;
+    UMConfigInstance.ePolicy = BATCH;
+    
+    [MobClick startWithConfigure:UMConfigInstance];
 #ifdef DEBUG
     [MobClick setLogEnabled:YES];
 #else
@@ -270,8 +292,6 @@
     
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [MobClick setAppVersion:version];
-    
-    [MobClick startSession:nil];
 }
 
 
@@ -280,13 +300,21 @@
 {
     /// 设置delegate必须在前面，（先关闭）
 //    CrashlyticsKit.delegate = self;
+    
+#ifdef DEBUG
+    
+#else
+    #if XMDDEnvironment==2
     [Fabric with:@[CrashlyticsKit]];
     
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser *user) {
-       
+        
         NSString * userIdentifier = user ? user.userID : @"";
         [CrashlyticsKit setUserIdentifier:userIdentifier];
     }];
+    #endif
+#endif
+    
 }
 
 - (void)crashlyticsDidDetectReportForLastExecution:(CLSReport *)report completionHandler:(void (^)(BOOL))completionHandler
@@ -300,80 +328,21 @@
 }
 
 #pragma mark - Utilities
-- (void)requestStaticPromotion
-{}
-
-- (void)requestAd
-{}
-
-- (void)requestUpdateInfo
-{}
-
 - (void)getLocation
 {
-    [[[gMapHelper rac_getInvertGeoInfo] initially:^{
+    [[[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyKilometer] initially:^{
         
-    }] subscribeNext:^(AMapReGeocode * getInfo) {
+    }] subscribeNext:^(id x) {
         
-        if (!([getInfo.addressComponent.province isEqualToString:gAppMgr.province] &&
-            [getInfo.addressComponent.city isEqualToString:gAppMgr.city] &&
-            [getInfo.addressComponent.district isEqualToString:gAppMgr.district]))
-        {
-            [self requestWeather:getInfo.addressComponent.province andCity:getInfo.addressComponent.city andDistrict:getInfo.addressComponent.district];
-        }
+        [self requestWeather:gMapHelper.addrComponent.province andCity:gMapHelper.addrComponent.city andDistrict:gMapHelper.addrComponent.district];
         
-        /// 内存缓存地址信息
-        gAppMgr.province = getInfo.addressComponent.province;
-        gAppMgr.city = getInfo.addressComponent.city;
-        gAppMgr.district = getInfo.addressComponent.district;
-        /// 硬盘缓存地址信息
-        [gAppMgr saveInfo:getInfo.addressComponent.province forKey:Province];
-        [gAppMgr saveInfo:getInfo.addressComponent.city forKey:City];
-        [gAppMgr saveInfo:getInfo.addressComponent.district forKey:District];
+        /// 存储一下上次定位时间
         NSString * dateStr = [[NSDate date] dateFormatForDT15];
         [gAppMgr saveInfo:dateStr forKey:LastLocationTime];
         
     } error:^(NSError *error) {
         
-        switch (error.code) {
-            case kCLErrorDenied:
-            {
-                if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-                {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置进行操作" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
-                    
-                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
-                        
-                        if ([x integerValue] == 1)
-                        {
-                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                        }
-                    }];
-                    [av show];
-                }
-                else
-                {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"您没有打开定位服务,请前往设置进行操作" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
-                    
-                    [av show];
-                }
-                break;
-            }
-            case LocationFail:
-            {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                
-                [av show];
-            }
-            default:
-            {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"定位失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                
-                [av show];
-                break;
-            }
-        }
-        
+        [gMapHelper handleGPSError:error];
     }];
 }
 
@@ -385,26 +354,15 @@
     op.district = d;
     [[op rac_postRequest] subscribeNext:^(GetSystemTipsOp * op) {
         
-        if(op.rsp_code == 0)
-        {
-            gAppMgr.temperature = op.rsp_temperature;
-            gAppMgr.temperaturepic = op.rsp_temperaturepic;
-            gAppMgr.temperaturetip = op.rsp_temperaturetip;
-            gAppMgr.restriction = op.rsp_restriction;
-            
-            [gAppMgr saveInfo:op.rsp_temperature forKey:Temperature];
-            [gAppMgr saveInfo:op.rsp_temperaturepic forKey:Temperaturepic];
-            [gAppMgr saveInfo:op.rsp_temperaturetip forKey:Temperaturetip];
-            [gAppMgr saveInfo:op.rsp_restriction forKey:Restriction];
-            NSString * dateStr = [[NSDate date] dateFormatForDT15];
-            [gAppMgr saveInfo:dateStr forKey:LastWeatherTime];
-        }
+        gAppMgr.temperatureAndTip = [op.rsp_temperature append:op.rsp_temperaturetip];
+        gAppMgr.temperaturepic = op.rsp_temperaturepic;
+        gAppMgr.restriction = op.rsp_restriction;
     }];
 }
 
 - (void)setupVersionUpdating
 {
-    //TODO:移除2.0版本前缓存的token和密码
+    //移除2.0版本前缓存的token和密码,2.0版本前有密码登录
     if ([gAppMgr.deviceInfo firstAppearAfterVersion:@"2.0" forKey:@"loginInfo"]) {
         [HKLoginModel logout];
     }
@@ -445,8 +403,9 @@
     }];
 }
 
+
 /// 检查更新
-- (void)checkVersionUpdating
+- (BOOL)checkVersionUpdating
 {
     if (gAppMgr.clientInfo.forceUpdateUrl.length)
     {
@@ -459,7 +418,10 @@
             [gAppMgr startUpdatingWithURLString:gAppMgr.clientInfo.forceUpdateUrl];
         }];
         [av show];
+        
+        return YES;
     }
+    return NO;
 }
 
 /// 分享开关
@@ -512,13 +474,38 @@
     }];
 }
 
+
+#pragma mark - 同盾
+- (void)setFMDeviceManager {
+    // 获取设备管理器实例
+    FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
+    
+    // 准备SDK初始化参数
+    NSMutableDictionary *options = [NSMutableDictionary dictionary];
+    
+    // SDK具有防调试功能，当使用xcode运行时，请取消此行注释，开启调试模式
+    // 否则使用xcode运行会闪退，(但直接在设备上点APP图标可以正常运行)
+    // 上线Appstore的版本，请记得删除此行，否则将失去防调试防护功能！
+     [options setValue:@"allowd" forKey:@"allowd"];
+    
+    // 指定对接同盾的测试环境，正式上线时，请删除或者注释掉此行代码，切换到同盾生产环境
+#ifdef DEBUG
+    [options setValue:@"sandbox" forKey:@"env"];
+#endif
+    // 指定合作方标识
+    [options setValue:@"xiaomadada" forKey:@"partner"];
+    
+    // 使用上述参数进行SDK初始化
+    manager->initWithOptions(options);
+}
+
+
 #pragma mark - JSPatch
 - (void)setupJSPatch
 {
-    RACSignal * userSignal = [[RACObserve(gAppMgr, myUser) distinctUntilChanged] filter:^BOOL(JTUser * user) {
-        return user.userID.length;
-    }];
-    RACSignal * areaSignal = [[RACObserve(gAppMgr, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
+    return;
+    RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
+    RACSignal * areaSignal = [[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
         return ac.province.length || ac.city.length || ac.district.length;
     }];
     
@@ -551,29 +538,34 @@
     }];
 }
 
+///剪切板设置
+- (void)setupPasteboard
+{
+    _pasteboardoModel = [[PasteboardModel alloc] init];
+}
 
-#pragma mark - 日志
+
+#pragma mark - FPS
+- (void)setupFPSObserver
+{
+#ifndef __OPTIMIZE__
+    [[RRFPSBar sharedInstance] setShowsAverage:YES];
+    [[RRFPSBar sharedInstance] setHidden:YES];
+#endif
+}
+
+
+#pragma mark - 辅助功能
+- (void)setupAssistive
+{
+    [gAssistiveMgr setupFPSObserver];
+}
+
 #pragma mark - UIResponser
 - (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
 #ifdef DEBUG
-    if (motion != UIEventSubtypeMotionShake)
-        return;
-    if (!self.logModel)
-    {
-        self.logModel = [[JTLogModel alloc] init];
-    }
-    else
-    {
-        if (self.logModel.islogViewAppear)
-        {
-            return;
-        }
-    }
-    self.logModel.userid = gAppMgr.myUser.userID ? gAppMgr.myUser.userID : @"00000000000";
-    self.logModel.appname = @"com.huika.xmdd";
-    [self.logModel addToScreen];
+    gAssistiveMgr.isShowAssistiveView = !gAssistiveMgr.isShowAssistiveView;
 #endif
 }
-
 @end

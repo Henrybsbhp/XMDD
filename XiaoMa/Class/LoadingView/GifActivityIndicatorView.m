@@ -22,10 +22,11 @@
         self.imgView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self addSubview:self.imgView];
         NSMutableArray *imgs = [NSMutableArray array];
-        for (int i = 1; i <= 24; i++) {
+        for (int i = 1; i <= 18; i++) {
             UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"ld_%d", i]];
             [imgs addObject:img];
         }
+        self.imgView.animationDuration = 0.07 * 18;
         self.imgView.animationImages = imgs;
     }
     return self;
@@ -45,6 +46,11 @@
         [self setHidden:NO animated:YES];
     }
     [self.imgView startAnimating];
+}
+
+- (BOOL)isAnimating
+{
+    return [self.imgView isAnimating];
 }
 
 

@@ -51,17 +51,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp1010"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp1010"];
-}
 
 //设置日期选择控件（主要是为了事先加载，优化性能）
 - (void)setupDatePicker {
@@ -91,7 +80,7 @@
         
         @strongify(self);
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"获取详情失败，点击重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取详情失败，点击重试" tapBlock:^{
             @strongify(self);
             [self requestDetailPremium];
         }];
@@ -139,13 +128,13 @@
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1010-1"];
+    [MobClick event:@"rp1010_1"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)actionAppoint:(id)sender
 {
-    [MobClick event:@"rp1010-6"];
+    [MobClick event:@"rp1010_6"];
     if (self.appointInfo.req_startdate.length == 0) {
         [gToast showText:@"商业险起保日不能为空"];
     }
@@ -234,7 +223,7 @@
      flattenMap:^RACStream *(id value) {
         
          @strongify(self);
-         [MobClick event:@"rp1010-2"];
+         [MobClick event:@"rp1010_2"];
          [self.view endEditing:YES];
          return [self rac_pickDateWithNow:self.appointInfo.req_startdate];
     }] subscribeNext:^(NSString *datetext) {
@@ -253,7 +242,7 @@
      flattenMap:^RACStream *(id value) {
          
         @strongify(self);
-         [MobClick event:@"rp1010-3"];
+         [MobClick event:@"rp1010_3"];
         [self.view endEditing:YES];
         return [self rac_pickDateWithNow:self.appointInfo.req_forcestartdate];
     }] subscribeNext:^(NSString *datetext) {
@@ -267,7 +256,7 @@
     nameF.inputField.text = self.appointInfo.req_ownername;
     nameF.inputField.textLimit = 20;
     [nameF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1010-4"];
+        [MobClick event:@"rp1010_4"];
     }];
     [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         
@@ -280,7 +269,7 @@
     idF.inputField.textLimit = 18;
     idF.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     [idF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1010-5"];
+        [MobClick event:@"rp1010_5"];
     }];
     [idF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         

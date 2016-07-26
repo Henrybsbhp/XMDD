@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
+#import "HKImageAlertVC.h"
 #import "InsuranceOrderVC.h"
 #import "UIView+Layer.h"
 #import "BorderLineLabel.h"
@@ -13,8 +14,12 @@
 #import "UIBarButtonItem+CustomStyle.h"
 #import "InsuranceStore.h"
 #import "InsuranceVM.h"
-
+#import "HKProgressView.h"
 #import "PayForInsuranceVC.h"
+#import "HKArrowView.h"
+#import "NSString+RectSize.h"
+#import "GetShareButtonOpV2.h"
+#import "SocialShareViewController.h"
 
 @interface InsuranceOrderVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -23,6 +28,8 @@
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSArray *coverages;
 @property (nonatomic, strong) InsuranceStore *insStore;
+@property (strong, nonatomic) HKImageAlertVC *alert;
+@property (nonatomic, strong) CKList *dataSource;
 
 @end
 
@@ -46,7 +53,6 @@
 {
     [super viewDidLoad];
     self.insModel.orderVC = self;
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     if (self.order) {
         self.orderID = self.order.orderid;
         [self setupRefreshView];
@@ -61,15 +67,6 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp1012"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp1012"];
-}
 
 - (void)setupRefreshView
 {
@@ -78,20 +75,19 @@
 
 - (void)resetBottomButton
 {
-    UIColor *bgColor;
     SEL action;
     NSString *title;
-    if (self.order.status == InsuranceOrderStatusUnpaid) {
-        bgColor = HEXCOLOR(@"#ff5a00");
+    if (self.order.status == InsuranceOrderStatusUnpaid)
+    {
         title = @"去支付";
         action = @selector(actionPay:);
     }
-    else {
-        bgColor = HEXCOLOR(@"#23ac2d");
-        title = @"联系客服";
-        action = @selector(actionMakeCall:);
+    else
+    {
+        title = @"晒单炫耀";
+        action = @selector(actionShare:);
     }
-    [self.bottomButton setBackgroundColor:bgColor];
+    [self.bottomButton setBackgroundColor:kOrangeColor];
     self.bottomButton.layer.cornerRadius = 5.0;
     self.bottomButton.layer.masksToBounds = YES;
     [self.bottomButton setTitle:title forState:UIControlStateNormal];
@@ -148,7 +144,7 @@
         }
         else {
             [self.view stopActivityAnimation];
-            [self.view showDefaultEmptyViewWithText:@"获取订单详情失败，点击重试" tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取订单详情失败，点击重试" tapBlock:^{
                 @strongify(self);
                 [[self.insStore getInsOrderByID:self.orderID] send];
             }];
@@ -159,12 +155,15 @@
 - (void)reloadNavBarWithOrderStatus:(InsuranceOrderStatus)status
 {
     if (status == InsuranceOrderStatusUnpaid) {
-        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:@"取消订单" style:UIBarButtonItemStylePlain
-                                                                  target:self action:@selector(actionCancelOrder:)];
+        UIBarButtonItem *cancel = [UIBarButtonItem barButtonItemWithTitle:@"取消订单" target:self
+                                                                   action:@selector(actionCancelOrder:)];
         self.navigationItem.rightBarButtonItem = cancel;
     }
     else {
-        self.navigationItem.rightBarButtonItem = nil;
+        UIBarButtonItem *call = [UIBarButtonItem barButtonItemWithTitle:@"联系客服" target:self
+                                                                 action:@selector(actionMakeCall:)];
+
+        self.navigationItem.rightBarButtonItem = call;
     }
 }
 
@@ -173,33 +172,21 @@
     [self reloadNavBarWithOrderStatus:status];
     
     self.order.status = status;
+    //总计保费
     CGFloat total = self.order.totoalpay+self.order.forcetaxfee;
+    //优惠后的价格
+    CGFloat discountedPrice = total - self.order.activityAmount;
     id amount;
     id remark;
     //优惠额度
     int activityAmount = floor(self.order.activityAmount);
-    if (activityAmount > 0) {
-        
-        NSString *str = [NSString stringWithFormat:@"(已优惠%d) ", activityAmount];
-        NSDictionary *attr = @{NSForegroundColorAttributeName:HEXCOLOR(@"#8b9eb3"),
-                               NSFontAttributeName:[UIFont systemFontOfSize:12]};
-        remark = [[NSAttributedString alloc] initWithString:str attributes:attr];
-        
-        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
-        
-        str = [NSString stringWithFormat:@"￥%.2f ", total];
-        attr = @{NSForegroundColorAttributeName:[UIColor blackColor],
-                 NSFontAttributeName:[UIFont systemFontOfSize:12],
-                 NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle)};
-        [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr]];
-        
-        str = [NSString stringWithFormat:@"￥%.2f", total - self.order.activityAmount];
-        attr = @{NSFontAttributeName:[UIFont systemFontOfSize:14],
-                 NSForegroundColorAttributeName:[UIColor blackColor]};
-        [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attr]];
-        amount = attrStr;
+    if (activityAmount > 0)
+    {
+        remark = [NSString stringWithFormat:@"原价￥%.2f 优惠￥%.2f",total,self.order.activityAmount];
+        amount = [NSString stringWithFormat:@"￥%.2f",discountedPrice];
     }
-    else {
+    else
+    {
         amount = [NSString stringWithFormat:@"￥%.2f", total];
     }
     
@@ -208,8 +195,7 @@
                        RACTuplePack(@"证件号码",_order.idcard),
                        RACTuplePack(@"投保车辆",_order.licencenumber),
                        RACTuplePack(@"共计保费",amount,remark),
-                       RACTuplePack(@"商业险期限",_order.validperiod),
-                       ];
+                       RACTuplePack(@"商业险期限",_order.validperiod)];
     NSMutableArray *titles = [NSMutableArray arrayWithArray:array];
     if (_order.insordernumber.length > 0) {
         [titles safetyInsertObject:RACTuplePack(@"保单编号",_order.insordernumber) atIndex:0];
@@ -220,20 +206,13 @@
     self.titles = titles;
     self.coverages = self.order.policy.subInsuranceArray;
     [self resetBottomButton];
-    [self.tableView reloadData];
+    [self reloadData];
 }
 
-- (NSString *)strValueFrom:(id)value
-{
-    if ([value isKindOfClass:[NSString class]]) {
-        return value;
-    }
-    return @"";
-}
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1012-1"];
+    [MobClick event:@"rp1012_1"];
     if (self.originVC) {
         [self.navigationController popToViewController:self.originVC animated:YES];
     }
@@ -242,8 +221,33 @@
     }
 }
 
+- (void)actionShare:(id)sender {
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
+    op.pagePosition = ShareSceneInsurance;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
+        
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneInsurance;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"分享信息拉取失败，请重试"];
+    }];
+}
+
 - (void)actionPay:(id)sender {
-    [MobClick event:@"rp1012-2"];
+    [MobClick event:@"rp1012_2"];
     PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
     vc.insModel = self.insModel;
     vc.insOrder = self.order;
@@ -251,28 +255,26 @@
 }
 
 - (void)actionCancelOrder:(id)sender {
-    [MobClick event:@"rp1012-4"];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"取消订单后，订单将关闭且无法继续支付您确定现在取消订单？" delegate:nil cancelButtonTitle:@"算了吧" otherButtonTitles:@"确定取消", nil];
-    [alert show];
-    @weakify(self);
-    [[alert rac_buttonClickedSignal] subscribeNext:^(id x) {
-        
-        @strongify(self);
-        NSInteger index = [x integerValue];
-        //确定取消订单
-        if (index == 1) {
-            [MobClick event:@"rp1012-6"];
-            [self requestCancelInsOrder];
-        }
-        else {
-            [MobClick event:@"rp1012-5"];
-        }
+    [MobClick event:@"rp1012_4"];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了吧" color:kGrayTextColor clickBlock:^(id alertVC) {
+        [MobClick event:@"rp1012_5"];
     }];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定取消" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        [MobClick event:@"rp1012_6"];
+        [self requestCancelInsOrder];
+    }];
+    HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"取消订单后，订单将关闭且无法继续支付您确定现在取消订单？" ActionItems:@[cancel,confirm]];
+    [alert show];
 }
 
 - (void)actionMakeCall:(id)sender {
-    [MobClick event:@"rp1012-3"];
-    [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
+    [MobClick event:@"rp1012_3"];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        [gPhoneHelper makePhone:@"4007111111"];
+    }];
+    HKAlertVC *alert = [self alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"咨询电话：4007-111-111，是否立即拨打？" ActionItems:@[cancel,confirm]];
+    [alert show];
 }
 
 - (void)actionRefresh {
@@ -299,20 +301,29 @@
 }
 
 #pragma mark - UITableViewDelegate
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return self.dataSource.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 1) {
-        return 9+22+8+self.titles.count*22;
+    CKDict *data = self.dataSource[indexPath.row];
+    CKCellGetHeightBlock block = data[kCKCellGetHeight];
+    if (block)
+    {
+        return block(data,indexPath);
     }
-    else if (indexPath.row == 2) {
-        return 20+17+(self.coverages.count+1)*30;
+    else
+    {
+        return 44;
     }
-    return 96;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -322,176 +333,197 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        return [self headerCellAtIndexPath:indexPath];
+    CKDict *data = self.dataSource[indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data[kCKCellID]];
+    CKCellPrepareBlock block = data[kCKCellPrepare];
+    if (block)
+    {
+        block(data,cell,indexPath);
     }
-    else if (indexPath.row == 1) {
-        return [self itemUponCellAtIndexPath:indexPath];
-    }
-    return [self itemUnderCellAtIndexPath:indexPath];
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+    return cell;
 }
 
 #pragma mark - About Cell
-- (UITableViewCell *)headerCellAtIndexPath:(NSIndexPath *)indexPath
+
+// 进度条cell
+-(CKDict *)progressCellData
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"HeaderCell" forIndexPath:indexPath];
-    UIImageView *line1 = (UIImageView *)[cell.contentView viewWithTag:1002];
-    UIImageView *line2 = (UIImageView *)[cell.contentView viewWithTag:1004];
-    UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1006];
-    
-    [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusUnpaid) baseTag:10010];
-    [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusPaid) baseTag:10030];
-    [self resetStepViewInCell:cell highlight:(self.order.status == InsuranceOrderStatusComplete) baseTag:10050];
-    
-    line1.highlighted = self.order.status == InsuranceOrderStatusUnpaid ||
-    self.order.status == InsuranceOrderStatusPaid;
-    
-    line2.highlighted = self.order.status == InsuranceOrderStatusPaid ||
-    self.order.status == InsuranceOrderStatusComplete ||
-    self.order.status == InsuranceOrderStatusSended;
-    
-    titleL.text = [self.order detailDescForCurrentStatus];
-    return cell;
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"ProgressCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 44;
+    });
+    @weakify(self)
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self)
+        HKProgressView *progressView = [cell viewWithTag:101];
+        progressView.titleArray = @[@"待支付",@"已支付",@"保单已出"];
+        progressView.selectedIndexSet = [self selectedIndexSet];
+    });
+    return data;
 }
 
-- (void)resetStepViewInCell:(UITableViewCell *)cell highlight:(BOOL)highlight baseTag:(NSInteger)tag
+// 保单状态cell
+-(CKDict *)headCellData
 {
-    UIImageView *leftBg = (UIImageView *)[cell.contentView viewWithTag:tag+1];
-    UIImageView *rightBg = (UIImageView *)[cell.contentView viewWithTag:tag+2];
-    leftBg.highlighted = highlight;
-    rightBg.highlighted = highlight;
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"HeadCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 25;
+    });
+    @weakify(self)
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self)
+        UILabel * headLabel = [cell viewWithTag:100];
+        headLabel.text = [self.order detailDescForCurrentStatus];
+    });
+    return data;
 }
 
-- (UITableViewCell *)itemUponCellAtIndexPath:(NSIndexPath *)indexPath
+// 用户信息cell
+-(CKList *)infoCellData
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ItemUponCell" forIndexPath:indexPath];
-    UIView *containerV = [cell.contentView viewWithTag:1000];
-    //清除label
-    [containerV.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    id uponV = containerV;
-    for (RACTuple *item in self.titles) {
-        UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        leftLabel.textColor = HEXCOLOR(@"#8b9eb3");
-        leftLabel.font = [UIFont systemFontOfSize:14];
-        leftLabel.text = item[0];
-        [containerV addSubview:leftLabel];
-        
-        UILabel *midLabel = leftLabel;
-        
-        UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        rightLabel.textColor = HEXCOLOR(@"#000000");
-        rightLabel.font = [UIFont systemFontOfSize:14];
-        id text = item[1];
-        if ([text isKindOfClass:[NSString class]]) {
-            text = [[NSAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14],
-                                                                                NSForegroundColorAttributeName:[UIColor blackColor]}];
-        }
-        rightLabel.attributedText = text;
-        rightLabel.textAlignment = NSTextAlignmentRight;
-        [containerV addSubview:rightLabel];
-        
-        id remark = [item third];
-        if (remark && [remark isKindOfClass:[NSAttributedString class]]) {
-            midLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-            midLabel.textColor = HEXCOLOR(@"#000000");
-            midLabel.font = [UIFont systemFontOfSize:14];
-            midLabel.attributedText = remark;
-            [containerV addSubview:midLabel];
-            [midLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh  forAxis:UILayoutConstraintAxisHorizontal];
-            [midLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(leftLabel);
-                make.left.equalTo(leftLabel.mas_right);
-                make.height.mas_equalTo(22);
-            }];
-        }
-        
-        [leftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(uponV);
-            make.left.equalTo(containerV);
-            make.height.mas_equalTo(22);
-        }];
-        
-        [rightLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-        [rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(leftLabel);
-            make.left.equalTo(midLabel.mas_right);
-            make.right.equalTo(containerV);
-            make.height.mas_equalTo(22);
-        }];
-        
-        uponV = leftLabel.mas_bottom;
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    for(RACTuple *item in self.titles)
+    {
+        CKDict *data = [CKDict dictWith:@{kCKCellID:@"InfoCell"}];
+        data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+            return 25;
+        });
+        data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+            UILabel *titleLabel = [cell viewWithTag:101];
+            UILabel *detailLabel = [cell viewWithTag:102];
+            HKArrowView * arrowView = [cell viewWithTag:103];
+            UILabel *remarkLabel = [cell viewWithTag:20301];
+            titleLabel.text = item.first;
+            detailLabel.text = item.second;
+            
+            arrowView.hidden = YES;
+            BOOL show = item.third;
+            if (show)
+            {
+                arrowView.bgColor = kOrangeColor;
+                arrowView.hidden = NO;
+                remarkLabel.text = (NSString *)item.third;
+            }
+        });
+        [array addObject:data];
     }
-    return cell;
+    return [CKList listWithArray:array];
 }
 
-- (UITableViewCell *)itemUnderCellAtIndexPath:(NSIndexPath *)indexPath
+// 服务项目标题cell
+-(CKDict *)itemHeaderCellData
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ItemUnderCell" forIndexPath:indexPath];
-    UIView *containerV = [cell.contentView viewWithTag:1000];
-    //清除label
-    [containerV.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    //第一行（标题）
-    UILabel *leftL;
-    UILabel *rightL;
-    if (self.coverages.count > 0) {
-        leftL = [self baseCoverageLabelForRight:NO uponView:nil leftView:nil containerView:containerV];
-        leftL.textColor = HEXCOLOR(@"#444b54");
-        leftL.text = @"承保险种";
-        leftL.backgroundColor = HEXCOLOR(@"#dae7f7");
-        [leftL showBorderLineWithDirectionMask:CKViewBorderDirectionLeft | CKViewBorderDirectionBottom | CKViewBorderDirectionTop];
-        rightL = [self baseCoverageLabelForRight:YES uponView:nil leftView:leftL containerView:containerV];
-        rightL.textColor = HEXCOLOR(@"#444b54");
-        rightL.text = @"保险金额 / 责任限额(元)";
-        rightL.backgroundColor = HEXCOLOR(@"#dae7f7");
-        [rightL showBorderLineWithDirectionMask:CKViewBorderDirectionAll];
-    }
-    for (SubInsurance *item in self.coverages) {
-        leftL = [self baseCoverageLabelForRight:NO uponView:leftL leftView:nil containerView:containerV];
-        leftL.text = item.coveragerName;
-        rightL = [self baseCoverageLabelForRight:YES uponView:rightL leftView:leftL containerView:containerV];
-        if ([item.coveragerValue isKindOfClass:[NSNumber class]]) {
-            rightL.text = [item.coveragerValue description];
-        }
-        else {
-            rightL.text = item.coveragerValue;
-        }
-    }
-    return cell;
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"ItemHeaderCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        NSString * title = @"承保险种";
+        NSString * detail = @"保险金额/责任限额（元）";
+        CGFloat width = gAppMgr.deviceInfo.screenSize.width / 2 - 40;
+        CGSize size1 = [title labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
+        CGSize size2 = [detail labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
+        // 20 = 10 + 10 文字和上下边界的距离
+        CGFloat height = MAX(size1.height + 10, size2.height + 10);
+        return height + 8;
+    });
+    return data;
 }
 
-- (UILabel *)baseCoverageLabelForRight:(BOOL)right uponView:(UIView *)uponV leftView:(UIView *)leftV containerView:(UIView *)containerV
+// 服务项目cell
+-(CKList *)itemCellData
 {
-    BorderLineLabel *label = [[BorderLineLabel alloc] initWithFrame:CGRectZero];
-    label.font = [UIFont systemFontOfSize:14];
-    label.backgroundColor = HEXCOLOR(@"#f1f7fd");
-    label.textColor = HEXCOLOR(@"#8b9eb3");
-    [label setBorderLineColor:HEXCOLOR(@"#ccdbef") forDirectionMask:CKViewBorderDirectionAll];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.numberOfLines = 2;
-    label.adjustsFontSizeToFitWidth = YES;
-    label.minimumScaleFactor = 0.6;
-    [containerV addSubview:label];
-    
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(uponV ? uponV.mas_bottom : containerV);
-        make.left.equalTo(leftV ? leftV.mas_right : containerV);
-        make.height.mas_equalTo(30);
-        if (right) {
-            make.right.equalTo(containerV);
-        }
-        if (leftV) {
-            make.width.equalTo(leftV.mas_width).multipliedBy(5.0/4.0);
-        }
-    }];
-    NSInteger mask = CKViewBorderDirectionLeft | CKViewBorderDirectionBottom;
-    mask |= right ? CKViewBorderDirectionRight : 0;
-    [label showBorderLineWithDirectionMask:mask];
-    return label;
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    for (SubInsurance *item in self.coverages)
+    {
+        CKDict *data = [CKDict dictWith:@{kCKCellID:@"ItemCell"}];
+        data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+            NSString * title = item.coveragerName;
+            NSString * detail = item.coveragerValue;
+            CGFloat width = gAppMgr.deviceInfo.screenSize.width / 2 - 40;
+            CGSize size1 = [title labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
+            CGSize size2 = [detail labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
+            // 20 = 10 + 10 文字和上下边界的距离
+            CGFloat height = MAX(MAX(size1.height + 20, size2.height + 20),30);
+            return height;
+            });
+        data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+            UILabel *titleLabel = [cell viewWithTag:102];
+            UILabel *detailLabel = [cell viewWithTag:103];
+            titleLabel.text = item.coveragerName;
+            if ([item.coveragerValue isKindOfClass:[NSNumber class]])
+            {
+                detailLabel.text = [item.coveragerValue description];
+            }
+            else
+            {
+                detailLabel.text = item.coveragerValue;
+            }
+        });
+        [array addObject:data];
+    }
+    return [CKList listWithArray:array];
 }
+
+// 锯齿cell
+-(CKDict *)sawtoothCellData
+{
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"SawtoothCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 44;
+    });
+    return data;
+}
+
+#pragma mark LazyLoad
+
+-(void)reloadData
+{
+    self.dataSource = [CKList list];
+    CKDict *progressData = [self progressCellData];
+    CKDict *headerData = [self headCellData];
+    CKList *infoData = [self infoCellData];
+    CKDict *itemHeaderData = [self itemHeaderCellData];
+    CKList *itemData = [self itemCellData];
+    CKDict *sawtoothData = [self sawtoothCellData];
+    [self.dataSource addObject:progressData forKey:@"progressData"];
+    [self.dataSource addObject:headerData forKey:@"headerData"];
+    [self.dataSource addObjectsFromQueue:infoData];
+    [self.dataSource addObject:itemHeaderData forKey:@"itemHeaderData"];
+    [self.dataSource addObjectsFromQueue:itemData];
+    [self.dataSource addObject:sawtoothData forKey:@"sawtoothData"];
+    [self.tableView reloadData];
+}
+
+
+#pragma mark Utility
+
+-(NSIndexSet *)selectedIndexSet
+{
+    if (self.order.status == InsuranceOrderStatusComplete)
+    {
+        return [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)];
+    }
+    else if (self.order.status == InsuranceOrderStatusPaid)
+    {
+        return [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)];
+    }
+    else
+    {
+        return [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 1)];
+    }
+}
+
+-(HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName Message:(NSString *)message ActionItems:(NSArray *)actionItems
+{
+    if (!_alert)
+    {
+        _alert = [[HKImageAlertVC alloc]init];
+    }
+    _alert.topTitle = topTitle;
+    _alert.imageName = imageName;
+    _alert.message = message;
+    _alert.actionItems = actionItems;
+    return _alert;
+}
+
 
 @end
 

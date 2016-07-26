@@ -47,4 +47,8 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"获取限行和天气信息";
+}
 @end

@@ -53,7 +53,7 @@
 
 - (void)shareAction:(NSNumber *)cid
 {
-    [MobClick event:@"rp304-3"];
+    [MobClick event:@"rp304_3"];
     
     [self requestShareCoupon:cid];
 }
@@ -75,20 +75,21 @@
     }];
     
     [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [MobClick event:@"rp110-7"];
+        [MobClick event:@"rp110_7"];
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"暂无优惠券";
+    return @{@"title":@"暂无优惠券",@"image":@"def_withoutCoupon"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
-    return @"获取未使用优惠券失败，点击重试";
+    return @{@"title":@"获取未使用优惠券失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (NSArray *)loadingModel:(HKLoadingModel *)model datasourceFromLoadedData:(NSArray *)data withType:(HKLoadingTypeMask)type
@@ -233,7 +234,7 @@
         }
         if ([statusText equalByCaseInsensitive:@"有效"]) {
             [[[statusB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                [MobClick event:@"rp304-4"];
+                [MobClick event:@"rp304_4"];
             }];
         }
         [statusB setTitle:statusText forState:UIControlStateNormal];
@@ -261,7 +262,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp304-5"];
+    [MobClick event:@"rp304_5"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

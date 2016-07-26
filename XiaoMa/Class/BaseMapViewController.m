@@ -26,8 +26,6 @@
     [self initBaseNavigationBar];
     
     [self initMapView];
-    
-    [self initSearch];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -35,7 +33,6 @@
     [super viewWillAppear:animated];
 
     self.mapView.delegate = self;
-    self.search.delegate = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -43,7 +40,6 @@
     [super viewWillDisappear:animated];
     
     self.mapView.delegate = nil;
-    self.search.delegate = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,18 +62,9 @@
     }];
 }
 
-- (void)initSearch
-{
-    self.search = [[AMapSearchAPI alloc] initWithSearchKey:AMAP_API_ID Delegate:self];
-}
-
 - (void)initBaseNavigationBar
 {
-    UIImage *img = [UIImage imageNamed:@"cm_nav_back"];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain
-                                                            target:self action:@selector(returnAction)];
-//    self.navigationItem.leftBarButtonItem = item;
-    [self.navigationItem setLeftBarButtonItem:item animated:YES];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(returnAction)];   
 }
 
 - (void)initTitle:(NSString *)title

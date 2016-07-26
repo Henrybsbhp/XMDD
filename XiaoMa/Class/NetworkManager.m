@@ -32,16 +32,23 @@ static NetworkManager *g_networkManager;
         _apiManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
         
+        _baseManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:XmddBaseUrl]];
+        _baseManager.requestSerializer = [AFJSONRequestSerializer serializer];
+        
         _longtimeManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         _longtimeManager.requestSerializer = [AFJSONRequestSerializer serializer];
         _longtimeManager.requestSerializer.timeoutInterval = 3*60;
         
         /// https设置
         AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
-        securityPolicy.allowInvalidCertificates = YES;
+        securityPolicy.allowInvalidCertificates = NO;
         
+#if XMDDEnvironment==0
+#else
         _apiManager.securityPolicy = securityPolicy;
         _longtimeManager.securityPolicy = securityPolicy;
+        _baseManager.securityPolicy = securityPolicy;
+#endif
         
         _mediaClient = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
         

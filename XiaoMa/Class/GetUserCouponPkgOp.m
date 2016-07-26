@@ -43,4 +43,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"获取用户已经领取过的礼包信息";
+}
 @end

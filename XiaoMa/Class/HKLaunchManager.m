@@ -55,22 +55,29 @@
     }
     else {
         HKAddressComponent *ac = [GetLaunchInfoOp parseAddressWithDict:dict];
-        if (![HKAddressComponent isEqualAddrComponent:ac otherAddrComponent:gAppMgr.addrComponent]) {
+        if (![HKAddressComponent isEqualAddrComponent:ac otherAddrComponent:gMapHelper.addrComponent]) {
             signal = [signal concat:[self rac_getLaunchInfo]];
         }
-        
     }
     return signal;
 }
 
 - (RACSignal *)rac_getLaunchInfo
 {
-    GetLaunchInfoOp *op = [[GetLaunchInfoOp alloc] init];
-    op.req_province = gAppMgr.addrComponent.province;
-    op.req_city = gAppMgr.addrComponent.city;
-    op.req_district = gAppMgr.addrComponent.district;
-    return [[op rac_postRequest] map:^id(GetLaunchInfoOp *rspop) {
-
+    @weakify(self);
+    return [[[[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyKilometer] catch:^RACSignal *(NSError *error) {
+        
+        return [RACSignal return:nil];
+    }] flattenMap:^RACStream *(id x) {
+        
+        GetLaunchInfoOp *op = [GetLaunchInfoOp operation];
+        op.req_province = gMapHelper.addrComponent.province;
+        op.req_city = gMapHelper.addrComponent.city;
+        op.req_district = gMapHelper.addrComponent.district;
+        return [op rac_postRequest];
+    }]  map:^id(GetLaunchInfoOp *rspop) {
+        
+        @strongify(self);
         self.timetag = [[NSDate date] timeIntervalSince1970];
         return rspop.rsp_infoList;
     }];

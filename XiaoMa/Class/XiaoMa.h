@@ -9,7 +9,7 @@
 #ifndef XiaoMa_XiaoMa_h
 #define XiaoMa_XiaoMa_h
 
-#import <CKKit.h>
+#import "CKKit.h"
 #import <ReactiveCocoa.h>
 #import <RACEXTScope.h>
 #import <FoundationExtension.h> 
@@ -23,7 +23,8 @@
 
 
 //友盟
-#import <UMengAnalytics/MobClick.h>
+//#import <UMengAnalytics/MobClick.h>
+#import "UMMobClick/MobClick.h"
 
 //单例
 #import "HKToast.h"
@@ -37,23 +38,27 @@
 #import "PhoneHelper.h"
 #import "AdvertisementManager.h"
 #import "SupportFileManager.h"
+#import "AssistiveManager.h"
 #import <SDWebImageManager.h>
 
 //基类
 #import "BaseOp.h"
 #import "HKViewController.h"
 #import "HKView.h"
+#import "HKImageAlertVC.h"
 
 //常用vc&View
-#import "CKNavigationController.h"
-#import "JTNavigationController.h"
+#import "HKNavigationController.h"
 #import "JTTableViewCell.h"
 #import "JTTableView.h"
 #import "DetailWebVC.h"
+#import "HKImageAlertVC.h"
 
 //引用
 #import "Constants.h"
+#import "HKUIConstants.h"
 #import "XiaoMaConstants.h"
+#import "MutualInsConstants.h"
 
 //常用model
 #import "LoginViewModel.h"
@@ -67,7 +72,8 @@
 #import "UIView+Layer.h"
 #import "RACSignal+Extension.h"
 #import "UIScrollView+RefreshView.h"
-#import "CKNavigationController+Expansion.h"
+#import "NSString+Safe.h"
+#import "NSNumber+Safety.h"
 
 
 #endif

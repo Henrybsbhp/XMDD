@@ -7,7 +7,6 @@
 //
 
 #import "RescueHomeViewController.h"
-#import "LoginVC.h"
 #import "RescueHistoryViewController.h"
 #import "GetRescueOp.h"
 #import "RescueDetailsVC.h"
@@ -36,16 +35,11 @@
 
 @implementation RescueHomeViewController
 
--(void)viewWillAppear:(BOOL)animated
+- (void)dealloc
 {
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp701"];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp701"];
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"RescueHomeViewController dealloc");
 }
 
 - (void)viewDidLoad {
@@ -54,15 +48,15 @@
     [self setupUI];
     // [self addsubView];
     [self requestGetAddress];
-    [self actionFirstEnterNetwork];
+    
+    @weakify(self)
+    [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
+        @strongify(self)
+        [self actionFirstEnterNetwork];
+    }];
+    
 }
 
-- (void)dealloc
-{
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
-    DebugLog(@"RescueHomeViewController dealloc");
-}
 
 #pragma mark - SetupUI
 - (void)setupUI
@@ -78,67 +72,62 @@
 
 #pragma mark - Action
 - (void)requestGetAddress {
-    RACSignal *sig1 = [[gMapHelper rac_getInvertGeoInfo] take:1];
+    RACSignal *sig1 = [[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyNearestTenMeters] take:1];
     
+    @weakify(self)
     [[sig1 initially:^{
-        
+     @strongify(self)
         self.addressLb.text = @"定位中...";
-    }] subscribeNext:^(AMapReGeocode *regeo) {
+    }] subscribeNext:^(RACTuple * tuple) {
+        @strongify(self)
         
-        if (![HKAddressComponent isEqualAddrComponent:gAppMgr.addrComponent AMapAddrComponent:regeo.addressComponent]) {
-            gAppMgr.addrComponent = [HKAddressComponent addressComponentWith:regeo.addressComponent];
-        }
-        
+        AMapLocationReGeocode * regeo = tuple.second;
         CGFloat lbWidth = gAppMgr.deviceInfo.screenSize.width - 57;
         CGFloat textWidth = [regeo.formattedAddress labelSizeWithWidth:FLT_MAX font:[UIFont systemFontOfSize:12]].width;
         /// 如果超过label大小
         if (textWidth > lbWidth)
         {
             NSString *tempAdd = [NSString stringWithFormat:@"%@%@%@%@",
-                                 regeo.addressComponent.district,
-                                 regeo.addressComponent.township,
-                                 regeo.addressComponent.streetNumber.street,
-                                 regeo.addressComponent.streetNumber.number];
-            
+                                 regeo.district,
+                                 regeo.township,
+                                 regeo.street,
+                                 regeo.number];
             self.addressLb.text = [tempAdd stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
         }
         else
         {
             self.addressLb.text = regeo.formattedAddress;
         }
-        
-        
+
     } error:^(NSError *error) {
-        
+        @strongify(self)
         switch (error.code) {
             case kCLErrorDenied:
             {
                 if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
                 {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"请允许小马达达访问您的位置，进入系统-[设置]-[小马达达]-[位置]-使用期间" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"前往设置", nil];
-                    
-                    [[av rac_buttonClickedSignal] subscribeNext:^(id x) {
-                        
-                        if ([x integerValue] == 1)
-                        {
-                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                        }
+                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+                    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"前往设置" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
                     }];
-                    [av show];
+                    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"请允许小马达达访问您的位置，进入系统-[设置]-[小马达达]-[位置]-使用期间" ActionItems:@[cancel,confirm]];
+                    [alert show];
+                    
                 }
                 else
                 {
-                    UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"请允许小马达达访问您的位置" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+                    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+                    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"请允许小马达达访问您的位置" ActionItems:@[cancel]];
+                    [alert show];
                     
-                    [av show];
                 }
                 break;
             }
             case LocationFail:
             {
-                UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"" message:@"城市定位失败,请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                
-                [av show];
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"城市定位失败,请重试" ActionItems:@[cancel]];
+                [alert show];
             }
             default:
             {
@@ -150,50 +139,58 @@
     }];
 }
 - (void)actionFirstEnterNetwork {
-    if (gAppMgr.myUser != nil) {//已登录
+    [self.datasourceArray removeAllObjects];
+    [self.desArray removeAllObjects];
+    
+    @weakify(self)
+    
+    if (gAppMgr.myUser != nil)
+    {//已登录
         GetRescueOp *op = [GetRescueOp operation];
-        [[[[op rac_postRequest] initially:^{
+        [[[op rac_postRequest] initially:^{
+            @strongify(self)
             [self.view hideDefaultEmptyView];
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-        }] finally:^{
-            [self.view stopActivityAnimation];
         }] subscribeNext:^(GetRescueOp *op) {
+            @strongify(self)
             [self.view stopActivityAnimation];
-            [self.datasourceArray safetyAddObjectsFromArray:op.req_resceuArray];
+            [self.datasourceArray safetyAddObjectsFromArray:op.rsp_resceuArray];
             NSString *tempStr;
             NSString *lastStr;
-            for (HKRescue *rescue in op.req_resceuArray) {
+            for (HKRescue *rescue in op.rsp_resceuArray)
+            {
                 tempStr = [NSString stringWithFormat:@"● %@", rescue.rescueDesc];
                 lastStr = [tempStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n● "];
                 [self.desArray safetyAddObject:lastStr];
-                
             }
             [self.tableView reloadData];
         } error:^(NSError *error) {
-            
+            @strongify(self)
+            [self.view stopActivityAnimation];
         }] ;
-        
-    }else {//未登录
+    }
+    else
+    {//未登录
         GetRescueNoLoginOp *op = [GetRescueNoLoginOp operation];
-        [[[[op rac_postRequest] initially:^{
+        [[[op rac_postRequest] initially:^{
+            @strongify(self)
             [self.view hideDefaultEmptyView];
             [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-        }] finally:^{
-            [self.view stopActivityAnimation];
         }] subscribeNext:^(GetRescueNoLoginOp *op) {
-            
-            
-            [self.datasourceArray safetyAddObjectsFromArray:op.req_resceuArray];
+            @strongify(self)
+            [self.view stopActivityAnimation];
+            [self.datasourceArray safetyAddObjectsFromArray:op.rsp_resceuArray];
             NSString *tempStr;
             NSString *lastStr;
-            for (HKRescueNoLogin *rescue in op.req_resceuArray) {
+            for (HKRescueNoLogin *rescue in op.rsp_resceuArray) {
                 tempStr = [NSString stringWithFormat:@"● %@", rescue.rescueDesc];
                 lastStr = [tempStr stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n● "];
                 [self.desArray safetyAddObject:lastStr];
             }
             [self.tableView reloadData];
         } error:^(NSError *error) {
-            
+            @strongify(self)
+            [self.view stopActivityAnimation];
         }] ;
     }
 }
@@ -201,7 +198,7 @@
     /**
      *  一键救援事件
      */
-    [MobClick event:@"rp701-2"];
+    [MobClick event:@"rp701_2"];
     if (gAppMgr.myUser != nil) {
         RescueApplyOp *op = [RescueApplyOp operation];
         op.address = self.addressLb.text;
@@ -217,11 +214,20 @@
         } error:^(NSError *error) {
             
         }] ;
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"救援电话:4007-111-111" ActionItems:@[cancel,confirm]];
+        [alert show];
     }else{
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"救援电话: 4007-111-111"];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [gPhoneHelper makePhone:@"4007111111"];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"救援电话:4007-111-111" ActionItems:@[cancel,confirm]];
+        [alert show];
     }
 }
 
@@ -233,7 +239,7 @@
     /**
      *  救援记录事件
      */
-    [MobClick event:@"rp701-1"];
+    [MobClick event:@"rp701_1"];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         RescueHistoryViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHistoryViewController"];
         vc.type = 1;
@@ -245,7 +251,7 @@
     /**
      *  更新定位事件
      */
-    [MobClick event:@"rp701-6"];
+    [MobClick event:@"rp701_6"];
     [self requestGetAddress];
 }
 
@@ -349,13 +355,13 @@
         switch (indexPath.row)
         {
             case 0:
-                [MobClick event:@"rp701-3"];
+                [MobClick event:@"rp701_3"];
                 break;
             case 1:
-                [MobClick event:@"rp701-4"];
+                [MobClick event:@"rp701_4"];
                 break;
             default:
-                [MobClick event:@"rp701-5"];
+                [MobClick event:@"rp701_5"];
                 break;
         }
         HKRescue *rescue = self.datasourceArray[indexPath.row];

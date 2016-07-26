@@ -8,7 +8,7 @@
 
 #import "HKViewController.h"
 
-#define SuperClassName NSStringFromClass([super class])
+#define SuperClassName NSStringFromClass([self class])
 
 @interface HKViewController ()
 
@@ -18,43 +18,34 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    HKCLSLog(@"%@ viewDidLoad",SuperClassName);
+    NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
+    if (index > 0 && index != NSNotFound) {
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    HKCLSLog(@"%@ viewWillAppear",SuperClassName);
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    HKCLSLog(@"%@ viewDidAppear",SuperClassName);
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    HKCLSLog(@"%@ viewWillDisappear",SuperClassName);
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    
-    HKCLSLog(@"%@ viewDidDisappear",SuperClassName);
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
-    HKCLSLog(@"%@ didReceiveMemoryWarning",SuperClassName);
 }
 
 @end

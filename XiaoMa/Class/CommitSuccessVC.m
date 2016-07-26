@@ -11,7 +11,7 @@
 #import "ShareResponeManager.h"
 #import "HomePageVC.h"
 #import "UIView+Layer.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 
 
 @interface CommitSuccessVC ()
@@ -28,6 +28,10 @@
     DebugLog(@"CommitSuccessVC dealloc");
 }
 
+- (void)awakeFromNib {
+    self.router.disableInteractivePopGestureRecognizer = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -36,26 +40,11 @@
     self.tipLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 50;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
-    [MobClick beginLogPageView:@"rp605"];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
-    [MobClick endLogPageView:@"rp605"];
-}
-
-
 - (void)setupUI
 {
     [self.shareBtn makeCornerRadius:5.0f];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cm_nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backToHomePage)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(backToHomePage)];
 }
 
 
@@ -64,7 +53,7 @@
     /**
      *  返回估值首页事件
      */
-    [MobClick event:@"rp605-1"];
+    [MobClick event:@"rp605_1"];
     NSArray *viewControllers = self.navigationController.viewControllers;
     [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
 }
@@ -79,19 +68,19 @@
     /**
      *  分享事件
      */
-    [MobClick event:@"rp605-2"];
+    [MobClick event:@"rp605_2"];
     [self shareApp];
 }
 
 - (void)shareApp
 {
     [gToast showingWithText:@"分享信息拉取中..."];
-    GetShareButtonOp * op = [GetShareButtonOp operation];
-    op.pagePosition = ShareSceneApp;
-    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
+    op.pagePosition = ShareSceneAppCarSell;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         [gToast dismiss];
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-        vc.sceneType = ShareSceneApp;    //页面位置
+        vc.sceneType = ShareSceneAppCarSell;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
@@ -99,18 +88,11 @@
         [sheet presentAnimated:YES completionHandler:nil];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110-7"];
+            [MobClick event:@"rp110_7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
             [sheet dismissAnimated:YES completionHandler:nil];
-        }];
-        
-        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
-            
-        }];
-        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
-            
         }];
     } error:^(NSError *error) {
         [gToast showError:@"分享信息拉取失败，请重试"];

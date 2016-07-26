@@ -64,14 +64,15 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"暂无保险订单";
+    return @{@"title":@"暂无保险订单",@"image":@"def_withoutOrder"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
-    return @"获取保险订单失败，点击重试";
+    return @{@"title":@"获取保险订单失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
@@ -99,7 +100,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 152;
+    return 180;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -121,22 +122,29 @@
     UILabel *timeL = (UILabel *)[cell.contentView viewWithTag:2003];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:3002];
     UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:4001];
+    UIImageView *imgView = (UIImageView *)[cell viewWithTag:4000];
+    
+    imgView.layer.borderWidth = 0.5;
+    imgView.layer.borderColor = kGrayTextColor.CGColor;
     
     HKInsuranceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    NSLog(@"%@",order.picUrl);
+    [imgView setImageByUrl:order.picUrl withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
     nameL.text = order.inscomp;
-//    nameL.text = [order descForCurrentInstype];
+    
+    contentL.adjustsFontSizeToFitWidth = YES;
     contentL.text = order.serviceName;
-//    contentL.text = [order generateContent];
     
     stateL.text = [order descForCurrentStatus]; //老方式，已经用新字段替换
-    timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm];
-    priceL.text = [NSString stringWithFormat:@"￥%d", (int)(order.fee)];
+    timeL.text = [order.lstupdatetime dateFormatForYYYYMMddHHmm2];
+    priceL.text = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:order.fee]];
     
     BOOL unpaid = order.status == InsuranceOrderStatusUnpaid;
     [bottomB setTitle:unpaid ? @"买了" : @"联系客服" forState:UIControlStateNormal];
-    [bottomB setTitleColor:unpaid ? RGBCOLOR(251, 88, 15) : RGBCOLOR(21, 172, 31) forState:UIControlStateNormal];
     
-    bottomB.layer.borderColor = unpaid ? [RGBCOLOR(251, 88, 15) CGColor] : [RGBCOLOR(21, 172, 31) CGColor];
+    bottomB.layer.borderColor = kDefTintColor.CGColor;
+    bottomB.layer.borderWidth = 0.5;
+    
     
      @weakify(self);
     [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
@@ -144,7 +152,7 @@
          
         @strongify(self);
          if (unpaid) {
-             [MobClick event:@"rp318-6"];
+             [MobClick event:@"rp318_6"];
              PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
              vc.insOrder = order;
              vc.insModel = [[InsuranceVM alloc] init];
@@ -152,17 +160,15 @@
              [self.targetVC.navigationController pushViewController:vc animated:YES];
          }
          else {
-             [MobClick event:@"rp318-5"];
+             [MobClick event:@"rp318_5"];
              [self actionMakeCall:x];
          }
     }];
-    cell.customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];
     [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nest:NO promptView:self.tableView.bottomLoadingView];
 }
 

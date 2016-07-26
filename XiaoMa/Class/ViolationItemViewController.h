@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "ViolationModel.h"
-#import "MyUIPageControl.h"
 
 typedef enum : NSUInteger {
     BeforeQuery,

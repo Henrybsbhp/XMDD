@@ -33,4 +33,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"查看用户其它订单列表";
+}
 @end

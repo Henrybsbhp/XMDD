@@ -10,7 +10,6 @@
 #import "XiaoMa.h"
 #import "GetCarwashOrderListV3Op.h"
 #import "CarwashOrderDetailVC.h"
-#import "CarwashOrderCommentVC.h"
 #import "PaymentSuccessVC.h"
 
 @interface CarwashOrderViewModel ()<HKLoadingModelDelegate>
@@ -41,14 +40,15 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"暂无洗车订单";
+    return @{@"title":@"暂无洗车订单",@"image":@"def_withoutOrder"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
-    return @"获取洗车订单失败，点击重试";
+    return @{@"title":@"获取洗车订单失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
@@ -93,7 +93,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 162;
+    return 172;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -123,19 +123,22 @@
     nameL.text = order.shop.shopName;
     stateL.text = @"交易成功";
     [iconV setImageByUrl:[order.shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
-    
+    bottomB.layer.borderWidth = 0.5;
     serviceL.text = order.servicename;
-    timeL.text = [order.txtime dateFormatForYYYYMMddHHmm];
+    timeL.text = [order.txtime dateFormatForYYYYMMddHHmm2];
     priceL.text = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:order.fee]];
     paymentL.text = order.paydesc;
-    [[RACObserve(order, ratetime) takeUntilForCell:cell] subscribeNext:^(id x) {
+    [[RACObserve(order, ratetime) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         [bottomB setTitle:order.ratetime ? @"已评价" : @"去评价" forState:UIControlStateNormal];
+        bottomB.layer.borderColor = order.ratetime ? kGrayTextColor.CGColor : kDefTintColor.CGColor;
+        UIColor *textColor = order.ratetime ? kGrayTextColor : kDefTintColor;
+        [bottomB setTitleColor:textColor forState:UIControlStateNormal];
         bottomB.userInteractionEnabled = !order.ratetime;
     }];
     @weakify(self);
     [[[bottomB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp318-1"];
+        [MobClick event:@"rp318_1"];
         @strongify(self);
         [self actionCommentForOrder:order];
     }];
@@ -146,16 +149,12 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([cell isKindOfClass:[JTTableViewCell class]]) {
-        [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];        
-    }
-    
     [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:1 promptView:self.tableView.bottomLoadingView];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp318-2"];
+    [MobClick event:@"rp318_2"];
     CarwashOrderDetailVC *vc = [UIStoryboard vcWithId:@"CarwashOrderDetailVC" inStoryboard:@"Mine"];
     vc.order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     vc.originVC = self.targetVC;

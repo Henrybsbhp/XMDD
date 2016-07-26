@@ -26,6 +26,8 @@
     [params safetySetObject:self.req_deviceID forKey:@"deviceid"];
     [params safetySetObject:self.req_deviceModel forKey:@"devicemodel"];
     [params safetySetObject:self.req_appVersion forKey:@"version"];
+    [params safetySetObject:self.req_blackBox forKey:@"blackbox"];
+    [params addParam:@(IOSAPPID) forName:@"os"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
@@ -34,5 +36,9 @@
     return @{@"rc":@0};
 }
 
+- (NSString *)description
+{
+    return @"验证码登录";
+}
 
 @end

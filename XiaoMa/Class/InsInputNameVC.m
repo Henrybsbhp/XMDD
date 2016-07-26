@@ -7,9 +7,10 @@
 //
 
 #import "InsInputNameVC.h"
+#import "CKLine.h"
 
 @interface InsInputNameVC ()
-
+@property (nonatomic, weak) IBOutlet CKLine *line;
 @end
 
 @implementation InsInputNameVC
@@ -17,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.line.lineAlignment = CKLineAlignmentHorizontalTop;
     [self setupNameField];
 }
 
@@ -29,7 +31,7 @@
 {
     self.nameField.textLimit = 20;
     [self.nameField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1000-5"];
+        [MobClick event:@"rp1000_5"];
         field.placeholder = nil;
     }];
     
@@ -40,12 +42,12 @@
 
 - (IBAction)actionCancel:(id)sender
 {
-    [MobClick event:@"rp1000-4"];
+    [MobClick event:@"rp1000_4"];
 }
 
 - (IBAction)actionEnsure:(id)sender
 {
-    [MobClick event:@"rp1000-6"];
+    [MobClick event:@"rp1000_6"];
 }
 /*
 #pragma mark - Navigation

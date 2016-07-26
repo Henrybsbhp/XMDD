@@ -25,6 +25,15 @@
 + (NSString *)formatForPrice:(CGFloat)price;
 
 /**
+ *  折扣小数为零的截断
+ *
+ *  @param price price
+ *
+ *  @return nsstring
+ */
++ (NSString *)formatForDiscount:(CGFloat)discount;
+
+/**
  *  忽略小数的金额
  *
  *  @param price price
@@ -35,4 +44,18 @@
  *  11111.13 digit == 6 return 11111.13
  */
 + (NSString *)formatForPrice:(CGFloat)price maxPrice:(NSInteger)digit;
+
+/**
+ *  将浮点型转化成.xx的字符串
+ *
+ *  @param price price
+ *
+ *  @return 格式化后的字符串 111 => 111.00 111.89 => 111.89
+ */
++ (NSString *)formatForPriceWithFloat:(CGFloat)price;
+
+/**
+ *  美式计数法 1111 => 1,111.00 1111.89 => 1,111.89
+ */
++ (NSString *)formatForPriceWithFloatWithDecimal:(CGFloat)price;
 @end

@@ -8,11 +8,26 @@
 
 #import "DatePickerVC.h"
 #import "XiaoMa.h"
+#import "NSString+RectSize.h"
 
 @interface DatePickerVC ()
 @end
 
 @implementation DatePickerVC
+
++ (DatePickerVC *)datePickerVCWithMaximumDate:(NSDate *)date
+{
+    DatePickerVC *vc = [UIStoryboard vcWithId:@"DatePickerVC" inStoryboard:@"Common"];
+    vc.maximumDate = date;
+    return vc;
+}
+
++ (RACSignal *)rac_presentPickerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
+{
+    DatePickerVC *vc = [self datePickerVCWithMaximumDate:[NSDate date]];
+    return [vc rac_presentPickerVCInView:view withSelectedDate:date];
+}
+
 
 - (void)dealloc
 {
@@ -41,24 +56,23 @@
     [self.formSheetController dismissAnimated:YES completionHandler:nil];
 }
 
+
 - (void)setupWithTintColor:(UIColor *)tintColor
 {
     self.cancelItem.tintColor = tintColor;
     self.ensureItem.tintColor = tintColor;
+    [self.titleItemBtn setTitle:self.datePickerTitle forState:UIControlStateNormal];
+    [self.titleItemBtn setTitleColor:tintColor forState:UIControlStateNormal];
+    [self.titleItemBtn setTitleColor:tintColor forState:UIControlStateHighlighted];
+    self.titleItemBtn.showsTouchWhenHighlighted = NO;
+    self.titleItemBtn.enabled = NO;
+    
+    CGSize size = [self.datePickerTitle labelSizeWithWidth:9999 font:[UIFont systemFontOfSize:15]];
+    CGRect rect = self.titleItemBtn.frame;
+    rect.size.width = size.width;
+    self.titleItemBtn.frame = rect;
 }
 
-+ (DatePickerVC *)datePickerVCWithMaximumDate:(NSDate *)date
-{
-    DatePickerVC *vc = [UIStoryboard vcWithId:@"DatePickerVC" inStoryboard:@"Common"];
-    vc.maximumDate = date;
-    return vc;
-}
-
-+ (RACSignal *)rac_presentPickerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
-{
-    DatePickerVC *vc = [self datePickerVCWithMaximumDate:[NSDate date]];
-    return [vc rac_presentPickerVCInView:view withSelectedDate:date];
-}
 
 ///弹出日期选择器(next:NSData* error:【表示取消选取】)
 - (RACSignal *)rac_presentPickerVCInView:(UIView *)view withSelectedDate:(NSDate *)date
@@ -70,11 +84,16 @@
                                                                          targetView:view];
     sheet.shouldDismissOnBackgroundViewTap = NO;
     [sheet presentAnimated:YES completionHandler:nil];
+    
+    self.datePicker.maximumDate = self.maximumDate;
+    self.datePicker.minimumDate = self.minimumDate;
+    
+    self.titleItem.title = self.datePickerTitle;
+    
     if (date) {
         self.datePicker.date = date;
     }
-    self.datePicker.maximumDate = self.maximumDate;
-    self.datePicker.minimumDate = self.minimumDate;
+
     [self setupWithTintColor:kDefTintColor];
     
     RACSubject *subject = [RACSubject subject];

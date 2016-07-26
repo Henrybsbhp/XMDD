@@ -33,14 +33,15 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"您未使用过优惠券";
+    return @{@"title":@"您未使用过优惠券",@"image":@"def_withoutCoupon"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
-    return @"获取已使用优惠券失败，点击重试";
+    return @{@"title":@"获取已使用优惠券失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
@@ -123,7 +124,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp304-5"];
+    [MobClick event:@"rp304_5"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

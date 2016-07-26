@@ -65,14 +65,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp1005"];
     [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp1005"];
     [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = NO;
 }
 //设置日期选择控件（主要是为了事先加载，优化性能）
@@ -162,7 +160,7 @@
 #pragma mark - Action
 - (IBAction)actionBuy:(id)sender
 {
-    [MobClick event:@"rp1005-7"];
+    [MobClick event:@"rp1005_7"];
 
     if (self.paymentInfo.req_ownername.length  == 0) {
         [gToast showText:@"车主姓名不能为空"];
@@ -183,13 +181,13 @@
 
 - (IBAction)actionCall:(id)sender
 {
-    [MobClick event:@"rp1005-2"];
+    [MobClick event:@"rp1005_2"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"咨询电话：4007-111-111"];
 }
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1005-1"];
+    [MobClick event:@"rp1005_1"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -217,7 +215,7 @@
         
         @strongify(self);
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"获取详情失败，点击重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取详情失败，点击重试" tapBlock:^{
             @strongify(self);
             [self requestDetailPremium];
         }];
@@ -353,7 +351,7 @@
       flattenMap:^RACStream *(id value) {
           
           @strongify(self);
-          [MobClick event:@"rp1005-3"];
+          [MobClick event:@"rp1005_3"];
           [self.view endEditing:YES];
           return [self rac_pickDateWithNow:self.paymentInfo.req_startdate];
       }] subscribeNext:^(NSString *datetext) {
@@ -371,7 +369,7 @@
       flattenMap:^RACStream *(id value) {
           
           @strongify(self);
-          [MobClick event:@"rp1005-4"];
+          [MobClick event:@"rp1005_4"];
           [self.view endEditing:YES];
           return [self rac_pickDateWithNow:self.paymentInfo.req_forcestartdate];
       }] subscribeNext:^(NSString *datetext) {
@@ -391,7 +389,7 @@
     nameF.inputField.textLimit = 20;
     nameF.inputField.text = self.paymentInfo.req_ownername;
     [nameF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1005-5"];
+        [MobClick event:@"rp1005_5"];
     }];
     @weakify(self);
     [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
@@ -405,7 +403,7 @@
     phoneF.inputField.text = self.paymentInfo.req_ownerphone;
     phoneF.inputField.keyboardType = UIKeyboardTypeNumberPad;
     [phoneF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1005-8"];
+        [MobClick event:@"rp1005_8"];
     }];
     [phoneF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         
@@ -423,7 +421,7 @@
     idF.inputField.keyboardType = UIKeyboardTypeASCIICapable;
     idF.inputField.text = self.paymentInfo.req_idno;
     [idF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1005-5"];
+        [MobClick event:@"rp1005_5"];
     }];
     @weakify(self);
     [idF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
@@ -444,7 +442,7 @@
     addrF.inputField.placeholder = @"请填写详细地址";
     @weakify(self);
     [addrF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1005-9"];
+        [MobClick event:@"rp1005_9"];
     }];
     [addrF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         @strongify(self);
@@ -459,7 +457,7 @@
 
     [[[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(UIButton *btn) {
         @strongify(self);
-        [MobClick event:@"rp1005-10"];
+        [MobClick event:@"rp1005_10"];
         self.isOwnernameDifferent = !self.isOwnernameDifferent;
     }];
 }

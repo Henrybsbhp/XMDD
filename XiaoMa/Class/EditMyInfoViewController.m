@@ -27,20 +27,10 @@
     [self setupUI];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    
-    [MobClick beginLogPageView:@"rp305"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [MobClick endLogPageView:@"rp305"];
-    //未找到取消按钮的点击事件
-    //[MobClick event:@"rp305-1"];
+    [super viewDidAppear:animated];
+    [self.textFeild becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,20 +58,18 @@
 {
     [self.bgView setBorderLineInsets:UIEdgeInsetsMake(-1, 0, -1, 0) forDirectionMask:CKViewBorderDirectionBottom & CKViewBorderDirectionTop];
     [self.bgView showBorderLineWithDirectionMask:CKViewBorderDirectionBottom & CKViewBorderDirectionTop];
-    [self.bgView setBorderLineColor:HEXCOLOR(@"#e0e0e0") forDirectionMask:CKViewBorderDirectionBottom & CKViewBorderDirectionTop];
+    [self.bgView setBorderLineColor:kDarkLineColor forDirectionMask:CKViewBorderDirectionBottom & CKViewBorderDirectionTop];
     
     self.textFeild.placeholder = self.placeholder;
     self.textFeild.text = self.content;
     self.textFeild.clearButtonMode = UITextFieldViewModeWhileEditing;
-    
-    [self.textFeild becomeFirstResponder];
 }
 
 
 #pragma mark - Action
 - (void)requestModifyUserInfo
 {
-    [MobClick event:@"rp305-2"];
+    [MobClick event:@"rp305_2"];
     UpdateUserInfoOp * op = [UpdateUserInfoOp operation];
     if (self.type == ModifyNickname)
     {
@@ -119,7 +107,7 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [MobClick event:@"rp305-3"];
+    [MobClick event:@"rp305_3"];
 }
 
 @end

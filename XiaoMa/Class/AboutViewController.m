@@ -11,8 +11,11 @@
 #import "FeedbackVC.h"
 #import "SocialShareViewController.h"
 #import "JoinUsViewController.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
+#import "ReactTestViewController.h"
+#import "RRFPSBar.h"
+#import "ScanQRCodeVC.h"
 
 @interface AboutViewController ()
 
@@ -78,12 +81,35 @@
                             
                             @strongify(self)
                             [self switchSurrounding];
+                        }},
+                        @{@"title":@"FPS开关",@"action":^(void){
+                            
+                            @strongify(self)
+                            [self setupFPSObserver];
+                        }},@{@"title":@"RCT",@"action":^(void){
+                            
+                            @strongify(self)
+                            [self actionRCT];
+                        }},@{@"title":@"RCT2",@"action":^(void){
+                            
+                            @strongify(self)
+                            [self actionRCT2];
+                        }}, @{@"title":@"网络请求参数开关",@"action":^(void){
+                            
+                            @strongify(self)
+                            [self actionShowRequestParamsAlert];
+                        }}, @{@"title":@"二维码扫描",@"action":^(void){
+                            
+                            @strongify(self);
+                            [self goToQRScanVC];
                         }}];
     }
     else
     {
         @weakify(self)
         self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+            
+            @strongify(self)
             [self gotoInstructions];
         }},
                             
@@ -121,6 +147,27 @@
                                 
                                 @strongify(self)
                                 [self switchSurrounding];
+                            }},
+                            @{@"title":@"FPS开关",@"action":^(void){
+                                
+                                @strongify(self)
+                                [self setupFPSObserver];
+                            }},@{@"title":@"RCT",@"action":^(void){
+                                
+                                @strongify(self)
+                                [self actionRCT];
+                            }},@{@"title":@"RCT2",@"action":^(void){
+                                
+                                @strongify(self)
+                                [self actionRCT2];
+                            }}, @{@"title":@"网络请求参数开关",@"action":^(void){
+                                
+                                @strongify(self)
+                                [self actionShowRequestParamsAlert];
+                            }}, @{@"title":@"二维码扫描",@"action":^(void){
+                                
+                                @strongify(self);
+                                [self goToQRScanVC];
                             }}];
     }
 #else
@@ -167,6 +214,8 @@
     {
         @weakify(self)
         self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
+            
+            @strongify(self)
             [self gotoInstructions];
         }},
                             
@@ -210,19 +259,7 @@
     
 
 }
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [MobClick beginLogPageView:@"rp322"];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp322"];
-}
 
 - (void)dealloc
 {
@@ -275,7 +312,7 @@
 
 - (void)serviceAgreement
 {
-    [MobClick event:@"rp322-1"];
+    [MobClick event:@"rp322_1"];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"服务协议";
     vc.url = kServiceLicenseUrl;
@@ -292,41 +329,37 @@
 
 - (void) shareApp
 {
-    [MobClick event:@"rp110-1"];
-    SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-    vc.sceneType = ShareSceneLocalShare;
-    vc.btnTypeArr = @[@1, @2, @3, @4];
-    vc.tt = @"小马达达－洗车1分钱都不要";
-    vc.subtitle = @"我正在使用小马达达，洗车1分钱也不要，你也来试试吧！";
-    vc.image = [UIImage imageNamed:@"wechat_share_carwash2"];
-    vc.webimage = [UIImage imageNamed:@"weibo_share_carwash2"];
-    vc.urlStr = kAppShareUrl;
-    
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
-    sheet.shouldCenterVertically = YES;
-    [sheet presentAnimated:YES completionHandler:nil];
-    
-    [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        [MobClick event:@"rp110-7"];
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
-    
-    [vc setClickAction:^{
-        [sheet dismissAnimated:YES completionHandler:nil];
-    }];
-    
-    [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
+    [MobClick event:@"rp110_1"];
+    [gToast showingWithText:@"分享信息拉取中..."];
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
+    op.pagePosition = ShareSceneInsurance;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         
-    }];
-    [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
+        [gToast dismiss];
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneAppAbout;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
         
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            [MobClick event:@"rp110-7"];
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"分享信息拉取失败，请重试"];
     }];
-
 }
 
 - (void)callCustomerService
 {
-    [MobClick event:@"rp322-3"];
+    [MobClick event:@"rp322_3"];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 }
 
@@ -345,8 +378,9 @@
     textField.text = @"https://";
     [av show];
     
+    @weakify(self);
     [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-        
+        @strongify(self)
         NSInteger i = [n integerValue];
         if (i == 1)
         {
@@ -358,6 +392,12 @@
     }];
 }
 
+- (void)goToQRScanVC
+{
+    ScanQRCodeVC *vc = [[ScanQRCodeVC alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)switchSurrounding
 {
     gAppMgr.isSwitchToFormalSurrounding = !gAppMgr.isSwitchToFormalSurrounding;
@@ -367,8 +407,36 @@
     /**
      *  商户加盟点击事件
      */
-    [MobClick event:@"rp322-4"];
+    [MobClick event:@"rp322_4"];
     JoinUsViewController * vc = [UIStoryboard vcWithId:@"JoinUsViewController" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+
+#pragma mark - FPS
+- (void)setupFPSObserver
+{
+    [gAssistiveMgr showFPSObserver];
+}
+
+#pragma mark - RN
+- (void)actionRCT
+{
+    ReactTestViewController * vc = [aboutStoryboard instantiateViewControllerWithIdentifier:@"ReactTestViewController"];
+    vc.modulName = @"MyInfoView";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)actionRCT2
+{
+    ReactTestViewController * vc = [aboutStoryboard instantiateViewControllerWithIdentifier:@"ReactTestViewController"];
+    vc.modulName = @"helloworld";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - Network request parameters
+- (void)actionShowRequestParamsAlert {
+    [gAssistiveMgr switchShowLogWithAlertView];
+}
+
 @end

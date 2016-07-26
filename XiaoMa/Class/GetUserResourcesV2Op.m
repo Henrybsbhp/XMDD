@@ -48,6 +48,7 @@
         self.rsp_carwashFlag = [rspObj boolParamForName:@"washcarflag"];
         self.rsp_activityDayFlag = [rspObj boolParamForName:@"activitydayflag"];
         self.rsp_weeklyCouponGetFlag = [rspObj boolParamForName:@"weeklycouponget"];
+        self.rsp_maxGasCouponAmt = [rspObj intParamForName:@"maxgascouponamt"];
     }
     else
     {
@@ -58,6 +59,10 @@
 }
 
 
+- (NSString *)description
+{
+    return @"获取当前用户所有的银行洗车次数、积分和有效优惠券信息(包括浙商优惠券)";
+}
 
 
 @end

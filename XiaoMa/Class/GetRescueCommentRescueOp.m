@@ -28,4 +28,10 @@
     }
     return error;
 }
+
+
+- (NSString *)description
+{
+    return @"对救援的服务进行评价";
+}
 @end

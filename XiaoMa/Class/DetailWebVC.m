@@ -37,8 +37,14 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIWindowDidRotateNotification" object:nil];
     [[NSURLCache sharedURLCache] removeCachedResponseForRequest:self.request];
     DebugLog(@"DetailWebVC dealloc ~");
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 - (void)awakeFromNib
@@ -48,14 +54,23 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [MobClick beginLogPageView:@"rp203"];
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:_progressView];
+    
+    @weakify(self)
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"UIWindowDidRotateNotification" object:nil queue:nil usingBlock:^(NSNotification *note) {
+        
+        @strongify(self)
+        if ([note.userInfo[@"UIWindowOldOrientationUserInfoKey"] intValue] >= 3) {
+            [self.navigationController.navigationBar sizeToFit];
+            self.navigationController.navigationBar.frame = (CGRect){0, 0, self.view.frame.size.width, 64};
+        }
+        
+    }];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [MobClick endLogPageView:@"rp203"];
     [super viewWillDisappear:animated];
     [_progressView removeFromSuperview];
 }
@@ -70,6 +85,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self setupProcessView];
     
     [self setupLeftSingleBtn];
+    
+    [self changeUserAgent];
     
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
@@ -107,10 +124,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)setupBridge
 {
-    self.bridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy];
+    self.bridge = [[MyWebViewBridge alloc] initBridgeWithWebView:self.webView andDelegate:self.progressProxy withTargetVC:self];
     
-    //右上角菜单按钮设置
-    [self setupRightItems];
+    //右上角分享菜单按钮设置
+    [self setupShareItem];
+    //右上角菜单按钮设置（与上面一句不会同时存在）
+    [self setupRightNavItem];
     
     //弱提示框方法
     [self.bridge registerToastMsg];
@@ -128,13 +147,29 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self.bridge registerCallPhone];
     
     //上传单张图片
-    [self.bridge uploadImage:self];
+    [self.bridge uploadImage];
+    
+    //设置导航
+    [self.bridge registerNavigation];
+    
+    //设置提示框
+    [self.bridge registerAlertVC];
+    
+    //设置分享
+    [self.bridge registerShare];
+    
+    /// 设置登录
+    [self.bridge registerLogin];
+    
+    /// 设置登录
+    [self.bridge registerOpenView];
 }
 
-- (void)setupRightItems
+- (void)setupShareItem
 {
+    @weakify(self);
     [self.bridge.myBridge registerHandler:@"setOptionMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
-        DebugLog(@"%@", data);
+        @strongify(self);
         NSArray * menuArr = data;
         if (menuArr.count == 1) {
             self.navigationItem.rightBarButtonItem = [self.bridge setSingleMenu:[menuArr safetyObjectAtIndex:0]];
@@ -146,10 +181,31 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
+- (void)setupRightNavItem
+{
+    @weakify(self);
+    [self.bridge.myBridge registerHandler:@"barNavBtn" handler:^(id data, WVJBResponseCallback responseCallback) {
+        @strongify(self);
+        NSDictionary * dic = data;
+        
+        NSString * position = [dic stringParamForName:@"position"];
+        NSString * triggerId = [dic stringParamForName:@"triggerId"];
+        NSString * icon = [dic stringParamForName:@"icon"];
+        NSString * title = [dic stringParamForName:@"title"];
+        NSString * type = [dic stringParamForName:@"type"];
+
+        [self setupRightSingleBtn:type andBtnTitle:title andIconUrl:icon andTriggedId:triggerId];
+
+        responseCallback(nil);
+    }];
+}
+
 
 #pragma mark - NJKWebViewProgressDelegate
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {
+    DebugLog(@"webViewProgress:%f", progress);
+    
     [_progressView setProgress:progress animated:YES];
     
     NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
@@ -160,14 +216,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }
     
     [self.bridge registerGetToken];
-    
-    //返回和关闭按钮的控制 （此种方案是当检测到是第二层的时候就显示返回按钮）
-//    if (self.webView.canGoBack) {
-//        [self setupLeftBtns];
-//    }
-//    else {
-//        [self setupLeftSingleBtn];
-//    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -199,6 +247,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
 }
 
+
+#pragma mark - Setup
 - (void)setupLeftSingleBtn {
     UIBarButtonItem *back = [UIBarButtonItem webBackButtonItemWithTarget:self action:@selector(actionNewBack)];
     NSArray * backBtnArr = [[NSArray alloc] initWithObjects:back, nil];
@@ -209,7 +259,53 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     UIBarButtonItem *back = [UIBarButtonItem webBackButtonItemWithTarget:self action:@selector(actionNewBack)];
     UIBarButtonItem *close = [UIBarButtonItem closeButtonItemWithTarget:self action:@selector(actionCloseWeb)];
     NSArray * backBtnArr = [[NSArray alloc] initWithObjects:back, close, nil];
-    self.navigationItem.leftBarButtonItems =backBtnArr;
+    self.navigationItem.leftBarButtonItems = backBtnArr;
+}
+
+
+- (void)setupRightSingleBtn:(NSString *)type andBtnTitle:(NSString *)btnTitle
+                 andIconUrl:(NSString *)urlStr andTriggedId:(NSString *)triggerId{
+    
+    __block UIBarButtonItem *right;
+    if ([type isEqualToString:@"0"]) {
+        right = [[UIBarButtonItem alloc] initWithTitle:btnTitle style:UIBarButtonItemStylePlain target:self action:@selector(actionRightItemHandle:)];
+        [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
+    }
+    else if ([type isEqualToString:@"1"])
+    {
+        right = [[UIBarButtonItem alloc] initWithTitle:btnTitle style:UIBarButtonItemStylePlain target:self action:@selector(actionRightItemHandle:)];
+        [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
+        
+        [[gMediaMgr rac_getImageByUrl:urlStr withType:ImageURLTypeOrigin defaultPic:@"" errorPic:@""] subscribeNext:^(UIImage * x) {
+            
+            if (!x)
+            {
+                return ;
+            }
+            CKAsyncMainQueue(^{
+               
+                right = [[UIBarButtonItem alloc] initWithImage:x style:UIBarButtonItemStylePlain target:self action:@selector(actionRightItemHandle:)];
+                right.customObject = triggerId;
+                self.navigationItem.rightBarButtonItem = right;
+                
+            });
+        }];
+    }
+    
+    right.customObject = triggerId;
+    self.navigationItem.rightBarButtonItem = right;
+}
+
+
+
+
+
+
+
+
+#pragma mark - Action
+- (void)actionCloseWeb {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)actionNewBack {
@@ -218,7 +314,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         [self.bridge.myBridge callHandler:@"returnBackHandler" data:nil responseCallback:^(id response) {
             NSDictionary * dic = response;
             if ([dic boolParamForName:@"isFirstPage"]) {
-                [self.navigationController popViewControllerAnimated:YES];
+                [self popViewController];
             }
             else {
                 [self setupLeftBtns];
@@ -231,18 +327,42 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             [self.webView goBack];
         }
         else {
-            [self.navigationController popViewControllerAnimated:YES];
+            [self popViewController];
         }
     }
 }
 
-- (void)actionCloseWeb {
-    [self.navigationController popViewControllerAnimated:YES];
+- (void)popViewController
+{
+    if (self.originVC) {
+        [self.navigationController popToViewController:self.originVC animated:YES];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)actionRightItemHandle:(id)sender
+{
+    NSObject * obj = (NSObject *)sender;
+    NSDictionary * rDict;
+    if (obj.customObject)
+    {
+        rDict = @{@"triggerId":obj.customObject};
+    }
+    NSString * dataStr = [rDict jsonEncodedString];
+    [self.bridge.myBridge callHandler:@"barNavBtnHandler" data:dataStr responseCallback:^(id response) {
+    }];
 }
 
+#pragma mark - Utilitly
+- (void)changeUserAgent
+{
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString * userAgent = [self.webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    userAgent = userAgent ?: @"";
+    NSString * newUserAgent = [userAgent append:[NSString stringWithFormat:@" %@/%@",@"XMDD",version]];
+    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+}
 @end

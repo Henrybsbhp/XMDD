@@ -10,13 +10,14 @@
 #import "GetRescueHostCountsOp.h"
 #import "GetRescueApplyHostCarOp.h"
 #import "DatePickerVC.h"
-#import "CarListVC.h"
+#import "PickCarVC.h"
 #import "CommissionSuccessVC.h"
 #import "MyCarStore.h"
 #import "DetailWebVC.h"
 #import "UIView+Layer.h"
 #import "HKTableViewCell.h"
 #import "NSDate+DateForText.h"
+#import "EditCarVC.h"
 
 
 #define kWidth [UIScreen mainScreen].bounds.size.width
@@ -65,17 +66,6 @@
     [self setupUI];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp802"];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp802"];
-}
 
 #pragma mark - Action
 - (void) countNetwork {
@@ -104,7 +94,31 @@
     /**
      *  开始协办点击事件
      */
-    [MobClick event:@"rp802-2"];
+    [MobClick event:@"rp802_2"];
+    
+    if (![self.defaultCar isCarInfoCompletedForCarWash])
+    {
+        HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
+        alert.topTitle = @"温馨提示";
+        alert.imageName = @"mins_bulb";
+        alert.message = @"您的爱车信息不完整，信息不完善的车辆将无法进行洗车服务，是否现在完善？";
+        @weakify(self);
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:kGrayTextColor clickBlock:^(id alertVC) {
+            @strongify(self);
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            @strongify(self);
+            [MobClick event:@"rp104_9"];
+            EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+            vc.originCar = self.defaultCar;
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+        alert.actionItems = @[cancel, improve];
+        [alert show];
+        return;
+    }
+    
     self.tableView.backgroundColor = [UIColor colorWithRed:153 green:153 blue:153 alpha:1.0];
     if ([self.appointmentDay timeIntervalSinceDate:[NSDate date]] < 3600 * 24 * 1 - 1) {
         [self.underlyingView addSubview:self.alertV];
@@ -153,28 +167,31 @@
     } error:^(NSError *error) {
         [gToast dismissInView:self.view];
         if (error.code == 611139001) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:error.domain delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"省钱攻略", nil];
-            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-                NSInteger i = [n integerValue];
-                if (i == 1) {
-                    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-                    vc.title = @"省钱攻略";
-                    vc.url = kMoneySavingStrategiesUrl;
-                    [self.navigationController pushViewController:vc animated:YES];
-                }else{
-                    
-                }
+//            
+//            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
+//                
+//            }];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"省钱攻略" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+                vc.title = @"省钱攻略";
+                vc.url = kMoneySavingStrategiesUrl;
+                [self.navigationController pushViewController:vc animated:YES];
             }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel,confirm]];
             [alert show];
+            
         }
         else if (error.code == 611139002)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"协办结果" message:error.domain delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [[alert rac_buttonClickedSignal] subscribeNext:^(NSNumber *n) {
-                
+            
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 [self.navigationController popViewControllerAnimated:YES];
             }];
+            
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"协办结果" ImageName:@"mins_bulb" Message:error.domain ActionItems:@[cancel]];
             [alert show];
+            
         }
         else
         {
@@ -256,22 +273,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 3) {
-        CarListVC *vc = [UIStoryboard vcWithId:@"CarListVC" inStoryboard:@"Car"];
-        vc.title = @"选择爱车";
-        vc.model.allowAutoChangeSelectedCar = YES;
-        vc.model.disableEditingCar = YES;
-        vc.model.currentCar = self.defaultCar;
-        vc.model.originVC = self;
-        [vc.model setFinishBlock:^(HKMyCar *curSelectedCar) {
-            self.defaultCar = curSelectedCar;
+        //选择爱车
+        PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
+        vc.defaultCar = self.defaultCar;
+        @weakify(self);
+        [vc setFinishPickCar:^(MyCarListVModel *carModel, UIView * loadingView) {
+            @strongify(self);
+            self.defaultCar = carModel.selectedCar;
             [self countNetwork];
         }];
         [self.navigationController pushViewController:vc animated:YES];
         
     }else if (indexPath.row == 4){
-        DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:[self getPriousorLaterDateFromDate:[NSDate date] withMonth:12]];
-        vc.minimumDate = [NSDate date];
-        [[vc rac_presentPickerVCInView:self.navigationController.view withSelectedDate:[NSDate date]]
+        DatePickerVC *vc = [DatePickerVC datePickerVCWithMaximumDate:[self getPriousorLaterDateFromDate:[NSDate date] withDays:29]];
+        vc.minimumDate = [self getPriousorLaterDateFromDate:[NSDate date] withDays:3];
+        [[vc rac_presentPickerVCInView:self.navigationController.view withSelectedDate:[self getPriousorLaterDateFromDate:[NSDate date] withDays:3]]
          subscribeNext:^(NSDate *date) {
              self.appointmentDay = date;
              [self.tableView reloadData];
@@ -280,17 +296,16 @@
 }
 
 #pragma mark - month
--(NSDate *)getPriousorLaterDateFromDate:(NSDate *)date withMonth:(int)month
+-(NSDate *)getPriousorLaterDateFromDate:(NSDate *)date withDays:(int)days
 
 {
     NSDateComponents *comps = [[NSDateComponents alloc] init];
     
-    [comps setMonth:month];
-    
+    [comps setDay:days];
     NSCalendar *calender = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
     NSDate *mDate = [calender dateByAddingComponents:comps toDate:date options:0];
-    
+
     return mDate;
     
 }
@@ -298,7 +313,7 @@
 
 - (NSDate *)appointmentDay {
     if (!_appointmentDay) {
-        self.appointmentDay = [[NSDate alloc] init];
+        _appointmentDay = [self getPriousorLaterDateFromDate:[NSDate date] withDays:3];
     }
     return _appointmentDay;
 }

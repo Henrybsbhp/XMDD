@@ -16,6 +16,8 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.tradeType forName:@"tradetype"];
+    [params addParam:self.tradeNo forName:@"tradeno"];
+    [params addParam:@(self.panchannel) forName:@"paychannel"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
@@ -25,6 +27,7 @@
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
         self.rsp_lefttime = [rspObj integerParamForName:@"lefttime"];
+        self.rsp_payInfoModel = [PayInfoModel payInfoWithJSONResponse:rspObj[@"payinfo"]];
     }
     else
     {
@@ -32,6 +35,12 @@
         NSAssert(NO,errorInfo);
     }
     return self;
+}
+
+
+- (NSString *)description
+{
+    return @"查询活动剩余结束时间";
 }
 
 @end

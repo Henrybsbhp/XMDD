@@ -27,5 +27,10 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"核保车辆信息更新";
+}
 @end
 

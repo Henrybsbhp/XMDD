@@ -50,14 +50,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp1007"];
     [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp1007"];
     [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = NO;
 }
 
@@ -131,12 +129,12 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1007-1"];
+    [MobClick event:@"rp1007_1"];
     [self.insModel popToOrderVCForNav:self.navigationController withInsOrderID:self.insOrder.orderid];
 }
 - (IBAction)actionSubmit:(id)sender
 {
-    [MobClick event:@"rp1007-6"];
+    [MobClick event:@"rp1007_6"];
     if (self.deliveryInfo.req_contatorname.length == 0) {
         [gToast showText:@"联系人姓名不能为空"];
     }
@@ -240,7 +238,7 @@
     nameF.inputField.placeholder = @"请输入姓名";
     nameF.inputField.text = self.deliveryInfo.req_contatorname;
     [nameF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1007-2"];
+        [MobClick event:@"rp1007_2"];
     }];
     @weakify(self);
     [nameF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
@@ -254,7 +252,7 @@
     phoneF.inputField.placeholder = @"请输入手机";
     phoneF.inputField.text = self.deliveryInfo.req_contatorphone;
     [phoneF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1007-3"];
+        [MobClick event:@"rp1007_3"];
     }];
     [phoneF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         
@@ -273,7 +271,7 @@
     addrF.inputField.placeholder = @"请填写详细地址";
     addrF.inputField.text = data.customInfo[@"detail"];
     [addrF.inputField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        [MobClick event:@"rp1007-5"];
+        [MobClick event:@"rp1007_5"];
     }];
     [addrF.inputField setTextDidChangedBlock:^(CKLimitTextField *field) {
         
@@ -285,7 +283,7 @@
      subscribeNext:^(id x) {
          
          @strongify(self);
-         [MobClick event:@"rp1007-4"];
+         [MobClick event:@"rp1007_4"];
          [self.view endEditing:YES];
          CityPickerVC *picker = [CityPickerVC cityPickerVCWithOriginVC:self];
          picker.options = CityPickerOptionCity | CityPickerOptionProvince | CityPickerOptionDistrict | CityPickerOptionGPS;

@@ -20,7 +20,7 @@
 {
     JTImageBadge *badge = self.badgeView;
     badge.frame = CGRectMake(-1, 1, 10, 10);
-    badge.backgroundView.image = [UIImage imageNamed:@"cm_dot"];
+    badge.backgroundView.image = [UIImage imageNamed:@"cm_dot_300"];
     CGPoint center = CGPointMake(badge.center.x+offset.x, badge.center.y+offset.y);
     badge.center = center;
     if (board) {

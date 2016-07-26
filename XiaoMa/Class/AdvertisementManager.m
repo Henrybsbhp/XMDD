@@ -14,7 +14,7 @@
 #define InsuranceAdvertise @"InsuranceAdvertise"
 
 ///每12小时更新广告内容
-#define kUpdateAdTimeInterval       60*60*12
+#define kUpdateAdTimeInterval     10
 ///每5秒钟滚动广告
 #define kScrollAdTimeInterval       5
 
@@ -54,21 +54,32 @@
 
 - (RACSignal *)rac_getAdvertisement:(AdvertisementType)type
 {
-    RACSignal * signal;
-    GetSystemPromotionOp * op = [GetSystemPromotionOp operation];
-    op.type = type;
-    op.province = gAppMgr.addrComponent.province;
-    op.city = gAppMgr.addrComponent.city;
-    op.district = gAppMgr.addrComponent.district;
-    op.version = gAppMgr.clientInfo.clientVersion;
-    signal = [[op rac_postRequest] map:^id(GetSystemPromotionOp *op) {
+    RACSignal * signal = [RACSignal empty];
+    //没有地理位置信息，则获取地理位置信息
+    if (!gMapHelper.addrComponent) {
+        signal = [[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyKilometer] ignoreError];
+    }
+    //请求广告信息
+    signal = [signal then:^RACSignal *{
+        GetSystemPromotionOp * op = [GetSystemPromotionOp operation];
+        op.type = type;
+        op.province = gMapHelper.addrComponent.province;
+        //如果地理位置在上海，高德返回“上海” “（空字符）”“松江”
+        op.city = gMapHelper.addrComponent.city.length ? gMapHelper.addrComponent.city :gMapHelper.addrComponent.province;
+        op.district = gMapHelper.addrComponent.district;
+        op.version = gAppMgr.clientInfo.clientVersion;
+        return [op rac_postRequest];
+    }];
+    
+    //处理广告返回结果
+    signal = [signal map:^id(GetSystemPromotionOp *op) {
         
         NSString *key = [self keyForAdType:type];
         NSArray *sortedArray = [self filterAndSortAdList:op.rsp_advertisementArray];
         [self saveInfo:op.rsp_advertisementArray forKey:key];
         [self.adInfo setObject:@([[NSDate date] timeIntervalSince1970]) forKey:key];
         NSString *addrKey = [key append:@"_addrComponent"];
-        [self.adInfo safetySetObject:gAppMgr.addrComponent forKey:addrKey];
+        [self.adInfo safetySetObject:gMapHelper.addrComponent forKey:addrKey];
         
         if (type == AdvertisementHomePage)
         {
@@ -77,9 +88,8 @@
         else if (type == AdvertisementCarWash)
         {
             self.carwashAdvertiseArray = sortedArray;
-            [[NSNotificationCenter defaultCenter] postNotificationName:CarwashAdvertiseNotification object:nil];
         }
-
+        
         return sortedArray;
     }];
     return signal;
@@ -97,7 +107,6 @@
     else if (type == AdvertisementCarWash)
     {
         self.carwashAdvertiseArray = sortedArray;
-        [[NSNotificationCenter defaultCenter] postNotificationName:CarwashAdvertiseNotification object:nil];
     }
     return array;
 }
@@ -121,7 +130,7 @@
     }
     else {
         HKAddressComponent *ac = [self.adInfo objectForKey:[key append:@"_addrComponent"]];
-        if (![HKAddressComponent isEqualAddrComponent:ac otherAddrComponent:gAppMgr.addrComponent]) {
+        if (![HKAddressComponent isEqualAddrComponent:ac otherAddrComponent:gMapHelper.addrComponent]) {
             signal = [signal concat:[self rac_getAdvertisement:type]];
         }
     }

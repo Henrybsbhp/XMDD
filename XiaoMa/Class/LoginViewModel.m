@@ -9,6 +9,7 @@
 #import "LoginViewModel.h"
 #import "VcodeLoginVC.h"
 #import "XiaoMa.h"
+#import "HKNavigationController.h"
 
 @implementation LoginViewModel
 
@@ -17,7 +18,6 @@
     self = [super init];
     if (self) {
         _loginModel = [HKLoginModel new];
-        _rac_loginSuccess = [RACSubject subject];
     }
     return self;
 }
@@ -26,18 +26,10 @@
 {
     if (self.originVC) {
         [targetVC.navigationController popToViewController:self.originVC animated:YES];
-        if (success) {
-            [self.rac_loginSuccess sendNext:@YES];
-            [self.rac_loginSuccess sendCompleted];
-        }
         gAppDelegate.loginVC = nil;
         return;
     }
     [targetVC dismissViewControllerAnimated:YES completion:^{
-        if (success) {
-            [self.rac_loginSuccess sendNext:@YES];
-            [self.rac_loginSuccess sendCompleted];
-        }
         gAppDelegate.loginVC = nil;
     }];
 }
@@ -45,25 +37,34 @@
 ///判断是否登录，如果未登录直接进入登录流程
 + (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC
 {
-    return [LoginViewModel loginIfNeededForTargetViewController:targetVC originVC:nil];
+    return [LoginViewModel loginIfNeededForTargetViewController:targetVC originVC:nil withLoginSuccessAction:nil];
 }
 
-+ (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC originVC:(UIViewController *)originVC
+///判断是否登录，如果未登录直接进入登录流程,登录成功后的操作
++ (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC withLoginSuccessAction:(void (^)(void))successBlock
+{
+    return [LoginViewModel loginIfNeededForTargetViewController:targetVC originVC:nil withLoginSuccessAction:successBlock];
+}
+
++ (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC originVC:(UIViewController *)originVC withLoginSuccessAction:(void (^)(void))successBlock
 {
     if (gAppMgr.myUser) {
         return YES;
     }
     VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
-    if ([targetVC isKindOfClass:[UINavigationController class]]) {
+    if (successBlock)
+    {
+        vc.loginSuccessAction = successBlock;
+    }
+    if ([targetVC isKindOfClass:[HKNavigationController class]]) {
         vc.model.originVC = originVC;
-        [(UINavigationController *)targetVC pushViewController:vc animated:YES];
+        [(HKNavigationController *)targetVC pushViewController:vc animated:YES];
     }
     else {
-        JTNavigationController *nav = [[JTNavigationController alloc] initWithRootViewController:vc];
-        [targetVC presentViewController:nav animated:YES completion:nil];
+        HKNavigationController *nvc = [[HKNavigationController alloc] initWithRootViewController:vc];
+        [targetVC presentViewController:nvc animated:YES completion:nil];
     }
     gAppDelegate.loginVC = vc;
     return NO;
-
 }
 @end

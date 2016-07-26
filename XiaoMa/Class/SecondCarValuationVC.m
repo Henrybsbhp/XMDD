@@ -13,16 +13,15 @@
 #import "IQKeyboardManager.h"
 #import "OETextField.h"
 @interface SecondCarValuationVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
-//底部提交按钮
-@property (strong, nonatomic) IBOutlet UIButton *commitBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topLayout;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomLayout;
+@property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 
 //服务器下发数据
 @property (strong, nonatomic) NSArray *dataArr;
 //上传数据
 @property (strong, nonatomic) NSMutableArray *uploadArr;
-@property (strong, nonatomic) IBOutlet UIView *bottomView;
 
 //车主姓名
 @property (copy, nonatomic) NSString *name;
@@ -39,7 +38,6 @@
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
     DebugLog(@"SecondCarValuationVC dealloc~~~");
-  
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -48,7 +46,6 @@
     [IQKeyboardManager sharedManager].enable=NO;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(openKeyboard:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(closeKeyboard:) name:UIKeyboardWillHideNotification object:nil];
-    [MobClick beginLogPageView:@"rp604"];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -57,14 +54,13 @@
     [IQKeyboardManager sharedManager].enable=YES;
     [[NSNotificationCenter defaultCenter]removeObserver:UIKeyboardWillShowNotification];
     [[NSNotificationCenter defaultCenter]removeObserver:UIKeyboardWillHideNotification];
-    [MobClick endLogPageView:@"rp604"];
 }
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
-    [self reloadCellTwoData];
+    [self reloadData];
     
     [self setupUI];
 }
@@ -86,7 +82,8 @@
     UIViewAnimationOptions options = [notification.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
     
     //    CGFloat height = keyboardFrame.size.height;
-    self.bottomLayout.constant = keyboardFrame.size.height - 30;
+    self.bottomLayout.constant = keyboardFrame.size.height;
+//    self.topLayout.constant =  - (keyboardFrame.size.height);
     
     //让输入框架和键盘做完全一样的动画效果
     [UIView animateWithDuration:duration
@@ -94,7 +91,7 @@
                         options:options
                      animations:^{
                          [self.view layoutIfNeeded];
-                         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+                         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
                      } completion:nil];
 }
 
@@ -116,19 +113,18 @@
                      } completion:nil];
 }
 
-
 #pragma mark TableViewDelegate
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==1)
+    if (section == 2)
     {
-        return self.dataArr.count;
+        return (1 + self.dataArr.count);
     }
     else
     {
@@ -138,26 +134,58 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UITableViewCell *cell;
     if (indexPath.section == 0)
     {
-        UITableViewCell *cell = [self tableView:tableView ProcessCellForRowAtIndexPath:indexPath];
-        return cell;
+        cell = [self noticeCellForRowAtIndexPath:indexPath];
     }
     else if(indexPath.section == 1)
     {
-        UITableViewCell *cell = [self tableView:tableView PlatformCellForRowAtIndexPath:indexPath];
-        return cell;
+        cell = [self processCellForRowAtIndexPath:indexPath];
+    }
+    else if (indexPath.section == 2)
+    {
+        if (indexPath.row == 0)
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"HeadCell"];
+            UILabel *headerLabel = [cell viewWithTag:100];
+            headerLabel.text = @"选择平台";
+        }
+        else
+        {
+            cell = [self tableView:tableView PlatformCellForRowAtIndexPath:indexPath];
+        }
     }
     else
     {
-        UITableViewCell *cell = [self tableView:tableView InfoCellForRowAtIndexPath:indexPath];
-        return cell;
+            cell = [self tableView:tableView InfoCellForRowAtIndexPath:indexPath];
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView ProcessCellForRowAtIndexPath:(NSIndexPath *)indexPath
+-(UITableViewCell *)noticeCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProcessCell"];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"NoticeCell"];
+    UILabel *tip = [cell viewWithTag:100];
+    tip.text = self.tip;
+    [cell layoutIfNeeded];
+    return cell;
+}
+
+-(UITableViewCell *)processCellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ProcessCell"];
+    [self addCorner:[cell viewWithTag:100]];
+    [self addCorner:[cell viewWithTag:101]];
+    [self addCorner:[cell viewWithTag:102]];
+    [self addCorner:[cell viewWithTag:103]];
+    
+    [self setPreferredMaxLayoutWidth:[cell viewWithTag:104]];
+    [self setPreferredMaxLayoutWidth:[cell viewWithTag:105]];
+    [self setPreferredMaxLayoutWidth:[cell viewWithTag:106]];
+    [self setPreferredMaxLayoutWidth:[cell viewWithTag:107]];
+    
     [cell layoutIfNeeded];
     return cell;
 }
@@ -165,22 +193,22 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView PlatformCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlatformCell"];
-    cell.selectionStyle=UITableViewCellSelectionStyleNone;
     UILabel *channelNameLabel = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *couponMoneyLabel = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *characterLabel = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *userCNTInfoLabel = (UILabel *)[cell.contentView viewWithTag:1004];
+    
     UIButton *checkBtn = (UIButton *)[cell searchViewWithTag:1005];
     checkBtn.userInteractionEnabled = NO;
     couponMoneyLabel.layer.cornerRadius = 3;
     couponMoneyLabel.layer.masksToBounds = YES;
-    NSDictionary *dataModel = [self.dataArr safetyObjectAtIndex:indexPath.row];
-    channelNameLabel.text=[NSString stringWithFormat:@"平台名称：%@",dataModel[@"channelname"]];
+    NSDictionary *dataModel = [self.dataArr safetyObjectAtIndex:(indexPath.row - 1)];
+    channelNameLabel.text=[NSString stringWithFormat:@"%@",dataModel[@"channelname"]];
     couponMoneyLabel.text=[NSString stringWithFormat:@" %@ ",dataModel[@"couponmoney"]];
     characterLabel.text=[NSString stringWithFormat:@"平台特点：%@",dataModel[@"character"]];
     userCNTInfoLabel.text=[NSString stringWithFormat:@"用户数量：%@",dataModel[@"usercntinfo"]];
-    characterLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 65;
-    userCNTInfoLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 65;
+    characterLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 100;
+    userCNTInfoLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 100;
     
     [cell layoutIfNeeded];
     return cell;
@@ -189,15 +217,17 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView InfoCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"InfoCell"];
-    cell.selectionStyle=UITableViewCellSelectionStyleNone;
     UITextView *name = (UITextView *)[cell searchViewWithTag:1001];
     UITextView *phoneNumber = (UITextView *)[cell searchViewWithTag:1002];
     phoneNumber.text = self.phoneNumber;
-    [name.rac_textSignal subscribeNext:^(id x) {
+    @weakify(self);
+    [[name.rac_textSignal takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+        @strongify(self);
         self.name = name.text;
     }];
-    [phoneNumber.rac_textSignal subscribeNext:^(id x) {
+    [[phoneNumber.rac_textSignal takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self);
         if (phoneNumber.text.length > 11) {
             phoneNumber.text = [phoneNumber.text substringToIndex:11];
         }
@@ -206,100 +236,34 @@
     
     [[RACObserve(gAppMgr.myUser, userID) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
+        @strongify(self);
         self.phoneNumber = x;
         phoneNumber.text = (NSString *)x;
     }];
-    //    [cell layoutIfNeeded];
     return cell;
-}
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *head=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 10)];
-    if (section == 0)
-    {
-        UIView *backgroundView = [UIView new];
-        backgroundView.backgroundColor = [UIColor whiteColor];
-        [head addSubview:backgroundView];
-        [backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(0);
-            make.right.mas_equalTo(0);
-            make.top.mas_equalTo(0);
-            make.bottom.mas_equalTo(0);
-        }];
-        UILabel *label = [UILabel new];
-        label.text = self.tip;
-        label.textColor = [UIColor grayColor];
-        label.numberOfLines = 0;
-        label.font = [UIFont systemFontOfSize:13];
-        [backgroundView addSubview:label];
-        [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(15);
-            make.right.mas_equalTo(-15);
-            make.centerY.mas_equalTo(backgroundView);
-        }];
-        label.preferredMaxLayoutWidth = self.view.bounds.size.width - 30;
-        UIView *line = [UIView new];
-        line.backgroundColor = [UIColor colorWithRed:180/255.0 green:180/255.0 blue:180/255.0 alpha:0.6];
-        [head addSubview:line];
-        [line mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(0);
-            make.right.mas_equalTo(0);
-            make.height.mas_equalTo(1);
-            make.top.mas_equalTo(backgroundView.mas_bottom);
-        }];
-    }
-    else
-    {
-        UIView *backgroundView = [UIView new];
-        backgroundView.backgroundColor = [UIColor colorWithHex:@"#F5F5F5" alpha:1];
-        [head addSubview:backgroundView];
-        [backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(0);
-            make.left.mas_equalTo(0);
-            make.right.mas_equalTo(0);
-            make.bottom.mas_equalTo(0);
-        }];
-        UILabel *label = [UILabel new];
-        label.text = (section-1)?@"车主信息":@"选择平台";
-        label.textColor = [UIColor blackColor];
-        label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont systemFontOfSize:15];
-        [backgroundView addSubview:label];
-        [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(backgroundView.mas_centerY);
-            make.left.mas_equalTo(15);
-        }];
-        UIView *line = [UIView new];
-        line.backgroundColor = [UIColor colorWithRed:180/255.0 green:180/255.0 blue:180/255.0 alpha:0.6];
-        [backgroundView addSubview:line];
-        [line mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(backgroundView.mas_top);
-            make.left.mas_equalTo(0);
-            make.right.mas_equalTo(0);
-            make.height.mas_equalTo(0.5);
-        }];
-        
-    }
-    return head;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
-        return 60;
-    }
-    return 35;
+    return CGFLOAT_MIN;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    return 10;
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    if (indexPath.section == 0)
+    {
+        return 42;
+    }
+    else if(indexPath.section == 3)
+    {
+        return 140;
+    }
     if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
         return UITableViewAutomaticDimension;
@@ -313,16 +277,11 @@
     
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return UITableViewAutomaticDimension;
-//}
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1)
+    if (indexPath.section == 2)
     {
-        NSDictionary *dataModel = [self.dataArr safetyObjectAtIndex:indexPath.row];
+        NSDictionary *dataModel = [self.dataArr safetyObjectAtIndex:(indexPath.row - 1)];
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         UIButton *btn = (UIButton *)[cell searchViewWithTag:1005];
         if ([self.uploadArr containsObject:dataModel])
@@ -341,30 +300,35 @@
 #pragma mark Network
 
 //获取服务器数据
--(void)reloadCellTwoData
+-(void)reloadData
 {
+    @weakify(self)
     SecondCarValuationOp *op = [SecondCarValuationOp new];
     op.req_sellerCityId = self.sellercityid;
     [[[op rac_postRequest] initially:^{
+        
+        @strongify(self);
         self.tableView.hidden=YES;
-        self.bottomView.hidden=YES;
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] subscribeNext:^(SecondCarValuationOp *op) {
         
+        @strongify(self);
+        [self.view stopActivityAnimation];
+        self.tableView.hidden=NO;
         self.dataArr = op.rsp_dataArr;
         self.tip = op.rsp_tip;
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
+        
+        @strongify(self);
+        self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"网络请求失败。点击屏幕重新请求" tapBlock:^{
-            [self reloadCellTwoData];
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败。点击屏幕重新请求" tapBlock:^{
+            @strongify(self);
+            [self reloadData];
         }];
-    } completed:^{
-        [self.view stopActivityAnimation];
-        self.bottomView.hidden=NO;
-        self.tableView.hidden=NO;
     }];
 }
 
@@ -382,20 +346,56 @@
     
 }
 
-- (IBAction)commitDataArr:(id)sender
+#pragma mark LazyLoad
+
+-(NSMutableArray *)uploadArr
 {
+    if (!_uploadArr)
+    {
+        _uploadArr=[[NSMutableArray alloc]init];
+    }
+    return _uploadArr;
+}
+
+#pragma mark setupUI
+- (void)setupUI
+{
+    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
+                                                                     NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
+                                                                     } forState:UIControlStateNormal];
     
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        self.tableView.estimatedRowHeight = 44;
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
+    }
+    self.commitBtn.layer.cornerRadius = 5;
+    self.commitBtn.layer.masksToBounds = YES;
+}
+
+-(void)addCorner:(UILabel *)label
+{
+    label.layer.cornerRadius = 10;
+    label.layer.masksToBounds = YES;
+}
+
+-(void)setPreferredMaxLayoutWidth:(UILabel *)label
+{
+    label.preferredMaxLayoutWidth = self.view.bounds.size.width - 80;
+}
+- (IBAction)commitAction:(id)sender
+{
     /**
      *  提交卖车意向事件
      */
-    [MobClick event:@"rp604-2"];
+    [MobClick event:@"rp604_2"];
     if (self.uploadArr.count == 0)
     {
         [gToast showError:@"所选平台不能为空"];
     }
     else if ([self.name isEqualToString:@""])
     {
-        [gToast showError:@"车主姓名不能为空"];
+        [gToast showError:@"车主称呼不能为空"];
     }
     else if (self.phoneNumber.length != 11)
     {
@@ -418,11 +418,13 @@
         
         uploadOp.req_channelEngs = [tempString componentsJoinedByString:@","];
         
+        @weakify(self);
         [[[uploadOp rac_postRequest] initially:^{
             
             
         }] subscribeNext:^(SecondCarValuationUploadOp *uploadOp) {
             
+            @strongify(self);
             CommitSuccessVC * successVC = [valuationStoryboard instantiateViewControllerWithIdentifier:@"CommitSuccessVC"];
             [self.navigationController pushViewController:successVC animated:YES];
         } error:^(NSError *error) {
@@ -430,33 +432,5 @@
         }];
     }
 }
-
-
-#pragma mark LazyLoad
-
--(NSMutableArray *)uploadArr
-{
-    if (!_uploadArr)
-    {
-        _uploadArr=[[NSMutableArray alloc]init];
-    }
-    return _uploadArr;
-}
-
-#pragma mark setupUI
-- (void)setupUI
-{
-    [self.commitBtn makeCornerRadius:5.0f];
-    [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{
-                                                                     NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
-                                                                     } forState:UIControlStateNormal];
-    
-    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-    {
-        self.tableView.estimatedRowHeight = 44;
-        self.tableView.rowHeight = UITableViewAutomaticDimension;
-    }
-}
-
 
 @end

@@ -8,6 +8,7 @@
 
 #import "ADViewController.h"
 #import "NavigationModel.h"
+#import "MutualInsVC.h"
 
 @interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource>
 @property (nonatomic, strong) NavigationModel *navModel;
@@ -16,22 +17,69 @@
 
 + (instancetype)vcWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
                     targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
+                    mobBaseEventDict:(NSDictionary *)dict
 {
-    ADViewController *adctrl = [[ADViewController alloc] initWithADType:type boundsWidth:width targetVC:vc mobBaseEvent:event];
+    ADViewController *adctrl = [[ADViewController alloc] initWithADType:type boundsWidth:width targetVC:vc mobBaseEvent:event mobBaseEventDict:dict];
+    return adctrl;
+}
+
++ (instancetype)vcWithMutualADType:(AdvertisementType)type boundsWidth:(CGFloat)width
+                    targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
+            mobBaseEventDict:(NSDictionary *)dict
+{
+    ADViewController *adctrl = [[ADViewController alloc] initWithMutualADType:type boundsWidth:width targetVC:vc mobBaseEvent:event mobBaseEventDict:dict];
     return adctrl;
 }
 
 - (instancetype)initWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
-                      targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
+                      targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
 {
     self = [super init];
     if (self) {
         _targetVC = vc;
         _adType = type;
         _mobBaseEvent = event;
+        _mobBaseEventDict = dict;
         _navModel = [[NavigationModel alloc] init];
         _navModel.curNavCtrl = _targetVC.navigationController;
         CGFloat height = floor(width*184.0/640);
+        SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+        adView.delegate = self;
+        adView.dataSource = self;
+        adView.pageGapWidth = 0;
+        adView.pageControl.hidden = YES;
+        _adView = adView;
+        
+        [adView setCurrentPageIndex:0];
+        @weakify(self);
+        RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            NSInteger index = adView.currentPageIndex + 1;
+            if (index > (int)(self.adList.count)-1) {
+                index = 0;
+            }
+            if (index != adView.currentPageIndex) {
+                [adView setCurrentPageIndex:index animated:YES];
+            }
+        }];
+        [[self rac_deallocDisposable] addDisposable:dis];
+    }
+    return self;
+}
+
+- (instancetype)initWithMutualADType:(AdvertisementType)type boundsWidth:(CGFloat)width
+                      targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
+{
+    self = [super init];
+    if (self) {
+        _targetVC = vc;
+        _adType = type;
+        _mobBaseEvent = event;
+        _mobBaseEventDict = dict;
+        _navModel = [[NavigationModel alloc] init];
+        _navModel.curNavCtrl = _targetVC.navigationController;
+        CGFloat height = floor(width/4.15);
         SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
         adView.delegate = self;
         adView.dataSource = self;
@@ -113,13 +161,30 @@
     }
     UIImageView *imgV = (UIImageView *)[pageView viewWithTag:1001];
     HKAdvertisement * ad = [self.adList safetyObjectAtIndex:pageIndex];
-    [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:@"ad_default_2_5" errorImage:@"ad_default_2_5"];
+    
+    NSString * defaultImage = @"ad_default_2_5";
+    if (self.adType == AdvertisementHomePageBottom)
+    {
+        defaultImage = @"hp_bottom_ad_default";
+    }
+    else if (self.adType == AdvertisementMutualInsTop)
+    {
+        defaultImage = @"ad_default_mutualIns_top";
+    }
+    [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:defaultImage errorImage:defaultImage];
     
     UITapGestureRecognizer *tap = imgV.customObject;
     @weakify(self);
     [[[tap rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
-        if (self.mobBaseEvent.length != 0) {
+        if (self.mobBaseEventDict)
+        {
+            NSString * key = [self.mobBaseEventDict.allKeys safetyObjectAtIndex:0];
+            NSString * value = [self.mobBaseEventDict objectForKey:key];
+            NSString * valueWithIndex = [NSString stringWithFormat:@"%@_%d", value, (int)pageIndex];
+            [MobClick event:self.mobBaseEvent attributes:@{key:valueWithIndex}];
+        }
+        else if (self.mobBaseEvent.length) {
             NSString * eventstr = [NSString stringWithFormat:@"%@_%d", self.mobBaseEvent, (int)pageIndex];
             [MobClick event:eventstr];
         }
@@ -128,12 +193,27 @@
             [self.navModel pushToViewControllerByUrl:ad.adLink];
         }
         else {
-            if (_adType != AdvertisementValuation) {
+            if (_adType == AdvertisementHomePageBottom)
+            {
+                UIViewController *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
+                [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+            }
+            else if (_adType == AdvertisementMutualInsTop)
+            {
+                if ([gAppMgr.navModel.curNavCtrl.topViewController isKindOfClass:[MutualInsVC class]])
+                {
+                    MutualInsVC * vc = (MutualInsVC *)gAppMgr.navModel.curNavCtrl.topViewController;
+                    [vc presentAdPageVC];
+                }
+            }
+            else if (_adType != AdvertisementValuation) {
                 
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.url = ADDEFINEWEB;
                 [self.targetVC.navigationController pushViewController:vc animated:YES];
             }
+
+            
         }
     }];
     

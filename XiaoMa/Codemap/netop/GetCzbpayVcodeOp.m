@@ -8,6 +8,7 @@
     [params safetySetObject:self.req_cardid forKey:@"cardid"];
     [params safetySetObject:@(self.req_chargeamt) forKey:@"chargeamt"];
     [params safetySetObject:self.req_gid forKey:@"gid"];
+    [params safetySetObject:@(self.req_bill) forKey:@"bill"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
@@ -23,5 +24,9 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"浙商支付验证码获取";
+}
 @end
 

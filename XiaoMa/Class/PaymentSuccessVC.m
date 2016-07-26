@@ -15,10 +15,11 @@
 #import "SubmitCommentOp.h"
 #import "ShopDetailVC.h"
 #import "NSDate+DateForText.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
 #import "GasVC.h"
 #import "GuideStore.h"
+#import "PayForWashCarVC.h"
 
 
 @interface PaymentSuccessVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UITextViewDelegate>
@@ -66,8 +67,14 @@
     DebugLog(@"PaymentSuccessVC dealloc");
 }
 
+- (void)awakeFromNib {
+    self.router.disableInteractivePopGestureRecognizer = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
     
     [self setupStaticInfo];
     [self setupGuideStore];
@@ -96,21 +103,6 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp110"];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:NO];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp110"];
-    [self.jtnavCtrl setShouldAllowInteractivePopGestureRecognizer:YES];
-}
-
-
 
 - (void)actionBack:(id)sender
 {
@@ -130,9 +122,9 @@
 }
 - (IBAction)shareAction:(id)sender {
     
-    GetShareButtonOp * op = [GetShareButtonOp operation];
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneCarwash;
-    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneCarwash;    //页面位置
@@ -143,25 +135,19 @@
         [sheet presentAnimated:YES completionHandler:nil];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110-7"];
+            [MobClick event:@"rp110_7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         
-        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
-            
-        }];
-        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
-            
-        }];
     } error:^(NSError *error) {
         [gToast showError:@"分享信息拉取失败，请重试"];
     }];
 }
 - (IBAction)commentAction:(id)sender {
-    [MobClick event:@"rp110-12"];
+    [MobClick event:@"rp110_12"];
     
     SubmitCommentOp * op = [SubmitCommentOp operation];
     NSString * withoutSpace= [self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -206,7 +192,7 @@
         self.order.ratetime = [NSDate date];
         self.collectionView.userInteractionEnabled = NO;
         self.ratingView.userInteractionEnabled = NO;
-        
+
         if (self.commentSuccess)
         {
             [self commentSuccess];
@@ -245,7 +231,7 @@
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     if (!self.isTextViewEdit) {
-        [MobClick event:@"rp110-11"];
+        [MobClick event:@"rp110_11"];
         self.isTextViewEdit = !self.isTextViewEdit;
     }
 }
@@ -306,6 +292,9 @@
 
 - (void)setupNavigationBar
 {
+    UIViewController * lastVC = [self.navigationController.viewControllers safetyObjectAtIndex:self.navigationController.viewControllers.count - 2];
+    BOOL flag = [lastVC isKindOfClass:[PayForWashCarVC class]];
+    self.navigationItem.title = flag ? @"支付成功":@"订单评价";
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"首页" style:UIBarButtonItemStylePlain
                                                              target:self action:@selector(popToHomePage)];
     [right setTitleTextAttributes:@{
@@ -318,7 +307,6 @@
 {
     [self.shopImageView setImageByUrl:[self.order.shop.picArray safetyObjectAtIndex:0]
                              withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
-    [self.shopImageView makeCornerRadius:3.0f];
     self.shopNameLb.text = self.order.shop.shopName;
     self.serviceLb.text = self.order.servicename;
     self.dateLb.text = [[NSDate date] dateFormatForYYYYMMddHHmm];
@@ -334,7 +322,7 @@
     @weakify(self)
     [[self.gasCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110-13"];
+        [MobClick event:@"rp110_13"];
         @strongify(self)
         [self jumpToGas];
     }];
@@ -408,7 +396,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp110-10"];
+    [MobClick event:@"rp110_10"];
     NSDictionary * d = [self.currentRateTemplate safetyObjectAtIndex:indexPath.section * 2 + indexPath.row];
 //    NSString * s = d[[d.allKeys safetyObjectAtIndex:0]];
     d.customTag =  !d.customTag;
@@ -503,6 +491,9 @@
 - (void)popToHomePage
 {
     [self.tabBarController setSelectedIndex:0];
+    UIViewController * firstTabVC = [self.tabBarController.viewControllers safetyObjectAtIndex:0];
+    [self.tabBarController.delegate tabBarController:self.tabBarController didSelectViewController:firstTabVC];
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

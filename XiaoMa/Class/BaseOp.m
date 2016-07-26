@@ -40,8 +40,8 @@ static int32_t g_requestVid = 1;
 - (RACSignal *)rac_invokeWithRPCClient:(AFHTTPRequestOperationManager *)manager params:(id)params security:(BOOL)security
 {
     [self increaseRequistIDs];
-    if (security)
-    {
+    _security = security;
+    if (security) {
         params = [self addSecurityParamsFrom:params];
     }
     
@@ -53,6 +53,11 @@ static int32_t g_requestVid = 1;
     
     AFHTTPRequestOperation *af_op;
     RACSignal *sig = [manager rac_invokeMethod:self.req_method parameters:params requestId:@(self.req_id) operation:&af_op];
+    
+    //打印，录制相关日志
+    [gAssistiveMgr showLogWithAlertView:params andMethodName:self.req_method andOpId:self.req_id andDescription:[self description]];
+    [gAssistiveMgr appendLogWithParams:params andMethodName:self.req_method andOpId:self.req_id andDescription:[self description]];
+
     //捕获http的默认错误码
     sig = [sig catch:^RACSignal *(NSError *error) {
         NSString * domain = [NSString stringWithFormat:@"%@[%ld]",kDefErrorPormpt,(long)error.code];
@@ -203,7 +208,7 @@ static int32_t g_requestVid = 1;
 - (id)addSecurityParamsFrom:(id)oldParams
 {
     id params;
-    if ([oldParams isKindOfClass:[NSMutableArray class]] || [oldParams isKindOfClass:[NSMutableDictionary class]])
+    if ([oldParams isMemberOfClass:[NSMutableArray class]] || [oldParams isMemberOfClass:[NSMutableDictionary class]])
     {
         params = oldParams;
     }
@@ -211,9 +216,9 @@ static int32_t g_requestVid = 1;
     {
         params = [NSMutableArray arrayWithArray:oldParams];
     }
-    else if (oldParams)
+    else if ([oldParams isKindOfClass:[NSDictionary class]])
     {
-        params = [NSMutableArray arrayWithObject:oldParams];
+        params = [NSMutableDictionary dictionaryWithDictionary:oldParams];
     }
     else
     {

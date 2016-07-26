@@ -40,14 +40,15 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"暂无其他订单";
+    return @{@"title":@"暂无其他订单",@"image":@"def_withoutOrder"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
-    return @"获取其他订单失败，点击重试";
+    return @{@"title":@"获取其他订单失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
@@ -85,7 +86,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 195;
+    return 168;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -108,30 +109,22 @@
     UILabel *couponPriceL = (UILabel *)[cell.contentView viewWithTag:3002];
     UILabel *feeL = (UILabel *)[cell.contentView viewWithTag:3003];
     UILabel *payedTimeL = (UILabel *)[cell.contentView viewWithTag:4001];
-    UILabel *tradeTypeL = (UILabel *)[cell.contentView viewWithTag:4002];
     
     HKOtherOrder * order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     nameL.text = order.prodName;
     [iconV setImageByUrl:order.prodLogo withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     descL.text = order.prodDesc;
     
-    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:order.originPrice];
-    [attributedString addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlineStyleSingle) range:NSMakeRange(0, order.originPrice.length)];
-    originPriceL.text = nil;
-    originPriceL.attributedText = attributedString;
+    originPriceL.text = order.originPrice;
     couponPriceL.text = order.couponPrice;
     
     NSDictionary * attributeDic = [NSDictionary dictionaryWithObjectsAndKeys:
                                    [UIFont boldSystemFontOfSize:14.0], NSFontAttributeName,
                                    [UIColor colorWithHex:@"#353535" alpha:1.0f], NSForegroundColorAttributeName, nil];
-    NSMutableAttributedString *attriFee = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"实付￥%@", order.fee ? [NSString formatForPrice:order.fee] : @"-"]];
-    [attriFee addAttributes:attributeDic range:NSMakeRange(0, 2)];
-    feeL.text = nil;
-    feeL.attributedText = attriFee;
+
+    feeL.text = [NSString stringWithFormat:@"￥%@", order.fee ? [NSString formatForPrice:order.fee] : @"-"];
     
     payedTimeL.text = [[NSDate dateWithTimeIntervalSince1970:order.payedTime/1000] dateFormatForYYYYMMddHHmm2];
-    
-    tradeTypeL.text = order.payDesc;
     
     cell.customSeparatorInset = UIEdgeInsetsMake(-1, 0, 0, 0);
     return cell;
@@ -139,9 +132,6 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([cell isKindOfClass:[JTTableViewCell class]]) {
-        [(JTTableViewCell *)cell prepareCellForTableView:tableView atIndexPath:indexPath];
-    }
     [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:1 promptView:self.tableView.bottomLoadingView];
 }
 

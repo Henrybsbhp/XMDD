@@ -25,4 +25,9 @@
     return self;
 }
 
+
+- (NSString *)description
+{
+    return @"获取用户的某一服务订单详情";
+}
 @end

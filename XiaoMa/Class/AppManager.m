@@ -11,7 +11,6 @@
 #define kSharedCacheName    @"AppInfoManager_dataCache"
 
 @implementation AppManager
-@synthesize addrComponent = _addrComponent;
 
 + (AppManager *)sharedManager
 {
@@ -63,32 +62,8 @@
     self.myUser = user;
 }
 
-#pragma mark - Setter And Getter
-- (void)setAddrComponent:(HKAddressComponent *)addrComponent
-{
-    _addrComponent = addrComponent;
-    [self.globalInfoCache setObject:addrComponent forKey:@"addrComponent"];
-}
-
-- (HKAddressComponent *)addrComponent
-{
-    if (!_addrComponent) {
-        _addrComponent = [self.globalInfoCache objectForKey:@"addrComponent"];
-    }
-    return _addrComponent;
-}
 
 #pragma mark - 数据存取
-- (void)loadLastLocationAndWeather
-{
-    self.city = [self getInfo:City];
-    self.district = [self getInfo:District];
-    self.temperature = [self getInfo:Temperature];
-    self.temperaturepic = [self getInfo:Temperaturepic];
-    self.temperaturetip = [self getInfo:Temperaturetip];
-    self.restriction = [self getInfo:Restriction];
-}
-
 - (NSArray *)loadSearchHistory
 {
     self.searchHistoryArray = [self.globalInfoCache objectForKey:SearchHistory];
@@ -98,6 +73,29 @@
 - (HomePicModel *)loadLastHomePicInfo
 {
     self.homePicModel = [self.globalInfoCache objectForKey:HomePicKey];
+    if (!self.homePicModel)
+    {
+        self.homePicModel = [[HomePicModel alloc] init];
+    }
+    
+    if (!self.homePicModel.homeItemArray.count)
+    {
+        HomeItem * item1 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=g" imageName:@"hp_refuel_300" isnew:NO];
+        HomeItem * item2 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=sl" imageName:@"hp_carwash_300" isnew:NO];
+        HomeItem * item3 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=coins" imageName:@"hp_mutualIns_300" isnew:NO];
+        HomeItem * item4 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=ins" imageName:@"hp_insurance_300" isnew:NO];
+        HomeItem * item5 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=a" imageName:@"hp_weekcoupon_300" isnew:NO];
+        HomeItem * item6 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=vio" imageName:@"hp_ peccancy_300" isnew:NO];
+        HomeItem * item7 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=val" imageName:@"hp_valuation_300" isnew:NO];
+        HomeItem * item8 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=rescue" imageName:@"hp_rescue_300" isnew:NO];
+        HomeItem * item9 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=ast" imageName:@"hp_assist_300" isnew:NO];
+        self.homePicModel.homeItemArray = @[item1,item2,item3,item4,item5,item6,item7,item8,item9];
+    }
+    if (!self.homePicModel.moreItemArray.count)
+    {
+        
+    }
+
     return self.homePicModel;
 }
 
@@ -111,7 +109,6 @@
 {
     [self.globalInfoCache removeObjectForKey:SearchHistory];
 }
-
 
 - (NSArray *)getProvinceArray
 {
@@ -141,6 +138,18 @@
 {
     return [self.globalInfoCache objectForKey:key];
 }
+
+- (void)saveElementReaded:(NSString *)key
+{
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:key];
+}
+
+- (BOOL)getElementReadStatus:(NSString *)key
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:key];
+}
+
+
 
 #pragma mark - 升级相关
 - (void)startUpdatingWithURLString:(NSString *)strurl

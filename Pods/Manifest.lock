@@ -1,32 +1,36 @@
 PODS:
-  - AFNetworking (2.5.4):
-    - AFNetworking/NSURLConnection (= 2.5.4)
-    - AFNetworking/NSURLSession (= 2.5.4)
-    - AFNetworking/Reachability (= 2.5.4)
-    - AFNetworking/Security (= 2.5.4)
-    - AFNetworking/Serialization (= 2.5.4)
-    - AFNetworking/UIKit (= 2.5.4)
-  - AFNetworking/NSURLConnection (2.5.4):
+  - AFNetworking (2.6.3):
+    - AFNetworking/NSURLConnection (= 2.6.3)
+    - AFNetworking/NSURLSession (= 2.6.3)
+    - AFNetworking/Reachability (= 2.6.3)
+    - AFNetworking/Security (= 2.6.3)
+    - AFNetworking/Serialization (= 2.6.3)
+    - AFNetworking/UIKit (= 2.6.3)
+  - AFNetworking/NSURLConnection (2.6.3):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.5.4):
+  - AFNetworking/NSURLSession (2.6.3):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.5.4)
-  - AFNetworking/Security (2.5.4)
-  - AFNetworking/Serialization (2.5.4)
-  - AFNetworking/UIKit (2.5.4):
+  - AFNetworking/Reachability (2.6.3)
+  - AFNetworking/Security (2.6.3)
+  - AFNetworking/Serialization (2.6.3)
+  - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - AFNetworking2-RACExtensions (0.0.1):
     - AFNetworking (~> 2.0)
     - ReactiveCocoa (~> 2.0)
-  - AMap2DMap (2.4.2)
-  - AMapSearch (2.4.1)
+  - AMap2DMap (4.0.0):
+    - AMapFoundation (= 1.0.0)
+  - AMapFoundation (1.0.0)
+  - AMapLocation (2.0.0):
+    - AMapFoundation (~> 1.0)
+  - AMapSearch (4.0.0):
+    - AMapFoundation (= 1.0.0)
   - cdebug (0.1.1)
-  - CKKit (0.1.4)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
     - CocoaLumberjack/Extensions (= 2.0.0)
@@ -50,10 +54,11 @@ PODS:
     - cdebug (~> 0.1)
     - FoundationExtension/FoundationExtension
   - GIKPopoverBackgroundView/Core (0.0.1)
-  - JSPatch (0.1.5):
-    - JSPatch/Core (= 0.1.5)
-  - JSPatch/Core (0.1.5)
-  - Masonry (0.6.1)
+  - Google-Diff-Match-Patch (0.0.1)
+  - JSPatch (1.0):
+    - JSPatch/Core (= 1.0)
+  - JSPatch/Core (1.0)
+  - Masonry (1.0.1)
   - MZAppearance (1.1.6)
   - MZFormSheetController (2.4.1):
     - MZAppearance (~> 1.1.3)
@@ -79,18 +84,21 @@ PODS:
     - FoundationExtension
     - GIKPopoverBackgroundView/Core
     - SevenSwitch (~> 1.3.0)
-  - UMengAnalytics (3.5.8)
+  - UMengAnalytics (4.0.0)
+  - ZipArchive (1.4.0)
 
 DEPENDENCIES:
-  - AFNetworking (= 2.5.4)
+  - AFNetworking (= 2.6.3)
   - AFNetworking2-RACExtensions (= 0.0.1)
-  - AMap2DMap (= 2.4.2)
-  - AMapSearch (= 2.4.1)
-  - CKKit (from `ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git`)
+  - AMap2DMap (= 4.0.0)
+  - AMapFoundation (= 1.0.0)
+  - AMapLocation (= 2.0.0)
+  - AMapSearch (= 4.0.0)
   - CocoaLumberjack (= 2.0.0)
   - FoundationExtension (= 0.60)
-  - JSPatch (= 0.1.5)
-  - Masonry (= 0.6.1)
+  - Google-Diff-Match-Patch (= 0.0.1)
+  - JSPatch (= 1.0)
+  - Masonry (= 1.0.1)
   - MZFormSheetController (= 2.4.1)
   - pop (= 1.0.7)
   - ReactiveCocoa (= 2.3.1)
@@ -98,38 +106,35 @@ DEPENDENCIES:
   - SFHFKeychainUtils (= 0.0.1)
   - TMCache (= 2.1.0)
   - UI7Kit (= 0.9.22)
-  - UMengAnalytics (= 3.5.8)
-
-EXTERNAL SOURCES:
-  CKKit:
-    :git: ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git
-
-CHECKOUT OPTIONS:
-  CKKit:
-    :commit: 74e77d41e0bba29f60525d028380aa9140ca205d
-    :git: ssh://git@stash.jtang.cn:7999/IOSLIB/ckkit.git
+  - UMengAnalytics (= 4.0.0)
+  - ZipArchive (= 1.4.0)
 
 SPEC CHECKSUMS:
-  AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
+  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   AFNetworking2-RACExtensions: 7da57313a9cdd9d32b4ed17ea35d59dfd084df83
-  AMap2DMap: 6f19f93b3410c8105c34ef93dd9dbb537f7ea897
-  AMapSearch: e48c562fc7713f7e5f719863a15141a847e16c04
+  AMap2DMap: 72868a24c1a7c70f86729a4dfb4e4c2dc301f727
+  AMapFoundation: af861f5d299a4f17a1a8b50fd91242933bb352f3
+  AMapLocation: 40141a31e7c584e59d590079eb8e565a90ecdf4d
+  AMapSearch: 867e89123c927436713372803156ac9848d9868a
   cdebug: 32bf88e54d22ad187b23122872b3977e5d0c1bde
-  CKKit: deb58335f227e2df2436b9b5e3889d731229e86a
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FoundationExtension: 76157113e6486ad95ea2be32a06f0d3f48172d56
   GIKPopoverBackgroundView: 9cde2752e608df4d1e35ebca12af762b9a7dca3e
-  JSPatch: 405b5f5990643e6717dd6715ac60d6a2b582a6ba
-  Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
+  Google-Diff-Match-Patch: d8d1a2cc3ca2382f4855f0bf05821b91250927ee
+  JSPatch: c689ea4dde17441f2f4a95d40dfedb8900c20099
+  Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MZAppearance: 0c06d3fa9cc55142f1da14bc8631fbe8fd6e19d5
   MZFormSheetController: bcc262cb8b682bdc17fa88177b4f34ac26f0dcbe
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
-  ReactiveCocoa: 334468a83b2c5f669f7cfb9a084415ee23219b4f
+  ReactiveCocoa: 3fe9b233ca6db810e86681b5749488564c1179a1
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SevenSwitch: 4faf7584ea9fcfa053ab0375353531c402ed2bf0
   SFHFKeychainUtils: 9576b411a79a058f4d5381ace6f3242b9a62e664
   TMCache: 95ebcc9b3c7e90fb5fd8fc3036cba3aa781c9bed
   UI7Kit: a2be10b7ced09944b8d2dca5d373743665d29639
-  UMengAnalytics: 020551718ba37da017bd85ac4c38ffba2774f3ce
+  UMengAnalytics: 3bb802b73e815fa9ec4ef384c2fce8de9e1ec62b
+  ZipArchive: e25a4373192673e3229ac8d6e9f64a3e5713c966
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 5f6aee1dc1f5dc68ae7af9429737fa4e4db122fc
+
+COCOAPODS: 1.0.1

@@ -13,12 +13,14 @@
 
 @interface LoginViewModel : NSObject
 @property (nonatomic, strong) HKLoginModel *loginModel;
-@property (nonatomic, strong, readonly) RACSubject *rac_loginSuccess;
 @property (nonatomic, weak) UIViewController *originVC;
 
 - (void)dismissForTargetVC:(UIViewController *)targetVC forSucces:(BOOL)success;
 ///判断是否登录，如果未登录直接进入登录流程
 + (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC;
-+ (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC originVC:(UIViewController *)originVC;
+///判断是否登录，如果未登录直接进入登录流程,登录成功后的操作
++ (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC withLoginSuccessAction:(void (^)(void))successBlock;
+
++ (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC originVC:(UIViewController *)originVC withLoginSuccessAction:(void (^)(void))successBlock;
 
 @end

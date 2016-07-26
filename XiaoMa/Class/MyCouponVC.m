@@ -8,7 +8,6 @@
 
 #import "MyCouponVC.h"
 #import "UIBarButtonItem+CustomStyle.h"
-#import "GetUserCouponOp.h"
 #import "JTTableView.h"
 #import "ShareUserCouponOp.h"
 #import "DownloadOp.h"
@@ -38,10 +37,7 @@
 @property (nonatomic, strong) CarWashCouponVModel *gasModel;
 @property (nonatomic, strong) CarWashCouponVModel *insuranceModel;
 @property (nonatomic, strong) CarWashCouponVModel *othersModel;
-@property (weak, nonatomic) IBOutlet UIView *getMoreView;
 
-
-- (IBAction)getMoreAction:(id)sender;
 
 @end
 
@@ -96,25 +92,8 @@
     }];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [MobClick beginLogPageView:@"rp304"];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp304"];
-}
-
 - (void)setSegmentView
 {
-    [self.carwashBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
-    [self.gasBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
-    [self.insuranceBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
-    [self.othersBtn setTitleColor:[UIColor colorWithHex:@"#20ab2a" alpha:1.0f] forState:UIControlStateSelected];
     self.segHelper = [[CKSegmentHelper alloc] init];
     @weakify(self)
     [self.segHelper addItem:self.carwashBtn forGroupName:@"TabBar" withChangedBlock:^(id item, BOOL selected) {
@@ -124,7 +103,7 @@
         self.carwashline.hidden = !selected;
         self.carwashTableView.hidden = !selected;
         if (selected) {
-            [MobClick event:@"rp304-1"];
+            [MobClick event:@"rp304_1"];
         }
     }];
     
@@ -135,7 +114,7 @@
         self.gasLine.hidden = !selected;
         self.gasTableView.hidden = !selected;
         if (selected) {
-            [MobClick event:@"rp304-1"];
+            [MobClick event:@"rp304_1"];
         }
     }];
     
@@ -146,7 +125,7 @@
         self.insuranceline.hidden = !selected;
         self.insuranceTableView.hidden = !selected;
         if (selected) {
-            [MobClick event:@"rp304-2"];
+            [MobClick event:@"rp304_2"];
         }
     }];
     
@@ -157,7 +136,7 @@
         self.othersline.hidden = !selected;
         self.othersTableView.hidden = !selected;
         if (selected) {
-            [MobClick event:@"rp304-3"];
+            [MobClick event:@"rp304_3"];
         }
     }];
     
@@ -177,7 +156,7 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)getMoreAction:(id)sender {
-    [MobClick event:@"rp304-6"];
+    [MobClick event:@"rp304_6"];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.url = ADDEFINEWEB;
     [self.navigationController pushViewController:vc animated:YES];

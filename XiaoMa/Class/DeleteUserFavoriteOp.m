@@ -39,4 +39,8 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return @"删除用户收藏";
+}
 @end

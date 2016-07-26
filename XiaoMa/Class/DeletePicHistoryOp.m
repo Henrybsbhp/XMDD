@@ -19,4 +19,8 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (NSString *)description
+{
+    return @"移除用户历史行驶证图片";
+}
 @end

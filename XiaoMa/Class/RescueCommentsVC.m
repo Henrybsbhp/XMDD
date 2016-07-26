@@ -43,17 +43,6 @@
 }
 
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp706"];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp706"];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -85,11 +74,11 @@
      */
     if(self.applyType.integerValue == 1)
     {
-        [MobClick event:@"rp706-2"];
+        [MobClick event:@"rp706_2"];
     }
     else
     {
-        [MobClick event:@"rp805-2"];
+        [MobClick event:@"rp805_2"];
     }
 }
 
@@ -199,23 +188,24 @@
     op.type = self.applyType;
     self.tableView.hidden = YES;
     
+    @weakify(self)
     [[[[op rac_postRequest] initially:^{
+        @strongify(self);
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-        
     }] finally:^{
+        @strongify(self);
         [self.view stopActivityAnimation];
-        
     }] subscribeNext:^(GetRescueCommentOp *op) {
+        @strongify(self);
         self.tableView.hidden = NO;
         self.evaluationArray = op.rescueDetailArray;
-        self.tableView.hidden = NO;
         self.footerView.hidden = YES;
         [self.tableView reloadData];
-        
     } error:^(NSError *error) {
         self.tableView.hidden = YES;
-        [self.view showDefaultEmptyViewWithText:kDefErrorPormpt tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
+            @strongify(self);
             [self alreadyNetwork];
         }];
     }] ;
@@ -226,11 +216,11 @@
      */
     if(self.applyType.integerValue == 1)
     {
-        [MobClick event:@"rp706-1"];
+        [MobClick event:@"rp706_1"];
     }
     else
     {
-        [MobClick event:@"rp805-1"];
+        [MobClick event:@"rp805_1"];
     }
     GetRescueCommentRescueOp *op = [GetRescueCommentRescueOp operation];
     if ([self.starNum1 integerValue]> 0 && [self.starNum2 integerValue] > 0 && [self.starNum3 integerValue] > 0) {
@@ -349,7 +339,7 @@
         
         if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0) {
             [ratingView setUserInteractionEnabled:NO];
-            if (indexPath.row == 4) {
+            if (indexPath.row == 4){
                 ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:0] floatValue];
             }else if (indexPath.row == 5){
                 ratingView.ratingValue = [[self.evaluationArray safetyObjectAtIndex:1] floatValue];
@@ -371,33 +361,34 @@
         UITableViewCell *cell4 = [tableView dequeueReusableCellWithIdentifier:@"EvaluationContent" forIndexPath:indexPath];
         UILabel *textLb = (UILabel *)[cell4 searchViewWithTag:1004];
         textLb.text = [self.evaluationArray safetyObjectAtIndex:3];
+        textLb.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 20;
         return cell4;
     }
 }
 
 #pragma mark - UITableViewdelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < 3) {
+    if (indexPath.row < 3)
+    {
         return 25;
-    }else if (indexPath.row < 4){
-        if (self.evaluationArray.count != 0) {
-            return 36;
-        }else{
-            return 50;
-        }
-    }else if (indexPath.row == 7){
-        if (self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0){
-            NSString * str = [self.evaluationArray safetyObjectAtIndex:3];
-            CGFloat width = kWidth - 20;
-            CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
-            return size.height;
-        }else{
-            return 36;
-        }
-    }else {
+    }
+    else if (indexPath.row == 3 && self.evaluationArray.count == 0)
+    {
+        return 50;
+    }
+    else if (indexPath.row == 7 && self.history.commentStatus == HKCommentStatusYes && self.evaluationArray.count != 0)
+    {
+        NSString * str = [self.evaluationArray safetyObjectAtIndex:3];
+        CGFloat width = kWidth - 20;
+        CGSize size = [str labelSizeWithWidth:width font:[UIFont systemFontOfSize:12]];
+        return (size.height + 10);
+    }
+    else
+    {
         return 36;
     }
 }
+
 #pragma mark - lazyLoading
 - (NSMutableArray *)dataSourceArray {
     if (!_dataSourceArray) {

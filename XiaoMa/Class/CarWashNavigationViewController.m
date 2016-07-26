@@ -43,24 +43,6 @@
     });
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp104"];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp104"];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -104,7 +86,7 @@
         make.width.equalTo(mapBottomView).offset(-20);
     }];
     
-    UIImage * image = [UIImage imageNamed:self.favorite ? @"nb_collected" : @"nb_collection"];
+    UIImage * image = [UIImage imageNamed:self.favorite ? @"nb_collected_300" : @"nb_collection_300"];
     [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
     
     @weakify(self)
@@ -118,12 +100,14 @@
     
     [[mapBottomView.phoneBtm rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp104-4"];
+        [MobClick event:@"rp104_4"];
         @strongify(self)
         if (self.shop.shopPhone.length == 0)
         {
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
-            [av show];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
+            [alert show];
+            
             return ;
         }
         
@@ -133,7 +117,7 @@
     
     [[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp104-3"];
+        [MobClick event:@"rp104_3"];
     
         @strongify(self)
         if ([LoginViewModel loginIfNeededForTargetViewController:self])
@@ -173,13 +157,13 @@
                 }] subscribeNext:^(id x) {
                     
                     self.favorite = YES;
-                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected_300"] forState:UIControlStateNormal];
                 } error:^(NSError *error) {
                     
                     if (error.code == 7002)
                     {
                         self.favorite = YES;
-                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected"] forState:UIControlStateNormal];
+                        [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collected_300"] forState:UIControlStateNormal];
                     }
                     else
                     {
@@ -192,7 +176,7 @@
     
     [[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp104-5"];
+        [MobClick event:@"rp104_5"];
         @strongify(self)
         [gPhoneHelper navigationRedirectThirdMap:self.shop andUserLocation:self.startCoordinate andView:self.view];
         
@@ -225,7 +209,7 @@
     [self.locationMeBtn setBackgroundImage:[UIImage imageNamed:@"location_me"] forState:UIControlStateNormal];
     [self.view addSubview:self.locationMeBtn];
     
-    [MobClick event:@"rp104-6"];
+    [MobClick event:@"rp104_6"];
     @weakify(self)
     [[self.locationMeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
@@ -268,13 +252,13 @@
 
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view
 {
-    [MobClick event:@"rp104-1"];
+    [MobClick event:@"rp104_1"];
 }
 
 - (void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
     //包括放大操作
-    [MobClick event:@"rp104-7"];
+    [MobClick event:@"rp104_7"];
 }
 
 @end

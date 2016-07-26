@@ -42,7 +42,7 @@
                 [rArray safetyAddObject:history];
             }
         }
-        self.req_applysecueArray = rArray;
+        self.rsp_applysecueArray = rArray;
     }
     else
     {
@@ -51,7 +51,11 @@
         [gToast dismiss];
     }
     return self;
-    
+}
 
+
+- (NSString *)description
+{
+    return @"获取救援历史";
 }
 @end

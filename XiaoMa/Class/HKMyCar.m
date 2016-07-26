@@ -73,13 +73,16 @@
         car.editMask = HKCarEditableAll;
     }
     else if (editable == 1) {
-        car.editMask = HKCarEditableDelete;
+        car.editMask = HKCarEditableDelete | HKCarEditableEditCarModel;
     }
     else if (editable == 2) {
-        car.editMask = HKCarEditableNone;
+        car.editMask = HKCarEditableEditCarModel;
     }
     else if (editable == 3) {
-        car.editMask = HKCarEditableEdit;
+        car.editMask = HKCarEditableEditPlateNumber | HKCarEditableEditCarModel;
+    }
+    else if (editable == 4) {
+        car.editMask = HKCarEditableNone;
     }
     
     car.licenceArea = [car.licencenumber safteySubstringToIndexIndex:1];
@@ -161,7 +164,7 @@
 
 - (BOOL)isCarInfoCompletedForCarWash
 {
-    if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.seriesModel.seriesname.length > 0) {
+    if (self.carId && self.licencenumber.length > 0 && self.brand.length > 0 && self.seriesModel.seriesname.length > 0) {
         return YES;
     }
     return NO;
@@ -215,6 +218,9 @@
         return YES;
     }
     if (self.editMask != another.editMask) {
+        return YES;
+    }
+    if (self.provinceId != another.provinceId || self.cityId != another.cityId) {
         return YES;
     }
     return NO;

@@ -10,7 +10,7 @@
 #import "HKCellData.h"
 #import "CKLine.h"
 #import "InsCouponView.h"
-#import "GetShareButtonOp.h"
+#import "GetShareButtonOpV2.h"
 
 #import "InsuranceOrderVC.h"
 #import "SocialShareViewController.h"
@@ -41,17 +41,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp1009"];
-}
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp1009"];
-}
 
 #pragma mark - Datasource
 - (void)reloadData {
@@ -81,7 +71,7 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1009-1"];
+    [MobClick event:@"rp1009_1"];
     if (self.insModel.originVC) {
         [self.navigationController popToViewController:self.insModel.originVC animated:YES];
     }
@@ -92,7 +82,7 @@
 
 - (IBAction)actionOrder:(id)sender {
     
-    [MobClick event:@"rp1009-3"];
+    [MobClick event:@"rp1009_3"];
     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
     vc.orderID = self.insOrderID;
     vc.originVC = self.insModel.originVC;
@@ -101,10 +91,10 @@
 
 - (IBAction)actionShare:(id)sender {
     
-    [MobClick event:@"rp1009-2"];
-    GetShareButtonOp * op = [GetShareButtonOp operation];
+    [MobClick event:@"rp1009_2"];
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneInsurance;
-    [[op rac_postRequest] subscribeNext:^(GetShareButtonOp * op) {
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
         
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneInsurance;    //页面位置
@@ -121,12 +111,6 @@
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         
-        [[ShareResponeManager init] setFinishAction:^(NSInteger code, ShareResponseType type){
-            
-        }];
-        [[ShareResponeManagerForQQ init] setFinishAction:^(NSString * code, ShareResponseType type){
-            
-        }];
     } error:^(NSError *error) {
         [gToast showError:@"分享信息拉取失败，请重试"];
     }];

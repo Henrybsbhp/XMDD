@@ -38,18 +38,6 @@
     DebugLog(@"MessageListVC dealloc!");
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp324"];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp324"];
-}
-
 - (void)setupTableView
 {
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
@@ -59,14 +47,15 @@
 }
 
 #pragma mark - HKLoadingModelDelegate
-- (NSString *)loadingModel:(HKLoadingModel *)model blankPromptingWithType:(HKLoadingTypeMask)type
+
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
 {
-    return @"暂无消息";
+    return @{@"title":@"暂无消息",@"image":@"def_nomessage"};
 }
 
-- (NSString *)loadingModel:(HKLoadingModel *)model errorPromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
+-(NSDictionary *)loadingModel:(HKLoadingModel *)model errorImagePromptingWithType:(HKLoadingTypeMask)type error:(NSError *)error
 {
-    return @"获取消息失败，点击重试";
+    return @{@"title":@"获取消息失败，点击重试",@"image":@"def_failConnect"};
 }
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
@@ -157,7 +146,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp324-1"];
+    [MobClick event:@"rp324_1"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HKMessage *msg = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     if (msg.url.length > 0) {

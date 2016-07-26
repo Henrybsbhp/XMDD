@@ -65,17 +65,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp1003"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp1003"];
-}
 
 #pragma mark - Setup
 - (void)setupHeaderView
@@ -87,7 +76,7 @@
     
     segctrl.backgroundColor = [UIColor whiteColor];
     UIView * v = [[UIView alloc] initWithFrame:CGRectZero];
-    v.backgroundColor = [UIColor colorWithHex:@"#20ab2a" alpha:1.0f];
+    v.backgroundColor = kDefTintColor;
     segctrl.selectedStainView = v;
     segctrl.selectedSegmentTextColor = [UIColor whiteColor];
     segctrl.segmentTextColor = [UIColor darkGrayColor];
@@ -150,7 +139,7 @@
         
         @strongify(self);
         [self.view stopActivityAnimation];
-        [self.view showDefaultEmptyViewWithText:@"保险方案获取失败，点击重试" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"保险方案获取失败，点击重试" tapBlock:^{
             @strongify(self);
             [self requestInsurancePlans];
         }];
@@ -228,13 +217,13 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp1003-1"];
+    [MobClick event:@"rp1003_1"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)actionNext:(id)sender
 {
-    [MobClick event:@"rp1003-6"];
+    [MobClick event:@"rp1003_6"];
     NSArray *inslist = [self generateInsList];
     if (inslist.count < 3) {
         [gToast showError:@"请至少选择一个商业险种"];
@@ -249,7 +238,7 @@
 
 - (void)actionSegmentChanged:(id)sender
 {
-    [MobClick event:[NSString stringWithFormat:@"rp1003-%ld", self.segctrl.selectedSegmentIndex+2]];
+    [MobClick event:[NSString stringWithFormat:@"rp1003_%ld", self.segctrl.selectedSegmentIndex+2]];
     [self reloadTableDataWithCurPlan:[self.planList safetyObjectAtIndex:self.segctrl.selectedSegmentIndex]];
 }
 
@@ -427,8 +416,11 @@
          @strongify(self);
          //交强险和车船税无法取消
          if ([coverage.insId isEqual:@14] || [coverage.insId isEqual:@15]) {
-             UIAlertView *alert = [[UIAlertView alloc] initNoticeWithTitle:@"" message:@"在线无法单独购买商业险,请拨打4007-111-111, 小马达达车险专员为您服务" cancelButtonTitle:@"确定"];
+             
+             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"在线无法单独购买商业险,请拨打4007-111-111, 小马达达车险专员为您服务" ActionItems:@[cancel]];
              [alert show];
+             
              return ;
          }
          NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];

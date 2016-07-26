@@ -48,8 +48,15 @@
     self.bottomView = view;
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    [button setTitle:@"确认以上信息" forState:UIControlStateNormal];
-    [button setTitleColor:HEXCOLOR(@"#20ab2a") forState:UIControlStateNormal];
+    if (self.licensePopVCType == InsLicensePopVCTypeXMIns)
+    {
+        [button setTitle:@"本人已阅读并同意接受本协议" forState:UIControlStateNormal];
+    }
+    else
+    {
+        [button setTitle:@"确认以上信息" forState:UIControlStateNormal];
+    }
+    [button setTitleColor:kDefTintColor forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
     [button addTarget:self action:@selector(actionAgreement:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:button];
@@ -107,13 +114,14 @@
 }
 
 
-+ (RACSignal *)rac_showInView:(UIView *)view withLicenseUrl:(NSString *)url title:(NSString *)title
++ (RACSignal *)rac_showInView:(UIView *)view withLicenseUrl:(NSString *)url title:(NSString *)title andLicensePopVCType:(InsLicensePopVCType)type
 {
     CGSize size = CGSizeMake(view.frame.size.width-30, view.frame.size.height-80);
     InsLicensePopVC *vc = [[InsLicensePopVC alloc] init];
     vc.title = title;
     vc.licenseUrl = url;
-    JTNavigationController *nvc = [[JTNavigationController alloc] initWithRootViewController:vc];
+    vc.licensePopVCType = type;
+    HKNavigationController *nvc = [[HKNavigationController alloc] initWithRootViewController:vc];
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:size viewController:nvc];
     sheet.cornerRadius = 2.5;
     sheet.shadowRadius = 0;

@@ -8,19 +8,22 @@
 
 #import "MyBankVC.h"
 #import "ADViewController.h"
-#import "HKBankCard.h"
 #import "HKConvertModel.h"
-#import "CardDetailVC.h"
 #import "BindBankCardVC.h"
 #import "GetBankcardListOp.h"
-#import "BankCardStore.h"
+#import "BankStore.h"
+#import "BankCardDetailVC.h"
 
 @interface MyBankVC ()<UITableViewDataSource,UITableViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *advc;
 @property (nonatomic, strong) NSArray *bankCards;
-@property (nonatomic, strong) BankCardStore *bankStore;
+@property (nonatomic, strong) BankStore *bankStore;
+
+@property (nonatomic, strong) UIButton *btn;
+
 @end
 
 @implementation MyBankVC
@@ -32,98 +35,200 @@
     DebugLog(@"MyBankVC dealloc!");
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [MobClick beginLogPageView:@"rp314"];
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [MobClick endLogPageView:@"rp314"];
-    [super viewWillDisappear:animated];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self setupAdView];
-    [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
     [self setupBankStore];
-    [self.bankStore sendEvent:[self.bankStore getAllBankCards]];
+    [self reloadDataIfNeeded];
 }
 
 - (void)setupAdView
 {
     CKAsyncMainQueue(^{
         self.advc  =[ADViewController vcWithADType:AdvertisementBankCardBinding boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp314-1"];
+                                          targetVC:self mobBaseEvent:@"rp314_1" mobBaseEventDict:nil];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
 
 - (void)setupBankStore
 {
-    self.bankStore = [BankCardStore fetchOrCreateStore];
+    self.bankStore = [BankStore fetchOrCreateStore];
+    
     @weakify(self);
-    [self.bankStore subscribeEventsWithTarget:self receiver:^(HKStore *store, HKStoreEvent *evt) {
+    [self.bankStore subscribeWithTarget:self domain:kDomainBankCards receiver:^(id store, CKEvent *evt) {
         @strongify(self);
-        NSArray *codes = @[@(kHKStoreEventAdd),@(kHKStoreEventDelete),@(kHKStoreEventReload),@(kHKStoreEventNone),@(kHKStoreEventGet)];
-        [evt callIfNeededForCodeList:codes object:nil target:self selector:@selector(reloadWithEvent:)];
+        if (![self isEqual:evt.object]) {
+            [self reloadWithSignal:evt.signal];
+        }
     }];
 }
 
-- (void)reloadData
+#pragma mark - Reload
+- (void)reloadDataIfNeeded
 {
-    [self.bankStore sendEvent:[self.bankStore getAllBankCards]];
+    CKEvent *event = [[self.bankStore getAllBankCardsIfNeeded] setObject:self];
+    [self reloadWithSignal:[event sendWithIgnoreError:YES andDelay:0.4]];
 }
 
-- (void)reloadWithEvent:(HKStoreEvent *)event
-{
-    NSInteger code = event.code;
-    @weakify(self);
-    [[[[event signal] initially:^{
 
-        @strongify(self);
-        if (code != kHKStoreEventNone) {
-            [self.tableView.refreshView beginRefreshing];
+- (void)reloadData
+{
+    CKEvent *event = [[self.bankStore getAllBankCards] setObject:self];
+    [self reloadWithSignal:[event sendWithIgnoreError:YES andDelay:0.4]];
+}
+
+- (void)reloadWithSignal:(RACSignal *)signal
+{
+    if (!signal) {
+        self.bankCards = [self.bankStore.bankCards allObjects];
+        if (self.bankCards.count > 0)
+        {
+            [self showContentViews];
+            [self.tableView reloadData];
         }
-    }] finally:^{
+        else
+        {
+            [self hideContentViews];
+            // 暂停动画写在了这里
+            [self addBtn];
+        }
+        return;
+    }
+    @weakify(self);
+    [[signal initially:^{
         
         @strongify(self);
-        [self.tableView.refreshView endRefreshing];
+        if ([self.tableView isRefreshViewExists])
+        {
+            [self.tableView.refreshView beginRefreshing];
+        }
+        else
+        {
+            CGFloat reducingY = self.view.frame.size.height * 0.1056;
+            [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
+            [self hideContentViews];
+        }
+        //hideDefaultEmptyView 写在了这里
+        [self removeBtn];
     }] subscribeNext:^(id x) {
         
         @strongify(self);
-        self.bankCards = [self.bankStore.cache allObjects];
-        [self.tableView reloadData];
-    } error:^(NSError *error) {
         
+        [self.view stopActivityAnimation];
+        
+        if (![self.tableView isRefreshViewExists]) {
+            [self setupRefreshView];
+        }
+        self.bankCards = [self.bankStore.bankCards allObjects];
+        if (self.bankCards.count > 0)
+        {
+            [self showContentViews];
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self hideContentViews];
+            // 暂停动画写在了这里
+            [self addBtn];
+        }
+        if ([self.tableView isRefreshViewExists])
+        {
+            [self.tableView.refreshView endRefreshing];
+        }
+    } error:^(NSError *error) {
+        @strongify(self);
+        [self.view stopActivityAnimation];
         [gToast showError:error.domain];
-    }];;
+        if (![self.tableView isRefreshViewExists])
+        {
+            [self.view stopActivityAnimation];
+            [self.view showDefaultEmptyViewWithText:@"获取银行卡信息失败，请点击重试" tapBlock:^{
+                [self.view hideDefaultEmptyView];
+                [self reloadData];
+            }];
+        }
+        else
+        {
+            [self.tableView.refreshView endRefreshing];
+        }
+    } completed:^{
+        
+        [self.view stopActivityAnimation];
+        [self.tableView.refreshView endRefreshing];
+    }];
 }
 
+-(void)setupRefreshView
+{
+    @weakify(self)
+    [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged]subscribeNext:^(id x) {
+        @strongify(self)
+        [self reloadData];
+    }];
+}
+
+-(void)removeBtn
+{
+    NSArray *subViews = self.view.subviews;
+    [self.view hideDefaultEmptyView];
+    if ([subViews containsObject:self.btn])
+    {
+        [self.btn removeFromSuperview];
+    }
+}
+
+-(void)addBtn
+{
+    //暂停动画并且显示缺省页
+    @weakify(self)
+    [self.view stopActivityAnimation];
+    [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"暂无银行卡" centerOffset:-100 tapBlock:^{
+        @strongify(self)
+        [self reloadData];
+    }];
+    [self.view addSubview:self.btn];
+    const CGFloat top = gAppMgr.deviceInfo.screenSize.height / 2 + 30;
+    [self.btn mas_updateConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.centerX.mas_equalTo(self.view);
+        make.top.mas_equalTo(top);
+        make.width.mas_equalTo(180);
+        make.height.mas_equalTo(50);
+    }];
+}
+
+- (void)showContentViews
+{
+    self.bottomView.hidden = NO;
+    self.tableView.hidden = NO;
+}
+
+- (void)hideContentViews
+{
+    self.bottomView.hidden = YES;
+    self.tableView.hidden = YES;
+}
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //点击“添加银行卡”
-    if (indexPath.row > self.bankCards.count) {
-        [MobClick event:@"rp314-3"];
+    if (indexPath.row == self.bankCards.count) {
+        [MobClick event:@"rp314_3"];
         BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
         [self.navigationController pushViewController:vc animated:YES];
     }
     //点击某张银行卡
-    else if (indexPath.row > 0) {
-        [MobClick event:@"rp314-2"];
-        HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row - 1];
-        if (self.selectedCardReveicer) {
-            HKStoreEvent *evt = [HKStoreEvent eventWithSignal:[RACSignal return:card] code:kHKStoreEventSelect
-                                                       object:self.selectedCardReveicer];
-            [self.bankStore sendEvent:evt];
-            [self.navigationController popViewControllerAnimated:YES];
+    else if (indexPath.row < self.bankCards.count) {
+        [MobClick event:@"rp314_2"];
+        HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
+        if (self.didSelectedBlock) {
+            self.didSelectedBlock(card);
+            [self actionBack:nil];
             return;
         }
-        
-        CardDetailVC *vc = [UIStoryboard vcWithId:@"CardDetailVC" inStoryboard:@"Bank"];
+        BankCardDetailVC *vc = [UIStoryboard vcWithId:@"BankCardDetailVC" inStoryboard:@"Bank"];
         vc.card = card;
         vc.originVC = self;
         [self.navigationController pushViewController:vc animated:YES];
@@ -132,31 +237,32 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        return 28;
-    }
-    else if (indexPath.row > self.bankCards.count) {
+    if (indexPath.row == self.bankCards.count) {
+        
         return 114;
+        
     }
+    
     return 104;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.bankCards.count + 2;
+    return self.bankCards.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    if (indexPath.row == 0) {
-        cell = [self promptCellAtIndexPath:indexPath];
-    }
-    else if (indexPath.row > self.bankCards.count) {
+    
+    if (indexPath.row == self.bankCards.count) {
+        
         cell = [self addCellAtIndexPath:indexPath];
-    }
-    else {
+        
+    } else {
+        
         cell = [self bankCellAtIndexPath:indexPath];
+        
     }
     return cell;
 }
@@ -177,9 +283,18 @@
     UILabel *cardTypeL = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *numberL = (UILabel *)[cell.contentView viewWithTag:1004];
     
-    HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row-1];
+    HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
     
-    bgV.image = [[UIImage imageNamed:@"mb_bg_czb"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 140)];
+    if (indexPath.row % 3 == 0) {
+        bgV.image = [UIImage imageNamed:@"Bank_redCardBackground_imageView"];
+    }
+    else if (indexPath.row % 3 == 1) {
+        bgV.image = [UIImage imageNamed:@"Bank_greenCardBackground_imageView"];
+    }
+    else if (indexPath.row % 3 == 2) {
+        bgV.image = [UIImage imageNamed:@"Bank_blueCardBackground_imageView"];
+    }
+    
     logoV.image = [UIImage imageNamed:@"mb_logo"];
     titleL.text = card.cardName;
     cardTypeL.text = card.cardType == HKBankCardTypeCredit ? @"信用卡" : @"储蓄卡";
@@ -187,10 +302,31 @@
     return cell;
 }
 
+
 - (UITableViewCell *)addCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"AddCell" forIndexPath:indexPath];
     return cell;
+}
+
+-(UIButton *)btn
+{
+    if (!_btn)
+    {
+        _btn = [[UIButton alloc]init];
+        _btn.backgroundColor = kDefTintColor;
+        [_btn setTitle:@"添加银行卡" forState:UIControlStateNormal];
+        _btn.layer.cornerRadius = 5;
+        _btn.layer.masksToBounds = YES;
+        @weakify(self);
+        [[_btn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+            @strongify(self);
+            [MobClick event:@"rp314_3"];
+            BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+    }
+    return _btn;
 }
 
 @end

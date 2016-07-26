@@ -34,4 +34,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"获取所有服务订单";
+}
 @end

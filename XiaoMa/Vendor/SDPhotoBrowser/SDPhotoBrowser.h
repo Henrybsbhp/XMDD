@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger {
+    sourceImagesContainerViewContentFit = 0,
+    sourceImagesContainerViewContentFill = 1
+} sourceImagesContainerViewContentMode;
+
 
 @class SDButton, SDPhotoBrowser;
 
@@ -26,12 +31,17 @@
 
 @interface SDPhotoBrowser : UIView <UIScrollViewDelegate>
 
-@property (nonatomic, strong) NSArray *sourceImageViews;
-//@property (nonatomic, weak) UIView *sourceImagesContainerView;
-@property (nonatomic, assign) int currentImageIndex;
+@property (nonatomic, weak) UIView *sourceImagesContainerView;
+@property (nonatomic, assign) NSInteger currentImageIndex;
 @property (nonatomic, assign) NSInteger imageCount;
+@property (assign, nonatomic) BOOL showSaveBtn;
+@property (assign, nonatomic) BOOL showIndexLabel;
+
+@property (assign, nonatomic) sourceImagesContainerViewContentMode sourceImagesContainerViewContentMode;
 
 @property (nonatomic, weak) id<SDPhotoBrowserDelegate> delegate;
+
+
 
 - (void)show;
 

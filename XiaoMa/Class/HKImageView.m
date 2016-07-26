@@ -88,7 +88,7 @@
         make.top.equalTo(label.mas_bottom).offset(10);
         make.right.equalTo(rightV.mas_left);
         make.bottom.equalTo(maskView);
-        make.size.width.equalTo(rightV.mas_width);
+        make.width.equalTo(rightV.mas_width);
     }];
     
     [rightV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -212,6 +212,7 @@
     self.overlayView.hidden = YES;
     [self bringSubviewToFront:self.maskView];
     self.maskView.hidden = NO;
+    [self.maskView sizeToFit];
 }
 
 - (void)hideMaskView
@@ -219,5 +220,11 @@
     self.maskView.hidden = YES;
     self.tapGesture.enabled = YES;
 }
+
+- (void)removeTagGesture
+{
+    [self removeGestureRecognizer:_tapGesture];
+}
+
 
 @end

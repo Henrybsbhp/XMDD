@@ -35,7 +35,7 @@
             [rArray safetyAddObject:rescue];
         }
         
-        self.req_resceuArray = rArray;
+        self.rsp_resceuArray = rArray;
     }
     else
     {
@@ -56,4 +56,8 @@
 }
 
 
+- (NSString *)description
+{
+    return @"救援首页，获取救援列表";
+}
 @end

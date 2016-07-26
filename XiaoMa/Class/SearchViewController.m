@@ -64,7 +64,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"rp103"];
     
     UIView * view = self.navigationController.navigationBar;
     [view addSubview:self.searchBarBackgroundView];
@@ -83,7 +82,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"rp103"];
     
     [self.searchBarBackgroundView removeFromSuperview];
 }
@@ -105,16 +103,16 @@
 - (void)setupNavigationBar
 {
     
-    UIButton * searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 45, 30)];
+    UIButton * searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 52, 35)];
     searchBtn.cornerRadius = 5.0f;
-    [searchBtn setBackgroundColor:[UIColor colorWithHex:@"#15ac1f" alpha:1.0f]];
+    [searchBtn setBackgroundColor:[UIColor colorWithHex:@"#18d06a" alpha:1.0f]];
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     [searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     searchBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     @weakify(self)
     [[searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp103-1"];
+        [MobClick event:@"rp103_1"];
         @strongify(self)
         [self search];
     }];
@@ -126,7 +124,6 @@
 {
     CGFloat width = CGRectGetWidth(self.view.frame);
     self.searchBarBackgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(45, 4, width - 120, 36)];
-//    self.searchBarBackgroundView.image = [UIImage imageNamed:@"Navi_Search2"];
     self.searchBarBackgroundView.borderWidth = 0.5f;
     self.searchBarBackgroundView.borderColor = [UIColor colorWithHex:@"#dadada" alpha:1.0f];
     self.searchBarBackgroundView.layer.cornerRadius = 4.0f;
@@ -147,13 +144,8 @@
         }
     }
     
-    if ([self.searchBar respondsToSelector:@selector(setBackgroundImage:forBarPosition:barMetrics:)])
+    if (![self.searchBar respondsToSelector:@selector(setBackgroundImage:forBarPosition:barMetrics:)])
     {
-//        [self.searchBar setBackgroundImage:[UIImage imageNamed:@"Navi_Search2"] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-    }
-    else
-    {
-//        [self.searchBar setBackgroundImage:[UIImage imageNamed:@"Navi_Search_iOS6"]];
         [self.searchBar setTranslucent:YES];
         for (UIView * subview in self.searchBar.subviews)
         {
@@ -166,15 +158,6 @@
         }
     }
     
-//    UIImage *image = [UIImage imageNamed:@"Search"];
-//    UIImageView * imageView = [[UIImageView alloc] initWithImage:image];
-//    UITextField * searchField = [self.searchBar valueForKey:@"_searchField"];
-//    searchField.textColor = [UIColor clearColor];
-//    searchField.backgroundColor = [UIColor clearColor];
-//    searchField.clearButtonaaaMode = UITextFieldViewModeNever;
-    //修改placeholder文字颜色
-//    [searchField setValue:[UIColor lightTextColor] forKeyPath:@"_placeholderLabel.textColor"];
-//    searchField.leftView = imageView;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(defaultViewTap)];
     self.searchBarBackgroundView.userInteractionEnabled = YES;
@@ -268,10 +251,12 @@
     [self.tableView hideDefaultEmptyView];
     self.isLoading = YES;
     
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
         
     }] subscribeNext:^(GetShopByNameV2Op * op) {
         
+        @strongify(self);
         self.isLoading = NO;
         [self.searchBar resignFirstResponder];
         if (op.rsp_code == 0)
@@ -284,7 +269,8 @@
             {
                 self.tableView.showBottomLoadingView = YES;
                 [self.tableView.bottomLoadingView hideIndicatorText];
-                [self.tableView showDefaultEmptyViewWithText:@"附近没有您要找的商户"];
+//                [self.tableView showDefaultEmptyViewWithText:@"附近没有您要找的商户"];
+                [self.tableView showImageEmptyViewWithImageName:@"def_withoutShop" text:@"附近没有您要找的商户"];
             }
             else
             {
@@ -308,12 +294,10 @@
             [gToast showError:@"获取失败"];
         }
     } error:^(NSError *error) {
-        
+        @strongify(self);
         self.isLoading = NO;
         self.resultArray = nil;
-        @weakify(self);
-        [self.tableView showDefaultEmptyViewWithText:error.domain tapBlock:^{
-            
+        [self.tableView showImageEmptyViewWithImageName:@"def_failConnect" text:error.domain tapBlock:^{
             @strongify(self);
             [self searchShops];
         }];
@@ -337,14 +321,16 @@
     op.shopName = searchInfo;
     op.pageno = self.currentPageIndex;
     op.orderby = 1;
-    
+    @weakify(self);
     [[[op rac_postRequest] initially:^{
         
+        @strongify(self);
         [self.tableView.bottomLoadingView hideIndicatorText];
         [self.tableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
         self.isLoading = YES;
     }] subscribeNext:^(GetShopByNameV2Op * op) {
         
+        @strongify(self);
         self.currentPageIndex = self.currentPageIndex + 1;
         [self.tableView.bottomLoadingView stopActivityAnimation];
         self.isLoading = NO;
@@ -375,6 +361,8 @@
             [self.tableView.bottomLoadingView showIndicatorTextWith:@"获取失败，再拉拉看"];
         }
     } error:^(NSError *error) {
+        
+        @strongify(self);
         self.isLoading = NO;
         self.tableView.showBottomLoadingView = YES;
         [self.tableView.bottomLoadingView stopActivityAnimation];
@@ -385,12 +373,7 @@
 
 - (void)getUserLocation
 {
-    [[[[gMapHelper rac_getUserLocation] take:1] initially:^{
-        
-    }] subscribeNext:^(MAUserLocation *userLocation) {
-        
-        self.coordinate = userLocation.location.coordinate;
-    }];
+    self.coordinate = gMapHelper.coordinate;
 }
 
 -(BOOL)isBetween:(NSString *)openHourStr and:(NSString *)closeHourStr
@@ -474,14 +457,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (self.isSearching)
-    {
-        return 8.0f;
-    }
-    else
-    {
-        return CGFLOAT_MIN;
-    }
+    return CGFLOAT_MIN;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -575,7 +551,7 @@
     
     if (self.isSearching)
     {
-        [MobClick event:@"rp201-3"];
+        [MobClick event:@"rp201_3"];
         JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.section];
         ShopDetailVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ShopDetailVC"];
         vc.shop = shop;
@@ -590,11 +566,11 @@
         }
         if (indexPath.row == self.historyArray.count + 1)
         {
-            [MobClick event:@"rp103-2"];
+            [MobClick event:@"rp103_2"];
             [self cleanHistory];
             return;
         }
-        [MobClick event:@"rp103-3"];
+        [MobClick event:@"rp103_3"];
         NSString * content = [self.historyArray safetyObjectAtIndex:indexPath.row - 1];
         self.searchBar.text = content;
         [self search];
@@ -603,7 +579,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!self.isRemain) {
+    if ((!self.isRemain) || (!self.isSearching)) {
         return;
     }
     JTShop * shop = [self.resultArray safetyObjectAtIndex:indexPath.section];
@@ -633,7 +609,7 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [MobClick event:@"rp103-4"];
+    [MobClick event:@"rp103_4"];
     [self search];
 }
 
@@ -753,6 +729,7 @@
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
     UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
+    UILabel *originalPriceLabel = (UILabel *)[cell.contentView viewWithTag:2004];
     
     JTShopService * service = [shop.shopServiceArray safetyObjectAtIndex:indexPath.row - 1];
     
@@ -762,8 +739,16 @@
         return tcc.paymentChannelType == PaymentChannelABCIntegral;
     }];
     
+    NSAttributedString *originalPrice = [self priceStringWithOldPrice:@(service.oldOriginPrice) curPrice:nil];
+    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"原价" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+    
+    [titleString appendAttributedString:originalPrice];
+    
+    originalPriceLabel.hidden = service.oldOriginPrice <= service.origprice ? YES : NO;
+    
     integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
+    originalPriceLabel.attributedText = titleString;
     
     return cell;
 }
@@ -778,8 +763,10 @@
     UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];
     UIButton *phoneB = (UIButton *)[cell.contentView viewWithTag:3002];
     
+    @weakify(self);
     [[[guideB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
 
+        @strongify(self);
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:gMapHelper.coordinate andView:self.tabBarController.view];
     }];
     
@@ -787,8 +774,9 @@
         
         if (shop.shopPhone.length == 0)
         {
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:nil message:@"该店铺没有电话~" delegate:nil cancelButtonTitle:@"好吧" otherButtonTitles:nil];
-            [av show];
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"该店铺没有电话~" ActionItems:@[cancel]];
+            [alert show];
             return ;
         }
         
@@ -798,9 +786,5 @@
     
     return cell;
 }
-
-
-
-
 
 @end

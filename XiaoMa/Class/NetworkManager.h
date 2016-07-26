@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <AFNetworking.h>
 #import "XiaoMa.h"
-#import "UpdatePwdOp.h"
 
 @class BaseOp;
 
@@ -20,6 +19,7 @@
 @property (nonatomic, strong) NSString *token;      //会话令牌
 @property (nonatomic, strong) NSString * bindingMobile;
 @property (nonatomic, strong, readonly) NSString *apiServer;
+@property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *baseManager;
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *apiManager;
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *longtimeManager;
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *mediaClient;

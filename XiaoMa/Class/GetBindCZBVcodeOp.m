@@ -28,4 +28,8 @@
     return error;
 }
 
+- (NSString *)description
+{
+    return @"绑定浙商银行卡时获取验证码";
+}
 @end

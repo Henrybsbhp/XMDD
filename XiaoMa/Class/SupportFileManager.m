@@ -105,7 +105,7 @@
                          deliverOn:[RACScheduler schedulerWithPriority:RACSchedulerPriorityHigh]];
     signal = [signal catch:^RACSignal *(NSError *error) {
         
-        return [RACSignal return:error];
+        return [RACSignal error:error];
     }];
     return signal;
 }

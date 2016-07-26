@@ -8,7 +8,7 @@
 
 #import "MultiMediaManager.h"
 #import "DownloadOp.h"
-#import <CKKit.h>
+#import "CKKit.h"
 #import <SDWebImageManager.h>
 
 #define kPicCacheName    @"MultiMediaManager_PicCache"
@@ -91,6 +91,46 @@
         return nil;
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
+
+
+- (RACSignal *)rac_getGifImageDataByUrl:(NSString *)strurl defaultPic:(NSString *)defName errorPic:(NSString *)errName
+{
+    return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        NSURL *url = strurl ? [NSURL URLWithString:strurl] : nil;
+        SDWebImageManager *mgr = [SDWebImageManager sharedManager];
+        
+        TMCache * cache = gAppMgr.globalInfoCache;
+        NSObject * gifObject = [cache objectForKey:strurl];
+        if (defName && url && !gifObject) {
+            [subscriber sendNext:[UIImage imageNamed:defName]];
+        }
+        if (gifObject)
+        {
+            [subscriber sendNext:gifObject];
+            [subscriber sendCompleted];
+            return nil;
+        }
+//
+        [mgr.imageDownloader downloadImageWithURL:url options:SDWebImageDownloaderHighPriority progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+           
+            if (data){
+                [gAppMgr saveInfo:data forKey:strurl];
+                [subscriber sendNext:data];
+            }
+            else if (error) {
+                if (errName.length > 0) {
+                    [subscriber sendNext:[UIImage imageNamed:errName]];
+                }
+                else {
+                    [subscriber sendError:error];
+                }
+            }
+            [subscriber sendCompleted];
+        }];
+        return nil;
+    }] deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
 
 - (NSString *)urlWith:(NSString *)url croppedSize:(CGSize)size
 {

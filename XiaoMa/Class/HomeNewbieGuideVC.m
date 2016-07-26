@@ -84,7 +84,7 @@
 
 - (void)actionJump:(UITapGestureRecognizer *)tap
 {
-    [MobClick event:@"rp101-16"];
+    [MobClick event:@"rp101_16"];
     [self.formSheetController dismissAnimated:YES completionHandler:nil];
     
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];

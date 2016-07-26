@@ -10,6 +10,17 @@
 
 @implementation HKAddressComponent
 
++ (instancetype)addressComponentWithReGeocode:(AMapLocationReGeocode *)otherComponent
+{
+    HKAddressComponent *component = [[HKAddressComponent alloc] init];
+    component.province = otherComponent.province;
+    component.city = otherComponent.city;
+    component.district = otherComponent.district;
+    component.street = otherComponent.street;
+    component.number = otherComponent.number;
+    return component;
+}
+
 + (instancetype)addressComponentWith:(AMapAddressComponent *)otherComponent
 {
     HKAddressComponent *component = [[HKAddressComponent alloc] init];
@@ -23,19 +34,19 @@
 
 + (BOOL)isEqualAddrComponent:(HKAddressComponent *)ac1 otherAddrComponent:(HKAddressComponent *)ac2
 {
-    if ((!ac1.province && ac2.province) && ![ac1.province isEqualToString:ac2.province]) {
+    if (![ac1.province isEqualToString:ac2.province]) {
         return NO;
     }
-    if ((!ac1.city && ac2.city) && ![ac1.city isEqualToString:ac2.city]) {
+    if (![ac1.city isEqualToString:ac2.city]) {
         return NO;
     }
-    if ((!ac1.district && ac2.district) && ![ac1.district isEqualToString:ac2.district]) {
+    if (![ac1.district isEqualToString:ac2.district]) {
         return NO;
     }
-    if ((!ac1.street && ac2.street) && ![ac1.district isEqualToString:ac2.street]) {
+    if (![ac1.street isEqualToString:ac2.street]) {
         return NO;
     }
-    if ((!ac1.number && ac2.number) && ![ac1.district isEqualToString:ac2.number]) {
+    if (![ac1.number isEqualToString:ac2.number]) {
         return NO;
     }
     return YES;
@@ -43,19 +54,19 @@
 
 + (BOOL)isEqualAddrComponent:(HKAddressComponent *)ac1 AMapAddrComponent:(AMapAddressComponent *)ac2
 {
-    if ((!ac1.province && ac2.province) && ![ac1.province isEqualToString:ac2.province]) {
+    if (![ac1.province isEqualToString:ac2.province]) {
         return NO;
     }
-    if ((!ac1.city && ac2.city) && ![ac1.city isEqualToString:ac2.city]) {
+    if (![ac1.city isEqualToString:ac2.city]) {
         return NO;
     }
-    if ((!ac1.district && ac2.district) && ![ac1.district isEqualToString:ac2.district]) {
+    if (![ac1.district isEqualToString:ac2.district]) {
         return NO;
     }
-    if ((!ac1.street && ac2.streetNumber.street) && ![ac1.district isEqualToString:ac2.streetNumber.street]) {
+    if (![ac1.street isEqualToString:ac2.streetNumber.street]) {
         return NO;
     }
-    if ((!ac1.number && ac2.streetNumber.number) && ![ac1.district isEqualToString:ac2.streetNumber.number]) {
+    if (![ac1.number isEqualToString:ac2.streetNumber.number]) {
         return NO;
     }
     return YES;

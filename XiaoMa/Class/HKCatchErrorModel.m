@@ -10,10 +10,9 @@
 #import "XiaoMa.h"
 #import "HKLoginModel.h"
 #import "CXAlertView.h"
-#import "LoginVC.h"
 
 @interface HKCatchErrorModel ()
-@property (nonatomic, weak) UIAlertView *alertView;
+
 @end
 @implementation HKCatchErrorModel
 
@@ -70,7 +69,12 @@
 #pragma mark - Utilities
 - (void)clearAllOperations
 {
-    [gNetworkMgr.apiManager.operationQueue cancelAllOperations];
+    for (AFHTTPRequestOperation *afop in [gNetworkMgr.apiManager.operationQueue operations]) {
+        BaseOp *op = afop.customObject;
+        if (op.security) {
+            [op cancel];
+        }
+    }
     [gNetworkMgr.mediaClient.operationQueue cancelAllOperations];
     [gAppMgr resetWithAccount:nil];
     [gToast dismiss];
@@ -92,8 +96,9 @@
             }
             CKAfter(0.1, ^{
                 UIViewController *orginVC = [gAppMgr.navModel.curNavCtrl.viewControllers safetyObjectAtIndex:0];
-                [LoginViewModel loginIfNeededForTargetViewController:gAppMgr.navModel.curNavCtrl originVC:orginVC];
+                [LoginViewModel loginIfNeededForTargetViewController:gAppMgr.navModel.curNavCtrl originVC:orginVC withLoginSuccessAction:nil];
             });
+            self.alertView = nil;
         }
     }];
     self.alertView = alert;
