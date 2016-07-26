@@ -23,39 +23,9 @@ project_pbxproj_path=$project_path"/XiaoMa.xcodeproj/project.pbxproj"
 echo "project_pbxproj_path : "$project_pbxproj_path
 # echo $project_pbxproj_path
 
-echo "**************pull code**************"
-git checkout .
-git checkout dev
-if git pull;then
-	echo "git pull success"
-else 
-	echo "git pull error"
-	exit 1
-fi
-
-
-echo "**************update Version**************"
 sh $project_path"/Script/plist_replace.sh" $project_path"/XiaoMa/Misc/Info.plist"
 bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/XiaoMa/Misc/Info.plist")
 echo $bundleVersion
-# git add . && git commit -a -m "change version" && git push
-if git add . ; then
-	if git commit -a -m "change version";then
-		if git push;then
-			echo "git push success"
-		else
-			echo "git push error"
-			exit 1
-		fi
-	else
-		echo "git commit error"
-		exit 1
-	fi
-else
-	echo "git add. error"
-	exit 1
-fi
-echo "**************pull finish**************"
 
 #删除缓存。以前的终端编译会导致后面的编译失败
 user=$USER
