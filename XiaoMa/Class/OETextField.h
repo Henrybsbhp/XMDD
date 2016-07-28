@@ -11,7 +11,6 @@
 #import "OEButton.h"
 
 #define OEHeight 60
-#define OEHeight 100
 #define OEAccessTag 4444
 
 /// OEView
