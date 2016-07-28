@@ -164,7 +164,7 @@
 
 - (BOOL)isCarInfoCompletedForCarWash
 {
-    if (self.carId && self.licencenumber.length > 0 && self.purchasedate && self.brand.length > 0 && self.seriesModel.seriesname.length > 0) {
+    if (self.carId && self.licencenumber.length > 0 && self.brand.length > 0 && self.seriesModel.seriesname.length > 0) {
         return YES;
     }
     return NO;
