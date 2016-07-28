@@ -28,7 +28,7 @@
         
         OEView *inputAccessoryView = [[OEView alloc] init];
         inputAccessoryView.frame = CGRectMake(0, 0, screenWidth, OEHeight);
-        inputAccessoryView.backgroundColor = [UIColor colorWithRed:210/255.0 green:211/255.0 blue:220/255.0 alpha:1.0];
+        inputAccessoryView.backgroundColor = [UIColor colorWithRed:210/255.0 green:213/255.0 blue:220/255.0 alpha:1.0];
         
         for (id obj in dataArr)
         {
@@ -45,10 +45,10 @@
             
             [inputAccessoryView addSubview:btn];
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.mas_equalTo(3);
+                make.top.mas_equalTo(2);
                 make.left.mas_equalTo(leftContraint);
                 make.width.mas_equalTo(equalWidth);
-                make.bottom.mas_equalTo(-5);
+                make.bottom.mas_equalTo(-4);
             }];
             btn.backgroundColor = [UIColor colorWithRed:187/255.0 green:194/255.0 blue:201/255.0 alpha:1.0];
             leftContraint += (equalWidth + 5);
