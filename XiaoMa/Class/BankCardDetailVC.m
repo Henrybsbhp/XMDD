@@ -263,7 +263,6 @@
     JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"解除绑定", @"取消"]
                                                                 buttonStyle:JGActionSheetButtonStyleDefault];
     [section1 setButtonStyle:JGActionSheetButtonStyleRed forButtonAtIndex:0];
-    UIButton *confirmButton = section1.buttons[0];
     JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:@[section1]];
     [sheet showInView:self.navigationController.view animated:YES];
     
