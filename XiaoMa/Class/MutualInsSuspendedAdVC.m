@@ -105,13 +105,7 @@
 {
     [MobClick event:@"rp101_17_x"];
     self.closeView.hidden = YES;
-    int space;
-    if ([UIScreen mainScreen].bounds.size.height == 480) {
-        space = 40;
-    }
-    else {
-        space = 0;
-    }
+
     CGRect endRect = CGRectMake(self.targetVC.view.frame.size.width * 0.84 / 2 - 4, 30, 8, 8);
     
     [self.adCtrl.adView genieInTransitionWithDuration:0.4 destinationRect:endRect destinationEdge:BCRectEdgeBottom completion:

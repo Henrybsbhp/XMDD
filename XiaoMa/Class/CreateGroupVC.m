@@ -89,6 +89,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
     [IQKeyboardManager sharedManager].enable = YES;
 }
 

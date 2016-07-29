@@ -185,8 +185,7 @@
 
 - (void)search
 {
-    NSString * searchInfo = self.searchBar.text;
-    searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString *searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if (searchInfo.length)
     {
         self.isSearching = YES;
@@ -239,7 +238,7 @@
 - (void)searchShops
 {
     self.currentPageIndex = 1;
-    NSString * searchInfo = self.searchBar.text;
+    NSString * searchInfo = nil;
     searchInfo = [self.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     GetShopByNameV2Op * op = [GetShopByNameV2Op operation];
     op.shopName = searchInfo;

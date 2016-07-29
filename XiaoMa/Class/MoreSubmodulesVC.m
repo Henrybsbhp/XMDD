@@ -37,6 +37,7 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
     self.submoduleArray = gAppMgr.homePicModel.moreItemArray;
     self.numOfRow = 3;
     self.squareWidth = gAppMgr.deviceInfo.screenSize.width / (CGFloat)self.numOfRow;
