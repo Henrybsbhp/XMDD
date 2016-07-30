@@ -87,14 +87,15 @@
     
     if (self.router.userInfo[kOriginRoute])
     {
-        [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
+        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
+        [self.router.navigationController popToViewController:vc animated:YES];
     }
     else
     {
         CKRouter * route = [self.router.navigationController.routerList objectForKey:@"MutualInsVC"];
         if (route)
         {
-            [self.router.navigationController popToRouter:route animated:YES];
+            [self.router.navigationController popToViewController:route.targetViewController animated:YES];
         }
         else
         {

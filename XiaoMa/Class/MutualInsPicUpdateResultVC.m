@@ -195,7 +195,8 @@
     [MobClick event:@"tijiaochenggong" attributes:@{@"tijiaochenggong":@"tijiaochenggong1"}];
     
     if (self.router.userInfo[kOriginRoute]) {
-        [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
+        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
+        [self.router.navigationController popToViewController:vc animated:YES];
     }
     else {
         NSInteger rootIndex = [self.router.navigationController.routerList indexOfObjectForKey:@"MutualInsVC"];

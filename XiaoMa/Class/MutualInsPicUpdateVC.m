@@ -758,7 +758,7 @@
         CKRouter * router = self.router.userInfo[kOriginRoute];
         if (router)
         {
-            [self.router.navigationController popToRouter:router animated:YES];
+            [self.router.navigationController popToViewController:router.targetViewController animated:YES];
         }
         else
         {

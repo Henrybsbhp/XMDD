@@ -190,12 +190,12 @@
         
         if (self.isShowDetailFlag)
         {
-            CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGroupDetailVC"];
-            router.userInfo = [[CKDict alloc] init];
-            router.userInfo[kMutInsGroupID] = groupInfo[@"groupid"];
-            router.userInfo[kMutInsGroupName] = groupInfo[@"groupname"];
-            router.userInfo[kIgnoreBaseInfo] = @YES;
-            [self.targetVC.router.navigationController pushRouter:router animated:YES];
+            MutualInsGroupDetailVC *vc = [[MutualInsGroupDetailVC alloc] init];
+            vc.router.userInfo = [[CKDict alloc] init];
+            vc.router.userInfo[kMutInsGroupID] = groupInfo[@"groupid"];
+            vc.router.userInfo[kMutInsGroupName] = groupInfo[@"groupname"];
+            vc.router.userInfo[kIgnoreBaseInfo] = @YES;
+            [self.targetVC.router.navigationController pushViewController:vc animated:YES];
         }
     });
     return data;
@@ -228,12 +228,12 @@
         
         if (self.isShowDetailFlag)
         {
-            CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGroupDetailVC"];
-            router.userInfo = [[CKDict alloc] init];
-            router.userInfo[kMutInsGroupID] = groupInfo[@"groupid"];
-            router.userInfo[kMutInsGroupName] = groupInfo[@"groupname"];
-            router.userInfo[kIgnoreBaseInfo] = @YES;
-            [self.targetVC.router.navigationController pushRouter:router animated:YES];
+            MutualInsGroupDetailVC *vc = [[MutualInsGroupDetailVC alloc] init];
+            vc.router.userInfo = [[CKDict alloc] init];
+            vc.router.userInfo[kMutInsGroupID] = groupInfo[@"groupid"];
+            vc.router.userInfo[kMutInsGroupName] = groupInfo[@"groupname"];
+            vc.router.userInfo[kIgnoreBaseInfo] = @YES;
+            [self.targetVC.router.navigationController pushViewController:vc animated:YES];
         }
     });
     return data;
@@ -253,12 +253,12 @@
         
         if (self.isShowDetailFlag)
         {
-            CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGroupDetailVC"];
-            router.userInfo = [[CKDict alloc] init];
-            router.userInfo[kMutInsGroupID] = groupInfo[@"groupid"];
-            router.userInfo[kMutInsGroupName] = groupInfo[@"groupname"];
-            router.userInfo[kIgnoreBaseInfo] = @YES;
-            [self.targetVC.router.navigationController pushRouter:router animated:YES];
+            MutualInsGroupDetailVC *vc = [[MutualInsGroupDetailVC alloc] init];
+            vc.router.userInfo = [[CKDict alloc] init];
+            vc.router.userInfo[kMutInsGroupID] = groupInfo[@"groupid"];
+            vc.router.userInfo[kMutInsGroupName] = groupInfo[@"groupname"];
+            vc.router.userInfo[kIgnoreBaseInfo] = @YES;
+            [self.targetVC.router.navigationController pushViewController:vc animated:YES];
         }
     });
     return data;

@@ -22,8 +22,8 @@
 - (nonnull CKList *)routerList;
 - (void)updateViewControllersByRouterList;
 - (void)updateRouterListByViewControllers;
-- (void)pushRouter:(nonnull CKRouter *)router animated:(BOOL)animated;
-- (void)popToRouter:(nonnull CKRouter *)router animated:(BOOL)animated;
+//- (void)pushRouter:(nonnull CKRouter *)router animated:(BOOL)animated;
+//- (void)popToRouter:(nonnull CKRouter *)router animated:(BOOL)animated;
 - (void)popToViewControllerAtIndex:(NSUInteger)index animated:(BOOL)animated;
 
 @end
