@@ -24,6 +24,7 @@
 #import "MutualInsOrderInfoVC.h"
 #import "MutualInsAdModel.h"
 #import "MutualInsStoryAdPageVC.h"
+#import "MutualInsGroupDetailVC.h"
 
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
@@ -203,12 +204,12 @@
 
 - (void)actionGotoGroupDetailVC:(MutualInsCarListModel *)dict
 {
-    CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGroupDetailVC"];
-    router.userInfo = [[CKDict alloc] init];
-    router.userInfo[kMutInsGroupID] = dict.groupID;
-    router.userInfo[kMutInsGroupName] = dict.groupName;
-    router.userInfo[kMutInsMemberID] = dict.memberID;
-    [self.router.navigationController pushRouter:router animated:YES];
+    MutualInsGroupDetailVC *vc = [[MutualInsGroupDetailVC alloc] init];
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kMutInsGroupID] = dict.groupID;
+    vc.router.userInfo[kMutInsGroupName] = dict.groupName;
+    vc.router.userInfo[kMutInsMemberID] = dict.memberID;
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Setups

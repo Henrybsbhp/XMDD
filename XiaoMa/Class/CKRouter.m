@@ -16,21 +16,6 @@
 @end
 @implementation CKRouter
 
-+ (instancetype)routerWithStoryboard:(NSString *)sbname andViewControllerID:(NSString *)vcid {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:sbname bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:vcid];
-    CKRouter *router = [[self alloc] init];
-    router->_targetViewController = vc;
-    [router setKey:vcid];
-    return router;
-}
-
-+ (instancetype)routerWithViewControllerName:(NSString *)vcName {
-    UIViewController *vc = [[NSClassFromString(vcName) alloc] init];
-    return [self routerWithTargetViewController:vc];
-}
-
-
 + (instancetype)routerWithTargetViewController:(UIViewController *)targetVC {
     CKRouter *router = [[CKRouter alloc] init];
     router->_targetViewController = targetVC;
@@ -55,7 +40,7 @@
         @strongify(self);
         self->_isTargetViewControllerAppearing = YES;
         if ([self.delegate respondsToSelector:@selector(router:targetViewControllerWillAppear:)]) {
-            [self.delegate router:self targetViewControllerWillAppear:args.first];
+            [self.delegate router:self targetViewControllerWillAppear:[args.first boolValue]];
         }
     }];
     
@@ -63,7 +48,7 @@
         @strongify(self);
         self->_isTargetViewControllerAppearing = NO;
         if ([self.delegate respondsToSelector:@selector(router:targetViewControllerDidAppear:)]) {
-            [self.delegate router:self targetViewControllerDidAppear:args.first];
+            [self.delegate router:self targetViewControllerDidAppear:[args.first boolValue]];
         }
     }];
     
@@ -71,7 +56,7 @@
         @strongify(self);
         self->_isTargetViewControllerDisappearing = YES;
         if ([self.delegate respondsToSelector:@selector(router:targetViewControllerWillDisappear:)]) {
-            [self.delegate router:self targetViewControllerWillDisappear:args.first];
+            [self.delegate router:self targetViewControllerWillDisappear:[args.first boolValue]];
         }
     }];
     
@@ -79,7 +64,7 @@
         @strongify(self);
         self->_isTargetViewControllerDisappearing = NO;
         if ([self.delegate respondsToSelector:@selector(router:targetViewControllerDidDisappear:)]) {
-            [self.delegate router:self targetViewControllerDidDisappear:args.first];
+            [self.delegate router:self targetViewControllerDidDisappear:[args.first boolValue]];
         }
     }];
 }
