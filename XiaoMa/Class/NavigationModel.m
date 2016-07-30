@@ -30,6 +30,7 @@
 #import "MutualInsVC.h"
 #import "MutualInsHomeAdVC.h"
 #import "MutualInsStoryAdPageVC.h"
+#import "MutualInsGroupDetailVC.h"
 
 #import "AppDelegate.h"
 
@@ -424,11 +425,11 @@
             
             if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
                 return YES;
-            CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGrouponVC"];
-            router.userInfo = [[CKDict alloc] init];
-            router.userInfo[kMutInsGroupID] = @([value integerValue]);
-            router.userInfo[kMutInsMemberID] = @([value2 integerValue]);
-            [(HKNavigationController *)self.curNavCtrl pushRouter:router animated:YES];
+            MutualInsGroupDetailVC *vc = [[MutualInsGroupDetailVC alloc] init];
+            vc.router.userInfo = [[CKDict alloc] init];
+            vc.router.userInfo[kMutInsGroupID] = @([value integerValue]);
+            vc.router.userInfo[kMutInsMemberID] = @([value2 integerValue]);
+            [(HKNavigationController *)self.curNavCtrl pushViewController:vc animated:YES];
         }
         ///补偿详情
         else if ([@"coincldtlo" equalByCaseInsensitive:name]) {

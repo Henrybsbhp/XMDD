@@ -15,9 +15,7 @@
 
 @interface CKRouter : NSObject<CKItemDelegate>
 
-+ (instancetype)routerWithViewControllerName:(NSString *)vcName;
 + (instancetype)routerWithTargetViewController:(UIViewController *)targetVC;
-+ (instancetype)routerWithStoryboard:(NSString *)sbname andViewControllerID:(NSString *)sbid;
 
 @property (nonatomic, weak, readonly) UIViewController *targetViewController;
 @property (nonatomic, assign, readonly) BOOL isTargetViewControllerAppearing;
