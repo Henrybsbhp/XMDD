@@ -204,7 +204,6 @@
     
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath){
         UILabel *label = [cell.contentView viewWithTag:1001];
-        [label setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 40];
         label.text = data[@"title"];
         
     });

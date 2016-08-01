@@ -766,7 +766,6 @@
 		FA958E251C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E241C9BA73B00E89180 /* MutualInsRequestJoinGroupVC.m */; };
 		FA958E281C9BFE6E00E89180 /* MutualInsGroupInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA958E271C9BFE6E00E89180 /* MutualInsGroupInfoVC.m */; };
 		FA959CED1C9C343C00E89180 /* MutualInsJoin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */; };
-		FAA0226E1D40BD3300E15617 /* GetGasCardInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA0226D1D40BD3300E15617 /* GetGasCardInfoOp.m */; };
 		FAA6B9B01D333734004D922F /* MutualInsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA6B9AF1D333734004D922F /* MutualInsVC.m */; };
 		FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C41D1246490045531C /* CFNetwork.framework */; };
 		FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C81D12466E0045531C /* SystemConfiguration.framework */; };
@@ -2347,8 +2346,6 @@
 		FA958E261C9BFE6E00E89180 /* MutualInsGroupInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGroupInfoVC.h; sourceTree = "<group>"; };
 		FA958E271C9BFE6E00E89180 /* MutualInsGroupInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGroupInfoVC.m; sourceTree = "<group>"; };
 		FA959CEC1C9C343C00E89180 /* MutualInsJoin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsJoin.storyboard; sourceTree = "<group>"; };
-		FAA0226C1D40BD3300E15617 /* GetGasCardInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetGasCardInfoOp.h; path = Class/GetGasCardInfoOp.h; sourceTree = "<group>"; };
-		FAA0226D1D40BD3300E15617 /* GetGasCardInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetGasCardInfoOp.m; path = Class/GetGasCardInfoOp.m; sourceTree = "<group>"; };
 		FAA6B9AE1D333734004D922F /* MutualInsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsVC.h; sourceTree = "<group>"; };
 		FAA6B9AF1D333734004D922F /* MutualInsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsVC.m; sourceTree = "<group>"; };
 		FAAD30C41D1246490045531C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -5037,8 +5034,6 @@
 				FAE897EF1D2F48ED00C7AD9B /* OutlayCalculateWithFrameNumOp.m */,
 				FAE897F11D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.h */,
 				FAE897F21D2F4BB600C7AD9B /* GetCalculateBaseInfoOp.m */,
-				FAA0226C1D40BD3300E15617 /* GetGasCardInfoOp.h */,
-				FAA0226D1D40BD3300E15617 /* GetGasCardInfoOp.m */,
 			);
 			name = Op;
 			sourceTree = "<group>";
@@ -6137,7 +6132,6 @@
 				1851F41E1B0C223A00241A01 /* HKAutoBrand.m in Sources */,
 				2E77A4901C325F2F00264FC9 /* GetRescueCommentOp.m in Sources */,
 				6BC3B6121ADF6205001016A0 /* MapHelper.m in Sources */,
-				FAA0226E1D40BD3300E15617 /* GetGasCardInfoOp.m in Sources */,
 				188EF0C61D366D2E000D01D6 /* MutualInsGroupMyButtonCell.m in Sources */,
 				1837A75F1B72130F0006E6C5 /* SDBrowserImageView.m in Sources */,
 				6BBF7DA01B004A7A00E45967 /* MyInfoViewController.m in Sources */,
