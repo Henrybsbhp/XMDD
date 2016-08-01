@@ -211,6 +211,7 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
     //setup imageView
     self.imageView = [[UIImageView alloc] initWithFrame:self.view.bounds];

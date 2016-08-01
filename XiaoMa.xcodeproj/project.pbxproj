@@ -95,7 +95,7 @@
 		1833F5931BCD373B000E1DA1 /* GetGaschargeRecordListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F5861BCD373B000E1DA1 /* GetGaschargeRecordListOp.m */; };
 		1833F5961BCD37EB000E1DA1 /* GasCardStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F5951BCD37EB000E1DA1 /* GasCardStore.m */; };
 		1833F5991BCD3BF7000E1DA1 /* CancelGaschargeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F5981BCD3BF7000E1DA1 /* CancelGaschargeOp.m */; };
-		1833F59D1BCD47AD000E1DA1 /* GasVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F59C1BCD47AD000E1DA1 /* GasVC.m */; };
+		1833F59D1BCD47AD000E1DA1 /* GasVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F59C1BCD47AD000E1DA1 /* GasVC.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
 		1833F59F1BCD47EB000E1DA1 /* Gas.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1833F59E1BCD47EB000E1DA1 /* Gas.storyboard */; };
 		1833F5A31BCDF46B000E1DA1 /* GasTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F5A21BCDF46B000E1DA1 /* GasTabView.m */; };
 		1833F5A71BCDF5D0000E1DA1 /* CKLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833F5A61BCDF5D0000E1DA1 /* CKLine.m */; };
@@ -136,7 +136,7 @@
 		184E40C31AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C21AD3B3BE00EFC3A6 /* UIBarButtonItem+CustomStyle.m */; };
 		184E40C61AD3B58F00EFC3A6 /* UIView+Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C51AD3B58F00EFC3A6 /* UIView+Layer.m */; };
 		184E40CA1AD3B6DC00EFC3A6 /* JTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40C91AD3B6DC00EFC3A6 /* JTTableViewCell.m */; };
-		184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */; };
+		184E40CE1AD3BBB600EFC3A6 /* ShopDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40CD1AD3BBB600EFC3A6 /* ShopDetailVC.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
 		184E40D21AD3D01B00EFC3A6 /* JTShop.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E40D11AD3D01B00EFC3A6 /* JTShop.m */; };
 		1851F4181B0C1E5400241A01 /* PickAutomobileBrandVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F4171B0C1E5400241A01 /* PickAutomobileBrandVC.m */; };
 		1851F41B1B0C210D00241A01 /* GetAutomobileBrandOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851F41A1B0C210D00241A01 /* GetAutomobileBrandOp.m */; };
@@ -186,7 +186,7 @@
 		1884ACE31BA2A59E00E5CACF /* InsuranceInfoSubmitingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1884ACE21BA2A59E00E5CACF /* InsuranceInfoSubmitingVC.m */; };
 		1885F0C01B1C4DB40056D3BD /* UIView+ShowDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 1885F0BF1B1C4DB40056D3BD /* UIView+ShowDot.m */; };
 		1885F0C31B1C50970056D3BD /* UIView+AddBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1885F0C21B1C50970056D3BD /* UIView+AddBadgeView.m */; };
-		1885F0C61B1C50C80056D3BD /* JTImageBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1885F0C51B1C50C80056D3BD /* JTImageBadge.m */; };
+		1885F0C61B1C50C80056D3BD /* JTImageBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1885F0C51B1C50C80056D3BD /* JTImageBadge.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
 		18863FA21AE8A316005BF4ED /* GetInsuranceByChannelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18863FA11AE8A316005BF4ED /* GetInsuranceByChannelOp.m */; };
 		18895B2A1B4A136100928F62 /* HKStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18895B291B4A136100928F62 /* HKStore.m */; };
 		18895B321B4CB52A00928F62 /* PushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18895B311B4CB52A00928F62 /* PushManager.m */; };
@@ -266,7 +266,7 @@
 		18A30E401BD472E800521411 /* GasPayForCZBVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A30E3F1BD472E800521411 /* GasPayForCZBVC.m */; };
 		18A30E451BD493DB00521411 /* GasPaymentResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A30E441BD493DB00521411 /* GasPaymentResultVC.m */; };
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
-		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
+		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
 		18A4DD531C3CC16F00003F70 /* InsInputDateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4DD521C3CC16F00003F70 /* InsInputDateVC.m */; };
 		18A9E8C91BDDC0950061D3BC /* GetInsCompanyListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8C81BDDC0950061D3BC /* GetInsCompanyListOp.m */; };
 		18A9E8CC1BDDC1C00061D3BC /* PickInsCompaniesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8CB1BDDC1C00061D3BC /* PickInsCompaniesVC.m */; };
