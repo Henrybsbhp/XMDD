@@ -8,6 +8,7 @@
 
 #import "MutualInsPicUpdateResultVC.h"
 #import "NSString+RectSize.h"
+#import "MutualInsGroupDetailVC.h"
 
 #define KUpdateSuccessSubTitle @"我们会尽快审核，审核通过且成功支付后，将获得如下权益"
 
@@ -193,20 +194,24 @@
 {
     [MobClick event:@"tijiaochenggong" attributes:@{@"tijiaochenggong":@"tijiaochenggong1"}];
     
-    if (self.router.userInfo[kOriginRoute])
-    {
-        [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
+    if (self.router.userInfo[kOriginRoute]) {
+        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
+        [self.router.navigationController popToViewController:vc animated:YES];
     }
-    else
-    {
-        CKRouter * route = [self.router.navigationController.routerList objectForKey:@"MutualInsVC"];
-        if (route)
-        {
-            [self.router.navigationController popToRouter:route animated:YES];
+    else {
+        NSInteger rootIndex = [self.router.navigationController.routerList indexOfObjectForKey:@"MutualInsVC"];
+        rootIndex = rootIndex == NSNotFound ? 0 : rootIndex;
+        //如果有成员id，需要返回到团详情（新建一个团详情并插入）
+        if ([self.router.userInfo[kMutInsMemberID] integerValue] > 0 &&
+            [self.router.userInfo[kMutInsGroupID] integerValue] > 0) {
+            MutualInsGroupDetailVC *vc = [[MutualInsGroupDetailVC alloc] init];
+            vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
+            [self.router.navigationController.routerList insertObject:vc.router withKey:vc.router.key atIndex:rootIndex+1];
+            [self.router.navigationController updateViewControllersByRouterList];
+            [self.router.navigationController popToViewController:vc animated:YES];
         }
-        else
-        {
-            [self.navigationController popToRootViewControllerAnimated:YES];
+        else {
+            [self.router.navigationController popToViewControllerAtIndex:rootIndex animated:YES];
         }
     }
 }
@@ -223,8 +228,18 @@
         [list addObject:tipsHeaderCell forKey:nil];
         [list addObject:insuranceTitleCell forKey:nil];
         for (NSArray *array in newArray) {
-            CKDict *insuranceCell = [self setupTipsCellWithCouponList:array];
-            [list addObject:insuranceCell forKey:nil];
+            
+            CKDict * couponCell;
+            if (array.count == 2)
+            {
+                couponCell = [self setupTipsCellWithCouponList:array];
+            }
+            else
+            {
+                couponCell = [self setupSingleTipsCellWithCouponString:array.firstObject];
+            }
+            
+            [list addObject:couponCell forKey:nil];
         }
     }
     
@@ -234,7 +249,17 @@
         CKDict *couponTitleCell = [self setupTipsTitleCellWithText:@"福利"];
         [list addObject:couponTitleCell forKey:nil];
         for (NSArray *array in newArray) {
-            CKDict *couponCell = [self setupTipsCellWithCouponList:array];
+            
+            CKDict * couponCell;
+            if (array.count == 2)
+            {
+                couponCell = [self setupTipsCellWithCouponList:array];
+            }
+            else
+            {
+                couponCell = [self setupSingleTipsCellWithCouponString:array.firstObject];
+            }
+            
             [list addObject:couponCell forKey:nil];
         }
     }
@@ -244,6 +269,7 @@
         CKDict *activityCell = [self setupTipsTitleCellWithText:@"活动"];
         [list addObject:activityCell forKey:nil];
         for (NSString *string in activityList) {
+            
             CKDict *activityCell = [self setupSingleTipsCellWithCouponString:string];
             [list addObject:activityCell forKey:nil];
         }

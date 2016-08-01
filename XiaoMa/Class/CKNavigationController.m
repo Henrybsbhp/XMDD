@@ -81,6 +81,14 @@ static char s_viewControllerRouterKey;
     [self popToViewController:router.targetViewController animated:animated];
 }
 
+- (void)popToViewControllerAtIndex:(NSUInteger)index animated:(BOOL)animated
+{
+    CKRouter *router = [self.routerList objectAtIndex:index];
+    if (router) {
+        [self popToRouter:router animated:animated];
+    }
+}
+
 - (nullable UIViewController *)popViewControllerAnimated:(BOOL)animated
 {
     [self.routerList removeObjectAtIndex:self.routerList.count-1];
@@ -106,7 +114,7 @@ static char s_viewControllerRouterKey;
 #pragma mark - RouterList
 - (nonnull CKList *)routerList {
     if (!_viewControllerStack) {
-        _viewControllerStack = [[CKList alloc] init];
+        _viewControllerStack = [CKList list];
     }
     return _viewControllerStack;
 }

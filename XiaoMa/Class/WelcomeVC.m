@@ -11,7 +11,6 @@
 #import "MainTabBarVC.h"
 
 #define PageNumber 4
-#define ScreenHeight        self.view.frame.size.height
 #define TopViewHeight       self.view.frame.size.height * 911 / 1334.0
 #define BottomViewHeight    self.view.frame.size.height * 423 / 1334.0
 #define Scale               self.view.frame.size.width / 375.0

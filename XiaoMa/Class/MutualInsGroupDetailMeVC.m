@@ -23,6 +23,9 @@
 @end
 
 @implementation MutualInsGroupDetailMeVC
+- (void)dealloc {
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -135,8 +138,6 @@
             [gToast showError:@"获取失败，请重试" inView:self.view];
         }];
     }
-
-    
 }
 
 /// 我的协议

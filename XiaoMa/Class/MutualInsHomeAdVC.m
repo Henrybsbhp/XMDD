@@ -21,6 +21,7 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
     [self setupUI];
     
     NSString * urlStr;

@@ -96,7 +96,7 @@
      */
     [MobClick event:@"rp802_2"];
     
-    if (![self.defaultCar isCarInfoCompleted])
+    if (![self.defaultCar isCarInfoCompletedForCarWash])
     {
         HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
         alert.topTitle = @"温馨提示";

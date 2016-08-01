@@ -18,6 +18,7 @@
 #import "SJKeyboardManager.h"
 #import "IQKeyboardManager.h"
 #import "MutualInsPickCarVC.h"
+#import "MutualInsGroupDetailVC.h"
 #import "GetCooperationUsercarListOp.h"
 
 @interface CreateGroupVC () <UITextFieldDelegate>
@@ -89,6 +90,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
     [IQKeyboardManager sharedManager].enable = YES;
 }
 
@@ -164,24 +166,25 @@
 
 - (void)jumpToGroupOnVC:(NSNumber *)groupId
 {
-    CKRouter *router = [CKRouter routerWithViewControllerName:@"MutualInsGrouponVC"];
-    router.userInfo = [[CKDict alloc] init];
-    router.userInfo[kMutInsGroupID] = groupId;
-    [self.router.navigationController pushRouter:router animated:YES];
+    MutualInsGroupDetailVC *vc = [[MutualInsGroupDetailVC alloc] init];
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kMutInsGroupID] = groupId;
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)jumpToHomePage
 {
     if (self.router.userInfo[kOriginRoute])
     {
-        [self.router.navigationController popToRouter:self.router.userInfo[kOriginRoute] animated:YES];
+        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
+        [self.router.navigationController popToViewController:vc animated:YES];
     }
     else
     {
         CKRouter * route = [self.router.navigationController.routerList objectForKey:@"MutualInsVC"];
         if (route)
         {
-            [self.router.navigationController popToRouter:route animated:YES];
+            [self.router.navigationController popToViewController:route.navigationController animated:YES];
         }
         else
         {

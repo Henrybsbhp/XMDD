@@ -29,7 +29,7 @@
     // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
     // On iOS prior to 4, fall back to use UIGraphicsBeginImageContext
     CGSize imageSize = [view bounds].size;
-    if (NULL != UIGraphicsBeginImageContextWithOptions)
+    if (IOSVersionGreaterThanOrEqualTo(@"4.0"))
         UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
     else
         UIGraphicsBeginImageContext(imageSize);
@@ -133,7 +133,7 @@
     // Create a graphics context with the target size
     // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
     // On iOS prior to 4, fall back to use UIGraphicsBeginImageContext
-    if (NULL != UIGraphicsBeginImageContextWithOptions)
+    if (IOSVersionGreaterThanOrEqualTo(@"4.0"))
     {
         UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
     }

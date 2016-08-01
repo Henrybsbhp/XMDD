@@ -18,6 +18,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
+    if (index > 0 && index != NSNotFound) {
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated

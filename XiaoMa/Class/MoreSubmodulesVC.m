@@ -37,6 +37,7 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
     self.submoduleArray = gAppMgr.homePicModel.moreItemArray;
     self.numOfRow = 3;
     self.squareWidth = gAppMgr.deviceInfo.screenSize.width / (CGFloat)self.numOfRow;
@@ -230,10 +231,9 @@
                 
                 [flAnimatedImageView drawLineWithDirection:CKViewBorderDirectionRight withEdge:UIEdgeInsetsZero];
             }
-            if ((tag - SubModuleViewTag) < (self.submoduleArray.count - self.numOfRow))
-            {
-                [flAnimatedImageView drawLineWithDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
-            }
+            
+
+            [flAnimatedImageView drawLineWithDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
         }
     }
 }
