@@ -302,7 +302,7 @@
 - (CKDict *)setAttributedContentCell {
     //初始化身份标识
     CKDict * attributedContentDict = [CKDict dictWith:@{kCKCellID:@"ContentCell"}];
-    NSString * attributedFooterString = [NSString new];
+    NSString * attributedFooterString = nil;
     if (self.groupType == GroupTypeByself) {
         attributedFooterString = @"如果您的好友无法长按复制暗号，可打开小马达达后，通过“首页→小马互助→右上角+号→内测计划→申请入团”后同样可成功加入您的互助团 \n ";
     }

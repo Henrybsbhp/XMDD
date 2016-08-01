@@ -105,6 +105,7 @@
 		183F57871D4C9CE60001E26A /* SocialShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 183F57851D4C9CE60001E26A /* SocialShareView.xib */; };
 		183F57AB1D4CA1EA0001E26A /* AreaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F57AA1D4CA1EA0001E26A /* AreaPickerVC.m */; };
 		183F57AE1D4CA21B0001E26A /* HKToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F57AD1D4CA21B0001E26A /* HKToast.m */; };
+		183F57D91D4EE59C0001E26A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F57D81D4EE59C0001E26A /* AppDelegate.m */; };
 		1844531D1C8EA30F007B895D /* AhaWaterWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844531C1C8EA30F007B895D /* AhaWaterWaveView.m */; };
 		1844532D1C8FEE81007B895D /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844532A1C8FEE81007B895D /* UIImage+RoundedCorner.m */; };
 		1844532E1C8FEE81007B895D /* UIView+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844532C1C8FEE81007B895D /* UIView+RoundedCorner.m */; };
@@ -210,7 +211,6 @@
 		186496B01D489A4200F1CCB0 /* AdvertisementManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864965F1D489A4200F1CCB0 /* AdvertisementManager.m */; };
 		186496B11D489A4200F1CCB0 /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 186496611D489A4200F1CCB0 /* AFHTTPRequestOperationManager+ReactiveCocoa.m */; };
 		186496B21D489A4200F1CCB0 /* AlipayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 186496631D489A4200F1CCB0 /* AlipayHelper.m */; };
-		186496B31D489A4200F1CCB0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186496651D489A4200F1CCB0 /* AppDelegate.m */; };
 		186496B41D489A4200F1CCB0 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186496671D489A4200F1CCB0 /* AppManager.m */; };
 		186496B51D489A4200F1CCB0 /* AssistiveManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186496691D489A4200F1CCB0 /* AssistiveManager.m */; };
 		186496B61D489A4200F1CCB0 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864966B1D489A4200F1CCB0 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m */; };
@@ -1105,6 +1105,7 @@
 		183F57AA1D4CA1EA0001E26A /* AreaPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AreaPickerVC.m; path = XMDD/Classes/Feature/AreaPickerVC.m; sourceTree = SOURCE_ROOT; };
 		183F57AC1D4CA21B0001E26A /* HKToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKToast.h; path = XMDD/Classes/Feature/HKToast.h; sourceTree = SOURCE_ROOT; };
 		183F57AD1D4CA21B0001E26A /* HKToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKToast.m; path = XMDD/Classes/Feature/HKToast.m; sourceTree = SOURCE_ROOT; };
+		183F57D81D4EE59C0001E26A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1844531B1C8EA30F007B895D /* AhaWaterWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AhaWaterWaveView.h; sourceTree = "<group>"; };
 		1844531C1C8EA30F007B895D /* AhaWaterWaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AhaWaterWaveView.m; sourceTree = "<group>"; };
 		184453291C8FEE81007B895D /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
@@ -1346,7 +1347,6 @@
 		186496621D489A4200F1CCB0 /* AlipayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipayHelper.h; sourceTree = "<group>"; };
 		186496631D489A4200F1CCB0 /* AlipayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlipayHelper.m; sourceTree = "<group>"; };
 		186496641D489A4200F1CCB0 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		186496651D489A4200F1CCB0 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		186496661D489A4200F1CCB0 /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppManager.h; sourceTree = "<group>"; };
 		186496671D489A4200F1CCB0 /* AppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppManager.m; sourceTree = "<group>"; };
 		186496681D489A4200F1CCB0 /* AssistiveManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssistiveManager.h; sourceTree = "<group>"; };
@@ -4081,7 +4081,7 @@
 				186496781D489A4200F1CCB0 /* HKLaunchManager.h */,
 				186496791D489A4200F1CCB0 /* HKLaunchManager.m */,
 				186496641D489A4200F1CCB0 /* AppDelegate.h */,
-				186496651D489A4200F1CCB0 /* AppDelegate.m */,
+				183F57D81D4EE59C0001E26A /* AppDelegate.m */,
 				186496661D489A4200F1CCB0 /* AppManager.h */,
 				186496671D489A4200F1CCB0 /* AppManager.m */,
 			);
@@ -6476,6 +6476,7 @@
 				18FC01E11C4E6C6F00FD61BF /* IQTextView.m in Sources */,
 				186499A51D489A9700F1CCB0 /* ConfirmClaimOp.m in Sources */,
 				186497101D489A5800F1CCB0 /* NSDate+PrettyFormat.m in Sources */,
+				183F57D91D4EE59C0001E26A /* AppDelegate.m in Sources */,
 				18649E601D48BE5500F1CCB0 /* InviteCompleteVC.m in Sources */,
 				186499DC1D489A9700F1CCB0 /* GetRescueCommentRescueOp.m in Sources */,
 				18FC01DD1C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m in Sources */,
@@ -6511,7 +6512,6 @@
 				1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */,
 				186495411D4888BE00F1CCB0 /* CKShadowView.m in Sources */,
 				186496CF1D489A4200F1CCB0 /* PaymentHelper.m in Sources */,
-				186496B31D489A4200F1CCB0 /* AppDelegate.m in Sources */,
 				186496C71D489A4200F1CCB0 /* JTLogModel.m in Sources */,
 				18648FBC1D48558000F1CCB0 /* SBJsonWriter.m in Sources */,
 				C3D9B81F1CC0DBF000B5D2A7 /* FLAnimatedImageView.m in Sources */,

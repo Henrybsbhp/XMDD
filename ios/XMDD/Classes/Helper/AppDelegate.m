@@ -4,7 +4,7 @@
 //
 //  Created by jiangjunchen on 15/4/1.
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
-//
+// test 
 
 #import "AppDelegate.h"
 #import "Xmdd.h"
@@ -15,6 +15,7 @@
 #import "WeiboSDK.h"
 #import <JPEngine.h>
 #import "RRFPSBar.h"
+#import "ReactNativeManager.h"
 
 #import "DefaultStyleModel.h"
 
@@ -34,7 +35,6 @@
 #import "DeviceInfo.h"
 #import "HKAdvertisement.h"
 #import "FMDeviceManager.h"
-#import "ReactNativeManager.h"
 
 #import "MainTabBarVC.h"
 #import "LaunchVC.h"
@@ -91,7 +91,7 @@
     
     [self setupAssistive];
     
-    [self setupReactNativeManager];
+    [self setupReactNative];
     //设置崩溃捕捉(官方建议放在最后面)
     [self setupCrashlytics];
     
@@ -260,12 +260,6 @@
     [MobClick event:@"rp000"];
     [self.pushMgr handleNofitication:userInfo forApplication:application];
 }
-#pragma mark - ReactNative
-- (void)setupReactNativeManager
-{
-    ReactNativeManager *manager = [ReactNativeManager sharedManager];
-    [manager loadDefaultBundle];
-}
 
 #pragma mark - QQ
 - (void)tencentDidLogin
@@ -292,10 +286,10 @@
     UMConfigInstance.ePolicy = BATCH;
     
     [MobClick startWithConfigure:UMConfigInstance];
-#ifndef DEBUG
-    [MobClick setLogEnabled:NO];
-#else
+#ifdef DEBUG
     [MobClick setLogEnabled:YES];
+#else
+    [MobClick setLogEnabled:NO];
 #endif
     
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
@@ -308,8 +302,10 @@
 {
     /// 设置delegate必须在前面，（先关闭）
 //    CrashlyticsKit.delegate = self;
-
-#ifndef DEBUG
+    
+#ifdef DEBUG
+    
+#else
     #if XMDDEnvironment==2
     [Fabric with:@[CrashlyticsKit]];
     
@@ -320,6 +316,7 @@
     }];
     #endif
 #endif
+    
 }
 
 - (void)crashlyticsDidDetectReportForLastExecution:(CLSReport *)report completionHandler:(void (^)(BOOL))completionHandler
@@ -479,6 +476,10 @@
     }];
 }
 
+#pragma mark - ReactNative
+- (void)setupReactNative {
+    [[ReactNativeManager sharedManager] loadDefaultBundle];
+}
 
 #pragma mark - 同盾
 - (void)setFMDeviceManager {
