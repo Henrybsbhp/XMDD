@@ -335,6 +335,7 @@
     
     line1.lineAlignment = CKLineAlignmentHorizontalTop;
     line2.lineAlignment = CKLineAlignmentHorizontalBottom;
+    [textL setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 87];
     textL.attributedText = data.object;
 }
 - (void)resetIdCardCell:(UITableViewCell *)cell forData:(HKCellData *)data

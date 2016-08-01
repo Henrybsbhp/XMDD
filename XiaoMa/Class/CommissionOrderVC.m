@@ -185,6 +185,7 @@
         lineView.hidden = YES;
     }
     NSString * string = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
+    [detailLb setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 30];
     detailLb.text = string;
     //行间距
     NSMutableAttributedString * attributedString1 = [[NSMutableAttributedString alloc] initWithString:string];
