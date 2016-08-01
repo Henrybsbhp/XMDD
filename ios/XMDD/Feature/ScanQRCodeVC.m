@@ -7,9 +7,9 @@
 //
 
 #import "ScanQRCodeVC.h"
-#import <AVFoundation/AVFoundation.h>
 
-@interface ScanQRCodeVC () <AVCaptureFileOutputRecordingDelegate>
+
+@interface ScanQRCodeVC ()
 
 @property (nonatomic, strong) UIView *scanRectView;
 @property (nonatomic, strong) AVCaptureDevice *device;
@@ -118,14 +118,10 @@
     }
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error
+{
+    
 }
-*/
 
 @end

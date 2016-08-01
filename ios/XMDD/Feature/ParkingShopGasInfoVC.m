@@ -18,8 +18,6 @@
 @property (nonatomic, strong) NSMutableArray *fetchedDataArray;
 @property (nonatomic, strong) CKList *dataSource;
 
-@property (nonatomic, strong) HKLocationDataModel * locationData;
-@property (nonatomic, assign) LocateState locateState;
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 
 @property (nonatomic, strong) UIView *bottomTipsView;
@@ -537,15 +535,10 @@
 #pragma mark - Get location & GEO information
 - (void)requestLocation
 {
-    self.locationData = [[HKLocationDataModel alloc] init];
-    self.locateState = LocateStateLocating;
     @weakify(self);
-    [[[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyNearestTenMeters] flattenMap:^RACStream *(id value) {
+    [[[gMapHelper rac_getUserLocationAndInvertGeoInfoWithAccuracy:kCLLocationAccuracyHundredMeters] flattenMap:^RACStream *(id value) {
         @strongify(self);
-        self.locationData.province = gMapHelper.addrComponent.province;
-        self.locationData.city = gMapHelper.addrComponent.city;
         self.coordinate = gMapHelper.coordinate;
-        self.locateState = LocateStateSuccess;
         
         GetAreaByPcdOp *op = [GetAreaByPcdOp operation];
         op.req_province = gMapHelper.addrComponent.province;
@@ -599,8 +592,7 @@
         @strongify(self);
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
-        self.locateState = LocateStateFailure;
-        [gToast showError:@"获取城市信息失败"];
+        [gToast showError:@"定位失败，请检查您的定位服务后再试一次"];
         self.tableView.hidden = YES;
         
         @weakify(self)
