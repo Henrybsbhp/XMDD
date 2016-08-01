@@ -1,0 +1,13 @@
+*~
+.DS_Store
+*.xcuserstate
+*.xcbkptlist
+xcuserdata
+UserInterfaceState.xcuserstate
+xcuserdata/
+react-native/
+UserInterface.xcuserstate
+Breakpoints_v2.xcbkptlist
+node_modules/
+rctpatch.conf
+rct_bundle/

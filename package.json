@@ -1,0 +1,19 @@
+{
+  "name": "XiaoMa",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "@remobile/react-native-toast": "1.0.4",
+    "events": "1.1.1",
+    "moment": "2.14.1",
+    "react": "15.2.1",
+    "react-dom": "15.2.1",
+    "react-native": "0.30",
+    "react-native-image-picker": "0.18.17",
+    "react-native-vector-icons": "2.0.3",
+    "undefined": "^0.1.0"
+  }
+}
