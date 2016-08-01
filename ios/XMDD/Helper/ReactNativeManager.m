@@ -355,7 +355,7 @@
         return YES;
     }
     //TODO: 从UserDefault中获取当前user相关的参数
-    return NO;
+    return YES;
 }
 
 #pragma mark - Util
