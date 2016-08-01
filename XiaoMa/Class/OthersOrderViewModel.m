@@ -117,10 +117,6 @@
     
     originPriceL.text = order.originPrice;
     couponPriceL.text = order.couponPrice;
-    
-    NSDictionary * attributeDic = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [UIFont boldSystemFontOfSize:14.0], NSFontAttributeName,
-                                   [UIColor colorWithHex:@"#353535" alpha:1.0f], NSForegroundColorAttributeName, nil];
 
     feeL.text = [NSString stringWithFormat:@"￥%@", order.fee ? [NSString formatForPrice:order.fee] : @"-"];
     
