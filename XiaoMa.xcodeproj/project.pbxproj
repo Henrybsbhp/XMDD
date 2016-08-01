@@ -65,7 +65,7 @@
 		181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D981B15919900D38555 /* CXAlertButtonContainerView.m */; };
 		181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9A1B15919900D38555 /* CXAlertButtonItem.m */; };
 		181F6DA71B15919900D38555 /* CXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9C1B15919900D38555 /* CXAlertView.m */; };
-		181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9E1B15919900D38555 /* CXAlertViewController.m */; };
+		181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9E1B15919900D38555 /* CXAlertViewController.m */; settings = {COMPILER_FLAGS = "-Wno-mismatched-return-types"; }; };
 		181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6DA01B15919900D38555 /* LFDisplayBridge.m */; };
 		181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6DA21B15919900D38555 /* LFGlassView.m */; };
 		1821C34D1C4794D800120AF4 /* HomeNewbieGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821C34C1C4794D800120AF4 /* HomeNewbieGuideVC.m */; };
@@ -222,7 +222,7 @@
 		1893711C1B0DAC8D0030FDE1 /* GetMessageOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1893711B1B0DAC8D0030FDE1 /* GetMessageOp.m */; };
 		1893711F1B0DAD290030FDE1 /* HKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1893711E1B0DAD290030FDE1 /* HKMessage.m */; };
 		189371221B0E046E0030FDE1 /* JTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371211B0E046E0030FDE1 /* JTAttributedLabel.m */; };
-		1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371281B0E0D460030FDE1 /* TTTAttributedLabel.m */; };
+		1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371281B0E0D460030FDE1 /* TTTAttributedLabel.m */; settings = {COMPILER_FLAGS = "-Wno-pointer-bool-conversion"; }; };
 		189371361B0F592F0030FDE1 /* JTQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371351B0F592F0030FDE1 /* JTQueue.m */; };
 		189428B21C1AAD6300E492CA /* GridLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189428B11C1AAD6300E492CA /* GridLabel.m */; };
 		189428B81C1ABA3500E492CA /* InsAppointmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189428B71C1ABA3500E492CA /* InsAppointmentVC.m */; };
@@ -255,7 +255,7 @@
 		189C69891B74ADC700E56E4A /* BindBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C69881B74ADC700E56E4A /* BindBankCardVC.m */; };
 		189C698C1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C698B1B75A2BB00E56E4A /* GetBindCZBVcodeOp.m */; };
 		189C698F1B75BD4B00E56E4A /* BindBankcardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 189C698E1B75BD4B00E56E4A /* BindBankcardOp.m */; };
-		189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */; };
+		189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */; settings = {COMPILER_FLAGS = " -Wno-shorten-64-to-32"; }; };
 		18A15A531C2149B100D7B5DF /* InsPremium.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A15A521C2149B100D7B5DF /* InsPremium.m */; };
 		18A15A561C214C2200D7B5DF /* InsActivityIndicatorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A15A551C214C2200D7B5DF /* InsActivityIndicatorVC.m */; };
 		18A15A591C21AF2000D7B5DF /* InsuranceVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A15A581C21AF2000D7B5DF /* InsuranceVM.m */; };
@@ -266,7 +266,7 @@
 		18A30E401BD472E800521411 /* GasPayForCZBVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A30E3F1BD472E800521411 /* GasPayForCZBVC.m */; };
 		18A30E451BD493DB00521411 /* GasPaymentResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A30E441BD493DB00521411 /* GasPaymentResultVC.m */; };
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
-		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
+		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations -Wno-conditional-uninitialized"; }; };
 		18A4DD531C3CC16F00003F70 /* InsInputDateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4DD521C3CC16F00003F70 /* InsInputDateVC.m */; };
 		18A9E8C91BDDC0950061D3BC /* GetInsCompanyListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8C81BDDC0950061D3BC /* GetInsCompanyListOp.m */; };
 		18A9E8CC1BDDC1C00061D3BC /* PickInsCompaniesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A9E8CB1BDDC1C00061D3BC /* PickInsCompaniesVC.m */; };
@@ -295,7 +295,7 @@
 		18BB361B1C4E2D02003E7B86 /* HKMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BB361A1C4E2D02003E7B86 /* HKMapView.m */; };
 		18BF41E71BCF444B0039F210 /* HKTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41E61BCF444B0039F210 /* HKTableViewCell.m */; };
 		18BF41F11BCF6A540039F210 /* GasPickAmountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41F01BCF6A540039F210 /* GasPickAmountCell.m */; };
-		18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41F81BCF75DA0039F210 /* RTLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41F81BCF75DA0039F210 /* RTLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
 		18BF41FC1BD08F860039F210 /* GasReminderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41FB1BD08F860039F210 /* GasReminderCell.m */; };
 		18BF42011BD0D5A20039F210 /* GasAddCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF42001BD0D5A20039F210 /* GasAddCardVC.m */; };
 		18BF42051BD0D5CB0039F210 /* GasCardListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF42041BD0D5CB0039F210 /* GasCardListVC.m */; };
@@ -314,7 +314,6 @@
 		18C81CBF1B18403000B0C292 /* FeedbackOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C81CBE1B18403000B0C292 /* FeedbackOp.m */; };
 		18CECC281C30F8890075B7F9 /* JT3DScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CECC251C30F8890075B7F9 /* JT3DScrollView.m */; };
 		18CECC291C30F8890075B7F9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 18CECC261C30F8890075B7F9 /* LICENSE */; };
-		18CECC2A1C30F8890075B7F9 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 18CECC271C30F8890075B7F9 /* README.md */; };
 		18CECC301C314CAC0075B7F9 /* MyCarStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CECC2F1C314CAC0075B7F9 /* MyCarStore.m */; };
 		18D17F701B5390F400F66F04 /* VCodeInputField.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F6F1B5390F400F66F04 /* VCodeInputField.m */; };
 		18D17F731B53AFAC00F66F04 /* GetVoiceVCodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F721B53AFAC00F66F04 /* GetVoiceVCodeOp.m */; };
@@ -356,11 +355,11 @@
 		18FC01DC1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01BF1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m */; };
 		18FC01DD1C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C11C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m */; };
 		18FC01DE1C4E6C6F00FD61BF /* IQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C61C4E6C6F00FD61BF /* IQKeyboardManager.m */; };
-		18FC01DF1C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C81C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m */; };
+		18FC01DF1C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C81C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m */; settings = {COMPILER_FLAGS = "-Wno-objc-designated-initializers"; }; };
 		18FC01E01C4E6C6F00FD61BF /* IQSegmentedNextPrevious.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01CB1C4E6C6F00FD61BF /* IQSegmentedNextPrevious.m */; };
 		18FC01E11C4E6C6F00FD61BF /* IQTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01CE1C4E6C6F00FD61BF /* IQTextView.m */; };
 		18FC01E21C4E6C6F00FD61BF /* IQBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01D11C4E6C6F00FD61BF /* IQBarButtonItem.m */; };
-		18FC01E31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01D31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m */; };
+		18FC01E31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01D31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m */; settings = {COMPILER_FLAGS = "-Wno-objc-designated-initializers"; }; };
 		18FC01E41C4E6C6F00FD61BF /* IQToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01D51C4E6C6F00FD61BF /* IQToolbar.m */; };
 		18FC01E51C4E6C6F00FD61BF /* IQUIView+IQKeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01D71C4E6C6F00FD61BF /* IQUIView+IQKeyboardToolbar.m */; };
 		18FC01E61C4E6C6F00FD61BF /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18FC01DA1C4E6C6F00FD61BF /* IQKeyboardManager.bundle */; };
@@ -699,17 +698,17 @@
 		6BEA56C61AE24DCE000D19C1 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56571AE24DCD000D19C1 /* NSString+SBJSON.m */; };
 		6BEA56C71AE24DCE000D19C1 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56591AE24DCE000D19C1 /* SBJSON.m */; };
 		6BEA56C81AE24DCE000D19C1 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA565B1AE24DCE000D19C1 /* SBJsonBase.m */; };
-		6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA565D1AE24DCE000D19C1 /* SBJsonParser.m */; };
+		6BEA56C91AE24DCE000D19C1 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA565D1AE24DCE000D19C1 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-Wno-conditional-uninitialized"; }; };
 		6BEA56CA1AE24DCE000D19C1 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA565F1AE24DCE000D19C1 /* SBJsonWriter.m */; };
 		6BEA56CB1AE24DCE000D19C1 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEA56601AE24DCE000D19C1 /* libcrypto.a */; };
 		6BEA56CC1AE24DCE000D19C1 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEA56611AE24DCE000D19C1 /* libssl.a */; };
-		6BEA56CD1AE24DCE000D19C1 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56B01AE24DCE000D19C1 /* base64.m */; };
+		6BEA56CD1AE24DCE000D19C1 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56B01AE24DCE000D19C1 /* base64.m */; settings = {COMPILER_FLAGS = " -Wno-shorten-64-to-32"; }; };
 		6BEA56CE1AE24DCE000D19C1 /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56B31AE24DCE000D19C1 /* DataSigner.m */; };
 		6BEA56CF1AE24DCE000D19C1 /* DataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56B51AE24DCE000D19C1 /* DataVerifier.m */; };
 		6BEA56D01AE24DCE000D19C1 /* MD5DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56B71AE24DCE000D19C1 /* MD5DataSigner.m */; };
 		6BEA56D11AE24DCE000D19C1 /* NSDataEx.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56B91AE24DCE000D19C1 /* NSDataEx.m */; };
-		6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BB1AE24DCE000D19C1 /* openssl_wrapper.m */; };
-		6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BD1AE24DCE000D19C1 /* RSADataSigner.m */; };
+		6BEA56D21AE24DCE000D19C1 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BB1AE24DCE000D19C1 /* openssl_wrapper.m */; settings = {COMPILER_FLAGS = " -Wno-shorten-64-to-32"; }; };
+		6BEA56D31AE24DCE000D19C1 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BD1AE24DCE000D19C1 /* RSADataSigner.m */; settings = {COMPILER_FLAGS = " -Wno-shorten-64-to-32"; }; };
 		6BEA56D41AE24DCE000D19C1 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA56BF1AE24DCE000D19C1 /* RSADataVerifier.m */; };
 		6BEC3FC91C1122B40046F11D /* GetCityInfoByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEC3FC81C1122B40046F11D /* GetCityInfoByNameOp.m */; };
 		6BEC3FCC1C16F1A50046F11D /* MyUIPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BEC3FCB1C16F1A50046F11D /* MyUIPageControl.m */; };
@@ -6185,7 +6184,6 @@
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
 				6BC80D061C9946CD00C7BA3D /* HKArrowView.m in Sources */,
-				18CECC2A1C30F8890075B7F9 /* README.md in Sources */,
 				6B21A8961BD49399006D0556 /* GetShopByRangeV2Op.m in Sources */,
 				6BC3B6151ADF69B5001016A0 /* CarWashNavigationViewController.m in Sources */,
 				188EF0D21D367309000D01D6 /* MutualInsGroupDetailMeVC.m in Sources */,
@@ -6469,9 +6467,6 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeiboShareSDK/libWeiboSDK",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/UPPaySDK",
 					"$(PROJECT_DIR)/XiaoMa/Vendor",
-					"$(PROJECT_DIR)/XiaoMa/applePaySDK/libs",
-					"$(PROJECT_DIR)/XiaoMa/Vendor/ApplePaySDK/libs",
-					"$(PROJECT_DIR)/XiaoMa/ApplePaySDK/libs",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -6570,9 +6565,6 @@
 					"$(PROJECT_DIR)/XiaoMa/Vendor/WeiboShareSDK/libWeiboSDK",
 					"$(PROJECT_DIR)/XiaoMa/Vendor/UPPaySDK",
 					"$(PROJECT_DIR)/XiaoMa/Vendor",
-					"$(PROJECT_DIR)/XiaoMa/applePaySDK/libs",
-					"$(PROJECT_DIR)/XiaoMa/Vendor/ApplePaySDK/libs",
-					"$(PROJECT_DIR)/XiaoMa/ApplePaySDK/libs",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

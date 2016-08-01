@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
-@interface ScanQRCodeVC : UIViewController
+@interface ScanQRCodeVC : UIViewController <AVCaptureFileOutputRecordingDelegate,AVCaptureMetadataOutputObjectsDelegate>
 
 @end
