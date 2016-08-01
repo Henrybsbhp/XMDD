@@ -1,0 +1,8 @@
+$(import "cdmap/template/netop.cmt")
+
+<"获取保险公司列表"
+class=GetInsCompanyList op path="system/inscomps/get"> {
+  <rsp> {
+    names:array
+  }
+}

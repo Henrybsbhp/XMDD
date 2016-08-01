@@ -1,0 +1,29 @@
+$(import "codemap/template/netop.cmt")
+
+<"获取与服务端的应用会话令牌"
+class=GetToken op path="/token/get"> {
+  <req> {
+	 <"登录手机号码">phone
+  }
+  <rsp> {
+	<"令牌">token
+	<"令牌有效期">expires:int
+  }
+}
+
+<"验证码登录"
+class=AuthByVcode op path="/auth/by-vcode"> {
+  <req>{
+    <"设备编码">deviceid
+  }
+}
+
+<"获取验证码"
+class=GetVcode op path="/vcode/get"> {
+  <req>{
+    <"登录手机号码">phone
+	<"会话令牌">token
+	<"令牌类型">type:int
+  }
+}
+
