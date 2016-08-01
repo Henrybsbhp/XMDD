@@ -87,7 +87,7 @@
 
 - (void)loadWithModuleName:(NSString *)moduleName properties:(NSDictionary *)properties
 {
-#ifdef REACT_DEV
+#if REACT_DEV == 1
 //在线运行
     NSURL *url = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=false"];
 #else
