@@ -712,7 +712,6 @@
         UIButton *takePhotoButton = (UIButton *)[cell.contentView viewWithTag:100];
         CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:101];
         CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:102];
-        UIView *fillingView = (UIView *)[cell.contentView viewWithTag:103];
         
         leftLine.lineColor = kLightLineColor;
         leftLine.linePixelWidth = 1;
@@ -855,7 +854,6 @@
         return height;
     });
     compensationPriceBottomCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        @strongify(self);
         UIView *backgroundView = (UIView *)[cell.contentView viewWithTag:100];
         UIView *fillingView = (UIView *)[cell.contentView viewWithTag:104];
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];

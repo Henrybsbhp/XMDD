@@ -71,6 +71,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
     [self.view endEditing:YES];
 }
 

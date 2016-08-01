@@ -163,16 +163,6 @@
     }
     NSString * ids = [array componentsJoinedByString:@","];
     
-    NSString *ss = [selected componentsJoinedByString:@","];
-    NSString *content;
-    if (ss.length && withoutSpace.length)
-    {
-        content = [NSString stringWithFormat:@"%@,%@",withoutSpace,ss];
-    }
-    else
-    {
-        content = [NSString stringWithFormat:@"%@%@",withoutSpace,ss];
-    }
     op.req_orderid = self.order.orderid;
     op.req_rating = round(self.ratingView.ratingValue);
     op.req_comment = withoutSpace;

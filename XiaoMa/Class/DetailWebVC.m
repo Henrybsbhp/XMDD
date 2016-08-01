@@ -188,7 +188,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         @strongify(self);
         NSDictionary * dic = data;
         
-        NSString * position = [dic stringParamForName:@"position"];
         NSString * triggerId = [dic stringParamForName:@"triggerId"];
         NSString * icon = [dic stringParamForName:@"icon"];
         NSString * title = [dic stringParamForName:@"title"];
