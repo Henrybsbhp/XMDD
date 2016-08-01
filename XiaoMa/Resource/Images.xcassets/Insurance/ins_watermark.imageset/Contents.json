@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "logo水印.png"
+      "filename" : "logo水印.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "logo水印@3x.png"
+      "filename" : "logo水印@3x.png",
+      "scale" : "3x"
     }
   ],
   "info" : {
