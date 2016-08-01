@@ -2,8 +2,8 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "行驶证副本.png"
+      "filename" : "行驶证副本.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",

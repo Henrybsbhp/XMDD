@@ -6,13 +6,13 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "重新上传@2px.png"
+      "filename" : "重新上传@2px.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
-      "filename" : "重新上传@3px.png"
+      "filename" : "重新上传@3px.png",
+      "scale" : "3x"
     }
   ],
   "info" : {
