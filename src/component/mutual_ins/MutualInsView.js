@@ -11,7 +11,7 @@ export default class MutualInsView extends Component {
     render() {
         return (
             <View>
-                <Text>小马互助</Text>
+                <Text>小马互助, hello,world</Text>
             </View>
         );
     }
