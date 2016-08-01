@@ -31,7 +31,7 @@
 #import "MutualInsHomeAdVC.h"
 #import "MutualInsStoryAdPageVC.h"
 #import "MutualInsGroupDetailVC.h"
-
+#import "HKViewControllerFactory.h"
 #import "AppDelegate.h"
 
 @interface NavigationModel()
@@ -400,8 +400,7 @@
         }
         //加入小马互助团
         else if ([@"coins" equalByCaseInsensitive:name]) {
-            
-            MutualInsVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
+            UIViewController *vc = [HKViewControllerFactory mutualInsVC];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         //加入小马互助团系统团

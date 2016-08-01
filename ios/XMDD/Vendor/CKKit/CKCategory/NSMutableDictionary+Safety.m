@@ -17,4 +17,11 @@
     }
 }
 
+- (void)safetyRemoveObjectForKey:(id)key
+{
+    if (key) {
+        [self removeObjectForKey:key];
+    }
+}
+
 @end

@@ -14,8 +14,8 @@
 
 + (__kindof UIViewController *)mutualInsVC {
     if ([[ReactNativeManager sharedManager] isReactNativeEnabled]) {
-        return [[ReactNativeViewController alloc] initWithModuleName:@"MutualInsView" properties:@{@"title": @"小马互助",
-                                                                                                   @"shouldBack": @YES}];
+        NSDictionary *props = @{@"title": @"小马互助", @"shouldBack": @YES};
+        return [[ReactNativeViewController alloc] initWithModuleName:@"MutualInsView" properties:props];
     }
     return [UIStoryboard vcWithId:@"MutualInsVC" inStoryboard:@"MutualInsJoin"];
 }
