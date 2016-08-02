@@ -347,7 +347,9 @@
     
     [nolabel.layer setMasksToBounds:YES];
     
+    contentlabel.numberOfLines = 0;
     contentlabel.text = [self.couponDic.useguide safetyObjectAtIndex:indexPath.row - 1];
+    
     if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
         contentlabel.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 44;
     }

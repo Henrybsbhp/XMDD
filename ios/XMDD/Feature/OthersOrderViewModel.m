@@ -114,6 +114,7 @@
     nameL.text = order.prodName;
     [iconV setImageByUrl:order.prodLogo withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     descL.text = order.prodDesc;
+    descL.numberOfLines = 2;
     
     originPriceL.text = order.originPrice;
     couponPriceL.text = order.couponPrice;

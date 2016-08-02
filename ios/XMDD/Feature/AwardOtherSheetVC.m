@@ -66,6 +66,7 @@
         self.alreadygetView.hidden = YES;
         self.commonView.hidden = YES;
     }
+    self.contentLbel.numberOfLines = 3;
 }
 
 - (void)didReceiveMemoryWarning {
