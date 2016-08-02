@@ -80,6 +80,7 @@
         cell = [self.tableView dequeueReusableCellWithIdentifier:@"RescueCellA"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UILabel * lb = (UILabel *)[cell searchViewWithTag:30101];
+        lb.numberOfLines = 0;
         lb.text = [NSString stringWithFormat:@"%@%@%@",
                    gMapHelper.addrComponent.province,gMapHelper.addrComponent.city,gMapHelper.addrComponent.district];
     }

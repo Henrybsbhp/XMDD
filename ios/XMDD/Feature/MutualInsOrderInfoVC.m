@@ -625,6 +625,10 @@
     UILabel * lb1 = (UILabel *)[cell searchViewWithTag:102];
     UILabel * lb2 = (UILabel *)[cell searchViewWithTag:103];
     
+    lb1.numberOfLines = 0;
+    lb2.numberOfLines = 0;
+
+    
     
     NSDictionary * dict = [self.datasource safetyObjectAtIndex:indexPath.row];
     NSString * title = [dict objectForKey:@"title"];
@@ -650,6 +654,7 @@
     UILabel * lb1 = (UILabel *)[cell searchViewWithTag:102];
     UILabel * lb2 = (UILabel *)[cell searchViewWithTag:103];
     
+    lb2.numberOfLines = 0;
     
     NSDictionary * dict = [self.datasource safetyObjectAtIndex:indexPath.row];
     NSString * title = [dict objectForKey:@"title"];

@@ -361,6 +361,7 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
     
+    addrL.numberOfLines = 0;
     addrL.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 120;
     
     JTShop *shop = self.order.shop;
@@ -419,6 +420,7 @@
     timeL.text = [self.order.ratetime dateFormatForYYMMdd2];
     ratingV.ratingValue = self.order.rating;
     contentL.text = self.order.comment;
+    contentL.numberOfLines = 0;
     server.text = [NSString stringWithFormat:@"服务项目：%@",self.order.servicename];
     
     [avatarV setImageByUrl:self.order.orderPic withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
