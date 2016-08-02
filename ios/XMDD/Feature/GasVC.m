@@ -337,12 +337,14 @@
 - (NSString *)appendSpace:(NSString *)note andWidth:(CGFloat)w
 {
     NSString * spaceNote = note;
-    while (1) {
-        CGSize size = [spaceNote sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
+    for (NSInteger i = 0;i< 1000;i++)
+    {
+        CGSize size = [spaceNote labelSizeWithWidth:9999 font:[UIFont systemFontOfSize:13]];
         if (size.width > w)
             return spaceNote;
         spaceNote = [spaceNote append:@" "];
     }
+    return spaceNote;
 }
 
 

@@ -302,6 +302,7 @@
 - (void)resetPromptCell:(UITableViewCell *)cell forData:(HKCellData *)data
 {
     UILabel *promptL = [cell viewWithTag:1001];
+    promptL.numberOfLines = 0;
     promptL.attributedText = data.object;
 }
 

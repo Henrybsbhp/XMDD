@@ -28,6 +28,7 @@
 @property (nonatomic, strong) UITextField *cardField;
 @property (nonatomic, strong) UITextField *vcodeField;
 @property (nonatomic, strong) UIButton *vcodeButton;
+@property (weak, nonatomic) IBOutlet UILabel *promptLb;
 @property (nonatomic, strong) HKSMSModel *smsModel;
 @property (nonatomic) BOOL firstRowVisible;
 
@@ -53,6 +54,7 @@
         self.tableView.estimatedRowHeight = 26;
         self.tableView.rowHeight = UITableViewAutomaticDimension;
     }
+    self.promptLb.numberOfLines = 2;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -395,6 +397,8 @@
 - (UITableViewCell *)alertCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"AlertCell"];
+    UILabel * lb = [cell viewWithTag:101];
+    lb.numberOfLines = 1;
     
     return cell;
 }
