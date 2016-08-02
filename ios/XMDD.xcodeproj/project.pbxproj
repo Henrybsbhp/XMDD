@@ -102,7 +102,6 @@
 		183F57471D4C90860001E26A /* AutoBrand.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56FD1D4C90860001E26A /* AutoBrand.m */; };
 		183F57861D4C9CE60001E26A /* SocialShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F57841D4C9CE60001E26A /* SocialShareView.m */; };
 		183F57871D4C9CE60001E26A /* SocialShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 183F57851D4C9CE60001E26A /* SocialShareView.xib */; };
-		183F57AB1D4CA1EA0001E26A /* AreaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F57AA1D4CA1EA0001E26A /* AreaPickerVC.m */; };
 		183F57AE1D4CA21B0001E26A /* HKToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F57AD1D4CA21B0001E26A /* HKToast.m */; };
 		183F57D91D4EE59C0001E26A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F57D81D4EE59C0001E26A /* AppDelegate.m */; };
 		1844531D1C8EA30F007B895D /* AhaWaterWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844531C1C8EA30F007B895D /* AhaWaterWaveView.m */; };
@@ -188,12 +187,10 @@
 		186495F61D4895D200F1CCB0 /* MutualInsClaims.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C51D4895D200F1CCB0 /* MutualInsClaims.storyboard */; };
 		186495F71D4895D200F1CCB0 /* MutualInsClaimsPicList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C61D4895D200F1CCB0 /* MutualInsClaimsPicList.storyboard */; };
 		186495F81D4895D200F1CCB0 /* MutualInsGroupDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C71D4895D200F1CCB0 /* MutualInsGroupDetail.storyboard */; };
-		186495F91D4895D200F1CCB0 /* MutualInsGroupon.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C81D4895D200F1CCB0 /* MutualInsGroupon.storyboard */; };
 		186495FA1D4895D200F1CCB0 /* MutualInsJoin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C91D4895D200F1CCB0 /* MutualInsJoin.storyboard */; };
 		186495FB1D4895D200F1CCB0 /* MutualInsPay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CA1D4895D200F1CCB0 /* MutualInsPay.storyboard */; };
 		186495FC1D4895D200F1CCB0 /* Other.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CB1D4895D200F1CCB0 /* Other.storyboard */; };
 		186495FD1D4895D200F1CCB0 /* Rescue.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CC1D4895D200F1CCB0 /* Rescue.storyboard */; };
-		186495FE1D4895D200F1CCB0 /* Temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CD1D4895D200F1CCB0 /* Temp.storyboard */; };
 		186495FF1D4895D200F1CCB0 /* Valuation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CE1D4895D200F1CCB0 /* Valuation.storyboard */; };
 		186496001D4895D200F1CCB0 /* Violation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CF1D4895D200F1CCB0 /* Violation.storyboard */; };
 		186496501D48988700F1CCB0 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 186496491D4897C200F1CCB0 /* libRCTActionSheet.a */; };
@@ -592,7 +589,6 @@
 		18649CF91D48B7C000F1CCB0 /* CollectionChooseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CE21D48B7C000F1CCB0 /* CollectionChooseVC.m */; };
 		18649CFA1D48B7C000F1CCB0 /* DatePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CE41D48B7C000F1CCB0 /* DatePickerVC.m */; };
 		18649CFB1D48B7C000F1CCB0 /* HKPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CE61D48B7C000F1CCB0 /* HKPickerVC.m */; };
-		18649CFC1D48B7C000F1CCB0 /* MonthPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CE81D48B7C000F1CCB0 /* MonthPickerVC.m */; };
 		18649CFD1D48B7C000F1CCB0 /* ParkingShopGasInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CEA1D48B7C000F1CCB0 /* ParkingShopGasInfoVC.m */; };
 		18649CFE1D48B7C000F1CCB0 /* PickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CEC1D48B7C000F1CCB0 /* PickerVC.m */; };
 		18649D011D48B7C000F1CCB0 /* SocialShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CF11D48B7C000F1CCB0 /* SocialShareViewController.m */; };
@@ -1097,8 +1093,6 @@
 		183F57831D4C9CE60001E26A /* SocialShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialShareView.h; sourceTree = "<group>"; };
 		183F57841D4C9CE60001E26A /* SocialShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialShareView.m; sourceTree = "<group>"; };
 		183F57851D4C9CE60001E26A /* SocialShareView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialShareView.xib; sourceTree = "<group>"; };
-		183F57A91D4CA1EA0001E26A /* AreaPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AreaPickerVC.h; path = XMDD/Feature/AreaPickerVC.h; sourceTree = SOURCE_ROOT; };
-		183F57AA1D4CA1EA0001E26A /* AreaPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AreaPickerVC.m; path = XMDD/Feature/AreaPickerVC.m; sourceTree = SOURCE_ROOT; };
 		183F57AC1D4CA21B0001E26A /* HKToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKToast.h; path = XMDD/Feature/HKToast.h; sourceTree = SOURCE_ROOT; };
 		183F57AD1D4CA21B0001E26A /* HKToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKToast.m; path = XMDD/Feature/HKToast.m; sourceTree = SOURCE_ROOT; };
 		183F57D81D4EE59C0001E26A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -1318,12 +1312,10 @@
 		186495C51D4895D200F1CCB0 /* MutualInsClaims.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsClaims.storyboard; sourceTree = "<group>"; };
 		186495C61D4895D200F1CCB0 /* MutualInsClaimsPicList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsClaimsPicList.storyboard; sourceTree = "<group>"; };
 		186495C71D4895D200F1CCB0 /* MutualInsGroupDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsGroupDetail.storyboard; sourceTree = "<group>"; };
-		186495C81D4895D200F1CCB0 /* MutualInsGroupon.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsGroupon.storyboard; sourceTree = "<group>"; };
 		186495C91D4895D200F1CCB0 /* MutualInsJoin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsJoin.storyboard; sourceTree = "<group>"; };
 		186495CA1D4895D200F1CCB0 /* MutualInsPay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsPay.storyboard; sourceTree = "<group>"; };
 		186495CB1D4895D200F1CCB0 /* Other.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Other.storyboard; sourceTree = "<group>"; };
 		186495CC1D4895D200F1CCB0 /* Rescue.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rescue.storyboard; sourceTree = "<group>"; };
-		186495CD1D4895D200F1CCB0 /* Temp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Temp.storyboard; sourceTree = "<group>"; };
 		186495CE1D4895D200F1CCB0 /* Valuation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Valuation.storyboard; sourceTree = "<group>"; };
 		186495CF1D4895D200F1CCB0 /* Violation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Violation.storyboard; sourceTree = "<group>"; };
 		186496131D48976E00F1CCB0 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -2112,8 +2104,6 @@
 		18649CE41D48B7C000F1CCB0 /* DatePickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerVC.m; sourceTree = "<group>"; };
 		18649CE51D48B7C000F1CCB0 /* HKPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKPickerVC.h; sourceTree = "<group>"; };
 		18649CE61D48B7C000F1CCB0 /* HKPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKPickerVC.m; sourceTree = "<group>"; };
-		18649CE71D48B7C000F1CCB0 /* MonthPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthPickerVC.h; sourceTree = "<group>"; };
-		18649CE81D48B7C000F1CCB0 /* MonthPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthPickerVC.m; sourceTree = "<group>"; };
 		18649CE91D48B7C000F1CCB0 /* ParkingShopGasInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParkingShopGasInfoVC.h; sourceTree = "<group>"; };
 		18649CEA1D48B7C000F1CCB0 /* ParkingShopGasInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParkingShopGasInfoVC.m; sourceTree = "<group>"; };
 		18649CEB1D48B7C000F1CCB0 /* PickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerVC.h; sourceTree = "<group>"; };
@@ -2932,16 +2922,12 @@
 		183F57CC1D4CA2E40001E26A /* Picker */ = {
 			isa = PBXGroup;
 			children = (
-				183F57A91D4CA1EA0001E26A /* AreaPickerVC.h */,
-				183F57AA1D4CA1EA0001E26A /* AreaPickerVC.m */,
 				18649CEB1D48B7C000F1CCB0 /* PickerVC.h */,
 				18649CEC1D48B7C000F1CCB0 /* PickerVC.m */,
 				18649CE31D48B7C000F1CCB0 /* DatePickerVC.h */,
 				18649CE41D48B7C000F1CCB0 /* DatePickerVC.m */,
 				18649CE51D48B7C000F1CCB0 /* HKPickerVC.h */,
 				18649CE61D48B7C000F1CCB0 /* HKPickerVC.m */,
-				18649CE71D48B7C000F1CCB0 /* MonthPickerVC.h */,
-				18649CE81D48B7C000F1CCB0 /* MonthPickerVC.m */,
 				18649CDF1D48B7C000F1CCB0 /* CityPickerVC.h */,
 				18649CE01D48B7C000F1CCB0 /* CityPickerVC.m */,
 				18649CDB1D48B7C000F1CCB0 /* AreaTablePickerVC.h */,
@@ -3699,12 +3685,10 @@
 				186495C51D4895D200F1CCB0 /* MutualInsClaims.storyboard */,
 				186495C61D4895D200F1CCB0 /* MutualInsClaimsPicList.storyboard */,
 				186495C71D4895D200F1CCB0 /* MutualInsGroupDetail.storyboard */,
-				186495C81D4895D200F1CCB0 /* MutualInsGroupon.storyboard */,
 				186495C91D4895D200F1CCB0 /* MutualInsJoin.storyboard */,
 				186495CA1D4895D200F1CCB0 /* MutualInsPay.storyboard */,
 				186495CB1D4895D200F1CCB0 /* Other.storyboard */,
 				186495CC1D4895D200F1CCB0 /* Rescue.storyboard */,
-				186495CD1D4895D200F1CCB0 /* Temp.storyboard */,
 				186495CE1D4895D200F1CCB0 /* Valuation.storyboard */,
 				186495CF1D4895D200F1CCB0 /* Violation.storyboard */,
 			);
@@ -5872,7 +5856,6 @@
 				C38A1DFE1CC5D1390085BA4C /* (null) in Resources */,
 				C3F451521D2E3A6F00BA9BC4 /* AsstisTouch.png in Resources */,
 				186495E21D4895D200F1CCB0 /* area.plist in Resources */,
-				186495F91D4895D200F1CCB0 /* MutualInsGroupon.storyboard in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
 				18648FB51D48558000F1CCB0 /* AlipaySDK.bundle in Resources */,
 				186495EA1D4895D200F1CCB0 /* Car.storyboard in Resources */,
@@ -5898,7 +5881,6 @@
 				186495E81D4895D200F1CCB0 /* Award.storyboard in Resources */,
 				186495E51D4895D200F1CCB0 /* policy.json in Resources */,
 				186495FC1D4895D200F1CCB0 /* Other.storyboard in Resources */,
-				186495FE1D4895D200F1CCB0 /* Temp.storyboard in Resources */,
 				186495DD1D4895D200F1CCB0 /* xmddrct_public_key.der in Resources */,
 				186495EC1D4895D200F1CCB0 /* Commission.storyboard in Resources */,
 				183F57871D4C9CE60001E26A /* SocialShareView.xib in Resources */,
@@ -6104,7 +6086,6 @@
 				18649B631D48A93000F1CCB0 /* GifActivityIndicatorView.m in Sources */,
 				18649B761D48A93000F1CCB0 /* JTImageBadge.m in Sources */,
 				18649B7A1D48A93000F1CCB0 /* JTTableViewCell.m in Sources */,
-				18649CFC1D48B7C000F1CCB0 /* MonthPickerVC.m in Sources */,
 				186499901D489A9700F1CCB0 /* JTUser.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				18649DE71D48BCF100F1CCB0 /* HKPopoverView.m in Sources */,
@@ -6634,7 +6615,6 @@
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				18649B781D48A93000F1CCB0 /* JTRatingView.m in Sources */,
 				18649E571D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m in Sources */,
-				183F57AB1D4CA1EA0001E26A /* AreaPickerVC.m in Sources */,
 				186499B81D489A9700F1CCB0 /* GetBankcardListOp.m in Sources */,
 				18649B841D48A93000F1CCB0 /* PopAnimation.m in Sources */,
 				186496CB1D489A4200F1CCB0 /* MultiMediaManager.m in Sources */,

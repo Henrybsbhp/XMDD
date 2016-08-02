@@ -837,6 +837,7 @@
 {
     UILabel *descL = (UILabel *)[cell.contentView viewWithTag:1002];
     UIButton *uploadBtn = (UIButton *)[cell.contentView viewWithTag:1003];
+    descL.numberOfLines = 2;
     descL.minimumScaleFactor = 0.6;
     descL.adjustsFontSizeToFitWidth = YES;
     [self.model setupUploadBtn:uploadBtn andDescLabel:descL forCar:self.curCar];
