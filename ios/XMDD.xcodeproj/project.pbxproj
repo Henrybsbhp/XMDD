@@ -5642,7 +5642,7 @@
 		1883D8D71ACB99AC002A4D19 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 640;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = huika;
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
@@ -6685,6 +6685,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
