@@ -10,7 +10,7 @@
 #import <FoundationExtension.h>
 
 #ifndef kDBName
-#define kDBName @"xmdd.sqlite"
+#define kDBName @"xmdd2.sqlite"
 #endif
 
 @interface CoreDataManager ()
