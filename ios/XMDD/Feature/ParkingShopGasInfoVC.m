@@ -272,6 +272,7 @@
         
         infoLabel.text = dict[@"carrefname"];
         distanceLabel.hidden = YES;
+        distanceLabel.numberOfLines = 0;
     });
     
     return detailInfoCell;
@@ -298,6 +299,7 @@
         
         NSNumber *distance = dict[@"distance"];
         infoLabel.text = dict[@"address"];
+        distanceLabel.numberOfLines = 0;
         distanceLabel.text = [NSString stringWithFormat:@"%.2fkm", distance.doubleValue];
         distanceLabel.hidden = NO;
     });
@@ -328,6 +330,7 @@
         NSArray *callNumberArray = dict[@"contactphones"];
         infoLabel.text = [callNumberArray componentsJoinedByString:@", "];
         distanceLabel.hidden = YES;
+        distanceLabel.numberOfLines = 0;
     });
     
     return detailInfoCell;

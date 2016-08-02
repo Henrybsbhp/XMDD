@@ -660,6 +660,7 @@
     }];
     
     label.text = self.shop.shopAddress;
+    label.numberOfLines = 0;
     return cell;
 }
 
@@ -699,10 +700,6 @@
     UIButton *payB = (UIButton*)[cell.contentView viewWithTag:1006];
     
     JTShopService *service = [self.shop.shopServiceArray safetyObjectAtIndex:indexPath.row - 3];
-    ///暂无银行
-    //    [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
-    //        make.bottom.equalTo(cc ? iconV : titleL);
-    //    }];
     
     if ([self.shop.isVacation integerValue] == 1)
     {
@@ -723,6 +720,7 @@
     originalPriceLabel.attributedText = titleString;
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
     introL.text = service.serviceDescription;
+    introL.numberOfLines = 0;
     
     @weakify(self);
     [[[payB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -784,8 +782,10 @@
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
     serviceL.text = comment.serviceName;
+    serviceL.numberOfLines = 0;
     [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     contentL.preferredMaxLayoutWidth = self.view.bounds.size.width - 71;
+    contentL.numberOfLines = 0;
     [cell layoutIfNeeded];
     return cell;
 }

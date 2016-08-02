@@ -149,6 +149,7 @@
     UILabel *textL = (UILabel *)[cell.contentView viewWithTag:1001];
     textL.textColor = self.drawingStatus == DrawingBoardViewStatusSuccess ? kDefTintColor : kGrayTextColor;
     textL.text = self.detailText;
+    textL.numberOfLines = 0;
 }
 
 @end

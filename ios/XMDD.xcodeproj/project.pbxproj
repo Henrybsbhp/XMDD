@@ -187,7 +187,6 @@
 		186495F61D4895D200F1CCB0 /* MutualInsClaims.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C51D4895D200F1CCB0 /* MutualInsClaims.storyboard */; };
 		186495F71D4895D200F1CCB0 /* MutualInsClaimsPicList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C61D4895D200F1CCB0 /* MutualInsClaimsPicList.storyboard */; };
 		186495F81D4895D200F1CCB0 /* MutualInsGroupDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C71D4895D200F1CCB0 /* MutualInsGroupDetail.storyboard */; };
-		186495F91D4895D200F1CCB0 /* MutualInsGroupon.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C81D4895D200F1CCB0 /* MutualInsGroupon.storyboard */; };
 		186495FA1D4895D200F1CCB0 /* MutualInsJoin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C91D4895D200F1CCB0 /* MutualInsJoin.storyboard */; };
 		186495FB1D4895D200F1CCB0 /* MutualInsPay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CA1D4895D200F1CCB0 /* MutualInsPay.storyboard */; };
 		186495FC1D4895D200F1CCB0 /* Other.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CB1D4895D200F1CCB0 /* Other.storyboard */; };
@@ -1313,7 +1312,6 @@
 		186495C51D4895D200F1CCB0 /* MutualInsClaims.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsClaims.storyboard; sourceTree = "<group>"; };
 		186495C61D4895D200F1CCB0 /* MutualInsClaimsPicList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsClaimsPicList.storyboard; sourceTree = "<group>"; };
 		186495C71D4895D200F1CCB0 /* MutualInsGroupDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsGroupDetail.storyboard; sourceTree = "<group>"; };
-		186495C81D4895D200F1CCB0 /* MutualInsGroupon.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsGroupon.storyboard; sourceTree = "<group>"; };
 		186495C91D4895D200F1CCB0 /* MutualInsJoin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsJoin.storyboard; sourceTree = "<group>"; };
 		186495CA1D4895D200F1CCB0 /* MutualInsPay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsPay.storyboard; sourceTree = "<group>"; };
 		186495CB1D4895D200F1CCB0 /* Other.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Other.storyboard; sourceTree = "<group>"; };
@@ -3687,7 +3685,6 @@
 				186495C51D4895D200F1CCB0 /* MutualInsClaims.storyboard */,
 				186495C61D4895D200F1CCB0 /* MutualInsClaimsPicList.storyboard */,
 				186495C71D4895D200F1CCB0 /* MutualInsGroupDetail.storyboard */,
-				186495C81D4895D200F1CCB0 /* MutualInsGroupon.storyboard */,
 				186495C91D4895D200F1CCB0 /* MutualInsJoin.storyboard */,
 				186495CA1D4895D200F1CCB0 /* MutualInsPay.storyboard */,
 				186495CB1D4895D200F1CCB0 /* Other.storyboard */,
@@ -5859,7 +5856,6 @@
 				C38A1DFE1CC5D1390085BA4C /* (null) in Resources */,
 				C3F451521D2E3A6F00BA9BC4 /* AsstisTouch.png in Resources */,
 				186495E21D4895D200F1CCB0 /* area.plist in Resources */,
-				186495F91D4895D200F1CCB0 /* MutualInsGroupon.storyboard in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
 				18648FB51D48558000F1CCB0 /* AlipaySDK.bundle in Resources */,
 				186495EA1D4895D200F1CCB0 /* Car.storyboard in Resources */,
