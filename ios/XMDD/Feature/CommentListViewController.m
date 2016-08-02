@@ -176,6 +176,7 @@
     timeL.text = [comment.time dateFormatForYYMMdd2];
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
+    contentL.numberOfLines = 0;
     if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
         contentL.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 71;
     }

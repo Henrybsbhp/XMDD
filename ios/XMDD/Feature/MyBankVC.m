@@ -23,6 +23,7 @@
 @property (nonatomic, strong) BankStore *bankStore;
 
 @property (nonatomic, strong) UIButton *btn;
+@property (weak, nonatomic) IBOutlet UILabel *noteLb;
 
 @end
 
@@ -50,6 +51,7 @@
                                           targetVC:self mobBaseEvent:@"rp314_1" mobBaseEventDict:nil];
         [self.advc reloadDataForTableView:self.tableView];
     });
+    self.noteLb.numberOfLines = 0;
 }
 
 - (void)setupBankStore

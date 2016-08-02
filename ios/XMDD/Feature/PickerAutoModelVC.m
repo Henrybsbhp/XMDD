@@ -111,6 +111,7 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
     AutoDetailModel * model = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.row];
     titleL.text = [NSString stringWithFormat:@"%@   指导价：%@万元", model.modelname, [NSString formatForPrice:model.price]];
+    titleL.numberOfLines = 0;
     
     if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
         titleL.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 24;
