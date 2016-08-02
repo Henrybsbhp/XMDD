@@ -1054,6 +1054,7 @@
             HKMyCar * car = [[HKMyCar alloc] init];
             car.carId = dict.userCarID;
             car.licencenumber = dict.licenseNum;
+
             [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             
         } else {
