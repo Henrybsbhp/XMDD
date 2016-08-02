@@ -14,7 +14,6 @@
 #import "GetUserBaseInfoOp.h"
 #import "UIImage+Utilities.h"
 #import "UploadFileOp.h"
-#import "DownloadOp.h"
 #import "HKImagePicker.h"
 #import "HKTableViewCell.h"
 

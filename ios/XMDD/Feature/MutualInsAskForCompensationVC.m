@@ -39,7 +39,7 @@
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    NSLog(@"MutualInsAskForCompensationVC deallocated");
+    DebugLog(@"MutualInsAskForCompensationVC deallocated");
 }
 
 - (void)viewDidLoad {

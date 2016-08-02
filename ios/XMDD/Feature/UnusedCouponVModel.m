@@ -12,7 +12,6 @@
 #import "HKCoupon.h"
 #import "SocialShareViewController.h"
 #import "ShareUserCouponOp.h"
-#import "DownloadOp.h"
 
 @interface UnusedCouponVModel ()<HKLoadingModelDelegate>
 @property (nonatomic, assign) NSInteger curPageno;

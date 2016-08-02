@@ -75,7 +75,6 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     HKInclinedLabel *hkLabel = [cell viewWithTag:101];
     hkLabel.text = model.statusdesc;
-    NSLog(@"%lf",hkLabel.frame.size.width);
     hkLabel.backgroundColor = [UIColor clearColor];
     UILabel *statusLabel = [cell viewWithTag:1004];
     statusLabel.text = model.detailstatusdesc;
