@@ -57,6 +57,7 @@
     UIImageView *carLogo = [cell viewWithTag:100];
     [carLogo sd_setImageWithURL:report[@"brandlogo"]];
     UILabel *carNum = [cell viewWithTag:101];
+    carNum.numberOfLines = 0;
     carNum.text = report[@"licensenumber"];
     UILabel *carInfo = [cell viewWithTag:102];
     carInfo.text = report[@"brandname"];

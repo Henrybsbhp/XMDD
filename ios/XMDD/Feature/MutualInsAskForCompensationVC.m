@@ -39,7 +39,7 @@
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    NSLog(@"MutualInsAskForCompensationVC deallocated");
+    DebugLog(@"MutualInsAskForCompensationVC deallocated");
 }
 
 - (void)viewDidLoad {
@@ -538,6 +538,7 @@
         @strongify(self);
         UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:100];
         UILabel *descriptionLabel = (UILabel *)[cell.contentView viewWithTag:101];
+        descriptionLabel.numberOfLines = 0;
         CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:102];
         CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:103];
         UIImageView *stamperImageView = (UIImageView *)[cell.contentView viewWithTag:105];
@@ -617,6 +618,7 @@
     tipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         @strongify(self);
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:100];
+        tipsLabel.numberOfLines = 0;
         CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:101];
         CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:102];
         
@@ -857,6 +859,7 @@
         UIView *backgroundView = (UIView *)[cell.contentView viewWithTag:100];
         UIView *fillingView = (UIView *)[cell.contentView viewWithTag:104];
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
+        tipsLabel.numberOfLines = 0;
         CKLine *leftLine = (CKLine *)[cell.contentView viewWithTag:102];
         CKLine *rightLine = (CKLine *)[cell.contentView viewWithTag:103];
         

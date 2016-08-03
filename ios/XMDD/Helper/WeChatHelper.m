@@ -20,7 +20,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"WeChatHelper dealloc");
+    DebugLog(@"WeChatHelper dealloc");
 }
 
 - (RACSignal *)rac_payWithPayInfo:(WechatPayInfo *)wxPayInfo andTradeNO:(NSString *)tn

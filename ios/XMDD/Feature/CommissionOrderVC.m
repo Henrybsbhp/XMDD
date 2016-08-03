@@ -177,6 +177,7 @@
     }
     UILabel * titleLb  = (UILabel *)[cell searchViewWithTag:1000];
     UILabel * detailLb = (UILabel *)[cell searchViewWithTag:1001];
+    detailLb.numberOfLines = 0;
     UIView  * topView  = (UIView *) [cell searchViewWithTag:1004];
     UIView  * lineView = (UIView *) [cell searchViewWithTag:1005];
     if (indexPath.row == 0) {

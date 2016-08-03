@@ -360,6 +360,7 @@
         
         UITableViewCell *cell4 = [tableView dequeueReusableCellWithIdentifier:@"EvaluationContent" forIndexPath:indexPath];
         UILabel *textLb = (UILabel *)[cell4 searchViewWithTag:1004];
+        textLb.numberOfLines = 0;
         textLb.text = [self.evaluationArray safetyObjectAtIndex:3];
         textLb.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 20;
         return cell4;
