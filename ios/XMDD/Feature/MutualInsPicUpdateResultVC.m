@@ -60,6 +60,7 @@
     cell0[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
         UILabel * lb = [cell viewWithTag:102];
+        lb.numberOfLines = 0;
         lb.text = KUpdateSuccessSubTitle;
         
         CGSize size = [KUpdateSuccessSubTitle labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 40 font:[UIFont systemFontOfSize:14]];
@@ -168,7 +169,7 @@
     
     singleTipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
-        
+        tipsLabel.numberOfLines = 0;
         tipsLabel.text = couponString;
     });
     

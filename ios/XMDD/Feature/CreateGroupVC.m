@@ -427,6 +427,9 @@
     UILabel *tipsLabel2 = (UILabel *)[cell.contentView viewWithTag:110];
     UILabel *tipsLabel3 = (UILabel *)[cell.contentView viewWithTag:111];
     
+    tipsLabel1.numberOfLines = 0;
+    tipsLabel2.numberOfLines = 0;
+    tipsLabel3.numberOfLines = 0;
     
     tipsImageView1.image = [UIImage imageNamed:@"mutuallns_createGroup_click"];
     tipsImageView2.image = [UIImage imageNamed:@"mutuallns_createGroup_share"];
