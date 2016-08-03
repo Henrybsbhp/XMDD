@@ -710,6 +710,7 @@
 		18CECC281C30F8890075B7F9 /* JT3DScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CECC251C30F8890075B7F9 /* JT3DScrollView.m */; };
 		18CECC291C30F8890075B7F9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 18CECC261C30F8890075B7F9 /* LICENSE */; };
 		18CFD84F1D4EED8500C12259 /* AutoBrand+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFD84E1D4EED8500C12259 /* AutoBrand+Extension.m */; };
+		18CFD8721D506A8D00C12259 /* RCTUMengManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFD8711D506A8D00C12259 /* RCTUMengManager.m */; };
 		18D17F771B53B21E00F66F04 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F761B53B21E00F66F04 /* MBProgressHUD.m */; };
 		18E28A131B93E5880070E759 /* libUPPayPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A101B93E5880070E759 /* libUPPayPlugin.a */; };
 		18E28A151B93E5A20070E759 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A141B93E5A20070E759 /* QuartzCore.framework */; };
@@ -2323,6 +2324,8 @@
 		18CECC271C30F8890075B7F9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		18CFD84D1D4EED8500C12259 /* AutoBrand+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AutoBrand+Extension.h"; sourceTree = "<group>"; };
 		18CFD84E1D4EED8500C12259 /* AutoBrand+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AutoBrand+Extension.m"; sourceTree = "<group>"; };
+		18CFD8701D506A8D00C12259 /* RCTUMengManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTUMengManager.h; sourceTree = "<group>"; };
+		18CFD8711D506A8D00C12259 /* RCTUMengManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTUMengManager.m; sourceTree = "<group>"; };
 		18D17F751B53B21E00F66F04 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		18D17F761B53B21E00F66F04 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		18E28A101B93E5880070E759 /* libUPPayPlugin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUPPayPlugin.a; sourceTree = "<group>"; };
@@ -4912,6 +4915,8 @@
 				1888F4171D48CB8600C64288 /* RCTNetworkManager.m */,
 				1888F4181D48CB8600C64288 /* ReactNativeOp.h */,
 				1888F4191D48CB8600C64288 /* ReactNativeOp.m */,
+				18CFD8701D506A8D00C12259 /* RCTUMengManager.h */,
+				18CFD8711D506A8D00C12259 /* RCTUMengManager.m */,
 			);
 			name = Bridege;
 			sourceTree = "<group>";
@@ -5531,7 +5536,7 @@
 		1883D8D71ACB99AC002A4D19 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 640;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = huika;
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
@@ -6033,6 +6038,7 @@
 				18649A091D489A9700F1CCB0 /* SharedNotifyOp.m in Sources */,
 				186499D01D489A9700F1CCB0 /* GetInsuranceOrderListOp.m in Sources */,
 				505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */,
+				18CFD8721D506A8D00C12259 /* RCTUMengManager.m in Sources */,
 				183F57071D4C90860001E26A /* MutualInsClaimInfo.m in Sources */,
 				1864952B1D4888BE00F1CCB0 /* NSString+CKExpansion.m in Sources */,
 				183F57241D4C90860001E26A /* GetCooperationGroupMembersOp.m in Sources */,
@@ -6551,6 +6557,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -6630,7 +6637,7 @@
 					"COCOAPODS=1",
 					"XMDDENT=0",
 					"XMDDEnvironment=1",
-					"REACT_DEV=0",
+					"REACT_DEV=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6736,6 +6743,7 @@
 					"COCOAPODS=1",
 					"XMDDENT=0",
 					"XMDDEnvironment=1",
+					"REACT_DEV=0",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

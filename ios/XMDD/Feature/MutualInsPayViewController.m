@@ -619,6 +619,7 @@
 {
     UIButton *checkB = [cell viewWithTag:101];
     TTTAttributedLabel *richL = [cell viewWithTag:102];
+    richL.numberOfLines = 0;
     
     BOOL selected = [data.customInfo[@"check"] boolValue];
     checkB.selected = selected;
