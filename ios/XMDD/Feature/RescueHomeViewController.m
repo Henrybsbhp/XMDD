@@ -276,6 +276,7 @@
     UIImageView *titleImg    = (UIImageView *)[cell searchViewWithTag:1000];
     UILabel * nameLb         = (UILabel *)[cell searchViewWithTag:1001];
     UILabel * conditionsLb   = (UILabel *)[cell searchViewWithTag:1006];
+    conditionsLb.numberOfLines = 0;
     UILabel * priceLb        = (UILabel *)[cell searchViewWithTag:1003];
     UILabel * numberLb       = (UILabel *)[cell searchViewWithTag:1004];
     UIView  * view           = (UIView  *)[cell searchViewWithTag:1005];
