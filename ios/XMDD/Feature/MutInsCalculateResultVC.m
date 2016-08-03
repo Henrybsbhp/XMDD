@@ -32,7 +32,7 @@
 {
     [super viewDidLoad];
     
-    [self setUI];
+    [self setupUI];
 }
 
 - (void)didReceiveMemoryWarning
@@ -43,7 +43,7 @@
 
 #pragma mark - Setup
 
--(void)setUI
+- (void)setupUI
 {
     
     self.joinBtn.layer.cornerRadius = 5;
@@ -60,6 +60,7 @@
     [paragraphStyle setLineSpacing:8];//调整行间距
     [noteStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [noteStr length])];
     self.noteLabel.attributedText = noteStr;
+    self.noteLabel.numberOfLines = 0;
 }
 
 - (void)setupNavigationBar

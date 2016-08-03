@@ -242,6 +242,10 @@
     UILabel *tipsLabel2 = (UILabel *)[cell.contentView viewWithTag:108];
     UILabel *tipsLabel3 = (UILabel *)[cell.contentView viewWithTag:109];
     
+    tipsLabel1.numberOfLines = 0;
+    tipsLabel2.numberOfLines = 0;
+    tipsLabel3.numberOfLines = 0;
+    
     [tipsLabel1 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 100];
     [tipsLabel2 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 100];
     [tipsLabel3 setPreferredMaxLayoutWidth:gAppMgr.deviceInfo.screenSize.width - 100];
