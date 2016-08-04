@@ -6,11 +6,7 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-
-
 #import "HomePageVC.h"
-#import <Masonry.h>
-#import "Xmdd.h"
 #import "UIImage+Utilities.h"
 #import "UIView+Layer.h"
 #import "UIView+HKLine.h"
@@ -28,24 +24,17 @@
 #import "ADViewController.h"
 #import "HomeNewbieGuideVC.h"
 #import "HomeSuspendedAdVC.h"
-#import "InviteAlertVC.h"
-#import "AdListData.h"
-#import "MyCouponVC.h"
-#import "CouponPkgViewController.h"
 
 #import "HKPopoverView.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
-
-#import "ParkingShopGasInfoVC.h"
-
-#import "MutualInsVC.h"
+#import "TTTAttributedLabel.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3
 
 
-@interface HomePageVC ()<UIScrollViewDelegate>
+@interface HomePageVC ()<UIScrollViewDelegate,TTTAttributedLabelDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, weak) IBOutlet UIView *weatherView;
@@ -314,10 +303,12 @@
 - (void)setupWeatherView
 {
     UIImageView * weatherImage = (UIImageView *)[self.weatherView searchViewWithTag:20201];
-    UILabel * tempLb = (UILabel *)[self.weatherView searchViewWithTag:20202];
+    TTTAttributedLabel * tempLb = (TTTAttributedLabel *)[self.weatherView searchViewWithTag:20202];
     UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
     UIView *rightContainerV = (UIView *)[self.weatherView searchViewWithTag:20200];
     tempLb.numberOfLines = 2;
+    tempLb.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width;
+    tempLb.delegate = self;
     
     [[RACObserve(gAppMgr, restriction) distinctUntilChanged] subscribeNext:^(NSString *text) {
         rightContainerV.hidden = text.length == 0;
@@ -326,10 +317,10 @@
     
     [RACObserve(gAppMgr, temperatureAndTip) subscribeNext:^(NSString *text) {
         
-        tempLb.text = text;
-        if (text.length > 0) {
-            [self setupLineSpace:tempLb withText:text];
-        }
+        if (!text)
+            return ;
+        NSRange range = [text.customObject isKindOfClass:[NSValue class]] ? [(NSValue *)text.customObject rangeValue]: NSMakeRange(0, 0);
+        [self setupTTTLabel:tempLb withContent:text withRange:range];
     }];
     
     [[RACObserve(gAppMgr, temperaturepic)distinctUntilChanged] subscribeNext:^(id x) {
@@ -349,6 +340,33 @@
         
         [self mainButtonWithSubmudule:item index:i inContainer:squaresView width:squqresWidth/3.0 height:squaresHeight/3.0];
     }
+}
+
+- (void)setupTTTLabel:(TTTAttributedLabel *)label withContent:(NSString *)text withRange:(NSRange)range
+{
+    NSMutableString *mutableString = [NSMutableString stringWithString:text];
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
+    ps.lineSpacing = 5;
+    NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:mutableString
+                                                                 attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12],
+                                                                              NSForegroundColorAttributeName: kDarkTextColor,
+                                                                              NSParagraphStyleAttributeName: ps}];
+    
+    label.attributedText = attstr;
+    [label setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                               NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
+    [label setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                     NSForegroundColorAttributeName: kDarkTextColor}];
+    [label addLinkToURL:[NSURL URLWithString:@""] withRange:range];
+}
+
+#pragma mark - TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url
+{
+     if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+     {
+         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+     }
 }
 
 
@@ -482,7 +500,7 @@
         
         @strongify(self);
         [self setupNavigationLeftBar:nil];
-        [gMapHelper handleGPSError:error];
+        [self handleLocationError:error];
     }] map:^id(RACTuple * tuple) {
         
         return tuple.second;
@@ -494,20 +512,20 @@
     [[[[[sig1 initially:^{
         @strongify(self);
         [self.scrollView.refreshView beginRefreshing];
-    }]catch:^RACSignal *(NSError *error) {
+    }] catch:^RACSignal *(NSError *error) {
+
         
-        //失败也要获取广告
-        @strongify(self);
-        [self.adctrl reloadDataWithForce:YES completed:nil];
-        [self.secondAdCtrl reloadDataWithForce:YES completed:nil];
         return [RACSignal error:error];
     }] flattenMap:^RACStream *(AMapLocationReGeocode * code) {
+        
         @strongify(self);
-        [self.adctrl reloadDataWithForce:YES completed:nil];
-        [self.secondAdCtrl reloadDataWithForce:YES completed:nil];
         return [self rac_getWeatherInfoWithReGeocode:code];
     }]  finally:^{
+        
         @strongify(self);
+        //失败也要获取广告
+        [self.adctrl reloadDataWithForce:YES completed:nil];
+        [self.secondAdCtrl reloadDataWithForce:YES completed:nil];
         [self.scrollView.refreshView endRefreshing];
     }] subscribeNext:^(id x) {
         
@@ -547,10 +565,12 @@
         gAppMgr.temperatureAndTip = [[op.rsp_temperature append:@"   "] append:op.rsp_temperaturetip];
         gAppMgr.temperaturepic = op.rsp_temperaturepic;
         gAppMgr.restriction = op.rsp_restriction;
-        
     }] doError:^(NSError *error) {
         
-        [gToast showError:@"天气获取失败"];
+        NSString * temperature = @"获取天气信息失败\n请重新下拉刷新";
+        gAppMgr.temperatureAndTip = temperature;
+        gAppMgr.temperaturepic = @"yin";
+        gAppMgr.restriction = @"";
     }] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal empty];
@@ -619,20 +639,6 @@
     iconNewImageV.hidden = !isnewflag;
     
     return itemView;
-}
-
-- (void)setupLineSpace:(UILabel *)label withText:(NSString *)text
-{
-    if (IOSVersionGreaterThanOrEqualTo(@"7.0")) {
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragraphStyle setLineSpacing:2];//调整行间距
-        
-        NSDictionary *attr = @{NSParagraphStyleAttributeName: paragraphStyle};
-        label.attributedText = [[NSAttributedString alloc] initWithString:text attributes:attr];
-    }
-    else {
-        label.text = text;
-    }
 }
 
 
@@ -771,6 +777,26 @@
         signal = [op rac_postRequest];
     }
     return signal;
+}
+
+- (void)handleLocationError:(NSError *)error
+{
+    NSString * text;
+    text = @"请检查您是否打开了定位服务\n若已打开定位请重新下拉刷新";
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        NSRange range = NSMakeRange(9, 4);
+        text.customObject = [NSValue valueWithRange:range];
+    }
+    else
+    {
+        NSRange range = NSMakeRange(0, 0);
+        text.customObject = [NSValue valueWithRange:range];
+    }
+
+    gAppMgr.temperatureAndTip = text;
+    gAppMgr.temperaturepic = @"yin";
+    gAppMgr.restriction = @"定位失败";
 }
 
 @end
