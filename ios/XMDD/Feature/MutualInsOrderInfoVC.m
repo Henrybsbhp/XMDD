@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet CKLine *bottomLine;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sureBtnLeadingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeightConstraint;
 
 @property (nonatomic,strong)NSArray * datasource;
 
@@ -148,10 +149,13 @@
     NSString * topTip = self.contract.remindtip;
     if (topTip.length)
     {
+        CGSize size = [topTip labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 38 font:[UIFont systemFontOfSize:13]];
+        CGFloat height = size.height + 24;
         self.topView.hidden = NO;
         self.topLabel.text = topTip;
-        self.topLabel.adjustsFontSizeToFitWidth = YES;
-        self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
+        self.topLabel.numberOfLines = 0;
+        self.tableView.contentInset = UIEdgeInsetsMake(height, 0, 0, 0);
+        self.topViewHeightConstraint.constant = height;
         @weakify(self)
         [[RACObserve(self.tableView,contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * obj) {
             
