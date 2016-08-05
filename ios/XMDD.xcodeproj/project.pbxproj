@@ -25,6 +25,38 @@
 		181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6DA21B15919900D38555 /* LFGlassView.m */; };
 		182BEF0B1CA0F65200D67C18 /* JCAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 182BEF081CA0F65200D67C18 /* JCAlertView.bundle */; };
 		182BEF0C1CA0F65200D67C18 /* JCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 182BEF0A1CA0F65200D67C18 /* JCAlertView.m */; };
+		1836B75C1D5319E90078DB15 /* RCTHKRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B75B1D5319E90078DB15 /* RCTHKRefreshControl.m */; };
+		1836B7AF1D54220B0078DB15 /* NSArray+Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B76B1D54220B0078DB15 /* NSArray+Encoding.m */; };
+		1836B7B01D54220B0078DB15 /* NSArray+Safety.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B76D1D54220B0078DB15 /* NSArray+Safety.m */; };
+		1836B7B11D54220B0078DB15 /* NSData+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B76F1D54220B0078DB15 /* NSData+JSON.m */; };
+		1836B7B21D54220B0078DB15 /* NSDictionary+Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7711D54220B0078DB15 /* NSDictionary+Encoding.m */; };
+		1836B7B31D54220B0078DB15 /* NSMutableDictionary+Safety.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7731D54220B0078DB15 /* NSMutableDictionary+Safety.m */; };
+		1836B7B41D54220B0078DB15 /* NSObject+AutoConvertValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7751D54220B0078DB15 /* NSObject+AutoConvertValue.m */; };
+		1836B7B51D54220B0078DB15 /* NSObject+Notify.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7771D54220B0078DB15 /* NSObject+Notify.m */; };
+		1836B7B61D54220B0078DB15 /* NSObject+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7791D54220B0078DB15 /* NSObject+Runtime.m */; };
+		1836B7B71D54220B0078DB15 /* NSString+CKExpansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B77B1D54220B0078DB15 /* NSString+CKExpansion.m */; };
+		1836B7B81D54220B0078DB15 /* NSString+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B77D1D54220B0078DB15 /* NSString+Compare.m */; };
+		1836B7B91D54220B0078DB15 /* NSString+Path.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B77F1D54220B0078DB15 /* NSString+Path.m */; };
+		1836B7BA1D54220B0078DB15 /* NSString+Safety.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7811D54220B0078DB15 /* NSString+Safety.m */; };
+		1836B7BB1D54220B0078DB15 /* UIColor+ColorWithHexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7831D54220B0078DB15 /* UIColor+ColorWithHexString.m */; };
+		1836B7BC1D54220B0078DB15 /* UIImage+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7851D54220B0078DB15 /* UIImage+Utility.m */; };
+		1836B7BD1D54220B0078DB15 /* UIImagePickerController+Expansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7871D54220B0078DB15 /* UIImagePickerController+Expansion.m */; };
+		1836B7BE1D54220B0078DB15 /* UIViewController+Coordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7891D54220B0078DB15 /* UIViewController+Coordinate.m */; };
+		1836B7BF1D54220B0078DB15 /* CKBaseStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B78C1D54220B0078DB15 /* CKBaseStore.m */; };
+		1836B7C01D54220B0078DB15 /* CKDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B78F1D54220B0078DB15 /* CKDatasource.m */; };
+		1836B7C11D54220B0078DB15 /* CKDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7911D54220B0078DB15 /* CKDispatcher.m */; };
+		1836B7C21D54220B0078DB15 /* CKEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7931D54220B0078DB15 /* CKEvent.m */; };
+		1836B7C31D54220B0078DB15 /* CKEventPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7951D54220B0078DB15 /* CKEventPromise.m */; };
+		1836B7C41D54220B0078DB15 /* CKList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7971D54220B0078DB15 /* CKList.m */; };
+		1836B7C51D54220B0078DB15 /* CKMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7991D54220B0078DB15 /* CKMap.m */; };
+		1836B7C61D54220B0078DB15 /* CKObjectHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B79B1D54220B0078DB15 /* CKObjectHolder.m */; };
+		1836B7C71D54220B0078DB15 /* CKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B79D1D54220B0078DB15 /* CKQueue.m */; };
+		1836B7C81D54220B0078DB15 /* CKStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B79F1D54220B0078DB15 /* CKStore.m */; };
+		1836B7C91D54220B0078DB15 /* CKTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7A11D54220B0078DB15 /* CKTreeNode.m */; };
+		1836B7CA1D54220B0078DB15 /* CKMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7A51D54220B0078DB15 /* CKMethods.m */; };
+		1836B7CB1D54220B0078DB15 /* CKPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7A71D54220B0078DB15 /* CKPaths.m */; };
+		1836B7CC1D54220B0078DB15 /* CKSegmentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7A91D54220B0078DB15 /* CKSegmentHelper.m */; };
+		1836B7CD1D54220B0078DB15 /* CKShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7AD1D54220B0078DB15 /* CKShadowView.m */; };
 		1837A75F1B72130F0006E6C5 /* SDBrowserImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837A7591B72130F0006E6C5 /* SDBrowserImageView.m */; };
 		1837A7611B72130F0006E6C5 /* SDWaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1837A75E1B72130F0006E6C5 /* SDWaitingView.m */; };
 		183F56FE1D4C90860001E26A /* Area.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56691D4C90860001E26A /* Area.m */; };
@@ -127,37 +159,6 @@
 		18648FC51D48558000F1CCB0 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FB21D48558000F1CCB0 /* RSADataSigner.m */; settings = {COMPILER_FLAGS = "-Wno-shorten-64-to-32"; }; };
 		18648FC61D48558000F1CCB0 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FB41D48558000F1CCB0 /* RSADataVerifier.m */; };
 		1864902C1D48802800F1CCB0 /* libFMDeviceManager_without_IDFA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1864902B1D48802800F1CCB0 /* libFMDeviceManager_without_IDFA.a */; };
-		186495231D4888BE00F1CCB0 /* NSArray+Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494DF1D4888BE00F1CCB0 /* NSArray+Encoding.m */; };
-		186495241D4888BE00F1CCB0 /* NSArray+Safety.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494E11D4888BE00F1CCB0 /* NSArray+Safety.m */; };
-		186495251D4888BE00F1CCB0 /* NSData+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494E31D4888BE00F1CCB0 /* NSData+JSON.m */; };
-		186495261D4888BE00F1CCB0 /* NSDictionary+Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494E51D4888BE00F1CCB0 /* NSDictionary+Encoding.m */; };
-		186495271D4888BE00F1CCB0 /* NSMutableDictionary+Safety.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494E71D4888BE00F1CCB0 /* NSMutableDictionary+Safety.m */; };
-		186495281D4888BE00F1CCB0 /* NSObject+AutoConvertValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494E91D4888BE00F1CCB0 /* NSObject+AutoConvertValue.m */; };
-		186495291D4888BE00F1CCB0 /* NSObject+Notify.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494EB1D4888BE00F1CCB0 /* NSObject+Notify.m */; };
-		1864952A1D4888BE00F1CCB0 /* NSObject+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494ED1D4888BE00F1CCB0 /* NSObject+Runtime.m */; };
-		1864952B1D4888BE00F1CCB0 /* NSString+CKExpansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494EF1D4888BE00F1CCB0 /* NSString+CKExpansion.m */; };
-		1864952C1D4888BE00F1CCB0 /* NSString+Compare.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494F11D4888BE00F1CCB0 /* NSString+Compare.m */; };
-		1864952D1D4888BE00F1CCB0 /* NSString+Path.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494F31D4888BE00F1CCB0 /* NSString+Path.m */; };
-		1864952E1D4888BE00F1CCB0 /* NSString+Safety.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494F51D4888BE00F1CCB0 /* NSString+Safety.m */; };
-		1864952F1D4888BE00F1CCB0 /* UIColor+ColorWithHexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494F71D4888BE00F1CCB0 /* UIColor+ColorWithHexString.m */; };
-		186495301D4888BE00F1CCB0 /* UIImage+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494F91D4888BE00F1CCB0 /* UIImage+Utility.m */; };
-		186495311D4888BE00F1CCB0 /* UIImagePickerController+Expansion.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494FB1D4888BE00F1CCB0 /* UIImagePickerController+Expansion.m */; };
-		186495321D4888BE00F1CCB0 /* UIViewController+Coordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494FD1D4888BE00F1CCB0 /* UIViewController+Coordinate.m */; };
-		186495331D4888BE00F1CCB0 /* CKBaseStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 186495001D4888BE00F1CCB0 /* CKBaseStore.m */; };
-		186495341D4888BE00F1CCB0 /* CKDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 186495031D4888BE00F1CCB0 /* CKDatasource.m */; };
-		186495351D4888BE00F1CCB0 /* CKDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 186495051D4888BE00F1CCB0 /* CKDispatcher.m */; };
-		186495361D4888BE00F1CCB0 /* CKEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 186495071D4888BE00F1CCB0 /* CKEvent.m */; };
-		186495371D4888BE00F1CCB0 /* CKEventPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 186495091D4888BE00F1CCB0 /* CKEventPromise.m */; };
-		186495381D4888BE00F1CCB0 /* CKList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864950B1D4888BE00F1CCB0 /* CKList.m */; };
-		186495391D4888BE00F1CCB0 /* CKMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864950D1D4888BE00F1CCB0 /* CKMap.m */; };
-		1864953A1D4888BE00F1CCB0 /* CKObjectHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864950F1D4888BE00F1CCB0 /* CKObjectHolder.m */; };
-		1864953B1D4888BE00F1CCB0 /* CKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 186495111D4888BE00F1CCB0 /* CKQueue.m */; };
-		1864953C1D4888BE00F1CCB0 /* CKStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 186495131D4888BE00F1CCB0 /* CKStore.m */; };
-		1864953D1D4888BE00F1CCB0 /* CKTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 186495151D4888BE00F1CCB0 /* CKTreeNode.m */; };
-		1864953E1D4888BE00F1CCB0 /* CKMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 186495191D4888BE00F1CCB0 /* CKMethods.m */; };
-		1864953F1D4888BE00F1CCB0 /* CKPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864951B1D4888BE00F1CCB0 /* CKPaths.m */; };
-		186495401D4888BE00F1CCB0 /* CKSegmentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864951D1D4888BE00F1CCB0 /* CKSegmentHelper.m */; };
-		186495411D4888BE00F1CCB0 /* CKShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186495211D4888BE00F1CCB0 /* CKShadowView.m */; };
 		186495D01D4895D200F1CCB0 /* xmdd.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1864958F1D4895D200F1CCB0 /* xmdd.xcdatamodeld */; };
 		186495D11D4895D200F1CCB0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 186495911D4895D200F1CCB0 /* Images.xcassets */; };
 		186495D21D4895D200F1CCB0 /* 90_0.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 186495931D4895D200F1CCB0 /* 90_0.gpx */; };
@@ -941,6 +942,75 @@
 		182BEF081CA0F65200D67C18 /* JCAlertView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JCAlertView.bundle; sourceTree = "<group>"; };
 		182BEF091CA0F65200D67C18 /* JCAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCAlertView.h; sourceTree = "<group>"; };
 		182BEF0A1CA0F65200D67C18 /* JCAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCAlertView.m; sourceTree = "<group>"; };
+		1836B75A1D5319E90078DB15 /* RCTHKRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTHKRefreshControl.h; sourceTree = "<group>"; };
+		1836B75B1D5319E90078DB15 /* RCTHKRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTHKRefreshControl.m; sourceTree = "<group>"; };
+		1836B7691D54220B0078DB15 /* CKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKCategory.h; sourceTree = "<group>"; };
+		1836B76A1D54220B0078DB15 /* NSArray+Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Encoding.h"; sourceTree = "<group>"; };
+		1836B76B1D54220B0078DB15 /* NSArray+Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Encoding.m"; sourceTree = "<group>"; };
+		1836B76C1D54220B0078DB15 /* NSArray+Safety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Safety.h"; sourceTree = "<group>"; };
+		1836B76D1D54220B0078DB15 /* NSArray+Safety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Safety.m"; sourceTree = "<group>"; };
+		1836B76E1D54220B0078DB15 /* NSData+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+JSON.h"; sourceTree = "<group>"; };
+		1836B76F1D54220B0078DB15 /* NSData+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+JSON.m"; sourceTree = "<group>"; };
+		1836B7701D54220B0078DB15 /* NSDictionary+Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Encoding.h"; sourceTree = "<group>"; };
+		1836B7711D54220B0078DB15 /* NSDictionary+Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Encoding.m"; sourceTree = "<group>"; };
+		1836B7721D54220B0078DB15 /* NSMutableDictionary+Safety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Safety.h"; sourceTree = "<group>"; };
+		1836B7731D54220B0078DB15 /* NSMutableDictionary+Safety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Safety.m"; sourceTree = "<group>"; };
+		1836B7741D54220B0078DB15 /* NSObject+AutoConvertValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoConvertValue.h"; sourceTree = "<group>"; };
+		1836B7751D54220B0078DB15 /* NSObject+AutoConvertValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoConvertValue.m"; sourceTree = "<group>"; };
+		1836B7761D54220B0078DB15 /* NSObject+Notify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Notify.h"; sourceTree = "<group>"; };
+		1836B7771D54220B0078DB15 /* NSObject+Notify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Notify.m"; sourceTree = "<group>"; };
+		1836B7781D54220B0078DB15 /* NSObject+Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Runtime.h"; sourceTree = "<group>"; };
+		1836B7791D54220B0078DB15 /* NSObject+Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Runtime.m"; sourceTree = "<group>"; };
+		1836B77A1D54220B0078DB15 /* NSString+CKExpansion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CKExpansion.h"; sourceTree = "<group>"; };
+		1836B77B1D54220B0078DB15 /* NSString+CKExpansion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CKExpansion.m"; sourceTree = "<group>"; };
+		1836B77C1D54220B0078DB15 /* NSString+Compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Compare.h"; sourceTree = "<group>"; };
+		1836B77D1D54220B0078DB15 /* NSString+Compare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Compare.m"; sourceTree = "<group>"; };
+		1836B77E1D54220B0078DB15 /* NSString+Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Path.h"; sourceTree = "<group>"; };
+		1836B77F1D54220B0078DB15 /* NSString+Path.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Path.m"; sourceTree = "<group>"; };
+		1836B7801D54220B0078DB15 /* NSString+Safety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Safety.h"; sourceTree = "<group>"; };
+		1836B7811D54220B0078DB15 /* NSString+Safety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Safety.m"; sourceTree = "<group>"; };
+		1836B7821D54220B0078DB15 /* UIColor+ColorWithHexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ColorWithHexString.h"; sourceTree = "<group>"; };
+		1836B7831D54220B0078DB15 /* UIColor+ColorWithHexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorWithHexString.m"; sourceTree = "<group>"; };
+		1836B7841D54220B0078DB15 /* UIImage+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Utility.h"; sourceTree = "<group>"; };
+		1836B7851D54220B0078DB15 /* UIImage+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Utility.m"; sourceTree = "<group>"; };
+		1836B7861D54220B0078DB15 /* UIImagePickerController+Expansion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImagePickerController+Expansion.h"; sourceTree = "<group>"; };
+		1836B7871D54220B0078DB15 /* UIImagePickerController+Expansion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImagePickerController+Expansion.m"; sourceTree = "<group>"; };
+		1836B7881D54220B0078DB15 /* UIViewController+Coordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Coordinate.h"; sourceTree = "<group>"; };
+		1836B7891D54220B0078DB15 /* UIViewController+Coordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Coordinate.m"; sourceTree = "<group>"; };
+		1836B78B1D54220B0078DB15 /* CKBaseStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKBaseStore.h; sourceTree = "<group>"; };
+		1836B78C1D54220B0078DB15 /* CKBaseStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKBaseStore.m; sourceTree = "<group>"; };
+		1836B78D1D54220B0078DB15 /* CKDataset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKDataset.h; sourceTree = "<group>"; };
+		1836B78E1D54220B0078DB15 /* CKDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKDatasource.h; sourceTree = "<group>"; };
+		1836B78F1D54220B0078DB15 /* CKDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKDatasource.m; sourceTree = "<group>"; };
+		1836B7901D54220B0078DB15 /* CKDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKDispatcher.h; sourceTree = "<group>"; };
+		1836B7911D54220B0078DB15 /* CKDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKDispatcher.m; sourceTree = "<group>"; };
+		1836B7921D54220B0078DB15 /* CKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKEvent.h; sourceTree = "<group>"; };
+		1836B7931D54220B0078DB15 /* CKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKEvent.m; sourceTree = "<group>"; };
+		1836B7941D54220B0078DB15 /* CKEventPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKEventPromise.h; sourceTree = "<group>"; };
+		1836B7951D54220B0078DB15 /* CKEventPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKEventPromise.m; sourceTree = "<group>"; };
+		1836B7961D54220B0078DB15 /* CKList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKList.h; sourceTree = "<group>"; };
+		1836B7971D54220B0078DB15 /* CKList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKList.m; sourceTree = "<group>"; };
+		1836B7981D54220B0078DB15 /* CKMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKMap.h; sourceTree = "<group>"; };
+		1836B7991D54220B0078DB15 /* CKMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKMap.m; sourceTree = "<group>"; };
+		1836B79A1D54220B0078DB15 /* CKObjectHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKObjectHolder.h; sourceTree = "<group>"; };
+		1836B79B1D54220B0078DB15 /* CKObjectHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKObjectHolder.m; sourceTree = "<group>"; };
+		1836B79C1D54220B0078DB15 /* CKQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKQueue.h; sourceTree = "<group>"; };
+		1836B79D1D54220B0078DB15 /* CKQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKQueue.m; sourceTree = "<group>"; };
+		1836B79E1D54220B0078DB15 /* CKStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKStore.h; sourceTree = "<group>"; };
+		1836B79F1D54220B0078DB15 /* CKStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKStore.m; sourceTree = "<group>"; };
+		1836B7A01D54220B0078DB15 /* CKTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKTreeNode.h; sourceTree = "<group>"; };
+		1836B7A11D54220B0078DB15 /* CKTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKTreeNode.m; sourceTree = "<group>"; };
+		1836B7A21D54220B0078DB15 /* CKKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKKit.h; sourceTree = "<group>"; };
+		1836B7A41D54220B0078DB15 /* CKMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKMethods.h; sourceTree = "<group>"; };
+		1836B7A51D54220B0078DB15 /* CKMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKMethods.m; sourceTree = "<group>"; };
+		1836B7A61D54220B0078DB15 /* CKPaths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKPaths.h; sourceTree = "<group>"; };
+		1836B7A71D54220B0078DB15 /* CKPaths.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKPaths.m; sourceTree = "<group>"; };
+		1836B7A81D54220B0078DB15 /* CKSegmentHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKSegmentHelper.h; sourceTree = "<group>"; };
+		1836B7A91D54220B0078DB15 /* CKSegmentHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKSegmentHelper.m; sourceTree = "<group>"; };
+		1836B7AA1D54220B0078DB15 /* CKUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKUtility.h; sourceTree = "<group>"; };
+		1836B7AC1D54220B0078DB15 /* CKShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKShadowView.h; sourceTree = "<group>"; };
+		1836B7AD1D54220B0078DB15 /* CKShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKShadowView.m; sourceTree = "<group>"; };
+		1836B7AE1D54220B0078DB15 /* CKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKView.h; sourceTree = "<group>"; };
 		1837A7581B72130F0006E6C5 /* SDBrowserImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDBrowserImageView.h; sourceTree = "<group>"; };
 		1837A7591B72130F0006E6C5 /* SDBrowserImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDBrowserImageView.m; sourceTree = "<group>"; };
 		1837A75D1B72130F0006E6C5 /* SDWaitingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWaitingView.h; sourceTree = "<group>"; };
@@ -1215,73 +1285,6 @@
 		18648FB41D48558000F1CCB0 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
 		1864902A1D48802800F1CCB0 /* FMDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDeviceManager.h; sourceTree = "<group>"; };
 		1864902B1D48802800F1CCB0 /* libFMDeviceManager_without_IDFA.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFMDeviceManager_without_IDFA.a; sourceTree = "<group>"; };
-		186494DD1D4888BE00F1CCB0 /* CKCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKCategory.h; sourceTree = "<group>"; };
-		186494DE1D4888BE00F1CCB0 /* NSArray+Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Encoding.h"; sourceTree = "<group>"; };
-		186494DF1D4888BE00F1CCB0 /* NSArray+Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Encoding.m"; sourceTree = "<group>"; };
-		186494E01D4888BE00F1CCB0 /* NSArray+Safety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Safety.h"; sourceTree = "<group>"; };
-		186494E11D4888BE00F1CCB0 /* NSArray+Safety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Safety.m"; sourceTree = "<group>"; };
-		186494E21D4888BE00F1CCB0 /* NSData+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+JSON.h"; sourceTree = "<group>"; };
-		186494E31D4888BE00F1CCB0 /* NSData+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+JSON.m"; sourceTree = "<group>"; };
-		186494E41D4888BE00F1CCB0 /* NSDictionary+Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Encoding.h"; sourceTree = "<group>"; };
-		186494E51D4888BE00F1CCB0 /* NSDictionary+Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Encoding.m"; sourceTree = "<group>"; };
-		186494E61D4888BE00F1CCB0 /* NSMutableDictionary+Safety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Safety.h"; sourceTree = "<group>"; };
-		186494E71D4888BE00F1CCB0 /* NSMutableDictionary+Safety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Safety.m"; sourceTree = "<group>"; };
-		186494E81D4888BE00F1CCB0 /* NSObject+AutoConvertValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoConvertValue.h"; sourceTree = "<group>"; };
-		186494E91D4888BE00F1CCB0 /* NSObject+AutoConvertValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoConvertValue.m"; sourceTree = "<group>"; };
-		186494EA1D4888BE00F1CCB0 /* NSObject+Notify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Notify.h"; sourceTree = "<group>"; };
-		186494EB1D4888BE00F1CCB0 /* NSObject+Notify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Notify.m"; sourceTree = "<group>"; };
-		186494EC1D4888BE00F1CCB0 /* NSObject+Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Runtime.h"; sourceTree = "<group>"; };
-		186494ED1D4888BE00F1CCB0 /* NSObject+Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Runtime.m"; sourceTree = "<group>"; };
-		186494EE1D4888BE00F1CCB0 /* NSString+CKExpansion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CKExpansion.h"; sourceTree = "<group>"; };
-		186494EF1D4888BE00F1CCB0 /* NSString+CKExpansion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CKExpansion.m"; sourceTree = "<group>"; };
-		186494F01D4888BE00F1CCB0 /* NSString+Compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Compare.h"; sourceTree = "<group>"; };
-		186494F11D4888BE00F1CCB0 /* NSString+Compare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Compare.m"; sourceTree = "<group>"; };
-		186494F21D4888BE00F1CCB0 /* NSString+Path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Path.h"; sourceTree = "<group>"; };
-		186494F31D4888BE00F1CCB0 /* NSString+Path.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Path.m"; sourceTree = "<group>"; };
-		186494F41D4888BE00F1CCB0 /* NSString+Safety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Safety.h"; sourceTree = "<group>"; };
-		186494F51D4888BE00F1CCB0 /* NSString+Safety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Safety.m"; sourceTree = "<group>"; };
-		186494F61D4888BE00F1CCB0 /* UIColor+ColorWithHexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ColorWithHexString.h"; sourceTree = "<group>"; };
-		186494F71D4888BE00F1CCB0 /* UIColor+ColorWithHexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorWithHexString.m"; sourceTree = "<group>"; };
-		186494F81D4888BE00F1CCB0 /* UIImage+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Utility.h"; sourceTree = "<group>"; };
-		186494F91D4888BE00F1CCB0 /* UIImage+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Utility.m"; sourceTree = "<group>"; };
-		186494FA1D4888BE00F1CCB0 /* UIImagePickerController+Expansion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImagePickerController+Expansion.h"; sourceTree = "<group>"; };
-		186494FB1D4888BE00F1CCB0 /* UIImagePickerController+Expansion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImagePickerController+Expansion.m"; sourceTree = "<group>"; };
-		186494FC1D4888BE00F1CCB0 /* UIViewController+Coordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Coordinate.h"; sourceTree = "<group>"; };
-		186494FD1D4888BE00F1CCB0 /* UIViewController+Coordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Coordinate.m"; sourceTree = "<group>"; };
-		186494FF1D4888BE00F1CCB0 /* CKBaseStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKBaseStore.h; sourceTree = "<group>"; };
-		186495001D4888BE00F1CCB0 /* CKBaseStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKBaseStore.m; sourceTree = "<group>"; };
-		186495011D4888BE00F1CCB0 /* CKDataset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKDataset.h; sourceTree = "<group>"; };
-		186495021D4888BE00F1CCB0 /* CKDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKDatasource.h; sourceTree = "<group>"; };
-		186495031D4888BE00F1CCB0 /* CKDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKDatasource.m; sourceTree = "<group>"; };
-		186495041D4888BE00F1CCB0 /* CKDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKDispatcher.h; sourceTree = "<group>"; };
-		186495051D4888BE00F1CCB0 /* CKDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKDispatcher.m; sourceTree = "<group>"; };
-		186495061D4888BE00F1CCB0 /* CKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKEvent.h; sourceTree = "<group>"; };
-		186495071D4888BE00F1CCB0 /* CKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKEvent.m; sourceTree = "<group>"; };
-		186495081D4888BE00F1CCB0 /* CKEventPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKEventPromise.h; sourceTree = "<group>"; };
-		186495091D4888BE00F1CCB0 /* CKEventPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKEventPromise.m; sourceTree = "<group>"; };
-		1864950A1D4888BE00F1CCB0 /* CKList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKList.h; sourceTree = "<group>"; };
-		1864950B1D4888BE00F1CCB0 /* CKList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKList.m; sourceTree = "<group>"; };
-		1864950C1D4888BE00F1CCB0 /* CKMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKMap.h; sourceTree = "<group>"; };
-		1864950D1D4888BE00F1CCB0 /* CKMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKMap.m; sourceTree = "<group>"; };
-		1864950E1D4888BE00F1CCB0 /* CKObjectHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKObjectHolder.h; sourceTree = "<group>"; };
-		1864950F1D4888BE00F1CCB0 /* CKObjectHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKObjectHolder.m; sourceTree = "<group>"; };
-		186495101D4888BE00F1CCB0 /* CKQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKQueue.h; sourceTree = "<group>"; };
-		186495111D4888BE00F1CCB0 /* CKQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKQueue.m; sourceTree = "<group>"; };
-		186495121D4888BE00F1CCB0 /* CKStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKStore.h; sourceTree = "<group>"; };
-		186495131D4888BE00F1CCB0 /* CKStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKStore.m; sourceTree = "<group>"; };
-		186495141D4888BE00F1CCB0 /* CKTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKTreeNode.h; sourceTree = "<group>"; };
-		186495151D4888BE00F1CCB0 /* CKTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKTreeNode.m; sourceTree = "<group>"; };
-		186495161D4888BE00F1CCB0 /* CKKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKKit.h; sourceTree = "<group>"; };
-		186495181D4888BE00F1CCB0 /* CKMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKMethods.h; sourceTree = "<group>"; };
-		186495191D4888BE00F1CCB0 /* CKMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKMethods.m; sourceTree = "<group>"; };
-		1864951A1D4888BE00F1CCB0 /* CKPaths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKPaths.h; sourceTree = "<group>"; };
-		1864951B1D4888BE00F1CCB0 /* CKPaths.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKPaths.m; sourceTree = "<group>"; };
-		1864951C1D4888BE00F1CCB0 /* CKSegmentHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKSegmentHelper.h; sourceTree = "<group>"; };
-		1864951D1D4888BE00F1CCB0 /* CKSegmentHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKSegmentHelper.m; sourceTree = "<group>"; };
-		1864951E1D4888BE00F1CCB0 /* CKUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKUtility.h; sourceTree = "<group>"; };
-		186495201D4888BE00F1CCB0 /* CKShadowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKShadowView.h; sourceTree = "<group>"; };
-		186495211D4888BE00F1CCB0 /* CKShadowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKShadowView.m; sourceTree = "<group>"; };
-		186495221D4888BE00F1CCB0 /* CKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKView.h; sourceTree = "<group>"; };
 		186495901D4895D200F1CCB0 /* xmdd.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = xmdd.xcdatamodel; sourceTree = "<group>"; };
 		186495911D4895D200F1CCB0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		186495931D4895D200F1CCB0 /* 90_0.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 90_0.gpx; sourceTree = "<group>"; };
@@ -2566,7 +2569,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				186494DB1D4888BE00F1CCB0 /* CKKit */,
+				1836B7671D54220B0078DB15 /* CKKit */,
 				186490291D48802800F1CCB0 /* Tongdun */,
 				18648F441D48558000F1CCB0 /* AlipaySDK */,
 				188EF0A21D351A0F000D01D6 /* MarkupLabel */,
@@ -2661,6 +2664,112 @@
 			);
 			name = JCAlertView;
 			path = JCAlertView/JCAlertView;
+			sourceTree = "<group>";
+		};
+		1836B7671D54220B0078DB15 /* CKKit */ = {
+			isa = PBXGroup;
+			children = (
+				1836B7681D54220B0078DB15 /* CKCategory */,
+				1836B78A1D54220B0078DB15 /* CKDataset */,
+				1836B7A21D54220B0078DB15 /* CKKit.h */,
+				1836B7A31D54220B0078DB15 /* CKUtility */,
+				1836B7AB1D54220B0078DB15 /* CKView */,
+			);
+			path = CKKit;
+			sourceTree = SOURCE_ROOT;
+		};
+		1836B7681D54220B0078DB15 /* CKCategory */ = {
+			isa = PBXGroup;
+			children = (
+				1836B7691D54220B0078DB15 /* CKCategory.h */,
+				1836B76A1D54220B0078DB15 /* NSArray+Encoding.h */,
+				1836B76B1D54220B0078DB15 /* NSArray+Encoding.m */,
+				1836B76C1D54220B0078DB15 /* NSArray+Safety.h */,
+				1836B76D1D54220B0078DB15 /* NSArray+Safety.m */,
+				1836B76E1D54220B0078DB15 /* NSData+JSON.h */,
+				1836B76F1D54220B0078DB15 /* NSData+JSON.m */,
+				1836B7701D54220B0078DB15 /* NSDictionary+Encoding.h */,
+				1836B7711D54220B0078DB15 /* NSDictionary+Encoding.m */,
+				1836B7721D54220B0078DB15 /* NSMutableDictionary+Safety.h */,
+				1836B7731D54220B0078DB15 /* NSMutableDictionary+Safety.m */,
+				1836B7741D54220B0078DB15 /* NSObject+AutoConvertValue.h */,
+				1836B7751D54220B0078DB15 /* NSObject+AutoConvertValue.m */,
+				1836B7761D54220B0078DB15 /* NSObject+Notify.h */,
+				1836B7771D54220B0078DB15 /* NSObject+Notify.m */,
+				1836B7781D54220B0078DB15 /* NSObject+Runtime.h */,
+				1836B7791D54220B0078DB15 /* NSObject+Runtime.m */,
+				1836B77A1D54220B0078DB15 /* NSString+CKExpansion.h */,
+				1836B77B1D54220B0078DB15 /* NSString+CKExpansion.m */,
+				1836B77C1D54220B0078DB15 /* NSString+Compare.h */,
+				1836B77D1D54220B0078DB15 /* NSString+Compare.m */,
+				1836B77E1D54220B0078DB15 /* NSString+Path.h */,
+				1836B77F1D54220B0078DB15 /* NSString+Path.m */,
+				1836B7801D54220B0078DB15 /* NSString+Safety.h */,
+				1836B7811D54220B0078DB15 /* NSString+Safety.m */,
+				1836B7821D54220B0078DB15 /* UIColor+ColorWithHexString.h */,
+				1836B7831D54220B0078DB15 /* UIColor+ColorWithHexString.m */,
+				1836B7841D54220B0078DB15 /* UIImage+Utility.h */,
+				1836B7851D54220B0078DB15 /* UIImage+Utility.m */,
+				1836B7861D54220B0078DB15 /* UIImagePickerController+Expansion.h */,
+				1836B7871D54220B0078DB15 /* UIImagePickerController+Expansion.m */,
+				1836B7881D54220B0078DB15 /* UIViewController+Coordinate.h */,
+				1836B7891D54220B0078DB15 /* UIViewController+Coordinate.m */,
+			);
+			path = CKCategory;
+			sourceTree = "<group>";
+		};
+		1836B78A1D54220B0078DB15 /* CKDataset */ = {
+			isa = PBXGroup;
+			children = (
+				1836B78B1D54220B0078DB15 /* CKBaseStore.h */,
+				1836B78C1D54220B0078DB15 /* CKBaseStore.m */,
+				1836B78D1D54220B0078DB15 /* CKDataset.h */,
+				1836B78E1D54220B0078DB15 /* CKDatasource.h */,
+				1836B78F1D54220B0078DB15 /* CKDatasource.m */,
+				1836B7901D54220B0078DB15 /* CKDispatcher.h */,
+				1836B7911D54220B0078DB15 /* CKDispatcher.m */,
+				1836B7921D54220B0078DB15 /* CKEvent.h */,
+				1836B7931D54220B0078DB15 /* CKEvent.m */,
+				1836B7941D54220B0078DB15 /* CKEventPromise.h */,
+				1836B7951D54220B0078DB15 /* CKEventPromise.m */,
+				1836B7961D54220B0078DB15 /* CKList.h */,
+				1836B7971D54220B0078DB15 /* CKList.m */,
+				1836B7981D54220B0078DB15 /* CKMap.h */,
+				1836B7991D54220B0078DB15 /* CKMap.m */,
+				1836B79A1D54220B0078DB15 /* CKObjectHolder.h */,
+				1836B79B1D54220B0078DB15 /* CKObjectHolder.m */,
+				1836B79C1D54220B0078DB15 /* CKQueue.h */,
+				1836B79D1D54220B0078DB15 /* CKQueue.m */,
+				1836B79E1D54220B0078DB15 /* CKStore.h */,
+				1836B79F1D54220B0078DB15 /* CKStore.m */,
+				1836B7A01D54220B0078DB15 /* CKTreeNode.h */,
+				1836B7A11D54220B0078DB15 /* CKTreeNode.m */,
+			);
+			path = CKDataset;
+			sourceTree = "<group>";
+		};
+		1836B7A31D54220B0078DB15 /* CKUtility */ = {
+			isa = PBXGroup;
+			children = (
+				1836B7A41D54220B0078DB15 /* CKMethods.h */,
+				1836B7A51D54220B0078DB15 /* CKMethods.m */,
+				1836B7A61D54220B0078DB15 /* CKPaths.h */,
+				1836B7A71D54220B0078DB15 /* CKPaths.m */,
+				1836B7A81D54220B0078DB15 /* CKSegmentHelper.h */,
+				1836B7A91D54220B0078DB15 /* CKSegmentHelper.m */,
+				1836B7AA1D54220B0078DB15 /* CKUtility.h */,
+			);
+			path = CKUtility;
+			sourceTree = "<group>";
+		};
+		1836B7AB1D54220B0078DB15 /* CKView */ = {
+			isa = PBXGroup;
+			children = (
+				1836B7AC1D54220B0078DB15 /* CKShadowView.h */,
+				1836B7AD1D54220B0078DB15 /* CKShadowView.m */,
+				1836B7AE1D54220B0078DB15 /* CKView.h */,
+			);
+			path = CKView;
 			sourceTree = "<group>";
 		};
 		1837A7571B72130F0006E6C5 /* SDPhotoBrowser */ = {
@@ -3474,112 +3583,6 @@
 				1864902B1D48802800F1CCB0 /* libFMDeviceManager_without_IDFA.a */,
 			);
 			path = Tongdun;
-			sourceTree = "<group>";
-		};
-		186494DB1D4888BE00F1CCB0 /* CKKit */ = {
-			isa = PBXGroup;
-			children = (
-				186494DC1D4888BE00F1CCB0 /* CKCategory */,
-				186494FE1D4888BE00F1CCB0 /* CKDataset */,
-				186495161D4888BE00F1CCB0 /* CKKit.h */,
-				186495171D4888BE00F1CCB0 /* CKUtility */,
-				1864951F1D4888BE00F1CCB0 /* CKView */,
-			);
-			path = CKKit;
-			sourceTree = "<group>";
-		};
-		186494DC1D4888BE00F1CCB0 /* CKCategory */ = {
-			isa = PBXGroup;
-			children = (
-				186494DD1D4888BE00F1CCB0 /* CKCategory.h */,
-				186494DE1D4888BE00F1CCB0 /* NSArray+Encoding.h */,
-				186494DF1D4888BE00F1CCB0 /* NSArray+Encoding.m */,
-				186494E01D4888BE00F1CCB0 /* NSArray+Safety.h */,
-				186494E11D4888BE00F1CCB0 /* NSArray+Safety.m */,
-				186494E21D4888BE00F1CCB0 /* NSData+JSON.h */,
-				186494E31D4888BE00F1CCB0 /* NSData+JSON.m */,
-				186494E41D4888BE00F1CCB0 /* NSDictionary+Encoding.h */,
-				186494E51D4888BE00F1CCB0 /* NSDictionary+Encoding.m */,
-				186494E61D4888BE00F1CCB0 /* NSMutableDictionary+Safety.h */,
-				186494E71D4888BE00F1CCB0 /* NSMutableDictionary+Safety.m */,
-				186494E81D4888BE00F1CCB0 /* NSObject+AutoConvertValue.h */,
-				186494E91D4888BE00F1CCB0 /* NSObject+AutoConvertValue.m */,
-				186494EA1D4888BE00F1CCB0 /* NSObject+Notify.h */,
-				186494EB1D4888BE00F1CCB0 /* NSObject+Notify.m */,
-				186494EC1D4888BE00F1CCB0 /* NSObject+Runtime.h */,
-				186494ED1D4888BE00F1CCB0 /* NSObject+Runtime.m */,
-				186494EE1D4888BE00F1CCB0 /* NSString+CKExpansion.h */,
-				186494EF1D4888BE00F1CCB0 /* NSString+CKExpansion.m */,
-				186494F01D4888BE00F1CCB0 /* NSString+Compare.h */,
-				186494F11D4888BE00F1CCB0 /* NSString+Compare.m */,
-				186494F21D4888BE00F1CCB0 /* NSString+Path.h */,
-				186494F31D4888BE00F1CCB0 /* NSString+Path.m */,
-				186494F41D4888BE00F1CCB0 /* NSString+Safety.h */,
-				186494F51D4888BE00F1CCB0 /* NSString+Safety.m */,
-				186494F61D4888BE00F1CCB0 /* UIColor+ColorWithHexString.h */,
-				186494F71D4888BE00F1CCB0 /* UIColor+ColorWithHexString.m */,
-				186494F81D4888BE00F1CCB0 /* UIImage+Utility.h */,
-				186494F91D4888BE00F1CCB0 /* UIImage+Utility.m */,
-				186494FA1D4888BE00F1CCB0 /* UIImagePickerController+Expansion.h */,
-				186494FB1D4888BE00F1CCB0 /* UIImagePickerController+Expansion.m */,
-				186494FC1D4888BE00F1CCB0 /* UIViewController+Coordinate.h */,
-				186494FD1D4888BE00F1CCB0 /* UIViewController+Coordinate.m */,
-			);
-			path = CKCategory;
-			sourceTree = "<group>";
-		};
-		186494FE1D4888BE00F1CCB0 /* CKDataset */ = {
-			isa = PBXGroup;
-			children = (
-				186494FF1D4888BE00F1CCB0 /* CKBaseStore.h */,
-				186495001D4888BE00F1CCB0 /* CKBaseStore.m */,
-				186495011D4888BE00F1CCB0 /* CKDataset.h */,
-				186495021D4888BE00F1CCB0 /* CKDatasource.h */,
-				186495031D4888BE00F1CCB0 /* CKDatasource.m */,
-				186495041D4888BE00F1CCB0 /* CKDispatcher.h */,
-				186495051D4888BE00F1CCB0 /* CKDispatcher.m */,
-				186495061D4888BE00F1CCB0 /* CKEvent.h */,
-				186495071D4888BE00F1CCB0 /* CKEvent.m */,
-				186495081D4888BE00F1CCB0 /* CKEventPromise.h */,
-				186495091D4888BE00F1CCB0 /* CKEventPromise.m */,
-				1864950A1D4888BE00F1CCB0 /* CKList.h */,
-				1864950B1D4888BE00F1CCB0 /* CKList.m */,
-				1864950C1D4888BE00F1CCB0 /* CKMap.h */,
-				1864950D1D4888BE00F1CCB0 /* CKMap.m */,
-				1864950E1D4888BE00F1CCB0 /* CKObjectHolder.h */,
-				1864950F1D4888BE00F1CCB0 /* CKObjectHolder.m */,
-				186495101D4888BE00F1CCB0 /* CKQueue.h */,
-				186495111D4888BE00F1CCB0 /* CKQueue.m */,
-				186495121D4888BE00F1CCB0 /* CKStore.h */,
-				186495131D4888BE00F1CCB0 /* CKStore.m */,
-				186495141D4888BE00F1CCB0 /* CKTreeNode.h */,
-				186495151D4888BE00F1CCB0 /* CKTreeNode.m */,
-			);
-			path = CKDataset;
-			sourceTree = "<group>";
-		};
-		186495171D4888BE00F1CCB0 /* CKUtility */ = {
-			isa = PBXGroup;
-			children = (
-				186495181D4888BE00F1CCB0 /* CKMethods.h */,
-				186495191D4888BE00F1CCB0 /* CKMethods.m */,
-				1864951A1D4888BE00F1CCB0 /* CKPaths.h */,
-				1864951B1D4888BE00F1CCB0 /* CKPaths.m */,
-				1864951C1D4888BE00F1CCB0 /* CKSegmentHelper.h */,
-				1864951D1D4888BE00F1CCB0 /* CKSegmentHelper.m */,
-				1864951E1D4888BE00F1CCB0 /* CKUtility.h */,
-			);
-			path = CKUtility;
-			sourceTree = "<group>";
-		};
-		1864951F1D4888BE00F1CCB0 /* CKView */ = {
-			isa = PBXGroup;
-			children = (
-				186495201D4888BE00F1CCB0 /* CKShadowView.h */,
-				186495211D4888BE00F1CCB0 /* CKShadowView.m */,
-				186495221D4888BE00F1CCB0 /* CKView.h */,
-			);
-			path = CKView;
 			sourceTree = "<group>";
 		};
 		1864956D1D488E4500F1CCB0 /* Resources */ = {
@@ -5023,6 +5026,8 @@
 				1888F4191D48CB8600C64288 /* ReactNativeOp.m */,
 				18CFD8701D506A8D00C12259 /* RCTUMengManager.h */,
 				18CFD8711D506A8D00C12259 /* RCTUMengManager.m */,
+				1836B75A1D5319E90078DB15 /* RCTHKRefreshControl.h */,
+				1836B75B1D5319E90078DB15 /* RCTHKRefreshControl.m */,
 			);
 			name = Bridege;
 			sourceTree = "<group>";
@@ -5969,30 +5974,27 @@
 				18649CCE1D48B72D00F1CCB0 /* RescueDetailsVC.m in Sources */,
 				508F65321CACC8AE00F88744 /* HKPageSliderView.m in Sources */,
 				18649CCF1D48B72D00F1CCB0 /* RescueHistoryViewController.m in Sources */,
-				1864953A1D4888BE00F1CCB0 /* CKObjectHolder.m in Sources */,
 				18649B5E1D48A93000F1CCB0 /* JTTableViewController.m in Sources */,
 				18649A081D489A9700F1CCB0 /* SecondCarValuationUploadOp.m in Sources */,
-				1864953F1D4888BE00F1CCB0 /* CKPaths.m in Sources */,
 				18649C141D48B35000F1CCB0 /* ValuationResultVC.m in Sources */,
 				18648FC01D48558000F1CCB0 /* DataSigner.m in Sources */,
 				1864998D1D489A9700F1CCB0 /* HomePicModel.m in Sources */,
 				18649DF01D48BCF100F1CCB0 /* MutualInsGroupMySimpleHeaderCell.m in Sources */,
 				186499851D489A9700F1CCB0 /* HKMyCar.m in Sources */,
 				18FC01DC1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m in Sources */,
+				1836B7C01D54220B0078DB15 /* CKDatasource.m in Sources */,
 				183F570C1D4C90860001E26A /* AddCooperationClaimBankcardOp.m in Sources */,
 				186499E41D489A9700F1CCB0 /* GetShareDetailOpV2.m in Sources */,
 				18649DFE1D48BD6B00F1CCB0 /* MutualInsOrderInfoVC.m in Sources */,
 				6BB884D21AE0BC6A00EBD8F4 /* MONActivityIndicatorView.m in Sources */,
 				186499F21D489A9700F1CCB0 /* GetTokenOp.m in Sources */,
-				1864953C1D4888BE00F1CCB0 /* CKStore.m in Sources */,
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				183F570B1D4C90860001E26A /* MutualInsMessage.m in Sources */,
 				18CECC281C30F8890075B7F9 /* JT3DScrollView.m in Sources */,
-				186495381D4888BE00F1CCB0 /* CKList.m in Sources */,
 				18649D8C1D48BB5D00F1CCB0 /* GasPayForCZBVC.m in Sources */,
+				1836B7B11D54220B0078DB15 /* NSData+JSON.m in Sources */,
 				18649D621D48BAA800F1CCB0 /* AnimationBoardView.m in Sources */,
 				18649DE81D48BCF100F1CCB0 /* MutualInsAlertVC.m in Sources */,
-				186495391D4888BE00F1CCB0 /* CKMap.m in Sources */,
 				186496B21D489A4200F1CCB0 /* AlipayHelper.m in Sources */,
 				186499A01D489A9700F1CCB0 /* BindDeviceTokenOp.m in Sources */,
 				18649D881D48BB5D00F1CCB0 /* GasAddCardVC.m in Sources */,
@@ -6006,6 +6008,8 @@
 				183F571A1D4C90860001E26A /* DeleteInsCarOp.m in Sources */,
 				18649DBF1D48BCB700F1CCB0 /* MutualInsGroupDetailChildVC.m in Sources */,
 				183F573D1D4C90860001E26A /* InsuranceAppointmentV3Op.m in Sources */,
+				1836B7C91D54220B0078DB15 /* CKTreeNode.m in Sources */,
+				1836B7C21D54220B0078DB15 /* CKEvent.m in Sources */,
 				1888F41C1D48CB8600C64288 /* RCTNavigationManager.m in Sources */,
 				18649C9F1D48B64E00F1CCB0 /* CarwashOrderViewModel.m in Sources */,
 				18649C291D48B44500F1CCB0 /* WebVC.m in Sources */,
@@ -6061,7 +6065,6 @@
 				1864999D1D489A9700F1CCB0 /* BaseOp.m in Sources */,
 				183F57211D4C90860001E26A /* GetCooperationConfiOp.m in Sources */,
 				18649BB71D48AE9B00F1CCB0 /* HomePageVC.m in Sources */,
-				186495291D4888BE00F1CCB0 /* NSObject+Notify.m in Sources */,
 				18649D331D48B9A600F1CCB0 /* InsuranceInfoSubmitingVC.m in Sources */,
 				18649A061D489A9700F1CCB0 /* RescueCancelHostcarOp.m in Sources */,
 				186499F81D489A9700F1CCB0 /* GetUserCouponV2Op.m in Sources */,
@@ -6079,6 +6082,7 @@
 				183F57361D4C90860001E26A /* GetInsCarListOp.m in Sources */,
 				18649A191D489A9700F1CCB0 /* BankStore.m in Sources */,
 				183F57231D4C90860001E26A /* GetCooperationGroupConfigOp.m in Sources */,
+				1836B7BD1D54220B0078DB15 /* UIImagePickerController+Expansion.m in Sources */,
 				186499BA1D489A9700F1CCB0 /* GetCalculateBaseInfoOp.m in Sources */,
 				186496C61D489A4200F1CCB0 /* JTCaptureScreen.m in Sources */,
 				18649D8D1D48BB5D00F1CCB0 /* GasPaymentResultVC.m in Sources */,
@@ -6088,6 +6092,7 @@
 				186499D51D489A9700F1CCB0 /* GetOtherOrderListOp.m in Sources */,
 				183F57301D4C90860001E26A /* GetGascardListOp.m in Sources */,
 				18649B831D48A93000F1CCB0 /* OETextField.m in Sources */,
+				1836B7BC1D54220B0078DB15 /* UIImage+Utility.m in Sources */,
 				18649B631D48A93000F1CCB0 /* GifActivityIndicatorView.m in Sources */,
 				18649B761D48A93000F1CCB0 /* JTImageBadge.m in Sources */,
 				18649B7A1D48A93000F1CCB0 /* JTTableViewCell.m in Sources */,
@@ -6098,7 +6103,6 @@
 				188EF0B01D351A0F000D01D6 /* CMarkupTransformer.m in Sources */,
 				18649DE91D48BCF100F1CCB0 /* MutualInsGroupFundCell.m in Sources */,
 				1864971B1D489A5800F1CCB0 /* RACSignal+Extension.m in Sources */,
-				186495261D4888BE00F1CCB0 /* NSDictionary+Encoding.m in Sources */,
 				183F573C1D4C90860001E26A /* InsuranceAppointmentV2Op.m in Sources */,
 				18649CBF1D48B70A00F1CCB0 /* AwardShareSheetVC.m in Sources */,
 				186496C91D489A4200F1CCB0 /* LogAlertView.m in Sources */,
@@ -6114,6 +6118,7 @@
 				186499BC1D489A9700F1CCB0 /* GetCarwashOrderV2Op.m in Sources */,
 				18648FBF1D48558000F1CCB0 /* base64.m in Sources */,
 				18649CFE1D48B7C000F1CCB0 /* PickerVC.m in Sources */,
+				1836B7C51D54220B0078DB15 /* CKMap.m in Sources */,
 				18649D091D48B85200F1CCB0 /* ProvinceChooseView.m in Sources */,
 				186499A81D489A9700F1CCB0 /* DeletePicHistoryOp.m in Sources */,
 				1888F41D1D48CB8600C64288 /* RCTNetworkManager.m in Sources */,
@@ -6138,7 +6143,7 @@
 				18649E421D48BE0A00F1CCB0 /* CreateGroupVC.m in Sources */,
 				18CFD84F1D4EED8500C12259 /* AutoBrand+Extension.m in Sources */,
 				186499CA1D489A9700F1CCB0 /* GetGroupPasswordOp.m in Sources */,
-				186495361D4888BE00F1CCB0 /* CKEvent.m in Sources */,
+				1836B7C61D54220B0078DB15 /* CKObjectHolder.m in Sources */,
 				18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */,
 				18649E441D48BE0A00F1CCB0 /* GroupIntroductionVC.m in Sources */,
 				186497211D489A5800F1CCB0 /* UIView+HKLine.m in Sources */,
@@ -6149,7 +6154,6 @@
 				505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */,
 				18CFD8721D506A8D00C12259 /* RCTUMengManager.m in Sources */,
 				183F57071D4C90860001E26A /* MutualInsClaimInfo.m in Sources */,
-				1864952B1D4888BE00F1CCB0 /* NSString+CKExpansion.m in Sources */,
 				183F57241D4C90860001E26A /* GetCooperationGroupMembersOp.m in Sources */,
 				6BCF62511B184AEF0064AE32 /* NJKWebViewProgressView.m in Sources */,
 				182BEF0C1CA0F65200D67C18 /* JCAlertView.m in Sources */,
@@ -6165,11 +6169,13 @@
 				18649A1D1D489A9700F1CCB0 /* GasCardStore.m in Sources */,
 				186499D31D489A9700F1CCB0 /* GetMutualInsListOp.m in Sources */,
 				1888F41B1D48CB8600C64288 /* RCTLoginManager.m in Sources */,
+				1836B7AF1D54220B0078DB15 /* NSArray+Encoding.m in Sources */,
 				18649C0F1D48B35000F1CCB0 /* HistoryCollectionVC.m in Sources */,
 				18649D891D48BB5D00F1CCB0 /* GasCardListVC.m in Sources */,
 				186499E81D489A9700F1CCB0 /* GetShopRatesOp.m in Sources */,
 				186499A61D489A9700F1CCB0 /* CreateGroupOp.m in Sources */,
 				18649C201D48B3BB00F1CCB0 /* VcodeLoginVC.m in Sources */,
+				1836B7B51D54220B0078DB15 /* NSObject+Notify.m in Sources */,
 				186499F01D489A9700F1CCB0 /* GetSystemTipsOp.m in Sources */,
 				18649B8B1D48A93000F1CCB0 /* UIView+ShowDot.m in Sources */,
 				183F57161D4C90860001E26A /* CancelInsOrderOp.m in Sources */,
@@ -6178,7 +6184,6 @@
 				183F573B1D4C90860001E26A /* GetPremiumDetailOp.m in Sources */,
 				188EF0B31D351A0F000D01D6 /* UIFont+StyleUtilities.m in Sources */,
 				186496B61D489A4200F1CCB0 /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m in Sources */,
-				186495401D4888BE00F1CCB0 /* CKSegmentHelper.m in Sources */,
 				18649DA51D48BBBE00F1CCB0 /* ScanQRCodeVC.m in Sources */,
 				1864998A1D489A9700F1CCB0 /* HKRescueNoLogin.m in Sources */,
 				186497231D489A5800F1CCB0 /* UIView+Shake.m in Sources */,
@@ -6188,6 +6193,7 @@
 				1844532E1C8FEE81007B895D /* UIView+RoundedCorner.m in Sources */,
 				18FC01E21C4E6C6F00FD61BF /* IQBarButtonItem.m in Sources */,
 				18649BCB1D48AF8200F1CCB0 /* HKProgressView.m in Sources */,
+				1836B7CC1D54220B0078DB15 /* CKSegmentHelper.m in Sources */,
 				186499C01D489A9700F1CCB0 /* GetCooperationGroupOp.m in Sources */,
 				186499A11D489A9700F1CCB0 /* CalculateInsuranceCarPremiumOp.m in Sources */,
 				18649DA61D48BBBE00F1CCB0 /* ServiceViewController.m in Sources */,
@@ -6200,14 +6206,13 @@
 				18649C501D48B4E500F1CCB0 /* BindBankCardVC.m in Sources */,
 				18649C1F1D48B3BB00F1CCB0 /* VCodeInputField.m in Sources */,
 				18649B731D48A93000F1CCB0 /* HKTableViewCell.m in Sources */,
-				186495321D4888BE00F1CCB0 /* UIViewController+Coordinate.m in Sources */,
 				18649DC41D48BCB700F1CCB0 /* MutualInsGroupDetailVC.m in Sources */,
 				186496D31D489A4200F1CCB0 /* SupportFileManager.m in Sources */,
 				18649C701D48B57300F1CCB0 /* JoinResultViewController.m in Sources */,
 				18649D4B1D48BA3D00F1CCB0 /* InsPayResultVC.m in Sources */,
 				18649D8A1D48BB5D00F1CCB0 /* GasCZBVC.m in Sources */,
 				18649B861D48A93000F1CCB0 /* TopMenuScrollView.m in Sources */,
-				1864952A1D4888BE00F1CCB0 /* NSObject+Runtime.m in Sources */,
+				1836B7C31D54220B0078DB15 /* CKEventPromise.m in Sources */,
 				186499B91D489A9700F1CCB0 /* GetBindCZBVcodeOp.m in Sources */,
 				1864999B1D489A9700F1CCB0 /* AuthByPwdOp.m in Sources */,
 				18649E1E1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m in Sources */,
@@ -6234,13 +6239,14 @@
 				186497221D489A5800F1CCB0 /* UIView+Layer.m in Sources */,
 				18649A0F1D489A9700F1CCB0 /* UpdateClaimPicOp.m in Sources */,
 				186497241D489A5800F1CCB0 /* UIViewController+Swizzling.m in Sources */,
-				186495351D4888BE00F1CCB0 /* CKDispatcher.m in Sources */,
 				186496B51D489A4200F1CCB0 /* AssistiveManager.m in Sources */,
 				186497201D489A5800F1CCB0 /* UIView+CustomForXIB.m in Sources */,
+				1836B7B91D54220B0078DB15 /* NSString+Path.m in Sources */,
 				18649C381D48B49600F1CCB0 /* CouponPkgViewController.m in Sources */,
 				18649D131D48B91300F1CCB0 /* InsIntroVC.m in Sources */,
 				18649E471D48BE0A00F1CCB0 /* MutInsCalculateVC.m in Sources */,
 				18649E211D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.m in Sources */,
+				1836B7B71D54220B0078DB15 /* NSString+CKExpansion.m in Sources */,
 				18649BC11D48AECE00F1CCB0 /* HomePageVModel.m in Sources */,
 				186495D01D4895D200F1CCB0 /* xmdd.xcdatamodeld in Sources */,
 				18649DF61D48BD2300F1CCB0 /* MutualInsStore.m in Sources */,
@@ -6252,6 +6258,7 @@
 				186499CE1D489A9700F1CCB0 /* GetInsuranceDiscountOp.m in Sources */,
 				18649D021D48B7C000F1CCB0 /* SuspendedAdVC.m in Sources */,
 				186499821D489A9700F1CCB0 /* HKMessage.m in Sources */,
+				1836B7CB1D54220B0078DB15 /* CKPaths.m in Sources */,
 				18649E581D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m in Sources */,
 				188EF0B41D351A0F000D01D6 /* UILabel+MarkupExtensions.m in Sources */,
 				18649B6F1D48A93000F1CCB0 /* HKMessageAlertVC.m in Sources */,
@@ -6283,7 +6290,6 @@
 				18649B6B1D48A93000F1CCB0 /* HKImagePicker.m in Sources */,
 				186499D41D489A9700F1CCB0 /* GetNewbieInfoOp.m in Sources */,
 				18649E4B1D48BE0A00F1CCB0 /* MutualInsPicUpdateVC.m in Sources */,
-				1864952C1D4888BE00F1CCB0 /* NSString+Compare.m in Sources */,
 				186499DA1D489A9700F1CCB0 /* GetRescueApplyHostCarOp.m in Sources */,
 				1888F4241D48CBCA00C64288 /* HKRCTPackageConfig.m in Sources */,
 				18649D651D48BAB300F1CCB0 /* InsuranceOrderVC.m in Sources */,
@@ -6298,11 +6304,13 @@
 				18649BB61D48AE9B00F1CCB0 /* HomeNewbieGuideVC.m in Sources */,
 				18FC01DF1C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m in Sources */,
 				18649D491D48BA3D00F1CCB0 /* InsBuyVC.m in Sources */,
+				1836B7C11D54220B0078DB15 /* CKDispatcher.m in Sources */,
 				18649B5D1D48A93000F1CCB0 /* HKNavigationController.m in Sources */,
 				183F57351D4C90860001E26A /* GetInsBaseCarListOp.m in Sources */,
 				186499B51D489A9700F1CCB0 /* GetAutomobileModelOp.m in Sources */,
 				18649CB41D48B6F100F1CCB0 /* CommissionCouponViewController.m in Sources */,
 				18649B661D48A93000F1CCB0 /* HKAlertVC.m in Sources */,
+				1836B7B31D54220B0078DB15 /* NSMutableDictionary+Safety.m in Sources */,
 				18649A051D489A9700F1CCB0 /* OutlayCalculateWithFrameNumOp.m in Sources */,
 				6B26EEB31C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.m in Sources */,
 				186499C51D489A9700F1CCB0 /* GetCouponDetailsOp.m in Sources */,
@@ -6311,7 +6319,6 @@
 				505E5FCD1BD7356B00857819 /* WKWebViewJavascriptBridge.m in Sources */,
 				18649D901D48BB5D00F1CCB0 /* GasReminderCell.m in Sources */,
 				186496D21D489A4200F1CCB0 /* ShareResponeManager.m in Sources */,
-				1864953E1D4888BE00F1CCB0 /* CKMethods.m in Sources */,
 				18649C671D48B54E00F1CCB0 /* UsedCouponVModel.m in Sources */,
 				1864970F1D489A5800F1CCB0 /* NSDate+DateForText.m in Sources */,
 				18649A0E1D489A9700F1CCB0 /* UpdateCarOp.m in Sources */,
@@ -6321,9 +6328,9 @@
 				183F57141D4C90860001E26A /* CalculatePremiumOp.m in Sources */,
 				18649DEC1D48BCF100F1CCB0 /* MutualInsGroupMyBottomButtonCell.m in Sources */,
 				186499B41D489A9700F1CCB0 /* GetAutomobileBrandV2Op.m in Sources */,
-				186495241D4888BE00F1CCB0 /* NSArray+Safety.m in Sources */,
 				183F571D1D4C90860001E26A /* GascardChargeOp.m in Sources */,
 				18649A1C1D489A9700F1CCB0 /* FavoriteModel.m in Sources */,
+				1836B7BF1D54220B0078DB15 /* CKBaseStore.m in Sources */,
 				18649D971D48BB5D00F1CCB0 /* PayForGasViewController.m in Sources */,
 				18649BC71D48AF2600F1CCB0 /* HKViewController.m in Sources */,
 				18649DCA1D48BCE300F1CCB0 /* MutualInsGroupDetailVM.m in Sources */,
@@ -6363,6 +6370,7 @@
 				18649C3B1D48B49600F1CCB0 /* MyCollectionViewController.m in Sources */,
 				183F57441D4C90860001E26A /* UpdateCooperationInsInfoOp.m in Sources */,
 				186499811D489A9700F1CCB0 /* HKLocationDataModel.m in Sources */,
+				1836B7CA1D54220B0078DB15 /* CKMethods.m in Sources */,
 				18649CA91D48B6D200F1CCB0 /* ViolationViewController.m in Sources */,
 				18649E001D48BD6B00F1CCB0 /* MutualInsPayViewController.m in Sources */,
 				18649B5F1D48A93000F1CCB0 /* BorderLineLabel.m in Sources */,
@@ -6382,6 +6390,7 @@
 				186499AF1D489A9700F1CCB0 /* GetAreaByIdOp.m in Sources */,
 				18649E481D48BE0A00F1CCB0 /* MutInsSystemGroupListVC.m in Sources */,
 				18649CD51D48B77700F1CCB0 /* ChooseCouponVC.m in Sources */,
+				1836B7C71D54220B0078DB15 /* CKQueue.m in Sources */,
 				186496BD1D489A4200F1CCB0 /* HKLaunchManager.m in Sources */,
 				18649D5F1D48BA9800F1CCB0 /* InsInputInfoVC.m in Sources */,
 				186499B31D489A9700F1CCB0 /* GetAutomobileBrandOp.m in Sources */,
@@ -6414,15 +6423,17 @@
 				18649C1E1D48B3BB00F1CCB0 /* LoginViewModel.m in Sources */,
 				18649C391D48B49600F1CCB0 /* EditMyInfoViewController.m in Sources */,
 				186496BA1D489A4200F1CCB0 /* DistanceCalcHelper.m in Sources */,
+				1836B7C81D54220B0078DB15 /* CKStore.m in Sources */,
 				186496B41D489A4200F1CCB0 /* AppManager.m in Sources */,
 				18649C8B1D48B61900F1CCB0 /* CarsListVC.m in Sources */,
+				1836B7B41D54220B0078DB15 /* NSObject+AutoConvertValue.m in Sources */,
 				18649B721D48A93000F1CCB0 /* HKSubscriptInputField.m in Sources */,
 				18649D911D48BB5D00F1CCB0 /* GasStepper.m in Sources */,
-				1864953D1D4888BE00F1CCB0 /* CKTreeNode.m in Sources */,
 				18649CF61D48B7C000F1CCB0 /* AreaTablePickerVC.m in Sources */,
 				18649DEF1D48BCF100F1CCB0 /* MutualInsGroupMyDetailHeaderCell.m in Sources */,
 				18649C901D48B61900F1CCB0 /* PickerAutoModelVC.m in Sources */,
 				18649B7D1D48A93000F1CCB0 /* MapBottomV2View.m in Sources */,
+				1836B7B61D54220B0078DB15 /* NSObject+Runtime.m in Sources */,
 				186496B91D489A4200F1CCB0 /* DefaultStyleModel.m in Sources */,
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
 				183F573F1D4C90860001E26A /* PayForPremiumOp.m in Sources */,
@@ -6453,6 +6464,7 @@
 				18FC01DD1C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m in Sources */,
 				183F57411D4C90860001E26A /* UpdateCalculatePremiumOp.m in Sources */,
 				183F57471D4C90860001E26A /* AutoBrand.m in Sources */,
+				1836B7BA1D54220B0078DB15 /* NSString+Safety.m in Sources */,
 				183F57271D4C90860001E26A /* GetCooperationGroupSharemoneyOp.m in Sources */,
 				186496CA1D489A4200F1CCB0 /* MapHelper.m in Sources */,
 				186497171D489A5800F1CCB0 /* NSString+Price.m in Sources */,
@@ -6472,8 +6484,6 @@
 				18649D011D48B7C000F1CCB0 /* SocialShareViewController.m in Sources */,
 				18649A0B1D489A9700F1CCB0 /* SubmitCommentOp.m in Sources */,
 				18649A0C1D489A9700F1CCB0 /* SystemFastrateGetOp.m in Sources */,
-				1864952F1D4888BE00F1CCB0 /* UIColor+ColorWithHexString.m in Sources */,
-				1864953B1D4888BE00F1CCB0 /* CKQueue.m in Sources */,
 				18649A071D489A9700F1CCB0 /* SecondCarValuationOp.m in Sources */,
 				183F57341D4C90860001E26A /* GetInsBaseCarListByIDOp.m in Sources */,
 				186496C41D489A4200F1CCB0 /* HKTokenPool.m in Sources */,
@@ -6481,8 +6491,8 @@
 				18649A041D489A9700F1CCB0 /* OrderPaidSuccessOp.m in Sources */,
 				18649E1A1D48BD8D00F1CCB0 /* MutualInsAcceptCompensationVC.m in Sources */,
 				1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */,
-				186495411D4888BE00F1CCB0 /* CKShadowView.m in Sources */,
 				186496CF1D489A4200F1CCB0 /* PaymentHelper.m in Sources */,
+				1836B7B81D54220B0078DB15 /* NSString+Compare.m in Sources */,
 				186496C71D489A4200F1CCB0 /* JTLogModel.m in Sources */,
 				18648FBC1D48558000F1CCB0 /* SBJsonWriter.m in Sources */,
 				C3D9B81F1CC0DBF000B5D2A7 /* FLAnimatedImageView.m in Sources */,
@@ -6492,13 +6502,10 @@
 				18649BEE1D48B0E100F1CCB0 /* SearchViewController.m in Sources */,
 				186499B21D489A9700F1CCB0 /* GetAreaInfoOp.m in Sources */,
 				18649C3A1D48B49600F1CCB0 /* MineVC.m in Sources */,
-				186495341D4888BE00F1CCB0 /* CKDatasource.m in Sources */,
 				186499FC1D489A9700F1CCB0 /* GetUserResourcesV2Op.m in Sources */,
 				183F57111D4C90860001E26A /* ApplyCooperationGroupJoinOp.m in Sources */,
-				186495371D4888BE00F1CCB0 /* CKEventPromise.m in Sources */,
 				18649C551D48B4E500F1CCB0 /* UnbundlingVC.m in Sources */,
 				18649CD01D48B72D00F1CCB0 /* RescueHomeViewController.m in Sources */,
-				186495311D4888BE00F1CCB0 /* UIImagePickerController+Expansion.m in Sources */,
 				18649C6F1D48B57300F1CCB0 /* FeedbackVC.m in Sources */,
 				183F57151D4C90860001E26A /* CancelGaschargeOp.m in Sources */,
 				186496BC1D489A4200F1CCB0 /* HKConvertModel.m in Sources */,
@@ -6513,6 +6520,7 @@
 				18649B611D48A93000F1CCB0 /* CKLine.m in Sources */,
 				183F571C1D4C90860001E26A /* GascardChargeByStagesOp.m in Sources */,
 				186499CB1D489A9700F1CCB0 /* GetInscouponOp.m in Sources */,
+				1836B7BB1D54220B0078DB15 /* UIColor+ColorWithHexString.m in Sources */,
 				183F572D1D4C90860001E26A /* GetCZBCouponDefInfoOp.m in Sources */,
 				18649B621D48A93000F1CCB0 /* DashLine.m in Sources */,
 				181F6DA71B15919900D38555 /* CXAlertView.m in Sources */,
@@ -6523,23 +6531,23 @@
 				183F57201D4C90860001E26A /* GetCooperationClaimsListOp.m in Sources */,
 				18649BAF1D48ADC600F1CCB0 /* WelcomeVC.m in Sources */,
 				18649CA01D48B64E00F1CCB0 /* InsranceOrderViewModel.m in Sources */,
+				1836B7BE1D54220B0078DB15 /* UIViewController+Coordinate.m in Sources */,
 				1864998E1D489A9700F1CCB0 /* JTQueue.m in Sources */,
 				18649BF51D48B12B00F1CCB0 /* ListWebVC.m in Sources */,
 				18649C8E1D48B61900F1CCB0 /* PickAutomobileBrandVC.m in Sources */,
 				186499921D489A9700F1CCB0 /* MutualInsCarListModel.m in Sources */,
 				1888F4281D48CBFB00C64288 /* GetReactNativePackageOp.m in Sources */,
 				1864971E1D489A5800F1CCB0 /* UIStoryboard+Expansion.m in Sources */,
+				1836B7B21D54220B0078DB15 /* NSDictionary+Encoding.m in Sources */,
 				183F572C1D4C90860001E26A /* GetCoorperationClaimConfigOp.m in Sources */,
 				183F57321D4C90860001E26A /* GetGaschargeInfoOp.m in Sources */,
 				18649D311D48B9A600F1CCB0 /* InsAppointmentSuccessVC.m in Sources */,
 				18D17F771B53B21E00F66F04 /* MBProgressHUD.m in Sources */,
-				186495231D4888BE00F1CCB0 /* NSArray+Encoding.m in Sources */,
 				1888F3F21D48C02600C64288 /* MutualInsClaimAccountVC.m in Sources */,
 				505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */,
 				1864997B1D489A9700F1CCB0 /* HKCoupon.m in Sources */,
 				18649C9E1D48B64E00F1CCB0 /* CarwashOrderDetailVC.m in Sources */,
 				18649D3C1D48B9D900F1CCB0 /* DrivingLicenseThumbCell.m in Sources */,
-				1864952E1D4888BE00F1CCB0 /* NSString+Safety.m in Sources */,
 				18649E1B1D48BD8D00F1CCB0 /* MutualInsActivityVC.m in Sources */,
 				1864998C1D489A9700F1CCB0 /* HKViolation.m in Sources */,
 				18649E4C1D48BE0A00F1CCB0 /* MutualInsRequestJoinGroupVC.m in Sources */,
@@ -6574,7 +6582,6 @@
 				18649B6E1D48A93000F1CCB0 /* HKMapView.m in Sources */,
 				1864998B1D489A9700F1CCB0 /* HKServiceOrder.m in Sources */,
 				18649E201D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m in Sources */,
-				186495271D4888BE00F1CCB0 /* NSMutableDictionary+Safety.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
 				1888F4321D48CD6500C64288 /* AFDownloadRequestOperation.m in Sources */,
 				18649DA41D48BBBE00F1CCB0 /* RescueViewController.m in Sources */,
@@ -6592,18 +6599,16 @@
 				186499F61D489A9700F1CCB0 /* GetUserCouponByTypeOp.m in Sources */,
 				18C52C3A1BA6CE9400F6C38B /* DAProgressOverlayView.m in Sources */,
 				18649E231D48BD8D00F1CCB0 /* MutualInsScencePageVC.m in Sources */,
-				186495281D4888BE00F1CCB0 /* NSObject+AutoConvertValue.m in Sources */,
 				186499DF1D489A9700F1CCB0 /* GetRescueHostCountsOp.m in Sources */,
 				186499B11D489A9700F1CCB0 /* GetAreaByPcdOp.m in Sources */,
+				1836B7B01D54220B0078DB15 /* NSArray+Safety.m in Sources */,
 				186497141D489A5800F1CCB0 /* NSString+Format.m in Sources */,
 				186496BF1D489A4200F1CCB0 /* HKLoginModel.m in Sources */,
 				186499801D489A9700F1CCB0 /* HKLaunchInfo.m in Sources */,
 				183F57101D4C90860001E26A /* ApplyCooperationClaimOp.m in Sources */,
-				186495301D4888BE00F1CCB0 /* UIImage+Utility.m in Sources */,
 				FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */,
 				18649A201D489A9700F1CCB0 /* HKUserStore.m in Sources */,
 				186496B81D489A4200F1CCB0 /* DebugFormat.m in Sources */,
-				1864952D1D4888BE00F1CCB0 /* NSString+Path.m in Sources */,
 				18649A231D489A9700F1CCB0 /* UserStore.m in Sources */,
 				186499D81D489A9700F1CCB0 /* GetPicHistoryOp.m in Sources */,
 				183F571F1D4C90860001E26A /* GetCooperationClaimDetailOp.m in Sources */,
@@ -6612,9 +6617,11 @@
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
 				183F57031D4C90860001E26A /* InsBaseCar.m in Sources */,
 				183F57081D4C90860001E26A /* MutualInsContract.m in Sources */,
+				1836B7C41D54220B0078DB15 /* CKList.m in Sources */,
 				18649A131D489A9700F1CCB0 /* UpdateUserInfoOp.m in Sources */,
 				183F57171D4C90860001E26A /* CheckCooperationPremiumOp.m in Sources */,
 				18649CF41D48B7C000F1CCB0 /* ADViewController.m in Sources */,
+				1836B75C1D5319E90078DB15 /* RCTHKRefreshControl.m in Sources */,
 				183F572B1D4C90860001E26A /* GetCooperationMygroupDetailOp.m in Sources */,
 				18649D931D48BB5D00F1CCB0 /* GasSubVC.m in Sources */,
 				18649D4C1D48BA3D00F1CCB0 /* InsSubmitResultVC.m in Sources */,
@@ -6629,11 +6636,10 @@
 				186499F41D489A9700F1CCB0 /* GetUserBaseInfoOp.m in Sources */,
 				18649BAE1D48ADC600F1CCB0 /* LaunchVC.m in Sources */,
 				18649C641D48B54E00F1CCB0 /* CouponDetailsVC.m in Sources */,
-				186495331D4888BE00F1CCB0 /* CKBaseStore.m in Sources */,
-				186495251D4888BE00F1CCB0 /* NSData+JSON.m in Sources */,
 				18649B7B1D48A93000F1CCB0 /* MapBottomNavigationView.m in Sources */,
 				186499881D489A9700F1CCB0 /* HKRescueDetail.m in Sources */,
 				1864997F1D489A9700F1CCB0 /* HKInsuranceOrder.m in Sources */,
+				1836B7CD1D54220B0078DB15 /* CKShadowView.m in Sources */,
 				18649A1B1D489A9700F1CCB0 /* CarIDCodeCheckModel.m in Sources */,
 				18649B701D48A93000F1CCB0 /* HKPageControl.m in Sources */,
 				186497121D489A5800F1CCB0 /* NSNumber+Safety.m in Sources */,

@@ -6,12 +6,18 @@ import React, {
 } from 'react';
 import {View, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import ViewPager from 'react-native-viewpager';
+import UI from '../../constant/UIConstants';
 
 
 export default class ADView extends Component {
     static propTypes = {
-        onPress: PropTypes.func,
         dataSource: PropTypes.array,
+        defaultImage: PropTypes.object,
+    }
+
+    static defaultProps = {
+        defaultImage: UI.Img.DefaultAD,
+        dataSource: [{onPress: ()=>{}}],
     }
 
     constructor(props) {
@@ -27,28 +33,40 @@ export default class ADView extends Component {
     }
 
     render() {
+        let locked = this.state.dataSource.getPageCount() <= 1;
         return (
             <ViewPager
                 dataSource={this.state.dataSource}
-                renderPage={this._renderPage}
+                renderPage={this._renderPage.bind(this)}
+                locked={locked}
+                renderPageIndicator={locked ? false : undefined}
                 isLoop={false}
                 autoPlay={true}
+                style={styles.container}
             />
         );
     }
 
     _renderPage(data, pageID) {
-        <TouchableOpacity onPress={()=>data.onClick(pageID)}>
-            <Image
-                source={{uri: data.url}}
-                defaultSource={{}}
-            />
-        </TouchableOpacity>
+        return (
+            <TouchableOpacity onPress={()=>data.onPress(pageID)}>
+                <Image
+                    source={{uri: data.image}}
+                    defaultSource={this.props.defaultImage}
+                    style={[styles.page, this.props.style]}
+                />
+            </TouchableOpacity>
+        );
     }
 }
 
 
 const styles = StyleSheet.create({
-    container: {flex: 1}
+    container: {flex: 1},
+    page: {
+        width: UI.Win.Width,
+        height: Math.ceil(UI.Win.Width * 184.0 / 640),
+    },
+
 });
 
