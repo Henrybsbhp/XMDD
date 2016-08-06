@@ -19,7 +19,10 @@
 @property (nonatomic,copy)NSString * homeItemRedirect;
 
 @property (nonatomic,copy)NSString * defaultImageName;
+/// 是否是新模块标记（点击会消失）
 @property (nonatomic)BOOL isNewFlag;
+/// 是否热门编辑 （点击不消失）
+@property (nonatomic)BOOL isHotFlag;
 
 - (instancetype)initWithId:(NSString *)itemId titlt:(NSString *)title
                     picUrl:(NSString *)picurl andUrl:(NSString *)url

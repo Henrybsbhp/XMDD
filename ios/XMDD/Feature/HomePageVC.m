@@ -20,19 +20,13 @@
 #import "GuideStore.h"
 #import "PasteboardModel.h"
 #import "AdListData.h"
+#import "HomePageModuleModel.h"
 
 #import "ADViewController.h"
 #import "HomeNewbieGuideVC.h"
 #import "HomeSuspendedAdVC.h"
 
-#import "HKPopoverView.h"
-#import "FLAnimatedImage.h"
-#import "FLAnimatedImageView.h"
 #import "TTTAttributedLabel.h"
-
-#define WeatherRefreshTimeInterval 60 * 30
-#define ItemCount 3
-
 
 @interface HomePageVC ()<UIScrollViewDelegate,TTTAttributedLabelDelegate>
 @property (nonatomic, weak) IBOutlet UIView *bgView;
@@ -49,6 +43,7 @@
 
 @property (nonatomic, strong) MyCarStore *carStore;
 @property (nonatomic, strong) GuideStore *guideStore;
+@property (nonatomic, strong) HomePageModuleModel * moduleModel;
 
 /// 当前页面是否是homePageVC
 @property (nonatomic, assign) BOOL isViewAppearing;
@@ -86,6 +81,7 @@
     //设置主页的滚动视图
     [self setupScrollView];
     [self setupWeatherView];
+    
     
     [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
     
@@ -212,7 +208,7 @@
     }];
     
     // 设置九宫格内部数据
-    [self setupSquaresView:squaresHeight];
+    [self setupSquaresView:squaresView withHeight:squaresHeight];
     
     //小方块高度
     CGFloat squareHeight = squaresHeight / 3.0f;
@@ -329,17 +325,15 @@
     }];
 }
 
-- (void)setupSquaresView:(CGFloat)height
+- (void)setupSquaresView:(UIView *)containView withHeight:(CGFloat)height
 {
     CGFloat squaresHeight = height;
     CGFloat squqresWidth = gAppMgr.deviceInfo.screenSize.width;
-    UIView *squaresView = (UIView *)[self.view searchViewWithTag:101];
-    for (NSInteger i = 0; i < gAppMgr.homePicModel.homeItemArray.count; i++)
-    {
-        HomeItem *item = [gAppMgr.homePicModel.homeItemArray safetyObjectAtIndex:i];
-        
-        [self mainButtonWithSubmudule:item index:i inContainer:squaresView width:squqresWidth/3.0 height:squaresHeight/3.0];
-    }
+    
+    self.moduleModel.moduleArray = gAppMgr.homePicModel.homeItemArray;
+    self.moduleModel.numOfColumn = 3;
+    
+    [self.moduleModel setupSquaresViewWithContainView:containView andItemWith:squqresWidth/3.0 andItemHeigth:squaresHeight/3.0];
 }
 
 - (void)setupTTTLabel:(TTTAttributedLabel *)label withContent:(NSString *)text withRange:(NSRange)range
@@ -420,6 +414,7 @@
         }];
     }
 }
+
 
 #pragma mark - Action
 - (IBAction)actionCallService:(id)sender {
@@ -550,7 +545,10 @@
         
         gAppMgr.homePicModel = [gAppMgr.homePicModel analyzeHomePicModel:op.homeModel];
         [gAppMgr saveHomePicInfo];
-        [self refreshSquareView];
+        
+        UIView *containView = (UIView *)[self.view searchViewWithTag:101];
+        self.moduleModel.moduleArray = gAppMgr.homePicModel.homeItemArray;
+        [self.moduleModel refreshSquareView:containView];
     }];
 }
 
@@ -578,184 +576,6 @@
 }
 
 
-- (FLAnimatedImageView *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container andPicUrl:(NSString *)picUrl
-{
-    FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
-    imageView.backgroundColor = [UIColor whiteColor];
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [container addSubview:imageView];
-    
-    if (picUrl)
-    {
-        [self requestHomePicWithBtn:imageView andUrl:picUrl andDefaultPic:imgName errPic:imgName];
-    }
-    else
-    {
-        UIImage *img = [UIImage imageNamed:imgName];
-        [imageView setImage:img];
-    }
-    return imageView;
-}
-
-- (UIImageView *)mainButtonWithSubmudule:(HomeItem *)item index:(NSInteger)index inContainer:(UIView *)container width:(CGFloat)width height:(CGFloat)height
-{
-    NSInteger tag = 20101;
-    FLAnimatedImageView * itemView = [self functionalButtonWithImageName:item.defaultImageName action:nil inContainer:container andPicUrl:item.homeItemPicUrl];
-    itemView.userInteractionEnabled = YES;
-    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] init];
-    [itemView addGestureRecognizer:tapGesture];
-    RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
-        [self jumpToViewControllerByUrl:item.homeItemRedirect];
-    }];
-    
-    [self.disposableArray safetyAddObject:disposable];
-    itemView.tag = tag + index;
-    
-    NSInteger quotient = index / ItemCount;
-    NSInteger remiainder = index % ItemCount;
-    
-    [itemView mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.width.mas_equalTo(width);
-        make.height.mas_equalTo(height);
-        make.top.equalTo(container).offset(height * quotient);
-        make.left.equalTo(container).offset(width * remiainder);
-    }];
-    
-    NSInteger iconTag = 2010101 + index;
-    UIImageView * iconNewImageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp_new_icon"]];
-    iconNewImageV.tag = iconTag;
-    [itemView addSubview:iconNewImageV];
-    
-    [iconNewImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(40);
-        make.top.equalTo(itemView);
-        make.right.equalTo(itemView);
-    }];
-    
-    BOOL isnewflag = (![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]]) && item.isNewFlag;
-    iconNewImageV.hidden = !isnewflag;
-    
-    return itemView;
-}
-
-
-//刷新九宫格
-- (void)refreshSquareView
-{
-    UIView *firstView = (UIView *)[self.view searchViewWithTag:101];
-    
-    for (RACDisposable * disposable in self.disposableArray)
-    {
-        [disposable dispose];
-    }
-    [self.disposableArray removeAllObjects];
-    
-    for (NSInteger i = 0; i < gAppMgr.homePicModel.homeItemArray.count; i++)
-    {
-        HomeItem *item = [gAppMgr.homePicModel.homeItemArray safetyObjectAtIndex:i];
-        NSInteger itemTag = 20101 + i;
-        FLAnimatedImageView * itemView = (FLAnimatedImageView *)[firstView searchViewWithTag:itemTag];
-        itemView.hidden = NO;
-        
-        NSInteger iconNewTag = 2010101 + i;
-        UIImageView * iconImageView = (UIImageView *)[itemView searchViewWithTag:iconNewTag];
-        iconImageView.hidden = !((![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]]) && item.isNewFlag);
-        
-        [self requestHomePicWithBtn:itemView andUrl:item.homeItemPicUrl andDefaultPic:item.defaultImageName errPic:item.defaultImageName];
-        
-        //先移除手势
-        for (UIGestureRecognizer *recognizer in itemView.gestureRecognizers) {
-            [itemView removeGestureRecognizer:recognizer];
-        }
-        UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] init];
-        RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
-            [self jumpToViewControllerByUrl:item.homeItemRedirect];
-            
-            // 把new标签设置回去
-            if (![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]] && item.isNewFlag)
-            {
-                [gAppMgr saveElementReaded:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]];
-                iconImageView.hidden = YES;
-            }
-        }];
-        [itemView addGestureRecognizer:tapGesture];
-        [self.disposableArray safetyAddObject:disposable];
-    }
-    /// 如果只有7个或者8个，把多余的隐藏
-    for (UIView * view in firstView.subviews)
-    {
-        if ([view isKindOfClass:[FLAnimatedImageView class]])
-        {
-            NSInteger itemTag = view.tag;
-            if ((itemTag - 20101) >= gAppMgr.homePicModel.homeItemArray.count)
-            {
-                view.hidden = YES;
-            }
-        }
-    }
-}
-
-
-- (void)requestHomePicWithBtn:(FLAnimatedImageView *)imageView andUrl:(NSString *)url andDefaultPic:(NSString *)pic1 errPic:(NSString *)pic2
-{
-    if (![url hasSuffix:@"gif"])
-    {
-        [[gMediaMgr rac_getImageByUrl:url withType:ImageURLTypeOrigin defaultPic:pic1 errorPic:pic2] subscribeNext:^(id x) {
-            
-            if (![x isKindOfClass:[UIImage class]])
-                return ;
-            
-                [UIView transitionWithView:imageView
-                                  duration:1.0
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{
-                                    
-                                    [imageView setImage:x];
-                                    imageView.alpha = 1.0;
-                                } completion:nil];
-            
-        }];
-    }
-    else
-    {
-        [[gMediaMgr rac_getGifImageDataByUrl:url defaultPic:pic1 errorPic:pic2] subscribeNext:^(id x) {
-            
-            if ([x isKindOfClass:[NSData class]])
-            {
-                FLAnimatedImage * animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:x];
-                [UIView transitionWithView:imageView
-                                  duration:1.0
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{
-                                    
-                                    imageView.animatedImage = animatedImage;
-                                    imageView.alpha = 1.0;
-                                } completion:nil];
-//                imageView.animatedImage = animatedImage;
-            }
-            else if ([x isKindOfClass:[UIImage class]])
-            {
-                [UIView transitionWithView:imageView
-                                  duration:1.0
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{
-                                    
-                                    [imageView setImage:x];
-                                    imageView.alpha = 1.0;
-                                } completion:nil];
-            }
-        }];
-    }
-}
-
-
-- (void)jumpToViewControllerByUrl:(NSString *)url
-{
-    [gAppMgr.navModel pushToViewControllerByUrl:url];
-}
 
 - (RACSignal *)rac_requestHomeSubmuduleWithUser:(JTUser *)user andReGeocode:(AMapLocationReGeocode *)code
 {
@@ -797,6 +617,16 @@
     gAppMgr.temperatureAndTip = text;
     gAppMgr.temperaturepic = @"yin";
     gAppMgr.restriction = @"定位失败";
+}
+
+#pragma mark - Lazy
+- (HomePageModuleModel *)moduleModel
+{
+    if (!_moduleModel)
+    {
+        _moduleModel = [[HomePageModuleModel alloc] init];
+    }
+    return _moduleModel;
 }
 
 @end
