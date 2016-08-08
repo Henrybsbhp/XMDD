@@ -11,7 +11,6 @@
 #import "HKSMSModel.h"
 #import "UIView+Shake.h"
 #import "BindBankcardOp.h"
-#import "ResultVC.h"
 #import "MyCarStore.h"
 #import "CKLimitTextField.h"
 #import <UIKitExtension.h>

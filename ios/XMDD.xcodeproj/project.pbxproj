@@ -128,7 +128,6 @@
 		183F57401D4C90860001E26A /* SearchCooperationGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56EE1D4C90860001E26A /* SearchCooperationGroupOp.m */; };
 		183F57411D4C90860001E26A /* UpdateCalculatePremiumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56F01D4C90860001E26A /* UpdateCalculatePremiumOp.m */; };
 		183F57421D4C90860001E26A /* UpdateCooperationContractDeliveryinfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56F21D4C90860001E26A /* UpdateCooperationContractDeliveryinfoOp.m */; };
-		183F57431D4C90860001E26A /* UpdateCooperationIdlicenseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56F41D4C90860001E26A /* UpdateCooperationIdlicenseInfoOp.m */; };
 		183F57441D4C90860001E26A /* UpdateCooperationInsInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56F61D4C90860001E26A /* UpdateCooperationInsInfoOp.m */; };
 		183F57451D4C90860001E26A /* UpdateDeliveryInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56F81D4C90860001E26A /* UpdateDeliveryInfoOp.m */; };
 		183F57471D4C90860001E26A /* AutoBrand.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56FD1D4C90860001E26A /* AutoBrand.m */; };
@@ -314,7 +313,6 @@
 		1864999E1D489A9700F1CCB0 /* BindBankcardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864981B1D489A9600F1CCB0 /* BindBankcardOp.m */; };
 		1864999F1D489A9700F1CCB0 /* BindDeviceToken2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864981D1D489A9600F1CCB0 /* BindDeviceToken2Op.m */; };
 		186499A01D489A9700F1CCB0 /* BindDeviceTokenOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864981F1D489A9600F1CCB0 /* BindDeviceTokenOp.m */; };
-		186499A11D489A9700F1CCB0 /* CalculateInsuranceCarPremiumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498211D489A9600F1CCB0 /* CalculateInsuranceCarPremiumOp.m */; };
 		186499A21D489A9700F1CCB0 /* CarEvaluateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498231D489A9600F1CCB0 /* CarEvaluateOp.m */; };
 		186499A31D489A9700F1CCB0 /* CheckoutServiceOrderV4Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498251D489A9600F1CCB0 /* CheckoutServiceOrderV4Op.m */; };
 		186499A41D489A9700F1CCB0 /* CheckUserAwardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498271D489A9600F1CCB0 /* CheckUserAwardOp.m */; };
@@ -323,8 +321,6 @@
 		186499A71D489A9700F1CCB0 /* DeleteCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864982D1D489A9600F1CCB0 /* DeleteCarOp.m */; };
 		186499A81D489A9700F1CCB0 /* DeletePicHistoryOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864982F1D489A9600F1CCB0 /* DeletePicHistoryOp.m */; };
 		186499A91D489A9700F1CCB0 /* DeleteUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498311D489A9600F1CCB0 /* DeleteUserFavoriteOp.m */; };
-		186499AA1D489A9700F1CCB0 /* DownloadFileOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498331D489A9600F1CCB0 /* DownloadFileOp.m */; };
-		186499AB1D489A9700F1CCB0 /* DownloadOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498351D489A9600F1CCB0 /* DownloadOp.m */; };
 		186499AC1D489A9700F1CCB0 /* FeedbackOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498371D489A9600F1CCB0 /* FeedbackOp.m */; };
 		186499AD1D489A9700F1CCB0 /* GainCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498391D489A9600F1CCB0 /* GainCouponPkgOp.m */; };
 		186499AE1D489A9700F1CCB0 /* GainUserAwardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864983B1D489A9600F1CCB0 /* GainUserAwardOp.m */; };
@@ -332,7 +328,6 @@
 		186499B01D489A9700F1CCB0 /* GetAreaByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864983F1D489A9600F1CCB0 /* GetAreaByNameOp.m */; };
 		186499B11D489A9700F1CCB0 /* GetAreaByPcdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498411D489A9600F1CCB0 /* GetAreaByPcdOp.m */; };
 		186499B21D489A9700F1CCB0 /* GetAreaInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498431D489A9600F1CCB0 /* GetAreaInfoOp.m */; };
-		186499B31D489A9700F1CCB0 /* GetAutomobileBrandOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498451D489A9600F1CCB0 /* GetAutomobileBrandOp.m */; };
 		186499B41D489A9700F1CCB0 /* GetAutomobileBrandV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498471D489A9600F1CCB0 /* GetAutomobileBrandV2Op.m */; };
 		186499B51D489A9700F1CCB0 /* GetAutomobileModelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498491D489A9600F1CCB0 /* GetAutomobileModelOp.m */; };
 		186499B61D489A9700F1CCB0 /* GetAutomobileModelV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864984B1D489A9600F1CCB0 /* GetAutomobileModelV2Op.m */; };
@@ -343,10 +338,7 @@
 		186499BB1D489A9700F1CCB0 /* GetCarwashOrderListV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498551D489A9600F1CCB0 /* GetCarwashOrderListV3Op.m */; };
 		186499BC1D489A9700F1CCB0 /* GetCarwashOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498571D489A9600F1CCB0 /* GetCarwashOrderV2Op.m */; };
 		186499BD1D489A9700F1CCB0 /* GetCityInfoByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498591D489A9600F1CCB0 /* GetCityInfoByNameOp.m */; };
-		186499BE1D489A9700F1CCB0 /* GetCitysOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864985B1D489A9600F1CCB0 /* GetCitysOp.m */; };
-		186499BF1D489A9700F1CCB0 /* GetCooperationAutoGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864985D1D489A9600F1CCB0 /* GetCooperationAutoGroupOp.m */; };
 		186499C01D489A9700F1CCB0 /* GetCooperationGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864985F1D489A9600F1CCB0 /* GetCooperationGroupOp.m */; };
-		186499C11D489A9700F1CCB0 /* GetCooperationMyGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498611D489A9600F1CCB0 /* GetCooperationMyGroupOp.m */; };
 		186499C21D489A9700F1CCB0 /* GetCooperationResourcesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498631D489A9600F1CCB0 /* GetCooperationResourcesOp.m */; };
 		186499C31D489A9700F1CCB0 /* GetCooperationUsercarListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498651D489A9600F1CCB0 /* GetCooperationUsercarListOp.m */; };
 		186499C41D489A9700F1CCB0 /* GetCouponByTypeNewV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498671D489A9600F1CCB0 /* GetCouponByTypeNewV2Op.m */; };
@@ -357,9 +349,7 @@
 		186499C91D489A9700F1CCB0 /* GetGroupJoinedInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498711D489A9600F1CCB0 /* GetGroupJoinedInfoOp.m */; };
 		186499CA1D489A9700F1CCB0 /* GetGroupPasswordOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498731D489A9600F1CCB0 /* GetGroupPasswordOp.m */; };
 		186499CB1D489A9700F1CCB0 /* GetInscouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498751D489A9600F1CCB0 /* GetInscouponOp.m */; };
-		186499CC1D489A9700F1CCB0 /* GetInsuranceByChannelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498771D489A9600F1CCB0 /* GetInsuranceByChannelOp.m */; };
 		186499CD1D489A9700F1CCB0 /* GetInsuranceCalculatorOpV3.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498791D489A9600F1CCB0 /* GetInsuranceCalculatorOpV3.m */; };
-		186499CE1D489A9700F1CCB0 /* GetInsuranceDiscountOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864987B1D489A9600F1CCB0 /* GetInsuranceDiscountOp.m */; };
 		186499CF1D489A9700F1CCB0 /* GetInsuranceOrderDetailsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864987D1D489A9600F1CCB0 /* GetInsuranceOrderDetailsOp.m */; };
 		186499D01D489A9700F1CCB0 /* GetInsuranceOrderListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864987F1D489A9600F1CCB0 /* GetInsuranceOrderListOp.m */; };
 		186499D11D489A9700F1CCB0 /* GetLaunchInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498811D489A9600F1CCB0 /* GetLaunchInfoOp.m */; };
@@ -404,13 +394,11 @@
 		186499F81D489A9700F1CCB0 /* GetUserCouponV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498CF1D489A9700F1CCB0 /* GetUserCouponV2Op.m */; };
 		186499F91D489A9700F1CCB0 /* GetUserFavoriteV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498D11D489A9700F1CCB0 /* GetUserFavoriteV2Op.m */; };
 		186499FA1D489A9700F1CCB0 /* GetUserResourcesGaschargeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498D31D489A9700F1CCB0 /* GetUserResourcesGaschargeOp.m */; };
-		186499FB1D489A9700F1CCB0 /* GetUserResourcesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498D51D489A9700F1CCB0 /* GetUserResourcesOp.m */; };
 		186499FC1D489A9700F1CCB0 /* GetUserResourcesV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498D71D489A9700F1CCB0 /* GetUserResourcesV2Op.m */; };
 		186499FD1D489A9700F1CCB0 /* GetVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498D91D489A9700F1CCB0 /* GetVcodeOp.m */; };
 		186499FE1D489A9700F1CCB0 /* GetVoiceVCodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498DB1D489A9700F1CCB0 /* GetVoiceVCodeOp.m */; };
 		186499FF1D489A9700F1CCB0 /* HistoryCollectionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498DD1D489A9700F1CCB0 /* HistoryCollectionOp.m */; };
 		18649A001D489A9700F1CCB0 /* HistoryDeleteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498DF1D489A9700F1CCB0 /* HistoryDeleteOp.m */; };
-		18649A011D489A9700F1CCB0 /* InsuranceAppointmentOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498E11D489A9700F1CCB0 /* InsuranceAppointmentOp.m */; };
 		18649A021D489A9700F1CCB0 /* InsuranceOrderPayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498E31D489A9700F1CCB0 /* InsuranceOrderPayOp.m */; };
 		18649A031D489A9700F1CCB0 /* LogoutOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498E51D489A9700F1CCB0 /* LogoutOp.m */; };
 		18649A041D489A9700F1CCB0 /* OrderPaidSuccessOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498E71D489A9700F1CCB0 /* OrderPaidSuccessOp.m */; };
@@ -426,8 +414,6 @@
 		18649A0E1D489A9700F1CCB0 /* UpdateCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498FB1D489A9700F1CCB0 /* UpdateCarOp.m */; };
 		18649A0F1D489A9700F1CCB0 /* UpdateClaimPicOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498FD1D489A9700F1CCB0 /* UpdateClaimPicOp.m */; };
 		18649A101D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498FF1D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.m */; };
-		18649A111D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499011D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.m */; };
-		18649A121D489A9700F1CCB0 /* UpdateInsuranceOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499031D489A9700F1CCB0 /* UpdateInsuranceOrderOp.m */; };
 		18649A131D489A9700F1CCB0 /* UpdateUserInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499051D489A9700F1CCB0 /* UpdateUserInfoOp.m */; };
 		18649A141D489A9700F1CCB0 /* UploadFileOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499071D489A9700F1CCB0 /* UploadFileOp.m */; };
 		18649A151D489A9700F1CCB0 /* UploadLogOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499091D489A9700F1CCB0 /* UploadLogOp.m */; };
@@ -497,7 +483,6 @@
 		18649B8B1D48A93000F1CCB0 /* UIView+ShowDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B541D48A93000F1CCB0 /* UIView+ShowDot.m */; };
 		18649BA81D48AD0500F1CCB0 /* MainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BA71D48AD0500F1CCB0 /* MainTabBarVC.m */; };
 		18649BAE1D48ADC600F1CCB0 /* LaunchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BAB1D48ADC600F1CCB0 /* LaunchVC.m */; };
-		18649BAF1D48ADC600F1CCB0 /* WelcomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BAD1D48ADC600F1CCB0 /* WelcomeVC.m */; };
 		18649BB61D48AE9B00F1CCB0 /* HomeNewbieGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BB31D48AE9B00F1CCB0 /* HomeNewbieGuideVC.m */; };
 		18649BB71D48AE9B00F1CCB0 /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BB51D48AE9B00F1CCB0 /* HomePageVC.m */; };
 		18649BBD1D48AEC000F1CCB0 /* HomeSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BBA1D48AEC000F1CCB0 /* HomeSuspendedAdVC.m */; };
@@ -542,7 +527,6 @@
 		18649C511D48B4E500F1CCB0 /* DetailsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C461D48B4E500F1CCB0 /* DetailsAlertVC.m */; };
 		18649C521D48B4E500F1CCB0 /* DrawingBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C481D48B4E500F1CCB0 /* DrawingBoardView.m */; };
 		18649C531D48B4E500F1CCB0 /* MyBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C4A1D48B4E500F1CCB0 /* MyBankVC.m */; };
-		18649C541D48B4E500F1CCB0 /* ResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C4C1D48B4E500F1CCB0 /* ResultVC.m */; };
 		18649C551D48B4E500F1CCB0 /* UnbundlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C4E1D48B4E500F1CCB0 /* UnbundlingVC.m */; };
 		18649C631D48B54E00F1CCB0 /* CarWashCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5A1D48B54E00F1CCB0 /* CarWashCouponVModel.m */; };
 		18649C641D48B54E00F1CCB0 /* CouponDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5C1D48B54E00F1CCB0 /* CouponDetailsVC.m */; };
@@ -570,7 +554,6 @@
 		18649CA81D48B6D200F1CCB0 /* ViolationItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CA51D48B6D200F1CCB0 /* ViolationItemViewController.m */; };
 		18649CA91D48B6D200F1CCB0 /* ViolationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CA71D48B6D200F1CCB0 /* ViolationViewController.m */; };
 		18649CB31D48B6F100F1CCB0 /* CommissionConfirmVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CAC1D48B6F100F1CCB0 /* CommissionConfirmVC.m */; };
-		18649CB41D48B6F100F1CCB0 /* CommissionCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CAE1D48B6F100F1CCB0 /* CommissionCouponViewController.m */; };
 		18649CB51D48B6F100F1CCB0 /* CommissionOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CB01D48B6F100F1CCB0 /* CommissionOrderVC.m */; };
 		18649CB61D48B6F100F1CCB0 /* CommissionSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CB21D48B6F100F1CCB0 /* CommissionSuccessVC.m */; };
 		18649CBE1D48B70A00F1CCB0 /* AwardOtherSheetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CB91D48B70A00F1CCB0 /* AwardOtherSheetVC.m */; };
@@ -640,9 +623,7 @@
 		18649D961D48BB5D00F1CCB0 /* HorizontalScrollTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D851D48BB5D00F1CCB0 /* HorizontalScrollTabView.m */; };
 		18649D971D48BB5D00F1CCB0 /* PayForGasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D871D48BB5D00F1CCB0 /* PayForGasViewController.m */; };
 		18649DA31D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D9C1D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.m */; };
-		18649DA41D48BBBE00F1CCB0 /* RescueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D9E1D48BBBE00F1CCB0 /* RescueViewController.m */; };
 		18649DA51D48BBBE00F1CCB0 /* ScanQRCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DA01D48BBBE00F1CCB0 /* ScanQRCodeVC.m */; };
-		18649DA61D48BBBE00F1CCB0 /* ServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DA21D48BBBE00F1CCB0 /* ServiceViewController.m */; };
 		18649DAE1D48BC5600F1CCB0 /* MutualInsHomeAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DAB1D48BC5600F1CCB0 /* MutualInsHomeAdVC.m */; };
 		18649DAF1D48BC5600F1CCB0 /* MutualInsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DAD1D48BC5600F1CCB0 /* MutualInsVC.m */; };
 		18649DBF1D48BCB700F1CCB0 /* MutualInsGroupDetailChildVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DB41D48BCB700F1CCB0 /* MutualInsGroupDetailChildVC.m */; };
@@ -671,10 +652,8 @@
 		18649E001D48BD6B00F1CCB0 /* MutualInsPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DFD1D48BD6B00F1CCB0 /* MutualInsPayViewController.m */; };
 		18649E1A1D48BD8D00F1CCB0 /* MutualInsAcceptCompensationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E031D48BD8D00F1CCB0 /* MutualInsAcceptCompensationVC.m */; };
 		18649E1B1D48BD8D00F1CCB0 /* MutualInsActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E051D48BD8D00F1CCB0 /* MutualInsActivityVC.m */; };
-		18649E1C1D48BD8D00F1CCB0 /* MutualInsAskClaimsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E071D48BD8D00F1CCB0 /* MutualInsAskClaimsVC.m */; };
 		18649E1D1D48BD8D00F1CCB0 /* MutualInsAskForCompensationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E091D48BD8D00F1CCB0 /* MutualInsAskForCompensationVC.m */; };
 		18649E1E1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E0B1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m */; };
-		18649E1F1D48BD8D00F1CCB0 /* MutualInsClaimDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E0D1D48BD8D00F1CCB0 /* MutualInsClaimDetailVC.m */; };
 		18649E201D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E0F1D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m */; };
 		18649E211D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E111D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.m */; };
 		18649E221D48BD8D00F1CCB0 /* MutualInsPicListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E131D48BD8D00F1CCB0 /* MutualInsPicListVC.m */; };
@@ -682,7 +661,6 @@
 		18649E241D48BD8D00F1CCB0 /* MutualInsScencePhotoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E171D48BD8D00F1CCB0 /* MutualInsScencePhotoVC.m */; };
 		18649E251D48BD8D00F1CCB0 /* MutualInsScencePhotoVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E191D48BD8D00F1CCB0 /* MutualInsScencePhotoVM.m */; };
 		18649E421D48BE0A00F1CCB0 /* CreateGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E2B1D48BE0A00F1CCB0 /* CreateGroupVC.m */; };
-		18649E431D48BE0A00F1CCB0 /* EstimatedPriceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E2D1D48BE0A00F1CCB0 /* EstimatedPriceVC.m */; };
 		18649E441D48BE0A00F1CCB0 /* GroupIntroductionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E2F1D48BE0A00F1CCB0 /* GroupIntroductionVC.m */; };
 		18649E451D48BE0A00F1CCB0 /* InviteByCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E311D48BE0A00F1CCB0 /* InviteByCodeVC.m */; };
 		18649E461D48BE0A00F1CCB0 /* MutInsCalculateResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E331D48BE0A00F1CCB0 /* MutInsCalculateResultVC.m */; };
@@ -2207,8 +2185,6 @@
 		18649D871D48BB5D00F1CCB0 /* PayForGasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForGasViewController.m; sourceTree = "<group>"; };
 		18649D9B1D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkInterfaceTableVC.h; sourceTree = "<group>"; };
 		18649D9C1D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkInterfaceTableVC.m; sourceTree = "<group>"; };
-		18649D9D1D48BBBE00F1CCB0 /* RescueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueViewController.h; sourceTree = "<group>"; };
-		18649D9E1D48BBBE00F1CCB0 /* RescueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueViewController.m; sourceTree = "<group>"; };
 		18649D9F1D48BBBE00F1CCB0 /* ScanQRCodeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanQRCodeVC.h; sourceTree = "<group>"; };
 		18649DA01D48BBBE00F1CCB0 /* ScanQRCodeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanQRCodeVC.m; sourceTree = "<group>"; };
 		18649DA11D48BBBE00F1CCB0 /* ServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceViewController.h; sourceTree = "<group>"; };
@@ -4244,8 +4220,6 @@
 			children = (
 				18649D9B1D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.h */,
 				18649D9C1D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.m */,
-				18649D9D1D48BBBE00F1CCB0 /* RescueViewController.h */,
-				18649D9E1D48BBBE00F1CCB0 /* RescueViewController.m */,
 				18649D9F1D48BBBE00F1CCB0 /* ScanQRCodeVC.h */,
 				18649DA01D48BBBE00F1CCB0 /* ScanQRCodeVC.m */,
 				18649DA11D48BBBE00F1CCB0 /* ServiceViewController.h */,
@@ -5967,7 +5941,6 @@
 				183F56FE1D4C90860001E26A /* Area.m in Sources */,
 				18649C751D48B59200F1CCB0 /* MessageListVC.m in Sources */,
 				183F56FF1D4C90860001E26A /* BankCard.m in Sources */,
-				18649E1C1D48BD8D00F1CCB0 /* MutualInsAskClaimsVC.m in Sources */,
 				183F57061D4C90860001E26A /* InsSimpleCar.m in Sources */,
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				188EF0B21D351A0F000D01D6 /* NSString+MarkupExtensions.m in Sources */,
@@ -6128,7 +6101,6 @@
 				186499ED1D489A9700F1CCB0 /* GetSystemJSPatchOp.m in Sources */,
 				18649B6C1D48A93000F1CCB0 /* HKImageView.m in Sources */,
 				186499BB1D489A9700F1CCB0 /* GetCarwashOrderListV3Op.m in Sources */,
-				18649C541D48B4E500F1CCB0 /* ResultVC.m in Sources */,
 				18649D8E1D48BB5D00F1CCB0 /* GasPickAmountCell.m in Sources */,
 				186499891D489A9700F1CCB0 /* HKRescueHistory.m in Sources */,
 				186499F51D489A9700F1CCB0 /* GetUserCarOp.m in Sources */,
@@ -6139,7 +6111,6 @@
 				18649DC01D48BCB700F1CCB0 /* MutualInsGroupDetailFundVC.m in Sources */,
 				18649E561D48BE3100F1CCB0 /* MutualInsPickCarVC.m in Sources */,
 				181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */,
-				18649A121D489A9700F1CCB0 /* UpdateInsuranceOrderOp.m in Sources */,
 				18649E421D48BE0A00F1CCB0 /* CreateGroupVC.m in Sources */,
 				18CFD84F1D4EED8500C12259 /* AutoBrand+Extension.m in Sources */,
 				186499CA1D489A9700F1CCB0 /* GetGroupPasswordOp.m in Sources */,
@@ -6195,8 +6166,6 @@
 				18649BCB1D48AF8200F1CCB0 /* HKProgressView.m in Sources */,
 				1836B7CC1D54220B0078DB15 /* CKSegmentHelper.m in Sources */,
 				186499C01D489A9700F1CCB0 /* GetCooperationGroupOp.m in Sources */,
-				186499A11D489A9700F1CCB0 /* CalculateInsuranceCarPremiumOp.m in Sources */,
-				18649DA61D48BBBE00F1CCB0 /* ServiceViewController.m in Sources */,
 				18649E5F1D48BE5500F1CCB0 /* InviteAlertVC.m in Sources */,
 				183F57291D4C90860001E26A /* GetCooperationMemberDetailOp.m in Sources */,
 				18649DC31D48BCB700F1CCB0 /* MutualInsGroupDetailMeVC.m in Sources */,
@@ -6255,7 +6224,6 @@
 				18649E461D48BE0A00F1CCB0 /* MutInsCalculateResultVC.m in Sources */,
 				18649CCD1D48B72D00F1CCB0 /* RescueCouponViewController.m in Sources */,
 				18649BEA1D48B0E100F1CCB0 /* CommentListViewController.m in Sources */,
-				186499CE1D489A9700F1CCB0 /* GetInsuranceDiscountOp.m in Sources */,
 				18649D021D48B7C000F1CCB0 /* SuspendedAdVC.m in Sources */,
 				186499821D489A9700F1CCB0 /* HKMessage.m in Sources */,
 				1836B7CB1D54220B0078DB15 /* CKPaths.m in Sources */,
@@ -6263,14 +6231,12 @@
 				188EF0B41D351A0F000D01D6 /* UILabel+MarkupExtensions.m in Sources */,
 				18649B6F1D48A93000F1CCB0 /* HKMessageAlertVC.m in Sources */,
 				186496D11D489A4200F1CCB0 /* PushManager.m in Sources */,
-				18649A011D489A9700F1CCB0 /* InsuranceAppointmentOp.m in Sources */,
 				18649DEA1D48BCF100F1CCB0 /* MutualInsGroupMemberCell.m in Sources */,
 				186495DB1D4895D200F1CCB0 /* main.m in Sources */,
 				186496B11D489A4200F1CCB0 /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */,
 				183F570D1D4C90860001E26A /* AddCooperationGroupJoinOp.m in Sources */,
 				18649B5C1D48A93000F1CCB0 /* CKRouter.m in Sources */,
 				18649D921D48BB5D00F1CCB0 /* GasStore.m in Sources */,
-				186499C11D489A9700F1CCB0 /* GetCooperationMyGroupOp.m in Sources */,
 				18649B791D48A93000F1CCB0 /* JTTableView.m in Sources */,
 				186496C21D489A4200F1CCB0 /* HKSMSModel.m in Sources */,
 				18649A1E1D489A9700F1CCB0 /* GuideStore.m in Sources */,
@@ -6285,7 +6251,6 @@
 				18649CF91D48B7C000F1CCB0 /* CollectionChooseVC.m in Sources */,
 				18649C631D48B54E00F1CCB0 /* CarWashCouponVModel.m in Sources */,
 				18648FBA1D48558000F1CCB0 /* SBJsonBase.m in Sources */,
-				18649E1F1D48BD8D00F1CCB0 /* MutualInsClaimDetailVC.m in Sources */,
 				1864999A1D489A9700F1CCB0 /* AskToCompensationOp.m in Sources */,
 				18649B6B1D48A93000F1CCB0 /* HKImagePicker.m in Sources */,
 				186499D41D489A9700F1CCB0 /* GetNewbieInfoOp.m in Sources */,
@@ -6308,7 +6273,6 @@
 				18649B5D1D48A93000F1CCB0 /* HKNavigationController.m in Sources */,
 				183F57351D4C90860001E26A /* GetInsBaseCarListOp.m in Sources */,
 				186499B51D489A9700F1CCB0 /* GetAutomobileModelOp.m in Sources */,
-				18649CB41D48B6F100F1CCB0 /* CommissionCouponViewController.m in Sources */,
 				18649B661D48A93000F1CCB0 /* HKAlertVC.m in Sources */,
 				1836B7B31D54220B0078DB15 /* NSMutableDictionary+Safety.m in Sources */,
 				18649A051D489A9700F1CCB0 /* OutlayCalculateWithFrameNumOp.m in Sources */,
@@ -6354,7 +6318,6 @@
 				18649BE81D48B0E100F1CCB0 /* CarWashTableVC.m in Sources */,
 				186499741D489A9700F1CCB0 /* CouponModel.m in Sources */,
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
-				186499CC1D489A9700F1CCB0 /* GetInsuranceByChannelOp.m in Sources */,
 				18649A161D489A9700F1CCB0 /* UserViolationQueryOp.m in Sources */,
 				18649C8D1D48B61900F1CCB0 /* MyCarListVModel.m in Sources */,
 				183F57021D4C90860001E26A /* GasChargeRecord.m in Sources */,
@@ -6384,7 +6347,6 @@
 				181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */,
 				1864999E1D489A9700F1CCB0 /* BindBankcardOp.m in Sources */,
 				6BEDB0461BA666D4009A8C3F /* CCSegmentedControl.m in Sources */,
-				186499FB1D489A9700F1CCB0 /* GetUserResourcesOp.m in Sources */,
 				18649C911D48B61900F1CCB0 /* PickerAutoSeriesVC.m in Sources */,
 				6B26EEB51C8EC23200428EC4 /* ZFCWaveActivityIndicatorView.m in Sources */,
 				186499AF1D489A9700F1CCB0 /* GetAreaByIdOp.m in Sources */,
@@ -6393,8 +6355,6 @@
 				1836B7C71D54220B0078DB15 /* CKQueue.m in Sources */,
 				186496BD1D489A4200F1CCB0 /* HKLaunchManager.m in Sources */,
 				18649D5F1D48BA9800F1CCB0 /* InsInputInfoVC.m in Sources */,
-				186499B31D489A9700F1CCB0 /* GetAutomobileBrandOp.m in Sources */,
-				18649E431D48BE0A00F1CCB0 /* EstimatedPriceVC.m in Sources */,
 				181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */,
 				186499A91D489A9700F1CCB0 /* DeleteUserFavoriteOp.m in Sources */,
 				186499AE1D489A9700F1CCB0 /* GainUserAwardOp.m in Sources */,
@@ -6437,7 +6397,6 @@
 				186496B91D489A4200F1CCB0 /* DefaultStyleModel.m in Sources */,
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
 				183F573F1D4C90860001E26A /* PayForPremiumOp.m in Sources */,
-				183F57431D4C90860001E26A /* UpdateCooperationIdlicenseInfoOp.m in Sources */,
 				186499721D489A9700F1CCB0 /* AutoSeriesModel.m in Sources */,
 				186499AD1D489A9700F1CCB0 /* GainCouponPkgOp.m in Sources */,
 				1837A7611B72130F0006E6C5 /* SDWaitingView.m in Sources */,
@@ -6449,8 +6408,6 @@
 				18649B821D48A93000F1CCB0 /* OEButton.m in Sources */,
 				186497151D489A5800F1CCB0 /* NSString+MD5.m in Sources */,
 				18649A151D489A9700F1CCB0 /* UploadLogOp.m in Sources */,
-				186499AA1D489A9700F1CCB0 /* DownloadFileOp.m in Sources */,
-				186499BE1D489A9700F1CCB0 /* GetCitysOp.m in Sources */,
 				6B26EEB21C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.m in Sources */,
 				18649E4A1D48BE0A00F1CCB0 /* MutualInsGroupInfoVC.m in Sources */,
 				18649D5E1D48BA9800F1CCB0 /* InsInputDateVC.m in Sources */,
@@ -6529,7 +6486,6 @@
 				183F571B1D4C90860001E26A /* ExitCooperationOp.m in Sources */,
 				18649A0A1D489A9700F1CCB0 /* ShareUserCouponOp.m in Sources */,
 				183F57201D4C90860001E26A /* GetCooperationClaimsListOp.m in Sources */,
-				18649BAF1D48ADC600F1CCB0 /* WelcomeVC.m in Sources */,
 				18649CA01D48B64E00F1CCB0 /* InsranceOrderViewModel.m in Sources */,
 				1836B7BE1D54220B0078DB15 /* UIViewController+Coordinate.m in Sources */,
 				1864998E1D489A9700F1CCB0 /* JTQueue.m in Sources */,
@@ -6556,7 +6512,6 @@
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
 				18649A0D1D489A9700F1CCB0 /* UnbindBankcardOp.m in Sources */,
 				18649AD61D48A0EF00F1CCB0 /* ViolationCityInfo.m in Sources */,
-				186499BF1D489A9700F1CCB0 /* GetCooperationAutoGroupOp.m in Sources */,
 				18649DAF1D48BC5600F1CCB0 /* MutualInsVC.m in Sources */,
 				186497181D489A5800F1CCB0 /* NSString+RectSize.m in Sources */,
 				183F57041D4C90860001E26A /* InsCoveragePrice.m in Sources */,
@@ -6584,11 +6539,8 @@
 				18649E201D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
 				1888F4321D48CD6500C64288 /* AFDownloadRequestOperation.m in Sources */,
-				18649DA41D48BBBE00F1CCB0 /* RescueViewController.m in Sources */,
 				186496C11D489A4200F1CCB0 /* HKSecurityManager.m in Sources */,
-				186499AB1D489A9700F1CCB0 /* DownloadOp.m in Sources */,
 				18649E451D48BE0A00F1CCB0 /* InviteByCodeVC.m in Sources */,
-				18649A111D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.m in Sources */,
 				18648FB81D48558000F1CCB0 /* NSString+SBJSON.m in Sources */,
 				18649D951D48BB5D00F1CCB0 /* GasVC.m in Sources */,
 				18649DAE1D48BC5600F1CCB0 /* MutualInsHomeAdVC.m in Sources */,

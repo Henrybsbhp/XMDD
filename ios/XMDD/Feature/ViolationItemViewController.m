@@ -740,6 +740,7 @@
     
     // 按钮下面的小标题
     UILabel * subtitleLb = (UILabel *)[cell searchViewWithTag:102];
+    subtitleLb.numberOfLines = 0;
     if (self.model.queryDate)
     {
         NSString * str = [NSString stringWithFormat:@"您于%@更新了%ld条信息",[self.model.queryDate dateFormatForYYYYMMddHHmmss],(unsigned long)self.model.violationArray.count];
@@ -787,10 +788,12 @@
     
     ///地点标志
     UILabel * whereLb = (UILabel *)[cell searchViewWithTag:105];
+    whereLb.numberOfLines = 0;
     whereLb.text = violation.violationArea;
     
     ///原因标志
     UILabel * whyLb = (UILabel *)[cell searchViewWithTag:106];
+    whyLb.numberOfLines = 0;
     whyLb.text = violation.violationAct;
     
     if ([violation.ishandled isEqualToString:@"1"])

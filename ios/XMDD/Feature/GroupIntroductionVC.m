@@ -142,6 +142,7 @@
     [self.linsenceLb setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
                                                NSForegroundColorAttributeName: kGrayTextColor}];
     [self.linsenceLb addLinkToURL:[NSURL URLWithString:linsenceUrlStr] withRange:NSMakeRange(linsenceText.length - 8, 8)];
+    self.linsenceLb.numberOfLines = 0;
     
     self.linsenceFlag = YES;
     

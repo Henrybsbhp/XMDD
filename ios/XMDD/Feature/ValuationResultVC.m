@@ -143,6 +143,7 @@
                 bubbleV.image = bubbleImg;
             }
             UILabel * tipLabel = (UILabel *)[cell.contentView viewWithTag:1007];
+            tipLabel.numberOfLines = 0;
             tipLabel.text = self.evaluateOp.rsp_tip;
             if (!IOSVersionGreaterThanOrEqualTo(@"8.0")) {
                 tipLabel.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width - 32;

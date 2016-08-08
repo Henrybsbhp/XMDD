@@ -312,7 +312,7 @@
     
     singleTipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
-        
+        tipsLabel.numberOfLines = 0;
         tipsLabel.text = couponString;
     });
     

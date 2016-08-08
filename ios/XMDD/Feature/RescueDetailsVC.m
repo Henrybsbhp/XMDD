@@ -202,6 +202,7 @@
     
     UILabel *titleLb = (UILabel *)[cell searchViewWithTag:1000];
     UILabel *detailLb = (UILabel *)[cell searchViewWithTag:1001];
+    detailLb.numberOfLines = 0;
     NSString * string = [self.dataSourceArray safetyObjectAtIndex:indexPath.row];
     [detailLb setAttributedText:[self attributedStringforHeight:string]];
     
