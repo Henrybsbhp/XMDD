@@ -1439,7 +1439,7 @@
                                     <constraint firstAttribute="height" constant="42" id="Y54-B5-PpD"/>
                                     <constraint firstAttribute="width" constant="70" id="vC3-17-rdm"/>
                                 </constraints>
-                                <state key="normal" image="shop_white_star">
+                                <state key="normal" image="shop_white_star_300">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -1452,7 +1452,7 @@
                                     <constraint firstAttribute="width" constant="70" id="0YD-EF-wGi"/>
                                     <constraint firstAttribute="height" constant="42" id="tOZ-Xt-oom"/>
                                 </constraints>
-                                <state key="normal" image="shop_green_star">
+                                <state key="normal" image="shop_green_star_300">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -3300,10 +3300,10 @@
         <image name="questionMark_300" width="15" height="15"/>
         <image name="rate_number" width="12" height="11"/>
         <image name="round_tick" width="23" height="23"/>
-        <image name="shop_green_star" width="51" height="20"/>
+        <image name="shop_green_star_300" width="60" height="20"/>
         <image name="shop_imgmask" width="19" height="132"/>
         <image name="shop_white_back" width="19" height="17"/>
-        <image name="shop_white_star" width="51" height="20"/>
+        <image name="shop_white_star_300" width="60" height="20"/>
         <image name="vacation_icon" width="60" height="48"/>
     </resources>
 </document>

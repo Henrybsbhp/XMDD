@@ -1,0 +1,15 @@
+//
+//  ShopDetailCollectionLayout.h
+//  XMDD
+//
+//  Created by jiangjunchen on 16/8/5.
+//  Copyright © 2016年 huika. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface ShopDetailCollectionLayout : UICollectionViewFlowLayout
+
+@property (nonatomic, assign) BOOL shouldScrollLeftToRight;
+
+@end

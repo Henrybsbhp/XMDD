@@ -475,11 +475,11 @@
         
         if ([self isBetween:shop.openHour and:shop.closeHour]) {
             statusL.text = @"营业中";
-            statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+            statusL.backgroundColor = kDefTintColor;
         }
         else {
             statusL.text = @"已休息";
-            statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+            statusL.backgroundColor = HEXCOLOR(@"#cfdbd3");
         }
     }
     
