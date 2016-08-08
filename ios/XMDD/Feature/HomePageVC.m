@@ -41,6 +41,8 @@
 
 #import "MutualInsVC.h"
 
+#import "TempTableVC.h"
+
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3
 
@@ -405,14 +407,18 @@
 #pragma mark - Action
 - (IBAction)actionCallService:(id)sender {
     
-    [MobClick event:@"rp101_2"];
+//    [MobClick event:@"rp101_2"];
+//    
+//    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+//    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+//        [gPhoneHelper makePhone:@"4007111111"];
+//    }];
+//    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
+//    [alert show];
     
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-        [gPhoneHelper makePhone:@"4007111111"];
-    }];
-    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
-    [alert show];
+    TempTableVC *vc = [UIStoryboard vcWithId:@"TempTableVC" inStoryboard:@"Mine"];
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 
