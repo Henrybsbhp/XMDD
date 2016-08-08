@@ -81,11 +81,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         NSString * longitudeStr = [NSString stringWithFormat:@"%f", gMapHelper.coordinate.longitude];
         NSString * latitudeStr = [NSString stringWithFormat:@"%f", gMapHelper.coordinate.latitude];
         NSString * province = gMapHelper.addrComponent.province;
-        NSString * city = gMapHelper.addrComponent.city;
+        NSString * city = gMapHelper.addrComponent.city.length ? gMapHelper.addrComponent.city :  gMapHelper.addrComponent.province;
         NSString * district = gMapHelper.addrComponent.district;
-        if (longitudeStr && longitudeStr && latitudeStr) {
+        if (longitudeStr && latitudeStr) {
             NSDictionary * dic = @{@"province":province, @"city":city, @"district":district, @"longitude":longitudeStr, @"latitude":latitudeStr};
             NSString * dicStr = [dic jsonEncodedString];
+            
             responseCallback(dicStr);
         }
         else {
