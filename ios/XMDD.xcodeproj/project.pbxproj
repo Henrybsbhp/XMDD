@@ -20,7 +20,7 @@
 		181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D981B15919900D38555 /* CXAlertButtonContainerView.m */; };
 		181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9A1B15919900D38555 /* CXAlertButtonItem.m */; };
 		181F6DA71B15919900D38555 /* CXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9C1B15919900D38555 /* CXAlertView.m */; };
-		181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9E1B15919900D38555 /* CXAlertViewController.m */; };
+		181F6DA81B15919900D38555 /* CXAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9E1B15919900D38555 /* CXAlertViewController.m */; settings = {COMPILER_FLAGS = "-Wno-mismatched-return-types"; }; };
 		181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6DA01B15919900D38555 /* LFDisplayBridge.m */; };
 		181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6DA21B15919900D38555 /* LFGlassView.m */; };
 		182BEF0B1CA0F65200D67C18 /* JCAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 182BEF081CA0F65200D67C18 /* JCAlertView.bundle */; };
@@ -96,13 +96,11 @@
 		183F57401D4C90860001E26A /* SearchCooperationGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56EE1D4C90860001E26A /* SearchCooperationGroupOp.m */; };
 		183F57411D4C90860001E26A /* UpdateCalculatePremiumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56F01D4C90860001E26A /* UpdateCalculatePremiumOp.m */; };
 		183F57421D4C90860001E26A /* UpdateCooperationContractDeliveryinfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56F21D4C90860001E26A /* UpdateCooperationContractDeliveryinfoOp.m */; };
-		183F57431D4C90860001E26A /* UpdateCooperationIdlicenseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56F41D4C90860001E26A /* UpdateCooperationIdlicenseInfoOp.m */; };
 		183F57441D4C90860001E26A /* UpdateCooperationInsInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56F61D4C90860001E26A /* UpdateCooperationInsInfoOp.m */; };
 		183F57451D4C90860001E26A /* UpdateDeliveryInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56F81D4C90860001E26A /* UpdateDeliveryInfoOp.m */; };
 		183F57471D4C90860001E26A /* AutoBrand.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56FD1D4C90860001E26A /* AutoBrand.m */; };
 		183F57861D4C9CE60001E26A /* SocialShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F57841D4C9CE60001E26A /* SocialShareView.m */; };
 		183F57871D4C9CE60001E26A /* SocialShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 183F57851D4C9CE60001E26A /* SocialShareView.xib */; };
-		183F57AB1D4CA1EA0001E26A /* AreaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F57AA1D4CA1EA0001E26A /* AreaPickerVC.m */; };
 		183F57AE1D4CA21B0001E26A /* HKToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F57AD1D4CA21B0001E26A /* HKToast.m */; };
 		183F57D91D4EE59C0001E26A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F57D81D4EE59C0001E26A /* AppDelegate.m */; };
 		1844531D1C8EA30F007B895D /* AhaWaterWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844531C1C8EA30F007B895D /* AhaWaterWaveView.m */; };
@@ -115,17 +113,17 @@
 		18648FB81D48558000F1CCB0 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648F4C1D48558000F1CCB0 /* NSString+SBJSON.m */; };
 		18648FB91D48558000F1CCB0 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648F4E1D48558000F1CCB0 /* SBJSON.m */; };
 		18648FBA1D48558000F1CCB0 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648F501D48558000F1CCB0 /* SBJsonBase.m */; };
-		18648FBB1D48558000F1CCB0 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648F521D48558000F1CCB0 /* SBJsonParser.m */; };
+		18648FBB1D48558000F1CCB0 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648F521D48558000F1CCB0 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-Wno-conditional-uninitialized"; }; };
 		18648FBC1D48558000F1CCB0 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648F541D48558000F1CCB0 /* SBJsonWriter.m */; };
 		18648FBD1D48558000F1CCB0 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18648F551D48558000F1CCB0 /* libcrypto.a */; };
 		18648FBE1D48558000F1CCB0 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18648F561D48558000F1CCB0 /* libssl.a */; };
-		18648FBF1D48558000F1CCB0 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FA51D48558000F1CCB0 /* base64.m */; };
+		18648FBF1D48558000F1CCB0 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FA51D48558000F1CCB0 /* base64.m */; settings = {COMPILER_FLAGS = "-Wno-shorten-64-to-32"; }; };
 		18648FC01D48558000F1CCB0 /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FA81D48558000F1CCB0 /* DataSigner.m */; };
 		18648FC11D48558000F1CCB0 /* DataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FAA1D48558000F1CCB0 /* DataVerifier.m */; };
 		18648FC21D48558000F1CCB0 /* MD5DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FAC1D48558000F1CCB0 /* MD5DataSigner.m */; };
 		18648FC31D48558000F1CCB0 /* NSDataEx.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FAE1D48558000F1CCB0 /* NSDataEx.m */; };
-		18648FC41D48558000F1CCB0 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FB01D48558000F1CCB0 /* openssl_wrapper.m */; };
-		18648FC51D48558000F1CCB0 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FB21D48558000F1CCB0 /* RSADataSigner.m */; };
+		18648FC41D48558000F1CCB0 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FB01D48558000F1CCB0 /* openssl_wrapper.m */; settings = {COMPILER_FLAGS = "-Wno-shorten-64-to-32"; }; };
+		18648FC51D48558000F1CCB0 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FB21D48558000F1CCB0 /* RSADataSigner.m */; settings = {COMPILER_FLAGS = "-Wno-shorten-64-to-32"; }; };
 		18648FC61D48558000F1CCB0 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648FB41D48558000F1CCB0 /* RSADataVerifier.m */; };
 		1864902C1D48802800F1CCB0 /* libFMDeviceManager_without_IDFA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1864902B1D48802800F1CCB0 /* libFMDeviceManager_without_IDFA.a */; };
 		186495231D4888BE00F1CCB0 /* NSArray+Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 186494DF1D4888BE00F1CCB0 /* NSArray+Encoding.m */; };
@@ -168,7 +166,6 @@
 		186495DD1D4895D200F1CCB0 /* xmddrct_public_key.der in Resources */ = {isa = PBXBuildFile; fileRef = 186495A61D4895D200F1CCB0 /* xmddrct_public_key.der */; };
 		186495E21D4895D200F1CCB0 /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186495B01D4895D200F1CCB0 /* area.plist */; };
 		186495E31D4895D200F1CCB0 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186495B11D4895D200F1CCB0 /* city.plist */; };
-		186495E41D4895D200F1CCB0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186495B21D4895D200F1CCB0 /* Info.plist */; };
 		186495E51D4895D200F1CCB0 /* policy.json in Resources */ = {isa = PBXBuildFile; fileRef = 186495B31D4895D200F1CCB0 /* policy.json */; };
 		186495E61D4895D200F1CCB0 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495B51D4895D200F1CCB0 /* About.storyboard */; };
 		186495E71D4895D200F1CCB0 /* Assistive.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495B61D4895D200F1CCB0 /* Assistive.storyboard */; };
@@ -189,12 +186,10 @@
 		186495F61D4895D200F1CCB0 /* MutualInsClaims.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C51D4895D200F1CCB0 /* MutualInsClaims.storyboard */; };
 		186495F71D4895D200F1CCB0 /* MutualInsClaimsPicList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C61D4895D200F1CCB0 /* MutualInsClaimsPicList.storyboard */; };
 		186495F81D4895D200F1CCB0 /* MutualInsGroupDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C71D4895D200F1CCB0 /* MutualInsGroupDetail.storyboard */; };
-		186495F91D4895D200F1CCB0 /* MutualInsGroupon.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C81D4895D200F1CCB0 /* MutualInsGroupon.storyboard */; };
 		186495FA1D4895D200F1CCB0 /* MutualInsJoin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495C91D4895D200F1CCB0 /* MutualInsJoin.storyboard */; };
 		186495FB1D4895D200F1CCB0 /* MutualInsPay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CA1D4895D200F1CCB0 /* MutualInsPay.storyboard */; };
 		186495FC1D4895D200F1CCB0 /* Other.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CB1D4895D200F1CCB0 /* Other.storyboard */; };
 		186495FD1D4895D200F1CCB0 /* Rescue.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CC1D4895D200F1CCB0 /* Rescue.storyboard */; };
-		186495FE1D4895D200F1CCB0 /* Temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CD1D4895D200F1CCB0 /* Temp.storyboard */; };
 		186495FF1D4895D200F1CCB0 /* Valuation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CE1D4895D200F1CCB0 /* Valuation.storyboard */; };
 		186496001D4895D200F1CCB0 /* Violation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186495CF1D4895D200F1CCB0 /* Violation.storyboard */; };
 		186496501D48988700F1CCB0 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 186496491D4897C200F1CCB0 /* libRCTActionSheet.a */; };
@@ -317,7 +312,6 @@
 		1864999E1D489A9700F1CCB0 /* BindBankcardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864981B1D489A9600F1CCB0 /* BindBankcardOp.m */; };
 		1864999F1D489A9700F1CCB0 /* BindDeviceToken2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864981D1D489A9600F1CCB0 /* BindDeviceToken2Op.m */; };
 		186499A01D489A9700F1CCB0 /* BindDeviceTokenOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864981F1D489A9600F1CCB0 /* BindDeviceTokenOp.m */; };
-		186499A11D489A9700F1CCB0 /* CalculateInsuranceCarPremiumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498211D489A9600F1CCB0 /* CalculateInsuranceCarPremiumOp.m */; };
 		186499A21D489A9700F1CCB0 /* CarEvaluateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498231D489A9600F1CCB0 /* CarEvaluateOp.m */; };
 		186499A31D489A9700F1CCB0 /* CheckoutServiceOrderV4Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498251D489A9600F1CCB0 /* CheckoutServiceOrderV4Op.m */; };
 		186499A41D489A9700F1CCB0 /* CheckUserAwardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498271D489A9600F1CCB0 /* CheckUserAwardOp.m */; };
@@ -326,8 +320,6 @@
 		186499A71D489A9700F1CCB0 /* DeleteCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864982D1D489A9600F1CCB0 /* DeleteCarOp.m */; };
 		186499A81D489A9700F1CCB0 /* DeletePicHistoryOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864982F1D489A9600F1CCB0 /* DeletePicHistoryOp.m */; };
 		186499A91D489A9700F1CCB0 /* DeleteUserFavoriteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498311D489A9600F1CCB0 /* DeleteUserFavoriteOp.m */; };
-		186499AA1D489A9700F1CCB0 /* DownloadFileOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498331D489A9600F1CCB0 /* DownloadFileOp.m */; };
-		186499AB1D489A9700F1CCB0 /* DownloadOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498351D489A9600F1CCB0 /* DownloadOp.m */; };
 		186499AC1D489A9700F1CCB0 /* FeedbackOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498371D489A9600F1CCB0 /* FeedbackOp.m */; };
 		186499AD1D489A9700F1CCB0 /* GainCouponPkgOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498391D489A9600F1CCB0 /* GainCouponPkgOp.m */; };
 		186499AE1D489A9700F1CCB0 /* GainUserAwardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864983B1D489A9600F1CCB0 /* GainUserAwardOp.m */; };
@@ -335,7 +327,6 @@
 		186499B01D489A9700F1CCB0 /* GetAreaByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864983F1D489A9600F1CCB0 /* GetAreaByNameOp.m */; };
 		186499B11D489A9700F1CCB0 /* GetAreaByPcdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498411D489A9600F1CCB0 /* GetAreaByPcdOp.m */; };
 		186499B21D489A9700F1CCB0 /* GetAreaInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498431D489A9600F1CCB0 /* GetAreaInfoOp.m */; };
-		186499B31D489A9700F1CCB0 /* GetAutomobileBrandOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498451D489A9600F1CCB0 /* GetAutomobileBrandOp.m */; };
 		186499B41D489A9700F1CCB0 /* GetAutomobileBrandV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498471D489A9600F1CCB0 /* GetAutomobileBrandV2Op.m */; };
 		186499B51D489A9700F1CCB0 /* GetAutomobileModelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498491D489A9600F1CCB0 /* GetAutomobileModelOp.m */; };
 		186499B61D489A9700F1CCB0 /* GetAutomobileModelV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864984B1D489A9600F1CCB0 /* GetAutomobileModelV2Op.m */; };
@@ -346,10 +337,7 @@
 		186499BB1D489A9700F1CCB0 /* GetCarwashOrderListV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498551D489A9600F1CCB0 /* GetCarwashOrderListV3Op.m */; };
 		186499BC1D489A9700F1CCB0 /* GetCarwashOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498571D489A9600F1CCB0 /* GetCarwashOrderV2Op.m */; };
 		186499BD1D489A9700F1CCB0 /* GetCityInfoByNameOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498591D489A9600F1CCB0 /* GetCityInfoByNameOp.m */; };
-		186499BE1D489A9700F1CCB0 /* GetCitysOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864985B1D489A9600F1CCB0 /* GetCitysOp.m */; };
-		186499BF1D489A9700F1CCB0 /* GetCooperationAutoGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864985D1D489A9600F1CCB0 /* GetCooperationAutoGroupOp.m */; };
 		186499C01D489A9700F1CCB0 /* GetCooperationGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864985F1D489A9600F1CCB0 /* GetCooperationGroupOp.m */; };
-		186499C11D489A9700F1CCB0 /* GetCooperationMyGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498611D489A9600F1CCB0 /* GetCooperationMyGroupOp.m */; };
 		186499C21D489A9700F1CCB0 /* GetCooperationResourcesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498631D489A9600F1CCB0 /* GetCooperationResourcesOp.m */; };
 		186499C31D489A9700F1CCB0 /* GetCooperationUsercarListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498651D489A9600F1CCB0 /* GetCooperationUsercarListOp.m */; };
 		186499C41D489A9700F1CCB0 /* GetCouponByTypeNewV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498671D489A9600F1CCB0 /* GetCouponByTypeNewV2Op.m */; };
@@ -360,9 +348,7 @@
 		186499C91D489A9700F1CCB0 /* GetGroupJoinedInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498711D489A9600F1CCB0 /* GetGroupJoinedInfoOp.m */; };
 		186499CA1D489A9700F1CCB0 /* GetGroupPasswordOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498731D489A9600F1CCB0 /* GetGroupPasswordOp.m */; };
 		186499CB1D489A9700F1CCB0 /* GetInscouponOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498751D489A9600F1CCB0 /* GetInscouponOp.m */; };
-		186499CC1D489A9700F1CCB0 /* GetInsuranceByChannelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498771D489A9600F1CCB0 /* GetInsuranceByChannelOp.m */; };
 		186499CD1D489A9700F1CCB0 /* GetInsuranceCalculatorOpV3.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498791D489A9600F1CCB0 /* GetInsuranceCalculatorOpV3.m */; };
-		186499CE1D489A9700F1CCB0 /* GetInsuranceDiscountOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864987B1D489A9600F1CCB0 /* GetInsuranceDiscountOp.m */; };
 		186499CF1D489A9700F1CCB0 /* GetInsuranceOrderDetailsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864987D1D489A9600F1CCB0 /* GetInsuranceOrderDetailsOp.m */; };
 		186499D01D489A9700F1CCB0 /* GetInsuranceOrderListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864987F1D489A9600F1CCB0 /* GetInsuranceOrderListOp.m */; };
 		186499D11D489A9700F1CCB0 /* GetLaunchInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498811D489A9600F1CCB0 /* GetLaunchInfoOp.m */; };
@@ -407,13 +393,11 @@
 		186499F81D489A9700F1CCB0 /* GetUserCouponV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498CF1D489A9700F1CCB0 /* GetUserCouponV2Op.m */; };
 		186499F91D489A9700F1CCB0 /* GetUserFavoriteV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498D11D489A9700F1CCB0 /* GetUserFavoriteV2Op.m */; };
 		186499FA1D489A9700F1CCB0 /* GetUserResourcesGaschargeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498D31D489A9700F1CCB0 /* GetUserResourcesGaschargeOp.m */; };
-		186499FB1D489A9700F1CCB0 /* GetUserResourcesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498D51D489A9700F1CCB0 /* GetUserResourcesOp.m */; };
 		186499FC1D489A9700F1CCB0 /* GetUserResourcesV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498D71D489A9700F1CCB0 /* GetUserResourcesV2Op.m */; };
 		186499FD1D489A9700F1CCB0 /* GetVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498D91D489A9700F1CCB0 /* GetVcodeOp.m */; };
 		186499FE1D489A9700F1CCB0 /* GetVoiceVCodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498DB1D489A9700F1CCB0 /* GetVoiceVCodeOp.m */; };
 		186499FF1D489A9700F1CCB0 /* HistoryCollectionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498DD1D489A9700F1CCB0 /* HistoryCollectionOp.m */; };
 		18649A001D489A9700F1CCB0 /* HistoryDeleteOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498DF1D489A9700F1CCB0 /* HistoryDeleteOp.m */; };
-		18649A011D489A9700F1CCB0 /* InsuranceAppointmentOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498E11D489A9700F1CCB0 /* InsuranceAppointmentOp.m */; };
 		18649A021D489A9700F1CCB0 /* InsuranceOrderPayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498E31D489A9700F1CCB0 /* InsuranceOrderPayOp.m */; };
 		18649A031D489A9700F1CCB0 /* LogoutOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498E51D489A9700F1CCB0 /* LogoutOp.m */; };
 		18649A041D489A9700F1CCB0 /* OrderPaidSuccessOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498E71D489A9700F1CCB0 /* OrderPaidSuccessOp.m */; };
@@ -429,8 +413,6 @@
 		18649A0E1D489A9700F1CCB0 /* UpdateCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498FB1D489A9700F1CCB0 /* UpdateCarOp.m */; };
 		18649A0F1D489A9700F1CCB0 /* UpdateClaimPicOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498FD1D489A9700F1CCB0 /* UpdateClaimPicOp.m */; };
 		18649A101D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498FF1D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.m */; };
-		18649A111D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499011D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.m */; };
-		18649A121D489A9700F1CCB0 /* UpdateInsuranceOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499031D489A9700F1CCB0 /* UpdateInsuranceOrderOp.m */; };
 		18649A131D489A9700F1CCB0 /* UpdateUserInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499051D489A9700F1CCB0 /* UpdateUserInfoOp.m */; };
 		18649A141D489A9700F1CCB0 /* UploadFileOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499071D489A9700F1CCB0 /* UploadFileOp.m */; };
 		18649A151D489A9700F1CCB0 /* UploadLogOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499091D489A9700F1CCB0 /* UploadLogOp.m */; };
@@ -500,7 +482,6 @@
 		18649B8B1D48A93000F1CCB0 /* UIView+ShowDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B541D48A93000F1CCB0 /* UIView+ShowDot.m */; };
 		18649BA81D48AD0500F1CCB0 /* MainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BA71D48AD0500F1CCB0 /* MainTabBarVC.m */; };
 		18649BAE1D48ADC600F1CCB0 /* LaunchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BAB1D48ADC600F1CCB0 /* LaunchVC.m */; };
-		18649BAF1D48ADC600F1CCB0 /* WelcomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BAD1D48ADC600F1CCB0 /* WelcomeVC.m */; };
 		18649BB61D48AE9B00F1CCB0 /* HomeNewbieGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BB31D48AE9B00F1CCB0 /* HomeNewbieGuideVC.m */; };
 		18649BB71D48AE9B00F1CCB0 /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BB51D48AE9B00F1CCB0 /* HomePageVC.m */; };
 		18649BBD1D48AEC000F1CCB0 /* HomeSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BBA1D48AEC000F1CCB0 /* HomeSuspendedAdVC.m */; };
@@ -545,7 +526,6 @@
 		18649C511D48B4E500F1CCB0 /* DetailsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C461D48B4E500F1CCB0 /* DetailsAlertVC.m */; };
 		18649C521D48B4E500F1CCB0 /* DrawingBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C481D48B4E500F1CCB0 /* DrawingBoardView.m */; };
 		18649C531D48B4E500F1CCB0 /* MyBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C4A1D48B4E500F1CCB0 /* MyBankVC.m */; };
-		18649C541D48B4E500F1CCB0 /* ResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C4C1D48B4E500F1CCB0 /* ResultVC.m */; };
 		18649C551D48B4E500F1CCB0 /* UnbundlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C4E1D48B4E500F1CCB0 /* UnbundlingVC.m */; };
 		18649C631D48B54E00F1CCB0 /* CarWashCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5A1D48B54E00F1CCB0 /* CarWashCouponVModel.m */; };
 		18649C641D48B54E00F1CCB0 /* CouponDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5C1D48B54E00F1CCB0 /* CouponDetailsVC.m */; };
@@ -573,7 +553,6 @@
 		18649CA81D48B6D200F1CCB0 /* ViolationItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CA51D48B6D200F1CCB0 /* ViolationItemViewController.m */; };
 		18649CA91D48B6D200F1CCB0 /* ViolationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CA71D48B6D200F1CCB0 /* ViolationViewController.m */; };
 		18649CB31D48B6F100F1CCB0 /* CommissionConfirmVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CAC1D48B6F100F1CCB0 /* CommissionConfirmVC.m */; };
-		18649CB41D48B6F100F1CCB0 /* CommissionCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CAE1D48B6F100F1CCB0 /* CommissionCouponViewController.m */; };
 		18649CB51D48B6F100F1CCB0 /* CommissionOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CB01D48B6F100F1CCB0 /* CommissionOrderVC.m */; };
 		18649CB61D48B6F100F1CCB0 /* CommissionSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CB21D48B6F100F1CCB0 /* CommissionSuccessVC.m */; };
 		18649CBE1D48B70A00F1CCB0 /* AwardOtherSheetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CB91D48B70A00F1CCB0 /* AwardOtherSheetVC.m */; };
@@ -593,7 +572,6 @@
 		18649CF91D48B7C000F1CCB0 /* CollectionChooseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CE21D48B7C000F1CCB0 /* CollectionChooseVC.m */; };
 		18649CFA1D48B7C000F1CCB0 /* DatePickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CE41D48B7C000F1CCB0 /* DatePickerVC.m */; };
 		18649CFB1D48B7C000F1CCB0 /* HKPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CE61D48B7C000F1CCB0 /* HKPickerVC.m */; };
-		18649CFC1D48B7C000F1CCB0 /* MonthPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CE81D48B7C000F1CCB0 /* MonthPickerVC.m */; };
 		18649CFD1D48B7C000F1CCB0 /* ParkingShopGasInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CEA1D48B7C000F1CCB0 /* ParkingShopGasInfoVC.m */; };
 		18649CFE1D48B7C000F1CCB0 /* PickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CEC1D48B7C000F1CCB0 /* PickerVC.m */; };
 		18649D011D48B7C000F1CCB0 /* SocialShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CF11D48B7C000F1CCB0 /* SocialShareViewController.m */; };
@@ -644,9 +622,7 @@
 		18649D961D48BB5D00F1CCB0 /* HorizontalScrollTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D851D48BB5D00F1CCB0 /* HorizontalScrollTabView.m */; };
 		18649D971D48BB5D00F1CCB0 /* PayForGasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D871D48BB5D00F1CCB0 /* PayForGasViewController.m */; };
 		18649DA31D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D9C1D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.m */; };
-		18649DA41D48BBBE00F1CCB0 /* RescueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D9E1D48BBBE00F1CCB0 /* RescueViewController.m */; };
 		18649DA51D48BBBE00F1CCB0 /* ScanQRCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DA01D48BBBE00F1CCB0 /* ScanQRCodeVC.m */; };
-		18649DA61D48BBBE00F1CCB0 /* ServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DA21D48BBBE00F1CCB0 /* ServiceViewController.m */; };
 		18649DAE1D48BC5600F1CCB0 /* MutualInsHomeAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DAB1D48BC5600F1CCB0 /* MutualInsHomeAdVC.m */; };
 		18649DAF1D48BC5600F1CCB0 /* MutualInsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DAD1D48BC5600F1CCB0 /* MutualInsVC.m */; };
 		18649DBF1D48BCB700F1CCB0 /* MutualInsGroupDetailChildVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DB41D48BCB700F1CCB0 /* MutualInsGroupDetailChildVC.m */; };
@@ -675,10 +651,8 @@
 		18649E001D48BD6B00F1CCB0 /* MutualInsPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DFD1D48BD6B00F1CCB0 /* MutualInsPayViewController.m */; };
 		18649E1A1D48BD8D00F1CCB0 /* MutualInsAcceptCompensationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E031D48BD8D00F1CCB0 /* MutualInsAcceptCompensationVC.m */; };
 		18649E1B1D48BD8D00F1CCB0 /* MutualInsActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E051D48BD8D00F1CCB0 /* MutualInsActivityVC.m */; };
-		18649E1C1D48BD8D00F1CCB0 /* MutualInsAskClaimsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E071D48BD8D00F1CCB0 /* MutualInsAskClaimsVC.m */; };
 		18649E1D1D48BD8D00F1CCB0 /* MutualInsAskForCompensationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E091D48BD8D00F1CCB0 /* MutualInsAskForCompensationVC.m */; };
 		18649E1E1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E0B1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m */; };
-		18649E1F1D48BD8D00F1CCB0 /* MutualInsClaimDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E0D1D48BD8D00F1CCB0 /* MutualInsClaimDetailVC.m */; };
 		18649E201D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E0F1D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m */; };
 		18649E211D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E111D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.m */; };
 		18649E221D48BD8D00F1CCB0 /* MutualInsPicListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E131D48BD8D00F1CCB0 /* MutualInsPicListVC.m */; };
@@ -686,7 +660,6 @@
 		18649E241D48BD8D00F1CCB0 /* MutualInsScencePhotoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E171D48BD8D00F1CCB0 /* MutualInsScencePhotoVC.m */; };
 		18649E251D48BD8D00F1CCB0 /* MutualInsScencePhotoVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E191D48BD8D00F1CCB0 /* MutualInsScencePhotoVM.m */; };
 		18649E421D48BE0A00F1CCB0 /* CreateGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E2B1D48BE0A00F1CCB0 /* CreateGroupVC.m */; };
-		18649E431D48BE0A00F1CCB0 /* EstimatedPriceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E2D1D48BE0A00F1CCB0 /* EstimatedPriceVC.m */; };
 		18649E441D48BE0A00F1CCB0 /* GroupIntroductionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E2F1D48BE0A00F1CCB0 /* GroupIntroductionVC.m */; };
 		18649E451D48BE0A00F1CCB0 /* InviteByCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E311D48BE0A00F1CCB0 /* InviteByCodeVC.m */; };
 		18649E461D48BE0A00F1CCB0 /* MutInsCalculateResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E331D48BE0A00F1CCB0 /* MutInsCalculateResultVC.m */; };
@@ -726,18 +699,18 @@
 		188EF0B21D351A0F000D01D6 /* NSString+MarkupExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 188EF0AA1D351A0F000D01D6 /* NSString+MarkupExtensions.m */; };
 		188EF0B31D351A0F000D01D6 /* UIFont+StyleUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 188EF0AC1D351A0F000D01D6 /* UIFont+StyleUtilities.m */; };
 		188EF0B41D351A0F000D01D6 /* UILabel+MarkupExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 188EF0AE1D351A0F000D01D6 /* UILabel+MarkupExtensions.m */; };
-		1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371281B0E0D460030FDE1 /* TTTAttributedLabel.m */; };
+		1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 189371281B0E0D460030FDE1 /* TTTAttributedLabel.m */; settings = {COMPILER_FLAGS = "-Wno-pointer-bool-conversion"; }; };
 		189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31131ADB60AD001D7288 /* JGActionSheet.m */; };
 		189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189B31151ADBDF07001D7288 /* MobileCoreServices.framework */; };
-		189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */; };
+		189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */; settings = {COMPILER_FLAGS = "-Wno-shorten-64-to-32"; }; };
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
-		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; };
-		18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41F81BCF75DA0039F210 /* RTLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations -Wno-conditional-uninitialized"; }; };
+		18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41F81BCF75DA0039F210 /* RTLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
 		18C52C3A1BA6CE9400F6C38B /* DAProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C52C391BA6CE9400F6C38B /* DAProgressOverlayView.m */; };
 		18CECC281C30F8890075B7F9 /* JT3DScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CECC251C30F8890075B7F9 /* JT3DScrollView.m */; };
 		18CECC291C30F8890075B7F9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 18CECC261C30F8890075B7F9 /* LICENSE */; };
-		18CECC2A1C30F8890075B7F9 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 18CECC271C30F8890075B7F9 /* README.md */; };
 		18CFD84F1D4EED8500C12259 /* AutoBrand+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFD84E1D4EED8500C12259 /* AutoBrand+Extension.m */; };
+		18CFD8721D506A8D00C12259 /* RCTUMengManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFD8711D506A8D00C12259 /* RCTUMengManager.m */; };
 		18D17F771B53B21E00F66F04 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F761B53B21E00F66F04 /* MBProgressHUD.m */; };
 		18E28A131B93E5880070E759 /* libUPPayPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A101B93E5880070E759 /* libUPPayPlugin.a */; };
 		18E28A151B93E5A20070E759 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A141B93E5A20070E759 /* QuartzCore.framework */; };
@@ -745,11 +718,11 @@
 		18FC01DC1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01BF1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m */; };
 		18FC01DD1C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C11C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m */; };
 		18FC01DE1C4E6C6F00FD61BF /* IQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C61C4E6C6F00FD61BF /* IQKeyboardManager.m */; };
-		18FC01DF1C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C81C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m */; };
+		18FC01DF1C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C81C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m */; settings = {COMPILER_FLAGS = "-Wno-objc-designated-initializers"; }; };
 		18FC01E01C4E6C6F00FD61BF /* IQSegmentedNextPrevious.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01CB1C4E6C6F00FD61BF /* IQSegmentedNextPrevious.m */; };
 		18FC01E11C4E6C6F00FD61BF /* IQTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01CE1C4E6C6F00FD61BF /* IQTextView.m */; };
 		18FC01E21C4E6C6F00FD61BF /* IQBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01D11C4E6C6F00FD61BF /* IQBarButtonItem.m */; };
-		18FC01E31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01D31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m */; };
+		18FC01E31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01D31C4E6C6F00FD61BF /* IQTitleBarButtonItem.m */; settings = {COMPILER_FLAGS = "-Wno-objc-designated-initializers"; }; };
 		18FC01E41C4E6C6F00FD61BF /* IQToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01D51C4E6C6F00FD61BF /* IQToolbar.m */; };
 		18FC01E51C4E6C6F00FD61BF /* IQUIView+IQKeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01D71C4E6C6F00FD61BF /* IQUIView+IQKeyboardToolbar.m */; };
 		18FC01E61C4E6C6F00FD61BF /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18FC01DA1C4E6C6F00FD61BF /* IQKeyboardManager.bundle */; };
@@ -1112,8 +1085,6 @@
 		183F57831D4C9CE60001E26A /* SocialShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialShareView.h; sourceTree = "<group>"; };
 		183F57841D4C9CE60001E26A /* SocialShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialShareView.m; sourceTree = "<group>"; };
 		183F57851D4C9CE60001E26A /* SocialShareView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialShareView.xib; sourceTree = "<group>"; };
-		183F57A91D4CA1EA0001E26A /* AreaPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AreaPickerVC.h; path = XMDD/Feature/AreaPickerVC.h; sourceTree = SOURCE_ROOT; };
-		183F57AA1D4CA1EA0001E26A /* AreaPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AreaPickerVC.m; path = XMDD/Feature/AreaPickerVC.m; sourceTree = SOURCE_ROOT; };
 		183F57AC1D4CA21B0001E26A /* HKToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKToast.h; path = XMDD/Feature/HKToast.h; sourceTree = SOURCE_ROOT; };
 		183F57AD1D4CA21B0001E26A /* HKToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HKToast.m; path = XMDD/Feature/HKToast.m; sourceTree = SOURCE_ROOT; };
 		183F57D81D4EE59C0001E26A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -1333,12 +1304,10 @@
 		186495C51D4895D200F1CCB0 /* MutualInsClaims.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsClaims.storyboard; sourceTree = "<group>"; };
 		186495C61D4895D200F1CCB0 /* MutualInsClaimsPicList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsClaimsPicList.storyboard; sourceTree = "<group>"; };
 		186495C71D4895D200F1CCB0 /* MutualInsGroupDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsGroupDetail.storyboard; sourceTree = "<group>"; };
-		186495C81D4895D200F1CCB0 /* MutualInsGroupon.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsGroupon.storyboard; sourceTree = "<group>"; };
 		186495C91D4895D200F1CCB0 /* MutualInsJoin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsJoin.storyboard; sourceTree = "<group>"; };
 		186495CA1D4895D200F1CCB0 /* MutualInsPay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MutualInsPay.storyboard; sourceTree = "<group>"; };
 		186495CB1D4895D200F1CCB0 /* Other.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Other.storyboard; sourceTree = "<group>"; };
 		186495CC1D4895D200F1CCB0 /* Rescue.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Rescue.storyboard; sourceTree = "<group>"; };
-		186495CD1D4895D200F1CCB0 /* Temp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Temp.storyboard; sourceTree = "<group>"; };
 		186495CE1D4895D200F1CCB0 /* Valuation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Valuation.storyboard; sourceTree = "<group>"; };
 		186495CF1D4895D200F1CCB0 /* Violation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Violation.storyboard; sourceTree = "<group>"; };
 		186496131D48976E00F1CCB0 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -2127,8 +2096,6 @@
 		18649CE41D48B7C000F1CCB0 /* DatePickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerVC.m; sourceTree = "<group>"; };
 		18649CE51D48B7C000F1CCB0 /* HKPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKPickerVC.h; sourceTree = "<group>"; };
 		18649CE61D48B7C000F1CCB0 /* HKPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKPickerVC.m; sourceTree = "<group>"; };
-		18649CE71D48B7C000F1CCB0 /* MonthPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthPickerVC.h; sourceTree = "<group>"; };
-		18649CE81D48B7C000F1CCB0 /* MonthPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthPickerVC.m; sourceTree = "<group>"; };
 		18649CE91D48B7C000F1CCB0 /* ParkingShopGasInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParkingShopGasInfoVC.h; sourceTree = "<group>"; };
 		18649CEA1D48B7C000F1CCB0 /* ParkingShopGasInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParkingShopGasInfoVC.m; sourceTree = "<group>"; };
 		18649CEB1D48B7C000F1CCB0 /* PickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerVC.h; sourceTree = "<group>"; };
@@ -2228,8 +2195,6 @@
 		18649D871D48BB5D00F1CCB0 /* PayForGasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForGasViewController.m; sourceTree = "<group>"; };
 		18649D9B1D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkInterfaceTableVC.h; sourceTree = "<group>"; };
 		18649D9C1D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkInterfaceTableVC.m; sourceTree = "<group>"; };
-		18649D9D1D48BBBE00F1CCB0 /* RescueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueViewController.h; sourceTree = "<group>"; };
-		18649D9E1D48BBBE00F1CCB0 /* RescueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueViewController.m; sourceTree = "<group>"; };
 		18649D9F1D48BBBE00F1CCB0 /* ScanQRCodeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanQRCodeVC.h; sourceTree = "<group>"; };
 		18649DA01D48BBBE00F1CCB0 /* ScanQRCodeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanQRCodeVC.m; sourceTree = "<group>"; };
 		18649DA11D48BBBE00F1CCB0 /* ServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceViewController.h; sourceTree = "<group>"; };
@@ -2412,6 +2377,8 @@
 		18CECC271C30F8890075B7F9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		18CFD84D1D4EED8500C12259 /* AutoBrand+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AutoBrand+Extension.h"; sourceTree = "<group>"; };
 		18CFD84E1D4EED8500C12259 /* AutoBrand+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AutoBrand+Extension.m"; sourceTree = "<group>"; };
+		18CFD8701D506A8D00C12259 /* RCTUMengManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTUMengManager.h; sourceTree = "<group>"; };
+		18CFD8711D506A8D00C12259 /* RCTUMengManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTUMengManager.m; sourceTree = "<group>"; };
 		18D17F751B53B21E00F66F04 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		18D17F761B53B21E00F66F04 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		18E28A101B93E5880070E759 /* libUPPayPlugin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUPPayPlugin.a; sourceTree = "<group>"; };
@@ -2972,16 +2939,12 @@
 		183F57CC1D4CA2E40001E26A /* Picker */ = {
 			isa = PBXGroup;
 			children = (
-				183F57A91D4CA1EA0001E26A /* AreaPickerVC.h */,
-				183F57AA1D4CA1EA0001E26A /* AreaPickerVC.m */,
 				18649CEB1D48B7C000F1CCB0 /* PickerVC.h */,
 				18649CEC1D48B7C000F1CCB0 /* PickerVC.m */,
 				18649CE31D48B7C000F1CCB0 /* DatePickerVC.h */,
 				18649CE41D48B7C000F1CCB0 /* DatePickerVC.m */,
 				18649CE51D48B7C000F1CCB0 /* HKPickerVC.h */,
 				18649CE61D48B7C000F1CCB0 /* HKPickerVC.m */,
-				18649CE71D48B7C000F1CCB0 /* MonthPickerVC.h */,
-				18649CE81D48B7C000F1CCB0 /* MonthPickerVC.m */,
 				18649CDF1D48B7C000F1CCB0 /* CityPickerVC.h */,
 				18649CE01D48B7C000F1CCB0 /* CityPickerVC.m */,
 				18649CDB1D48B7C000F1CCB0 /* AreaTablePickerVC.h */,
@@ -3747,12 +3710,10 @@
 				186495C51D4895D200F1CCB0 /* MutualInsClaims.storyboard */,
 				186495C61D4895D200F1CCB0 /* MutualInsClaimsPicList.storyboard */,
 				186495C71D4895D200F1CCB0 /* MutualInsGroupDetail.storyboard */,
-				186495C81D4895D200F1CCB0 /* MutualInsGroupon.storyboard */,
 				186495C91D4895D200F1CCB0 /* MutualInsJoin.storyboard */,
 				186495CA1D4895D200F1CCB0 /* MutualInsPay.storyboard */,
 				186495CB1D4895D200F1CCB0 /* Other.storyboard */,
 				186495CC1D4895D200F1CCB0 /* Rescue.storyboard */,
-				186495CD1D4895D200F1CCB0 /* Temp.storyboard */,
 				186495CE1D4895D200F1CCB0 /* Valuation.storyboard */,
 				186495CF1D4895D200F1CCB0 /* Violation.storyboard */,
 				FAE1A1901D543B7B00574B1C /* HX_Temp.storyboard */,
@@ -4303,8 +4264,6 @@
 			children = (
 				18649D9B1D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.h */,
 				18649D9C1D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.m */,
-				18649D9D1D48BBBE00F1CCB0 /* RescueViewController.h */,
-				18649D9E1D48BBBE00F1CCB0 /* RescueViewController.m */,
 				18649D9F1D48BBBE00F1CCB0 /* ScanQRCodeVC.h */,
 				18649DA01D48BBBE00F1CCB0 /* ScanQRCodeVC.m */,
 				18649DA11D48BBBE00F1CCB0 /* ServiceViewController.h */,
@@ -5093,6 +5052,8 @@
 				1888F4171D48CB8600C64288 /* RCTNetworkManager.m */,
 				1888F4181D48CB8600C64288 /* ReactNativeOp.h */,
 				1888F4191D48CB8600C64288 /* ReactNativeOp.m */,
+				18CFD8701D506A8D00C12259 /* RCTUMengManager.h */,
+				18CFD8711D506A8D00C12259 /* RCTUMengManager.m */,
 			);
 			name = Bridege;
 			sourceTree = "<group>";
@@ -5718,7 +5679,7 @@
 		1883D8D71ACB99AC002A4D19 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 640;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = huika;
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
@@ -5929,7 +5890,6 @@
 				186495DC1D4895D200F1CCB0 /* sh.gpx in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				1888F4551D4A04E600C64288 /* RCTBundle in Resources */,
-				186495E41D4895D200F1CCB0 /* Info.plist in Resources */,
 				186495E61D4895D200F1CCB0 /* About.storyboard in Resources */,
 				18649B801D48A93000F1CCB0 /* MapBottomView.xib in Resources */,
 				186495FA1D4895D200F1CCB0 /* MutualInsJoin.storyboard in Resources */,
@@ -5938,7 +5898,6 @@
 				C38A1DFE1CC5D1390085BA4C /* (null) in Resources */,
 				C3F451521D2E3A6F00BA9BC4 /* AsstisTouch.png in Resources */,
 				186495E21D4895D200F1CCB0 /* area.plist in Resources */,
-				186495F91D4895D200F1CCB0 /* MutualInsGroupon.storyboard in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
 				18648FB51D48558000F1CCB0 /* AlipaySDK.bundle in Resources */,
 				186495EA1D4895D200F1CCB0 /* Car.storyboard in Resources */,
@@ -5965,7 +5924,6 @@
 				FAE1A1911D543B7B00574B1C /* HX_Temp.storyboard in Resources */,
 				186495E51D4895D200F1CCB0 /* policy.json in Resources */,
 				186495FC1D4895D200F1CCB0 /* Other.storyboard in Resources */,
-				186495FE1D4895D200F1CCB0 /* Temp.storyboard in Resources */,
 				186495DD1D4895D200F1CCB0 /* xmddrct_public_key.der in Resources */,
 				186495EC1D4895D200F1CCB0 /* Commission.storyboard in Resources */,
 				183F57871D4C9CE60001E26A /* SocialShareView.xib in Resources */,
@@ -6043,7 +6001,6 @@
 				FAC9869C1D581B98000FE245 /* GasChargedOrderModel.m in Sources */,
 				18649C751D48B59200F1CCB0 /* MessageListVC.m in Sources */,
 				183F56FF1D4C90860001E26A /* BankCard.m in Sources */,
-				18649E1C1D48BD8D00F1CCB0 /* MutualInsAskClaimsVC.m in Sources */,
 				183F57061D4C90860001E26A /* InsSimpleCar.m in Sources */,
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				188EF0B21D351A0F000D01D6 /* NSString+MarkupExtensions.m in Sources */,
@@ -6176,7 +6133,6 @@
 				18649B631D48A93000F1CCB0 /* GifActivityIndicatorView.m in Sources */,
 				18649B761D48A93000F1CCB0 /* JTImageBadge.m in Sources */,
 				18649B7A1D48A93000F1CCB0 /* JTTableViewCell.m in Sources */,
-				18649CFC1D48B7C000F1CCB0 /* MonthPickerVC.m in Sources */,
 				186499901D489A9700F1CCB0 /* JTUser.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				18649DE71D48BCF100F1CCB0 /* HKPopoverView.m in Sources */,
@@ -6210,7 +6166,6 @@
 				186499ED1D489A9700F1CCB0 /* GetSystemJSPatchOp.m in Sources */,
 				18649B6C1D48A93000F1CCB0 /* HKImageView.m in Sources */,
 				186499BB1D489A9700F1CCB0 /* GetCarwashOrderListV3Op.m in Sources */,
-				18649C541D48B4E500F1CCB0 /* ResultVC.m in Sources */,
 				18649D8E1D48BB5D00F1CCB0 /* GasPickAmountCell.m in Sources */,
 				186499891D489A9700F1CCB0 /* HKRescueHistory.m in Sources */,
 				186499F51D489A9700F1CCB0 /* GetUserCarOp.m in Sources */,
@@ -6221,7 +6176,6 @@
 				18649DC01D48BCB700F1CCB0 /* MutualInsGroupDetailFundVC.m in Sources */,
 				18649E561D48BE3100F1CCB0 /* MutualInsPickCarVC.m in Sources */,
 				181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */,
-				18649A121D489A9700F1CCB0 /* UpdateInsuranceOrderOp.m in Sources */,
 				18649E421D48BE0A00F1CCB0 /* CreateGroupVC.m in Sources */,
 				18CFD84F1D4EED8500C12259 /* AutoBrand+Extension.m in Sources */,
 				186499CA1D489A9700F1CCB0 /* GetGroupPasswordOp.m in Sources */,
@@ -6234,6 +6188,7 @@
 				18649A091D489A9700F1CCB0 /* SharedNotifyOp.m in Sources */,
 				186499D01D489A9700F1CCB0 /* GetInsuranceOrderListOp.m in Sources */,
 				505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */,
+				18CFD8721D506A8D00C12259 /* RCTUMengManager.m in Sources */,
 				183F57071D4C90860001E26A /* MutualInsClaimInfo.m in Sources */,
 				1864952B1D4888BE00F1CCB0 /* NSString+CKExpansion.m in Sources */,
 				183F57241D4C90860001E26A /* GetCooperationGroupMembersOp.m in Sources */,
@@ -6275,8 +6230,6 @@
 				18FC01E21C4E6C6F00FD61BF /* IQBarButtonItem.m in Sources */,
 				18649BCB1D48AF8200F1CCB0 /* HKProgressView.m in Sources */,
 				186499C01D489A9700F1CCB0 /* GetCooperationGroupOp.m in Sources */,
-				186499A11D489A9700F1CCB0 /* CalculateInsuranceCarPremiumOp.m in Sources */,
-				18649DA61D48BBBE00F1CCB0 /* ServiceViewController.m in Sources */,
 				18649E5F1D48BE5500F1CCB0 /* InviteAlertVC.m in Sources */,
 				183F57291D4C90860001E26A /* GetCooperationMemberDetailOp.m in Sources */,
 				18649DC31D48BCB700F1CCB0 /* MutualInsGroupDetailMeVC.m in Sources */,
@@ -6335,21 +6288,18 @@
 				18649E461D48BE0A00F1CCB0 /* MutInsCalculateResultVC.m in Sources */,
 				18649CCD1D48B72D00F1CCB0 /* RescueCouponViewController.m in Sources */,
 				18649BEA1D48B0E100F1CCB0 /* CommentListViewController.m in Sources */,
-				186499CE1D489A9700F1CCB0 /* GetInsuranceDiscountOp.m in Sources */,
 				18649D021D48B7C000F1CCB0 /* SuspendedAdVC.m in Sources */,
 				186499821D489A9700F1CCB0 /* HKMessage.m in Sources */,
 				18649E581D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m in Sources */,
 				188EF0B41D351A0F000D01D6 /* UILabel+MarkupExtensions.m in Sources */,
 				18649B6F1D48A93000F1CCB0 /* HKMessageAlertVC.m in Sources */,
 				186496D11D489A4200F1CCB0 /* PushManager.m in Sources */,
-				18649A011D489A9700F1CCB0 /* InsuranceAppointmentOp.m in Sources */,
 				18649DEA1D48BCF100F1CCB0 /* MutualInsGroupMemberCell.m in Sources */,
 				186495DB1D4895D200F1CCB0 /* main.m in Sources */,
 				186496B11D489A4200F1CCB0 /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */,
 				183F570D1D4C90860001E26A /* AddCooperationGroupJoinOp.m in Sources */,
 				18649B5C1D48A93000F1CCB0 /* CKRouter.m in Sources */,
 				18649D921D48BB5D00F1CCB0 /* GasStore.m in Sources */,
-				186499C11D489A9700F1CCB0 /* GetCooperationMyGroupOp.m in Sources */,
 				18649B791D48A93000F1CCB0 /* JTTableView.m in Sources */,
 				186496C21D489A4200F1CCB0 /* HKSMSModel.m in Sources */,
 				18649A1E1D489A9700F1CCB0 /* GuideStore.m in Sources */,
@@ -6364,7 +6314,6 @@
 				18649CF91D48B7C000F1CCB0 /* CollectionChooseVC.m in Sources */,
 				18649C631D48B54E00F1CCB0 /* CarWashCouponVModel.m in Sources */,
 				18648FBA1D48558000F1CCB0 /* SBJsonBase.m in Sources */,
-				18649E1F1D48BD8D00F1CCB0 /* MutualInsClaimDetailVC.m in Sources */,
 				1864999A1D489A9700F1CCB0 /* AskToCompensationOp.m in Sources */,
 				18649B6B1D48A93000F1CCB0 /* HKImagePicker.m in Sources */,
 				186499D41D489A9700F1CCB0 /* GetNewbieInfoOp.m in Sources */,
@@ -6387,7 +6336,6 @@
 				18649B5D1D48A93000F1CCB0 /* HKNavigationController.m in Sources */,
 				183F57351D4C90860001E26A /* GetInsBaseCarListOp.m in Sources */,
 				186499B51D489A9700F1CCB0 /* GetAutomobileModelOp.m in Sources */,
-				18649CB41D48B6F100F1CCB0 /* CommissionCouponViewController.m in Sources */,
 				18649B661D48A93000F1CCB0 /* HKAlertVC.m in Sources */,
 				18649A051D489A9700F1CCB0 /* OutlayCalculateWithFrameNumOp.m in Sources */,
 				6B26EEB31C8EC23200428EC4 /* ZFCRotatingPlaneActivityIndicatorView.m in Sources */,
@@ -6433,7 +6381,6 @@
 				18649BE81D48B0E100F1CCB0 /* CarWashTableVC.m in Sources */,
 				186499741D489A9700F1CCB0 /* CouponModel.m in Sources */,
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
-				186499CC1D489A9700F1CCB0 /* GetInsuranceByChannelOp.m in Sources */,
 				18649A161D489A9700F1CCB0 /* UserViolationQueryOp.m in Sources */,
 				18649C8D1D48B61900F1CCB0 /* MyCarListVModel.m in Sources */,
 				183F57021D4C90860001E26A /* GasChargeRecord.m in Sources */,
@@ -6462,7 +6409,6 @@
 				181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */,
 				1864999E1D489A9700F1CCB0 /* BindBankcardOp.m in Sources */,
 				6BEDB0461BA666D4009A8C3F /* CCSegmentedControl.m in Sources */,
-				186499FB1D489A9700F1CCB0 /* GetUserResourcesOp.m in Sources */,
 				18649C911D48B61900F1CCB0 /* PickerAutoSeriesVC.m in Sources */,
 				6B26EEB51C8EC23200428EC4 /* ZFCWaveActivityIndicatorView.m in Sources */,
 				186499AF1D489A9700F1CCB0 /* GetAreaByIdOp.m in Sources */,
@@ -6470,8 +6416,6 @@
 				18649CD51D48B77700F1CCB0 /* ChooseCouponVC.m in Sources */,
 				186496BD1D489A4200F1CCB0 /* HKLaunchManager.m in Sources */,
 				18649D5F1D48BA9800F1CCB0 /* InsInputInfoVC.m in Sources */,
-				186499B31D489A9700F1CCB0 /* GetAutomobileBrandOp.m in Sources */,
-				18649E431D48BE0A00F1CCB0 /* EstimatedPriceVC.m in Sources */,
 				181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */,
 				186499A91D489A9700F1CCB0 /* DeleteUserFavoriteOp.m in Sources */,
 				186499AE1D489A9700F1CCB0 /* GainUserAwardOp.m in Sources */,
@@ -6512,7 +6456,6 @@
 				186496B91D489A4200F1CCB0 /* DefaultStyleModel.m in Sources */,
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
 				183F573F1D4C90860001E26A /* PayForPremiumOp.m in Sources */,
-				183F57431D4C90860001E26A /* UpdateCooperationIdlicenseInfoOp.m in Sources */,
 				186499721D489A9700F1CCB0 /* AutoSeriesModel.m in Sources */,
 				186499AD1D489A9700F1CCB0 /* GainCouponPkgOp.m in Sources */,
 				1837A7611B72130F0006E6C5 /* SDWaitingView.m in Sources */,
@@ -6524,8 +6467,6 @@
 				18649B821D48A93000F1CCB0 /* OEButton.m in Sources */,
 				186497151D489A5800F1CCB0 /* NSString+MD5.m in Sources */,
 				18649A151D489A9700F1CCB0 /* UploadLogOp.m in Sources */,
-				186499AA1D489A9700F1CCB0 /* DownloadFileOp.m in Sources */,
-				186499BE1D489A9700F1CCB0 /* GetCitysOp.m in Sources */,
 				6B26EEB21C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.m in Sources */,
 				FAC986A81D587890000FE245 /* ViolationCommissionStateModel.m in Sources */,
 				18649E4A1D48BE0A00F1CCB0 /* MutualInsGroupInfoVC.m in Sources */,
@@ -6610,7 +6551,6 @@
 				183F571B1D4C90860001E26A /* ExitCooperationOp.m in Sources */,
 				18649A0A1D489A9700F1CCB0 /* ShareUserCouponOp.m in Sources */,
 				183F57201D4C90860001E26A /* GetCooperationClaimsListOp.m in Sources */,
-				18649BAF1D48ADC600F1CCB0 /* WelcomeVC.m in Sources */,
 				18649CA01D48B64E00F1CCB0 /* InsranceOrderViewModel.m in Sources */,
 				1864998E1D489A9700F1CCB0 /* JTQueue.m in Sources */,
 				18649BF51D48B12B00F1CCB0 /* ListWebVC.m in Sources */,
@@ -6635,10 +6575,8 @@
 				186496D01D489A4200F1CCB0 /* PhoneHelper.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
-				18CECC2A1C30F8890075B7F9 /* README.md in Sources */,
 				18649A0D1D489A9700F1CCB0 /* UnbindBankcardOp.m in Sources */,
 				18649AD61D48A0EF00F1CCB0 /* ViolationCityInfo.m in Sources */,
-				186499BF1D489A9700F1CCB0 /* GetCooperationAutoGroupOp.m in Sources */,
 				18649DAF1D48BC5600F1CCB0 /* MutualInsVC.m in Sources */,
 				186497181D489A5800F1CCB0 /* NSString+RectSize.m in Sources */,
 				183F57041D4C90860001E26A /* InsCoveragePrice.m in Sources */,
@@ -6671,9 +6609,7 @@
 				FAA240591D505224008AA1EC /* GetGasCardInfoOp.m in Sources */,
 				18649DA41D48BBBE00F1CCB0 /* RescueViewController.m in Sources */,
 				186496C11D489A4200F1CCB0 /* HKSecurityManager.m in Sources */,
-				186499AB1D489A9700F1CCB0 /* DownloadOp.m in Sources */,
 				18649E451D48BE0A00F1CCB0 /* InviteByCodeVC.m in Sources */,
-				18649A111D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.m in Sources */,
 				18648FB81D48558000F1CCB0 /* NSString+SBJSON.m in Sources */,
 				18649D951D48BB5D00F1CCB0 /* GasVC.m in Sources */,
 				18649DAE1D48BC5600F1CCB0 /* MutualInsHomeAdVC.m in Sources */,
@@ -6714,7 +6650,6 @@
 				FADD81D21D53273900AB844E /* MaintainOrderViewModel.m in Sources */,
 				18649B781D48A93000F1CCB0 /* JTRatingView.m in Sources */,
 				18649E571D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m in Sources */,
-				183F57AB1D4CA1EA0001E26A /* AreaPickerVC.m in Sources */,
 				186499B81D489A9700F1CCB0 /* GetBankcardListOp.m in Sources */,
 				18649B841D48A93000F1CCB0 /* PopAnimation.m in Sources */,
 				186496CB1D489A4200F1CCB0 /* MultiMediaManager.m in Sources */,
@@ -6779,6 +6714,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -6933,6 +6869,7 @@
 					"-framework",
 					"\"UIKit\"",
 					"-fobjc-arc",
+					"-w",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6963,6 +6900,7 @@
 					"COCOAPODS=1",
 					"XMDDENT=0",
 					"XMDDEnvironment=1",
+					"REACT_DEV=0",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7037,6 +6975,7 @@
 					"-framework",
 					"\"UIKit\"",
 					"-fobjc-arc",
+					"-w",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";

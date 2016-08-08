@@ -149,6 +149,7 @@
         {
             cell = [tableView dequeueReusableCellWithIdentifier:@"HeadCell"];
             UILabel *headerLabel = [cell viewWithTag:100];
+            headerLabel.numberOfLines = 0;
             headerLabel.text = @"选择平台";
         }
         else
@@ -196,6 +197,7 @@
     UILabel *channelNameLabel = (UILabel *)[cell.contentView viewWithTag:1001];
     UILabel *couponMoneyLabel = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *characterLabel = (UILabel *)[cell.contentView viewWithTag:1003];
+    characterLabel.numberOfLines = 0;
     UILabel *userCNTInfoLabel = (UILabel *)[cell.contentView viewWithTag:1004];
     
     UIButton *checkBtn = (UIButton *)[cell searchViewWithTag:1005];
@@ -382,6 +384,7 @@
 -(void)setPreferredMaxLayoutWidth:(UILabel *)label
 {
     label.preferredMaxLayoutWidth = self.view.bounds.size.width - 80;
+    label.numberOfLines = 0;
 }
 - (IBAction)commitAction:(id)sender
 {

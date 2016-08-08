@@ -23,13 +23,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="52" id="HcR-Iy-haj"/>
-                                    <constraint firstAttribute="width" constant="240" id="gWC-b6-DXr"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="gWC-b6-DXr"/>
-                                    </mask>
-                                </variation>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QgZ-BG-bMV">
                                 <rect key="frame" x="0.0" y="72" width="600" height="528"/>
@@ -42,15 +36,9 @@
                             <constraint firstItem="k6t-EJ-8pL" firstAttribute="leading" secondItem="Fxn-Tx-PwQ" secondAttribute="leading" id="HpJ-6D-med"/>
                             <constraint firstAttribute="trailing" secondItem="k6t-EJ-8pL" secondAttribute="trailing" id="SgW-Pr-AgG"/>
                             <constraint firstItem="1Ew-o5-CIA" firstAttribute="top" secondItem="QgZ-BG-bMV" secondAttribute="bottom" id="Umh-2E-Ona"/>
-                            <constraint firstItem="QgZ-BG-bMV" firstAttribute="top" secondItem="8hf-yH-5h6" secondAttribute="bottom" id="iG0-sq-4hq"/>
                             <constraint firstAttribute="trailing" secondItem="QgZ-BG-bMV" secondAttribute="trailing" id="jDh-fd-KKn"/>
                             <constraint firstItem="k6t-EJ-8pL" firstAttribute="top" secondItem="8hf-yH-5h6" secondAttribute="bottom" id="qmO-ad-J1J"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="iG0-sq-4hq"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="headView" destination="k6t-EJ-8pL" id="Poa-nE-ati"/>
@@ -213,7 +201,7 @@
                                                                 <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CR_5"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </button>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无更新信息" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dCO-CV-lfQ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无更新信息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dCO-CV-lfQ">
                                                             <rect key="frame" x="261" y="83" width="78" height="16"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="0.094117647058823528" green="0.81568627450980391" blue="0.41568627450980389" alpha="1" colorSpace="calibratedRGB"/>
@@ -286,7 +274,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JAq-jI-zBW">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="148"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UUR-7J-G4j">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="UUR-7J-G4j">
                                                             <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="iAm-SC-BTs"/>
@@ -338,8 +326,8 @@
                                                             <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="106" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="驾驶中型以上载客载货汽车、危险物品运输车辆以外的其他机动车行驶超过规定时速10%未达20%的" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIV-36-4di" customClass="JTLabel">
-                                                            <rect key="frame" x="17" y="97" width="573" height="36"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="106" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="驾驶中型以上载客载货汽车、危险物品运输车辆以外的其他机动车行驶超过规定时速10%未达20%的" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIV-36-4di" customClass="JTLabel">
+                                                            <rect key="frame" x="17" y="97" width="573" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -351,7 +339,7 @@
                                                                 <constraint firstAttribute="width" constant="17" id="Kd7-7w-dXr"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="105" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="【浙江衢州】S33龙丽温告诉丽水方向16KM889M" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bH-1G-dZa" customClass="JTLabel">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="105" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="【浙江衢州】S33龙丽温告诉丽水方向16KM889M" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bH-1G-dZa" customClass="JTLabel">
                                                             <rect key="frame" x="33" y="66" width="557" height="15"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -512,23 +500,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NEp-rj-gAb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="385" y="-480"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="i7u-oG-5kM">
-            <objects>
-                <viewController id="dBZ-z0-xGR" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="tTa-lm-sZ9"/>
-                        <viewControllerLayoutGuide type="bottom" id="LIm-Ot-Gci"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="SoV-5P-N7Y">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6az-Mi-Nzk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>

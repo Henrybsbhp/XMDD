@@ -75,7 +75,6 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     HKInclinedLabel *hkLabel = [cell viewWithTag:101];
     hkLabel.text = model.statusdesc;
-    NSLog(@"%lf",hkLabel.frame.size.width);
     hkLabel.backgroundColor = [UIColor clearColor];
     UILabel *statusLabel = [cell viewWithTag:1004];
     statusLabel.text = model.detailstatusdesc;
@@ -98,9 +97,11 @@
     plateNum.text = model.licensenum;
     
     UILabel *detaiLabel = [cell viewWithTag:1002];
+    detaiLabel.numberOfLines = 0;
     detaiLabel.preferredMaxLayoutWidth = cell.bounds.size.width - 35;
     detaiLabel.text = [NSString stringWithFormat:@"事故经过：%@",model.accidentdesc];
     UILabel *priceLabel = [cell viewWithTag:1003];
+    priceLabel.numberOfLines = 0;
     priceLabel.text = model.claimfee > 0 ? [NSString formatForPriceWithFloat:model.claimfee] : @"待估价";
     
     UILabel *titleLb = [cell viewWithTag:109];

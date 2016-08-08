@@ -7,7 +7,6 @@
 //
 
 #import "UnbundlingVC.h"
-#import "ResultVC.h"
 #import "DrawingBoardView.h"
 #import "HKSMSModel.h"
 #import "HKConvertModel.h"
@@ -220,6 +219,7 @@ static NSString *s_sendedPhone;
     UITextField *textfield = (UITextField *)[cell.contentView viewWithTag:1001];
     UIButton *vcodeBtn = (UIButton *)[cell.contentView viewWithTag:1002];
     UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:1003];
+    tipsLabel.numberOfLines = 0;
     tipsLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 34;
     
     textfield.layer.borderColor = [[UIColor colorWithHTMLExpression:@"#EEEFEF"] CGColor];

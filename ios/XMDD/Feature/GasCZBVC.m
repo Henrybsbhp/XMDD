@@ -263,6 +263,7 @@
         @strongify(self);
         UILabel *cardnoL = (UILabel *)[cell.contentView viewWithTag:1003];
         UILabel *descL = (UILabel *)[cell.contentView viewWithTag:1006];
+        descL.numberOfLines = 0;
         
         NSString *cardno = self.curBankCard.cardNumber;
         if (cardno.length > 4) {
@@ -305,6 +306,7 @@
         @strongify(self);
         UILabel *label = (UILabel *)[cell.contentView viewWithTag:1003];
         label.text = [self rechargeDescriptionForCZBCard:nil];
+        label.numberOfLines = 0;
         [(HKTableViewCell *)cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 12, 0, 0)];
     });
     

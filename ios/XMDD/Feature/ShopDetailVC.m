@@ -660,6 +660,7 @@
     }];
     
     label.text = self.shop.shopAddress;
+    label.numberOfLines = 0;
     return cell;
 }
 
@@ -699,10 +700,6 @@
     UIButton *payB = (UIButton*)[cell.contentView viewWithTag:1006];
     
     JTShopService *service = [self.shop.shopServiceArray safetyObjectAtIndex:indexPath.row - 3];
-    ///暂无银行
-    //    [priceL mas_updateConstraints:^(MASConstraintMaker *make) {
-    //        make.bottom.equalTo(cc ? iconV : titleL);
-    //    }];
     
     if ([self.shop.isVacation integerValue] == 1)
     {
@@ -723,6 +720,7 @@
     originalPriceLabel.attributedText = titleString;
     priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
     introL.text = service.serviceDescription;
+    introL.numberOfLines = 0;
     
     @weakify(self);
     [[[payB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
@@ -784,8 +782,10 @@
     ratingV.ratingValue = comment.rate;
     contentL.text = comment.comment;
     serviceL.text = comment.serviceName;
+    serviceL.numberOfLines = 0;
     [avatarV setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     contentL.preferredMaxLayoutWidth = self.view.bounds.size.width - 71;
+    contentL.numberOfLines = 0;
     [cell layoutIfNeeded];
     return cell;
 }
@@ -871,13 +871,14 @@
 - (NSString *)appendSpace:(NSString *)note andWidth:(CGFloat)w
 {
     NSString * spaceNote = note;
-    for (;;)
+    for (NSInteger i = 0;i< 1000;i++)
     {
-        CGSize size = [spaceNote sizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(FLT_MAX,FLT_MAX)];
+        CGSize size = [spaceNote labelSizeWithWidth:9999 font:[UIFont systemFontOfSize:13]];
         if (size.width > w)
             return spaceNote;
         spaceNote = [spaceNote append:@" "];
     }
+    return spaceNote;
 }
 
 

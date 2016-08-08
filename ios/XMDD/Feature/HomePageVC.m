@@ -319,6 +319,7 @@
     UILabel * tempLb = (UILabel *)[self.weatherView searchViewWithTag:20202];
     UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
     UIView *rightContainerV = (UIView *)[self.weatherView searchViewWithTag:20200];
+    tempLb.numberOfLines = 2;
     
     [[RACObserve(gAppMgr, restriction) distinctUntilChanged] subscribeNext:^(NSString *text) {
         rightContainerV.hidden = text.length == 0;

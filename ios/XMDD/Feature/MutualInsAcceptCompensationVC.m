@@ -37,6 +37,7 @@
     
     // 给底部描述 label 附上下发得到的文本，并设置行间距
     self.descriptionLabel.attributedText = [self generateAttributedStringWithLineSpacing:self.descriptionString];
+    self.descriptionLabel.numberOfLines = 0;
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(setBackAction)];
 }

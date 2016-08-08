@@ -207,6 +207,7 @@
     
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"noticeCell"];
     UILabel *label = [cell viewWithTag:100];
+    label.numberOfLines = 0;
     label.preferredMaxLayoutWidth = self.view.bounds.size.width - 50;
     label.text = [self.scencePhotoVM noticeForIndex:self.index];
     return cell;

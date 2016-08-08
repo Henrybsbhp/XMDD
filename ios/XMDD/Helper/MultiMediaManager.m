@@ -7,7 +7,6 @@
 //
 
 #import "MultiMediaManager.h"
-#import "DownloadOp.h"
 #import "CKKit.h"
 #import <SDWebImageManager.h>
 

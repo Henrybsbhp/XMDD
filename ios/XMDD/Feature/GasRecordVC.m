@@ -59,15 +59,7 @@
     [attributedStr appendAttributedString:attributedStr2];
     
     self.headLabel.attributedText = attributedStr;
-    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
-    {
-
-    }
-    else
-    {
-//        self.headLabel.text = [NSString stringWithFormat:@"今年您的油卡充值了%ld元，总计优惠了%ld元",(long)recharge,(long)discount];
-//        self.headLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 20;
-    }
+    self.headLabel.numberOfLines = 2;
     self.tableView.tableHeaderView = self.headView;
 }
 

@@ -214,6 +214,7 @@
         UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:1001];
         contentLabel.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 30;
         contentLabel.text = contentString;
+        contentLabel.numberOfLines = 0;
     });
     return titleDict;
 }

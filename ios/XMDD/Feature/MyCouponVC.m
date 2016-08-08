@@ -10,7 +10,6 @@
 #import "UIBarButtonItem+CustomStyle.h"
 #import "JTTableView.h"
 #import "ShareUserCouponOp.h"
-#import "DownloadOp.h"
 #import "NSDate+DateForText.h"
 #import "CarWashCouponVModel.h"
 #import "UnusedCouponVModel.h"

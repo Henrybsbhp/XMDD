@@ -596,9 +596,11 @@
         [brandImageView setImageByUrl:dict.brandLogo withType:ImageURLTypeMedium defImage:@"mins_def" errorImage:@"mins_def"];
         carNumLabel.text = dictModel.licenseNum;
         statusLabel.text = dictModel.statusDesc;
+        statusLabel.numberOfLines = 0;
         tipsLabel.font = [UIFont systemFontOfSize:13];
         tipsLabel.textColor = HEXCOLOR(@"#888888");
         tipsLabel.text = dictModel.tip;
+        tipsLabel.numberOfLines = 0;
         CGSize tipsSize = [dictModel.tip labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 34 font:[UIFont systemFontOfSize:13]];
         CGSize singleSize = [dictModel.tip sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]}];
         CGFloat numberOfText = ceil(tipsSize.height / singleSize.height);
@@ -679,6 +681,7 @@
         statusLabel.text = dict.statusDesc;
         tipsLabel.font = [UIFont systemFontOfSize:13];
         tipsLabel.textColor = HEXCOLOR(@"#888888");
+        tipsLabel.numberOfLines = 0;
         tipsLabel.text = dict.tip;
         CGSize tipsSize = [dict.tip labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 34 font:[UIFont systemFontOfSize:13]];
         CGSize singleSize = [dict.tip sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]}];
@@ -791,6 +794,9 @@
     extendedInfoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:100];
         UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:101];
+        
+        titleLabel.numberOfLines = 0;
+        contentLabel.numberOfLines = 0;
         
         titleLabel.text = [NSString stringWithFormat:@"%@", dict.allKeys.firstObject];
         contentLabel.text = [NSString stringWithFormat:@"%@", dict.allValues.firstObject];
@@ -1015,7 +1021,7 @@
     singleTipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
-        
+        tipsLabel.numberOfLines = 0;
         tipsLabel.text = couponString;
         
         // 如果用户机型是 iPhone 6 或以上屏幕大小的设备，更改一下 imageView 的约束
@@ -1054,6 +1060,7 @@
             HKMyCar * car = [[HKMyCar alloc] init];
             car.carId = dict.userCarID;
             car.licencenumber = dict.licenseNum;
+
             [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             
         } else {

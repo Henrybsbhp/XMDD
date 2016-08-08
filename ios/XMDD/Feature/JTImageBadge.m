@@ -37,7 +37,7 @@
         _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.font = kJTCommentBadgeDefaultFont;
-        _textLabel.textAlignment = UITextAlignmentCenter;
+        _textLabel.textAlignment = NSTextAlignmentCenter;
         _textLabel.textColor = [UIColor whiteColor];
 //        _textLabel.shadowColor = [UIColor darkGrayColor];
 //        _textLabel.shadowOffset = CGSizeMake(0, 1);

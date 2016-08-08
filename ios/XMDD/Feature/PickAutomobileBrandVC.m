@@ -44,9 +44,14 @@
 //数据迁移
 - (void)dataMigration
 {
+    //清除2.5版本之前的数据
     if ([gAppMgr.deviceInfo firstAppearAfterVersion:@"2.5" forKey:@"AutoBrand"]) {
         NSFetchRequest *req = [NSFetchRequest fetchRequestWithEntityName:@"AutoBrand"];
         [gAppMgr.defDataMgr deleteAllObjectsWithFetchRequest:req];
+        [self.autoModel cleanAutoBrandTimetag];
+    }
+    //3.3版本替换了CoreData的数据库，需要重置时间戳
+    else if ([gAppMgr.deviceInfo firstAppearAfterVersion:@"3.3" forKey:@"xmdd2"]) {
         [self.autoModel cleanAutoBrandTimetag];
     }
 }
