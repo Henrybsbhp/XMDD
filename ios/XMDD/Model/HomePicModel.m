@@ -31,6 +31,7 @@
     [coder encodeObject:self.homeItemRedirect forKey:@"url"];
     [coder encodeObject:self.homeItemId forKey:@"itemid"];
     [coder encodeBool:self.isNewFlag forKey:@"newflag"];
+    [coder encodeBool:self.isHotFlag forKey:@"hotflag"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -42,7 +43,7 @@
         self.homeItemRedirect = [coder decodeObjectForKey:@"url"];
         self.homeItemId = [coder decodeObjectForKey:@"itemid"];
         self.isNewFlag = [coder decodeBoolForKey:@"newflag"];
-        
+        self.isHotFlag = [coder decodeBoolForKey:@"hotflag"];
     }
     return self;
 }
@@ -68,6 +69,7 @@
         item.homeItemRedirect = [dict stringParamForName:@"url"];
         item.homeItemId = [dict stringParamForName:@"moduleid"];
         item.isNewFlag = [dict boolParamForName:@"isnewflag"];
+        item.isHotFlag = [dict boolParamForName:@"ishot"];
         [mutableArray safetyAddObject:item];
     }
     homePicModel.homeItemArray = [NSArray arrayWithArray:mutableArray];
@@ -82,6 +84,7 @@
         item.homeItemRedirect = [dict stringParamForName:@"url"];
         item.homeItemId = [dict stringParamForName:@"moduleid"];
         item.isNewFlag = [dict boolParamForName:@"isnewflag"];
+        item.isHotFlag = [dict boolParamForName:@"ishot"];
         [mutableArray2 safetyAddObject:item];
     }
     homePicModel.moreItemArray = [NSArray arrayWithArray:mutableArray2];

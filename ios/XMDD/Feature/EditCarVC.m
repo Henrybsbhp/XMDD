@@ -236,33 +236,6 @@
         return YES;
     } copy];
     
-    HKCellData *cell1_2 = [HKCellData dataWithCellID:@"Selection" tag:nil];
-    cell1_2.customInfo[@"title"] = @"购车时间";
-    cell1_2.customInfo[@"placehold"] = @"请选择购车时间";
-    cell1_2.customInfo[@"inspector"] = [^BOOL(NSIndexPath *indexPath) {
-        @strongify(self);
-        if (!self.curCar.purchasedate) {
-            [self showErrorAtIndexPath:indexPath errorMsg:@"购车时间不能为空"];
-            return NO;
-        }
-        return YES;
-    } copy];
-    cell1_2.object = [RACObserve(self.curCar, purchasedate) map:^id(NSDate *date) {
-        return [date dateFormatForYYMMdd];
-    }];
-    [cell1_2 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
-        @strongify(self);
-        [MobClick event:@"rp312_3"];
-        [self.view endEditing:YES];
-        self.datePicker.maximumDate = [NSDate date];
-        NSDate *selectedDate = self.curCar.purchasedate ? self.curCar.purchasedate : [NSDate date];
-        
-        [[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:selectedDate]
-         subscribeNext:^(NSDate *date) {
-             @strongify(self);
-             self.curCar.purchasedate = date;
-         }];
-    }];
     
     HKCellData *cell1_3 = [HKCellData dataWithCellID:@"Selection" tag:nil];
     cell1_3.customInfo[@"title"] = @"品牌车系";
@@ -298,10 +271,6 @@
             self.curCar.brandLogo = brand.brandLogo;
             self.curCar.seriesModel = series;
             self.curCar.detailModel = model;
-            
-            
-            [self showDatePicker];
-            
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }];
@@ -344,14 +313,12 @@
                 self.curCar.brandLogo = brand.brandLogo;
                 self.curCar.seriesModel = series;
                 self.curCar.detailModel = model;
-                
-                [self showDatePicker];
             }];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }];
     
-    return @[cell1_0,cell1_1,cell1_3,cell1_4,cell1_2];
+    return @[cell1_0,cell1_1,cell1_3,cell1_4];
 }
 
 - (NSArray *)dataListForSection2
@@ -360,6 +327,26 @@
     //section 2
     HKCellData *cell2_0 = [HKCellData dataWithCellID:@"Title" tag:nil];
     cell2_0.object = @"更多爱车信息（选填）";
+    
+    HKCellData *cell1_2 = [HKCellData dataWithCellID:@"Selection" tag:nil];
+    cell1_2.customInfo[@"title"] = @"购车时间";
+    cell1_2.customInfo[@"placehold"] = @"请选择购车时间";
+    cell1_2.object = [RACObserve(self.curCar, purchasedate) map:^id(NSDate *date) {
+        return [date dateFormatForYYMMdd];
+    }];
+    [cell1_2 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
+        @strongify(self);
+        [MobClick event:@"rp312_3"];
+        [self.view endEditing:YES];
+        self.datePicker.maximumDate = [NSDate date];
+        NSDate *selectedDate = self.curCar.purchasedate ? self.curCar.purchasedate : [NSDate date];
+        
+        [[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:selectedDate]
+         subscribeNext:^(NSDate *date) {
+             @strongify(self);
+             self.curCar.purchasedate = date;
+         }];
+    }];
     
     HKCellData *cell2_1 = [HKCellData dataWithCellID:@"Selection" tag:nil];
     cell2_1.customInfo[@"title"] = @"行驶城市";
@@ -562,7 +549,7 @@
         [self reloadDatasource];
         
         NSMutableArray * indexPathArray = [NSMutableArray array];
-        for (NSInteger i = 1;i< 8;i++)
+        for (NSInteger i = 1;i< 9;i++)
         {
             [indexPathArray safetyAddObject:[NSIndexPath indexPathForRow:i inSection:indexPath.section]];
         }
@@ -590,7 +577,7 @@
     
     if (self.isMoreInfoExpand)
     {
-        return @[cell2_0,cell2_1,cell2_2,cell2_3,cell2_4,cell2_5,cell2_6,cell2_7,cell2_8];
+        return @[cell2_0,cell1_2,cell2_1,cell2_2,cell2_3,cell2_4,cell2_5,cell2_6,cell2_7,cell2_8];
     }
     else
     {
@@ -989,20 +976,6 @@
 }
 
 #pragma mark - Utility
-
-- (void)showDatePicker
-{
-    if (!self.curCar.purchasedate)
-    {
-        @weakify(self)
-        [[self.datePicker rac_presentPickerVCInView:self.navigationController.view withSelectedDate:[NSDate date]]
-         subscribeNext:^(NSDate *date) {
-             @strongify(self);
-             self.curCar.purchasedate = date;
-         }];
-    }
-}
-
 - (void)showPickAutomobileBrandVC
 {
     @weakify(self)
@@ -1019,9 +992,6 @@
             self.curCar.brandLogo = brand.brandLogo;
             self.curCar.seriesModel = series;
             self.curCar.detailModel = model;
-            
-            [self showDatePicker];
-            
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }

@@ -486,7 +486,6 @@
 		18649BB71D48AE9B00F1CCB0 /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BB51D48AE9B00F1CCB0 /* HomePageVC.m */; };
 		18649BBD1D48AEC000F1CCB0 /* HomeSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BBA1D48AEC000F1CCB0 /* HomeSuspendedAdVC.m */; };
 		18649BBE1D48AEC000F1CCB0 /* MoreSubmodulesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BBC1D48AEC000F1CCB0 /* MoreSubmodulesVC.m */; };
-		18649BC11D48AECE00F1CCB0 /* HomePageVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BC01D48AECE00F1CCB0 /* HomePageVModel.m */; };
 		18649BC61D48AF2600F1CCB0 /* HKTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BC31D48AF2600F1CCB0 /* HKTableViewController.m */; };
 		18649BC71D48AF2600F1CCB0 /* HKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BC51D48AF2600F1CCB0 /* HKViewController.m */; };
 		18649BCB1D48AF8200F1CCB0 /* HKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BCA1D48AF8200F1CCB0 /* HKProgressView.m */; };
@@ -786,6 +785,7 @@
 		C38A1DFE1CC5D1390085BA4C /* (null) in Resources */ = {isa = PBXBuildFile; };
 		C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */; };
 		C3D9B81F1CC0DBF000B5D2A7 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81D1CC0DBF000B5D2A7 /* FLAnimatedImageView.m */; };
+		C3DEFD491D54892F006337D5 /* HomePageModuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C3DEFD481D54892F006337D5 /* HomePageModuleModel.m */; };
 		C3F451521D2E3A6F00BA9BC4 /* AsstisTouch.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F4514F1D2E3A6F00BA9BC4 /* AsstisTouch.png */; };
 		C3F451531D2E3A6F00BA9BC4 /* DTouchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F451511D2E3A6F00BA9BC4 /* DTouchButton.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
@@ -1914,8 +1914,6 @@
 		18649BBA1D48AEC000F1CCB0 /* HomeSuspendedAdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeSuspendedAdVC.m; sourceTree = "<group>"; };
 		18649BBB1D48AEC000F1CCB0 /* MoreSubmodulesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreSubmodulesVC.h; sourceTree = "<group>"; };
 		18649BBC1D48AEC000F1CCB0 /* MoreSubmodulesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreSubmodulesVC.m; sourceTree = "<group>"; };
-		18649BBF1D48AECE00F1CCB0 /* HomePageVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageVModel.h; sourceTree = "<group>"; };
-		18649BC01D48AECE00F1CCB0 /* HomePageVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageVModel.m; sourceTree = "<group>"; };
 		18649BC21D48AF2600F1CCB0 /* HKTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKTableViewController.h; sourceTree = "<group>"; };
 		18649BC31D48AF2600F1CCB0 /* HKTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKTableViewController.m; sourceTree = "<group>"; };
 		18649BC41D48AF2600F1CCB0 /* HKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKViewController.h; sourceTree = "<group>"; };
@@ -2503,6 +2501,8 @@
 		C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImage/FLAnimatedImage.m; sourceTree = "<group>"; };
 		C3D9B81C1CC0DBF000B5D2A7 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImage/FLAnimatedImageView.h; sourceTree = "<group>"; };
 		C3D9B81D1CC0DBF000B5D2A7 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageView.m; path = FLAnimatedImage/FLAnimatedImageView.m; sourceTree = "<group>"; };
+		C3DEFD471D54892F006337D5 /* HomePageModuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageModuleModel.h; sourceTree = "<group>"; };
+		C3DEFD481D54892F006337D5 /* HomePageModuleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageModuleModel.m; sourceTree = "<group>"; };
 		C3F4514F1D2E3A6F00BA9BC4 /* AsstisTouch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AsstisTouch.png; sourceTree = "<group>"; };
 		C3F451501D2E3A6F00BA9BC4 /* DTouchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTouchButton.h; sourceTree = "<group>"; };
 		C3F451511D2E3A6F00BA9BC4 /* DTouchButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTouchButton.m; sourceTree = "<group>"; };
@@ -3012,8 +3012,6 @@
 		183F57D31D4EE3BB0001E26A /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				18649BBF1D48AECE00F1CCB0 /* HomePageVModel.h */,
-				18649BC01D48AECE00F1CCB0 /* HomePageVModel.m */,
 				18649BB91D48AEC000F1CCB0 /* HomeSuspendedAdVC.h */,
 				18649BBA1D48AEC000F1CCB0 /* HomeSuspendedAdVC.m */,
 				18649BBB1D48AEC000F1CCB0 /* MoreSubmodulesVC.h */,
@@ -3022,6 +3020,8 @@
 				18649BB31D48AE9B00F1CCB0 /* HomeNewbieGuideVC.m */,
 				18649BB41D48AE9B00F1CCB0 /* HomePageVC.h */,
 				18649BB51D48AE9B00F1CCB0 /* HomePageVC.m */,
+				C3DEFD471D54892F006337D5 /* HomePageModuleModel.h */,
+				C3DEFD481D54892F006337D5 /* HomePageModuleModel.m */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -6257,7 +6257,6 @@
 				18649D131D48B91300F1CCB0 /* InsIntroVC.m in Sources */,
 				18649E471D48BE0A00F1CCB0 /* MutInsCalculateVC.m in Sources */,
 				18649E211D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.m in Sources */,
-				18649BC11D48AECE00F1CCB0 /* HomePageVModel.m in Sources */,
 				186495D01D4895D200F1CCB0 /* xmdd.xcdatamodeld in Sources */,
 				18649DF61D48BD2300F1CCB0 /* MutualInsStore.m in Sources */,
 				183F57181D4C90860001E26A /* DeleteCooperationGroupOp.m in Sources */,
@@ -6279,6 +6278,7 @@
 				18649B5C1D48A93000F1CCB0 /* CKRouter.m in Sources */,
 				18649D921D48BB5D00F1CCB0 /* GasStore.m in Sources */,
 				18649B791D48A93000F1CCB0 /* JTTableView.m in Sources */,
+				C3DEFD491D54892F006337D5 /* HomePageModuleModel.m in Sources */,
 				186496C21D489A4200F1CCB0 /* HKSMSModel.m in Sources */,
 				18649A1E1D489A9700F1CCB0 /* GuideStore.m in Sources */,
 				18649CA21D48B64E00F1CCB0 /* OthersOrderViewModel.m in Sources */,
@@ -6758,8 +6758,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6852,7 +6852,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "86d6669a-9d41-413a-a618-335e7e698cc1";
 			};
 			name = Debug;
 		};
@@ -6864,8 +6864,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6958,7 +6958,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9df2c481-f7b2-4061-bf66-32967e913518";
 			};
 			name = Release;
 		};
