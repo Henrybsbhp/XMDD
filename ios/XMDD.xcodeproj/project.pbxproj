@@ -729,6 +729,17 @@
 		2E52F24A1C2032BB00D94F68 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		4CEFBEBAA7BE4E58AF8C448E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9411A8DA5E84CBC911B19E1 /* Zocial.ttf */; };
 		4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */; };
+		4E78DD621D56E7E600EC52C7 /* ViolationMissionHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DD611D56E7E600EC52C7 /* ViolationMissionHistoryVC.m */; };
+		4E78DD731D56EA9900EC52C7 /* ViolationMyLicenceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DD721D56EA9900EC52C7 /* ViolationMyLicenceVC.m */; };
+		4E78DD761D58597500EC52C7 /* ViolationPayConfirmVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DD751D58597500EC52C7 /* ViolationPayConfirmVC.m */; };
+		4E78DD871D587EA800EC52C7 /* GetViolationCommissionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DD861D587EA800EC52C7 /* GetViolationCommissionOp.m */; };
+		4E78DD981D589D6900EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DD971D589D6900EC52C7 /* ViolationDelegateCommitSuccessVC.m */; };
+		4E78DD9B1D59ABE900EC52C7 /* GetViolationCommissionApplyOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DD9A1D59ABE900EC52C7 /* GetViolationCommissionApplyOp.m */; };
+		4E78DD9E1D59CF1000EC52C7 /* ApplyViolationCommissionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DD9D1D59CF1000EC52C7 /* ApplyViolationCommissionOp.m */; };
+		4E78DDA11D59D8F300EC52C7 /* GetViolationCommissionCarinfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDA01D59D8F300EC52C7 /* GetViolationCommissionCarinfoOp.m */; };
+		4E78DDA41D59DB6600EC52C7 /* UpdateViolationCommissionCarinfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDA31D59DB6600EC52C7 /* UpdateViolationCommissionCarinfoOp.m */; };
+		4EBC577D1D54400C00FD2971 /* Temp_YZC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4EBC577C1D54400C00FD2971 /* Temp_YZC.storyboard */; };
+		4EBC578E1D54693100FD2971 /* ViolationDelegateMissionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBC578D1D54693100FD2971 /* ViolationDelegateMissionVC.m */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
 		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
@@ -1752,10 +1763,6 @@
 		186498FD1D489A9700F1CCB0 /* UpdateClaimPicOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateClaimPicOp.m; sourceTree = "<group>"; };
 		186498FE1D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCooperationIdlicenseInfoV2Op.h; sourceTree = "<group>"; };
 		186498FF1D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCooperationIdlicenseInfoV2Op.m; sourceTree = "<group>"; };
-		186499001D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateInsuranceCalculateOp.h; sourceTree = "<group>"; };
-		186499011D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateInsuranceCalculateOp.m; sourceTree = "<group>"; };
-		186499021D489A9700F1CCB0 /* UpdateInsuranceOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateInsuranceOrderOp.h; sourceTree = "<group>"; };
-		186499031D489A9700F1CCB0 /* UpdateInsuranceOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateInsuranceOrderOp.m; sourceTree = "<group>"; };
 		186499041D489A9700F1CCB0 /* UpdateUserInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateUserInfoOp.h; sourceTree = "<group>"; };
 		186499051D489A9700F1CCB0 /* UpdateUserInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateUserInfoOp.m; sourceTree = "<group>"; };
 		186499061D489A9700F1CCB0 /* UploadFileOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadFileOp.h; sourceTree = "<group>"; };
@@ -2408,6 +2415,27 @@
 		4E30E6CF1CFD8492000157D4 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
 		4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
 		4E30E6D11CFD8492000157D4 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
+		4E78DD601D56E7E600EC52C7 /* ViolationMissionHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationMissionHistoryVC.h; sourceTree = "<group>"; };
+		4E78DD611D56E7E600EC52C7 /* ViolationMissionHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationMissionHistoryVC.m; sourceTree = "<group>"; };
+		4E78DD711D56EA9900EC52C7 /* ViolationMyLicenceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationMyLicenceVC.h; sourceTree = "<group>"; };
+		4E78DD721D56EA9900EC52C7 /* ViolationMyLicenceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationMyLicenceVC.m; sourceTree = "<group>"; };
+		4E78DD741D58597500EC52C7 /* ViolationPayConfirmVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationPayConfirmVC.h; sourceTree = "<group>"; };
+		4E78DD751D58597500EC52C7 /* ViolationPayConfirmVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationPayConfirmVC.m; sourceTree = "<group>"; };
+		4E78DD851D587EA800EC52C7 /* GetViolationCommissionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetViolationCommissionOp.h; sourceTree = "<group>"; };
+		4E78DD861D587EA800EC52C7 /* GetViolationCommissionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetViolationCommissionOp.m; sourceTree = "<group>"; };
+		4E78DD961D589D6900EC52C7 /* ViolationDelegateCommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateCommitSuccessVC.h; sourceTree = "<group>"; };
+		4E78DD971D589D6900EC52C7 /* ViolationDelegateCommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationDelegateCommitSuccessVC.m; sourceTree = "<group>"; };
+		4E78DD991D59ABE900EC52C7 /* GetViolationCommissionApplyOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetViolationCommissionApplyOp.h; sourceTree = "<group>"; };
+		4E78DD9A1D59ABE900EC52C7 /* GetViolationCommissionApplyOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetViolationCommissionApplyOp.m; sourceTree = "<group>"; };
+		4E78DD9C1D59CF1000EC52C7 /* ApplyViolationCommissionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyViolationCommissionOp.h; sourceTree = "<group>"; };
+		4E78DD9D1D59CF1000EC52C7 /* ApplyViolationCommissionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyViolationCommissionOp.m; sourceTree = "<group>"; };
+		4E78DD9F1D59D8F300EC52C7 /* GetViolationCommissionCarinfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetViolationCommissionCarinfoOp.h; sourceTree = "<group>"; };
+		4E78DDA01D59D8F300EC52C7 /* GetViolationCommissionCarinfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetViolationCommissionCarinfoOp.m; sourceTree = "<group>"; };
+		4E78DDA21D59DB6600EC52C7 /* UpdateViolationCommissionCarinfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateViolationCommissionCarinfoOp.h; sourceTree = "<group>"; };
+		4E78DDA31D59DB6600EC52C7 /* UpdateViolationCommissionCarinfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateViolationCommissionCarinfoOp.m; sourceTree = "<group>"; };
+		4EBC577C1D54400C00FD2971 /* Temp_YZC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Temp_YZC.storyboard; sourceTree = "<group>"; };
+		4EBC578C1D54693100FD2971 /* ViolationDelegateMissionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateMissionVC.h; sourceTree = "<group>"; };
+		4EBC578D1D54693100FD2971 /* ViolationDelegateMissionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationDelegateMissionVC.m; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
@@ -3267,10 +3295,6 @@
 				186498FD1D489A9700F1CCB0 /* UpdateClaimPicOp.m */,
 				186498FE1D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.h */,
 				186498FF1D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.m */,
-				186499001D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.h */,
-				186499011D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.m */,
-				186499021D489A9700F1CCB0 /* UpdateInsuranceOrderOp.h */,
-				186499031D489A9700F1CCB0 /* UpdateInsuranceOrderOp.m */,
 				186499041D489A9700F1CCB0 /* UpdateUserInfoOp.h */,
 				186499051D489A9700F1CCB0 /* UpdateUserInfoOp.m */,
 				186499061D489A9700F1CCB0 /* UploadFileOp.h */,
@@ -3279,6 +3303,16 @@
 				186499091D489A9700F1CCB0 /* UploadLogOp.m */,
 				1864990A1D489A9700F1CCB0 /* UserViolationQueryOp.h */,
 				1864990B1D489A9700F1CCB0 /* UserViolationQueryOp.m */,
+				4E78DD851D587EA800EC52C7 /* GetViolationCommissionOp.h */,
+				4E78DD861D587EA800EC52C7 /* GetViolationCommissionOp.m */,
+				4E78DD991D59ABE900EC52C7 /* GetViolationCommissionApplyOp.h */,
+				4E78DD9A1D59ABE900EC52C7 /* GetViolationCommissionApplyOp.m */,
+				4E78DD9C1D59CF1000EC52C7 /* ApplyViolationCommissionOp.h */,
+				4E78DD9D1D59CF1000EC52C7 /* ApplyViolationCommissionOp.m */,
+				4E78DD9F1D59D8F300EC52C7 /* GetViolationCommissionCarinfoOp.h */,
+				4E78DDA01D59D8F300EC52C7 /* GetViolationCommissionCarinfoOp.m */,
+				4E78DDA21D59DB6600EC52C7 /* UpdateViolationCommissionCarinfoOp.h */,
+				4E78DDA31D59DB6600EC52C7 /* UpdateViolationCommissionCarinfoOp.m */,
 			);
 			name = Netop;
 			sourceTree = "<group>";
@@ -3670,6 +3704,7 @@
 				186495CC1D4895D200F1CCB0 /* Rescue.storyboard */,
 				186495CE1D4895D200F1CCB0 /* Valuation.storyboard */,
 				186495CF1D4895D200F1CCB0 /* Violation.storyboard */,
+				4EBC577C1D54400C00FD2971 /* Temp_YZC.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -4468,6 +4503,16 @@
 				18649CA51D48B6D200F1CCB0 /* ViolationItemViewController.m */,
 				18649CA61D48B6D200F1CCB0 /* ViolationViewController.h */,
 				18649CA71D48B6D200F1CCB0 /* ViolationViewController.m */,
+				4EBC578C1D54693100FD2971 /* ViolationDelegateMissionVC.h */,
+				4EBC578D1D54693100FD2971 /* ViolationDelegateMissionVC.m */,
+				4E78DD601D56E7E600EC52C7 /* ViolationMissionHistoryVC.h */,
+				4E78DD611D56E7E600EC52C7 /* ViolationMissionHistoryVC.m */,
+				4E78DD711D56EA9900EC52C7 /* ViolationMyLicenceVC.h */,
+				4E78DD721D56EA9900EC52C7 /* ViolationMyLicenceVC.m */,
+				4E78DD741D58597500EC52C7 /* ViolationPayConfirmVC.h */,
+				4E78DD751D58597500EC52C7 /* ViolationPayConfirmVC.m */,
+				4E78DD961D589D6900EC52C7 /* ViolationDelegateCommitSuccessVC.h */,
+				4E78DD971D589D6900EC52C7 /* ViolationDelegateCommitSuccessVC.m */,
 			);
 			name = Violation;
 			sourceTree = "<group>";
@@ -5837,6 +5882,7 @@
 				186495E21D4895D200F1CCB0 /* area.plist in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
 				18648FB51D48558000F1CCB0 /* AlipaySDK.bundle in Resources */,
+				4EBC577D1D54400C00FD2971 /* Temp_YZC.storyboard in Resources */,
 				186495EA1D4895D200F1CCB0 /* Car.storyboard in Resources */,
 				186495F41D4895D200F1CCB0 /* Message.storyboard in Resources */,
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
@@ -5980,6 +6026,7 @@
 				18649DBF1D48BCB700F1CCB0 /* MutualInsGroupDetailChildVC.m in Sources */,
 				183F573D1D4C90860001E26A /* InsuranceAppointmentV3Op.m in Sources */,
 				1888F41C1D48CB8600C64288 /* RCTNavigationManager.m in Sources */,
+				4EBC578E1D54693100FD2971 /* ViolationDelegateMissionVC.m in Sources */,
 				18649C9F1D48B64E00F1CCB0 /* CarwashOrderViewModel.m in Sources */,
 				18649C291D48B44500F1CCB0 /* WebVC.m in Sources */,
 				183F57191D4C90860001E26A /* DeleteGascardOp.m in Sources */,
@@ -6224,6 +6271,7 @@
 				188EF0B41D351A0F000D01D6 /* UILabel+MarkupExtensions.m in Sources */,
 				18649B6F1D48A93000F1CCB0 /* HKMessageAlertVC.m in Sources */,
 				186496D11D489A4200F1CCB0 /* PushManager.m in Sources */,
+				4E78DD761D58597500EC52C7 /* ViolationPayConfirmVC.m in Sources */,
 				18649DEA1D48BCF100F1CCB0 /* MutualInsGroupMemberCell.m in Sources */,
 				186495DB1D4895D200F1CCB0 /* main.m in Sources */,
 				186496B11D489A4200F1CCB0 /* AFHTTPRequestOperationManager+ReactiveCocoa.m in Sources */,
@@ -6260,6 +6308,7 @@
 				18649C121D48B35000F1CCB0 /* ValuationEmptySubView.m in Sources */,
 				18649A021D489A9700F1CCB0 /* InsuranceOrderPayOp.m in Sources */,
 				50E800411C44D7B100AFC7B9 /* HYScratchCardView.m in Sources */,
+				4E78DD621D56E7E600EC52C7 /* ViolationMissionHistoryVC.m in Sources */,
 				18649BB61D48AE9B00F1CCB0 /* HomeNewbieGuideVC.m in Sources */,
 				18FC01DF1C4E6C6F00FD61BF /* IQKeyboardReturnKeyHandler.m in Sources */,
 				18649D491D48BA3D00F1CCB0 /* InsBuyVC.m in Sources */,
@@ -6313,6 +6362,7 @@
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
 				18649A161D489A9700F1CCB0 /* UserViolationQueryOp.m in Sources */,
 				18649C8D1D48B61900F1CCB0 /* MyCarListVModel.m in Sources */,
+				4E78DD871D587EA800EC52C7 /* GetViolationCommissionOp.m in Sources */,
 				183F57021D4C90860001E26A /* GasChargeRecord.m in Sources */,
 				18649D3D1D48B9D900F1CCB0 /* DrivingLicenseViewLayout.m in Sources */,
 				1864997D1D489A9700F1CCB0 /* HKCoverage.m in Sources */,
@@ -6371,6 +6421,7 @@
 				18649A211D489A9700F1CCB0 /* InsuranceStore.m in Sources */,
 				183F57281D4C90860001E26A /* GetCooperationIdlicenseInfoOp.m in Sources */,
 				1844531D1C8EA30F007B895D /* AhaWaterWaveView.m in Sources */,
+				4E78DD9B1D59ABE900EC52C7 /* GetViolationCommissionApplyOp.m in Sources */,
 				18649C1E1D48B3BB00F1CCB0 /* LoginViewModel.m in Sources */,
 				18649C391D48B49600F1CCB0 /* EditMyInfoViewController.m in Sources */,
 				186496BA1D489A4200F1CCB0 /* DistanceCalcHelper.m in Sources */,
@@ -6401,12 +6452,14 @@
 				18649E4A1D48BE0A00F1CCB0 /* MutualInsGroupInfoVC.m in Sources */,
 				18649D5E1D48BA9800F1CCB0 /* InsInputDateVC.m in Sources */,
 				18649ADA1D48A15B00F1CCB0 /* UIBarButtonItem+CustomStyle.m in Sources */,
+				4E78DDA41D59DB6600EC52C7 /* UpdateViolationCommissionCarinfoOp.m in Sources */,
 				18FC01E11C4E6C6F00FD61BF /* IQTextView.m in Sources */,
 				186499A51D489A9700F1CCB0 /* ConfirmClaimOp.m in Sources */,
 				186497101D489A5800F1CCB0 /* NSDate+PrettyFormat.m in Sources */,
 				183F57D91D4EE59C0001E26A /* AppDelegate.m in Sources */,
 				18649E601D48BE5500F1CCB0 /* InviteCompleteVC.m in Sources */,
 				186499DC1D489A9700F1CCB0 /* GetRescueCommentRescueOp.m in Sources */,
+				4E78DDA11D59D8F300EC52C7 /* GetViolationCommissionCarinfoOp.m in Sources */,
 				18FC01DD1C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m in Sources */,
 				183F57411D4C90860001E26A /* UpdateCalculatePremiumOp.m in Sources */,
 				183F57471D4C90860001E26A /* AutoBrand.m in Sources */,
@@ -6490,12 +6543,14 @@
 				18649D311D48B9A600F1CCB0 /* InsAppointmentSuccessVC.m in Sources */,
 				18D17F771B53B21E00F66F04 /* MBProgressHUD.m in Sources */,
 				186495231D4888BE00F1CCB0 /* NSArray+Encoding.m in Sources */,
+				4E78DD731D56EA9900EC52C7 /* ViolationMyLicenceVC.m in Sources */,
 				1888F3F21D48C02600C64288 /* MutualInsClaimAccountVC.m in Sources */,
 				505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */,
 				1864997B1D489A9700F1CCB0 /* HKCoupon.m in Sources */,
 				18649C9E1D48B64E00F1CCB0 /* CarwashOrderDetailVC.m in Sources */,
 				18649D3C1D48B9D900F1CCB0 /* DrivingLicenseThumbCell.m in Sources */,
 				1864952E1D4888BE00F1CCB0 /* NSString+Safety.m in Sources */,
+				4E78DD981D589D6900EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */,
 				18649E1B1D48BD8D00F1CCB0 /* MutualInsActivityVC.m in Sources */,
 				1864998C1D489A9700F1CCB0 /* HKViolation.m in Sources */,
 				18649E4C1D48BE0A00F1CCB0 /* MutualInsRequestJoinGroupVC.m in Sources */,
@@ -6586,6 +6641,7 @@
 				18649B7B1D48A93000F1CCB0 /* MapBottomNavigationView.m in Sources */,
 				186499881D489A9700F1CCB0 /* HKRescueDetail.m in Sources */,
 				1864997F1D489A9700F1CCB0 /* HKInsuranceOrder.m in Sources */,
+				4E78DD9E1D59CF1000EC52C7 /* ApplyViolationCommissionOp.m in Sources */,
 				18649A1B1D489A9700F1CCB0 /* CarIDCodeCheckModel.m in Sources */,
 				18649B701D48A93000F1CCB0 /* HKPageControl.m in Sources */,
 				186497121D489A5800F1CCB0 /* NSNumber+Safety.m in Sources */,
