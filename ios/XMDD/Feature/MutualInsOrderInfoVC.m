@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet CKLine *bottomLine;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sureBtnLeadingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeightConstraint;
 
 @property (nonatomic,strong)NSArray * datasource;
 
@@ -148,10 +149,13 @@
     NSString * topTip = self.contract.remindtip;
     if (topTip.length)
     {
+        CGSize size = [topTip labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 38 font:[UIFont systemFontOfSize:13]];
+        CGFloat height = size.height + 24;
         self.topView.hidden = NO;
         self.topLabel.text = topTip;
-        self.topLabel.adjustsFontSizeToFitWidth = YES;
-        self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
+        self.topLabel.numberOfLines = 0;
+        self.tableView.contentInset = UIEdgeInsetsMake(height, 0, 0, 0);
+        self.topViewHeightConstraint.constant = height;
         @weakify(self)
         [[RACObserve(self.tableView,contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * obj) {
             
@@ -492,10 +496,6 @@
     {
         cell = [self tableView:tableView insCompanyCellForRowAtIndexPath:indexPath];
     }
-    else if ([cellId isEqualToString:@"InsExpandCell"])
-    {
-        cell = [self tableView:tableView insExpandCellForRowAtIndexPath:indexPath];
-    }
     else if ([cellId isEqualToString:@"SwitchCell"])
     {
         cell = [self tableView:tableView switchCellForRowAtIndexPath:indexPath];
@@ -513,36 +513,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary * dict = [self.datasource safetyObjectAtIndex:indexPath.row];
     NSString * cellId = [dict objectForKey:@"id"];
-    UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    UIImageView * iconView = (UIImageView *)[cell searchViewWithTag:103];
     
-    if ([cellId isEqualToString:@"InsCompanyCell"] && self.contract.status == 1)
-    {
-        // 点击保险公司按钮，且状态等于待支付，才允许保险公司弹出
-        self.isInsProxyExpand = !self.isInsProxyExpand;
-        [self setupDateSource];
-        if (self.isInsProxyExpand)
-        {
-            NSIndexPath * path = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
-            [self.tableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
-            [UIView animateWithDuration:0.2 animations:^{
-                
-                iconView.transform = CGAffineTransformMakeRotation(180 *M_PI / 180.0);
-            }];
-            
-        }
-        else
-        {
-            NSIndexPath * path = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
-            [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
-            [UIView animateWithDuration:0.2 animations:^{
-                
-                iconView.transform = CGAffineTransformMakeRotation(0);
-            }];
-        }
-        
-    }
-    else if ([cellId isEqualToString:@"SwitchCell"])
+    if ([cellId isEqualToString:@"SwitchCell"])
     {
         [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0002"}];
         self.isInsProxy = !self.isInsProxy;
@@ -724,121 +696,16 @@
     
     lb1.text = title;
     lb2.text = content;
-    upIcon.hidden = !(self.contract.inscomp.count > 1);
-    
-    upIcon.transform = CGAffineTransformMakeRotation(self.isInsProxyExpand ? 180 *M_PI / 180.0 : 0);
+    upIcon.hidden = YES;
     
     return cell;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView insExpandCellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"InsExpandCell"];
-    
-    UIImageView * imageView = (UIImageView *)[cell searchViewWithTag:101];
-    UIImage * image = [[UIImage imageNamed:@"mutualins_sepline"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 60) resizingMode:UIImageResizingModeStretch];
-    imageView.image = image;
-    
-    __block UIView * insCompanysView = [cell searchViewWithTag:102];
-    if (!insCompanysView)
-    {
-        insCompanysView = [self getInsComanysView];
-        insCompanysView.tag = 102;
-        insCompanysView.alpha = 0.0;
-        [cell.contentView addSubview:insCompanysView];
-        
-        [insCompanysView mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.height.equalTo(cell.contentView).offset(-12);
-            make.width.equalTo(cell.contentView);
-            make.top.equalTo(cell.contentView).offset(12);
-            make.leading.equalTo(cell.contentView);
-        }];
-    }
-    
-    insCompanysView.alpha = 0.0;
-    CKAfter(0.15, ^{
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            
-            insCompanysView.alpha = 1.0;
-        }];
-    });
-    
-    [cell setNeedsLayout];
-    [cell layoutIfNeeded];
-    
-    return cell;
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView blankCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"BlankCell"];
     return cell;
 }
-
-- (UIView *)getInsComanysView
-{
-    UIView * view = [[UIView alloc] init];
-    view.backgroundColor = [UIColor whiteColor];
-    
-    CGFloat space = 12;
-    CGFloat btnWidth = (gAppMgr.deviceInfo.screenSize.width - 6 * 2 - 12 * 3) / 2;
-    CGFloat btnHeight = 27;
-    for (NSInteger i = 0 ; i < self.contract.inscomp.count ; i++)
-    {
-        NSString * insCompany = [self.contract.inscomp safetyObjectAtIndex:i];
-        UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.backgroundColor = kLightLineColor;
-        [button setTitle:insCompany forState:UIControlStateNormal];
-        [button setTitle:insCompany forState:UIControlStateHighlighted];
-        [button setTitleColor:kGrayTextColor forState:UIControlStateNormal];
-        [button setTitleColor:kGrayTextColor forState:UIControlStateHighlighted];
-        button.titleLabel.font = [UIFont systemFontOfSize:13];
-        button.titleLabel.text = insCompany;
-        [view addSubview:button];
-        
-        [[RACObserve(self, proxyInsCompany) distinctUntilChanged] subscribeNext:^(NSString * name) {
-            
-            button.backgroundColor = [name isEqualToString:insCompany] ? kDefTintColor :kLightLineColor;
-            [button setTitleColor:[name isEqualToString:insCompany] ? [UIColor whiteColor] :kGrayTextColor forState:UIControlStateNormal];
-            [button setTitleColor:[name isEqualToString:insCompany] ? [UIColor whiteColor] :kGrayTextColor forState:UIControlStateHighlighted];
-        }];
-        
-        [[button rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0003"}];
-           
-            self.proxyInsCompany = insCompany;
-            
-            [self setupDateSource];
-            for (NSInteger i = 0 ; i < self.datasource.count ; i++)
-            {
-                NSDictionary * dict = [self.datasource safetyObjectAtIndex:i];
-                NSString * key = dict[@"id"];
-                if ([key isEqualToString:@"InsCompanyCell"])
-                {
-                    NSIndexPath * path = [NSIndexPath indexPathForRow:i inSection:0];
-                    [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
-                    break;
-                }
-            }
-        }];
-        
-        [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            CGFloat offsetX = i % 2 * (btnWidth + space) + space;
-            CGFloat offsetY = i / 2 * (27 + space) + space;
-            make.height.mas_equalTo(btnHeight);
-            make.width.mas_equalTo(btnWidth);
-            make.top.equalTo(view).offset(offsetY);
-            make.leading.equalTo(view).offset(offsetX);
-        }];
-    }
-    
-    return view;
-}
-
-
 
 @end
