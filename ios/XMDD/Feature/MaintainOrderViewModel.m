@@ -125,7 +125,7 @@
             titleLabel.text = order.shop.shopName;
             statusLabel.text = order.statusDesc;
             [brandImageView setImageByUrl:[order.shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
-            typeLabel.text = order.servicename;
+            typeLabel.text = order.serviceDesc;
             priceLabel.text = [NSString stringWithFormat:@"￥%@", [NSString formatForPrice:order.fee]];
             timeLabel.text = [order.txtime dateFormatForYYYYMMddHHmm2];
             

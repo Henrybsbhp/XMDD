@@ -27,6 +27,9 @@ typedef NS_ENUM(NSInteger, HKServiceOrderStatus) {
 @property (nonatomic, assign) NSInteger status;
 @property (nonatomic, copy) NSString *statusDesc;
 
+/// 服务描述
+@property (nonatomic, copy) NSString *serviceDesc;
+
 ///服务名称
 @property (nonatomic, assign) CGFloat serviceprice;
 @property (nonatomic, strong) NSString *servicename;

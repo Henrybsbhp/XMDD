@@ -8,6 +8,7 @@
 
 #import "ViolationCommissionStateVC.h"
 #import "GetViolationCommissionStateOp.h"
+#import "CancelViolationCommissionOp.h"
 #import "HKProgressView.h"
 #import "NSString+RectSize.h"
 #import "ViolationCommissionStateModel.h"
@@ -26,6 +27,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    NSDictionary *orderInfo1 = @{@"订单时间" : @"2016.06.06 12:32"};
+    NSDictionary *orderInfo2 = @{@"违章罚款" : @"￥200.00"};
+    NSDictionary *orderInfo3 = @{@"手续费" : @"￥30.00"};
+    NSDictionary *orderInfo4 = @{@"支付时间" : @"2016.06.06 12:32"};
+    NSDictionary *orderInfo5 = @{@"支付金额" : @"￥230.00"};
+    NSDictionary *orderInfo6 = @{@"完成时间" : @"2016.06.06 12:32"};
+    NSArray *array = @[orderInfo1, orderInfo2, orderInfo3, orderInfo4, orderInfo5, orderInfo6];
+    NSDictionary *data = @{@"licensenumber" : @"皖H16712",
+                           @"area" : @"超级大傻逼",
+                           @"act" : @"不小心把自己吃了",
+                           @"status" : @(1),
+                           @"tip" : @"操你大爷",
+                           @"orderinfo" : array};
+    
+    ViolationCommissionStateModel *model = [ViolationCommissionStateModel listWithJSONResponse:data];
+    [self setDataSourceWithFetchedData:model];
+//    [self fetchStateData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,7 +61,24 @@
 /// 放弃按钮
 - (void)actionAbandon:(UIButton *)sender
 {
-    
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:nil];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认放弃" color:kDefTintColor clickBlock:^(id alertVC) {
+        CancelViolationCommissionOp *op = [CancelViolationCommissionOp operation];
+        op.recordID = self.recordID;
+        @weakify(self);
+        [[[op rac_postRequest] initially:^{
+            [gToast showingWithText:nil];
+        }] subscribeNext:^(id x) {
+            @strongify(self);
+            [gToast showSuccess:@"取消代办成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+        } error:^(NSError *error) {
+            [gToast showMistake:error.domain];
+        }];
+        
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否放弃代办？" ActionItems:@[cancel, confirm]];
+    [alert show];
 }
 
 /// 联系客服
@@ -61,6 +96,7 @@
 - (void)fetchStateData
 {
     GetViolationCommissionStateOp *op = [GetViolationCommissionStateOp operation];
+    op.recordID = self.recordID;
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         @strongify(self);
@@ -121,7 +157,7 @@
             CKDict *commissionListCell = [self setupCommissionListCellWithDict:dict];
             [cellArray addObject:commissionListCell];
         }
-        [self.dataSource addObject:$([self setupProgressViewCellWithIndex:3], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model], [self setupPayCellWithModel:model]) forKey:nil];
+        [self.dataSource addObject:$([self setupProgressViewCellWithIndex:3], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model]) forKey:nil];
         
     } else if (model.status == XMVCommissionComplete) {
         
@@ -130,7 +166,7 @@
             CKDict *commissionListCell = [self setupCommissionListCellWithDict:dict];
             [cellArray addObject:commissionListCell];
         }
-        [self.dataSource addObject:$([self setupProgressViewCellWithIndex:4], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model], [self setupPayCellWithModel:model]) forKey:nil];
+        [self.dataSource addObject:$([self setupProgressViewCellWithIndex:4], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model]) forKey:nil];
         
     } else if (model.status == XMVCommissionReviewFailed) {
         
@@ -205,7 +241,14 @@
     tipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:100];
         tipsLabel.text = model.tips;
-        tipsLabel.textColor = [UIColor redColor];
+        
+        if (model.status == XMVCommissionProcessing || model.status == XMVCommissionWaiting || model.status == XMVCommissionReviewFailed || model.status == XMVCommissionFailed) {
+            tipsLabel.textColor = HEXCOLOR(@"#FF7428");
+        } else if (model.status == XMVCommissionPayWaiting) {
+            tipsLabel.textColor = HEXCOLOR(@"#E32A47");
+        } else {
+            tipsLabel.textColor = HEXCOLOR(@"#18D06A");
+        }
     });
     
     return tipsCell;
@@ -249,6 +292,12 @@
         
         titleLabel.text = titleString;
         contentLabel.text = contentString;
+        
+        if ([titleString isEqualToString:@"完成时间"] || [titleString isEqualToString:@"违章罚款"] || [titleString isEqualToString:@"手续费"] || [titleString isEqualToString:@"支付金额"]) {
+            contentLabel.textColor = HEXCOLOR(@"#FF7428");
+        } else {
+            contentLabel.textColor = HEXCOLOR(@"#888888");
+        }
     });
     
     return commissionListCell;

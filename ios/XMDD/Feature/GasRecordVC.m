@@ -22,6 +22,7 @@
 @property (nonatomic, assign) long long curTimetag;
 @property (nonatomic,assign) int curCharegeTotal;
 @property (nonatomic,assign) int curCouponedTotal;
+
 @end
 
 @implementation GasRecordVC
@@ -139,7 +140,30 @@
     UILabel * cardnumLbabel = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel * rechargeLabel = (UILabel *)[cell.contentView viewWithTag:1006];
     UILabel * stateLabel = (UILabel *)[cell.contentView viewWithTag:1008];
+    UILabel *fqjyPeriodLabel = (UILabel *)[cell.contentView viewWithTag:2001];
+    UILabel *fqjyMonths = (UILabel *)[cell.contentView viewWithTag:2002];
+    UIView *fqjyContainerView = (UIView *)[cell.contentView viewWithTag:2003];
     GasChargeRecord *record = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    
+    if (record.fqjyMonths != 0) {
+        
+        fqjyContainerView.hidden = NO;
+        [stateLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(fqjyContainerView.mas_left).offset(-4);
+            make.trailing.equalTo(fqjyContainerView.mas_leading).offset(4);
+        }];
+        fqjyMonths.text = [NSString stringWithFormat:@"%li", (long)record.fqjyMonths];
+        fqjyPeriodLabel.text = [NSString stringWithFormat:@"%li", (long)record.fqjyPeriod];
+        
+    } else {
+        
+        fqjyContainerView.hidden = YES;
+        [stateLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(cell.contentView).offset(-15);
+            make.centerY.equalTo(timeLabel);
+        }];
+        
+    }
     
     timeLabel.text = [[NSDate dateWithUTS:@(record.payedtime)] dateFormatForYYYYMMddHHmm2];
     logoV.image = [UIImage imageNamed:record.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];

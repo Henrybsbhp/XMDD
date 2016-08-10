@@ -22,6 +22,7 @@
     list.act = rsp[@"act"];
     list.status = [rsp[@"status"] integerValue];
     list.tips = rsp[@"tip"];
+    list.orderInfo = rsp[@"orderinfo"];
     
     return list;
 }

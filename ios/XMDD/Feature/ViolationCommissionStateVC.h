@@ -10,4 +10,6 @@
 
 @interface ViolationCommissionStateVC : UIViewController
 
+@property (nonatomic, strong) NSNumber *recordID;
+
 @end

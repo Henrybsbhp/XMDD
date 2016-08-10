@@ -9,6 +9,7 @@
 #import "GasOrderModelView.h"
 #import "GasChargeOrderOp.h"
 #import "GasChargedOrderModel.h"
+#import "NSString+Split.h"
 
 @interface GasOrderModelView () <HKLoadingModelDelegate>
 
@@ -112,19 +113,19 @@
             UILabel *payPrice = (UILabel *)[cell.contentView viewWithTag:4001];
             
             NSDate *date = [NSDate dateWithUTS:@(order.payedTime)];
-            if ([order.cardType isEqualToString:@"中石化"]) {
-                brandImageView.image = [UIImage imageNamed:@"gas_icon_snpn"];
-            } else {
+            if (order.cardType == 1) {
                 brandImageView.image = [UIImage imageNamed:@"gas_icon_cnpc"];
+            } else {
+                brandImageView.image = [UIImage imageNamed:@"gas_icon_snpn"];
             }
             
-            titleLabel.text = order.cardType;
+            titleLabel.text = order.cardType == 1 ? @"中石油" : @"中石化";
             statusLabel.text = order.statusDesc;
-            cardNumLabel.text = order.gasCardNum;
-            originalPriceLabel.text = [NSString stringWithFormat:@"%f", order.chargeMoney];
+            cardNumLabel.text = [order.gasCardNum splitByStep:4 replacement:@" "];
+            originalPriceLabel.text = [NSString stringWithFormat:@"¥%.0f", order.chargeMoney];
             timeLabel.text = [date dateFormatForYYYYMMddHHmm2];
             fastPayDescLabel.text = order.chargeTips;
-            payPrice.text = [NSString stringWithFormat:@"支付金额：%f", order.payMoney];
+            payPrice.text = [NSString stringWithFormat:@"支付金额：¥%.0f", order.payMoney];
         });
         
         [self.dataSource addObject:$(gasCell) forKey:nil];

@@ -20,7 +20,7 @@
 @property (nonatomic, assign) NSInteger orderID;
 
 /// 油卡类型（1: 中石油，2: 中石化）
-@property (nonatomic, copy) NSString *cardType;
+@property (nonatomic, assign) NSInteger cardType;
 
 /// 油卡卡号
 @property (nonatomic, copy) NSString *gasCardNum;

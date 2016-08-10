@@ -14,9 +14,7 @@
 {
     self.req_method = @"/user/gascharge/order/his/get";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (self.payedTime > 0) {
-        [params setObject:@(self.payedTime) forKey:@"payedtime"];
-    }
+    [params addParam:@(self.payedTime) forName:@"payedtime"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

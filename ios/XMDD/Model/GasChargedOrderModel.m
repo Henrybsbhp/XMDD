@@ -20,7 +20,7 @@
     order.payedTime = [rsp[@"payedtime"] longLongValue];
     order.tradeType = rsp[@"tradetype"];
     order.orderID = [rsp[@"orderid"] integerValue];
-    order.cardType = rsp[@"cardtype"];
+    order.cardType = [rsp[@"cardtype"] integerValue];
     order.gasCardNum = rsp[@"gascardno"];
     order.status = [rsp[@"status"] integerValue];
     order.statusDesc = rsp[@"statusdesc"];

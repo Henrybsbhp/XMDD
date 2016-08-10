@@ -36,6 +36,7 @@
     order.nickName = [rsp stringParamForName:@"nickname"];
     order.status = [rsp[@"status"] integerValue];
     order.statusDesc = rsp[@"statusdesc"];
+    order.serviceDesc = rsp[@"servicedesc"];
     return order;
 }
 

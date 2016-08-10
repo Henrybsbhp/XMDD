@@ -8,7 +8,7 @@
         <!--代办状态-->
         <scene sceneID="SSN-d8-ETU">
             <objects>
-                <viewController storyboardIdentifier="ViolationCommissionStateVC" id="vCN-vQ-7fG" customClass="ViolationCommissionStateVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViolationCommissionStateVC" hidesBottomBarWhenPushed="YES" id="vCN-vQ-7fG" customClass="ViolationCommissionStateVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="RLy-Cj-9bZ"/>
                         <viewControllerLayoutGuide type="bottom" id="pZ8-Ux-hPm"/>
