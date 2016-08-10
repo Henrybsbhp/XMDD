@@ -18,6 +18,8 @@
     self.statusdesc = dict[@"statusdesc"];
     self.paymoney = [dict[@"paymoney"] intValue];
     self.chargemoney = [dict[@"chargemoney"] intValue];
+    self.fqjyPeriod = [dict[@"fqjyperiod"] integerValue];
+    self.fqjyMonths = [dict[@"fqjymonths"] integerValue];
 
 }
 

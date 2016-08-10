@@ -789,11 +789,25 @@
 		C3DEFD651D586647006337D5 /* GetCityInfoByLicenseNumberOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C3DEFD641D586647006337D5 /* GetCityInfoByLicenseNumberOp.m */; };
 		C3F451521D2E3A6F00BA9BC4 /* AsstisTouch.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F4514F1D2E3A6F00BA9BC4 /* AsstisTouch.png */; };
 		C3F451531D2E3A6F00BA9BC4 /* DTouchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F451511D2E3A6F00BA9BC4 /* DTouchButton.m */; };
+		FA445C6D1D59B0B60099245E /* CancelViolationCommissionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */; };
+		FA65CD911D5199640076ED7D /* TempTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CD901D5199640076ED7D /* TempTableVC.m */; };
+		FA65CDA21D51CCC30076ED7D /* MutualOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */; };
+		FA65CDA51D51EF650076ED7D /* GasOrderModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
 		FA941B3F1D13A5AA00F56B96 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA941B3E1D13A5AA00F56B96 /* PassKit.framework */; };
+		FAA240591D505224008AA1EC /* GetGasCardInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */; };
 		FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C41D1246490045531C /* CFNetwork.framework */; };
 		FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C81D12466E0045531C /* SystemConfiguration.framework */; };
 		FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */; };
+		FAC9868B1D5819F7000FE245 /* GasChargeOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC9868A1D5819F7000FE245 /* GasChargeOrderOp.m */; };
+		FAC9869C1D581B98000FE245 /* GasChargedOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC9869B1D581B98000FE245 /* GasChargedOrderModel.m */; };
+		FAC9869F1D582C7F000FE245 /* MutualOrderListGetOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC9869E1D582C7F000FE245 /* MutualOrderListGetOp.m */; };
+		FAC986A21D583A44000FE245 /* MutualOrderListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC986A11D583A44000FE245 /* MutualOrderListModel.m */; };
+		FAC986A51D5877C3000FE245 /* GetViolationCommissionStateOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC986A41D5877C3000FE245 /* GetViolationCommissionStateOp.m */; };
+		FAC986A81D587890000FE245 /* ViolationCommissionStateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC986A71D587890000FE245 /* ViolationCommissionStateModel.m */; };
+		FADD81D21D53273900AB844E /* MaintainOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FADD81D11D53273900AB844E /* MaintainOrderViewModel.m */; };
+		FAE1A1811D543AE500574B1C /* ViolationCommissionStateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE1A1801D543AE500574B1C /* ViolationCommissionStateVC.m */; };
+		FAE1A1911D543B7B00574B1C /* HX_Temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE1A1901D543B7B00574B1C /* HX_Temp.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2491,12 +2505,39 @@
 		E574C35E0C5B4698BA396F43 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		F9411A8DA5E84CBC911B19E1 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		F99242C104D4445C9C8C11BC /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		FA445C6B1D59B0B50099245E /* CancelViolationCommissionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelViolationCommissionOp.h; sourceTree = "<group>"; };
+		FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelViolationCommissionOp.m; sourceTree = "<group>"; };
+		FA65CD8F1D5199640076ED7D /* TempTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempTableVC.h; sourceTree = "<group>"; };
+		FA65CD901D5199640076ED7D /* TempTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempTableVC.m; sourceTree = "<group>"; };
+		FA65CDA01D51CCC30076ED7D /* MutualOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualOrderViewModel.h; sourceTree = "<group>"; };
+		FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualOrderViewModel.m; sourceTree = "<group>"; };
+		FA65CDA31D51EF650076ED7D /* GasOrderModelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasOrderModelView.h; sourceTree = "<group>"; };
+		FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasOrderModelView.m; sourceTree = "<group>"; };
 		FA8496601CBE367700631062 /* SJKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJKeyboardManager.h; sourceTree = "<group>"; };
 		FA8496611CBE367700631062 /* SJKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJKeyboardManager.m; sourceTree = "<group>"; };
 		FA941B3E1D13A5AA00F56B96 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
+		FAA240571D505224008AA1EC /* GetGasCardInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGasCardInfoOp.h; sourceTree = "<group>"; };
+		FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGasCardInfoOp.m; sourceTree = "<group>"; };
 		FAAD30C41D1246490045531C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FAAD30C81D12466E0045531C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
+		FAC986891D5819F7000FE245 /* GasChargeOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasChargeOrderOp.h; sourceTree = "<group>"; };
+		FAC9868A1D5819F7000FE245 /* GasChargeOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasChargeOrderOp.m; sourceTree = "<group>"; };
+		FAC9869A1D581B98000FE245 /* GasChargedOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasChargedOrderModel.h; sourceTree = "<group>"; };
+		FAC9869B1D581B98000FE245 /* GasChargedOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasChargedOrderModel.m; sourceTree = "<group>"; };
+		FAC9869D1D582C7F000FE245 /* MutualOrderListGetOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualOrderListGetOp.h; sourceTree = "<group>"; };
+		FAC9869E1D582C7F000FE245 /* MutualOrderListGetOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualOrderListGetOp.m; sourceTree = "<group>"; };
+		FAC986A01D583A44000FE245 /* MutualOrderListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualOrderListModel.h; sourceTree = "<group>"; };
+		FAC986A11D583A44000FE245 /* MutualOrderListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualOrderListModel.m; sourceTree = "<group>"; };
+		FAC986A31D5877C3000FE245 /* GetViolationCommissionStateOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetViolationCommissionStateOp.h; sourceTree = "<group>"; };
+		FAC986A41D5877C3000FE245 /* GetViolationCommissionStateOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetViolationCommissionStateOp.m; sourceTree = "<group>"; };
+		FAC986A61D587890000FE245 /* ViolationCommissionStateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationCommissionStateModel.h; sourceTree = "<group>"; };
+		FAC986A71D587890000FE245 /* ViolationCommissionStateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationCommissionStateModel.m; sourceTree = "<group>"; };
+		FADD81D01D53273900AB844E /* MaintainOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaintainOrderViewModel.h; sourceTree = "<group>"; };
+		FADD81D11D53273900AB844E /* MaintainOrderViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaintainOrderViewModel.m; sourceTree = "<group>"; };
+		FAE1A17F1D543AE500574B1C /* ViolationCommissionStateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationCommissionStateVC.h; sourceTree = "<group>"; };
+		FAE1A1801D543AE500574B1C /* ViolationCommissionStateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationCommissionStateVC.m; sourceTree = "<group>"; };
+		FAE1A1901D543B7B00574B1C /* HX_Temp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = HX_Temp.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3262,6 +3303,16 @@
 				186499091D489A9700F1CCB0 /* UploadLogOp.m */,
 				1864990A1D489A9700F1CCB0 /* UserViolationQueryOp.h */,
 				1864990B1D489A9700F1CCB0 /* UserViolationQueryOp.m */,
+				FAA240571D505224008AA1EC /* GetGasCardInfoOp.h */,
+				FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */,
+				FAC986891D5819F7000FE245 /* GasChargeOrderOp.h */,
+				FAC9868A1D5819F7000FE245 /* GasChargeOrderOp.m */,
+				FAC9869D1D582C7F000FE245 /* MutualOrderListGetOp.h */,
+				FAC9869E1D582C7F000FE245 /* MutualOrderListGetOp.m */,
+				FAC986A31D5877C3000FE245 /* GetViolationCommissionStateOp.h */,
+				FAC986A41D5877C3000FE245 /* GetViolationCommissionStateOp.m */,
+				FA445C6B1D59B0B50099245E /* CancelViolationCommissionOp.h */,
+				FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */,
 				C3DEFD631D586647006337D5 /* GetCityInfoByLicenseNumberOp.h */,
 				C3DEFD641D586647006337D5 /* GetCityInfoByLicenseNumberOp.m */,
 				4E78DDFC1D5A1AA900EC52C7 /* ApplyViolationCommissionOp.h */,
@@ -3666,6 +3717,7 @@
 				186495CC1D4895D200F1CCB0 /* Rescue.storyboard */,
 				186495CE1D4895D200F1CCB0 /* Valuation.storyboard */,
 				186495CF1D4895D200F1CCB0 /* Violation.storyboard */,
+				FAE1A1901D543B7B00574B1C /* HX_Temp.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -4447,12 +4499,20 @@
 				18649C951D48B64E00F1CCB0 /* CarwashOrderDetailVC.m */,
 				18649C961D48B64E00F1CCB0 /* CarwashOrderViewModel.h */,
 				18649C971D48B64E00F1CCB0 /* CarwashOrderViewModel.m */,
+				FADD81D01D53273900AB844E /* MaintainOrderViewModel.h */,
+				FADD81D11D53273900AB844E /* MaintainOrderViewModel.m */,
+				FA65CDA01D51CCC30076ED7D /* MutualOrderViewModel.h */,
+				FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */,
+				FA65CDA31D51EF650076ED7D /* GasOrderModelView.h */,
+				FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */,
 				18649C981D48B64E00F1CCB0 /* InsranceOrderViewModel.h */,
 				18649C991D48B64E00F1CCB0 /* InsranceOrderViewModel.m */,
 				18649C9A1D48B64E00F1CCB0 /* MyOrderListVC.h */,
 				18649C9B1D48B64E00F1CCB0 /* MyOrderListVC.m */,
 				18649C9C1D48B64E00F1CCB0 /* OthersOrderViewModel.h */,
 				18649C9D1D48B64E00F1CCB0 /* OthersOrderViewModel.m */,
+				FA65CD8F1D5199640076ED7D /* TempTableVC.h */,
+				FA65CD901D5199640076ED7D /* TempTableVC.m */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -4474,6 +4534,8 @@
 				18649CA51D48B6D200F1CCB0 /* ViolationItemViewController.m */,
 				18649CA61D48B6D200F1CCB0 /* ViolationViewController.h */,
 				18649CA71D48B6D200F1CCB0 /* ViolationViewController.m */,
+				FAE1A17F1D543AE500574B1C /* ViolationCommissionStateVC.h */,
+				FAE1A1801D543AE500574B1C /* ViolationCommissionStateVC.m */,
 			);
 			name = Violation;
 			sourceTree = "<group>";
@@ -5241,6 +5303,12 @@
 				186498081D489A9600F1CCB0 /* RescueApplyOp.m */,
 				186498091D489A9600F1CCB0 /* ViolationModel.h */,
 				1864980A1D489A9600F1CCB0 /* ViolationModel.m */,
+				FAC9869A1D581B98000FE245 /* GasChargedOrderModel.h */,
+				FAC9869B1D581B98000FE245 /* GasChargedOrderModel.m */,
+				FAC986A01D583A44000FE245 /* MutualOrderListModel.h */,
+				FAC986A11D583A44000FE245 /* MutualOrderListModel.m */,
+				FAC986A61D587890000FE245 /* ViolationCommissionStateModel.h */,
+				FAC986A71D587890000FE245 /* ViolationCommissionStateModel.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -5865,6 +5933,7 @@
 				186495F51D4895D200F1CCB0 /* Mine.storyboard in Resources */,
 				A0783511FA7E4824B97BDF70 /* Foundation.ttf in Resources */,
 				186495E81D4895D200F1CCB0 /* Award.storyboard in Resources */,
+				FAE1A1911D543B7B00574B1C /* HX_Temp.storyboard in Resources */,
 				186495E51D4895D200F1CCB0 /* policy.json in Resources */,
 				186495FC1D4895D200F1CCB0 /* Other.storyboard in Resources */,
 				186495DD1D4895D200F1CCB0 /* xmddrct_public_key.der in Resources */,
@@ -5941,6 +6010,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				183F56FE1D4C90860001E26A /* Area.m in Sources */,
+				FAC9869C1D581B98000FE245 /* GasChargedOrderModel.m in Sources */,
 				18649C751D48B59200F1CCB0 /* MessageListVC.m in Sources */,
 				183F56FF1D4C90860001E26A /* BankCard.m in Sources */,
 				183F57061D4C90860001E26A /* InsSimpleCar.m in Sources */,
@@ -5965,6 +6035,7 @@
 				6BB884D21AE0BC6A00EBD8F4 /* MONActivityIndicatorView.m in Sources */,
 				186499F21D489A9700F1CCB0 /* GetTokenOp.m in Sources */,
 				1864953C1D4888BE00F1CCB0 /* CKStore.m in Sources */,
+				FAC9868B1D5819F7000FE245 /* GasChargeOrderOp.m in Sources */,
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				183F570B1D4C90860001E26A /* MutualInsMessage.m in Sources */,
 				18CECC281C30F8890075B7F9 /* JT3DScrollView.m in Sources */,
@@ -6024,6 +6095,7 @@
 				18649C3C1D48B49600F1CCB0 /* MyInfoViewController.m in Sources */,
 				18649D241D48B96700F1CCB0 /* InsLicensePopVC.m in Sources */,
 				18649C131D48B35000F1CCB0 /* ValuationHomeVC.m in Sources */,
+				FAC9869F1D582C7F000FE245 /* MutualOrderListGetOp.m in Sources */,
 				18649D321D48B9A600F1CCB0 /* InsAppointmentVC.m in Sources */,
 				183F57251D4C90860001E26A /* GetCooperationGroupMessageListOp.m in Sources */,
 				4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */,
@@ -6043,6 +6115,7 @@
 				183F57211D4C90860001E26A /* GetCooperationConfiOp.m in Sources */,
 				18649BB71D48AE9B00F1CCB0 /* HomePageVC.m in Sources */,
 				186495291D4888BE00F1CCB0 /* NSObject+Notify.m in Sources */,
+				FAE1A1811D543AE500574B1C /* ViolationCommissionStateVC.m in Sources */,
 				18649D331D48B9A600F1CCB0 /* InsuranceInfoSubmitingVC.m in Sources */,
 				18649A061D489A9700F1CCB0 /* RescueCancelHostcarOp.m in Sources */,
 				186499F81D489A9700F1CCB0 /* GetUserCouponV2Op.m in Sources */,
@@ -6067,6 +6140,7 @@
 				186499DD1D489A9700F1CCB0 /* GetRescueDetailOp.m in Sources */,
 				18649C661D48B54E00F1CCB0 /* UnusedCouponVModel.m in Sources */,
 				186499D51D489A9700F1CCB0 /* GetOtherOrderListOp.m in Sources */,
+				FA65CD911D5199640076ED7D /* TempTableVC.m in Sources */,
 				183F57301D4C90860001E26A /* GetGascardListOp.m in Sources */,
 				18649B831D48A93000F1CCB0 /* OETextField.m in Sources */,
 				18649B631D48A93000F1CCB0 /* GifActivityIndicatorView.m in Sources */,
@@ -6085,6 +6159,7 @@
 				18649CBF1D48B70A00F1CCB0 /* AwardShareSheetVC.m in Sources */,
 				186496C91D489A4200F1CCB0 /* LogAlertView.m in Sources */,
 				18649BE71D48B0E100F1CCB0 /* CarWashNavigationViewController.m in Sources */,
+				FAC986A51D5877C3000FE245 /* GetViolationCommissionStateOp.m in Sources */,
 				186499B61D489A9700F1CCB0 /* GetAutomobileModelV2Op.m in Sources */,
 				18649BEF1D48B0E100F1CCB0 /* ShopDetailVC.m in Sources */,
 				186499FA1D489A9700F1CCB0 /* GetUserResourcesGaschargeOp.m in Sources */,
@@ -6253,6 +6328,7 @@
 				183F57001D4C90860001E26A /* GasCard.m in Sources */,
 				186499C21D489A9700F1CCB0 /* GetCooperationResourcesOp.m in Sources */,
 				18649CF91D48B7C000F1CCB0 /* CollectionChooseVC.m in Sources */,
+				FA445C6D1D59B0B60099245E /* CancelViolationCommissionOp.m in Sources */,
 				18649C631D48B54E00F1CCB0 /* CarWashCouponVModel.m in Sources */,
 				18648FBA1D48558000F1CCB0 /* SBJsonBase.m in Sources */,
 				1864999A1D489A9700F1CCB0 /* AskToCompensationOp.m in Sources */,
@@ -6414,6 +6490,7 @@
 				18649A151D489A9700F1CCB0 /* UploadLogOp.m in Sources */,
 				C3DEFD651D586647006337D5 /* GetCityInfoByLicenseNumberOp.m in Sources */,
 				6B26EEB21C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.m in Sources */,
+				FAC986A81D587890000FE245 /* ViolationCommissionStateModel.m in Sources */,
 				4E78DDFB1D5A1A8E00EC52C7 /* UpdateViolationCommissionCarinfoOp.m in Sources */,
 				18649E4A1D48BE0A00F1CCB0 /* MutualInsGroupInfoVC.m in Sources */,
 				18649D5E1D48BA9800F1CCB0 /* InsInputDateVC.m in Sources */,
@@ -6430,6 +6507,7 @@
 				183F57271D4C90860001E26A /* GetCooperationGroupSharemoneyOp.m in Sources */,
 				186496CA1D489A4200F1CCB0 /* MapHelper.m in Sources */,
 				186497171D489A5800F1CCB0 /* NSString+Price.m in Sources */,
+				FA65CDA21D51CCC30076ED7D /* MutualOrderViewModel.m in Sources */,
 				186499E31D489A9700F1CCB0 /* GetShareDetailOp.m in Sources */,
 				186499D21D489A9700F1CCB0 /* GetMessageOp.m in Sources */,
 				183F57051D4C90860001E26A /* InsPremium.m in Sources */,
@@ -6454,6 +6532,7 @@
 				183F570F1D4C90860001E26A /* AddInsCarBaseInfoOp.m in Sources */,
 				18649A041D489A9700F1CCB0 /* OrderPaidSuccessOp.m in Sources */,
 				18649E1A1D48BD8D00F1CCB0 /* MutualInsAcceptCompensationVC.m in Sources */,
+				FA65CDA51D51EF650076ED7D /* GasOrderModelView.m in Sources */,
 				1893712B1B0E0D460030FDE1 /* TTTAttributedLabel.m in Sources */,
 				186495411D4888BE00F1CCB0 /* CKShadowView.m in Sources */,
 				186496CF1D489A4200F1CCB0 /* PaymentHelper.m in Sources */,
@@ -6550,6 +6629,8 @@
 				186495271D4888BE00F1CCB0 /* NSMutableDictionary+Safety.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
 				1888F4321D48CD6500C64288 /* AFDownloadRequestOperation.m in Sources */,
+				FAC986A21D583A44000FE245 /* MutualOrderListModel.m in Sources */,
+				FAA240591D505224008AA1EC /* GetGasCardInfoOp.m in Sources */,
 				186496C11D489A4200F1CCB0 /* HKSecurityManager.m in Sources */,
 				18649E451D48BE0A00F1CCB0 /* InviteByCodeVC.m in Sources */,
 				18648FB81D48558000F1CCB0 /* NSString+SBJSON.m in Sources */,
@@ -6589,6 +6670,7 @@
 				18649D931D48BB5D00F1CCB0 /* GasSubVC.m in Sources */,
 				18649D4C1D48BA3D00F1CCB0 /* InsSubmitResultVC.m in Sources */,
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
+				FADD81D21D53273900AB844E /* MaintainOrderViewModel.m in Sources */,
 				18649B781D48A93000F1CCB0 /* JTRatingView.m in Sources */,
 				18649E571D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m in Sources */,
 				186499B81D489A9700F1CCB0 /* GetBankcardListOp.m in Sources */,
@@ -6720,8 +6802,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6814,7 +6896,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "86d6669a-9d41-413a-a618-335e7e698cc1";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -6826,8 +6908,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6920,7 +7002,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9df2c481-f7b2-4061-bf66-32967e913518";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
