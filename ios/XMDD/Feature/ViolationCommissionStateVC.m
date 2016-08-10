@@ -12,12 +12,19 @@
 #import "HKProgressView.h"
 #import "NSString+RectSize.h"
 #import "ViolationCommissionStateModel.h"
+#import "SDPhotoBrowser.h"
 
-@interface ViolationCommissionStateVC () <UITableViewDelegate, UITableViewDataSource>
+@interface ViolationCommissionStateVC () <UITableViewDelegate, UITableViewDataSource, SDPhotoBrowserDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) CKList *dataSource;
+
+@property (nonatomic, strong) UITableViewCell *proofCell;
+
+@property (nonatomic, strong) UIImage *proofImage;
+
+@property (nonatomic, copy) NSString *proofImageURL;
 
 @end
 
@@ -37,7 +44,7 @@
     NSDictionary *data = @{@"licensenumber" : @"皖H16712",
                            @"area" : @"超级大傻逼",
                            @"act" : @"不小心把自己吃了",
-                           @"status" : @(1),
+                           @"status" : @(3),
                            @"tip" : @"操你大爷",
                            @"orderinfo" : array};
     
@@ -166,7 +173,7 @@
             CKDict *commissionListCell = [self setupCommissionListCellWithDict:dict];
             [cellArray addObject:commissionListCell];
         }
-        [self.dataSource addObject:$([self setupProgressViewCellWithIndex:4], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model]) forKey:nil];
+        [self.dataSource addObject:$([self setupProgressViewCellWithIndex:4], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model], [self setupProofCellWithModel:model]) forKey:nil];
         
     } else if (model.status == XMVCommissionReviewFailed) {
         
@@ -348,6 +355,30 @@
     return failedCell;
 }
 
+- (CKDict *)setupProofCellWithModel:(ViolationCommissionStateModel *)model
+{
+    CKDict *proofCell = [CKDict dictWith:@{kCKItemKey: @"proofCell", kCKCellID: @"ProofCell"}];
+    proofCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 500;
+    });
+    
+    proofCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
+        UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:1001];
+        NSString *imageURL = @"http://img1.gamersky.com/image2016/07/20160731_lr_176_1/gamersky_05small_10_20167311169C2.jpg";
+        self.proofImageURL = imageURL;
+        [imageView setImageByUrl:imageURL withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
+        self.proofCell = cell;
+        self.proofImage = imageView.image;
+        
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected)];
+        singleTap.numberOfTapsRequired = 1;
+        [imageView setUserInteractionEnabled:YES];
+        [imageView addGestureRecognizer:singleTap];
+    });
+    
+    return proofCell;
+}
+
 - (CKDict *)setupBlankCell
 {
     CKDict *blankCell = [CKDict dictWith:@{kCKItemKey: @"blankCell", kCKCellID: @"BlankCell"}];
@@ -428,6 +459,33 @@
     //  把绘制好的虚线添加上来
     [lineView.layer addSublayer:shapeLayer];
     lineView.layer.masksToBounds = YES;
+}
+
+- (void)tapDetected
+{
+    SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
+    browser.sourceImagesContainerView = self.proofCell;
+    browser.imageCount = 1;
+    browser.currentImageIndex = 0;
+    browser.delegate = self;
+    browser.sourceImagesContainerViewContentMode = sourceImagesContainerViewContentFill;
+    [browser show];
+}
+
+#pragma mark - SDPhotoBrowserDelegate
+// 返回临时占位图片（即原来的小图）
+- (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
+{
+    NSString *strurl = [gMediaMgr urlWith:self.proofImageURL imageType:ImageURLTypeOrigin];
+    UIImage *cachedImg = [gMediaMgr imageFromMemoryCacheForUrl:strurl];
+    return cachedImg ? cachedImg : [UIImage imageNamed:@"cm_shop"];
+}
+
+
+// 返回高质量图片的url
+- (NSURL *)photoBrowser:(SDPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index
+{
+    return [NSURL URLWithString:[gMediaMgr urlWith:self.proofImageURL imageType:ImageURLTypeMedium]];
 }
 
 @end
