@@ -122,7 +122,7 @@
     @weakify(self)
     GetViolationCommissionOp *op = [GetViolationCommissionOp operation];
     
-    op.req_licenceNumber = @"浙AY617V";//self.licenceNumber;
+    op.req_licenceNumber = self.licenceNumber;
     
     [[[op rac_postRequest]initially:^{
         

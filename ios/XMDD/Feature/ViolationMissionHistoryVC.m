@@ -29,8 +29,8 @@
     [super viewDidLoad];
     
     [self setupUI];
-    [self getSimutateData];
-//    [self getViolationCommissionApply];
+//    [self getSimutateData];
+    [self getViolationCommissionApply];
 }
 
 - (void)didReceiveMemoryWarning {

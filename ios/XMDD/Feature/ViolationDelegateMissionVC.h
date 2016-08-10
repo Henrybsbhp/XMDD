@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViolationViewController.h"
 
 @interface ViolationDelegateMissionVC : UIViewController
 
@@ -18,5 +19,10 @@
  *  传值给完善信息页面所需参数
  */
 @property (strong, nonatomic) NSNumber *userCarID;
+/**
+ *  设置代理实现反向传值
+ */
+@property (strong, nonatomic) ViolationViewController *delegate;
+
 
 @end
