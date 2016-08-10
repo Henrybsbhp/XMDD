@@ -30,6 +30,13 @@
 
 @implementation ViolationCommissionStateVC
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"ViolationComissionStateVC is deallocated");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -324,10 +331,12 @@
         UIButton *payButton = (UIButton *)[cell.contentView viewWithTag:101];
         
         [[[abandonButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(self);
             [self actionAbandon:abandonButton];
         }];
         
         [[[payButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(self);
             [self actionPay:payButton];
         }];
     });
@@ -357,12 +366,14 @@
 
 - (CKDict *)setupProofCellWithModel:(ViolationCommissionStateModel *)model
 {
+    @weakify(self);
     CKDict *proofCell = [CKDict dictWith:@{kCKItemKey: @"proofCell", kCKCellID: @"ProofCell"}];
     proofCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 500;
     });
     
     proofCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
         UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:1001];
         NSString *imageURL = @"http://img1.gamersky.com/image2016/07/20160731_lr_176_1/gamersky_05small_10_20167311169C2.jpg";
         self.proofImageURL = imageURL;

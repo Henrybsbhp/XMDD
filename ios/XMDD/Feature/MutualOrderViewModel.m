@@ -9,6 +9,7 @@
 #import "MutualOrderViewModel.h"
 #import "MutualOrderListGetOp.h"
 #import "MutualOrderListModel.h"
+#import "MutualInsOrderInfoVC.h"
 
 @interface MutualOrderViewModel () <HKLoadingModelDelegate>
 
@@ -36,6 +37,12 @@
 - (void)resetWithTargetVC:(UIViewController *)targetVC
 {
     _targetVC = targetVC;
+}
+
+#pragma mark - Actions
+- (void)actionGoToMutualInsOrderInfoVCWithModel:(MutualOrderListModel *)model
+{
+    
 }
 
 #pragma mark - HKLoadingModelDelegate
@@ -81,8 +88,14 @@
 - (CKDict *)setupMutualCellWithModel:(MutualOrderListModel *)model
 {
     CKDict *mutualCell = [CKDict dictWith:@{kCKItemKey: @"mutualCell", kCKCellID: @"MutualCell"}];
+    @weakify(self);
     mutualCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 219;
+    });
+    
+    mutualCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        [self actionGoToMutualInsOrderInfoVCWithModel:model];
     });
     
     mutualCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -120,8 +133,14 @@
 - (CKDict *)setupMutualCompletedCellWithModel:(MutualOrderListModel *)model
 {
     CKDict *mutualCompletedCell = [CKDict dictWith:@{kCKItemKey: @"mutualCompletedCell", kCKCellID: @"MutualCompletedCell"}];
+    @weakify(self);
     mutualCompletedCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 330;
+    });
+    
+    mutualCompletedCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        [self actionGoToMutualInsOrderInfoVCWithModel:model];
     });
     
     mutualCompletedCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -221,6 +240,14 @@
     }
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CKDict *item = self.dataSource[indexPath.section][indexPath.row];
+    if (item[kCKCellSelected]) {
+        ((CKCellSelectedBlock)item[kCKCellSelected])(item, indexPath);
+    }
 }
 
 @end
