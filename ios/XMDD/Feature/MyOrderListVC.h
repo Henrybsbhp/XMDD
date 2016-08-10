@@ -10,4 +10,6 @@
 
 @interface MyOrderListVC : HKViewController
 
+@property (nonatomic, assign) NSInteger tabViewSelectedIndex;
+
 @end

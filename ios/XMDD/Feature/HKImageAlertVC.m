@@ -59,8 +59,17 @@
     
     rect.origin = CGPointMake(self.contentInsets.left, rect.origin.y = rect.origin.y + rect.size.height + kInnerSpacing);
     rect.size.width = kAlertWidth - self.contentInsets.left - self.contentInsets.right;
-    CGSize size = [self.message labelSizeWithWidth:rect.size.width
-                                              font:[UIFont systemFontOfSize:14]];
+    CGSize size;
+    if (self.message.length < 1 && self.attributedMessage.length > 0) {
+        // 根据宽度计算 attributedString 的高度
+        CGRect paragraphRect = [self.attributedMessage boundingRectWithSize:CGSizeMake(rect.size.width, CGFLOAT_MAX)
+                                                                    options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                     context:nil];
+        size = CGSizeMake(paragraphRect.size.width, paragraphRect.size.height);
+    } else {
+        size = [self.message labelSizeWithWidth:rect.size.width
+                                                  font:[UIFont systemFontOfSize:14]];
+    }
     rect.size.height = ceil(size.height);
     
     UILabel *messageL = [[UILabel alloc] initWithFrame:rect];
@@ -69,7 +78,12 @@
     messageL.textAlignment = NSTextAlignmentCenter;
     messageL.textColor = kGrayTextColor;
     messageL.numberOfLines = 0;
-    messageL.text = self.message;
+    
+    if (self.message.length < 1 && self.attributedMessage.length > 0) {
+        messageL.attributedText = self.attributedMessage;
+    } else {
+        messageL.text = self.message;
+    }
     
     rect = CGRectMake(0, 0, kAlertWidth, rect.origin.y + rect.size.height + self.contentInsets.bottom);
     UIView *contentView = [[UIView alloc] initWithFrame:rect];
@@ -88,6 +102,16 @@
     alert.topTitle = topTitle;
     alert.imageName = imageName;
     alert.message = message;
+    alert.actionItems = actionItems;
+    return alert;
+}
+
++ (HKImageAlertVC *)alertWithTopTitle:(NSString *)topTitle ImageName:(NSString *)imageName attributedMessage:(NSAttributedString *)attributedMessage ActionItems:(NSArray *)actionItems
+{
+    HKImageAlertVC *alert = [[HKImageAlertVC alloc]init];
+    alert.topTitle = topTitle;
+    alert.imageName = imageName;
+    alert.attributedMessage = attributedMessage;
     alert.actionItems = actionItems;
     return alert;
 }

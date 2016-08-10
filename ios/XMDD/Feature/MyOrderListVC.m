@@ -14,19 +14,24 @@
 #import "InsranceOrderViewModel.h"
 #import "OthersOrderViewModel.h"
 #import "HKLoadingModel.h"
+#import "HorizontalScrollTabView.h"
+#import "MutualOrderViewModel.h"
+#import "GasOrderModelView.h"
+#import "MaintainOrderViewModel.h"
 
 @interface MyOrderListVC ()
 
-@property (weak, nonatomic) IBOutlet UIButton *washBtn;
-@property (weak, nonatomic) IBOutlet UIButton *insranceBtn;
-@property (weak, nonatomic) IBOutlet UIButton *otherBtn;
-@property (weak, nonatomic) IBOutlet UIView *underLineView;
-@property (weak, nonatomic) IBOutlet UIView *underLineView2;
-@property (weak, nonatomic) IBOutlet UIView *underLineView3;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (nonatomic, strong) HorizontalScrollTabView *tabView;
 @property (weak, nonatomic) IBOutlet JTTableView *carwashTableView;
+@property (weak, nonatomic) IBOutlet JTTableView *maintainTableView;
+@property (weak, nonatomic) IBOutlet JTTableView *gasTableView;
+@property (weak, nonatomic) IBOutlet JTTableView *mutualTableView;
 @property (weak, nonatomic) IBOutlet JTTableView *insranceTableView;
 @property (weak, nonatomic) IBOutlet JTTableView *otherTableView;
-@property (nonatomic, strong) CarwashOrderViewModel *carwashModel;
+@property (nonatomic, strong) MaintainOrderViewModel *maintainModel;
+@property (nonatomic, strong) GasOrderModelView *gasModel;
+@property (nonatomic, strong) MutualOrderViewModel *mutualModel;
 @property (nonatomic, strong) InsranceOrderViewModel *insuranceModel;
 @property (nonatomic, strong) OthersOrderViewModel *otherModel;
 @property (nonatomic, strong) HKLoadingModel *loadingModel;
@@ -38,57 +43,102 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.carwashModel = [[CarwashOrderViewModel alloc] initWithTableView:self.carwashTableView];
+    
+    self.maintainModel = [[MaintainOrderViewModel alloc] initWithTableView:self.maintainTableView];
+    self.gasModel = [[GasOrderModelView alloc] initWithTableView:self.gasTableView];
+    self.mutualModel = [[MutualOrderViewModel alloc] initWithTableView:self.mutualTableView];
     self.insuranceModel = [[InsranceOrderViewModel alloc] initWithTableView:self.insranceTableView];
     self.otherModel = [[OthersOrderViewModel alloc] initWithTableView:self.otherTableView];
-    [self.carwashModel resetWithTargetVC:self];
+    
+    [self.maintainModel resetWithTargetVC:self];
+    [self.gasModel resetWithTargetVC:self];
+    [self.mutualModel resetWithTargetVC:self];
     [self.insuranceModel resetWithTargetVC:self];
     [self.otherModel resetWithTargetVC:self];
-    [self.carwashModel.loadingModel loadDataForTheFirstTime];
+    
+    [self.maintainModel.loadingModel loadDataForTheFirstTime];
+    [self.gasModel.loadingModel loadDataForTheFirstTime];
+    [self.mutualModel.loadingModel loadDataForTheFirstTime];
     [self.insuranceModel.loadingModel loadDataForTheFirstTime];
     [self.otherModel.loadingModel loadDataForTheFirstTime];
-    self.washBtn.selected = YES;
+    
+    self.tabView = [[HorizontalScrollTabView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    self.tabView.scrollTipBarColor = kDefTintColor;
+    HorizontalScrollTabItem *maintainItem = [HorizontalScrollTabItem itemWithTitle:@"养护" normalColor:kDarkTextColor selectedColor:kDefTintColor];
+    HorizontalScrollTabItem *gasItem = [HorizontalScrollTabItem itemWithTitle:@"加油" normalColor:kDarkTextColor selectedColor:kDefTintColor];
+    HorizontalScrollTabItem *mutualItem = [HorizontalScrollTabItem itemWithTitle:@"互助" normalColor:kDarkTextColor selectedColor:kDefTintColor];
+    HorizontalScrollTabItem *insuranceItem = [HorizontalScrollTabItem itemWithTitle:@"保险" normalColor:kDarkTextColor selectedColor:kDefTintColor];
+    HorizontalScrollTabItem *otherItem = [HorizontalScrollTabItem itemWithTitle:@"其他" normalColor:kDarkTextColor selectedColor:kDefTintColor];
+    self.tabView.items = @[maintainItem, gasItem, mutualItem, insuranceItem, otherItem];
+    [self.headerView addSubview:self.tabView];
+    
     @weakify(self);
-    [[self.washBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    [self.tabView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
-        [MobClick event:@"rp318_3"];
-        self.washBtn.selected = YES;
-        self.insranceBtn.selected = NO;
-        self.otherBtn.selected = NO;
-        self.carwashTableView.hidden = NO;
-        self.insranceTableView.hidden = YES;
-        self.otherTableView.hidden = YES;
-        self.underLineView.hidden = NO;
-        self.underLineView2.hidden = YES;
-        self.underLineView3.hidden = YES;
-    }];
-
-    [[self.insranceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        self.washBtn.selected = NO;
-        self.insranceBtn.selected = YES;
-        self.otherBtn.selected = NO;
-        [MobClick event:@"rp318_4"];
-        self.carwashTableView.hidden = YES;
-        self.insranceTableView.hidden = NO;
-        self.otherTableView.hidden = YES;
-        self.underLineView.hidden = YES;
-        self.underLineView2.hidden = NO;
-        self.underLineView3.hidden = YES;
+        make.left.equalTo(self.headerView);
+        make.right.equalTo(self.headerView);
+        make.height.mas_equalTo(44);
+        make.bottom.equalTo(self.headerView);
     }];
     
-    [[self.otherBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+    [self.tabView setTabBlock:^(NSInteger index) {
         @strongify(self);
-        self.washBtn.selected = NO;
-        self.insranceBtn.selected = NO;
-        self.otherBtn.selected = YES;
-        self.carwashTableView.hidden = YES;
-        self.insranceTableView.hidden = YES;
-        self.otherTableView.hidden = NO;
-        self.underLineView.hidden = YES;
-        self.underLineView2.hidden = YES;
-        self.underLineView3.hidden = NO;
+        if (index == 0) {
+            
+            self.maintainTableView.hidden = NO;
+            self.carwashTableView.hidden = YES;
+            self.gasTableView.hidden = YES;
+            self.mutualTableView.hidden = YES;
+            self.insranceTableView.hidden = YES;
+            self.otherTableView.hidden = YES;
+            
+        } else if (index == 1) {
+            
+            self.gasTableView.hidden = NO;
+            self.maintainTableView.hidden = YES;
+            self.mutualTableView.hidden = YES;
+            self.carwashTableView.hidden = YES;
+            self.insranceTableView.hidden = YES;
+            self.otherTableView.hidden = YES;
+            
+        } else if (index == 2) {
+            
+            self.mutualTableView.hidden = NO;
+            self.maintainTableView.hidden = YES;
+            self.carwashTableView.hidden = YES;
+            self.insranceTableView.hidden = YES;
+            self.otherTableView.hidden = YES;
+            self.gasTableView.hidden = YES;
+            
+        } else if (index == 3) {
+            
+            [MobClick event:@"rp318_4"];
+            self.carwashTableView.hidden = YES;
+            self.gasTableView.hidden = YES;
+            self.mutualTableView.hidden = YES;
+            self.maintainTableView.hidden = YES;
+            self.insranceTableView.hidden = NO;
+            self.otherTableView.hidden = YES;
+            
+        } else {
+            
+            self.maintainTableView.hidden = YES;
+            self.carwashTableView.hidden = YES;
+            self.mutualTableView.hidden = YES;
+            self.gasTableView.hidden = YES;
+            self.insranceTableView.hidden = YES;
+            self.otherTableView.hidden = NO;
+            
+        }
     }];
+    
+    [self.tabView reloadDataWithBoundsSize:CGSizeMake(ScreenWidth, 44) andSelectedIndex:self.tabViewSelectedIndex];
+}
+
+- (void)setTabViewSelectedIndex:(NSInteger)tabViewSelectedIndex
+{
+    _tabViewSelectedIndex = tabViewSelectedIndex;
+    [self.tabView setSelectedIndex:tabViewSelectedIndex animated:NO];
 }
 
 - (void)didReceiveMemoryWarning {

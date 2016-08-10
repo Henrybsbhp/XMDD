@@ -28,7 +28,14 @@
 
 #import "TTTAttributedLabel.h"
 
+#import "MutualInsVC.h"
+
+#define WeatherRefreshTimeInterval 60 * 30
+#define ItemCount 3
+
+
 @interface HomePageVC ()<UIScrollViewDelegate,TTTAttributedLabelDelegate>
+
 @property (nonatomic, weak) IBOutlet UIView *bgView;
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, weak) IBOutlet UIView *weatherView;
@@ -427,6 +434,7 @@
     }];
     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
     [alert show];
+    
 }
 
 
