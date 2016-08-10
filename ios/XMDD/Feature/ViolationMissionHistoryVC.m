@@ -267,7 +267,12 @@
     {
         NSDictionary *data = [self.dataSource safetyObjectAtIndex:(self.tip.length != 0 ? indexPath.row - 1 : indexPath.row)];
         NSString *actStr = data[@"act"];
-        CGFloat height = 140 + ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height);
+        NSString *dateStr = data[@"date"];
+        NSString *areaStr = data[@"area"];
+        CGFloat height = 122 +
+        ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height) +
+        ceil([dateStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height) +
+        ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height);
         return height;
     }
 }

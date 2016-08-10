@@ -309,14 +309,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="违章代办" id="3No-lv-Qa2">
-                        <barButtonItem key="rightBarButtonItem" title="服务说明" id="2ew-sW-eES">
-                            <color key="tintColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="actionJumpToGuideVC:" destination="cyD-2F-kI4" id="sp3-6O-Wzv"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="违章代办" id="3No-lv-Qa2"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="bottomView" destination="8vb-al-d42" id="RFa-T6-3f8"/>
