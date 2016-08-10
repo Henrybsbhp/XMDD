@@ -8,6 +8,7 @@
 
 #import "ViolationMissionHistoryVC.h"
 #import "ViolationMyLicenceVC.h"
+#import "ViolationPayConfirmVC.h"
 #import "GetViolationCommissionApplyOp.h"
 #import "NSString+RectSize.h"
 
@@ -16,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (strong, nonatomic) NSString *tip;
+@property (strong, nonatomic) NSArray *tips;
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) NSDictionary *statusDic;
 @property (strong, nonatomic) NSIndexPath *indexPath;
@@ -77,7 +78,7 @@
                                   @"code":@"100",
                                   @"money":@"200",
                                   @"servicefee":@"40",
-                                  @"licensenumber":@"浙A12345",
+                                  @"licencenumber":@"浙A12345",
                                   @"status" : @(0)};
             NSDictionary *dic1 = @{@"date":@"2015-11-25 17:00",
                                   @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
@@ -85,7 +86,7 @@
                                   @"code":@"100",
                                   @"money":@"200",
                                   @"servicefee":@"40",
-                                  @"licensenumber":@"浙A12345",
+                                  @"licencenumber":@"浙A12345",
                                   @"status" : @(1)};
             NSDictionary *dic2 = @{@"date":@"2015-11-25 17:00",
                                   @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
@@ -93,7 +94,7 @@
                                   @"code":@"100",
                                   @"money":@"200",
                                   @"servicefee":@"40",
-                                  @"licensenumber":@"浙A12345",
+                                  @"licencenumber":@"浙A12345",
                                   @"status" : @(2)};
             NSDictionary *dic3 = @{@"date":@"2015-11-25 17:00",
                                    @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
@@ -101,7 +102,7 @@
                                    @"code":@"100",
                                    @"money":@"200",
                                    @"servicefee":@"40",
-                                   @"licensenumber":@"浙A12345",
+                                   @"licencenumber":@"浙A12345",
                                    @"status" : @(3)};
             NSDictionary *dic4 = @{@"date":@"2015-11-25 17:00",
                                    @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
@@ -109,7 +110,7 @@
                                    @"code":@"100",
                                    @"money":@"100",
                                    @"servicefee":@"35",
-                                   @"licensenumber":@"浙A12345",
+                                   @"licencenumber":@"浙A12345",
                                    @"status" : @(1)};
             NSDictionary *dic6 = @{@"date":@"2015-11-25 17:00",
                                    @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
@@ -117,9 +118,9 @@
                                    @"code":@"100",
                                    @"money":@"200",
                                    @"servicefee":@"40",
-                                   @"licensenumber":@"浙A12345",
+                                   @"licencenumber":@"浙A12345",
                                    @"status" : @(6)};
-            self.tip = @"浙A12345的证件信息不完整，完善后即可申请代办";
+            self.tips = @[@"浙A12345的证件信息不完整，完善后即可申请代办"];
             self.dataSource = @[dic1,dic,dic2,dic3,dic4,dic6,dic4,dic1,dic3,dic2,dic,dic6,dic2,dic1,dic,dic6];
             
             [self.tableView reloadData];
@@ -166,7 +167,7 @@
         self.tableView.hidden = NO;
         
         self.dataSource = op.rsp_lists;
-        self.tip = op.rsp_tip;
+        self.tips = op.rsp_tipslist;
         [self.tableView reloadData];
         
     } error:^(NSError *error) {
@@ -195,25 +196,25 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataSource.count + (self.tip.length == 0 ? 0 : 1);
+    return self.dataSource.count + self.tips.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     @weakify(self)
     UITableViewCell *cell = nil;
-    if (self.tip.length != 0 && indexPath.row == 0)
+    if (indexPath.row < self.tips.count)
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"IssuesCell"];
-        
+        NSDictionary *dic = self.tips[indexPath.row];
         UILabel *tipLabel = [cell viewWithTag:100];
-        tipLabel.text = [NSString stringWithFormat:@"%@",self.tip];
+        tipLabel.text = [NSString stringWithFormat:@"%@",dic[@"tip"]];
         
     }
     else
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"MissionCell"];
-        NSDictionary *data = [self.dataSource safetyObjectAtIndex:(self.tip.length != 0 ? indexPath.row - 1 : indexPath.row)];
+        NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.row - self.tips.count];
         
         UILabel *moneyLabel = [cell viewWithTag:100];
         moneyLabel.text = [NSString stringWithFormat:@"罚款%@元",data[@"money"]];
@@ -222,7 +223,7 @@
         serviceFeeLabel.text = [NSString stringWithFormat:@"服务费%@元",data[@"servicefee"]];
         
         UILabel *licenceLabel = [cell viewWithTag:102];
-        licenceLabel.text = [NSString stringWithFormat:@"%@",data[@"licensenumber"]];
+        licenceLabel.text = [NSString stringWithFormat:@"%@",data[@"licencenumber"]];
         
         UILabel *dateLabel = [cell viewWithTag:103];
         dateLabel.text = [NSString stringWithFormat:@"%@",data[@"date"]];
@@ -258,14 +259,15 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (self.tip.length != 0 && indexPath.row == 0)
+    if (indexPath.row < self.tips.count)
     {
-        CGFloat height = 25 + ceil([self.tip labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 80 font:[UIFont systemFontOfSize:12]].height);
+        NSDictionary *dic = self.tips[indexPath.row];
+        CGFloat height = 25 + ceil([(NSString *)dic[@"tip"] labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 80 font:[UIFont systemFontOfSize:12]].height);
         return height;
     }
     else
     {
-        NSDictionary *data = [self.dataSource safetyObjectAtIndex:(self.tip.length != 0 ? indexPath.row - 1 : indexPath.row)];
+        NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.row - self.tips.count];
         NSString *actStr = data[@"act"];
         NSString *dateStr = data[@"date"];
         NSString *areaStr = data[@"area"];
@@ -282,11 +284,13 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
-        
+//        进入详情页
     }
     else
     {
+        NSDictionary *dic = self.tips[indexPath.row];
         ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
+        vc.usercarID = (NSNumber *)dic[@"usercarid"];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -338,9 +342,9 @@
     
     NSInteger total = 0;
     
-    if (self.tip.length != 0)
+    if (self.tips.count != 0)
     {
-        dic = [self.dataSource safetyObjectAtIndex:self.indexPath.row - 1];
+        dic = [self.dataSource safetyObjectAtIndex:self.indexPath.row - self.tips.count];
     }
     else
     {
@@ -362,9 +366,10 @@
 
 - (IBAction)actionCommit:(id)sender
 {
-    if (self.tip.length == 0)
+    if (self.tips.count == 0)
     {
-        //        添加网络请求
+        ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Temp_YZC"];
+        [self.navigationController pushViewController:vc animated:YES];
     }
     else
     {
@@ -378,8 +383,6 @@
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您的爱车的证件信息不完整，完善爱车饿证件信息后即可申请代办。" ActionItems:@[cancel, jumpToLicenceVC]];
         [alert show];
     }
-    
-    
 }
 
 #pragma mark - Lazyload
