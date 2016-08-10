@@ -775,6 +775,7 @@
 		C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */; };
 		C3D9B81F1CC0DBF000B5D2A7 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81D1CC0DBF000B5D2A7 /* FLAnimatedImageView.m */; };
 		C3DEFD491D54892F006337D5 /* HomePageModuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C3DEFD481D54892F006337D5 /* HomePageModuleModel.m */; };
+		C3DEFD651D586647006337D5 /* GetCityInfoByLicenseNumberOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C3DEFD641D586647006337D5 /* GetCityInfoByLicenseNumberOp.m */; };
 		C3F451521D2E3A6F00BA9BC4 /* AsstisTouch.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F4514F1D2E3A6F00BA9BC4 /* AsstisTouch.png */; };
 		C3F451531D2E3A6F00BA9BC4 /* DTouchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F451511D2E3A6F00BA9BC4 /* DTouchButton.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
@@ -1752,10 +1753,6 @@
 		186498FD1D489A9700F1CCB0 /* UpdateClaimPicOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateClaimPicOp.m; sourceTree = "<group>"; };
 		186498FE1D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCooperationIdlicenseInfoV2Op.h; sourceTree = "<group>"; };
 		186498FF1D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCooperationIdlicenseInfoV2Op.m; sourceTree = "<group>"; };
-		186499001D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateInsuranceCalculateOp.h; sourceTree = "<group>"; };
-		186499011D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateInsuranceCalculateOp.m; sourceTree = "<group>"; };
-		186499021D489A9700F1CCB0 /* UpdateInsuranceOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateInsuranceOrderOp.h; sourceTree = "<group>"; };
-		186499031D489A9700F1CCB0 /* UpdateInsuranceOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateInsuranceOrderOp.m; sourceTree = "<group>"; };
 		186499041D489A9700F1CCB0 /* UpdateUserInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateUserInfoOp.h; sourceTree = "<group>"; };
 		186499051D489A9700F1CCB0 /* UpdateUserInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateUserInfoOp.m; sourceTree = "<group>"; };
 		186499061D489A9700F1CCB0 /* UploadFileOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadFileOp.h; sourceTree = "<group>"; };
@@ -2475,6 +2472,8 @@
 		C3D9B81D1CC0DBF000B5D2A7 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageView.m; path = FLAnimatedImage/FLAnimatedImageView.m; sourceTree = "<group>"; };
 		C3DEFD471D54892F006337D5 /* HomePageModuleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageModuleModel.h; sourceTree = "<group>"; };
 		C3DEFD481D54892F006337D5 /* HomePageModuleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageModuleModel.m; sourceTree = "<group>"; };
+		C3DEFD631D586647006337D5 /* GetCityInfoByLicenseNumberOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCityInfoByLicenseNumberOp.h; sourceTree = "<group>"; };
+		C3DEFD641D586647006337D5 /* GetCityInfoByLicenseNumberOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCityInfoByLicenseNumberOp.m; sourceTree = "<group>"; };
 		C3F4514F1D2E3A6F00BA9BC4 /* AsstisTouch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AsstisTouch.png; sourceTree = "<group>"; };
 		C3F451501D2E3A6F00BA9BC4 /* DTouchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTouchButton.h; sourceTree = "<group>"; };
 		C3F451511D2E3A6F00BA9BC4 /* DTouchButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTouchButton.m; sourceTree = "<group>"; };
@@ -3267,10 +3266,6 @@
 				186498FD1D489A9700F1CCB0 /* UpdateClaimPicOp.m */,
 				186498FE1D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.h */,
 				186498FF1D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.m */,
-				186499001D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.h */,
-				186499011D489A9700F1CCB0 /* UpdateInsuranceCalculateOp.m */,
-				186499021D489A9700F1CCB0 /* UpdateInsuranceOrderOp.h */,
-				186499031D489A9700F1CCB0 /* UpdateInsuranceOrderOp.m */,
 				186499041D489A9700F1CCB0 /* UpdateUserInfoOp.h */,
 				186499051D489A9700F1CCB0 /* UpdateUserInfoOp.m */,
 				186499061D489A9700F1CCB0 /* UploadFileOp.h */,
@@ -3279,6 +3274,8 @@
 				186499091D489A9700F1CCB0 /* UploadLogOp.m */,
 				1864990A1D489A9700F1CCB0 /* UserViolationQueryOp.h */,
 				1864990B1D489A9700F1CCB0 /* UserViolationQueryOp.m */,
+				C3DEFD631D586647006337D5 /* GetCityInfoByLicenseNumberOp.h */,
+				C3DEFD641D586647006337D5 /* GetCityInfoByLicenseNumberOp.m */,
 			);
 			name = Netop;
 			sourceTree = "<group>";
@@ -6397,6 +6394,7 @@
 				18649B821D48A93000F1CCB0 /* OEButton.m in Sources */,
 				186497151D489A5800F1CCB0 /* NSString+MD5.m in Sources */,
 				18649A151D489A9700F1CCB0 /* UploadLogOp.m in Sources */,
+				C3DEFD651D586647006337D5 /* GetCityInfoByLicenseNumberOp.m in Sources */,
 				6B26EEB21C8EC23200428EC4 /* ZFCDoubleBounceActivityIndicatorView.m in Sources */,
 				18649E4A1D48BE0A00F1CCB0 /* MutualInsGroupInfoVC.m in Sources */,
 				18649D5E1D48BA9800F1CCB0 /* InsInputDateVC.m in Sources */,
@@ -6716,7 +6714,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=1",
+					"XMDDEnvironment=0",
 					"REACT_DEV=1",
 				);
 				HEADER_SEARCH_PATHS = (

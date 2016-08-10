@@ -21,7 +21,7 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIView *headView;
 
 
-@property (nonatomic,strong)ViolationModel * model;
+@property (nonatomic,strong)ViolationModel * violationModel;
 
 @property (nonatomic,strong)HKMyCar * car;
 @property (nonatomic,strong)NSArray * carArray;

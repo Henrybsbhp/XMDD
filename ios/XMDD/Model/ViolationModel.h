@@ -11,7 +11,6 @@
 
 @interface ViolationModel : NSObject<NSCoding>
 
-
 ///车牌号码
 @property (nonatomic,copy)NSString * licencenumber;
 ///发动机号
@@ -20,6 +19,8 @@
 @property (nonatomic,copy)NSString * classno;
 ///爱车信息id
 @property (nonatomic,strong)NSNumber * cid;
+
+@property (nonatomic,strong)ViolationCityInfo * cityInfo;
 
 
 ///违章记录数
@@ -33,11 +34,16 @@
 
 @property (nonatomic,strong)NSDate * queryDate;
 
-@property (nonatomic,strong)ViolationCityInfo * cityInfo;
+///违章可处理个数
+@property (nonatomic)NSInteger violationAvailableNum;
 
+/// 通过车牌信息获取城市信息
+- (RACSignal *)rac_getCityInfoByLincenseNumber;
 
+/// 获取车辆违章信息
 - (RACSignal *)rac_requestUserViolation;
 
+/// 获取车辆本地违章信息
 - (RACSignal *)rac_getLocalUserViolation;
 
 

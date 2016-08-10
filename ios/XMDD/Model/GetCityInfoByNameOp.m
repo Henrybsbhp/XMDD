@@ -25,10 +25,7 @@
 {
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
-        self.cityInfo = [ViolationCityInfo cityWithJSONResponse:rspObj[@"cityinfo"]];
-        self.cityInfo.provinceName = self.province;
-        self.cityInfo.cityName = self.city;
-        NSDictionary * cityDic = rspObj[@"cityinfo"];
+        self.cityInfo = [ViolationCityInfo cityWithJSONResponse:rspObj[@"cityinfo"]];        NSDictionary * cityDic = rspObj[@"cityinfo"];
         self.rsp_sellerCityId = [cityDic numberParamForName:@"sellercityid"];
     }
     else

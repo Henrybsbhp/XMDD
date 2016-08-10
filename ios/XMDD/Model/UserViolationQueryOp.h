@@ -37,5 +37,7 @@
 @property (nonatomic)NSInteger rsp_violationTotalmoney;
 ///违章记录
 @property (nonatomic,strong)NSArray * rsp_violationArray;
+///可代办条数
+@property (nonatomic)NSInteger rsp_violationAvailableNum;
 
 @end
