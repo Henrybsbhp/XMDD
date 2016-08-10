@@ -10,14 +10,11 @@
 #import "HKViolation.h"
 #import "NSDate+DateForText.h"
 #import "NSString+RectSize.h"
-#import "UIView+Shake.h"
 #import "EditCarVC.h"
-#import "HKLocationDataModel.h"
-#import "GetCityInfoByNameOp.h"
-#import "AreaTablePickerVC.h"
 #import "CarIDCodeCheckModel.h"
 #import "CKLimitTextField.h"
 #import "OETextField.h"
+#import "ViolationDelegateMissionVC.h"
 
 #define ClassNumberStr @"车架号码"
 #define EngineNumberStr @"发动机号"
@@ -29,6 +26,9 @@
 @property (nonatomic,weak)UIButton * queryBtn;
 @property (nonatomic,strong)CABasicAnimation * animation;
 @property (nonatomic)BOOL isQuerying;
+
+@property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewConstraint;
 
 @property (nonatomic,strong)CKList * datasource;
 
@@ -58,6 +58,7 @@
     else
     {
         [self setupDatasource];
+        [self setupBottomView];
     }
 }
 
@@ -79,8 +80,21 @@
     
     self.animation = rotationAnimation;
     
-    self.tableView.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = kBackgroundColor;
+    
+    self.tableView.backgroundColor = [UIColor clearColor];
+
+    self.bottomBtn.backgroundColor = kOrangeColor;
+    self.bottomBtn.layer.cornerRadius = 5.0f;
+    self.bottomBtn.layer.masksToBounds = YES;
+    [self.bottomBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    [[self.bottomBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        
+    }];
+    
+    self.bottomViewConstraint.constant = 0;
 }
 
 
@@ -105,6 +119,8 @@
         
         [self setupDatasource];
         [self.tableView reloadData];
+        
+        [self setupBottomView];
     } error:^(NSError *error) {
         
         [self.view stopActivityAnimation];
@@ -189,6 +205,55 @@
     }
 }
 
+- (void)setupBottomView
+{
+    NSString * title = self.violationModel.violationAvailableTip;
+    [self.bottomBtn setTitle:title forState:UIControlStateNormal];
+    [UIView animateWithDuration:1.0f animations:^{
+        
+        self.bottomViewConstraint.constant = self.violationModel.violationAvailableTip.length> 0 ? 64 : 0;
+    }];
+}
+
+- (void)queryTransform
+{
+    UIImageView * animationView = self.queryBtn.imageView;
+    
+    [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateNormal];
+    [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateHighlighted];
+    
+    
+    CFTimeInterval pausedTime = [animationView.layer timeOffset];
+    animationView.layer.speed = 1.0;
+    animationView.layer.timeOffset = 0.0;
+    animationView.layer.beginTime = 0.0;
+    CFTimeInterval timeSincePause = [animationView.layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
+    animationView.layer.beginTime = timeSincePause;
+}
+
+- (void)stopQueryTransform
+{
+    UIImageView * animationView = self.queryBtn.imageView;
+    CFTimeInterval pausedTime = [animationView.layer convertTime:CACurrentMediaTime() fromLayer:nil];
+    animationView.layer.speed = 0.0;
+    animationView.layer.timeOffset = pausedTime;
+    
+    if (!self.violationModel.queryDate)
+    {
+        [self.queryBtn setImage:[UIImage imageNamed:@"search_white"] forState:UIControlStateNormal];
+        [self.queryBtn setImage:[UIImage imageNamed:@"search_white"] forState:UIControlStateHighlighted];
+        [self.queryBtn setTitle:@"   查询违章信息" forState:UIControlStateNormal];
+        [self.queryBtn setTitle:@"   查询违章信息" forState:UIControlStateHighlighted];
+    }
+    else
+    {
+        [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateNormal];
+        [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateHighlighted];
+        [self.queryBtn setTitle:@"   更新违章信息" forState:UIControlStateNormal];
+        [self.queryBtn setTitle:@"   更新违章信息" forState:UIControlStateHighlighted];
+    }
+}
+
 
 
 #pragma mark - Network
@@ -209,6 +274,7 @@
         
         [self setupDatasource];
         [self.tableView reloadData];
+        [self setupBottomView];
         
     } error:^(NSError *error) {
         
@@ -222,7 +288,7 @@
 
 
 
-#pragma mark - Utility
+#pragma mark - Action
 - (void)queryAction
 {
     if (!self.violationModel.cityInfo.isViolationAvailable)
@@ -266,48 +332,15 @@
     [self requesQueryViolation];
 }
 
-- (void)queryTransform
+- (void)actionGotoViolationDelegateMissionVC
 {
-    UIImageView * animationView = self.queryBtn.imageView;
-    
-    [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateNormal];
-    [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateHighlighted];
-    
-    
-    CFTimeInterval pausedTime = [animationView.layer timeOffset];
-    animationView.layer.speed = 1.0;
-    animationView.layer.timeOffset = 0.0;
-    animationView.layer.beginTime = 0.0;
-    CFTimeInterval timeSincePause = [animationView.layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
-    animationView.layer.beginTime = timeSincePause;
+    ViolationDelegateMissionVC * vc = [UIStoryboard vcWithId:ViolationDelegateMissionVC inStoryboard:@"Temp_YZC"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)stopQueryTransform
-{
-    UIImageView * animationView = self.queryBtn.imageView;
-    CFTimeInterval pausedTime = [animationView.layer convertTime:CACurrentMediaTime() fromLayer:nil];
-    animationView.layer.speed = 0.0;
-    animationView.layer.timeOffset = pausedTime;
-    
-    if (!self.violationModel.queryDate)
-    {
-        [self.queryBtn setImage:[UIImage imageNamed:@"search_white"] forState:UIControlStateNormal];
-        [self.queryBtn setImage:[UIImage imageNamed:@"search_white"] forState:UIControlStateHighlighted];
-        [self.queryBtn setTitle:@"   查询违章信息" forState:UIControlStateNormal];
-        [self.queryBtn setTitle:@"   查询违章信息" forState:UIControlStateHighlighted];
-    }
-    else
-    {
-        [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateNormal];
-        [self.queryBtn setImage:[UIImage imageNamed:@"loading_white"] forState:UIControlStateHighlighted];
-        [self.queryBtn setTitle:@"   更新违章信息" forState:UIControlStateNormal];
-        [self.queryBtn setTitle:@"   更新违章信息" forState:UIControlStateHighlighted];
-    }
-}
 
 
 #pragma mark - Table view data source
-
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return CGFLOAT_MIN;

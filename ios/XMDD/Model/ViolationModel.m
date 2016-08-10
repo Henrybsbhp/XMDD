@@ -41,7 +41,7 @@
         self.violationTotalfen = rop.rsp_violationTotalfen;
         self.violationTotalmoney = rop.rsp_violationTotalmoney;
         self.violationArray = rop.rsp_violationArray;
-        self.violationAvailableNum = rop.rsp_violationAvailableNum;
+        self.violationAvailableTip = rop.rsp_violationAvailableTip;
         self.queryDate = [NSDate date];
         
         /// 异步本地存一次
@@ -70,7 +70,7 @@
         self.violationTotalfen = model.violationTotalfen;
         self.violationTotalmoney = model.violationTotalmoney;
         self.violationArray = model.violationArray;
-        self.violationAvailableNum = model.violationAvailableNum;
+        self.violationAvailableTip = model.violationAvailableTip;
         self.queryDate = model.queryDate;
         
         CKAsyncMainQueue(^{
@@ -99,6 +99,7 @@
         self.violationTotalmoney = [aDecoder decodeIntegerForKey:@"violationTotalmoney"];
         self.violationArray = [aDecoder decodeObjectForKey:@"violationArray"];
         self.queryDate = [aDecoder decodeObjectForKey:@"queryDate"];
+        self.violationAvailableTip = [aDecoder decodeObjectForKey:@"violationAvailableTip"];
     }
     
     return  self;
@@ -116,6 +117,7 @@
     [aCoder encodeInteger:self.violationTotalmoney forKey:@"violationTotalmoney"];
     [aCoder encodeObject:self.violationArray forKey:@"violationArray"];
     [aCoder encodeObject:self.queryDate forKey:@"queryDate"];
+    [aCoder encodeObject:self.violationAvailableTip forKey:@"violationAvailableTip"];
 }
 
 

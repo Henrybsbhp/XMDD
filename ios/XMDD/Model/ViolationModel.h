@@ -35,7 +35,7 @@
 @property (nonatomic,strong)NSDate * queryDate;
 
 ///违章可处理个数
-@property (nonatomic)NSInteger violationAvailableNum;
+@property (nonatomic,copy)NSString * violationAvailableTip;
 
 /// 通过车牌信息获取城市信息
 - (RACSignal *)rac_getCityInfoByLincenseNumber;

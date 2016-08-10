@@ -38,6 +38,6 @@
 ///违章记录
 @property (nonatomic,strong)NSArray * rsp_violationArray;
 ///可代办条数
-@property (nonatomic)NSInteger rsp_violationAvailableNum;
+@property (nonatomic,copy)NSString * rsp_violationAvailableTip;
 
 @end
