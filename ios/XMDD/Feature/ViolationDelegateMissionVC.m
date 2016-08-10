@@ -94,7 +94,7 @@
                                   @"code":@"100",
                                   @"money":@"200",
                                   @"servicefee":@"40",
-                                  @"licensenumber":@"浙A12345"};
+                                  @"licencenumber":@"浙A12345"};
             self.tip = @"浙A12345的证件信息不完整，完善后即可申请代办";
             self.licenceNumber = @"浙A12345";
             self.dataSource = @[dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic];
@@ -232,7 +232,7 @@
         serviceFeeLabel.text = [NSString stringWithFormat:@"服务费%@元",data[@"servicefee"]];
         
         UILabel *licenceLabel = [cell viewWithTag:102];
-        licenceLabel.text = [NSString stringWithFormat:@"%@",data[@"licensenumber"]];
+        licenceLabel.text = [NSString stringWithFormat:@"%@",data[@"licencenumber"]];
         
         UILabel *dateLabel = [cell viewWithTag:103];
         dateLabel.text = [NSString stringWithFormat:@"%@",data[@"date"]];
