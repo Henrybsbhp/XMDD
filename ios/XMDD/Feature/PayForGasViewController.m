@@ -174,8 +174,11 @@
         
         self.isLoadingResourse = NO;
         self.gasCouponArray = op.rsp_couponArray;
-        
+        HKCoupon * selectedCoupon = [self.gasCouponArray safetyObjectAtIndex:0];
+        self.selectGasCoupouArray = [NSMutableArray arrayWithObject:selectedCoupon];
+        self.couponType = selectedCoupon.conponType;
         [self setupDatasource];
+        
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
@@ -241,7 +244,7 @@
 
 - (void)jumpToChooseCouponVC
 {
-     ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
+    ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
     vc.originVC = self;
     vc.type = CouponTypeGasNormal; /// 加油券类型的用普通代替
     vc.selectedCouponArray = self.selectGasCoupouArray;
