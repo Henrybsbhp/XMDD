@@ -18,6 +18,7 @@
         return nil;
     }
     ViolationCityInfo * city = [[ViolationCityInfo alloc] init];
+    city.isViolationAvailable = [rsp boolParamForName:@"break_flag"];
     city.cityCode = [rsp objectForKey:@"citycode"];
     city.isEngineNum = [rsp boolParamForName:@"engine"];
     city.engineSuffixNum = [rsp integerParamForName:@"engineno"];
@@ -31,10 +32,7 @@
     
     if (self = [super init])
     {
-        self.provinceName = [aDecoder decodeObjectForKey:@"provinceName"];
-        self.pCode = [aDecoder decodeObjectForKey:@"pCode"];
         self.cityCode = [aDecoder decodeObjectForKey:@"cityCode"];
-        self.cityName = [aDecoder decodeObjectForKey:@"cityName"];
         self.isEngineNum = [aDecoder decodeBoolForKey:@"isEngineNum"];
         self.engineSuffixNum = [aDecoder decodeIntegerForKey:@"engineSuffixNum"];
         self.isClassNum = [aDecoder decodeBoolForKey:@"isClassNum"];
@@ -46,10 +44,7 @@
 //编码
 -(void)encodeWithCoder:(NSCoder *)aCoder{
     
-    [aCoder encodeObject:self.pCode forKey:@"pCode"];
-    [aCoder encodeObject:self.provinceName forKey:@"provinceName"];
     [aCoder encodeObject:self.cityCode forKey:@"cityCode"];
-    [aCoder encodeObject:self.cityName forKey:@"cityName"];
     [aCoder encodeBool:self.isEngineNum forKey:@"isEngineNum"];
     [aCoder encodeInteger:self.engineSuffixNum forKey:@"engineSuffixNum"];
     [aCoder encodeBool:self.isClassNum forKey:@"isClassNum"];

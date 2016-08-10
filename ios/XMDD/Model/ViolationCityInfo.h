@@ -10,11 +10,9 @@
 
 @interface ViolationCityInfo : NSObject<NSCoding>
 
-@property (nonatomic,copy)NSString * pCode;
-@property (nonatomic,copy)NSString * provinceName;
+@property (nonatomic)BOOL isViolationAvailable;
 
 @property (nonatomic,copy)NSString * cityCode;
-@property (nonatomic,copy)NSString * cityName;
 
 @property (nonatomic)BOOL isEngineNum;
 @property (nonatomic)NSInteger engineSuffixNum;
