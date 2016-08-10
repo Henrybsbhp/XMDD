@@ -34,6 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupDataSource];
+    [self getViolationCommissionCarinfo];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,7 +43,7 @@
 
 -(void)dealloc
 {
-    
+    DDLogDebug(@"ViolationMyLicenceVC dealloc");
 }
 
 #pragma mark - Setup
