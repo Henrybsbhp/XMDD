@@ -89,9 +89,11 @@
     self.bottomBtn.layer.masksToBounds = YES;
     [self.bottomBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
+    @weakify(self)
     [[self.bottomBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        
+        @strongify(self)
+        [self actionGotoViolationDelegateMissionVC];
     }];
     
     self.bottomViewConstraint.constant = 0;
@@ -334,7 +336,9 @@
 
 - (void)actionGotoViolationDelegateMissionVC
 {
-    ViolationDelegateMissionVC * vc = [UIStoryboard vcWithId:ViolationDelegateMissionVC inStoryboard:@"Temp_YZC"];
+    ViolationDelegateMissionVC * vc = [UIStoryboard vcWithId:@"ViolationDelegateMissionVC" inStoryboard:@"Temp_YZC"];
+    vc.licenceNumber = self.violationModel.licencenumber;
+    vc.userCarID = self.violationModel.cid;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
