@@ -65,6 +65,13 @@
 - (void)setupNavigation
 {
     self.navigationItem.title = @"违章查询";
+    
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"我的代办" style:UIBarButtonItemStylePlain
+                                                             target:self action:@selector(jumpToMyVoilationMissionHistoryVC)];
+    [right setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                    } forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem = right;
 }
 
 - (void)setupCarStore
@@ -135,6 +142,12 @@
 }
 
 #pragma mark - Utility
+/// 跳转到违章记录VC
+- (void)jumpToMyVoilationMissionHistoryVC
+{
+    
+}
+
 - (void)refreshPageController
 {
     NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);

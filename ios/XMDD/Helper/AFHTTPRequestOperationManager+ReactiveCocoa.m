@@ -17,7 +17,7 @@
     RACSubject *signal = [RACSubject subject];
     
     NSMutableURLRequest *req = [self requestWithMethod:method parameters:parameters requestId:requestId];
-    DebugGreenLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata =  \n %@ \n", req.URL, parameters);
+    DebugGreenLog(@"▂ ▃ ▄ ▅ ▆ ▇ █ ▉ Request = %@\ndata =  \n %@  [%@] \n", req.URL, parameters,requestId);
     
     AFHTTPRequestOperation * op = [[AFHTTPRequestOperation alloc] initWithRequest:req];
     [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
