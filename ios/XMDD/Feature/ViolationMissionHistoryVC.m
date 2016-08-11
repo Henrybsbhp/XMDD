@@ -9,6 +9,8 @@
 #import "ViolationMissionHistoryVC.h"
 #import "ViolationMyLicenceVC.h"
 #import "ViolationPayConfirmVC.h"
+#import "WebVC.h"
+#import "ViolationCommissionStateVC.h"
 #import "GetViolationCommissionApplyOp.h"
 #import "NSString+RectSize.h"
 
@@ -16,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) WebVC *webVC;
 
 @property (strong, nonatomic) NSArray *tips;
 @property (strong, nonatomic) NSArray *dataSource;
@@ -30,7 +33,8 @@
     [super viewDidLoad];
     
     [self setupUI];
-//    [self getSimutateData];
+    [self setupNavi];
+    //    [self getSimutateData];
     [self getViolationCommissionApply];
 }
 
@@ -50,6 +54,12 @@
     self.commitBtn.layer.masksToBounds = YES;
     self.commitBtn.backgroundColor = self.indexPath != nil ? HEXCOLOR(@"#FF7428") : HEXCOLOR(@"#d3d3d3");
     [self.commitBtn setTitle:btnTitle forState:UIControlStateNormal];
+}
+
+-(void)setupNavi
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 #pragma mark - Network
@@ -81,21 +91,21 @@
                                   @"licencenumber":@"浙A12345",
                                   @"status" : @(0)};
             NSDictionary *dic1 = @{@"date":@"2015-11-25 17:00",
-                                  @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
-                                  @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
-                                  @"code":@"100",
-                                  @"money":@"200",
-                                  @"servicefee":@"40",
-                                  @"licencenumber":@"浙A12345",
-                                  @"status" : @(1)};
+                                   @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
+                                   @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
+                                   @"code":@"100",
+                                   @"money":@"200",
+                                   @"servicefee":@"40",
+                                   @"licencenumber":@"浙A12345",
+                                   @"status" : @(1)};
             NSDictionary *dic2 = @{@"date":@"2015-11-25 17:00",
-                                  @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
-                                  @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
-                                  @"code":@"100",
-                                  @"money":@"200",
-                                  @"servicefee":@"40",
-                                  @"licencenumber":@"浙A12345",
-                                  @"status" : @(2)};
+                                   @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
+                                   @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
+                                   @"code":@"100",
+                                   @"money":@"200",
+                                   @"servicefee":@"40",
+                                   @"licencenumber":@"浙A12345",
+                                   @"status" : @(2)};
             NSDictionary *dic3 = @{@"date":@"2015-11-25 17:00",
                                    @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
                                    @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
@@ -163,12 +173,19 @@
         
         [self.view stopActivityAnimation];
         
-        self.bottomView.hidden = NO;
-        self.tableView.hidden = NO;
-        
-        self.dataSource = op.rsp_lists;
-        self.tips = op.rsp_tipslist;
-        [self.tableView reloadData];
+        if (op.rsp_lists.count == 0)
+        {
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"暂无代办记录"];
+        }
+        else
+        {
+            self.bottomView.hidden = NO;
+            self.tableView.hidden = NO;
+            
+            self.dataSource = op.rsp_lists;
+            self.tips = op.rsp_tipslist;
+            [self.tableView reloadData];
+        }
         
     } error:^(NSError *error) {
         
@@ -269,28 +286,39 @@
     {
         NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.row - self.tips.count];
         NSString *actStr = data[@"act"];
-        NSString *dateStr = data[@"date"];
         NSString *areaStr = data[@"area"];
-        CGFloat height = 122 +
-        ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height) +
-        ceil([dateStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height) +
-        ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height);
+        CGFloat height = 140 +
+        ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:15]].height) +
+        ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 90 font:[UIFont systemFontOfSize:13]].height);
         return height;
     }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    @weakify(self)
+    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
-//        进入详情页
+        NSDictionary *dic = self.dataSource[indexPath.row];
+        ViolationCommissionStateVC *vc = [UIStoryboard vcWithId:@"ViolationCommissionStateVC" inStoryboard:@"HX_Temp"];
+        vc.recordID = (NSNumber *)dic[@"recordid"];
+        [self.navigationController pushViewController:vc animated:YES];
     }
     else
     {
         NSDictionary *dic = self.tips[indexPath.row];
         ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
         vc.usercarID = (NSNumber *)dic[@"usercarid"];
+        vc.carNum = dic[@"licensenumber"];
+        [vc setCommitSuccessBlock:^{
+            
+            @strongify(self)
+            
+            [self getViolationCommissionApply];
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -359,29 +387,25 @@
 
 - (IBAction)actionJumpToGuideVC:(id)sender
 {
-    
-    
-    
+    [self.navigationController pushViewController:self.webVC animated:YES];
 }
 
 - (IBAction)actionCommit:(id)sender
 {
-    if (self.tips.count == 0)
+    ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Temp_YZC"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)actionBack
+{
+    if (self.router.userInfo[kOriginRoute])
     {
-        ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Temp_YZC"];
-        [self.navigationController pushViewController:vc animated:YES];
+        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
+        [self.router.navigationController popToViewController:vc animated:YES];
     }
     else
     {
-        HKAlertActionItem *jumpToLicenceVC = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#18D06A") clickBlock:^(id alertVC) {
-            ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
-            [self.navigationController pushViewController:vc animated:YES];
-        }];
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18D06A") clickBlock:^(id alertVC) {
-            
-        }];
-        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您的爱车的证件信息不完整，完善爱车饿证件信息后即可申请代办。" ActionItems:@[cancel, jumpToLicenceVC]];
-        [alert show];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -401,6 +425,28 @@
                        };
     }
     return _statusDic;
+}
+
+-(WebVC *)webVC
+{
+    if (!_webVC)
+    {
+        _webVC = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+        _webVC.navigationController.title = @"服务说明";
+        
+        NSString *urlStr = nil;
+        
+#if XMDDEnvironment==0
+        urlStr = @"http://dev01.xiaomadada.com/apphtml/daiban-server.html";
+#elif XMDDEnvironment==1
+        urlStr = @"http://dev.xiaomadada.com/apphtml/daiban-server.html";
+#else
+        urlStr = @"http://www.xiaomadada.com/apphtml/daiban-server.html";
+#endif
+        _webVC.url =  urlStr;
+        
+    }
+    return _webVC;
 }
 
 @end

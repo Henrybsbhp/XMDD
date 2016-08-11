@@ -14,7 +14,7 @@
 @property (strong, nonatomic) NSString *req_licencenumber;
 @property (strong, nonatomic) NSString *req_dates; //多条记录同时申请，@分隔
 
-
+@property (copy, nonatomic) NSString *rsp_tip;
 
 
 @end

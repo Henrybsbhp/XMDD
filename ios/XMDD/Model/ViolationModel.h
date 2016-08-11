@@ -46,5 +46,7 @@
 /// 获取车辆本地违章信息
 - (RACSignal *)rac_getLocalUserViolation;
 
+- (void)saveViolationModel;
+
 
 @end

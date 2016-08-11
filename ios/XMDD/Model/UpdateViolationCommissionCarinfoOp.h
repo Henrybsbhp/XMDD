@@ -16,4 +16,8 @@
 
 @property (strong, nonatomic) NSNumber *req_carid;
 
+@property (strong, nonatomic) NSNumber *req_usercarid;
+
+@property (strong, nonatomic) NSString *req_licencenumber;
+
 @end
