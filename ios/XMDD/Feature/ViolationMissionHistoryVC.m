@@ -9,6 +9,7 @@
 #import "ViolationMissionHistoryVC.h"
 #import "ViolationMyLicenceVC.h"
 #import "ViolationPayConfirmVC.h"
+#import "ViolationCommissionStateVC.h"
 #import "GetViolationCommissionApplyOp.h"
 #import "NSString+RectSize.h"
 
@@ -30,7 +31,7 @@
     [super viewDidLoad];
     
     [self setupUI];
-//    [self getSimutateData];
+    //    [self getSimutateData];
     [self getViolationCommissionApply];
 }
 
@@ -81,21 +82,21 @@
                                   @"licencenumber":@"浙A12345",
                                   @"status" : @(0)};
             NSDictionary *dic1 = @{@"date":@"2015-11-25 17:00",
-                                  @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
-                                  @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
-                                  @"code":@"100",
-                                  @"money":@"200",
-                                  @"servicefee":@"40",
-                                  @"licencenumber":@"浙A12345",
-                                  @"status" : @(1)};
+                                   @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
+                                   @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
+                                   @"code":@"100",
+                                   @"money":@"200",
+                                   @"servicefee":@"40",
+                                   @"licencenumber":@"浙A12345",
+                                   @"status" : @(1)};
             NSDictionary *dic2 = @{@"date":@"2015-11-25 17:00",
-                                  @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
-                                  @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
-                                  @"code":@"100",
-                                  @"money":@"200",
-                                  @"servicefee":@"40",
-                                  @"licencenumber":@"浙A12345",
-                                  @"status" : @(2)};
+                                   @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
+                                   @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
+                                   @"code":@"100",
+                                   @"money":@"200",
+                                   @"servicefee":@"40",
+                                   @"licencenumber":@"浙A12345",
+                                   @"status" : @(2)};
             NSDictionary *dic3 = @{@"date":@"2015-11-25 17:00",
                                    @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
                                    @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
@@ -163,12 +164,19 @@
         
         [self.view stopActivityAnimation];
         
-        self.bottomView.hidden = NO;
-        self.tableView.hidden = NO;
-        
-        self.dataSource = op.rsp_lists;
-        self.tips = op.rsp_tipslist;
-        [self.tableView reloadData];
+        if (op.rsp_lists.count == 0)
+        {
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"暂无代办记录"];
+        }
+        else
+        {
+            self.bottomView.hidden = NO;
+            self.tableView.hidden = NO;
+            
+            self.dataSource = op.rsp_lists;
+            self.tips = op.rsp_tipslist;
+            [self.tableView reloadData];
+        }
         
     } error:^(NSError *error) {
         
@@ -269,12 +277,10 @@
     {
         NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.row - self.tips.count];
         NSString *actStr = data[@"act"];
-        NSString *dateStr = data[@"date"];
         NSString *areaStr = data[@"area"];
-        CGFloat height = 122 +
-        ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height) +
-        ceil([dateStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height) +
-        ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height);
+        CGFloat height = 140 +
+        ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:15]].height) +
+        ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 90 font:[UIFont systemFontOfSize:13]].height);
         return height;
     }
 }
@@ -284,7 +290,10 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
-//        进入详情页
+        NSDictionary *dic = self.dataSource[indexPath.row];
+        ViolationCommissionStateVC *vc = [UIStoryboard vcWithId:@"ViolationCommissionStateVC" inStoryboard:@"HX_Temp"];
+        vc.recordID = (NSNumber *)dic[@"recordid"];
+        [self.navigationController pushViewController:vc animated:YES];
     }
     else
     {

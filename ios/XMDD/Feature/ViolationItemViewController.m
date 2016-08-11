@@ -213,7 +213,7 @@
     [self.bottomBtn setTitle:title forState:UIControlStateNormal];
     [UIView animateWithDuration:1.0f animations:^{
         
-        self.bottomViewConstraint.constant = self.violationModel.violationAvailableTip.length> 0 ? 64 : 0;
+        self.bottomViewConstraint.constant = self.violationModel.violationAvailableTip.length > 0 ? 64 : 0;
     }];
 }
 
@@ -339,6 +339,13 @@
     ViolationDelegateMissionVC * vc = [UIStoryboard vcWithId:@"ViolationDelegateMissionVC" inStoryboard:@"Temp_YZC"];
     vc.licenceNumber = self.violationModel.licencenumber;
     vc.userCarID = self.car.carId;
+    [vc setMissionSuccessBlock:^(NSString * tip) {
+        
+        self.violationModel.violationAvailableTip = tip;
+        [self setupBottomView];
+        
+        [self.violationModel saveViolationModel];
+    }];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -674,11 +681,11 @@
         
         ///罚款标志
         UILabel * moneyLb = (UILabel *)[cell searchViewWithTag:20101];
-        moneyLb.text = violation.violationMoney.length ? [NSString stringWithFormat:@"罚款%@元",violation.violationMoney] : @"未知";
+        moneyLb.text = violation.violationMoney.length ? [NSString stringWithFormat:@"罚款%@元",violation.violationMoney] : @"罚款未知";
         
         ///罚分标志
         UILabel * fenLb = (UILabel *)[cell searchViewWithTag:20201];
-        fenLb.text = violation.violationScore.length ? [NSString stringWithFormat:@"扣%@分",violation.violationScore] : @"未知";
+        fenLb.text = violation.violationScore.length ? [NSString stringWithFormat:@"扣%@分",violation.violationScore] : @"扣分未知";
         
         ///处理情况图标
         UIImageView * handleIcon = (UIImageView *)[cell searchViewWithTag:103];
