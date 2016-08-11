@@ -132,13 +132,4 @@
     [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:1 promptView:self.tableView.bottomLoadingView];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    HKOtherOrder * order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
-    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-    vc.title = @"订单详情";
-    vc.url = [OrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%ld&tradetype=%@",gNetworkMgr.token ,(long)order.oId, order.tradeType]];
-    [self.targetVC.navigationController pushViewController:vc animated:YES];
-}
-
 @end

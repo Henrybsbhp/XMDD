@@ -19,13 +19,13 @@
     MutualOrderListModel *order = [MutualOrderListModel new];
     order.licenseNumber = rsp[@"licensenumber"];
     order.brandLogoAddress = rsp[@"brandlogo"];
-    order.createTime = [NSDate dateFormatForYYYYMMddHHmmWithD12:[NSString stringWithFormat:@"%@", rsp[@"createtime"]]];
-    order.insStartTime = [NSDate dateFormatForYYYYMMddHHmmWithD12:[NSString stringWithFormat:@"%@", rsp[@"insstarttime"]]];
-    order.insEndTime = [NSDate dateFormatForYYYYMMddHHmmWithD12:[NSString stringWithFormat:@"%@", rsp[@"insendtime"]]];
-    order.sharedMoney = rsp[@"sharemoney"];
-    order.memberFee = rsp[@"memberfee"];
-    order.fee = rsp[@"fee"];
-    order.status = rsp[@"status"];
+    order.createTime = rsp[@"createtime"];
+    order.insStartTime = rsp[@"insstarttime"];
+    order.insEndTime = rsp[@"insendtime"];
+    order.sharedMoney = [rsp[@"sharemoney"] floatValue];
+    order.memberFee = [rsp[@"memberfee"] floatValue];
+    order.fee = [rsp[@"fee"] floatValue];
+    order.status = [rsp[@"status"] integerValue];
     order.statusDesc = rsp[@"statusdesc"];
     order.forceInfo = [InsuranceOrderListModel orderWithDict:rsp[@"forceinfo"]];
     
@@ -45,12 +45,12 @@
     
     InsuranceOrderListModel *order = [InsuranceOrderListModel new];
     order.forceFee = dict[@"forcefee"];
-    order.taxShipFee = dict[@"taxshipfee"];
+    order.taxShipFee = [dict[@"taxshipfee"] floatValue];
     order.insComp = dict[@"inscomp"];
-    order.forceStartDate = [NSDate dateFormatForYYYYMMddHHmmWithD12:[NSString stringWithFormat:@"%@", dict[@"forcestartdate"]]];
-    order.forceEndDate = [NSDate dateFormatForYYYYMMddHHmmWithD12:[NSString stringWithFormat:@"%@", dict[@"forceenddate"]]];
+    order.forceStartDate = dict[@"forcestartdate"];
+    order.forceEndDate = dict[@"forceenddate"];
     order.proxyLogo = dict[@"proxylogo"];
-    order.createTime = [NSDate dateFormatForYYYYMMddHHmmWithD12:[NSString stringWithFormat:@"%@", dict[@"createtime"]]];
+    order.createTime = dict[@"createtime"];
     return order;
 }
 
