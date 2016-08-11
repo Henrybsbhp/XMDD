@@ -279,6 +279,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    @weakify(self)
+    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
@@ -301,6 +304,14 @@
     {
         ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
         vc.usercarID = self.userCarID;
+        vc.carNum = self.licenceNumber;
+        [vc setCommitSuccessBlock:^{
+            
+            @strongify(self)
+            
+            [self getViolationCommission];
+            
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -372,6 +383,14 @@
             
             ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
             vc.usercarID = self.userCarID;
+            vc.carNum = self.licenceNumber;
+            [vc setCommitSuccessBlock:^{
+                
+                @strongify(self)
+                
+                [self getViolationCommission];
+                
+            }];
             [self.navigationController pushViewController:vc animated:YES];
         }];
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#454545") clickBlock:^(id alertVC) {

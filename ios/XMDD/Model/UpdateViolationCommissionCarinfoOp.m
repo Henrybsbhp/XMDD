@@ -18,6 +18,8 @@
     [params addParam:self.req_carid forName:@"carid"];
     [params addParam:self.req_licenseurl forName:@"licenseurl"];
     [params addParam:self.req_licensecopyurl forName:@"licensecopyurl"];
+    [params addParam:self.req_licencenumber forName:@"licencenumber"];
+    [params addParam:self.req_usercarid forName:@"usercarid"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

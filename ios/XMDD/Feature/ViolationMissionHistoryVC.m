@@ -33,6 +33,7 @@
     [super viewDidLoad];
     
     [self setupUI];
+    [self setupNavi];
     //    [self getSimutateData];
     [self getViolationCommissionApply];
 }
@@ -53,6 +54,12 @@
     self.commitBtn.layer.masksToBounds = YES;
     self.commitBtn.backgroundColor = self.indexPath != nil ? HEXCOLOR(@"#FF7428") : HEXCOLOR(@"#d3d3d3");
     [self.commitBtn setTitle:btnTitle forState:UIControlStateNormal];
+}
+
+-(void)setupNavi
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 #pragma mark - Network
@@ -289,6 +296,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    @weakify(self)
+    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
@@ -302,6 +312,13 @@
         NSDictionary *dic = self.tips[indexPath.row];
         ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
         vc.usercarID = (NSNumber *)dic[@"usercarid"];
+        vc.carNum = dic[@"licensenumber"];
+        [vc setCommitSuccessBlock:^{
+            
+            @strongify(self)
+            
+            [self getViolationCommissionApply];
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -375,22 +392,20 @@
 
 - (IBAction)actionCommit:(id)sender
 {
-    if (self.tips.count == 0)
+    ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Temp_YZC"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)actionBack
+{
+    if (self.router.userInfo[kOriginRoute])
     {
-        ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Temp_YZC"];
-        [self.navigationController pushViewController:vc animated:YES];
+        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
+        [self.router.navigationController popToViewController:vc animated:YES];
     }
     else
     {
-        HKAlertActionItem *jumpToLicenceVC = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#18D06A") clickBlock:^(id alertVC) {
-            ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
-            [self.navigationController pushViewController:vc animated:YES];
-        }];
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18D06A") clickBlock:^(id alertVC) {
-            
-        }];
-        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您的爱车的证件信息不完整，完善爱车饿证件信息后即可申请代办。" ActionItems:@[cancel, jumpToLicenceVC]];
-        [alert show];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

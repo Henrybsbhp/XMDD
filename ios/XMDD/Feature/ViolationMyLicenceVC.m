@@ -33,8 +33,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupDataSource];
+    
     [self getViolationCommissionCarinfo];
+    [self setupDataSource];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,9 +52,9 @@
 -(void)setupDataSource
 {
     self.dataSource = $(
-                        [self noticeCellDataWithNotice:@"请上传车辆（浙A12345）行驶证正本"],
+                        [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证正本",self.carNum]],
                         [self photoCellDataWithSampleImg:[UIImage imageNamed:@"illegal_original"]],
-                        [self noticeCellDataWithNotice:@"请上传车辆（浙A12345）行驶证副本"],
+                        [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证副本",self.carNum]],
                         [self photoCellDataWithSampleImg:[UIImage imageNamed:@"illegal_licenceReavel"]],
                         [self blankCellData],
                         [self btnCellData]
@@ -100,14 +101,17 @@
         
     }]subscribeNext:^(GetViolationCommissionCarinfoOp *op) {
         
+        [self.view stopActivityAnimation];
+        
+        self.tableView.hidden = NO;
+        
         self.failedOriginRcd.url = op.rsp_licenseurl;
         self.failedDuplicateRcd.url = op.rsp_licensecopyurl;
-        [self getfailedOriginImg];
-        [self getfailedDuplicateImg];
         self.carID = op.rsp_carid;
         [self.tableView reloadData];
+        [self getfailedOriginImg];
+        [self getfailedDuplicateImg];
         
-        [self.view stopActivityAnimation];
         
     } error:^(NSError *error) {
         
@@ -130,6 +134,8 @@
     op.req_carid = self.carID;
     op.req_licenseurl = self.originRcd.url;
     op.req_licensecopyurl = self.duplicateRcd.url;
+    op.req_usercarid = self.usercarID;
+    op.req_licencenumber = self.carNum;
     
     [[[op rac_postRequest]initially:^{
         
@@ -139,6 +145,13 @@
         
         [gToast showSuccess:@"资料上传成功"];
         
+        if (self.commitSuccessBlock)
+        {
+            self.commitSuccessBlock();
+        }
+        
+        [self.navigationController popViewControllerAnimated:YES];
+
     } error:^(NSError *error) {
         
         [gToast showMistake:@"资料上传失败，请点击重试"];
@@ -278,18 +291,33 @@
             selectImgView.customObject = maskView;
         }
         
-        if (indexPath.row == 1 && self.failedOriginRcd.image)
-        {
-            selectImgView.hidden = NO;
-            selectImgView.image = self.failedOriginRcd.image;
-            cameraImg.hidden = YES;
-        }
-        else if (indexPath.row == 3 && self.failedDuplicateRcd.image)
-        {
-            selectImgView.hidden = NO;
-            selectImgView.image = self.failedDuplicateRcd.image;
-            cameraImg.hidden = YES;
-        }
+        [[RACObserve(self.failedOriginRcd, image)takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+            
+            @strongify(self)
+            
+            if (indexPath.row == 1 && self.failedOriginRcd.image)
+            {
+                selectImgView.hidden = NO;
+                [selectImgView hideMaskView];
+                selectImgView.image = self.failedOriginRcd.image;
+                cameraImg.hidden = YES;
+            }
+            
+        }];
+        
+        
+        [[RACObserve(self.failedDuplicateRcd, image)takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+            
+            @strongify(self)
+            
+            if (indexPath.row == 3 && self.failedDuplicateRcd.image)
+            {
+                selectImgView.hidden = NO;
+                [selectImgView hideMaskView];
+                selectImgView.image = self.failedDuplicateRcd.image;
+                cameraImg.hidden = YES;
+            }
+        }];
         
         [[[selectImgView.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self)
@@ -372,7 +400,7 @@
 
 -(CKDict *)btnCellData
 {
-    
+    @weakify(self)
     
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"BtnCell"}];
     
@@ -391,6 +419,21 @@
         btn.layer.masksToBounds = YES;
         
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+            
+            @strongify(self)
+            
+            if (self.originRcd.url == 0 || self.duplicateRcd.url.length == 0)
+            {
+                [gToast showMistake:@"请完善资料后上传"];
+            }
+            else if(self.originRcd.isUploading == YES || self.duplicateRcd.isUploading == YES)
+            {
+                [gToast showMistake:@"图片正在上传中，请稍等"];
+            }
+            else
+            {
+                [self updateViolationCommissionCarinfo];
+            }
             
         }];
     });
@@ -573,6 +616,25 @@
     }
     return _duplicateRcd;
 }
+
+-(PictureRecord *)failedDuplicateRcd
+{
+    if (!_failedDuplicateRcd)
+    {
+        _failedDuplicateRcd = [[PictureRecord alloc]init];
+    }
+    return _failedDuplicateRcd;
+}
+
+-(PictureRecord *)failedOriginRcd
+{
+    if (!_failedOriginRcd)
+    {
+        _failedOriginRcd = [[PictureRecord alloc]init];
+    }
+    return _failedOriginRcd;
+}
+
 
 -(PictureRecord *)currentRecord
 {
