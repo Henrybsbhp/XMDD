@@ -32,19 +32,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //    [self getViolationCommission];
-    
+    [self getViolationCommission];
+
     [self setupUI];
     
     
-    [self getSimutateData];
-    
-    
+    //    [self getSimutateData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)dealloc
+{
+    DDLogDebug(@"ViolationDelegateMissionVC dealloc");
 }
 
 #pragma mark - Setup
@@ -64,12 +67,17 @@
 
 -(void)getSimutateData
 {
+    @weakify(self)
+    
     self.bottomView.hidden = YES;
     self.tableView.hidden = YES;
     [self.view hideDefaultEmptyView];
     [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     
     CKAfter(0.5, ^{
+        
+        @strongify(self)
+        
         if (random()%2)
         {
             
@@ -86,7 +94,7 @@
                                   @"code":@"100",
                                   @"money":@"200",
                                   @"servicefee":@"40",
-                                  @"licensenumber":@"浙A12345"};
+                                  @"licencenumber":@"浙A12345"};
             self.tip = @"浙A12345的证件信息不完整，完善后即可申请代办";
             self.licenceNumber = @"浙A12345";
             self.dataSource = @[dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic];
@@ -99,6 +107,7 @@
             
             [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败。点击请重试" tapBlock:^{
                 
+                @strongify(self)
                 
                 [self getSimutateData];
                 
@@ -158,6 +167,7 @@
 
 -(void)applyViolationCommission
 {
+    @weakify(self)
     ApplyViolationCommissionOp *op = [ApplyViolationCommissionOp operation];
     
     op.req_usercarid = self.userCarID;
@@ -169,6 +179,8 @@
         [gToast showingWithText:@"申请代办中"];
         
     }]subscribeNext:^(ApplyViolationCommissionOp *op) {
+     
+        @strongify(self)
         
         [gToast dismiss];
         
@@ -220,7 +232,7 @@
         serviceFeeLabel.text = [NSString stringWithFormat:@"服务费%@元",data[@"servicefee"]];
         
         UILabel *licenceLabel = [cell viewWithTag:102];
-        licenceLabel.text = [NSString stringWithFormat:@"%@",data[@"licensenumber"]];
+        licenceLabel.text = [NSString stringWithFormat:@"%@",data[@"licencenumber"]];
         
         UILabel *dateLabel = [cell viewWithTag:103];
         dateLabel.text = [NSString stringWithFormat:@"%@",data[@"date"]];
@@ -249,7 +261,12 @@
     {
         NSDictionary *data = [self.dataSource safetyObjectAtIndex:(self.tip.length != 0 ? indexPath.row - 1 : indexPath.row)];
         NSString *actStr = data[@"act"];
-        CGFloat height = 140 + ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height);
+        NSString *dateStr = data[@"date"];
+        NSString *areaStr = data[@"area"];
+        CGFloat height = 122 +
+        ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height) +
+        ceil([dateStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height) +
+        ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height);
         return height;
     }
 }
@@ -277,6 +294,7 @@
     else
     {
         ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
+        vc.usercarID = self.userCarID;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -335,6 +353,9 @@
 
 - (IBAction)actionCommit:(id)sender
 {
+    
+    @weakify(self)
+    
     if (self.tip.length == 0)
     {
         [self applyViolationCommission];
@@ -342,8 +363,13 @@
     else
     {
         HKAlertActionItem *jumpToLicenceVC = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#18D06A") clickBlock:^(id alertVC) {
+            
+            @strongify(self)
+            
             ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
+            vc.usercarID = self.userCarID;
             [self.navigationController pushViewController:vc animated:YES];
+            
         }];
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18D06A") clickBlock:^(id alertVC) {
             

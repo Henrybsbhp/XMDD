@@ -7,16 +7,21 @@
 //
 
 #import "ViolationPayConfirmVC.h"
+#import "ChooseCouponVC.h"
+#import "GetViolationCommissionCouponsOp.h"
 
 @interface ViolationPayConfirmVC ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *button;
+@property (assign, nonatomic) BOOL isLoadingResourse;
 
 @property (strong, nonatomic) NSNumber *money;
 @property (strong, nonatomic) NSNumber *serviceFee;
 @property (strong, nonatomic) NSNumber *totalFee;
+@property (strong, nonatomic) NSArray *coupons;
 
 @property (strong, nonatomic) CKList *dataSource;
+@property (assign, nonatomic) PaymentChannelType paychannel;
 
 @end
 
@@ -37,17 +42,22 @@
 -(void)setupDataSource
 {
     self.dataSource = $(
-                        $([self titleCellData],
+                        $(
+                          [self titleCellData],
                           [self shopItemCellData],
                           [self itemFeeCellDataWithItem:@"违章罚款"],
                           [self itemFeeCellDataWithItem:@"手续费"],
-                          [self itemFeeCellDataWithItem:@"合计金额"]
+                          [self itemFeeCellDataWithItem:@"合计金额"],
+                          [self blankCellData]
                           ),
-                        $([self discountInfoCellData],
+                        $(
+                          [self discountInfoCellData],
                           [self couponCellData]
                           ),
-                        $([self otherCellData],
-                          [self couponCellData]
+                        $(
+                          [self otherCellData],
+                          [self payPlatformCellAData],
+                          [self applePayPlatformCellData]
                           )
                         );
 }
@@ -57,6 +67,40 @@
     self.button.layer.cornerRadius = 5;
     self.button.layer.masksToBounds = YES;
 }
+
+#pragma mark - Network
+
+
+-(void)getViolationCommissionCoupons
+{
+    
+    @weakify(self)
+    
+    GetViolationCommissionCouponsOp *op = [GetViolationCommissionCouponsOp operation];
+    
+    [[[op rac_postRequest]initially:^{
+        
+        @strongify(self)
+        
+        self.isLoadingResourse = NO;
+        
+    }]subscribeNext:^(GetViolationCommissionCouponsOp *op) {
+        
+        @strongify(self)
+        
+        self.isLoadingResourse = YES;
+        self.coupons = op.rsp_coupons;
+        
+    } error:^(NSError *error) {
+        
+        @strongify(self)
+        
+        [self getViolationCommissionCoupons];
+        
+    }];
+    
+}
+
 
 #pragma mark - UITableViewDataSource
 
@@ -101,14 +145,63 @@
     }
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return CGFLOAT_MIN;
+}
+
 #pragma mark - Cell
+
+-(CKDict *)applePayPlatformCellData
+{
+    CKDict *data = [CKDict dictWith:@{kCKCellID : @"ApplePayPlatformCell"}];
+    
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 45;
+    });
+    
+    return data;
+}
+
+-(CKDict *)payPlatformCellBData
+{
+    CKDict *data = [CKDict dictWith:@{kCKCellID : @"PayPlatformCellB"}];
+    
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 45;
+    });
+    
+    return data;
+}
+
+-(CKDict *)payPlatformCellAData
+{
+    CKDict *data = [CKDict dictWith:@{kCKCellID : @"PayPlatformCell"}];
+    
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 45;
+    });
+    
+    return data;
+}
+
+-(CKDict *)blankCellData
+{
+    CKDict *data = [CKDict dictWith:@{kCKCellID : @"BlankCell"}];
+    
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 12;
+    });
+    
+    return data;
+}
 
 -(CKDict *)titleCellData
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"ShopTitleCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 44;
+        return 68;
     });
     
     return data;
@@ -119,7 +212,7 @@
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"ShopItemCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 44;
+        return 25;
     });
     
     return data;
@@ -131,7 +224,7 @@
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"ItemFeeCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 90;
+        return 25;
     });
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -161,10 +254,41 @@
 
 -(CKDict *)discountInfoCellData
 {
+    
+    @weakify(self)
+    
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"DiscountInfoCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 90;
+        return 42;
+    });
+    
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self)
+        
+        UIActivityIndicatorView *indicatorView = [cell viewWithTag:202];
+        
+        [[RACObserve(self, isLoadingResourse) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
+            
+            BOOL isloading = [number boolValue];
+            indicatorView.animating = isloading;
+            indicatorView.hidden = !isloading;
+        }];
+        
+    });
+    
+    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+//        @strongify(self)
+        
+//        ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
+//        vc.originVC = self.originVC;
+//        vc.type = CouponTypeCarWash;
+//        vc.selectedCouponArray = self.selectCarwashCoupouArray;
+//        vc.couponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
+//        [self.navigationController pushViewController:vc animated:YES];
+        
     });
     
     return data;
@@ -176,7 +300,7 @@
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"CouponCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 90;
+        return 45;
     });
     
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -193,7 +317,7 @@
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"OtherInfoCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 90;
+        return 42;
     });
     
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
