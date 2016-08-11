@@ -23,9 +23,9 @@
     order.createTime = rsp[@"createtime"];
     order.insStartTime = rsp[@"insstarttime"];
     order.insEndTime = rsp[@"insendtime"];
-    order.sharedMoney = [rsp[@"sharemoney"] floatValue];
-    order.memberFee = [rsp[@"memberfee"] floatValue];
-    order.fee = [rsp[@"fee"] floatValue];
+    order.sharedMoney = rsp[@"sharemoney"];
+    order.memberFee = rsp[@"memberfee"];
+    order.fee = rsp[@"fee"];
     order.status = [rsp[@"status"] integerValue];
     order.statusDesc = rsp[@"statusdesc"];
     order.forceInfo = [InsuranceOrderListModel orderWithDict:rsp[@"forceinfo"]];
@@ -46,7 +46,7 @@
     
     InsuranceOrderListModel *order = [InsuranceOrderListModel new];
     order.forceFee = dict[@"forcefee"];
-    order.taxShipFee = [dict[@"taxshipfee"] floatValue];
+    order.taxShipFee = dict[@"taxshipfee"];
     order.insComp = dict[@"inscomp"];
     order.forceStartDate = dict[@"forcestartdate"];
     order.forceEndDate = dict[@"forceenddate"];

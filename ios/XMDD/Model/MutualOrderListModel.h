@@ -30,13 +30,13 @@
 @property (nonatomic, copy) NSString *insEndTime;
 
 /// 互助金
-@property (nonatomic, assign) float sharedMoney;
+@property (nonatomic, copy) NSString *sharedMoney;
 
 /// 服务费
-@property (nonatomic, assign) float memberFee;
+@property (nonatomic, copy) NSString *memberFee;
 
 /// 总支付金额
-@property (nonatomic, assign) float fee;
+@property (nonatomic, copy) NSString *fee;
 
 /// 状态（1: 待支付，2: 交易完成，10: 已退款）
 @property (nonatomic, assign) NSInteger status;
@@ -57,7 +57,7 @@
 @property (nonatomic, copy) NSString *forceFee;
 
 /// 车船费费用
-@property (nonatomic, assign) float taxShipFee;
+@property (nonatomic, copy) NSString *taxShipFee;
 
 /// 购买交强险公司
 @property (nonatomic, copy) NSString *insComp;

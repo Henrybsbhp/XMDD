@@ -32,13 +32,13 @@
 @property (nonatomic, copy) NSString *statusDesc;
 
 /// 支付金额（实际支付金额）
-@property (nonatomic, assign) CGFloat payMoney;
+@property (nonatomic, copy) NSString *payMoney;
 
 /// 充值说明（快速充值，95/98 折分期充值）
 @property (nonatomic, copy) NSString *chargeTips;
 
 /// 充值金额（油卡实际充值金额）
-@property (nonatomic, assign) CGFloat chargeMoney;
+@property (nonatomic, copy) NSString *chargeMoney;
 
 + (instancetype)orderWithJSONResponse:(NSDictionary *)rsp;
 
