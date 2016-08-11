@@ -24,5 +24,8 @@
  */
 @property (strong, nonatomic) ViolationViewController *delegate;
 
+/// 违章代办成功的回调
+@property (strong, nonatomic)void(^missionSuccessBlock)(NSString *);
+
 
 @end
