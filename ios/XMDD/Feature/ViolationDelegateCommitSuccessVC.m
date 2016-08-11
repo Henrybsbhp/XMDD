@@ -20,6 +20,7 @@
     [super viewDidLoad];
 
     [self setupUI];
+    [self setupNavi];
     
 }
 
@@ -35,10 +36,30 @@
     self.myCommisionBtn.layer.masksToBounds = YES;
 }
 
+-(void)setupNavi
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
 
 #pragma mark - Action
 
-- (IBAction)actionJumpToMyCommisionVC:(id)sender {
+-(void)actionBack
+{
+    if (self.router.userInfo[kOriginRoute])
+    {
+        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
+        [self.router.navigationController popToViewController:vc animated:YES];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+- (IBAction)actionJumpToMyCommisionVC:(id)sender
+{
     ViolationMissionHistoryVC *vc = [UIStoryboard vcWithId:@"ViolationMissionHistoryVC" inStoryboard:@"Temp_YZC"];
     [self.navigationController pushViewController:vc animated:YES];
 }

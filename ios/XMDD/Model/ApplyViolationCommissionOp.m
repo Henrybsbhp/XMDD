@@ -22,6 +22,15 @@
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
+- (instancetype)parseResponseObject:(id)rspObj
+{
+    if ([rspObj isKindOfClass:[NSDictionary class]])
+    {
+        self.rsp_tip = [rspObj stringParamForName:@"tip"];
+    }
+    return self;
+}
+
 - (NSString *)description
 {
     return @"用户违章代办申请";

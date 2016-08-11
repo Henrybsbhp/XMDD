@@ -8,6 +8,7 @@
 
 #import "ViolationViewController.h"
 #import "ViolationItemViewController.h"
+#import "ViolationMissionHistoryVC.h"
 #import "MyCarStore.h"
 #import "HKPageSliderView.h"
 
@@ -65,13 +66,6 @@
 - (void)setupNavigation
 {
     self.navigationItem.title = @"违章查询";
-    
-    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"我的代办" style:UIBarButtonItemStylePlain
-                                                             target:self action:@selector(jumpToMyVoilationMissionHistoryVC)];
-    [right setTitleTextAttributes:@{
-                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
-                                    } forState:UIControlStateNormal];
-    self.navigationItem.rightBarButtonItem = right;
 }
 
 - (void)setupCarStore
@@ -145,7 +139,8 @@
 /// 跳转到违章记录VC
 - (void)jumpToMyVoilationMissionHistoryVC
 {
-    
+    ViolationMissionHistoryVC *vc = [UIStoryboard vcWithId:@"ViolationMissionHistoryVC" inStoryboard:@"Temp_YZC"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)refreshPageController
@@ -312,6 +307,11 @@
 }
 
 #pragma mark Action
+
+- (IBAction)actionJumpToMyVoilationMissionHistoryVC:(id)sender {
+    [self jumpToMyVoilationMissionHistoryVC];
+}
+
 
 - (IBAction)actionJumpToRecord:(id)sender {
     

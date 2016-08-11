@@ -9,6 +9,7 @@
 #import "ViolationDelegateMissionVC.h"
 #import "ViolationMyLicenceVC.h"
 #import "ViolationMissionHistoryVC.h"
+#import "WebVC.h"
 #import "ViolationDelegateCommitSuccessVC.h"
 #import "GetViolationCommissionOp.h"
 #import "ApplyViolationCommissionOp.h"
@@ -19,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *confirmReadBtn;
+@property (strong, nonatomic) WebVC *webVC;
+
 
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) NSMutableArray *carArr;
@@ -33,7 +36,7 @@
     [super viewDidLoad];
     
     [self getViolationCommission];
-
+    
     [self setupUI];
     
     
@@ -179,10 +182,15 @@
         [gToast showingWithText:@"申请代办中"];
         
     }]subscribeNext:^(ApplyViolationCommissionOp *op) {
-     
+        
         @strongify(self)
         
         [gToast dismiss];
+        
+        if (self.missionSuccessBlock)
+        {
+            self.missionSuccessBlock(op.rsp_tip);
+        }
         
         ViolationDelegateCommitSuccessVC *vc = [UIStoryboard vcWithId:@"ViolationDelegateCommitSuccessVC" inStoryboard:@"Temp_YZC"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -261,18 +269,19 @@
     {
         NSDictionary *data = [self.dataSource safetyObjectAtIndex:(self.tip.length != 0 ? indexPath.row - 1 : indexPath.row)];
         NSString *actStr = data[@"act"];
-        NSString *dateStr = data[@"date"];
         NSString *areaStr = data[@"area"];
-        CGFloat height = 122 +
-        ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height) +
-        ceil([dateStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height) +
-        ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:14]].height);
+        CGFloat height = 140 +
+        ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:15]].height) +
+        ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 75 font:[UIFont systemFontOfSize:13]].height);
         return height;
     }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    @weakify(self)
+    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
@@ -295,6 +304,14 @@
     {
         ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
         vc.usercarID = self.userCarID;
+        vc.carNum = self.licenceNumber;
+        [vc setCommitSuccessBlock:^{
+            
+            @strongify(self)
+            
+            [self getViolationCommission];
+            
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -346,9 +363,7 @@
 
 - (IBAction)actionJumpToGuideVC:(id)sender
 {
-    
-    
-    
+    [self.navigationController pushViewController:self.webVC animated:YES];
 }
 
 - (IBAction)actionCommit:(id)sender
@@ -356,7 +371,7 @@
     
     @weakify(self)
     
-    if (self.tip.length == 0)
+    if (self.tip.length != 0)
     {
         [self applyViolationCommission];
     }
@@ -368,10 +383,17 @@
             
             ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
             vc.usercarID = self.userCarID;
+            vc.carNum = self.licenceNumber;
+            [vc setCommitSuccessBlock:^{
+                
+                @strongify(self)
+                
+                [self getViolationCommission];
+                
+            }];
             [self.navigationController pushViewController:vc animated:YES];
-            
         }];
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#18D06A") clickBlock:^(id alertVC) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#454545") clickBlock:^(id alertVC) {
             
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您的爱车的证件信息不完整，完善爱车饿证件信息后即可申请代办。" ActionItems:@[cancel, jumpToLicenceVC]];
@@ -387,6 +409,7 @@
     [self configCommitBtn];
 }
 
+
 #pragma mark - Lazyload
 
 -(NSMutableArray *)carArr
@@ -397,5 +420,28 @@
     }
     return _carArr;
 }
+
+-(WebVC *)webVC
+{
+    if (!_webVC)
+    {
+        _webVC = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+        _webVC.navigationController.title = @"服务说明";
+        
+        NSString *urlStr = nil;
+        
+#if XMDDEnvironment==0
+        urlStr = @"http://dev01.xiaomadada.com/apphtml/daiban-server.html";
+#elif XMDDEnvironment==1
+        urlStr = @"http://dev.xiaomadada.com/apphtml/daiban-server.html";
+#else
+        urlStr = @"http://www.xiaomadada.com/apphtml/daiban-server.html";
+#endif
+        _webVC.url =  urlStr;
+        
+    }
+    return _webVC;
+}
+
 
 @end

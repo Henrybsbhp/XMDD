@@ -12,4 +12,8 @@
 
 @property (strong, nonatomic) NSNumber *usercarID;
 
+@property (strong, nonatomic) NSString *carNum;
+
+@property (strong, nonatomic)void(^commitSuccessBlock)(void);
+
 @end

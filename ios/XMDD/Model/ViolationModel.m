@@ -44,12 +44,7 @@
         self.violationAvailableTip = rop.rsp_violationAvailableTip;
         self.queryDate = [NSDate date];
         
-        /// 异步本地存一次
-        CKAsyncHighQueue(^{
-            
-            NSString * violationKey = [NSString stringWithFormat:@"violation_%@",self.licencenumber];
-            [gAppMgr.dataCache setObject:self forKey:violationKey];
-        });
+        [self saveViolationModel];
         
         return [RACSignal return:rop];
     }];
@@ -83,7 +78,15 @@
     return signal;
 }
 
-
+- (void)saveViolationModel
+{
+    /// 异步本地存一次
+    CKAsyncHighQueue(^{
+        
+        NSString * violationKey = [NSString stringWithFormat:@"violation_%@",self.licencenumber];
+        [gAppMgr.dataCache setObject:self forKey:violationKey];
+    });
+}
 
 
 - (id)initWithCoder:(NSCoder *)aDecoder{

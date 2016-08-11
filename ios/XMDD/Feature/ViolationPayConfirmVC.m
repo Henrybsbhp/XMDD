@@ -20,8 +20,14 @@
 @property (strong, nonatomic) NSNumber *totalFee;
 @property (strong, nonatomic) NSArray *coupons;
 
+/**
+ *  数据源
+ */
 @property (strong, nonatomic) CKList *dataSource;
 @property (assign, nonatomic) PaymentChannelType paychannel;
+
+///支付数据源
+@property (nonatomic,strong)NSArray * paymentArray;
 
 @end
 
@@ -30,6 +36,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self getViolationCommissionCoupons];
     [self setupDataSource];
 }
 
@@ -37,10 +44,21 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"ViolationPayConfirmVC dealloc");
+}
+
+
 #pragma mark - Setup
 
 -(void)setupDataSource
 {
+    
+    self.paychannel = PaymentChannelUPpay;
+    
     self.dataSource = $(
                         $(
                           [self titleCellData],
@@ -56,8 +74,19 @@
                           ),
                         $(
                           [self otherCellData],
-                          [self payPlatformCellAData],
-                          [self applePayPlatformCellData]
+                          [self payPlatformCellADataWithPayChannelData:@{@"logo" : @"uppay_logo_66",
+                                                                         @"name" : @"银联在线支付",
+                                                                         @"isRecommend" : @(YES),
+                                                                         @"type" : @(PaymentChannelUPpay)}],
+                          [self applePayPlatformCellData],
+                          [self payPlatformCellADataWithPayChannelData:@{@"logo" : @"alipay_logo_66",
+                                                                         @"name" : @"支付宝支付",
+                                                                         @"isRecommend" : @(NO),
+                                                                         @"type" : @(PaymentChannelAlipay)}],
+                          [self payPlatformCellADataWithPayChannelData:@{@"logo" : @"wechat_logo_66",
+                                                                         @"name" : @"微信支付",
+                                                                         @"isRecommend" : @(NO),
+                                                                         @"type" : @(PaymentChannelWechat)}]
                           )
                         );
 }
@@ -94,8 +123,7 @@
     } error:^(NSError *error) {
         
         @strongify(self)
-        
-        [self getViolationCommissionCoupons];
+        self.isLoadingResourse = NO;
         
     }];
     
@@ -160,6 +188,15 @@
         return 45;
     });
     
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        
+        UIImageView *selectView = [cell viewWithTag:104];
+        selectView.hidden = !(self.paychannel == PaymentChannelApplePay);
+    
+        
+    });
+    
     return data;
 }
 
@@ -174,12 +211,28 @@
     return data;
 }
 
--(CKDict *)payPlatformCellAData
+-(CKDict *)payPlatformCellADataWithPayChannelData:(NSDictionary *)payChannelData
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"PayPlatformCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 45;
+    });
+    
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UIImageView *channelLogo = [cell viewWithTag:101];
+        channelLogo.image = [UIImage imageNamed:payChannelData[@"logo"]];
+        
+        UILabel *channelName = [cell viewWithTag:102];
+        channelName.text = [NSString stringWithFormat:@"%@",payChannelData[@"name"]];
+        
+        UIImageView *selectView = [cell viewWithTag:103];
+        selectView.hidden = !([(NSNumber *)payChannelData[@"type"] integerValue] == self.paychannel);
+        
+        UIImageView *recommendView = [cell viewWithTag:104];
+        recommendView.hidden = ![(NSNumber *)payChannelData[@"isRecommend"] boolValue];
+        
     });
     
     return data;
@@ -221,6 +274,7 @@
 
 -(CKDict *)itemFeeCellDataWithItem:(NSString *)itemTitle
 {
+    @weakify(self)
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"ItemFeeCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -228,6 +282,8 @@
     });
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self)
         
         UILabel *itemLabel = [cell viewWithTag:100];
         itemLabel.text = itemTitle;
@@ -271,23 +327,24 @@
         
         [[RACObserve(self, isLoadingResourse) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
             
+            
             BOOL isloading = [number boolValue];
-            indicatorView.animating = isloading;
-            indicatorView.hidden = !isloading;
+            indicatorView.animating = !isloading;
+            indicatorView.hidden = isloading;
         }];
         
     });
     
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
-//        @strongify(self)
+        //        @strongify(self)
         
-//        ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
-//        vc.originVC = self.originVC;
-//        vc.type = CouponTypeCarWash;
-//        vc.selectedCouponArray = self.selectCarwashCoupouArray;
-//        vc.couponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
-//        [self.navigationController pushViewController:vc animated:YES];
+        //        ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
+        //        vc.originVC = self.originVC;
+        //        vc.type = CouponTypeCarWash;
+        //        vc.selectedCouponArray = self.selectCarwashCoupouArray;
+        //        vc.couponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
+        //        [self.navigationController pushViewController:vc animated:YES];
         
     });
     
