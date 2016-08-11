@@ -822,6 +822,19 @@
 
 - (HKCellData *)celldataFor2_4
 {
+    HKCellData *celldata = [HKCellData dataWithCellID:@"PayPlatformCell" tag:nil];
+    celldata.object = @"银联支付";
+    celldata.tag = @"uppay_logo_66";
+    celldata.customTag = PaymentChannelUPpay;
+    celldata.customInfo[@"recommand"] = @(NO);
+    [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
+        return 50;
+    }];
+    return celldata;
+}
+
+- (HKCellData *)celldataFor2_5
+{
     self.licenseData = [HKCellData dataWithCellID:@"LicenseCell" tag:nil];
     self.licenseData.customInfo[@"check"] = @YES;
     
