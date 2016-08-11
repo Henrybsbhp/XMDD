@@ -37,6 +37,9 @@ typedef NS_ENUM(NSInteger, XMViolationCommissionStatus) {
 /// 代办订单信息
 @property (nonatomic, copy) NSArray *orderInfo;
 
+/// 代办完成凭证
+@property (nonatomic, copy) NSString *finishPicURL;
+
 + (instancetype)listWithJSONResponse:(NSDictionary *)rsp;
 
 @end

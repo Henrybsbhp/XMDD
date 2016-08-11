@@ -196,6 +196,7 @@
 }
 
 #pragma mark - The settings of Cells
+/// 顶部代办状态进度条
 - (CKDict *)setupProgressViewCellWithIndex:(CGFloat)index
 {
     CKDict *progressCell = [CKDict dictWith:@{kCKItemKey: @"progressCell", kCKCellID: @"ProgressCell"}];
@@ -214,6 +215,7 @@
     return progressCell;
 }
 
+/// 车牌号，位置，行为 Cell
 - (CKDict *)setupCarDescCellWithModel:(ViolationCommissionStateModel *)model
 {
     CKDict *carDescCell = [CKDict dictWith:@{kCKItemKey: @"carDescCell", kCKCellID: @"CarDescCell"}];
@@ -242,6 +244,7 @@
     return carDescCell;
 }
 
+/// 提示 Tips Cell
 - (CKDict *)setupTipsCellWithModel:(ViolationCommissionStateModel *)model
 {
     CKDict *tipsCell = [CKDict dictWith:@{kCKItemKey: @"tipsCell", kCKCellID: @"TipsCell"}];
@@ -268,6 +271,7 @@
     return tipsCell;
 }
 
+/// 代办订单的标题
 - (CKDict *)setupCommissionTitleCell
 {
     CKDict *commissionTitleCell = [CKDict dictWith:@{kCKItemKey: @"commissionTitleCell", kCKCellID: @"CommissionTitleCell"}];
@@ -288,6 +292,7 @@
     return commissionTitleCell;
 }
 
+/// 代办订单的信息列表
 - (CKDict *)setupCommissionListCellWithDict:(NSDictionary *)dict
 {
     CKDict *commissionListCell = [CKDict dictWith:@{kCKItemKey: @"ommissionListCell", kCKCellID: @"CommissionListCell"}];
@@ -317,6 +322,7 @@
     return commissionListCell;
 }
 
+/// 前往支付 / 放弃的 Cell
 - (CKDict *)setupPayCellWithModel:(ViolationCommissionStateModel *)model
 {
     CKDict *payCell = [CKDict dictWith:@{kCKItemKey: @"payCell", kCKCellID: @"PayCell"}];
@@ -344,6 +350,7 @@
     return payCell;
 }
 
+/// 失败状态下的顶部 Cell
 - (CKDict *)setupFailedCellWithStatus:(XMViolationCommissionStatus)status
 {
     CKDict *failedCell = [CKDict dictWith:@{kCKItemKey: @"failedCell", kCKCellID: @"FailedCell"}];
@@ -364,6 +371,7 @@
     return failedCell;
 }
 
+/// 代办凭证 Cell
 - (CKDict *)setupProofCellWithModel:(ViolationCommissionStateModel *)model
 {
     @weakify(self);
@@ -375,9 +383,8 @@
     proofCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
         @strongify(self);
         UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:1001];
-        NSString *imageURL = @"http://img1.gamersky.com/image2016/07/20160731_lr_176_1/gamersky_05small_10_20167311169C2.jpg";
-        self.proofImageURL = imageURL;
-        [imageView setImageByUrl:imageURL withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
+        self.proofImageURL = model.finishPicURL;
+        [imageView setImageByUrl:model.finishPicURL withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
         self.proofCell = cell;
         self.proofImage = imageView.image;
         
@@ -390,6 +397,7 @@
     return proofCell;
 }
 
+/// 空白 Cell（作为填充用）
 - (CKDict *)setupBlankCell
 {
     CKDict *blankCell = [CKDict dictWith:@{kCKItemKey: @"blankCell", kCKCellID: @"BlankCell"}];
