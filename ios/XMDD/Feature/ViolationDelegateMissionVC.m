@@ -36,7 +36,7 @@
     [super viewDidLoad];
     
     [self getViolationCommission];
-
+    
     [self setupUI];
     
     
@@ -182,7 +182,7 @@
         [gToast showingWithText:@"申请代办中"];
         
     }]subscribeNext:^(ApplyViolationCommissionOp *op) {
-     
+        
         @strongify(self)
         
         [gToast dismiss];
@@ -352,21 +352,7 @@
 
 - (IBAction)actionJumpToGuideVC:(id)sender
 {
-#if XMDDENT == 2
-    
-    NSString *url = @"www.xiaomadada.com/apphtml/daiban-server.html";
-    
-#else
-    
-    NSString *url = @"dev.xiaomadada.com/apphtml/daiban-server.html";
-    
-#endif
-    
-    self.webVC = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
-    self.webVC.url = url;
-
-    
-    
+    [self.navigationController pushViewController:self.webVC animated:YES];
 }
 
 - (IBAction)actionCommit:(id)sender
@@ -415,5 +401,27 @@
     }
     return _carArr;
 }
+
+-(WebVC *)webVC
+{
+    if (!_webVC)
+    {
+        _webVC = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+        _webVC.navigationController.title = @"服务说明";
+        
+#if XMDDENT == 2
+        
+        _webVC.url = @"www.xiaomadada.com/apphtml/daiban-server.html";
+        
+#else
+        
+        _webVC.url = @"dev.xiaomadada.com/apphtml/daiban-server.html";
+        
+#endif
+        
+    }
+    return _webVC;
+}
+
 
 @end

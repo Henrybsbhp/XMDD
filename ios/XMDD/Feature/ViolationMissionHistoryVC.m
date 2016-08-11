@@ -9,6 +9,7 @@
 #import "ViolationMissionHistoryVC.h"
 #import "ViolationMyLicenceVC.h"
 #import "ViolationPayConfirmVC.h"
+#import "WebVC.h"
 #import "ViolationCommissionStateVC.h"
 #import "GetViolationCommissionApplyOp.h"
 #import "NSString+RectSize.h"
@@ -17,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) WebVC *webVC;
 
 @property (strong, nonatomic) NSArray *tips;
 @property (strong, nonatomic) NSArray *dataSource;
@@ -368,9 +370,7 @@
 
 - (IBAction)actionJumpToGuideVC:(id)sender
 {
-    
-    
-    
+    [self.navigationController pushViewController:self.webVC animated:YES];
 }
 
 - (IBAction)actionCommit:(id)sender
@@ -410,6 +410,27 @@
                        };
     }
     return _statusDic;
+}
+
+-(WebVC *)webVC
+{
+    if (!_webVC)
+    {
+        _webVC = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+        _webVC.navigationController.title = @"服务说明";
+        
+#if XMDDENT == 2
+        
+        _webVC.url = @"www.xiaomadada.com/apphtml/daiban-server.html";
+        
+#else
+        
+        _webVC.url = @"dev.xiaomadada.com/apphtml/daiban-server.html";
+        
+#endif
+        
+    }
+    return _webVC;
 }
 
 @end
