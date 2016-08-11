@@ -409,15 +409,16 @@
         _webVC = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
         _webVC.navigationController.title = @"服务说明";
         
-#if XMDDENT == 2
+        NSString *urlStr = nil;
         
-        _webVC.url = @"www.xiaomadada.com/apphtml/daiban-server.html";
-        
+#if XMDDEnvironment==0
+        urlStr = @"http://dev01.xiaomadada.com/apphtml/daiban-server.html";
+#elif XMDDEnvironment==1
+        urlStr = @"http://dev.xiaomadada.com/apphtml/daiban-server.html";
 #else
-        
-        _webVC.url = @"dev.xiaomadada.com/apphtml/daiban-server.html";
-        
+        urlStr = @"http://www.xiaomadada.com/apphtml/daiban-server.html";
 #endif
+        _webVC.url =  urlStr;
         
     }
     return _webVC;
