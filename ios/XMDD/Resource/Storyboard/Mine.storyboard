@@ -2039,10 +2039,10 @@
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="MX9-sf-lVb"/>
-                                                            <exclude reference="Xk1-aP-hcv"/>
-                                                            <exclude reference="ql9-hS-MgE"/>
                                                             <exclude reference="RQ0-hc-efN"/>
                                                             <exclude reference="pEE-Br-DaT"/>
+                                                            <exclude reference="Xk1-aP-hcv"/>
+                                                            <exclude reference="ql9-hS-MgE"/>
                                                             <exclude reference="FLn-Vg-WWa"/>
                                                             <exclude reference="Rnb-GA-A4i"/>
                                                         </mask>
@@ -2215,10 +2215,10 @@
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="H76-OU-fNe"/>
-                                                            <exclude reference="8Dn-xp-prM"/>
-                                                            <exclude reference="aVU-n6-AXH"/>
                                                             <exclude reference="Bro-J7-JzP"/>
                                                             <exclude reference="dUg-Sj-0KA"/>
+                                                            <exclude reference="8Dn-xp-prM"/>
+                                                            <exclude reference="aVU-n6-AXH"/>
                                                             <exclude reference="NgU-ka-NCO"/>
                                                             <exclude reference="zqf-oK-hec"/>
                                                         </mask>
@@ -2331,10 +2331,10 @@
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="w9U-DL-Iiv"/>
-                                                            <exclude reference="OFd-Ad-UOZ"/>
-                                                            <exclude reference="x4n-UX-zn6"/>
                                                             <exclude reference="1gY-Ye-Kul"/>
                                                             <exclude reference="Vji-jP-EJ4"/>
+                                                            <exclude reference="OFd-Ad-UOZ"/>
+                                                            <exclude reference="x4n-UX-zn6"/>
                                                             <exclude reference="ag9-zq-M0U"/>
                                                             <exclude reference="vwN-us-LbN"/>
                                                         </mask>

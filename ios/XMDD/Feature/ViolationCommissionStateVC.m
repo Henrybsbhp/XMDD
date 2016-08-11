@@ -13,6 +13,7 @@
 #import "NSString+RectSize.h"
 #import "ViolationCommissionStateModel.h"
 #import "SDPhotoBrowser.h"
+#import "RTLabel.h"
 
 @interface ViolationCommissionStateVC () <UITableViewDelegate, UITableViewDataSource, SDPhotoBrowserDelegate>
 
@@ -40,6 +41,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    
+    @weakify(self);
+    [[RACObserve(self, proofImage) distinctUntilChanged] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.tableView reloadData];
+    }];
     
     [self fetchStateData];
 }
@@ -285,14 +293,14 @@
     });
     
     commissionListCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
-        UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:100];
-        UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:101];
+        RTLabel *titleLabel = (RTLabel *)[cell.contentView viewWithTag:100];
+        RTLabel *contentLabel = (RTLabel *)[cell.contentView viewWithTag:101];
         
         NSArray *titleArray = [dict allKeys];
         NSArray *contentArray = [dict allValues];
         
-        titleLabel.attributedText = titleArray.firstObject;
-        contentLabel.attributedText = contentArray.firstObject;
+        titleLabel.text = titleArray.firstObject;
+        contentLabel.text = contentArray.firstObject;
     });
     
     return commissionListCell;
@@ -353,16 +361,23 @@
     @weakify(self);
     CKDict *proofCell = [CKDict dictWith:@{kCKItemKey: @"proofCell", kCKCellID: @"ProofCell"}];
     proofCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 500;
+        if (self.proofImage) {
+            return self.proofImage.size.height + 40;
+        }
+        return 100;
     });
     
     proofCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
         @strongify(self);
         UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:1001];
         self.proofImageURL = model.finishPicURL;
-        [imageView setImageByUrl:model.finishPicURL withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
+        NSURL *URL = [NSURL URLWithString:model.finishPicURL];
+        UIImage *placeholderImg = [UIImage imageNamed:@"cm_shop"];
+        [imageView sd_setImageWithURL:URL placeholderImage:placeholderImg completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            @strongify(self);
+            self.proofImage = image;
+        }];
         self.proofCell = cell;
-        self.proofImage = imageView.image;
         
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected)];
         singleTap.numberOfTapsRequired = 1;
@@ -471,8 +486,7 @@
 // 返回临时占位图片（即原来的小图）
 - (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
 {
-    NSString *strurl = [gMediaMgr urlWith:self.proofImageURL imageType:ImageURLTypeOrigin];
-    UIImage *cachedImg = [gMediaMgr imageFromMemoryCacheForUrl:strurl];
+    UIImage *cachedImg = [gMediaMgr imageFromMemoryCacheForUrl:self.proofImageURL];
     return cachedImg ? cachedImg : [UIImage imageNamed:@"cm_shop"];
 }
 
@@ -480,7 +494,7 @@
 // 返回高质量图片的url
 - (NSURL *)photoBrowser:(SDPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index
 {
-    return [NSURL URLWithString:[gMediaMgr urlWith:self.proofImageURL imageType:ImageURLTypeOrigin]];
+    return [NSURL URLWithString:self.proofImageURL];
 }
 
 @end
