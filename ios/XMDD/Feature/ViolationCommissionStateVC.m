@@ -12,16 +12,30 @@
 #import "HKProgressView.h"
 #import "NSString+RectSize.h"
 #import "ViolationCommissionStateModel.h"
+#import "SDPhotoBrowser.h"
 
-@interface ViolationCommissionStateVC () <UITableViewDelegate, UITableViewDataSource>
+@interface ViolationCommissionStateVC () <UITableViewDelegate, UITableViewDataSource, SDPhotoBrowserDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) CKList *dataSource;
 
+@property (nonatomic, strong) UITableViewCell *proofCell;
+
+@property (nonatomic, strong) UIImage *proofImage;
+
+@property (nonatomic, copy) NSString *proofImageURL;
+
 @end
 
 @implementation ViolationCommissionStateVC
+
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"ViolationComissionStateVC is deallocated");
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,7 +51,7 @@
     NSDictionary *data = @{@"licensenumber" : @"皖H16712",
                            @"area" : @"超级大傻逼",
                            @"act" : @"不小心把自己吃了",
-                           @"status" : @(1),
+                           @"status" : @(3),
                            @"tip" : @"操你大爷",
                            @"orderinfo" : array};
     
@@ -166,7 +180,7 @@
             CKDict *commissionListCell = [self setupCommissionListCellWithDict:dict];
             [cellArray addObject:commissionListCell];
         }
-        [self.dataSource addObject:$([self setupProgressViewCellWithIndex:4], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model]) forKey:nil];
+        [self.dataSource addObject:$([self setupProgressViewCellWithIndex:4], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model], [self setupProofCellWithModel:model]) forKey:nil];
         
     } else if (model.status == XMVCommissionReviewFailed) {
         
@@ -182,6 +196,7 @@
 }
 
 #pragma mark - The settings of Cells
+/// 顶部代办状态进度条
 - (CKDict *)setupProgressViewCellWithIndex:(CGFloat)index
 {
     CKDict *progressCell = [CKDict dictWith:@{kCKItemKey: @"progressCell", kCKCellID: @"ProgressCell"}];
@@ -200,6 +215,7 @@
     return progressCell;
 }
 
+/// 车牌号，位置，行为 Cell
 - (CKDict *)setupCarDescCellWithModel:(ViolationCommissionStateModel *)model
 {
     CKDict *carDescCell = [CKDict dictWith:@{kCKItemKey: @"carDescCell", kCKCellID: @"CarDescCell"}];
@@ -228,6 +244,7 @@
     return carDescCell;
 }
 
+/// 提示 Tips Cell
 - (CKDict *)setupTipsCellWithModel:(ViolationCommissionStateModel *)model
 {
     CKDict *tipsCell = [CKDict dictWith:@{kCKItemKey: @"tipsCell", kCKCellID: @"TipsCell"}];
@@ -254,6 +271,7 @@
     return tipsCell;
 }
 
+/// 代办订单的标题
 - (CKDict *)setupCommissionTitleCell
 {
     CKDict *commissionTitleCell = [CKDict dictWith:@{kCKItemKey: @"commissionTitleCell", kCKCellID: @"CommissionTitleCell"}];
@@ -274,6 +292,7 @@
     return commissionTitleCell;
 }
 
+/// 代办订单的信息列表
 - (CKDict *)setupCommissionListCellWithDict:(NSDictionary *)dict
 {
     CKDict *commissionListCell = [CKDict dictWith:@{kCKItemKey: @"ommissionListCell", kCKCellID: @"CommissionListCell"}];
@@ -303,6 +322,7 @@
     return commissionListCell;
 }
 
+/// 前往支付 / 放弃的 Cell
 - (CKDict *)setupPayCellWithModel:(ViolationCommissionStateModel *)model
 {
     CKDict *payCell = [CKDict dictWith:@{kCKItemKey: @"payCell", kCKCellID: @"PayCell"}];
@@ -317,10 +337,12 @@
         UIButton *payButton = (UIButton *)[cell.contentView viewWithTag:101];
         
         [[[abandonButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(self);
             [self actionAbandon:abandonButton];
         }];
         
         [[[payButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(self);
             [self actionPay:payButton];
         }];
     });
@@ -328,6 +350,7 @@
     return payCell;
 }
 
+/// 失败状态下的顶部 Cell
 - (CKDict *)setupFailedCellWithStatus:(XMViolationCommissionStatus)status
 {
     CKDict *failedCell = [CKDict dictWith:@{kCKItemKey: @"failedCell", kCKCellID: @"FailedCell"}];
@@ -348,6 +371,33 @@
     return failedCell;
 }
 
+/// 代办凭证 Cell
+- (CKDict *)setupProofCellWithModel:(ViolationCommissionStateModel *)model
+{
+    @weakify(self);
+    CKDict *proofCell = [CKDict dictWith:@{kCKItemKey: @"proofCell", kCKCellID: @"ProofCell"}];
+    proofCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 500;
+    });
+    
+    proofCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:1001];
+        self.proofImageURL = model.finishPicURL;
+        [imageView setImageByUrl:model.finishPicURL withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
+        self.proofCell = cell;
+        self.proofImage = imageView.image;
+        
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected)];
+        singleTap.numberOfTapsRequired = 1;
+        [imageView setUserInteractionEnabled:YES];
+        [imageView addGestureRecognizer:singleTap];
+    });
+    
+    return proofCell;
+}
+
+/// 空白 Cell（作为填充用）
 - (CKDict *)setupBlankCell
 {
     CKDict *blankCell = [CKDict dictWith:@{kCKItemKey: @"blankCell", kCKCellID: @"BlankCell"}];
@@ -428,6 +478,33 @@
     //  把绘制好的虚线添加上来
     [lineView.layer addSublayer:shapeLayer];
     lineView.layer.masksToBounds = YES;
+}
+
+- (void)tapDetected
+{
+    SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
+    browser.sourceImagesContainerView = self.proofCell;
+    browser.imageCount = 1;
+    browser.currentImageIndex = 0;
+    browser.delegate = self;
+    browser.sourceImagesContainerViewContentMode = sourceImagesContainerViewContentFill;
+    [browser show];
+}
+
+#pragma mark - SDPhotoBrowserDelegate
+// 返回临时占位图片（即原来的小图）
+- (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
+{
+    NSString *strurl = [gMediaMgr urlWith:self.proofImageURL imageType:ImageURLTypeOrigin];
+    UIImage *cachedImg = [gMediaMgr imageFromMemoryCacheForUrl:strurl];
+    return cachedImg ? cachedImg : [UIImage imageNamed:@"cm_shop"];
+}
+
+
+// 返回高质量图片的url
+- (NSURL *)photoBrowser:(SDPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index
+{
+    return [NSURL URLWithString:[gMediaMgr urlWith:self.proofImageURL imageType:ImageURLTypeOrigin]];
 }
 
 @end

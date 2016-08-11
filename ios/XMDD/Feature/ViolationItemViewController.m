@@ -338,7 +338,7 @@
 {
     ViolationDelegateMissionVC * vc = [UIStoryboard vcWithId:@"ViolationDelegateMissionVC" inStoryboard:@"Temp_YZC"];
     vc.licenceNumber = self.violationModel.licencenumber;
-    vc.userCarID = self.violationModel.cid;
+    vc.userCarID = self.car.carId;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

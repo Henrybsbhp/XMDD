@@ -12,6 +12,6 @@
 
 @property (strong, nonatomic) NSArray *rsp_lists;
 
-@property (strong, nonatomic) NSString *rsp_tip;
+@property (strong, nonatomic) NSArray *rsp_tipslist;
 
 @end

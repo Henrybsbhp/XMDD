@@ -166,13 +166,6 @@
     return dateToString;
 }
 
-+ (NSString *)dateFormatForYYYYMMddHHmmWithD12:(NSString *)text
-{
-    NSDate * date = [NSDate dateWithText:text];
-    NSString * longText = [date dateFormatForYYYYMMddHHmm2];
-    return longText;
-}
-
 + (NSString *)dateFormatForYYYYMMddHHmmWithD15:(NSString *)text
 {
     NSDate * date = [NSDate dateWithText:text];
