@@ -337,8 +337,50 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ProofCell" rowHeight="59" id="naJ-0E-wnX">
+                                        <rect key="frame" x="0.0" y="412.5" width="588" height="59"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="naJ-0E-wnX" id="WKG-Rg-CJv">
+                                            <rect key="frame" x="0.0" y="0.0" width="588" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="代办凭证" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i4l-WP-Nr2">
+                                                    <rect key="frame" x="10" y="11" width="56" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="WWB-Aw-sSC">
+                                                    <rect key="frame" x="10" y="0.0" width="568" height="1"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="mb7-MW-68b"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BOT-0c-uOd">
+                                                    <rect key="frame" x="10" y="38" width="568" height="13"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="i4l-WP-Nr2" firstAttribute="top" secondItem="WWB-Aw-sSC" secondAttribute="bottom" constant="10" id="AaK-wd-pLd"/>
+                                                <constraint firstAttribute="bottom" secondItem="BOT-0c-uOd" secondAttribute="bottom" constant="8" id="TlK-Ft-O2L"/>
+                                                <constraint firstItem="i4l-WP-Nr2" firstAttribute="leading" secondItem="WKG-Rg-CJv" secondAttribute="leading" constant="10" id="WPu-NR-yHo"/>
+                                                <constraint firstAttribute="trailing" secondItem="WWB-Aw-sSC" secondAttribute="trailing" constant="10" id="WaX-cY-D2o"/>
+                                                <constraint firstItem="WWB-Aw-sSC" firstAttribute="leading" secondItem="WKG-Rg-CJv" secondAttribute="leading" constant="10" id="cWA-dz-i1Y"/>
+                                                <constraint firstAttribute="trailing" secondItem="BOT-0c-uOd" secondAttribute="trailing" constant="10" id="j3h-bf-45q"/>
+                                                <constraint firstItem="BOT-0c-uOd" firstAttribute="top" secondItem="WKG-Rg-CJv" secondAttribute="top" constant="38" id="qez-04-2VJ"/>
+                                                <constraint firstItem="WWB-Aw-sSC" firstAttribute="top" secondItem="WKG-Rg-CJv" secondAttribute="top" id="qnw-BB-K7K"/>
+                                                <constraint firstItem="BOT-0c-uOd" firstAttribute="leading" secondItem="WKG-Rg-CJv" secondAttribute="leading" constant="10" id="r9o-B6-XzP"/>
+                                                <constraint firstItem="BOT-0c-uOd" firstAttribute="top" secondItem="i4l-WP-Nr2" secondAttribute="bottom" constant="10" id="uKf-u7-yfM"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="uKf-u7-yfM"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BlankCell" rowHeight="12" id="X4M-rT-mBp">
-                                        <rect key="frame" x="0.0" y="412.5" width="588" height="12"/>
+                                        <rect key="frame" x="0.0" y="471.5" width="588" height="12"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="X4M-rT-mBp" id="33J-pD-tgW">
                                             <rect key="frame" x="0.0" y="0.0" width="588" height="12"/>

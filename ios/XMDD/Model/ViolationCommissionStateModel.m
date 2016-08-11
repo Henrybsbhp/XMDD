@@ -23,6 +23,7 @@
     list.status = [rsp[@"status"] integerValue];
     list.tips = rsp[@"tip"];
     list.orderInfo = rsp[@"orderinfo"];
+    list.finishPicURL = rsp[@"finishpicurl"];
     
     return list;
 }
