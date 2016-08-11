@@ -1,36 +1,33 @@
 //
-//  GetViolationCommissionApplyOp.m
+//  GetViolationCommissionCouponsOp.m
 //  XMDD
 //
-//  Created by RockyYe on 16/8/9.
+//  Created by RockyYe on 16/8/10.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "GetViolationCommissionApplyOp.h"
+#import "GetViolationCommissionCouponsOp.h"
 
-@implementation GetViolationCommissionApplyOp
+@implementation GetViolationCommissionCouponsOp
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/user/violation/commission/apply/get";
+    self.req_method = @"/user/violation/commission/coupons/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-    self.rsp_lists = rspObj[@"lists"];
-    self.rsp_tipslist = rspObj[@"tipslist"];
+    self.rsp_coupons = rspObj[@"coupons"];
     return self;
 }
 
 
-
 - (NSString *)description
 {
-    return @"获取用户已申请过的违章代办记录";
+    return @"获取用户违章代办的可用优惠券";
 }
 
 @end

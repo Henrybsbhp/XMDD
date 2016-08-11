@@ -739,6 +739,7 @@
 		4E78DDF91D5A1A8E00EC52C7 /* GetViolationCommissionCarinfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDF21D5A1A8E00EC52C7 /* GetViolationCommissionCarinfoOp.m */; };
 		4E78DDFA1D5A1A8E00EC52C7 /* GetViolationCommissionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDF41D5A1A8E00EC52C7 /* GetViolationCommissionOp.m */; };
 		4E78DDFB1D5A1A8E00EC52C7 /* UpdateViolationCommissionCarinfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDF61D5A1A8E00EC52C7 /* UpdateViolationCommissionCarinfoOp.m */; };
+		4E78DF171D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DF161D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.m */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
 		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
@@ -2427,6 +2428,8 @@
 		4E78DDF51D5A1A8E00EC52C7 /* UpdateViolationCommissionCarinfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateViolationCommissionCarinfoOp.h; sourceTree = "<group>"; };
 		4E78DDF61D5A1A8E00EC52C7 /* UpdateViolationCommissionCarinfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateViolationCommissionCarinfoOp.m; sourceTree = "<group>"; };
 		4E78DDFC1D5A1AA900EC52C7 /* ApplyViolationCommissionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyViolationCommissionOp.h; sourceTree = "<group>"; };
+		4E78DF151D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetViolationCommissionCouponsOp.h; sourceTree = "<group>"; };
+		4E78DF161D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetViolationCommissionCouponsOp.m; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
@@ -3325,6 +3328,8 @@
 				4E78DDF41D5A1A8E00EC52C7 /* GetViolationCommissionOp.m */,
 				4E78DDF51D5A1A8E00EC52C7 /* UpdateViolationCommissionCarinfoOp.h */,
 				4E78DDF61D5A1A8E00EC52C7 /* UpdateViolationCommissionCarinfoOp.m */,
+				4E78DF151D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.h */,
+				4E78DF161D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.m */,
 			);
 			name = Netop;
 			sourceTree = "<group>";
@@ -6372,6 +6377,7 @@
 				18649BFE1D48B1B100F1CCB0 /* MyWebViewBridge.m in Sources */,
 				6B26EEB41C8EC23200428EC4 /* ZFCWanderingCubesActivityIndicatorView.m in Sources */,
 				183F57141D4C90860001E26A /* CalculatePremiumOp.m in Sources */,
+				4E78DF171D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.m in Sources */,
 				18649DEC1D48BCF100F1CCB0 /* MutualInsGroupMyBottomButtonCell.m in Sources */,
 				186499B41D489A9700F1CCB0 /* GetAutomobileBrandV2Op.m in Sources */,
 				186495241D4888BE00F1CCB0 /* NSArray+Safety.m in Sources */,

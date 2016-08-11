@@ -12,7 +12,7 @@
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/user/violation/commission/apply/get";
+    self.req_method = @"/user/violation/commission/apply";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.req_usercarid forName:@"usercarid"];
