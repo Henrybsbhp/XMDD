@@ -10,10 +10,13 @@
 #import "MutualOrderListGetOp.h"
 #import "MutualOrderListModel.h"
 #import "MutualInsOrderInfoVC.h"
+#import "MutualInsStore.h"
 
 @interface MutualOrderViewModel () <HKLoadingModelDelegate>
 
 @property (nonatomic, strong) CKList *dataSource;
+
+@property (nonatomic, strong)MutualInsStore * minsStore;
 
 @end
 
@@ -29,9 +32,22 @@
         self.tableView.showBottomLoadingView = YES;
         self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
         self.loadingModel.isSectionLoadMore = YES;
+        
+        [self setupStore];
     }
     
     return self;
+}
+
+- (void)setupStore
+{
+    self.minsStore = [MutualInsStore fetchOrCreateStore];
+    @weakify(self)
+    [self.minsStore subscribeWithTarget:self domain:kDomainMutualInsOrderList receiver:^(id store, CKEvent *evt) {
+        @strongify(self);
+        
+        [self.loadingModel reloadData];
+    }];
 }
 
 - (void)resetWithTargetVC:(UIViewController *)targetVC
@@ -42,7 +58,13 @@
 #pragma mark - Actions
 - (void)actionGoToMutualInsOrderInfoVCWithModel:(MutualOrderListModel *)model
 {
+    MutualInsOrderInfoVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
+    vc.contractId = model.contractid;
     
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.targetVC.router;
+    
+    [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - HKLoadingModelDelegate

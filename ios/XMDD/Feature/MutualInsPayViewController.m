@@ -370,6 +370,7 @@
         [[MutualInsGroupDetailVM fetchForGroupID:groupId memberID:memberId] fetchBaseInfoForce:YES];
         
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
+        [[[MutualInsStore fetchExistsStore] reloadOrderList] send];
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 5;
         iop.req_tradeno = op.rsp_tradeno;

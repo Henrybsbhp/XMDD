@@ -17,6 +17,7 @@
     }
     
     MutualOrderListModel *order = [MutualOrderListModel new];
+    order.contractid = rsp[@"contractid"];
     order.licenseNumber = rsp[@"licensenumber"];
     order.brandLogoAddress = rsp[@"brandlogo"];
     order.createTime = rsp[@"createtime"];
