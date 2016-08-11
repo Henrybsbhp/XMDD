@@ -24,9 +24,9 @@
     order.gasCardNum = rsp[@"gascardno"];
     order.status = [rsp[@"status"] integerValue];
     order.statusDesc = rsp[@"statusdesc"];
-    order.payMoney = [rsp[@"paymoney"] floatValue];
+    order.payMoney = rsp[@"paymoney"];
     order.chargeTips = rsp[@"chargetip"];
-    order.chargeMoney = [rsp[@"chargemoney"] floatValue];
+    order.chargeMoney = rsp[@"chargemoney"];
     
     return order;
 }

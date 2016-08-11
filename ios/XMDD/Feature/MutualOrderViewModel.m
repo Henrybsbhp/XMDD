@@ -117,14 +117,14 @@
         titleLabel.text = @"小马互助";
         statusLabel.text = model.statusDesc;
         carNumLabel.text = model.licenseNumber;
-        mutualPriceLabel.text = [NSString stringWithFormat:@"¥%.2f", model.sharedMoney];
+        mutualPriceLabel.text = [NSString stringWithFormat:@"¥%@", model.sharedMoney];
         mutualTimeLabel.text = model.createTime;
         mutualDescLabel.text = @"互助金";
         startTimeLabel.text = [NSString stringWithFormat:@"保障开始：%@", model.insStartTime];
         endTimeLabel.text = [NSString stringWithFormat:@"保障结束：%@", model.insEndTime];
-        servicePriceLabel.text = [NSString stringWithFormat:@"¥%.2f", model.memberFee];
+        servicePriceLabel.text = [NSString stringWithFormat:@"¥%@", model.memberFee];
         serviceDescLabel.text = @"服务费";
-        sumLabel.text = [NSString stringWithFormat:@"¥%.2f", model.fee];
+        sumLabel.text = [NSString stringWithFormat:@"¥%@", model.fee];
     });
     
     return mutualCell;
@@ -162,14 +162,14 @@
         titleLabel.text = @"小马互助";
         statusLabel.text = model.statusDesc;
         carNumLabel.text = model.licenseNumber;
-        mutualPriceLabel.text = [NSString stringWithFormat:@"¥%.2f", model.sharedMoney];
+        mutualPriceLabel.text = [NSString stringWithFormat:@"¥%@", model.sharedMoney];
         mutualTimeLabel.text = model.createTime;
         mutualDescLabel.text = @"互助金";
         startTimeLabel.text = [NSString stringWithFormat:@"保障开始：%@", model.insStartTime];
         endTimeLabel.text = [NSString stringWithFormat:@"保障结束：%@", model.insEndTime];
-        servicePriceLabel.text = [NSString stringWithFormat:@"¥%.2f", model.memberFee];
+        servicePriceLabel.text = [NSString stringWithFormat:@"¥%@", model.memberFee];
         serviceDescLabel.text = @"服务费";
-        sumLabel.text = [NSString stringWithFormat:@"¥%.2f", model.fee];
+        sumLabel.text = [NSString stringWithFormat:@"¥%@", model.fee];
         
         UIImageView *brandImageView2 = (UIImageView *)[cell.contentView viewWithTag:7001];
         UILabel *insuranceLabel = (UILabel *)[cell.contentView viewWithTag:7002];
@@ -189,7 +189,7 @@
         insForceFeeDescLabel.text = @"交强险";
         insStartTimeLabel.text = [NSString stringWithFormat:@"保障开始：%@", model.forceInfo.forceStartDate];
         insEndTimeLabel.text = [NSString stringWithFormat:@"保障开始：%@", model.forceInfo.forceEndDate];
-        insTaxShipFeeLabel.text = [NSString stringWithFormat:@"¥%.2f", model.forceInfo.taxShipFee];
+        insTaxShipFeeLabel.text = [NSString stringWithFormat:@"¥%@", model.forceInfo.taxShipFee];
         insTaxShipFeeDescLabel.text = @"车船税";
     });
     

@@ -122,10 +122,10 @@
             titleLabel.text = order.cardType == 1 ? @"中石油" : @"中石化";
             statusLabel.text = order.statusDesc;
             cardNumLabel.text = [order.gasCardNum splitByStep:4 replacement:@" "];
-            originalPriceLabel.text = [NSString stringWithFormat:@"¥%.0f", order.chargeMoney];
+            originalPriceLabel.text = [NSString stringWithFormat:@"¥%@", order.chargeMoney];
             timeLabel.text = [date dateFormatForYYYYMMddHHmm2];
             fastPayDescLabel.text = order.chargeTips;
-            payPrice.text = [NSString stringWithFormat:@"支付金额：¥%.0f", order.payMoney];
+            payPrice.text = [NSString stringWithFormat:@"支付金额：¥%@", order.payMoney];
         });
         
         [self.dataSource addObject:$(gasCell) forKey:nil];
