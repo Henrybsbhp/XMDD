@@ -9,6 +9,7 @@
 #import "ViolationDelegateMissionVC.h"
 #import "ViolationMyLicenceVC.h"
 #import "ViolationMissionHistoryVC.h"
+#import "WebVC.h"
 #import "ViolationDelegateCommitSuccessVC.h"
 #import "GetViolationCommissionOp.h"
 #import "ApplyViolationCommissionOp.h"
@@ -19,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *confirmReadBtn;
+@property (strong, nonatomic) WebVC *webVC;
+
 
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) NSMutableArray *carArr;
@@ -349,7 +352,19 @@
 
 - (IBAction)actionJumpToGuideVC:(id)sender
 {
+#if XMDDENT == 2
     
+    NSString *url = @"www.xiaomadada.com/apphtml/daiban-server.html";
+    
+#else
+    
+    NSString *url = @"dev.xiaomadada.com/apphtml/daiban-server.html";
+    
+#endif
+    
+    self.webVC = [UIStoryboard vcWithId:@"WebVC" inStoryboard:@"Common"];
+    self.webVC.url = url;
+
     
     
 }
