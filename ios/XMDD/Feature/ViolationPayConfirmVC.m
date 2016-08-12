@@ -8,6 +8,13 @@
 
 #import "ViolationPayConfirmVC.h"
 #import "ChooseCouponVC.h"
+
+#import "HKCoupon.h"
+#import "PaymentHelper.h"
+#import "UPApplePayHelper.h"
+
+#import "OrderPaidSuccessOp.h"
+#import "PayViolationCommissionOrderOp.h"
 #import "GetViolationCommissionCouponsOp.h"
 #import "ConfirmViolationCommissionOrderConfirmOp.h"
 
@@ -42,7 +49,7 @@
     [super viewDidLoad];
     
     [self getViolationCommissionCoupons];
-//    [self confirmViolationCommissionOrderConfirm];
+    //    [self confirmViolationCommissionOrderConfirm];
     [self setupDataSource];
 }
 
@@ -60,10 +67,28 @@
 
 #pragma mark - Setup
 
+-(void)setupObserve
+{
+    [RACObserve(self, selectCoupouArray)subscribeNext:^(id x) {
+        [self refreshBottomView];
+    }];
+}
+
 -(void)setupDataSource
 {
     
     self.paychannel = PaymentChannelUPpay;
+    
+    CKDict *applePayData = [self payPlatformCellDataWithPayChannelData:@{@"logo" : @"apple_pay_logo_66",
+                                                                         @"name" : @"Apple Pay",
+                                                                         @"isRecommend" : @(NO),
+                                                                         @"type" : @(PaymentChannelApplePay),
+                                                                         @"isApplePay" : @(YES)}];
+    CKDict *wechatData = [self payPlatformCellDataWithPayChannelData:@{@"logo" : @"wechat_logo_66",
+                                                                       @"name" : @"微信支付",
+                                                                       @"isRecommend" : @(NO),
+                                                                       @"type" : @(PaymentChannelWechat),
+                                                                       @"isApplePay" : @(NO)}];
     
     self.dataSource = $(
                         $(
@@ -80,19 +105,18 @@
                           ),
                         $(
                           [self otherCellData],
-                          [self payPlatformCellADataWithPayChannelData:@{@"logo" : @"illegal_upayLogo",
-                                                                         @"name" : @"银联在线支付",
-                                                                         @"isRecommend" : @(YES),
-                                                                         @"type" : @(PaymentChannelUPpay)}],
-                          [self applePayPlatformCellData],
-                          [self payPlatformCellADataWithPayChannelData:@{@"logo" : @"alipay_logo_66",
-                                                                         @"name" : @"支付宝支付",
-                                                                         @"isRecommend" : @(NO),
-                                                                         @"type" : @(PaymentChannelAlipay)}],
-                          [self payPlatformCellADataWithPayChannelData:@{@"logo" : @"wechat_logo_66",
-                                                                         @"name" : @"微信支付",
-                                                                         @"isRecommend" : @(NO),
-                                                                         @"type" : @(PaymentChannelWechat)}]
+                          [self payPlatformCellDataWithPayChannelData:@{@"logo" : @"illegal_upayLogo",
+                                                                        @"name" : @"银联在线支付",
+                                                                        @"isRecommend" : @(YES),
+                                                                        @"type" : @(PaymentChannelUPpay),
+                                                                        @"isApplePay" : @(NO)}],
+                          ([UPApplePayHelper isApplePayAvailable] ? applePayData : CKNULL),
+                          [self payPlatformCellDataWithPayChannelData:@{@"logo" : @"alipay_logo_66",
+                                                                        @"name" : @"支付宝支付",
+                                                                        @"isRecommend" : @(NO),
+                                                                        @"type" : @(PaymentChannelAlipay),
+                                                                        @"isApplePay" : @(NO)}],
+                          (gPhoneHelper.exsitWechat ? wechatData : CKNULL)
                           )
                         );
 }
@@ -105,6 +129,102 @@
 
 #pragma mark - Network
 
+- (BOOL)callPaymentHelperWithPayOp:(PayViolationCommissionOrderOp *)paidop
+{
+    
+    if (paidop.rsp_totalfee == 0) {
+        return NO;
+    }
+    PaymentHelper *helper = [[PaymentHelper alloc] init];
+    
+    NSString *text;
+    switch ([paidop.req_paychannel integerValue]) {
+        case PaymentChannelAlipay: {
+            text = @"订单生成成功,正在跳转到支付宝平台进行支付";
+            [helper resetForAlipayWithTradeNumber:paidop.rsp_tradeno  alipayInfo:paidop.rsp_payInfoModel.alipayInfo];;
+        } break;
+        case PaymentChannelWechat: {
+            text = @"订单生成成功,正在跳转到微信平台进行支付";
+            [helper resetForWeChatWithTradeNumber:paidop.rsp_tradeno andPayInfoModel:paidop.rsp_payInfoModel.wechatInfo andTradeType:TradeTypeViolation];
+        } break;
+        case PaymentChannelUPpay: {
+            text = @"订单生成成功,正在跳转到银联平台进行支付";
+            [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeno targetVC:self];
+        } break;
+        case PaymentChannelApplePay:{
+            
+            [helper resetForUPApplePayWithTradeNumber:paidop.rsp_tradeno targetVC:self];
+        } break;
+        default:
+            return NO;
+    }
+    if (text.length)
+    {
+        [gToast showText:text];
+    }
+    __block BOOL paidSuccess = NO;
+    @weakify(self);
+    [[helper rac_startPay] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        OrderPaidSuccessOp *op = [OrderPaidSuccessOp operation];
+        op.req_notifytype = 7;
+        op.req_tradeno = paidop.rsp_tradeno;
+        [[op rac_postRequest] subscribeNext:^(id x) {
+            DebugLog(@"已通知服务器支付成功!");
+        }];
+        // 支付成功
+        paidSuccess = YES;
+        
+        NSString * couponInfo;
+        if ([x isKindOfClass:[PaymentHelper class]])
+        {
+            PaymentHelper * helper = (PaymentHelper *)x;
+            couponInfo = helper.uppayCouponInfo;
+        }
+        
+        // 发送支付成功通知
+        
+        [self postCustomNotificationName:kNotifyViolationPaySuccess object:nil];
+        
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+        
+    }];
+    return YES;
+}
+
+-(void)payViolationCommissionOrder
+{
+    
+    @weakify(self)
+    
+    PayViolationCommissionOrderOp *op = [PayViolationCommissionOrderOp operation];
+    
+    op.req_paychannel = @(self.paychannel);
+    op.req_recordid = self.recordID;
+    HKCoupon *coupon = self.selectCoupouArray.firstObject;
+    op.req_couponid = coupon.couponId.stringValue;
+    
+    
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"订单生成中..."];
+        
+    }]subscribeNext:^(PayViolationCommissionOrderOp *op) {
+        
+        @strongify(self)
+        
+        [self callPaymentHelperWithPayOp:op];
+        
+    } error:^(NSError *error) {
+        
+        [gToast showError:error.domain];
+        
+    }];
+    
+}
 
 -(void)getViolationCommissionCoupons
 {
@@ -132,7 +252,7 @@
     op.req_recordid = self.recordID;
     
     [[[op rac_postRequest]initially:^{
-    
+        
         @strongify(self)
         
         [self.view hideDefaultEmptyView];
@@ -162,13 +282,13 @@
         [self.view stopActivityAnimation];
         
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"支付信息请求失败。点击重试" tapBlock:^{
-        
+            
             @strongify(self)
             
             [self confirmViolationCommissionOrderConfirm];
             
         }];
-
+        
     }];
     
 }
@@ -224,6 +344,53 @@
 
 #pragma mark - Cell
 
+
+
+-(CKDict *)payPlatformCellDataWithPayChannelData:(NSDictionary *)payChannelData
+{
+    
+    @weakify(self)
+    
+    CKDict *data = [CKDict dictWith:@{kCKCellID : @"PaymentPlatformCell"}];
+    
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 48;
+    });
+    
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UIImageView *channelLogo = [cell viewWithTag:1001];
+        channelLogo.image = [UIImage imageNamed:payChannelData[@"logo"]];
+        
+        UILabel *channelName = [cell viewWithTag:1002];
+        channelName.text = [NSString stringWithFormat:@"%@",payChannelData[@"name"]];
+        
+        UIImageView *selectView = [cell viewWithTag:1003];
+        selectView.hidden = !([(NSNumber *)payChannelData[@"type"] integerValue] == self.paychannel);
+        
+        UIImageView *recommendView = [cell viewWithTag:1005];
+        recommendView.layer.cornerRadius = 5;
+        recommendView.layer.masksToBounds = YES;
+        recommendView.hidden = ![(NSNumber *)payChannelData[@"isRecommend"] boolValue];
+        
+        UIImageView *uPayView = [cell viewWithTag:1006];
+        uPayView.hidden = ![(NSNumber *)payChannelData[@"isApplePay"] boolValue];
+        
+    });
+    
+    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        @strongify(self)
+        
+        self.paychannel = [(NSNumber *)payChannelData[@"type"] integerValue];
+        
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+        
+    });
+    
+    return data;
+}
+
 -(CKDict *)applePayPlatformCellData
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"ApplePayPlatformCell"}];
@@ -252,58 +419,6 @@
     return data;
 }
 
--(CKDict *)payPlatformCellBData
-{
-    CKDict *data = [CKDict dictWith:@{kCKCellID : @"PayPlatformCellB"}];
-    
-    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 48;
-    });
-    
-    return data;
-}
-
--(CKDict *)payPlatformCellADataWithPayChannelData:(NSDictionary *)payChannelData
-{
-    
-    @weakify(self)
-    
-    CKDict *data = [CKDict dictWith:@{kCKCellID : @"PayPlatformCell"}];
-    
-    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 48;
-    });
-    
-    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
-        
-        UIImageView *channelLogo = [cell viewWithTag:101];
-        channelLogo.image = [UIImage imageNamed:payChannelData[@"logo"]];
-        
-        UILabel *channelName = [cell viewWithTag:102];
-        channelName.text = [NSString stringWithFormat:@"%@",payChannelData[@"name"]];
-        
-        UIImageView *selectView = [cell viewWithTag:103];
-        selectView.hidden = !([(NSNumber *)payChannelData[@"type"] integerValue] == self.paychannel);
-        
-        UIImageView *recommendView = [cell viewWithTag:104];
-        recommendView.layer.cornerRadius = 2;
-        recommendView.layer.masksToBounds = YES;
-        recommendView.hidden = ![(NSNumber *)payChannelData[@"isRecommend"] boolValue];
-        
-    });
-    
-    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
-        @strongify(self)
-        
-        self.paychannel = [(NSNumber *)payChannelData[@"type"] integerValue];
-        
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-        
-    });
-    
-    return data;
-}
 
 -(CKDict *)blankCellData
 {
@@ -436,9 +551,8 @@
         vc.originVC = self;
         vc.numberLimit = 1;
         vc.type = CouponTypeGasNormal; /// 加油券类型的用普通代替
-//        vc.selectedCouponArray = self.selectGasCoupouArray;
-//        vc.couponArray = self.gasCouponArray;
-//        vc.payAmount = self.gasNormalVC.rechargeAmount;
+        vc.selectedCouponArray = self.selectCoupouArray;
+        vc.couponArray = self.couponArray;
         [self.navigationController pushViewController:vc animated:YES];
         
     });
@@ -468,10 +582,30 @@
 
 - (IBAction)actionPay:(id)sender
 {
-    
+    [self payViolationCommissionOrder];
 }
 
 #pragma mark - Utility
+
+-(void)refreshBottomView
+{
+    HKCoupon *coupon = self.selectCoupouArray.firstObject;
+    CGFloat totalFee = self.totalFee.doubleValue - coupon.couponAmount;
+    
+    NSString *title = nil;
+    
+    if (coupon.couponAmount > 0)
+    {
+        title = [NSString stringWithFormat:@"已优惠%.2f元，您只需支付%.2f元，现在支付", coupon.couponAmount,totalFee];
+    }
+    else
+    {
+        title = [NSString stringWithFormat:@"您需支付%.2f元，现在支付",self.totalFee.doubleValue];
+    }
+    
+    [self.button setTitle:title forState:UIControlStateNormal];
+    
+}
 
 #pragma mark - LazyLoad
 

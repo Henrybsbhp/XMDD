@@ -71,6 +71,15 @@
         [self getViolationCommissionApply];
         
     }];
+    
+//    [self listenNotificationByName:kNotifyCommissionAbandoned withNotifyBlock:^(NSNotification *note, id weakSelf) {
+//        
+//        @strongify(self)
+//        
+//        [self getViolationCommissionApply];
+//        
+//    }];
+    
 }
 
 -(void)setupUI
