@@ -93,7 +93,7 @@
             @strongify(self);
             [gToast showSuccess:@"取消代办成功"];
             [self postCustomNotificationName:kNotifyCommissionAbandoned object:nil];
-            [self.navigationController popViewControllerAnimated:YES];
+            [self fetchStateData];
         } error:^(NSError *error) {
             [gToast showMistake:error.domain];
         }];
@@ -122,17 +122,10 @@
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         @strongify(self);
-        if (!self.dataSource.count) {
-            
-            CGFloat reducingY = self.view.frame.size.height * 0.1056;
-            [self.view hideDefaultEmptyView];
-            [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
-            self.tableView.hidden = YES;
-            
-        } else {
-            [self.tableView.refreshView beginRefreshing];
-            self.tableView.hidden = NO;
-        }
+        CGFloat reducingY = self.view.frame.size.height * 0.1056;
+        [self.view hideDefaultEmptyView];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
+        self.tableView.hidden = YES;
         
     }] subscribeNext:^(GetViolationCommissionStateOp *rop) {
         @strongify(self);
