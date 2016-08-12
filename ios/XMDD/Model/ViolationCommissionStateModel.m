@@ -17,7 +17,7 @@
     }
     
     ViolationCommissionStateModel *list = [ViolationCommissionStateModel new];
-    list.licenseNumber = rsp[@"licensenumber"];
+    list.licenceNumber = rsp[@"licencenumber"];
     list.area = rsp[@"area"];
     list.act = rsp[@"act"];
     list.status = [rsp[@"status"] integerValue];
