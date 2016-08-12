@@ -14,6 +14,7 @@
 #import "ViolationCommissionStateModel.h"
 #import "SDPhotoBrowser.h"
 #import "RTLabel.h"
+#import "ViolationPayConfirmVC.h"
 
 @interface ViolationCommissionStateVC () <UITableViewDelegate, UITableViewDataSource, SDPhotoBrowserDelegate>
 
@@ -48,6 +49,8 @@
         [self.tableView reloadData];
     }];
     
+    [self observeViolationPaySuccessEvent];
+    
     [self fetchStateData];
 }
 
@@ -56,11 +59,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Notification observe
+- (void)observeViolationPaySuccessEvent
+{
+    @weakify(self)
+    [self listenNotificationByName:kNotifyViolationPaySuccess withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        @strongify(self)
+        [self fetchStateData];
+    }];
+}
+
 #pragma mark - Actions
 /// 支付按钮
-- (void)actionPay:(UIButton *)sender
+- (void)actionPayWithModel
 {
-    
+    ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Temp_YZC"];
+    vc.recordID = self.recordID;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 /// 放弃按钮
@@ -143,10 +158,12 @@
     self.dataSource = [CKList list];
     
     if (model.status == XMVCommissionWaiting) {
+        // 等待受理
         
         [self.dataSource addObject:$([self setupProgressViewCellWithIndex:1], [self setupCarDescCellWithModel:model], [self setupTipsCellWithModel:model]) forKey:nil];
         
     } else if (model.status == XMVCommissionPayWaiting) {
+        // 待支付
         
         NSMutableArray *cellArray = [NSMutableArray array];
         for (NSDictionary *dict in model.orderInfo) {
@@ -156,6 +173,7 @@
         [self.dataSource addObject:$([self setupProgressViewCellWithIndex:2], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model], [self setupPayCellWithModel:model]) forKey:nil];
         
     } else if (model.status == XMVCommissionProcessing) {
+        // 代办中
         
         NSMutableArray *cellArray = [NSMutableArray array];
         for (NSDictionary *dict in model.orderInfo) {
@@ -165,12 +183,15 @@
         [self.dataSource addObject:$([self setupProgressViewCellWithIndex:3], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model]) forKey:nil];
         
     } else if (model.status == XMVCommissionComplete) {
+        // 代办完成
         
         NSMutableArray *cellArray = [NSMutableArray array];
         for (NSDictionary *dict in model.orderInfo) {
             CKDict *commissionListCell = [self setupCommissionListCellWithDict:dict];
             [cellArray addObject:commissionListCell];
         }
+        
+        // 如有凭证图片 URL 则显示
         if (model.finishPicURL.length > 0) {
             [self.dataSource addObject:$([self setupProgressViewCellWithIndex:4], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model], [self setupProofCellWithModel:model]) forKey:nil];
         } else {
@@ -178,10 +199,12 @@
         }
         
     } else if (model.status == XMVCommissionReviewFailed) {
+        // 证件审核失败
         
         [self.dataSource addObject:$([self setupFailedCellWithStatus:XMVCommissionReviewFailed], [self setupCarDescCellWithModel:model], [self setupTipsCellWithModel:model]) forKey:nil];
         
     } else {
+        // 代办失败
         
         [self.dataSource addObject:$([self setupFailedCellWithStatus:model.status], [self setupCarDescCellWithModel:model], [self setupTipsCellWithModel:model]) forKey:nil];
         
@@ -231,7 +254,7 @@
         UILabel *locationLabel = (UILabel *)[cell.contentView viewWithTag:101];
         UILabel *descLabel = (UILabel *)[cell.contentView viewWithTag:102];
         
-        carNumLabel.text = model.licenseNumber;
+        carNumLabel.text = model.licenceNumber;
         locationLabel.text = model.area;
         descLabel.text = model.act;
     });
@@ -368,7 +391,7 @@
         if (self.proofImage) {
             return self.proofImage.size.height + 40;
         }
-        return 100;
+        return gAppMgr.deviceInfo.screenSize.width / 2.2;
     });
     
     proofCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -376,13 +399,13 @@
         UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:1001];
         self.proofImageURL = model.finishPicURL;
         NSURL *URL = [NSURL URLWithString:model.finishPicURL];
-        UIImage *placeholderImg = [UIImage imageNamed:@"cm_shop"];
+        UIImage *placeholderImg = [UIImage imageNamed:@"violation_imgLoading"];
         [imageView sd_setImageWithURL:URL placeholderImage:placeholderImg completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             @strongify(self);
             if (error) {
-                imageView.image = [UIImage imageNamed:@"weibo_share_carwash2"];
-                self.proofImage = [UIImage imageNamed:@"weibo_share_carwash2"];
-                UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reloadRowsAtIndexPath:)];
+                imageView.image = [UIImage imageNamed:@"violation_imgError"];
+                self.proofImage = [UIImage imageNamed:@"violation_imgError"];
+                UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetectedWhileErrorOccrured:)];
                 singleTap.numberOfTapsRequired = 1;
                 [imageView setUserInteractionEnabled:YES];
                 [imageView addGestureRecognizer:singleTap];
@@ -494,12 +517,9 @@
     [browser show];
 }
 
-- (void)reloadRowsAtIndexPath:(UIGestureRecognizer *)gesture
+- (void)tapDetectedWhileErrorOccrured:(UIGestureRecognizer *)gesture
 {
-    self.proofImage = [UIImage imageNamed:@"cm_shop"];
-    CGPoint tapLocation = [gesture locationInView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
-    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadData];
 }
 
 #pragma mark - SDPhotoBrowserDelegate
@@ -507,7 +527,7 @@
 - (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
 {
     UIImage *cachedImg = [gMediaMgr imageFromMemoryCacheForUrl:self.proofImageURL];
-    return cachedImg ? cachedImg : [UIImage imageNamed:@"cm_shop"];
+    return cachedImg ? cachedImg : [UIImage imageNamed:@"violation_imgLoading"];
 }
 
 

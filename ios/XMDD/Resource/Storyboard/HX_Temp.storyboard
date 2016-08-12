@@ -100,6 +100,7 @@
                                                 <constraint firstItem="tsj-Ul-rxt" firstAttribute="leading" secondItem="tfD-UO-mPt" secondAttribute="trailing" constant="6" id="MP2-Mw-KVb"/>
                                                 <constraint firstAttribute="trailing" secondItem="eXf-kY-o59" secondAttribute="trailing" constant="9" id="PBx-dB-29i"/>
                                                 <constraint firstAttribute="bottom" secondItem="eXf-kY-o59" secondAttribute="bottom" constant="13" id="UNa-U9-ojv"/>
+                                                <constraint firstItem="tsj-Ul-rxt" firstAttribute="top" secondItem="tfD-UO-mPt" secondAttribute="top" id="W7f-PO-qNF"/>
                                                 <constraint firstItem="tfD-UO-mPt" firstAttribute="top" secondItem="I6a-VU-S1c" secondAttribute="bottom" constant="19" id="csB-zD-9n9"/>
                                                 <constraint firstItem="Etc-Lc-BwO" firstAttribute="centerY" secondItem="n4g-wG-9mn" secondAttribute="centerY" id="eYq-pD-Yy9"/>
                                                 <constraint firstItem="n4g-wG-9mn" firstAttribute="leading" secondItem="I6a-VU-S1c" secondAttribute="trailing" constant="28" id="ho8-Ui-Y5y"/>
@@ -112,6 +113,7 @@
                                                 <mask key="constraints">
                                                     <exclude reference="52f-AJ-0OM"/>
                                                     <exclude reference="ltP-dr-RcD"/>
+                                                    <exclude reference="D3D-DP-jTC"/>
                                                     <exclude reference="97a-2N-xTS"/>
                                                     <exclude reference="eYq-pD-Yy9"/>
                                                 </mask>
@@ -301,8 +303,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="588" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7N2-ED-JU7">
-                                                    <rect key="frame" x="257" y="0.0" width="74" height="48"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7N2-ED-JU7">
+                                                    <rect key="frame" x="256.5" y="0.0" width="75" height="48"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="common_failed" translatesAutoresizingMaskIntoConstraints="NO" id="sMr-qW-ffq">
                                                             <rect key="frame" x="5" y="14" width="20" height="20"/>

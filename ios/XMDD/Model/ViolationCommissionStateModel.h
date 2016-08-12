@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, XMViolationCommissionStatus) {
 @interface ViolationCommissionStateModel : NSObject
 
 /// 代办车辆
-@property (nonatomic, copy) NSString *licenseNumber;
+@property (nonatomic, copy) NSString *licenceNumber;
 
 /// 违章地点
 @property (nonatomic, copy) NSString *area;
