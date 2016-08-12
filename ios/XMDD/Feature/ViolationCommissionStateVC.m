@@ -42,7 +42,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
     @weakify(self);
     [[RACObserve(self, proofImage) distinctUntilChanged] subscribeNext:^(id x) {
         @strongify(self);
@@ -172,7 +171,11 @@
             CKDict *commissionListCell = [self setupCommissionListCellWithDict:dict];
             [cellArray addObject:commissionListCell];
         }
-        [self.dataSource addObject:$([self setupProgressViewCellWithIndex:4], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model], [self setupProofCellWithModel:model]) forKey:nil];
+        if (model.finishPicURL.length > 0) {
+            [self.dataSource addObject:$([self setupProgressViewCellWithIndex:4], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model], [self setupProofCellWithModel:model]) forKey:nil];
+        } else {
+            [self.dataSource addObject:$([self setupProgressViewCellWithIndex:4], [self setupCarDescCellWithModel:model], [self setupCommissionTitleCell], [self setupBlankCell], CKJoin(cellArray), [self setupBlankCell], [self setupTipsCellWithModel:model]) forKey:nil];
+        }
         
     } else if (model.status == XMVCommissionReviewFailed) {
         
@@ -361,6 +364,7 @@
     @weakify(self);
     CKDict *proofCell = [CKDict dictWith:@{kCKItemKey: @"proofCell", kCKCellID: @"ProofCell"}];
     proofCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
         if (self.proofImage) {
             return self.proofImage.size.height + 40;
         }
@@ -375,14 +379,22 @@
         UIImage *placeholderImg = [UIImage imageNamed:@"cm_shop"];
         [imageView sd_setImageWithURL:URL placeholderImage:placeholderImg completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             @strongify(self);
-            self.proofImage = image;
+            if (error) {
+                imageView.image = [UIImage imageNamed:@"weibo_share_carwash2"];
+                self.proofImage = [UIImage imageNamed:@"weibo_share_carwash2"];
+                UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reloadRowsAtIndexPath:)];
+                singleTap.numberOfTapsRequired = 1;
+                [imageView setUserInteractionEnabled:YES];
+                [imageView addGestureRecognizer:singleTap];
+            } else {
+                self.proofImage = image;
+                UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected)];
+                singleTap.numberOfTapsRequired = 1;
+                [imageView setUserInteractionEnabled:YES];
+                [imageView addGestureRecognizer:singleTap];
+            }
         }];
         self.proofCell = cell;
-        
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected)];
-        singleTap.numberOfTapsRequired = 1;
-        [imageView setUserInteractionEnabled:YES];
-        [imageView addGestureRecognizer:singleTap];
     });
     
     return proofCell;
@@ -480,6 +492,14 @@
     browser.delegate = self;
     browser.sourceImagesContainerViewContentMode = sourceImagesContainerViewContentFill;
     [browser show];
+}
+
+- (void)reloadRowsAtIndexPath:(UIGestureRecognizer *)gesture
+{
+    self.proofImage = [UIImage imageNamed:@"cm_shop"];
+    CGPoint tapLocation = [gesture locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - SDPhotoBrowserDelegate
