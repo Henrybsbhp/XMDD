@@ -36,6 +36,7 @@
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
+    [self cancelListenNotificationByName:kNotifyViolationPaySuccess];
     DebugLog(@"ViolationComissionStateVC is deallocated");
 }
 
@@ -91,6 +92,7 @@
         }] subscribeNext:^(id x) {
             @strongify(self);
             [gToast showSuccess:@"取消代办成功"];
+            [self postCustomNotificationName:kNotifyCommissionAbandoned object:nil];
             [self.navigationController popViewControllerAnimated:YES];
         } error:^(NSError *error) {
             [gToast showMistake:error.domain];
@@ -319,14 +321,30 @@
     });
     
     commissionListCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
-        RTLabel *titleLabel = (RTLabel *)[cell.contentView viewWithTag:100];
-        RTLabel *contentLabel = (RTLabel *)[cell.contentView viewWithTag:101];
+        UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:100];
+        UILabel *contentLabel = (UILabel *)[cell.contentView viewWithTag:101];
         
         NSArray *titleArray = [dict allKeys];
         NSArray *contentArray = [dict allValues];
         
+        NSMutableAttributedString *res = [[NSMutableAttributedString alloc] initWithData:[contentArray.firstObject dataUsingEncoding:NSUTF8StringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                   NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                              documentAttributes:nil error:nil];
+        [res beginEditing];
+        [res enumerateAttribute:NSFontAttributeName
+                        inRange:NSMakeRange(0, res.length)
+                        options:0
+                     usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
+                         if (value) {
+                             UIFont *newFont = [UIFont systemFontOfSize:14];
+                             [res addAttribute:NSFontAttributeName value:newFont range:range];
+                         }
+                     }];
+        [res endEditing];
+        
         titleLabel.text = titleArray.firstObject;
-        contentLabel.text = contentArray.firstObject;
+        contentLabel.attributedText = res;
+        contentLabel.textAlignment = NSTextAlignmentRight;
     });
     
     return commissionListCell;
