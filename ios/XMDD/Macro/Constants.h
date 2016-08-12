@@ -173,8 +173,10 @@ typedef enum : NSUInteger {
 #define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
 #define kNotifyRefreshMyCouponList          @"com.huika.xmdd.RefreshMyCouponList"
 
+#define kNotifyViolationPaySuccess          @"com.huika.xmdd.ViolationPaySuccess"
 ///通知MutualInsAskForCompensationVC进行fetchAllData操作
 #define kNotifyUpdateClaimList              @"k.notification.MutualInsAskForCompensationVC.fetchAllData"
+
 
 //key定义
 #define kOriginVC       @"originVC"

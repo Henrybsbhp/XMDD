@@ -13,15 +13,17 @@
 
 @interface ViolationPayConfirmVC ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *button;
 @property (assign, nonatomic) BOOL isLoadingResourse;
 
 @property (strong, nonatomic) NSNumber *money;
 @property (strong, nonatomic) NSNumber *serviceFee;
 @property (strong, nonatomic) NSNumber *totalFee;
-@property (strong, nonatomic) NSArray *coupons;
 @property (strong, nonatomic) NSString *serviceName;
 @property (strong, nonatomic) NSString *servicePicURL;
+@property (strong, nonatomic) NSArray *couponArray;
+@property (strong, nonatomic) NSMutableArray *selectCoupouArray;
 
 /**
  *  数据源
@@ -40,7 +42,7 @@
     [super viewDidLoad];
     
     [self getViolationCommissionCoupons];
-    [self confirmViolationCommissionOrderConfirm];
+//    [self confirmViolationCommissionOrderConfirm];
     [self setupDataSource];
 }
 
@@ -78,7 +80,7 @@
                           ),
                         $(
                           [self otherCellData],
-                          [self payPlatformCellADataWithPayChannelData:@{@"logo" : @"uppay_logo_66",
+                          [self payPlatformCellADataWithPayChannelData:@{@"logo" : @"illegal_upayLogo",
                                                                          @"name" : @"银联在线支付",
                                                                          @"isRecommend" : @(YES),
                                                                          @"type" : @(PaymentChannelUPpay)}],
@@ -106,29 +108,18 @@
 
 -(void)getViolationCommissionCoupons
 {
-    
-    @weakify(self)
-    
     GetViolationCommissionCouponsOp *op = [GetViolationCommissionCouponsOp operation];
     
     [[[op rac_postRequest]initially:^{
         
-        @strongify(self)
-        
         self.isLoadingResourse = NO;
-        
     }]subscribeNext:^(GetViolationCommissionCouponsOp *op) {
         
-        @strongify(self)
-        
         self.isLoadingResourse = YES;
-        self.coupons = op.rsp_coupons;
-        
+        self.couponArray = op.rsp_coupons;
     } error:^(NSError *error) {
         
-        @strongify(self)
         self.isLoadingResourse = NO;
-        
     }];
     
 }
@@ -136,7 +127,6 @@
 -(void)confirmViolationCommissionOrderConfirm
 {
     @weakify(self)
-    
     ConfirmViolationCommissionOrderConfirmOp *op = [ConfirmViolationCommissionOrderConfirmOp operation];
     
     op.req_recordid = self.recordID;
@@ -148,6 +138,7 @@
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         self.tableView.hidden = YES;
+        self.bottomView.hidden = YES;
         
     }]subscribeNext:^(ConfirmViolationCommissionOrderConfirmOp *op) {
         
@@ -155,6 +146,7 @@
         
         [self.view stopActivityAnimation];
         self.tableView.hidden = NO;
+        self.bottomView.hidden = NO;
         
         self.money = op.rsp_money;
         self.serviceFee = op.rsp_servicefee;
@@ -171,6 +163,8 @@
         
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"支付信息请求失败。点击重试" tapBlock:^{
         
+            @strongify(self)
+            
             [self confirmViolationCommissionOrderConfirm];
             
         }];
@@ -292,6 +286,8 @@
         selectView.hidden = !([(NSNumber *)payChannelData[@"type"] integerValue] == self.paychannel);
         
         UIImageView *recommendView = [cell viewWithTag:104];
+        recommendView.layer.cornerRadius = 2;
+        recommendView.layer.masksToBounds = YES;
         recommendView.hidden = ![(NSNumber *)payChannelData[@"isRecommend"] boolValue];
         
     });
@@ -422,19 +418,6 @@
         
     });
     
-//    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-//        
-//        //        @strongify(self)
-//        
-//        //        ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
-//        //        vc.originVC = self.originVC;
-//        //        vc.type = CouponTypeCarWash;
-//        //        vc.selectedCouponArray = self.selectCarwashCoupouArray;
-//        //        vc.couponArray = self.getUserResourcesV2Op.validCarwashCouponArray;
-//        //        [self.navigationController pushViewController:vc animated:YES];
-//        
-//    });
-    
     return data;
 }
 
@@ -452,7 +435,7 @@
         ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
         vc.originVC = self;
         vc.numberLimit = 1;
-//        vc.type = CouponTypeGasNormal; /// 加油券类型的用普通代替
+        vc.type = CouponTypeGasNormal; /// 加油券类型的用普通代替
 //        vc.selectedCouponArray = self.selectGasCoupouArray;
 //        vc.couponArray = self.gasCouponArray;
 //        vc.payAmount = self.gasNormalVC.rechargeAmount;
@@ -478,6 +461,13 @@
     });
     
     return data;
+    
+}
+
+#pragma mark - Action
+
+- (IBAction)actionPay:(id)sender
+{
     
 }
 

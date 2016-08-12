@@ -24,6 +24,7 @@
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) NSDictionary *statusDic;
 @property (strong, nonatomic) NSIndexPath *indexPath;
+@property (assign, nonatomic) CGPoint offset;
 
 @end
 
@@ -34,16 +35,43 @@
     
     [self setupUI];
     [self setupNavi];
-    //    [self getSimutateData];
+//    [self getSimutateData];
+    [self setupNotify];
     [self getViolationCommissionApply];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    if (self.offset.y != 0)
+    {
+        self.tableView.contentOffset = self.offset;
+    }
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    self.offset = self.tableView.contentOffset;
 }
 
 #pragma mark - Setup
+
+-(void)setupNotify
+{
+    @weakify(self)
+    
+    [self listenNotificationByName:kNotifyViolationPaySuccess withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        
+        @strongify(self)
+        
+        [self getViolationCommissionApply];
+        
+    }];
+}
 
 -(void)setupUI
 {
@@ -130,7 +158,7 @@
                                    @"servicefee":@"40",
                                    @"licencenumber":@"浙A12345",
                                    @"status" : @(6)};
-            self.tips = @[@"浙A12345的证件信息不完整，完善后即可申请代办"];
+            self.tips = @[@{@"tip":@"浙A12345的证件信息不完整，完善后即可申请代办"}];
             self.dataSource = @[dic1,dic,dic2,dic3,dic4,dic6,dic4,dic1,dic3,dic2,dic,dic6,dic2,dic1,dic,dic6];
             
             [self.tableView reloadData];
@@ -287,9 +315,9 @@
         NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.row - self.tips.count];
         NSString *actStr = data[@"act"];
         NSString *areaStr = data[@"area"];
-        CGFloat height = 140 +
-        ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:15]].height) +
-        ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 90 font:[UIFont systemFontOfSize:13]].height);
+        CGFloat heightAct = actStr.length == 0 ? 0 : ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:15]].height);
+        CGFloat heightArea = ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 75 font:[UIFont systemFontOfSize:13]].height);
+        CGFloat height = 140 + heightAct + heightArea;
         return height;
     }
 }
