@@ -41,23 +41,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSDictionary *orderInfo1 = @{@"订单时间" : @"2016.06.06 12:32"};
-    NSDictionary *orderInfo2 = @{@"违章罚款" : @"￥200.00"};
-    NSDictionary *orderInfo3 = @{@"手续费" : @"￥30.00"};
-    NSDictionary *orderInfo4 = @{@"支付时间" : @"2016.06.06 12:32"};
-    NSDictionary *orderInfo5 = @{@"支付金额" : @"￥230.00"};
-    NSDictionary *orderInfo6 = @{@"完成时间" : @"2016.06.06 12:32"};
-    NSArray *array = @[orderInfo1, orderInfo2, orderInfo3, orderInfo4, orderInfo5, orderInfo6];
-    NSDictionary *data = @{@"licensenumber" : @"皖H16712",
-                           @"area" : @"超级大傻逼",
-                           @"act" : @"不小心把自己吃了",
-                           @"status" : @(3),
-                           @"tip" : @"操你大爷",
-                           @"orderinfo" : array};
-    
-    ViolationCommissionStateModel *model = [ViolationCommissionStateModel listWithJSONResponse:data];
-    [self setDataSourceWithFetchedData:model];
-//    [self fetchStateData];
+    [self fetchStateData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -306,17 +290,9 @@
         
         NSArray *titleArray = [dict allKeys];
         NSArray *contentArray = [dict allValues];
-        NSString *titleString = titleArray.firstObject;
-        NSString *contentString = contentArray.firstObject;
         
-        titleLabel.text = titleString;
-        contentLabel.text = contentString;
-        
-        if ([titleString isEqualToString:@"完成时间"] || [titleString isEqualToString:@"违章罚款"] || [titleString isEqualToString:@"手续费"] || [titleString isEqualToString:@"支付金额"]) {
-            contentLabel.textColor = HEXCOLOR(@"#FF7428");
-        } else {
-            contentLabel.textColor = HEXCOLOR(@"#888888");
-        }
+        titleLabel.attributedText = titleArray.firstObject;
+        contentLabel.attributedText = contentArray.firstObject;
     });
     
     return commissionListCell;
