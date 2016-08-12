@@ -13,6 +13,6 @@
 
 @property (nonatomic, strong) NSNumber *recordID;
 
-@property (nonatomic, copy) ViolationCommissionStateModel *vcSateModel;
+@property (nonatomic, strong) ViolationCommissionStateModel *vcSateModel;
 
 @end
