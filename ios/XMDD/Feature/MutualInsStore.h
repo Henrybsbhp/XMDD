@@ -11,6 +11,7 @@
 
 #define kDomainMutualInsSimpleGroups    @"mutualIns.simpleGroups"
 #define kDomainMutualInsDetailGroups    @"mutualIns.detailGroups"
+#define kDomainMutualInsOrderList    @"mutualIns.orderList"
 
 @interface MutualInsStore : UserStore
 
@@ -24,5 +25,6 @@
 
 - (CKEvent *)reloadDetailGroupByMemberID:(NSNumber *)memberid andGroupID:(NSNumber *)groupid;
 - (CKEvent *)reloadSimpleGroups;
+- (CKEvent *)reloadOrderList;
 
 @end

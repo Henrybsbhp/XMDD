@@ -299,6 +299,8 @@
         self.sliderView = pageSliderView;//赋值全局
         [self observeScrollViewOffset];
         [self addContentView:count];
+        NSInteger defaultIndex = [self.carStore.allCars indexOfObject:self.carStore.defalutCar];
+        [self loadPageIndex:defaultIndex animated:YES];
     }
     
     return cell;
@@ -484,12 +486,18 @@
     }
 }
 
-#pragma mark - PageSliderDelegate
-//- (void)pageClickAtIndex:(NSInteger)index
-//{
-//    self.currentIndex = index;
-//    [self loadPageIndex:index animated:YES];
-//}
+- (void)loadPageIndex:(NSUInteger)index animated:(BOOL)animated
+{
+    CGFloat w = CGRectGetWidth(self.view.frame);
+    CGRect frame = self.sliderView.contentScrollView.frame;
+    frame.origin.x = w * index;
+    frame.origin.y = 0;
+    
+    [self.sliderView.contentScrollView scrollRectToVisible:frame animated:animated];
+    
+    NSInteger total = self.dataSource.count + (self.dataSource.count < 5 ? 1 : 0);
+    self.sliderView.hidden = total <= 1;
+}
 
 #pragma mark - PageSliderDelegate
 - (BOOL)observeScrollViewOffset

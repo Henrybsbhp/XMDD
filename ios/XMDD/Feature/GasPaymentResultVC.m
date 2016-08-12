@@ -85,6 +85,10 @@
 #pragma mark - UITableViewDelegate And Datasource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == 0)
+    {
+        return 54 + (self.isNeedUppayIcon ? 28 : 0) + (self.uppayCouponInfo.length > 0 ? 57 :0);
+    }
     if (indexPath.row == 2) {
         CGSize lbsize = [self.detailText labelSizeWithWidth:tableView.frame.size.width - 32 font:[UIFont systemFontOfSize:13]];
         return MAX(90, lbsize.height + 24);
@@ -117,6 +121,9 @@
 {
     UIImageView *iconV = [cell viewWithTag:1001];
     UILabel *titleL = [cell viewWithTag:1002];
+    UIImageView *uppayIcon = [cell viewWithTag:1003];
+    UIView * uppayCouponView = [cell viewWithTag:1004];
+    UILabel *uppayInfoLb = [cell viewWithTag:1005];
     if (self.drawingStatus == DrawingBoardViewStatusSuccess) {
         iconV.image = [UIImage imageNamed:@"round_tick"];
         titleL.text = @"恭喜，支付成功";
@@ -127,6 +134,9 @@
         titleL.text = @"支付失败";
         titleL.textColor = HEXCOLOR(@"#de1322");
     }
+    uppayIcon.hidden = !self.isNeedUppayIcon;
+    uppayCouponView.hidden = !self.uppayCouponInfo.length;
+    uppayInfoLb.text = self.uppayCouponInfo;
 }
 
 - (void)setupPaymentInfoCell:(UITableViewCell *)cell
