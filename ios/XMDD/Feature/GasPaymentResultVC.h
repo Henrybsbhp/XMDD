@@ -21,5 +21,6 @@
 @property (nonatomic, assign) GasCard *gasCard;
 @property (nonatomic, copy) void(^dismissBlock)(DrawingBoardViewStatus status);
 @property (nonatomic, weak) UIViewController *originVC;
-
+@property (nonatomic)BOOL isNeedUppayIcon;
+@property (nonatomic, copy)NSString * uppayCouponInfo;
 @end

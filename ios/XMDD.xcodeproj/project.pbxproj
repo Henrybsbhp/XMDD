@@ -711,7 +711,6 @@
 		18CFD84F1D4EED8500C12259 /* AutoBrand+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFD84E1D4EED8500C12259 /* AutoBrand+Extension.m */; };
 		18CFD8721D506A8D00C12259 /* RCTUMengManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CFD8711D506A8D00C12259 /* RCTUMengManager.m */; };
 		18D17F771B53B21E00F66F04 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F761B53B21E00F66F04 /* MBProgressHUD.m */; };
-		18E28A131B93E5880070E759 /* libUPPayPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A101B93E5880070E759 /* libUPPayPlugin.a */; };
 		18E28A151B93E5A20070E759 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A141B93E5A20070E759 /* QuartzCore.framework */; };
 		18E28A171B93E5AF0070E759 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A161B93E5AF0070E759 /* Security.framework */; };
 		18FC01DC1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01BF1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m */; };
@@ -785,6 +784,8 @@
 		B08D7E402ED9731B677706F2 /* libPods-XMDD.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FBB925F230AB7BE6AD87FF /* libPods-XMDD.a */; };
 		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
 		C38A1DFE1CC5D1390085BA4C /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C3B129BB1D5B0114008CBE6A /* UPApplePayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B129BA1D5B0114008CBE6A /* UPApplePayHelper.m */; };
+		C3B129D01D5B0370008CBE6A /* libUPAPayPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B129CF1D5B0370008CBE6A /* libUPAPayPlugin.a */; };
 		C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */; };
 		C3D9B81F1CC0DBF000B5D2A7 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81D1CC0DBF000B5D2A7 /* FLAnimatedImageView.m */; };
 		C3DEFD491D54892F006337D5 /* HomePageModuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C3DEFD481D54892F006337D5 /* HomePageModuleModel.m */; };
@@ -2368,9 +2369,6 @@
 		18CFD8711D506A8D00C12259 /* RCTUMengManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTUMengManager.m; sourceTree = "<group>"; };
 		18D17F751B53B21E00F66F04 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		18D17F761B53B21E00F66F04 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		18E28A101B93E5880070E759 /* libUPPayPlugin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUPPayPlugin.a; sourceTree = "<group>"; };
-		18E28A111B93E5880070E759 /* UPPayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPPayPlugin.h; sourceTree = "<group>"; };
-		18E28A121B93E5880070E759 /* UPPayPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPPayPluginDelegate.h; sourceTree = "<group>"; };
 		18E28A141B93E5A20070E759 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		18E28A161B93E5AF0070E759 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		18FC01BC1C4E6C6F00FD61BF /* IQNSArray+Sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQNSArray+Sort.h"; sourceTree = "<group>"; };
@@ -2496,6 +2494,12 @@
 		A7599898B2C44DA08CD81357 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		C243F5EAA1714F9A9CA63D5B /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		C26489B31AF8A70A00F1E318 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		C3B129B91D5B0114008CBE6A /* UPApplePayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPApplePayHelper.h; sourceTree = "<group>"; };
+		C3B129BA1D5B0114008CBE6A /* UPApplePayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UPApplePayHelper.m; sourceTree = "<group>"; };
+		C3B129CC1D5B0370008CBE6A /* UPAPayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPAPayPlugin.h; sourceTree = "<group>"; };
+		C3B129CD1D5B0370008CBE6A /* UPAPayPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPAPayPluginDelegate.h; sourceTree = "<group>"; };
+		C3B129CF1D5B0370008CBE6A /* libUPAPayPlugin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUPAPayPlugin.a; sourceTree = "<group>"; };
+		C3B129DA1D5B0A3D008CBE6A /* XMDD.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = XMDD.entitlements; sourceTree = "<group>"; };
 		C3D9B81A1CC0DBF000B5D2A7 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = FLAnimatedImage/FLAnimatedImage.h; sourceTree = "<group>"; };
 		C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImage/FLAnimatedImage.m; sourceTree = "<group>"; };
 		C3D9B81C1CC0DBF000B5D2A7 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImage/FLAnimatedImageView.h; sourceTree = "<group>"; };
@@ -2577,9 +2581,9 @@
 				C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */,
 				6BBB82631AE7A0E000850D0C /* libc++.dylib in Frameworks */,
 				6BBB82611AE7A0D700850D0C /* libz.dylib in Frameworks */,
+				C3B129D01D5B0370008CBE6A /* libUPAPayPlugin.a in Frameworks */,
 				6BBB825F1AE7A0CF00850D0C /* libsqlite3.dylib in Frameworks */,
 				6BBBF54E1B291CCA00E1B809 /* Crashlytics.framework in Frameworks */,
-				18E28A131B93E5880070E759 /* libUPPayPlugin.a in Frameworks */,
 				189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */,
 				18648F411D4853EC00F1CCB0 /* TencentOpenAPI.framework in Frameworks */,
 				6BBFBC411B0D8E57000D3CA3 /* libWeiboSDK.a in Frameworks */,
@@ -2598,6 +2602,7 @@
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				C3B129CA1D5B0370008CBE6A /* ApplePaySDK */,
 				186494DB1D4888BE00F1CCB0 /* CKKit */,
 				186490291D48802800F1CCB0 /* Tongdun */,
 				18648F441D48558000F1CCB0 /* AlipaySDK */,
@@ -2619,7 +2624,6 @@
 				18BF41F61BCF75DA0039F210 /* RTLabel */,
 				18C52C371BA6CE9400F6C38B /* DAProgressOverlayView */,
 				6BEDB0431BA666D4009A8C3F /* CCSegmentedControl */,
-				18E28A0F1B93E5880070E759 /* UPPaySDK */,
 				1837A7571B72130F0006E6C5 /* SDPhotoBrowser */,
 				18D17F741B53B21E00F66F04 /* MBProgressHUD */,
 				6BCF624B1B184AEF0064AE32 /* NJKWebViewProgress */,
@@ -3949,6 +3953,8 @@
 		18649AC81D489F1D00F1CCB0 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
+				C3B129B91D5B0114008CBE6A /* UPApplePayHelper.h */,
+				C3B129BA1D5B0114008CBE6A /* UPApplePayHelper.m */,
 				186496AE1D489A4200F1CCB0 /* WeChatHelper.h */,
 				186496AF1D489A4200F1CCB0 /* WeChatHelper.m */,
 				186496AA1D489A4200F1CCB0 /* UPPayHelper.h */,
@@ -5040,6 +5046,7 @@
 		1883D8E11ACB99AC002A4D19 /* XMDD */ = {
 			isa = PBXGroup;
 			children = (
+				C3B129DA1D5B0A3D008CBE6A /* XMDD.entitlements */,
 				1816F4921ACD3AFE00BBCC96 /* Vendor */,
 				186496DF1D489A5800F1CCB0 /* Extension */,
 				18649A2A1D489B2100F1CCB0 /* Macro */,
@@ -5332,16 +5339,6 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
-		18E28A0F1B93E5880070E759 /* UPPaySDK */ = {
-			isa = PBXGroup;
-			children = (
-				18E28A101B93E5880070E759 /* libUPPayPlugin.a */,
-				18E28A111B93E5880070E759 /* UPPayPlugin.h */,
-				18E28A121B93E5880070E759 /* UPPayPluginDelegate.h */,
-			);
-			path = UPPaySDK;
-			sourceTree = "<group>";
-		};
 		18FC01BA1C4E6C6F00FD61BF /* IQKeyBoardManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -5609,6 +5606,32 @@
 			path = TMCache;
 			sourceTree = "<group>";
 		};
+		C3B129CA1D5B0370008CBE6A /* ApplePaySDK */ = {
+			isa = PBXGroup;
+			children = (
+				C3B129CB1D5B0370008CBE6A /* inc */,
+				C3B129CE1D5B0370008CBE6A /* libs */,
+			);
+			path = ApplePaySDK;
+			sourceTree = "<group>";
+		};
+		C3B129CB1D5B0370008CBE6A /* inc */ = {
+			isa = PBXGroup;
+			children = (
+				C3B129CC1D5B0370008CBE6A /* UPAPayPlugin.h */,
+				C3B129CD1D5B0370008CBE6A /* UPAPayPluginDelegate.h */,
+			);
+			path = inc;
+			sourceTree = "<group>";
+		};
+		C3B129CE1D5B0370008CBE6A /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				C3B129CF1D5B0370008CBE6A /* libUPAPayPlugin.a */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
 		C3D9B8201CC0DBFD00B5D2A7 /* FLAnimatedImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -5708,7 +5731,7 @@
 						DevelopmentTeam = 7A3B9332PS;
 						SystemCapabilities = {
 							com.apple.OMC = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Wallet = {
 								enabled = 0;
@@ -6106,6 +6129,7 @@
 				18649D241D48B96700F1CCB0 /* InsLicensePopVC.m in Sources */,
 				18649C131D48B35000F1CCB0 /* ValuationHomeVC.m in Sources */,
 				FAC9869F1D582C7F000FE245 /* MutualOrderListGetOp.m in Sources */,
+				C3B129BB1D5B0114008CBE6A /* UPApplePayHelper.m in Sources */,
 				18649D321D48B9A600F1CCB0 /* InsAppointmentVC.m in Sources */,
 				183F57251D4C90860001E26A /* GetCooperationGroupMessageListOp.m in Sources */,
 				4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */,
@@ -6813,7 +6837,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -6829,7 +6853,7 @@
 					"COCOAPODS=1",
 					"XMDDENT=0",
 					"XMDDEnvironment=0",
-					"REACT_DEV=1",
+					"REACT_DEV=0",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6870,6 +6894,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"$(PROJECT_DIR)/XMDD/Vendor/ApplePaySDK/libs",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -6919,7 +6944,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -6976,6 +7001,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"$(PROJECT_DIR)/XMDD/Vendor/ApplePaySDK/libs",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
