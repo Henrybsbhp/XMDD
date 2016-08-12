@@ -6,7 +6,7 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "confirmViolationCommissionOrderConfirmOp.h"
+#import "ConfirmViolationCommissionOrderConfirmOp.h"
 
 @implementation ConfirmViolationCommissionOrderConfirmOp
 
