@@ -11,6 +11,9 @@
 @class MutualOrderListModel;
 
 @interface MutualOrderListModel : NSObject
+
+///订单id
+@property (nonatomic, strong)NSNumber *contractid;
 /// 车牌号码
 @property (nonatomic, copy) NSString *licenseNumber;
 

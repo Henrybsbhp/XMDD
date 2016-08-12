@@ -10,6 +10,7 @@
 #import "UPPayHelper.h"
 #import "AlipayHelper.h"
 #import "WeChatHelper.h"
+#import "UPApplePayHelper.h"
 
 @interface PaymentHelper ()
 @property (nonatomic, strong) id helper;
@@ -42,6 +43,14 @@
     _tradeNumber = tn;
     _targetVC = tvc;
 }
+
+- (void)resetForUPApplePayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc
+{
+    _platformType = PaymentPlatformTypeApplePay;
+    _tradeNumber = tn;
+    _targetVC = tvc;
+}
+
 
 - (RACSignal *)rac_startPay2
 {
@@ -87,8 +96,26 @@
         signal = [helper rac_payWithPayInfo:self.wechatPayInfo andTradeNO:self.tradeNumber];
         self.helper = helper;
     }
+    // ApplePay支付
+    else if (_platformType == PaymentPlatformTypeApplePay) {
+        UPApplePayHelper *helper = [[UPApplePayHelper alloc] init];
+        signal = [helper rac_applePayWithTradeNumber:self.tradeNumber targetVC:self.targetVC];
+        self.helper = helper;
+    }
     
     return [[signal map:^id(id value) {
+        
+        if ([value isKindOfClass:[UPPayResult class]])
+        {
+            UPPayResult * result = (UPPayResult *)value;
+            NSString * otherInfo = result.otherInfo;
+            NSDictionary * param = [self getParamsFromUrl:otherInfo];
+            CGFloat order_amt = [param floatParamForName:@"order_amt"];
+            CGFloat pay_amt = [param floatParamForName:@"pay_amt"];
+            CGFloat coupon = order_amt - pay_amt;
+            NSString * couponInfo = [NSString stringWithFormat:@"-￥%.2f",coupon];
+            self.uppayCouponInfo = couponInfo;
+        }
         return self;
     }] catch:^RACSignal *(NSError *error) {
         
@@ -103,8 +130,23 @@
         case PaymentPlatformTypeWeChat: return 3;
         case PaymentPlatformTypeUPPay: return 8;
         case PaymentPlatformTypeCreditCard: return 7;
+        case PaymentPlatformTypeApplePay: return 9;
     }
     return 0;
 }
+
+- (NSDictionary *)getParamsFromUrl:(NSString *)paramsString
+{
+    NSArray *paramsArray = paramsString.length > 0 ? [paramsString componentsSeparatedByString:@"&"] : nil;
+    
+    //将参数列表转换成字典
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    for (NSString *str in paramsArray) {
+        NSArray *pair = [str componentsSeparatedByString:@"="];
+        [dict safetySetObject:[pair safetyObjectAtIndex:1] forKey:[pair safetyObjectAtIndex:0]];
+    }
+    return dict;
+}
+
 
 @end

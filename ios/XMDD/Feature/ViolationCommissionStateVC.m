@@ -71,7 +71,7 @@
 
 #pragma mark - Actions
 /// 支付按钮
-- (void)actionPayWithModel
+- (void)actionPay
 {
     ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Temp_YZC"];
     vc.recordID = self.recordID;
@@ -353,7 +353,7 @@
         
         [[[payButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
-            [self actionPay:payButton];
+            [self actionPay];
         }];
     });
     
