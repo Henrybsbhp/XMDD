@@ -11,7 +11,8 @@
 #import "SDPhotoBrowser.h"
 
 #define kBottomBarBgColor  [[UIColor blackColor] colorWithAlpha:0.4]
-#define kBottomBarHeight    25
+#define kBottomBarTextColor [[UIColor whiteColor] colorWithAlpha:0.8]
+#define kBottomBarHeight    22
 
 @interface ShopDetailHeaderView ()<SDPhotoBrowserDelegate>
 
@@ -31,7 +32,9 @@
     self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionShowPhotos:)];
     
     _imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _imageView.contentMode = UIViewContentModeScaleAspectFill;
     _imageView.userInteractionEnabled = YES;
+    _imageView.clipsToBounds = YES;
     [_imageView addGestureRecognizer:self.tapGesture];
     [self addSubview:_imageView];
     
@@ -41,7 +44,7 @@
     
     _numberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _numberLabel.backgroundColor = kBottomBarBgColor;
-    _numberLabel.textColor = [UIColor whiteColor];
+    _numberLabel.textColor = kBottomBarTextColor;
     _numberLabel.font = [UIFont systemFontOfSize:13];
     _numberLabel.textAlignment = NSTextAlignmentCenter;
     _numberLabel.text = @"0张";
@@ -52,7 +55,7 @@
     @weakify(self);
     [self.imageView mas_updateConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
-        make.top.lessThanOrEqualTo(self);
+        make.top.equalTo(self);
         make.left.equalTo(self);
         make.bottom.equalTo(self);
         make.right.equalTo(self);
@@ -76,18 +79,18 @@
     [self addSubview:_trottingContainerView];
     
     _trottingView = [[CBAutoScrollLabel alloc] initWithFrame:CGRectZero];
-    _trottingView.textColor = [UIColor whiteColor];
+    _trottingView.textColor = kBottomBarTextColor;
     _trottingView.font = [UIFont systemFontOfSize:13];
     _trottingView.backgroundColor = [UIColor clearColor];
     _trottingView.labelSpacing = 30;
     _trottingView.scrollSpeed = 30;
     _trottingView.fadeLength = 5.f;
-    [_trottingView observeApplicationNotifications];
     [_trottingContainerView addSubview:_trottingView];
+    [_trottingView observeApplicationNotifications];
     
     CKLine *line = [[CKLine alloc] initWithFrame:CGRectZero];
     line.lineOptions = CKLineOptionNone;
-    line.lineColor = [UIColor whiteColor];
+    line.lineColor = kBottomBarTextColor;
     line.lineAlignment = CKLineAlignmentVerticalRight;
     [_trottingContainerView addSubview:line];
     
@@ -102,26 +105,28 @@
     
     [_trottingView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
-        make.edges.equalTo(self.trottingContainerView);
+        make.left.equalTo(self.trottingContainerView).offset(5);
+        make.right.equalTo(self.trottingContainerView).offset(-5);
+        make.top.equalTo(self.trottingContainerView);
+        make.bottom.equalTo(self.trottingContainerView);
     }];
     
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(1);
-        make.top.equalTo(self.trottingContainerView);
-        make.bottom.equalTo(self.trottingContainerView);
+        make.top.equalTo(self.trottingContainerView).offset(5);
+        make.bottom.equalTo(self.trottingContainerView).offset(-5);
         make.right.equalTo(self.trottingContainerView);
     }];
    
 }
 
+#pragma mark - Observer
 #pragma mark - Setter 
 - (void)setPicURLArray:(NSArray *)picURLArray {
     _picURLArray = picURLArray;
-    if (picURLArray.count > 0) {
-        [_imageView setImageByUrl:[picURLArray safetyObjectAtIndex:0]
-                         withType:ImageURLTypeMedium
-                         defImage:@"cm_shop" errorImage:@"cm_shop"];
-    }
+    [_imageView setImageByUrl:[picURLArray safetyObjectAtIndex:0]
+                     withType:ImageURLTypeMedium
+                     defImage:@"cm_shop" errorImage:@"cm_shop"];
     _numberLabel.text = [NSString stringWithFormat:@"%ld张", (long)(self.picURLArray.count)];
 }
 #pragma mark - Action

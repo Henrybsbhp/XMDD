@@ -7,15 +7,35 @@
 //
 
 #import "ShopDetailServiceSegmentCell.h"
+#import <CoreGraphics/CoreGraphics.h>
 
 @implementation ShopDetailServiceSegmentCell
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = [UIColor whiteColor];
+    }
+    return self;
 }
-*/
+
+- (void)setupSegmentControlWithItems:(NSArray *)items {
+    if (_segmentControl || !items) {
+        return;
+    }
+    
+    _segmentControl = [[UISegmentedControl alloc] initWithItems:items];
+    _segmentControl.tintColor = kDefTintColor;
+    [self.contentView addSubview:_segmentControl];
+    
+    @weakify(self);
+    [_segmentControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.left.equalTo(self.contentView).offset(16);
+        make.right.equalTo(self.contentView).offset(-16);
+        make.height.mas_equalTo(29);
+        make.centerY.equalTo(self.contentView);
+    }];
+}
 
 @end

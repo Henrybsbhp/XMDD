@@ -10,12 +10,27 @@
 
 @implementation ShopDetailCommentCell
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self __commonInit];
+    }
+    return self;
 }
-*/
+
+- (void)__commonInit {
+    self.backgroundColor = [UIColor whiteColor];
+    
+    _commentView = [[ShopCommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"comment"];
+    [self.contentView addSubview:_commentView];
+
+    @weakify(self);
+    [_commentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.edges.equalTo(self.contentView);
+    }];
+}
+
 
 @end

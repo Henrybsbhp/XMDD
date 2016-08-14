@@ -21,6 +21,7 @@
 #define kLightTextColor             HEXCOLOR(@"#dbdbdb")
 #define kBackgroundColor            HEXCOLOR(@"#f7f7f8")
 #define kOrangeColor                HEXCOLOR(@"#ff7428")
+#define kYelloColor                 HEXCOLOR(@"#ffa800")
 
 //图片名
 #define kImageFailConnect       @"def_failConnect"

@@ -11,8 +11,6 @@
 #import "Xmdd.h"
 #import "JTRatingView.h"
 #import "UIView+Layer.h"
-#import "ShopDetailVC.h"
-#import "JTShop.h"
 #import "DistanceCalcHelper.h"
 #import "BaseMapViewController.h"
 #import "CarWashNavigationViewController.h"
@@ -23,6 +21,7 @@
 #import "UIView+DefaultEmptyView.h"
 #import "NSDate+DateForText.h"
 #import "ADViewController.h"
+#import "ShopDetailViewController.h"
 
 @interface CarWashTableVC ()
 
@@ -90,6 +89,17 @@
     
     [self.adctrl2 reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
         @strongify(self);
+        if (ads.count > 0) {
+            CGRect frame = self.adctrl.adView.frame;
+            self.carwashHeaderView.frame = CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, CGRectGetHeight(frame));
+            self.adctrl.adView.frame = frame;
+            [self.carwashHeaderView addSubview:self.adctrl.adView];
+        }
+        else {
+            self.carwashHeaderView.frame = CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, CGFLOAT_MIN);
+            [self.adctrl.adView removeFromSuperview];
+        }
+        [self.carwashTableView setTableHeaderView:self.carwashHeaderView];
         [self refreshAdView2];
     }];
 }
@@ -135,7 +145,7 @@
         self.line1.hidden = !selected;
         self.carwashTableView.hidden = !selected;
         if (selected) {
-            
+            self.serviceType = ShopServiceCarWash;
         }
     }];
     
@@ -146,7 +156,7 @@
         self.line2.hidden = !selected;
         self.withheartTableView.hidden = !selected;
         if (selected) {
-            
+            self.serviceType = ShopServiceCarwashWithHeart;
         }
     }];
     //默认显示普洗
@@ -412,10 +422,12 @@
 {
     [MobClick event:@"rp102_3"];
     HKLoadingModel * model = [self modelForTableView:tableView];
-    ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
-    vc.couponFordetailsDic = self.couponForWashDic;
+    
+    ShopDetailViewController *vc = [[ShopDetailViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
+    vc.coupon = self.couponForWashDic;
     vc.shop = [model.datasource safetyObjectAtIndex:indexPath.section];
+    vc.serviceType = self.serviceType;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

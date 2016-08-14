@@ -12,5 +12,10 @@
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, assign) BOOL isCollected;
+@property (nonatomic, copy) void(^shouldUpdateStatusBar)(void);
+@property (nonatomic, copy) void(^actionDidBack)(void);
+@property (nonatomic, copy) void(^actionDidCollect)(void);
+@property (nonatomic, assign) BOOL titleDidShowed;
 
+- (instancetype)initWithFrame:(CGRect)frame andScrollView:(UIScrollView *)scrollView;
 @end

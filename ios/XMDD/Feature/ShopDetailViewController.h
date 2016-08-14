@@ -8,9 +8,12 @@
 
 #import "HKViewController.h"
 #import "JTShop.h"
+#import "HKCoupon.h"
 
 @interface ShopDetailViewController : HKViewController
 
 @property (nonatomic, strong) JTShop *shop;
+@property (nonatomic, strong) HKCoupon *coupon;
+@property (nonatomic, assign) ShopServiceType serviceType;
 
 @end

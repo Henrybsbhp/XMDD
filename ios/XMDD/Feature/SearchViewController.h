@@ -3,13 +3,13 @@
 //  XiaoMa
 //
 //  Created by jt on 15-5-4.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Copyright (c) 2015年 huika. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "HKTableViewController.h"
 
-@interface SearchViewController : HKViewController<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface SearchViewController : HKTableViewController<UISearchBarDelegate>
 
-@property (nonatomic)NSInteger searchType;
+@property (nonatomic, assign) ShopServiceType serviceType;
 
 @end

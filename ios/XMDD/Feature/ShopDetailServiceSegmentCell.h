@@ -9,5 +9,8 @@
 #import "HKCollectionViewCell.h"
 
 @interface ShopDetailServiceSegmentCell : HKCollectionViewCell
+@property (nonatomic, strong, readonly) UISegmentedControl *segmentControl;
+
+- (void)setupSegmentControlWithItems:(NSArray *)items;
 
 @end

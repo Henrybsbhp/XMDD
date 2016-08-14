@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CBAutoScrollLabel.h"
 
-@interface ShopDetailHeaderView : UICollectionReusableView
+@interface ShopDetailHeaderView : UIView
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIView *trottingContainerView;
 @property (nonatomic, strong) CBAutoScrollLabel *trottingView;

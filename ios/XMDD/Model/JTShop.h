@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "NSMutableDictionary+AddParams.h"
 #import "Constants.h"
+#import "CKList.h"
 
 typedef enum : NSUInteger {
     ShopVacationTypeService,
@@ -19,13 +20,13 @@ typedef enum : NSUInteger {
 ///支付渠道
 @property (nonatomic)PaymentChannelType paymentChannelType;
 ///支付额
-@property (nonatomic)CGFloat amount;
+@property (nonatomic) double amount;
 
 + (instancetype)chargeContentWithJSONResponse:(NSDictionary *)rsp;
 
 @end
 
-@interface JTShopService : NSObject
+@interface JTShopService : NSObject<CKItemDelegate>
 ///服务id
 @property (nonatomic,strong)NSNumber * serviceID;
 ///服务姓名
@@ -37,11 +38,11 @@ typedef enum : NSUInteger {
 ///服务收费[ChargeContent]
 @property (nonatomic,strong)NSArray * chargeArray;
 ///合约价
-@property (nonatomic)CGFloat contractprice;
+@property (nonatomic) double contractprice;
 ///原价
-@property (nonatomic)CGFloat origprice;
+@property (nonatomic) double origprice;
 /// 原始原价
-@property (nonatomic) CGFloat oldOriginPrice;
+@property (nonatomic) double oldOriginPrice;
 
 + (instancetype)shopServiceWithJSONResponse:(NSDictionary *)rsp;
 
@@ -65,7 +66,7 @@ typedef enum : NSUInteger {
 
 @end
 
-@interface JTShop : NSObject
+@interface JTShop : NSObject<CKItemDelegate>
 ///商户id
 @property (nonatomic,strong)NSNumber * shopID;
 ///商户名称
@@ -90,17 +91,36 @@ typedef enum : NSUInteger {
 @property (nonatomic)NSInteger txnumber;
 ///评价数
 @property (nonatomic)NSInteger commentNumber;
-///商户服务[JTShopService]
+///洗车服务[JTShopService]
 @property (nonatomic,strong)NSArray * shopServiceArray;
+///保养服务[JTShopService]
+@property (nonatomic,strong)NSArray * maintenanceServiceArray;
+///美容服务[JTShopService]
+@property (nonatomic,strong)NSArray * beautyServiceArray;
+///保养商户评级
+@property (nonatomic, assign) NSInteger maintenanceRateNumber;
+///美容商户评级
+@property (nonatomic, assign) NSInteger beautyRateNumber;
+///保养评论数量
+@property (nonatomic, assign) NSInteger maintenanceCommentNumber;
+///美容评论数量
+@property (nonatomic, assign) NSInteger beautyCommentNumber;
 ///允许使用农行卡
 @property (nonatomic)BOOL allowABC;
 ///商户服务[JTShopComment]
 @property (nonatomic,strong)NSArray * shopCommentArray;
 ///公报
 @property (nonatomic,copy)NSString * announcement;
-///评价数量
+///该商户洗车服务总评价数量
 @property (nonatomic)NSInteger ratenumber;
-//是否营业，1:是。0：营业
+//是否休假，1:是。0：营业
 @property (nonatomic,strong)NSNumber *isVacation;
+
 + (instancetype)shopWithJSONResponse:(NSDictionary *)rsp;
+///是否正在营业时段
+- (BOOL)isInBusinessHours;
+///营业中，已休息，暂停营业
+- (NSString *)descForBusinessStatus;
+- (NSArray *)filterShopServiceByType:(ShopServiceType)type;
+
 @end

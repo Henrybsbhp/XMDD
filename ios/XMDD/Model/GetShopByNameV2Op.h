@@ -21,6 +21,8 @@
 
 ///分页数
 @property (nonatomic)NSInteger pageno;
+/// 类型过滤码
+@property (nonatomic)NSInteger serviceType;
 
 /// 商户过滤码
 //@property (nonatomic)

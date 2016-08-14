@@ -10,4 +10,7 @@
 
 @interface ShopDetailPaymentCell : HKCollectionViewCell
 
+@property (nonatomic, strong) UILabel *priceLabel;
+@property (nonatomic, strong) UIButton *payButton;
+
 @end

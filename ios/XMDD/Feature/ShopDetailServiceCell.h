@@ -10,4 +10,11 @@
 
 @interface ShopDetailServiceCell : UICollectionViewCell
 
+@property (nonatomic, strong) UIButton *radioButton;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *priceLabel;
+@property (nonatomic, strong) UILabel *descLabel;
+
++ (CGFloat)cellHeightWithTitle:(NSString *)title desc:(NSString *)desc boundWidth:(CGFloat)width;
+
 @end

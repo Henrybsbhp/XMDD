@@ -6,8 +6,12 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "HKCollectionViewCell.h"
+#import <UIKit/UIKit.h>
+#import "JTRatingView.h"
 
-@interface ShopDetailCommentTitleCell : HKCollectionViewCell
+@interface ShopDetailCommentTitleCell : UICollectionViewCell
+@property (nonatomic, strong) JTRatingView *ratingView;
+@property (nonatomic, strong) UILabel *rateLabel;
+@property (nonatomic, strong) UIButton *commentButton;
 
 @end

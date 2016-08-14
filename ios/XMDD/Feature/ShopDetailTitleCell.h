@@ -7,7 +7,14 @@
 //
 
 #import "HKCollectionViewCell.h"
+#import "JTRatingView.h"
 
 @interface ShopDetailTitleCell : HKCollectionViewCell
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *tipLabel;
+@property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) UILabel *distanceLabel;
+@property (nonatomic, assign) BOOL isTipHighlight;
+
 
 @end

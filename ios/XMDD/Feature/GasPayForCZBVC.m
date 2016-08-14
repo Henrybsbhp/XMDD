@@ -14,7 +14,6 @@
 #import "CancelGaschargeOp.h"
 #import "UIView+Shake.h"
 #import "HKSMSModel.h"
-#import "BankCardStore.h"
 #import "PaymentHelper.h"
 #import "HKCellData.h"
 #import "HKTableViewCell.h"
@@ -204,8 +203,7 @@
         [gToast dismiss];
         //加油到达上限（如果遇到该错误，客户端提醒用户后，需再调用一次查询卡的充值信息）
         if (error.code == 618602) {
-            BankCardStore *store = [BankCardStore fetchExistsStore];
-            [store sendEvent:[store updateBankCardCZBInfoByCID:self.bankCard.cardID]];
+            [[[GasStore fetchExistsStore] updateCZBCardInfoByCID:self.bankCard.cardID] send];
         }
         //跳转到支付失败页面
         GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
