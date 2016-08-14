@@ -7,7 +7,6 @@
 //
 
 #import "UPPayHelper.h"
-#import "UPPayPlugin.h"
 
 //接入模式  "00":代表生产环境   "01":代表测试环境、
 #ifdef DEBUG
@@ -16,7 +15,7 @@
     #define UPPayPaymentMode  @"00"
 #endif
 
-@interface UPPayHelper ()<UPPayPluginDelegate>
+@interface UPPayHelper ()
 @end
 
 @implementation UPPayHelper
@@ -29,17 +28,18 @@
 - (RACSignal *)rac_payWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc
 {
     
-    [UPPayPlugin startPay:tn mode:UPPayPaymentMode viewController:tvc delegate:self];
-    return [[[self rac_signalForSelector:@selector(UPPayPluginResult:) fromProtocol:@protocol(UPPayPluginDelegate)] take:1] flattenMap:^RACStream *(RACTuple *tuple) {
-        NSString *result = [tuple first];
-        if ([@"success" isEqualToString:result]) {
-            return [RACSignal return:result];
-        }
-        else if ([@"fail" isEqualToString:result]) {
-            return [RACSignal error:[NSError errorWithDomain:@"银联支付失败" code:0 userInfo:nil]];
-        }
-        return [RACSignal empty];
-    }];
+    return [RACSignal return:@"OK"];
+//    [UPPayPlugin startPay:tn mode:UPPayPaymentMode viewController:tvc delegate:self];
+//    return [[[self rac_signalForSelector:@selector(UPPayPluginResult:) fromProtocol:@protocol(UPPayPluginDelegate)] take:1] flattenMap:^RACStream *(RACTuple *tuple) {
+//        NSString *result = [tuple first];
+//        if ([@"success" isEqualToString:result]) {
+//            return [RACSignal return:result];
+//        }
+//        else if ([@"fail" isEqualToString:result]) {
+//            return [RACSignal error:[NSError errorWithDomain:@"银联支付失败" code:0 userInfo:nil]];
+//        }
+//        return [RACSignal empty];
+//    }];
 }
 
 - (void)UPPayPluginResult:(NSString *)result

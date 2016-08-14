@@ -7,7 +7,6 @@
 //
 
 #import "PayForWashCarVC.h"
-#import "Xmdd.h"
 #import <POP.h>
 #import "UIView+Layer.h"
 #import "NSDate+DateForText.h"
@@ -39,9 +38,6 @@
 #import "FMDeviceManager.h"
 
 #import "GetPayStatusOp.h"
-
-#define CheckBoxCouponGroup @"CheckBoxCouponGroup"
-#define CheckBoxPlatformGroup @"CheckBoxPlatformGroup"
 
 @interface PayForWashCarVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bottomView;

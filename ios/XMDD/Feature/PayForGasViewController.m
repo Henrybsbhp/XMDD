@@ -22,6 +22,7 @@
 #import "FMDeviceManager.h"
 #import "CKDatasource.h"
 #import "GetPayStatusOp.h"
+#import "UPApplePayHelper.h"
 
 @interface PayForGasViewController ()
 
@@ -108,7 +109,7 @@
 
 - (void)setupData
 {
-    self.paychannel = PaymentChannelAlipay;
+    self.paychannel = PaymentChannelUPpay;
     self.selectGasCoupouArray = [NSMutableArray array];
 }
 
@@ -143,20 +144,32 @@
     NSDictionary * dict2_0 = @{@"cellname":@"PaymentPlatformHeadCell"};
     
     NSDictionary * dict2_1 = @{@"title":@"支付宝支付",@"subtitle":@"推荐支付宝用户使用",
-                               @"payment":@(PaymentChannelAlipay),@"recommend":@(YES),
-                               @"cellname":@"PaymentPlatformCell",@"icon":@"alipay_logo_66"};
+                               @"payment":@(PaymentChannelAlipay),@"recommend":@(NO),
+                               @"cellname":@"PaymentPlatformCell",@"icon":@"alipay_logo_66",@"uppayrecommend":@(NO)};
     
     NSDictionary * dict2_2 = @{@"title":@"微信支付",@"subtitle":@"推荐微信用户使用",
                                @"payment":@(PaymentChannelWechat),@"recommend":@(NO),
-                               @"cellname":@"PaymentPlatformCell",@"icon":@"wechat_logo_66"};
+                               @"cellname":@"PaymentPlatformCell",@"icon":@"wechat_logo_66",@"uppayrecommend":@(NO)};
     
     NSDictionary * dict2_3 = @{@"title":@"银联支付",@"subtitle":@"推荐银联用户使用",
-                               @"payment":@(PaymentChannelUPpay),@"recommend":@(NO),
-                               @"cellname":@"PaymentPlatformCell",@"icon":@"uppay_logo_66"};
+                               @"payment":@(PaymentChannelUPpay),@"recommend":@(YES),
+                               @"cellname":@"PaymentPlatformCell",@"icon":@"uppay_logo_66",@"uppayrecommend":@(NO)};
     
-    self.paymentArray = gPhoneHelper.exsitWechat ? @[dict2_1,dict2_2,dict2_3] : @[dict2_1,dict2_3];
+    NSDictionary * dict2_4 = @{@"title":@"Apple Pay",@"subtitle":@"推荐Apple Pay用户使用",
+                               @"payment":@(PaymentChannelApplePay),@"recommend":@(NO),
+                               @"cellname":@"PaymentPlatformCell",@"icon":@"apple_pay_logo_66",@"uppayrecommend":@(YES)};
+    
     NSMutableArray * tArray = [NSMutableArray arrayWithObject:dict2_0];
-    [tArray addObjectsFromArray:self.paymentArray];
+    [tArray addObject:dict2_3];
+    if ([UPApplePayHelper isApplePayAvailable])
+    {
+        [tArray addObject:dict2_4];
+    }
+    [tArray addObject:dict2_1];
+    if (gPhoneHelper.exsitWechat)
+    {
+        [tArray addObject:dict2_2];
+    }
     self.datasource = @[@[dict0_0,dict0_1,dict0_2],@[dict1_0,dict1_1],tArray];
 }
 
@@ -174,8 +187,15 @@
         
         self.isLoadingResourse = NO;
         self.gasCouponArray = op.rsp_couponArray;
+        HKCoupon * selectedCoupon = [self.gasCouponArray safetyObjectAtIndex:0];
+        if (selectedCoupon)
+        {
+            self.selectGasCoupouArray = [NSMutableArray arrayWithObject:selectedCoupon];
+            self.couponType = selectedCoupon.conponType;
+        }
         
         [self setupDatasource];
+        
         [self.tableView reloadData];
     } error:^(NSError *error) {
         
@@ -241,7 +261,7 @@
 
 - (void)jumpToChooseCouponVC
 {
-     ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
+    ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
     vc.originVC = self;
     vc.type = CouponTypeGasNormal; /// 加油券类型的用普通代替
     vc.selectedCouponArray = self.selectGasCoupouArray;
@@ -289,11 +309,14 @@
     }] subscribeNext:^(GascardChargeOp *op) {
         
         self.tradeID = nil;
+        
+        [gToast dismiss];
+        
         @strongify(self);
         if (![self callPaymentHelperWithPayOp:op gasCard:card]) {
-            [gToast dismiss];
+            
             [self cancelOrderWithTradeNumber:op.rsp_tradeid cardID:op.req_gid];
-            [self pushToPaymentResultWithPaidOp:op andGasCard:card];
+            [self pushToPaymentResultWithPaidOp:op andGasCard:card andUppayCouponInfo:nil];
         }
     } error:^(NSError *error) {
         
@@ -328,10 +351,17 @@
             text = @"订单生成成功,正在跳转到银联平台进行支付";
             [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeid targetVC:self];
         } break;
+        case PaymentChannelApplePay:{
+            
+            [helper resetForUPApplePayWithTradeNumber:paidop.rsp_tradeid targetVC:self];
+        } break;
         default:
             return NO;
     }
-    [gToast showText:text];
+    if (text.length)
+    {
+        [gToast showText:text];
+    }
     __block BOOL paidSuccess = NO;
     @weakify(self);
     [[helper rac_startPay] subscribeNext:^(id x) {
@@ -346,11 +376,19 @@
         // 支付成功
         paidSuccess = YES;
         [[GasStore fetchOrCreateStore] saverecentlyUsedGasCardID:paidop.req_gid];
-        [self pushToPaymentResultWithPaidOp:paidop andGasCard:card];
+        
+        NSString * couponInfo;
+        if ([x isKindOfClass:[PaymentHelper class]])
+        {
+            PaymentHelper * helper = (PaymentHelper *)x;
+            couponInfo = helper.uppayCouponInfo;
+        }
+        
+        [self pushToPaymentResultWithPaidOp:paidop andGasCard:card andUppayCouponInfo:couponInfo];
     } error:^(NSError *error) {
         
         @strongify(self);
-        [gToast showError:error.domain];
+//        [gToast showError:error.domain];
         [self cancelOrderWithTradeNumber:paidop.rsp_tradeid cardID:card.gid];
     } completed:^{
         
@@ -375,31 +413,6 @@
 }
 
 #pragma mark - Util
-
--(void)checkPayment
-{
-    @weakify(self)
-    GetPayStatusOp *op = [[GetPayStatusOp alloc]init];
-    if (self.tradeID.length != 0)
-    {
-        op.req_tradeno = self.tradeID;
-        op.req_tradetype = [self.gasNormalVC isRechargeForInstalment] ? @"4" : @"3";
-        
-        [[[op rac_postRequest]initially:^{
-            [gToast showingWithText:@"订单信息查询中"];
-        }]subscribeNext:^(id x) {
-            [gToast dismiss];
-            @strongify(self)
-            if (op.rsp_status)
-            {
-                [self pushToPaymentResultWithPaidOp:self.op andGasCard:self.gasNormalVC.curGasCard];
-            }
-        }error:^(NSError *error) {
-            [gToast showText:error.domain];
-        }];
-    }
-}
-
 - (void)selectedCouponCell {
     [MobClick event:@"rp508_1"];
     [self jumpToChooseCouponVC];
@@ -420,7 +433,7 @@
    
 }
 
-- (void)pushToPaymentResultWithPaidOp:(GascardChargeOp *)paidop andGasCard:(GasCard *)card {
+- (void)pushToPaymentResultWithPaidOp:(GascardChargeOp *)paidop andGasCard:(GasCard *)card andUppayCouponInfo:(NSString *)couponInfo{
     //分期加油
     if ([paidop isKindOfClass:[GascardChargeByStagesOp class]]) {
         NSString *url = kGasOrderPaidUrl;
@@ -443,6 +456,8 @@
         vc.paidMoney = paidop.rsp_total;
         vc.couponMoney = paidop.rsp_couponmoney;
         vc.chargeMoney = paidop.req_amount;
+        vc.isNeedUppayIcon = paidop.req_paychannel == PaymentChannelApplePay;
+        vc.uppayCouponInfo = couponInfo;
         @weakify(self);
         [vc setDismissBlock:^(DrawingBoardViewStatus status) {
             @strongify(self);
@@ -686,6 +701,7 @@
     UILabel * noteLb = (UILabel *)[cell searchViewWithTag:1004];
     UIButton * checkedB = (UIButton *)[cell searchViewWithTag:1003];
     UILabel * recommendLB = (UILabel *)[cell searchViewWithTag:1005];
+    UIImageView * uppayIcon = [cell viewWithTag:1006];
     [recommendLB makeCornerRadius:3.0f];
     
     NSArray * array = [self.datasource safetyObjectAtIndex:indexPath.section];
@@ -695,6 +711,7 @@
     noteLb.text = dict[@"subtitle"];
     iconV.image = [UIImage imageNamed:dict[@"icon"]];
     recommendLB.hidden = ![dict[@"recommend"] boolValue];
+    uppayIcon.hidden = ![dict[@"uppayrecommend"] boolValue];
     PaymentChannelType tt = (PaymentChannelType)[dict[@"payment"] integerValue];
     
     [[RACObserve(self, paychannel) takeUntilForCell:cell] subscribeNext:^(NSNumber * num) {

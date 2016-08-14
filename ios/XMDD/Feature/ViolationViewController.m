@@ -8,6 +8,7 @@
 
 #import "ViolationViewController.h"
 #import "ViolationItemViewController.h"
+#import "ViolationMissionHistoryVC.h"
 #import "MyCarStore.h"
 #import "HKPageSliderView.h"
 
@@ -135,6 +136,13 @@
 }
 
 #pragma mark - Utility
+/// 跳转到违章记录VC
+- (void)jumpToMyVoilationMissionHistoryVC
+{
+    ViolationMissionHistoryVC *vc = [UIStoryboard vcWithId:@"ViolationMissionHistoryVC" inStoryboard:@"Temp_YZC"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)refreshPageController
 {
     NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
@@ -297,5 +305,17 @@
     
     return YES;
 }
+
+#pragma mark Action
+
+- (IBAction)actionJumpToMyVoilationMissionHistoryVC:(id)sender {
+    [self jumpToMyVoilationMissionHistoryVC];
+}
+
+
+- (IBAction)actionJumpToRecord:(id)sender {
+    
+}
+
 
 @end

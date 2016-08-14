@@ -344,7 +344,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SwitchCell" id="X7F-KL-9MS">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SwitchCell" id="X7F-KL-9MS">
                                         <rect key="frame" x="0.0" y="214" width="588" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="X7F-KL-9MS" id="B6e-YL-ai6">
@@ -371,7 +371,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="InsCompanyCell" rowHeight="26" id="FrP-wl-61i">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InsCompanyCell" rowHeight="26" id="FrP-wl-61i">
                                         <rect key="frame" x="0.0" y="258" width="588" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FrP-wl-61i" id="hZN-fm-mFW">
@@ -408,29 +408,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InsExpandCell" id="iuO-9Y-rUB">
-                                        <rect key="frame" x="0.0" y="284" width="588" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iuO-9Y-rUB" id="7DD-Qw-snR">
-                                            <rect key="frame" x="0.0" y="0.0" width="588" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="101" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mutualins_sepline" translatesAutoresizingMaskIntoConstraints="NO" id="nfS-n9-ean">
-                                                    <rect key="frame" x="10" y="5" width="568" height="6"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="6" id="DTg-zX-Mey"/>
-                                                    </constraints>
-                                                </imageView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="nfS-n9-ean" firstAttribute="top" secondItem="7DD-Qw-snR" secondAttribute="top" constant="5" id="F0z-h2-Zq2"/>
-                                                <constraint firstAttribute="trailing" secondItem="nfS-n9-ean" secondAttribute="trailing" constant="10" id="h7R-9h-YgA"/>
-                                                <constraint firstItem="nfS-n9-ean" firstAttribute="leading" secondItem="7DD-Qw-snR" secondAttribute="leading" constant="10" id="vzc-wZ-RDt"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BlankCell" id="vlm-i2-UwW">
-                                        <rect key="frame" x="0.0" y="328" width="588" height="44"/>
+                                        <rect key="frame" x="0.0" y="284" width="588" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vlm-i2-UwW" id="Zdd-tS-8oJ">
                                             <rect key="frame" x="0.0" y="0.0" width="588" height="44"/>
@@ -446,8 +425,12 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VHN-WY-gVd">
                                 <rect key="frame" x="0.0" y="20" width="600" height="40"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" image="MutualIns_warming" translatesAutoresizingMaskIntoConstraints="NO" id="k1C-GH-lmM">
-                                        <rect key="frame" x="272" y="14" width="13" height="13"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" misplaced="YES" image="MutualIns_warming" translatesAutoresizingMaskIntoConstraints="NO" id="k1C-GH-lmM">
+                                        <rect key="frame" x="271" y="14" width="14" height="14"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="14" id="4l0-fd-Og9"/>
+                                            <constraint firstAttribute="height" constant="14" id="Ij6-Rz-Den"/>
+                                        </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbY-0E-jq5">
                                         <rect key="frame" x="290" y="12" width="33" height="16"/>
@@ -595,8 +578,9 @@
                         <outlet property="sureBtn" destination="fTq-g8-Rqo" id="aWd-s5-yaE"/>
                         <outlet property="sureBtnLeadingConstraint" destination="pgl-ZP-ooV" id="gBp-k7-tlD"/>
                         <outlet property="tableView" destination="81Y-GO-GnL" id="byj-AB-je5"/>
-                        <outlet property="topLabel" destination="cbY-0E-jq5" id="d1B-5u-0x0"/>
+                        <outlet property="topLabel" destination="cbY-0E-jq5" id="xmn-tQ-ZGm"/>
                         <outlet property="topView" destination="VHN-WY-gVd" id="Byb-Xb-NfY"/>
+                        <outlet property="topViewHeightConstraint" destination="Ipx-VB-fjh" id="ccL-5Z-Bbc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lze-7t-Gq8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1497,7 +1481,6 @@
         <image name="mutualIns_coupon" width="30" height="30"/>
         <image name="mutualins_down_icon" width="11" height="5"/>
         <image name="mutualins_pay_logo" width="107" height="39"/>
-        <image name="mutualins_sepline" width="58" height="4"/>
         <image name="round_tick" width="23" height="23"/>
         <image name="square_tick" width="18" height="17"/>
         <image name="val_prompt_300" width="17" height="17"/>

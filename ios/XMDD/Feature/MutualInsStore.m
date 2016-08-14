@@ -52,6 +52,12 @@
     return [self inlineEvent:event forDomain:kDomainMutualInsSimpleGroups];
 }
 
+- (CKEvent *)reloadOrderList
+{
+    CKEvent *event = [[RACSignal return:nil] eventWithName:@"reloadMutualInsOrderList"];
+    return [self inlineEvent:event forDomain:kDomainMutualInsOrderList];
+}
+
 #pragma mark - Getter
 - (JTQueue *)getOrCreateDetailGroups
 {

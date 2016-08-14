@@ -4,13 +4,9 @@
 //
 //  Created by jiangjunchen on 15/4/2.
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
-//
-
 
 
 #import "HomePageVC.h"
-#import <Masonry.h>
-#import "Xmdd.h"
 #import "UIImage+Utilities.h"
 #import "UIView+Layer.h"
 #import "UIView+HKLine.h"
@@ -24,28 +20,24 @@
 #import "GuideStore.h"
 #import "PasteboardModel.h"
 #import "AdListData.h"
+#import "HomePageModuleModel.h"
 
 #import "ADViewController.h"
 #import "HomeNewbieGuideVC.h"
 #import "HomeSuspendedAdVC.h"
-#import "InviteAlertVC.h"
-#import "AdListData.h"
-#import "MyCouponVC.h"
-#import "CouponPkgViewController.h"
 
-#import "HKPopoverView.h"
-#import "FLAnimatedImage.h"
-#import "FLAnimatedImageView.h"
-
-#import "ParkingShopGasInfoVC.h"
+#import "TTTAttributedLabel.h"
 
 #import "MutualInsVC.h"
+
+#import "ViolationCommissionStateVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
 #define ItemCount 3
 
 
-@interface HomePageVC ()<UIScrollViewDelegate>
+@interface HomePageVC ()<UIScrollViewDelegate,TTTAttributedLabelDelegate>
+
 @property (nonatomic, weak) IBOutlet UIView *bgView;
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, weak) IBOutlet UIView *weatherView;
@@ -60,6 +52,7 @@
 
 @property (nonatomic, strong) MyCarStore *carStore;
 @property (nonatomic, strong) GuideStore *guideStore;
+@property (nonatomic, strong) HomePageModuleModel * moduleModel;
 
 /// 当前页面是否是homePageVC
 @property (nonatomic, assign) BOOL isViewAppearing;
@@ -97,6 +90,7 @@
     //设置主页的滚动视图
     [self setupScrollView];
     [self setupWeatherView];
+    
     
     [self.scrollView.refreshView addTarget:self action:@selector(reloadDatasource) forControlEvents:UIControlEventValueChanged];
     
@@ -223,7 +217,7 @@
     }];
     
     // 设置九宫格内部数据
-    [self setupSquaresView:squaresHeight];
+    [self setupSquaresView:squaresView withHeight:squaresHeight];
     
     //小方块高度
     CGFloat squareHeight = squaresHeight / 3.0f;
@@ -314,10 +308,12 @@
 - (void)setupWeatherView
 {
     UIImageView * weatherImage = (UIImageView *)[self.weatherView searchViewWithTag:20201];
-    UILabel * tempLb = (UILabel *)[self.weatherView searchViewWithTag:20202];
+    TTTAttributedLabel * tempLb = (TTTAttributedLabel *)[self.weatherView searchViewWithTag:20202];
     UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
     UIView *rightContainerV = (UIView *)[self.weatherView searchViewWithTag:20200];
     tempLb.numberOfLines = 2;
+    tempLb.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width;
+    tempLb.delegate = self;
     
     [[RACObserve(gAppMgr, restriction) distinctUntilChanged] subscribeNext:^(NSString *text) {
         rightContainerV.hidden = text.length == 0;
@@ -326,10 +322,10 @@
     
     [RACObserve(gAppMgr, temperatureAndTip) subscribeNext:^(NSString *text) {
         
-        tempLb.text = text;
-        if (text.length > 0) {
-            [self setupLineSpace:tempLb withText:text];
-        }
+        if (!text)
+            return ;
+        NSRange range = [text.customObject isKindOfClass:[NSValue class]] ? [(NSValue *)text.customObject rangeValue]: NSMakeRange(0, 0);
+        [self setupTTTLabel:tempLb withContent:text withRange:range];
     }];
     
     [[RACObserve(gAppMgr, temperaturepic)distinctUntilChanged] subscribeNext:^(id x) {
@@ -338,17 +334,42 @@
     }];
 }
 
-- (void)setupSquaresView:(CGFloat)height
+- (void)setupSquaresView:(UIView *)containView withHeight:(CGFloat)height
 {
     CGFloat squaresHeight = height;
     CGFloat squqresWidth = gAppMgr.deviceInfo.screenSize.width;
-    UIView *squaresView = (UIView *)[self.view searchViewWithTag:101];
-    for (NSInteger i = 0; i < gAppMgr.homePicModel.homeItemArray.count; i++)
-    {
-        HomeItem *item = [gAppMgr.homePicModel.homeItemArray safetyObjectAtIndex:i];
-        
-        [self mainButtonWithSubmudule:item index:i inContainer:squaresView width:squqresWidth/3.0 height:squaresHeight/3.0];
-    }
+    
+    self.moduleModel.moduleArray = gAppMgr.homePicModel.homeItemArray;
+    self.moduleModel.numOfColumn = 3;
+    
+    [self.moduleModel setupSquaresViewWithContainView:containView andItemWith:squqresWidth/3.0 andItemHeigth:squaresHeight/3.0];
+}
+
+- (void)setupTTTLabel:(TTTAttributedLabel *)label withContent:(NSString *)text withRange:(NSRange)range
+{
+    NSMutableString *mutableString = [NSMutableString stringWithString:text];
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
+    ps.lineSpacing = 5;
+    NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:mutableString
+                                                                 attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12],
+                                                                              NSForegroundColorAttributeName: kDarkTextColor,
+                                                                              NSParagraphStyleAttributeName: ps}];
+    
+    label.attributedText = attstr;
+    [label setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                               NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
+    [label setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                     NSForegroundColorAttributeName: kDarkTextColor}];
+    [label addLinkToURL:[NSURL URLWithString:@""] withRange:range];
+}
+
+#pragma mark - TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url
+{
+     if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+     {
+         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+     }
 }
 
 
@@ -403,6 +424,7 @@
     }
 }
 
+
 #pragma mark - Action
 - (IBAction)actionCallService:(id)sender {
     
@@ -414,6 +436,7 @@
     }];
     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
     [alert show];
+
 }
 
 
@@ -482,7 +505,7 @@
         
         @strongify(self);
         [self setupNavigationLeftBar:nil];
-        [gMapHelper handleGPSError:error];
+        [self handleLocationError:error];
     }] map:^id(RACTuple * tuple) {
         
         return tuple.second;
@@ -494,20 +517,20 @@
     [[[[[sig1 initially:^{
         @strongify(self);
         [self.scrollView.refreshView beginRefreshing];
-    }]catch:^RACSignal *(NSError *error) {
+    }] catch:^RACSignal *(NSError *error) {
+
         
-        //失败也要获取广告
-        @strongify(self);
-        [self.adctrl reloadDataWithForce:YES completed:nil];
-        [self.secondAdCtrl reloadDataWithForce:YES completed:nil];
         return [RACSignal error:error];
     }] flattenMap:^RACStream *(AMapLocationReGeocode * code) {
+        
         @strongify(self);
-        [self.adctrl reloadDataWithForce:YES completed:nil];
-        [self.secondAdCtrl reloadDataWithForce:YES completed:nil];
         return [self rac_getWeatherInfoWithReGeocode:code];
     }]  finally:^{
+        
         @strongify(self);
+        //失败也要获取广告
+        [self.adctrl reloadDataWithForce:YES completed:nil];
+        [self.secondAdCtrl reloadDataWithForce:YES completed:nil];
         [self.scrollView.refreshView endRefreshing];
     }] subscribeNext:^(id x) {
         
@@ -532,7 +555,10 @@
         
         gAppMgr.homePicModel = [gAppMgr.homePicModel analyzeHomePicModel:op.homeModel];
         [gAppMgr saveHomePicInfo];
-        [self refreshSquareView];
+        
+        UIView *containView = (UIView *)[self.view searchViewWithTag:101];
+        self.moduleModel.moduleArray = gAppMgr.homePicModel.homeItemArray;
+        [self.moduleModel refreshSquareView:containView];
     }];
 }
 
@@ -547,10 +573,12 @@
         gAppMgr.temperatureAndTip = [[op.rsp_temperature append:@"   "] append:op.rsp_temperaturetip];
         gAppMgr.temperaturepic = op.rsp_temperaturepic;
         gAppMgr.restriction = op.rsp_restriction;
-        
     }] doError:^(NSError *error) {
         
-        [gToast showError:@"天气获取失败"];
+        NSString * temperature = @"获取天气信息失败\n请重新下拉刷新";
+        gAppMgr.temperatureAndTip = temperature;
+        gAppMgr.temperaturepic = @"yin";
+        gAppMgr.restriction = @"";
     }] catch:^RACSignal *(NSError *error) {
         
         return [RACSignal empty];
@@ -558,198 +586,6 @@
 }
 
 
-- (FLAnimatedImageView *)functionalButtonWithImageName:(NSString *)imgName action:(SEL)action inContainer:(UIView *)container andPicUrl:(NSString *)picUrl
-{
-    FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
-    imageView.backgroundColor = [UIColor whiteColor];
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [container addSubview:imageView];
-    
-    if (picUrl)
-    {
-        [self requestHomePicWithBtn:imageView andUrl:picUrl andDefaultPic:imgName errPic:imgName];
-    }
-    else
-    {
-        UIImage *img = [UIImage imageNamed:imgName];
-        [imageView setImage:img];
-    }
-    return imageView;
-}
-
-- (UIImageView *)mainButtonWithSubmudule:(HomeItem *)item index:(NSInteger)index inContainer:(UIView *)container width:(CGFloat)width height:(CGFloat)height
-{
-    NSInteger tag = 20101;
-    FLAnimatedImageView * itemView = [self functionalButtonWithImageName:item.defaultImageName action:nil inContainer:container andPicUrl:item.homeItemPicUrl];
-    itemView.userInteractionEnabled = YES;
-    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] init];
-    [itemView addGestureRecognizer:tapGesture];
-    RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
-        [self jumpToViewControllerByUrl:item.homeItemRedirect];
-    }];
-    
-    [self.disposableArray safetyAddObject:disposable];
-    itemView.tag = tag + index;
-    
-    NSInteger quotient = index / ItemCount;
-    NSInteger remiainder = index % ItemCount;
-    
-    [itemView mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.width.mas_equalTo(width);
-        make.height.mas_equalTo(height);
-        make.top.equalTo(container).offset(height * quotient);
-        make.left.equalTo(container).offset(width * remiainder);
-    }];
-    
-    NSInteger iconTag = 2010101 + index;
-    UIImageView * iconNewImageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hp_new_icon"]];
-    iconNewImageV.tag = iconTag;
-    [itemView addSubview:iconNewImageV];
-    
-    [iconNewImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(40);
-        make.top.equalTo(itemView);
-        make.right.equalTo(itemView);
-    }];
-    
-    BOOL isnewflag = (![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]]) && item.isNewFlag;
-    iconNewImageV.hidden = !isnewflag;
-    
-    return itemView;
-}
-
-- (void)setupLineSpace:(UILabel *)label withText:(NSString *)text
-{
-    if (IOSVersionGreaterThanOrEqualTo(@"7.0")) {
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragraphStyle setLineSpacing:2];//调整行间距
-        
-        NSDictionary *attr = @{NSParagraphStyleAttributeName: paragraphStyle};
-        label.attributedText = [[NSAttributedString alloc] initWithString:text attributes:attr];
-    }
-    else {
-        label.text = text;
-    }
-}
-
-
-//刷新九宫格
-- (void)refreshSquareView
-{
-    UIView *firstView = (UIView *)[self.view searchViewWithTag:101];
-    
-    for (RACDisposable * disposable in self.disposableArray)
-    {
-        [disposable dispose];
-    }
-    [self.disposableArray removeAllObjects];
-    
-    for (NSInteger i = 0; i < gAppMgr.homePicModel.homeItemArray.count; i++)
-    {
-        HomeItem *item = [gAppMgr.homePicModel.homeItemArray safetyObjectAtIndex:i];
-        NSInteger itemTag = 20101 + i;
-        FLAnimatedImageView * itemView = (FLAnimatedImageView *)[firstView searchViewWithTag:itemTag];
-        itemView.hidden = NO;
-        
-        NSInteger iconNewTag = 2010101 + i;
-        UIImageView * iconImageView = (UIImageView *)[itemView searchViewWithTag:iconNewTag];
-        iconImageView.hidden = !((![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]]) && item.isNewFlag);
-        
-        [self requestHomePicWithBtn:itemView andUrl:item.homeItemPicUrl andDefaultPic:item.defaultImageName errPic:item.defaultImageName];
-        
-        //先移除手势
-        for (UIGestureRecognizer *recognizer in itemView.gestureRecognizers) {
-            [itemView removeGestureRecognizer:recognizer];
-        }
-        UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] init];
-        RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
-            [self jumpToViewControllerByUrl:item.homeItemRedirect];
-            
-            // 把new标签设置回去
-            if (![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]] && item.isNewFlag)
-            {
-                [gAppMgr saveElementReaded:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]];
-                iconImageView.hidden = YES;
-            }
-        }];
-        [itemView addGestureRecognizer:tapGesture];
-        [self.disposableArray safetyAddObject:disposable];
-    }
-    /// 如果只有7个或者8个，把多余的隐藏
-    for (UIView * view in firstView.subviews)
-    {
-        if ([view isKindOfClass:[FLAnimatedImageView class]])
-        {
-            NSInteger itemTag = view.tag;
-            if ((itemTag - 20101) >= gAppMgr.homePicModel.homeItemArray.count)
-            {
-                view.hidden = YES;
-            }
-        }
-    }
-}
-
-
-- (void)requestHomePicWithBtn:(FLAnimatedImageView *)imageView andUrl:(NSString *)url andDefaultPic:(NSString *)pic1 errPic:(NSString *)pic2
-{
-    if (![url hasSuffix:@"gif"])
-    {
-        [[gMediaMgr rac_getImageByUrl:url withType:ImageURLTypeOrigin defaultPic:pic1 errorPic:pic2] subscribeNext:^(id x) {
-            
-            if (![x isKindOfClass:[UIImage class]])
-                return ;
-            
-                [UIView transitionWithView:imageView
-                                  duration:1.0
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{
-                                    
-                                    [imageView setImage:x];
-                                    imageView.alpha = 1.0;
-                                } completion:nil];
-            
-        }];
-    }
-    else
-    {
-        [[gMediaMgr rac_getGifImageDataByUrl:url defaultPic:pic1 errorPic:pic2] subscribeNext:^(id x) {
-            
-            if ([x isKindOfClass:[NSData class]])
-            {
-                FLAnimatedImage * animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:x];
-                [UIView transitionWithView:imageView
-                                  duration:1.0
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{
-                                    
-                                    imageView.animatedImage = animatedImage;
-                                    imageView.alpha = 1.0;
-                                } completion:nil];
-//                imageView.animatedImage = animatedImage;
-            }
-            else if ([x isKindOfClass:[UIImage class]])
-            {
-                [UIView transitionWithView:imageView
-                                  duration:1.0
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{
-                                    
-                                    [imageView setImage:x];
-                                    imageView.alpha = 1.0;
-                                } completion:nil];
-            }
-        }];
-    }
-}
-
-
-- (void)jumpToViewControllerByUrl:(NSString *)url
-{
-    [gAppMgr.navModel pushToViewControllerByUrl:url];
-}
 
 - (RACSignal *)rac_requestHomeSubmuduleWithUser:(JTUser *)user andReGeocode:(AMapLocationReGeocode *)code
 {
@@ -771,6 +607,36 @@
         signal = [op rac_postRequest];
     }
     return signal;
+}
+
+- (void)handleLocationError:(NSError *)error
+{
+    NSString * text;
+    text = @"请检查您是否打开了定位服务\n若已打开定位请重新下拉刷新";
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        NSRange range = NSMakeRange(9, 4);
+        text.customObject = [NSValue valueWithRange:range];
+    }
+    else
+    {
+        NSRange range = NSMakeRange(0, 0);
+        text.customObject = [NSValue valueWithRange:range];
+    }
+
+    gAppMgr.temperatureAndTip = text;
+    gAppMgr.temperaturepic = @"yin";
+    gAppMgr.restriction = @"定位失败";
+}
+
+#pragma mark - Lazy
+- (HomePageModuleModel *)moduleModel
+{
+    if (!_moduleModel)
+    {
+        _moduleModel = [[HomePageModuleModel alloc] init];
+    }
+    return _moduleModel;
 }
 
 @end

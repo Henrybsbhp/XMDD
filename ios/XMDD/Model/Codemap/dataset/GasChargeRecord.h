@@ -17,6 +17,10 @@
 @property (nonatomic,assign) int paymoney;
 ///充值金额
 @property (nonatomic,assign) int chargemoney;
+///分期加油第几期
+@property (nonatomic, assign) NSInteger fqjyPeriod;
+///分期加油总期数
+@property (nonatomic, assign) NSInteger fqjyMonths;
 
 
 + (instancetype)createWithJSONDict:(NSDictionary *)dict;
