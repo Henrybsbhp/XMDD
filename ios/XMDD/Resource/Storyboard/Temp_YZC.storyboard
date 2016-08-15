@@ -954,13 +954,13 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b94-Si-cya" userLabel="Label1">
-                                                    <rect key="frame" x="54" y="10" width="42" height="20"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="54" y="13.5" width="35.5" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1005" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rM0-TP-pAJ">
-                                                    <rect key="frame" x="101" y="12" width="30" height="16"/>
+                                                    <rect key="frame" x="94.5" y="14" width="30" height="16"/>
                                                     <color key="backgroundColor" red="1" green="0.4549019608" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="ir5-tH-NEB"/>
@@ -974,7 +974,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" tag="1006" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="applepay_background" translatesAutoresizingMaskIntoConstraints="NO" id="KoK-pU-45G">
-                                                    <rect key="frame" x="130" y="12" width="70" height="20"/>
+                                                    <rect key="frame" x="123.5" y="12" width="70" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="FYi-5v-Bed"/>
                                                         <constraint firstAttribute="height" constant="20" id="IHq-uo-HKv"/>
@@ -1022,7 +1022,7 @@
                                                 <constraint firstItem="KoK-pU-45G" firstAttribute="leading" secondItem="b94-Si-cya" secondAttribute="trailing" constant="34" id="fYS-QI-v3j"/>
                                                 <constraint firstAttribute="centerY" secondItem="hks-QU-ORP" secondAttribute="centerY" id="mB5-qC-rgZ"/>
                                                 <constraint firstAttribute="centerY" secondItem="ThK-E2-jpK" secondAttribute="centerY" id="qAv-nK-dXV"/>
-                                                <constraint firstItem="b94-Si-cya" firstAttribute="centerY" secondItem="ThK-E2-jpK" secondAttribute="centerY" constant="-2" id="vSr-SH-ynm"/>
+                                                <constraint firstItem="b94-Si-cya" firstAttribute="centerY" secondItem="ThK-E2-jpK" secondAttribute="centerY" id="vSr-SH-ynm"/>
                                                 <constraint firstItem="DZf-mO-3SJ" firstAttribute="top" secondItem="NxP-ND-rRx" secondAttribute="top" id="xNy-ng-RZ3"/>
                                             </constraints>
                                             <variation key="default">
