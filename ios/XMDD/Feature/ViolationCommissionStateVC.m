@@ -36,7 +36,7 @@
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-//    [self cancelListenNotificationByName:kNotifyViolationPaySuccess];
+    [self cancelListenNotificationByName:kNotifyViolationPaySuccess];
     DebugLog(@"ViolationComissionStateVC is deallocated");
 }
 
@@ -65,11 +65,11 @@
 /// 监听是否支付成功，如成功则刷新页面
 - (void)observeViolationPaySuccessEvent
 {
-//    @weakify(self)
-//    [self listenNotificationByName:kNotifyViolationPaySuccess withNotifyBlock:^(NSNotification *note, id weakSelf) {
-//        @strongify(self)
-//        [self fetchStateData];
-//    }];
+    @weakify(self)
+    [self listenNotificationByName:kNotifyViolationPaySuccess withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        @strongify(self)
+        [self fetchStateData];
+    }];
 }
 
 #pragma mark - Actions
