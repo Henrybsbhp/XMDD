@@ -25,6 +25,7 @@
 @property (strong, nonatomic) NSDictionary *statusDic;
 @property (strong, nonatomic) NSIndexPath *indexPath;
 @property (assign, nonatomic) CGPoint offset;
+@property (strong, nonatomic) NSNumber *recordID;
 
 @end
 
@@ -429,7 +430,9 @@
 
 - (IBAction)actionCommit:(id)sender
 {
+    NSDictionary *dic = self.dataSource[self.indexPath.row];
     ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Temp_YZC"];
+    vc.recordID = (NSNumber *)dic[@"recordid"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -49,12 +49,17 @@
     [super viewDidLoad];
     
     [self getViolationCommissionCoupons];
-    //    [self confirmViolationCommissionOrderConfirm];
+    [self confirmViolationCommissionOrderConfirm];
     [self setupDataSource];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self refreshBottomView];
 }
 
 - (void)dealloc
@@ -66,13 +71,6 @@
 
 
 #pragma mark - Setup
-
--(void)setupObserve
-{
-    [RACObserve(self, selectCoupouArray)subscribeNext:^(id x) {
-        [self refreshBottomView];
-    }];
-}
 
 -(void)setupDataSource
 {
@@ -272,6 +270,7 @@
         self.serviceFee = op.rsp_servicefee;
         self.totalFee = op.rsp_totalfee;
         
+        [self refreshBottomView];
         [self.tableView reloadData];
         
         
@@ -543,6 +542,21 @@
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 45;
+    });
+    
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UILabel *couponLb = (UILabel *)[cell.contentView viewWithTag:100];
+        
+        if (self.selectCoupouArray.count)
+        {
+            HKCoupon *coupon = self.selectCoupouArray.firstObject;
+            couponLb.text = coupon.couponName;
+        }
+        else
+        {
+            couponLb.text = @"暂未选择任何优惠券";
+        }
     });
     
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
