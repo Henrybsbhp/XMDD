@@ -20,6 +20,7 @@
     [params addParam:@(self.latitude) forName:@"latitude"];
     [params addParam:self.range ? @(self.range):@(1) forName:@"range"];
     [params addParam:@(self.typemask) forName:@"typemask"];
+    [params addParam:@(self.serviceType) forName:@"servicetype"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }

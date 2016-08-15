@@ -226,7 +226,7 @@ static char sActivityIndicatorView;
 - (UIColor *)activityIndicatorView:(MONActivityIndicatorView *)activityIndicatorView
       circleBackgroundColorAtIndex:(NSUInteger)index
 {
-    return [UIColor colorWithHex:@"#32a447" alpha:1.0f];;
+    return kDefTintColor;
 }
     
 @end

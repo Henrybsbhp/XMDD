@@ -16,7 +16,7 @@
 #import "SharedNotifyOp.h"
 #import "AwardShareSheetVC.h"
 #import "AwardOtherSheetVC.h"
-#import "CarWashTableVC.h"
+#import "CarwashShopListVC.h"
 #import "DetailWebVC.h"
 #import "GuideStore.h"
 #import "HKAddressComponent.h"
@@ -112,7 +112,7 @@
             [[self.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
                 @strongify(self);
-                CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+                CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
                 [self.navigationController pushViewController:vc animated:YES];
             }];
             [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -133,7 +133,7 @@
                     [gToast showText:@"请先刮卡领取礼券"];
                 }
                 else {
-                    CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+                    CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
                     [self.navigationController pushViewController:vc animated:YES];
                 }
             }];
@@ -343,7 +343,7 @@
         [MobClick event:@"rp402_3"];
         @strongify(self);
         [resultSheet dismissAnimated:YES completionHandler:nil];
-        CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+        CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     }];
     

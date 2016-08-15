@@ -48,7 +48,7 @@
         [self.scrollView addSubview:self];
         self.originInsets = scrollView.contentInset;
         self.clipsToBounds = YES;
-        self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
         self.backgroundColor = [UIColor clearColor];
         [scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
         [scrollView addObserver:self forKeyPath:@"contentInset" options:NSKeyValueObservingOptionNew context:nil];
@@ -60,6 +60,7 @@
 {
     [self beginRefreshingWithComplete:nil];
 }
+
 - (void)beginRefreshingWithComplete:(void(^)(void))complete
 {
     if (_refreshing) {

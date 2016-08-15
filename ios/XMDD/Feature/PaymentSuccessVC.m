@@ -3,7 +3,7 @@
 //  XiaoMa
 //
 //  Created by jiangjunchen on 15/4/9.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Copyright (c) 2015年 huika. All rights reserved.
 //
 
 #import "PaymentSuccessVC.h"
@@ -13,12 +13,13 @@
 #import "JTRatingView.h"
 #import "SystemFastrateGetOp.h"
 #import "SubmitCommentOp.h"
-#import "ShopDetailVC.h"
+#import "ShopDetailViewController.h"
 #import "NSDate+DateForText.h"
 #import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
 #import "GasVC.h"
 #import "GuideStore.h"
+#import "ShopDetailStore.h"
 #import "PayForWashCarVC.h"
 
 
@@ -107,17 +108,10 @@
 - (void)actionBack:(id)sender
 {
     if (self.originVC) {
-        if ([self.originVC isKindOfClass:[ShopDetailVC class]])
-        {
-            ShopDetailVC * vc = (ShopDetailVC *)self.originVC;
-            vc.needRequestShopComments = YES;
-            vc.needPopToFirstCarwashTableVC = YES;
-        }
         [self.navigationController popToViewController:self.originVC animated:YES];
     }
     else {
         [super actionBack:sender];
-//        [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 - (IBAction)shareAction:(id)sender {
@@ -173,6 +167,7 @@
     }] subscribeNext:^(SubmitCommentOp *rspOp) {
         
         [gToast showSuccess:@"评价成功!"];
+        [[ShopDetailStore fetchExistsStoreByShopID:self.order.shop.shopID] fetchAllCommentGroups];
         self.subLabel.text = @"评价成功!";
         self.currentRateTemplate = selected;
         [self setupUI:Commented];

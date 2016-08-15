@@ -11,7 +11,6 @@
 #define SuperClassName NSStringFromClass([self class])
 
 @interface HKViewController ()
-
 @end
 
 @implementation HKViewController
@@ -47,5 +46,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+
 
 @end

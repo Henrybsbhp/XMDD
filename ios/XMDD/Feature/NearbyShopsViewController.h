@@ -12,8 +12,7 @@
 
 @interface NearbyShopsViewController : HKViewController<MAMapViewDelegate,AMapSearchDelegate>
 
-@property (nonatomic)NSInteger type;
-
+@property (nonatomic, assign) ShopServiceType serviceType;
 @property (nonatomic, strong) NSNumber *searchType;
 
 - (void)reloadBottomView;

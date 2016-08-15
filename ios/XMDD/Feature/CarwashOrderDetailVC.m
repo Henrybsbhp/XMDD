@@ -9,12 +9,11 @@
 #import "CarwashOrderDetailVC.h"
 #import "Xmdd.h"
 #import "UIView+Layer.h"
-#import "ShopDetailVC.h"
 #import "NSString+RectSize.h"
 #import "JTRatingView.h"
 #import "HKLoadingModel.h"
 #import "GetCarwashOrderV2Op.h"
-#import "ShopDetailVC.h"
+#import "ShopDetailViewController.h"
 #import "PaymentSuccessVC.h"
 #import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
@@ -346,8 +345,9 @@
 {
     if (indexPath.section == 0 && indexPath.row == 0 )
     {
-        ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
+        ShopDetailViewController *vc = [[ShopDetailViewController alloc] init];
         vc.shop = self.order.shop;
+        vc.serviceType = self.order.serviceType;
         [self.navigationController pushViewController:vc animated:YES];
     }
     [MobClick event:@"rp320_2"];

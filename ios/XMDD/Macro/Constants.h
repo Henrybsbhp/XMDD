@@ -11,9 +11,16 @@
 
 /// 服务类型
 typedef enum : NSUInteger {
+    /// 全部洗车服务
+    ShopServiceAllCarWash = 0,
+    /// 普洗
     ShopServiceCarWash = 1,
     /// 精洗，用心洗
-    ShopServiceCarwashWithHeart
+    ShopServiceCarwashWithHeart = 2,
+    /// 汽车保养
+    ShopServiceCarMaintenance = 3,
+    /// 汽车美容
+    ShopServiceCarBeauty = 4,
 } ShopServiceType;
 
 /**
@@ -172,12 +179,12 @@ typedef enum : NSUInteger {
 //通知定义
 #define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
 #define kNotifyRefreshMyCouponList          @"com.huika.xmdd.RefreshMyCouponList"
-
 #define kNotifyViolationPaySuccess          @"com.huika.xmdd.ViolationPaySuccess"
 ///通知MutualInsAskForCompensationVC进行fetchAllData操作
 #define kNotifyUpdateClaimList              @"k.notification.MutualInsAskForCompensationVC.fetchAllData"
 /// 违章放弃代办通知
 #define kNotifyCommissionAbandoned          @"com.huika.xmdd.commissionAbandoned"
+
 
 //key定义
 #define kOriginVC       @"originVC"

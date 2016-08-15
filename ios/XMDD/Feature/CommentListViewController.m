@@ -3,13 +3,13 @@
 //  XiaoMa
 //
 //  Created by jt on 15-5-5.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Copyright (c) 2015年 huika. All rights reserved.
 //
 
 #import "CommentListViewController.h"
 #import "JTShop.h"
 #import "JTRatingView.h"
-#import "GetShopRatesOp.h"
+#import "GetShopRatesV2Op.h"
 #import "JTTableView.h"
 
 @interface CommentListViewController ()
@@ -69,21 +69,23 @@
     {
         return;
     }
-    GetShopRatesOp * op = [GetShopRatesOp operation];
-    op.shopId = self.shopid;
-    op.pageno = self.currentPageIndex;
+    GetShopRatesV2Op * op = [GetShopRatesV2Op operation];
+    op.req_shopid = self.shopid;
+    op.req_pageno = self.currentPageIndex;
+    op.req_serviceTypes = [NSString stringWithFormat:@"%@", @(self.serviceType)];
     self.isLoading = YES;
     [[[op rac_postRequest] initially:^{
         
         [self.jtTableView.bottomLoadingView hideIndicatorText];
         [self.jtTableView.bottomLoadingView startActivityAnimationWithType:MONActivityIndicatorType];
         
-    }]  subscribeNext:^(GetShopRatesOp * op) {
+    }]  subscribeNext:^(GetShopRatesV2Op *op) {
         
         self.isLoading = NO;
         [self.jtTableView.bottomLoadingView stopActivityAnimation];
         self.currentPageIndex = self.currentPageIndex + 1;
-        if (op.rsp_shopCommentArray.count >= self.pageAmount)
+        NSArray *commentArray = [op commentArrayForServiceType:self.serviceType];
+        if (commentArray.count >= self.pageAmount)
         {
             self.isRemain = YES;
         }
@@ -99,7 +101,7 @@
 
         
         NSMutableArray * tArray = [NSMutableArray arrayWithArray:self.commentArray];
-        [tArray addObjectsFromArray:op.rsp_shopCommentArray];
+        [tArray addObjectsFromArray:commentArray];
         self.commentArray = [NSArray arrayWithArray:tArray];
         [self.tableView reloadData];
     } error:^(NSError *error) {
@@ -186,6 +188,5 @@
     [cell layoutIfNeeded];
     return cell;
 }
-
 
 @end
