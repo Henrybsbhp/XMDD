@@ -9,7 +9,7 @@
 #import "ViolationDelegateMissionVC.h"
 #import "ViolationMyLicenceVC.h"
 #import "ViolationMissionHistoryVC.h"
-#import "WebVC.h"
+#import "DetailWebVC.h"
 #import "ViolationDelegateCommitSuccessVC.h"
 #import "GetViolationCommissionOp.h"
 #import "ApplyViolationCommissionOp.h"
@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *confirmReadBtn;
-@property (strong, nonatomic) WebVC *webVC;
+@property (strong, nonatomic) DetailWebVC *webVC;
 
 
 @property (strong, nonatomic) NSArray *dataSource;
@@ -144,12 +144,23 @@
         
         [self.view stopActivityAnimation];
         
-        self.bottomView.hidden = NO;
-        self.tableView.hidden = NO;
+        if (op.rsp_lists.count == 0)
+        {
+            self.bottomView.hidden = YES;
+            self.tableView.hidden = YES;
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"暂无可代办违章"];
+        }
+        else
+        {
+            self.bottomView.hidden = NO;
+            self.tableView.hidden = NO;
+            
+            self.dataSource = op.rsp_lists;
+            self.tip = op.rsp_tip;
+            [self.tableView reloadData];
+        }
         
-        self.dataSource = op.rsp_lists;
-        self.tip = op.rsp_tip;
-        [self.tableView reloadData];
+        
         
     } error:^(NSError *error) {
         
@@ -421,7 +432,7 @@
     return _carArr;
 }
 
--(WebVC *)webVC
+-(DetailWebVC *)webVC
 {
     if (!_webVC)
     {
