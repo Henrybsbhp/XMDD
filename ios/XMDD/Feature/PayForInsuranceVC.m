@@ -15,7 +15,6 @@
 #import "InsuranceStore.h"
 #import "UIView+Layer.h"
 #import "HKCoupon.h"
-#import "Xmdd.h"
 
 #import "GetInscouponOp.h"
 #import "InsuranceOrderPayOp.h"
@@ -26,8 +25,7 @@
 #import "InsLicensePopVC.h"
 #import "DetailWebVC.h"
 #import "CouponModel.h"
-
-#import "GetPayStatusOp.h"
+#import "UPApplePayHelper.h"
 
 
 #define CheckBoxDiscountGroup @"CheckBoxDiscountGroup"
@@ -47,6 +45,8 @@
 
 @property (nonatomic)PaymentChannelType paymentChannel;
 
+@property (nonatomic,strong)CKList * datasource;
+
 @end
 
 @implementation PayForInsuranceVC
@@ -65,7 +65,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [self setupBottomView];
     
     [self reloadLicenseData];
@@ -123,9 +123,410 @@
                                                 limitedToNumberOfLines:0];
         return MAX(40, ceil(size.height+24));
     }];
-
+    
     [self.tableView reloadData];
 }
+
+- (NSDictionary)getPaymentChannelInfo:(PaymentChannelType)type
+{
+    if (type == PaymentChannelAlipay)
+    {
+        NSDictionary * alipay = @{@"title":@"支付宝支付",@"subtitle":@"推荐支付宝用户使用",
+                                  @"payment":@(PaymentChannelAlipay),@"recommend":@(NO),
+                                  @"cellname":@"PaymentPlatformCell",@"icon":@"alipay_logo_66",@"uppayrecommend":@(NO)};
+        return alipay;
+    }
+    else if (type == PaymentChannelWechat)
+    {
+        
+        NSDictionary * wechat = @{@"title":@"微信支付",@"subtitle":@"推荐微信用户使用",
+                                  @"payment":@(PaymentChannelWechat),@"recommend":@(NO),
+                                  @"cellname":@"PaymentPlatformCell",@"icon":@"wechat_logo_66",@"uppayrecommend":@(NO)};
+        return wechat;
+    }
+    else if (type == PaymentChannelUPpay)
+    {
+        NSDictionary * uppay = @{@"title":@"银联支付",@"subtitle":@"推荐银联用户使用",
+                                 @"payment":@(PaymentChannelUPpay),@"recommend":@(YES),
+                                 @"cellname":@"PaymentPlatformCell",@"icon":@"uppay_logo_66",@"uppayrecommend":@(NO)};
+        return uppay;
+    }
+    else
+    {
+        NSDictionary * appleypay = @{@"title":@"Apple Pay",@"subtitle":@"推荐Apple Pay用户使用",
+                                     @"payment":@(PaymentChannelApplePay),@"recommend":@(NO),
+                                     @"cellname":@"PaymentPlatformCell",@"icon":@"apple_pay_logo_66",@"uppayrecommend":@(YES)};
+        return appleypay;
+    }
+}
+
+- (void)setupDatasource
+{
+    CKDict * insTitleCell = [self setupInsTitleCell];
+    CKDict * insItemCell1 = [self setupInsItemCell];
+    CKDict * insItemCell2 = [self setupInsItemCell];
+    CKDict * insItemCell3 = [self setupInsItemCell];
+    CKDict * insItemCell4 = [self setupInsItemCell];
+    
+    CKDict * discountTitleCell = [self setupDiscountTitleCell];
+    CKDict * activeCell = [self setupActiveCell];
+    CKDict * couponCell = [self setupCouponCell];
+    
+    CKDict * paymentTitleCell = [self setupPaymentPlatformTitleCell];
+    CKDict * uppayCell = [self setupPaymentPlatformCell:[self getPaymentChannelInfo:PaymentChannelUPpay]];
+    CKDict * applepayCell = [self setupPaymentPlatformCell:[self getPaymentChannelInfo:PaymentChannelUPpay]];
+    CKDict * alipayCell = [self setupPaymentPlatformCell:[self getPaymentChannelInfo:PaymentChannelUPpay]];
+    CKDict * wechatCell = [self setupPaymentPlatformCell:[self getPaymentChannelInfo:PaymentChannelUPpay]];
+    
+    CKDict * linsenceCell = [self setupLinsenceCell];
+    
+    
+    CKList * list0 = $(insTitleCell,insItemCell1,insItemCell2,insItemCell3,insItemCell4);
+    
+    CKList * list1 = [CKList list];
+    [list1 addObject:discountTitleCell forKey:nil];
+    if (self.insOrder.iscontainActivity)
+    {
+        [list1 addObject:activeCell forKey:nil];
+    }
+    [list1 addObject:couponCell forKey:nil];
+    
+    CKList * list2 = [CKList list];
+    [list2 addObject:paymentTitleCell forKey:nil];
+    [list2 addObject:uppayCell forKey:nil];
+    if ([UPApplePayHelper isApplePayAvailable])
+        [list2 addObject:applepayCell forKey:nil];
+    [list2 addObject:alipayCell forKey:nil];
+    if (gPhoneHelper.exsitWechat)
+        [list2 addObject:wechatCell forKey:nil];
+    
+    CKList * list3 = $(linsenceCell);
+    
+    self.datasource = $(list0,list1,list2,list3);
+}
+
+- (CKDict *)setupInsTitleCell
+{
+    @weakify(self);
+    CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"InsuranceTitleCell", kCKCellID: @"InsuranceTitleCell"}];
+    cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 55;
+    });
+    
+    cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+    });
+    
+    cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
+        UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
+        logoV.cornerRadius = 5.0f;
+        logoV.layer.masksToBounds = YES;
+        
+        [logoV setImageByUrl:self.insOrder.picUrl withType:ImageURLTypeOrigin defImage:@"ins_comp_def" errorImage:@"ins_comp_def"];
+        titleL.text = self.insOrder.inscomp;
+    });
+    
+    return cell;
+}
+
+/// 保险信息
+- (CKDict *)setupInsItemCell
+{
+    @weakify(self);
+    CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"InsuranceItemCell", kCKCellID: @"InsuranceItemCell"}];
+    cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        if (indexPath.row == 5)
+        {
+            return 30;
+        }
+        return 55;
+    });
+    
+    cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+    });
+    
+    cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
+        UILabel *infoL = (UILabel *)[cell.contentView viewWithTag:1002];
+        
+        if (indexPath.row == 1) {
+            titleL.text = [NSString stringWithFormat:@"投保车辆"];
+            infoL.textColor = HEXCOLOR(@"#505050");
+            infoL.text = self.insOrder.licencenumber;
+        }
+        else if (indexPath.row == 2) {
+            titleL.text = [NSString stringWithFormat:@"商业险期限"];
+            infoL.textColor = HEXCOLOR(@"#505050");
+            infoL.text = self.insOrder.validperiod;
+        }
+        else if (indexPath.row == 3) {
+            titleL.text = [NSString stringWithFormat:@"交强险期限"];
+            infoL.textColor = HEXCOLOR(@"#505050");
+            infoL.text = self.insOrder.fvalidperiod;
+        }
+        else if (indexPath.row == 4) {
+            titleL.text = @"交强险/车船税";
+            infoL.textColor = HEXCOLOR(@"#fb4209");
+            infoL.text = [NSString stringWithFormat:@"￥%.2f", self.insOrder.forcetaxfee];
+        }
+        else if (indexPath.row == 5) {
+            titleL.text = [NSString stringWithFormat:@"商业险保费"];
+            infoL.textColor = HEXCOLOR(@"#fb4209");
+            infoL.text = [NSString stringWithFormat:@"￥%.2f",self.insOrder.totoalpay];
+        }
+    });
+    
+    return cell;
+}
+
+
+- (CKDict *)setupDiscountTitleCell
+{
+    @weakify(self);
+    CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"DiscountInfoCell", kCKCellID: @"DiscountInfoCell"}];
+    cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 40;
+    });
+    
+    cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+    });
+    
+    cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UIActivityIndicatorView * indicator = (UIActivityIndicatorView *)[cell searchViewWithTag:202];
+        indicator.animating = self.isLoadingResourse;
+        indicator.hidden = !self.isLoadingResourse;
+    });
+    
+    return cell;
+}
+
+- (CKDict *)setupActiveCell
+{
+    @weakify(self);
+    CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"DiscountCell", kCKCellID: @"DiscountCell"}];
+    cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 50;
+    });
+    
+    cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        if (self.isSelectActivity)
+        {
+            self.isSelectActivity = NO;
+        }
+        else
+        {
+            self.isSelectActivity = YES;
+            [self.selectInsuranceCoupouArray removeAllObjects];
+            self.couponType = 0;
+        }
+        ///取消支付宝，微信勾选
+        [self.tableView reloadData];
+    });
+    
+    cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UILabel *label = (UILabel *)[cell.contentView viewWithTag:101];
+        UILabel *tagLb = (UILabel *)[cell.contentView viewWithTag:20201];
+        UIView *tagBg = (UIView *)[cell.contentView viewWithTag:102];
+        UIImageView * squareView = (UIImageView *)[cell searchViewWithTag:103];
+        label.text = self.insOrder.activityTag;
+        tagLb.text = self.insOrder.activityName;
+        [tagBg makeCornerRadius:3.0f];
+        tagLb.hidden = !self.insOrder.activityName.length;
+        tagBg.hidden = !self.insOrder.activityName.length;
+        
+        [[RACObserve(self, isSelectActivity) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
+            
+            squareView.hidden = ![number integerValue];
+        }];
+        
+        [tagLb mas_remakeConstraints:^(MASConstraintMaker *make) {
+            
+            make.centerY.equalTo(cell.contentView);
+        }];
+    });
+    
+    return cell;
+}
+
+- (CKDict *)setupCouponCell
+{
+    @weakify(self);
+    CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"CouponCell", kCKCellID: @"CouponCell"}];
+    cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 50;
+    });
+    
+    cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        [self jumpToChooseCouponVC];
+        ///取消支付宝，微信勾选
+        [self.tableView reloadData];
+    });
+    
+    cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UILabel *nameLb = (UILabel *)[cell.contentView viewWithTag:101];
+        UILabel *couponLb = (UILabel *)[cell.contentView viewWithTag:102];
+        UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:103];
+        
+        
+        nameLb.text = @"保险代金券";
+        
+        if (self.couponType == CouponTypeInsurance)
+        {
+            couponLb.hidden = NO;
+            dateLb.hidden = NO;
+            couponLb.text = [self calcCouponTitle:self.selectInsuranceCoupouArray];
+            dateLb.text = [self calcCouponValidDateString:self.selectInsuranceCoupouArray];
+        }
+        else
+        {
+            couponLb.hidden = YES;
+            dateLb.hidden = YES;
+        }
+    });
+    
+    return cell;
+}
+
+- (CKDict *)setupPaymentPlatformTitleCell
+{
+    @weakify(self);
+    CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"OtherInfoCell", kCKCellID: @"OtherInfoCell"}];
+    cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 40;
+    });
+    
+    cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+    });
+    
+    cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    });
+    
+    return cell;
+}
+
+- (CKDict *)setupPaymentPlatformCell:(NSDictionary *)dict
+{
+    @weakify(self);
+    CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"PayPlatformCell", kCKCellID: @"PayPlatformCell"}];
+    cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 50;
+    });
+    
+    cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        PaymentChannelType tt = (PaymentChannelType)[dict[@"payment"] integerValue];
+        self.paymentChannel = tt;
+    });
+    
+    cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UIImageView *iconV = (UIImageView *)[cell searchViewWithTag:101];
+        UILabel * titleLb = (UILabel *)[cell searchViewWithTag:102];
+        UILabel * noteLb = (UILabel *)[cell searchViewWithTag:104];
+        UIButton * checkedB = (UIButton *)[cell searchViewWithTag:103];
+        UILabel * recommendLB = (UILabel *)[cell searchViewWithTag:105];
+        UIImageView * uppayIcon = [cell viewWithTag:106];
+        
+        recommendLB.cornerRadius = 3.0f;
+        recommendLB.layer.masksToBounds = YES;
+        
+        titleLb.text = dict[@"title"];
+        noteLb.text = dict[@"subtitle"];
+        iconV.image = [UIImage imageNamed:dict[@"icon"]];
+        recommendLB.hidden = ![dict[@"recommend"] boolValue];
+        uppayIcon.hidden = ![dict[@"uppayrecommend"] boolValue];
+        PaymentChannelType tt = (PaymentChannelType)[dict[@"payment"] integerValue];
+        
+        [[RACObserve(self, paymentChannel) takeUntilForCell:cell] subscribeNext:^(NSNumber * num) {
+            
+            PaymentChannelType type = (PaymentChannelType)[num integerValue];
+            checkedB.hidden = type != tt;
+        }];
+    });
+    
+    return cell;
+}
+
+- (CKDict *)setupLinsenceCell
+{
+    @weakify(self);
+    CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"LicenseCell", kCKCellID: @"LicenseCell"}];
+    cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        height = self.licenseData.heightBlock(tableView);
+    });
+    
+    cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        
+    });
+    
+    cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UIButton *checkB = [cell viewWithTag:1001];
+        TTTAttributedLabel *richL = [cell viewWithTag:1002];
+        
+        HKCellData *data = self.licenseData;
+        
+        BOOL checked = [data.customInfo[@"check"] boolValue];
+        checkB.selected = checked;
+        //选择框
+        @weakify(checkB);
+        [[[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+             
+             @strongify(checkB);
+             BOOL checked = ![data.customInfo[@"check"] boolValue];
+             data.customInfo[@"check"] = @(checked);
+             checkB.selected = checked;
+             self.payBtn.enabled = checked;
+             if (checked)
+                 [self.payBtn setBackgroundColor:kOrangeColor];
+             else
+                 [self.payBtn setBackgroundColor:kLightTextColor];
+         }];
+        
+        //文字和协议链接
+        if (!data.customInfo[@"setup"]) {
+            data.customInfo[@"setup"] = @YES;
+            richL.delegate = self;
+            richL.attributedText = data.object;
+            [richL setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                       NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
+            [richL setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+                                             NSForegroundColorAttributeName: kGrayTextColor}];
+            [richL addLinkToURL:data.customInfo[@"url1"] withRange:[data.customInfo[@"range1"] rangeValue]];
+            if (data.customInfo[@"range2"]) {
+                [richL addLinkToURL:data.customInfo[@"url2"] withRange:[data.customInfo[@"range2"] rangeValue]];
+            }
+        }
+    });
+    
+    return cell;
+}
+
+
+
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
@@ -204,7 +605,7 @@
         [[store getInsSimpleCars] sendAndIgnoreError];
         
         [self gotoPaidSuccessVC];
-
+        
         OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
         iop.req_notifytype = 1;
         iop.req_tradeno = op.rsp_tradeno;
@@ -212,12 +613,14 @@
             DebugLog(@"已通知服务器支付成功!");
         }];
     } error:^(NSError *error) {
-
+        
         @strongify(self);
         [self gotoPaidFailVC];
     }];
     return YES;
 }
+
+
 
 #pragma mark - Request
 - (void)requestInsOrderPay
@@ -329,7 +732,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
-   return  CGFLOAT_MIN;
+    return  CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -412,7 +815,7 @@
     else if (indexPath.section == 2)
     {
         if (indexPath.row == 1) {
-           self.paymentChannel = PaymentChannelAlipay;
+            self.paymentChannel = PaymentChannelAlipay;
         }
         else if (indexPath.row == 2) {
             if (gPhoneHelper.exsitWechat)
@@ -506,7 +909,7 @@
             }];
             
             [tagLb mas_remakeConstraints:^(MASConstraintMaker *make) {
-               
+                
                 make.centerY.equalTo(cell.contentView);
             }];
         }
@@ -563,7 +966,7 @@
         recommendLB.hidden = YES;
         tickImgV.hidden = self.paymentChannel != PaymentChannelUPpay;
     }
-
+    
     return cell;
 }
 
@@ -609,8 +1012,8 @@
              [self.payBtn setBackgroundColor:kOrangeColor];
          else
              [self.payBtn setBackgroundColor:kLightTextColor];
-    }];
-
+     }];
+    
     //文字和协议链接
     if (!data.customInfo[@"setup"]) {
         data.customInfo[@"setup"] = @YES;
@@ -689,10 +1092,10 @@
             HKCoupon * coupon = [self.validInsuranceCouponArray safetyObjectAtIndex:i];
             if (coupon.couponAmount < self.insOrder.totoalpay)
             {
-                    [self.selectInsuranceCoupouArray addObject:coupon];
-                    self.couponType = CouponTypeInsurance;
-                    self.isSelectActivity = NO;
-                    break;
+                [self.selectInsuranceCoupouArray addObject:coupon];
+                self.couponType = CouponTypeInsurance;
+                self.isSelectActivity = NO;
+                break;
             }
         }
         [self tableViewReloadData];
@@ -739,7 +1142,7 @@
     UILabel *nameLb = (UILabel *)[cell.contentView viewWithTag:101];
     UILabel *couponLb = (UILabel *)[cell.contentView viewWithTag:102];
     UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:103];
-
+    
     
     nameLb.text = @"保险代金券";
     
@@ -810,7 +1213,7 @@
 }
 
 
-#pragma mark - Lazy 
+#pragma mark - Lazy
 - (NSMutableArray *)selectInsuranceCoupouArray
 {
     if (!_selectInsuranceCoupouArray)
