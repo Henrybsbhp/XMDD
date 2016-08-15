@@ -194,7 +194,6 @@
 
 - (void)payViolationCommissionOrder
 {
-    
     @weakify(self)
     
     PayViolationCommissionOrderOp *op = [PayViolationCommissionOrderOp operation];
