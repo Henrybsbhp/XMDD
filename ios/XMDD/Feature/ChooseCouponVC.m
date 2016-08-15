@@ -377,21 +377,20 @@
     }
     else if (self.type == CouponTypeViolation)
     {   
-        HKCoupon *c = self.selectedCouponArray.firstObject;
-        if ([c.couponId isEqualToNumber:coupon.couponId])
+        HKCoupon * originCoupon = [self.selectedCouponArray safetyObjectAtIndex:0];
+        if (originCoupon && [coupon.couponId isEqualToNumber:originCoupon.couponId])
         {
-            [self.selectedCouponArray safetyRemoveObject:c];
-            [self.tableView reloadData];
-            return;
+            [self.selectedCouponArray removeAllObjects];
+        }
+        else
+        {
+            self.type = coupon.conponType;
+            
+            [self.selectedCouponArray removeAllObjects];
+            [self.selectedCouponArray addObject:coupon];
         }
         
-        if (self.selectedCouponArray.count >= self.numberLimit)
-        {
-            NSString * str = [NSString stringWithFormat:@"您最多只能选择%f张优惠券",self.numberLimit];
-            [gToast showError:str];
-            return;
-        }
-        [self.selectedCouponArray addObject:coupon];
+        [self actionBack];
         [self.tableView reloadData];
     }
 }
