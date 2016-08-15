@@ -39,7 +39,6 @@
     
     [self setupUI];
     [self setupNavi];
-//    [self getSimutateData];
     [self setupNotify];
     [self getViolationCommissionApply];
 }
