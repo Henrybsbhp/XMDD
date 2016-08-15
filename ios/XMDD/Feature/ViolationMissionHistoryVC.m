@@ -179,7 +179,7 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"IssuesCell"];
         NSDictionary *dic = [self.tips safetyObjectAtIndex:indexPath.row];
         UILabel *tipLabel = [cell viewWithTag:100];
-        tipLabel.text = [NSString stringWithFormat:@"%@",dic[@"tip"]];
+        tipLabel.text = dic[@"tip"];
         
     }
     else

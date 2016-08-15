@@ -42,14 +42,14 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)dealloc
+- (void)dealloc
 {
     DDLogDebug(@"ViolationMyLicenceVC dealloc");
 }
 
 #pragma mark - Setup
 
--(void)setupDataSource
+- (void)setupDataSource
 {
     self.dataSource = $(
                         [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证正本",self.carNum]],
@@ -63,7 +63,7 @@
 
 #pragma mark - Network
 
--(void)getfailedOriginImg
+- (void)getfailedOriginImg
 {
     if (self.failedOriginRcd.url.length != 0)
     {
@@ -73,7 +73,7 @@
     }
 }
 
--(void)getfailedDuplicateImg
+- (void)getfailedDuplicateImg
 {
     if (self.failedDuplicateRcd.url.length != 0)
     {
@@ -83,7 +83,7 @@
     }
 }
 
--(void)getViolationCommissionCarinfo
+- (void)getViolationCommissionCarinfo
 {
     @weakify(self)
     GetViolationCommissionCarinfoOp *op = [GetViolationCommissionCarinfoOp operation];
@@ -127,7 +127,7 @@
     }];
 }
 
--(void)updateViolationCommissionCarinfo
+- (void)updateViolationCommissionCarinfo
 {
     UpdateViolationCommissionCarinfoOp *op = [UpdateViolationCommissionCarinfoOp operation];
     
@@ -161,17 +161,17 @@
 
 #pragma mark - UITableViewDataSource
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.dataSource.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CKDict *data = self.dataSource[indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data[kCKCellID]];
@@ -186,17 +186,17 @@
 
 #pragma mark - UITableViewDelegate
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return CGFLOAT_MIN;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 8;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CKDict *data = self.dataSource[indexPath.row];
     CKCellSelectedBlock block = data[kCKCellSelected];
@@ -206,7 +206,7 @@
     }
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CKDict *data = self.dataSource[indexPath.row];
     CKCellGetHeightBlock block = data[kCKCellGetHeight];
@@ -222,7 +222,7 @@
 
 #pragma mark - Cell
 
--(CKDict *)noticeCellDataWithNotice:(NSString *)notice
+- (CKDict *)noticeCellDataWithNotice:(NSString *)notice
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"NoticeCell"}];
     
@@ -245,7 +245,7 @@
     return data;
 }
 
--(CKDict *)photoCellDataWithSampleImg:(UIImage *)sampleImg
+- (CKDict *)photoCellDataWithSampleImg:(UIImage *)sampleImg
 {
     @weakify(self)
     
@@ -398,7 +398,7 @@
     return data;
 }
 
--(CKDict *)btnCellData
+- (CKDict *)btnCellData
 {
     @weakify(self)
     
@@ -441,7 +441,7 @@
     return data;
 }
 
--(CKDict *)blankCellData
+- (CKDict *)blankCellData
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"BlankCell"}];
     
@@ -481,7 +481,7 @@
 
 #pragma mark - Utility
 
--(void)actionUpload:(PictureRecord *)record withImageView:(HKImageView *)imageView
+- (void)actionUpload:(PictureRecord *)record withImageView:(HKImageView *)imageView
 {
     record.isUploading = YES;
     [[imageView rac_setUploadingImage:record.image withImageType:UploadFileTypeMutualIns]
@@ -496,7 +496,7 @@
 }
 
 
--(void)pickImageWithIndex:(NSIndexPath *)indexPath
+- (void)pickImageWithIndex:(NSIndexPath *)indexPath
 {
     @weakify(self)
     [self.view endEditing:YES];
@@ -575,7 +575,7 @@
 
 #pragma mark - LazyLoad
 
--(CKList *)dataSource
+- (CKList *)dataSource
 {
     if (!_dataSource)
     {
@@ -584,7 +584,7 @@
     return _dataSource;
 }
 
--(UIImagePickerController *)pickerController
+- (UIImagePickerController *)pickerController
 {
     if (!_pickerController)
     {
@@ -599,7 +599,7 @@
     return _pickerController;
 }
 
--(PictureRecord *)originRcd
+- (PictureRecord *)originRcd
 {
     if (!_originRcd)
     {
@@ -608,7 +608,7 @@
     return _originRcd;
 }
 
--(PictureRecord *)duplicateRcd
+- (PictureRecord *)duplicateRcd
 {
     if (!_duplicateRcd)
     {
@@ -617,7 +617,7 @@
     return _duplicateRcd;
 }
 
--(PictureRecord *)failedDuplicateRcd
+- (PictureRecord *)failedDuplicateRcd
 {
     if (!_failedDuplicateRcd)
     {
@@ -626,7 +626,7 @@
     return _failedDuplicateRcd;
 }
 
--(PictureRecord *)failedOriginRcd
+- (PictureRecord *)failedOriginRcd
 {
     if (!_failedOriginRcd)
     {
@@ -636,7 +636,7 @@
 }
 
 
--(PictureRecord *)currentRecord
+- (PictureRecord *)currentRecord
 {
     if (!_currentRecord)
     {

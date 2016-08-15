@@ -57,9 +57,10 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [self refreshBottomView];
+    [self.tableView reloadData];
 }
 
 - (void)dealloc
@@ -72,7 +73,7 @@
 
 #pragma mark - Setup
 
--(void)setupDataSource
+- (void)setupDataSource
 {
     
     self.paychannel = PaymentChannelUPpay;
@@ -98,7 +99,7 @@
                           [self blankCellData]
                           ),
                         $(
-                          [self discountInfoCellData],
+                          [self couponHeadCellData],
                           [self couponCellData]
                           ),
                         $(
@@ -119,7 +120,7 @@
                         );
 }
 
--(void)setupUI
+- (void)setupUI
 {
     self.button.layer.cornerRadius = 5;
     self.button.layer.masksToBounds = YES;
@@ -181,9 +182,7 @@
             couponInfo = helper.uppayCouponInfo;
         }
         
-        // 发送支付成功通知
-        
-        [self postCustomNotificationName:kNotifyViolationPaySuccess object:nil];
+        [self paySuccess];
         
     } error:^(NSError *error) {
         
@@ -193,7 +192,7 @@
     return YES;
 }
 
--(void)payViolationCommissionOrder
+- (void)payViolationCommissionOrder
 {
     
     @weakify(self)
@@ -224,25 +223,34 @@
     
 }
 
--(void)getViolationCommissionCoupons
+- (void)getViolationCommissionCoupons
 {
+    @weakify(self)
+    
     GetViolationCommissionCouponsOp *op = [GetViolationCommissionCouponsOp operation];
     
     [[[op rac_postRequest]initially:^{
         
+        @strongify(self)
+        
         self.isLoadingResourse = NO;
     }]subscribeNext:^(GetViolationCommissionCouponsOp *op) {
+        
+        @strongify(self)
         
         self.isLoadingResourse = YES;
         self.couponArray = op.rsp_coupons;
     } error:^(NSError *error) {
         
+        @strongify(self)
+        
         self.isLoadingResourse = NO;
+        
     }];
     
 }
 
--(void)confirmViolationCommissionOrderConfirm
+- (void)confirmViolationCommissionOrderConfirm
 {
     @weakify(self)
     ConfirmViolationCommissionOrderConfirmOp *op = [ConfirmViolationCommissionOrderConfirmOp operation];
@@ -336,39 +344,69 @@
     }
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return CGFLOAT_MIN;
 }
 
 #pragma mark - Cell
 
+- (CKDict *)couponHeadCellData
+{
+    @weakify(self)
+    
+    CKDict *data = [CKDict dictWith:@{kCKCellID : @"CouponHeadCell"}];
+    
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 42;
+    });
+    
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self)
+        
+        UIActivityIndicatorView *indicatorView = [cell viewWithTag:202];
+        
+        
+        [[RACObserve(self, isLoadingResourse) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
+            
+            BOOL isloading = [number boolValue];
+            indicatorView.animating = !isloading;
+            indicatorView.hidden = isloading;
+            
+        }];
+        
+    });
+    
+    return data;
+}
 
-
--(CKDict *)payPlatformCellDataWithPayChannelData:(NSDictionary *)payChannelData
+- (CKDict *)payPlatformCellDataWithPayChannelData:(NSDictionary *)payChannelData
 {
     
     @weakify(self)
     
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"PaymentPlatformCell"}];
-    
+
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 48;
     });
-    
+
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
+
+        @strongify(self)
         
         UIImageView *channelLogo = [cell viewWithTag:1001];
         channelLogo.image = [UIImage imageNamed:payChannelData[@"logo"]];
-        
+
         UILabel *channelName = [cell viewWithTag:1002];
-        channelName.text = [NSString stringWithFormat:@"%@",payChannelData[@"name"]];
-        
+        channelName.text = payChannelData[@"name"];
+
         UIImageView *selectView = [cell viewWithTag:1003];
         selectView.hidden = !([(NSNumber *)payChannelData[@"type"] integerValue] == self.paychannel);
-        
+
         UIImageView *recommendView = [cell viewWithTag:1005];
-        recommendView.layer.cornerRadius = 5;
+        recommendView.layer.cornerRadius = 3;
         recommendView.layer.masksToBounds = YES;
         recommendView.hidden = ![(NSNumber *)payChannelData[@"isRecommend"] boolValue];
         
@@ -376,50 +414,21 @@
         uPayView.hidden = ![(NSNumber *)payChannelData[@"isApplePay"] boolValue];
         
     });
-    
+
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
+
         @strongify(self)
-        
+
         self.paychannel = [(NSNumber *)payChannelData[@"type"] integerValue];
-        
+
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-        
+
     });
     
     return data;
 }
 
--(CKDict *)applePayPlatformCellData
-{
-    CKDict *data = [CKDict dictWith:@{kCKCellID : @"ApplePayPlatformCell"}];
-    
-    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 48;
-    });
-    
-    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
-        
-        
-        UIImageView *selectView = [cell viewWithTag:104];
-        selectView.hidden = !(self.paychannel == PaymentChannelApplePay);
-        
-        
-    });
-    
-    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
-        self.paychannel = PaymentChannelApplePay;
-        
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-        
-    });
-    
-    return data;
-}
-
-
--(CKDict *)blankCellData
+- (CKDict *)blankCellData
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"BlankCell"}];
     
@@ -430,9 +439,10 @@
     return data;
 }
 
--(CKDict *)titleCellData
+- (CKDict *)titleCellData
 {
     
+    @weakify(self)
     
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"ShopTitleCell"}];
     
@@ -442,8 +452,11 @@
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
+        
         UIImageView *logoView = [cell viewWithTag:100];
         [[gMediaMgr rac_getGifImageDataByUrl:self.servicePicURL defaultPic:@"illegal_icon" errorPic:nil]subscribeNext:^(UIImage *img) {
+
             
             logoView.image = img;
             
@@ -457,7 +470,7 @@
     return data;
 }
 
--(CKDict *)shopItemCellData
+- (CKDict *)shopItemCellData
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"ShopItemCell"}];
     
@@ -468,8 +481,7 @@
     return data;
 }
 
-
--(CKDict *)itemFeeCellDataWithItem:(NSString *)itemTitle
+- (CKDict *)itemFeeCellDataWithItem:(NSString *)itemTitle
 {
     @weakify(self)
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"ItemFeeCell"}];
@@ -505,40 +517,12 @@
     return data;
 }
 
--(CKDict *)discountInfoCellData
+- (CKDict *)couponCellData
 {
     
     @weakify(self)
     
-    CKDict *data = [CKDict dictWith:@{kCKCellID : @"DiscountInfoCell"}];
-    
-    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 42;
-    });
-    
-    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
-        
-        @strongify(self)
-        
-        UIActivityIndicatorView *indicatorView = [cell viewWithTag:202];
-        
-        [[RACObserve(self, isLoadingResourse) distinctUntilChanged] subscribeNext:^(NSNumber * number) {
-            
-            BOOL isloading = [number boolValue];
-            indicatorView.animating = !isloading;
-            indicatorView.hidden = isloading;
-            
-        }];
-        
-    });
-    
-    return data;
-}
-
--(CKDict *)couponCellData
-{
-    
-    CKDict *data = [CKDict dictWith:@{kCKCellID : @"CouponCell"}];
+    CKDict *data = [CKDict dictWith:@{kCKCellID : @"CouponInfoCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 45;
@@ -546,20 +530,32 @@
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
         
-        UILabel *couponLb = (UILabel *)[cell.contentView viewWithTag:100];
+        @strongify(self)
         
-        if (self.selectCoupouArray.count)
+        UILabel *label = [cell viewWithTag:1001];
+        UILabel *detailLabel = [cell viewWithTag:1002];
+        UILabel *dateLabel = [cell viewWithTag:1003];
+        
+        label.text = @"违章代办优惠券";
+        
+        if (self.selectCoupouArray.count > 0)
         {
-            HKCoupon *coupon = self.selectCoupouArray.firstObject;
-            couponLb.text = coupon.couponName;
+            dateLabel.text = [self calcCouponValidDateString:self.selectCoupouArray];
+            HKCoupon *coupon = [self.selectCoupouArray safetyObjectAtIndex:0];
+            detailLabel.text = coupon.couponName;
         }
         else
         {
-            couponLb.text = @"暂未选择任何优惠券";
+            dateLabel.text = nil;
+            detailLabel.text = nil;
         }
+        [self refreshBottomView];
+        
     });
     
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        @strongify(self)
         
         ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
         vc.originVC = self;
@@ -575,17 +571,13 @@
     
 }
 
--(CKDict *)otherCellData
+- (CKDict *)otherCellData
 {
     
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"OtherInfoCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 42;
-    });
-    
-    data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
     });
     
     return data;
@@ -601,7 +593,43 @@
 
 #pragma mark - Utility
 
--(void)refreshBottomView
+- (NSString *)calcCouponValidDateString:(NSArray *)couponArray
+{
+    NSDate * earlierDate;
+    NSDate * laterDate;
+    for (HKCoupon * c in couponArray)
+    {
+        earlierDate = [c.validsince earlierDate:earlierDate];
+        laterDate = [c.validthrough laterDate:laterDate];
+    }
+    NSString * string = [NSString stringWithFormat:@"有效期：%@ - %@",earlierDate ? [earlierDate dateFormatForYYMMdd2] : @"",laterDate ? [laterDate dateFormatForYYMMdd2] : @""];
+    
+    return string;
+}
+
+- (void)paySuccess
+{
+    
+    @weakify(self)
+    
+    // 发送支付成功通知
+    
+    [self postCustomNotificationName:kNotifyViolationPaySuccess object:nil];
+    
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#18D06A") clickBlock:^(id alertVC) {
+        
+        @strongify(self)
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_ok" Message:@"订单支付成功。请点进确认返回" ActionItems:@[confirm]];
+    
+    [alert show];
+    
+}
+
+- (void)refreshBottomView
 {
     HKCoupon *coupon = self.selectCoupouArray.firstObject;
     CGFloat totalFee = self.totalFee.doubleValue - coupon.couponAmount;
@@ -623,7 +651,7 @@
 
 #pragma mark - LazyLoad
 
--(CKList *)dataSource
+- (CKList *)dataSource
 {
     if (!_dataSource)
     {

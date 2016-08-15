@@ -183,7 +183,7 @@ typedef enum : NSUInteger {
 ///通知MutualInsAskForCompensationVC进行fetchAllData操作
 #define kNotifyUpdateClaimList              @"k.notification.MutualInsAskForCompensationVC.fetchAllData"
 /// 违章放弃代办通知
-#define kNotifyCommissionAbandoned          @"k.notification.ViolationCommissionStateVC.commissionAbandoned"
+#define kNotifyCommissionAbandoned          @"com.huika.xmdd.commissionAbandoned"
 
 
 //key定义
