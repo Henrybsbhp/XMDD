@@ -49,7 +49,7 @@
     [super viewDidLoad];
     
     [self getViolationCommissionCoupons];
-//    [self confirmViolationCommissionOrderConfirm];
+    [self confirmViolationCommissionOrderConfirm];
     [self setupDataSource];
 }
 
