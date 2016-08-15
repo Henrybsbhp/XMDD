@@ -227,7 +227,7 @@
     if (!self.isEditing)
         [MobClick event:@"rp316_1"];
     self.isEditing = !self.isEditing;
-    
+    [self reloadDatasource];
     [self refreshBottomView];
 
     [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
@@ -279,7 +279,6 @@
     }] subscribeNext:^(id x) {
         @strongify(self)
         [gToast showText:@"移除成功！"];
-        
         [self.selectSet removeAllIndexes];
         [self editActions:nil];
     } error:^(NSError *error) {
@@ -395,29 +394,16 @@
     //row 0  缩略图、名称、评分、地址、距离、营业状况等
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
-    JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
-    UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
-    UILabel *commentNumL = (UILabel *)[cell.contentView viewWithTag:1008];
     UIImageView *statusImg=(UIImageView *)[cell.contentView viewWithTag:1009];
     
     [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0]
                 withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     
     titleL.text = shop.shopName;
-    ratingV.ratingValue = shop.shopRate;
-    ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
-    if (shop.ratenumber)
-    {
-        commentNumL.text = [NSString stringWithFormat:@"%ld", (long)shop.ratenumber];
-    }
-    else
-    {
-        commentNumL.text = [NSString stringWithFormat:@"暂无"];
-    }
     
     [statusL makeCornerRadius:3];
     statusL.font = [UIFont boldSystemFontOfSize:11];
@@ -433,11 +419,11 @@
         
         if ([self isBetween:shop.openHour and:shop.closeHour]) {
             statusL.text = @"营业中";
-            statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+            statusL.backgroundColor = kDefTintColor;
         }
         else {
             statusL.text = @"已休息";
-            statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+            statusL.backgroundColor = HEXCOLOR(@"#cfdbd3");
         }
     }
     
@@ -467,12 +453,9 @@
     //row 0  缩略图、名称、评分、地址、距离、营业状况等
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
-    JTRatingView *ratingV = (JTRatingView *)[cell.contentView viewWithTag:1003];
-    UILabel *ratingL = (UILabel *)[cell.contentView viewWithTag:1004];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1005];
     UILabel *distantL = (UILabel *)[cell.contentView viewWithTag:1006];
     UILabel *statusL = (UILabel *)[cell.contentView viewWithTag:1007];
-    UILabel *commentNumL = (UILabel *)[cell.contentView viewWithTag:1008];
     UIImageView *statusImg=(UIImageView *)[cell.contentView viewWithTag:1009];
     
     UIButton * checkBtn = (UIButton *)[cell searchViewWithTag:3003];
@@ -481,18 +464,7 @@
                 withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     
     titleL.text = shop.shopName;
-    ratingV.ratingValue = shop.shopRate;
-    ratingL.text = [NSString stringWithFormat:@"%.1f分", shop.shopRate];
     addrL.text = shop.shopAddress;
-    if (shop.ratenumber)
-    {
-        commentNumL.text = [NSString stringWithFormat:@"%ld", (long)shop.ratenumber];
-    }
-    else
-    {
-        commentNumL.text = [NSString stringWithFormat:@"暂无"];
-    }
-    
     [statusL makeCornerRadius:3];
     statusL.font = [UIFont boldSystemFontOfSize:11];
     
@@ -509,11 +481,11 @@
         
         if ([self isBetween:shop.openHour and:shop.closeHour]) {
             statusL.text = @"营业中";
-            statusL.backgroundColor = [UIColor colorWithHex:@"#1bb745" alpha:1.0f];
+            statusL.backgroundColor = kDefTintColor;
         }
         else {
             statusL.text = @"已休息";
-            statusL.backgroundColor = [UIColor colorWithHex:@"#b6b6b6" alpha:1.0f];
+            statusL.backgroundColor = HEXCOLOR(@"#cfdbd3");
         }
     }
     

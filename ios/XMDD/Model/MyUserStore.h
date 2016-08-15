@@ -9,5 +9,7 @@
 #import "CKBaseStore.h"
 
 @interface MyUserStore : CKBaseStore
+///@Override
+- (void)resetForMyUser:(JTUser *)user;
 
 @end
