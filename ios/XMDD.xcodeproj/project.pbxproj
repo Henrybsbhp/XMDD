@@ -741,6 +741,7 @@
 		18D17F771B53B21E00F66F04 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F761B53B21E00F66F04 /* MBProgressHUD.m */; };
 		18E28A151B93E5A20070E759 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A141B93E5A20070E759 /* QuartzCore.framework */; };
 		18E28A171B93E5AF0070E759 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A161B93E5AF0070E759 /* Security.framework */; };
+		18F54AD41D6199330008F306 /* MyCollectionStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F54AD31D6199330008F306 /* MyCollectionStore.m */; };
 		18FC01DC1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01BF1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m */; };
 		18FC01DD1C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C11C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m */; };
 		18FC01DE1C4E6C6F00FD61BF /* IQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C61C4E6C6F00FD61BF /* IQKeyboardManager.m */; };
@@ -2457,6 +2458,8 @@
 		18D17F761B53B21E00F66F04 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		18E28A141B93E5A20070E759 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		18E28A161B93E5AF0070E759 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		18F54AD21D6199330008F306 /* MyCollectionStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionStore.h; sourceTree = "<group>"; };
+		18F54AD31D6199330008F306 /* MyCollectionStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionStore.m; sourceTree = "<group>"; };
 		18FC01BC1C4E6C6F00FD61BF /* IQNSArray+Sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQNSArray+Sort.h"; sourceTree = "<group>"; };
 		18FC01BD1C4E6C6F00FD61BF /* IQNSArray+Sort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQNSArray+Sort.m"; sourceTree = "<group>"; };
 		18FC01BE1C4E6C6F00FD61BF /* IQUIView+Hierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQUIView+Hierarchy.h"; sourceTree = "<group>"; };
@@ -5465,6 +5468,8 @@
 				186499261D489A9700F1CCB0 /* UserStore.m */,
 				1836B8761D5871080078DB15 /* MyUserStore.h */,
 				1836B8771D5871080078DB15 /* MyUserStore.m */,
+				18F54AD21D6199330008F306 /* MyCollectionStore.h */,
+				18F54AD31D6199330008F306 /* MyCollectionStore.m */,
 			);
 			name = Store;
 			sourceTree = "<group>";
@@ -6957,6 +6962,7 @@
 				183F57031D4C90860001E26A /* InsBaseCar.m in Sources */,
 				183F57081D4C90860001E26A /* MutualInsContract.m in Sources */,
 				1836B7C41D54220B0078DB15 /* CKList.m in Sources */,
+				18F54AD41D6199330008F306 /* MyCollectionStore.m in Sources */,
 				18649A131D489A9700F1CCB0 /* UpdateUserInfoOp.m in Sources */,
 				183F57171D4C90860001E26A /* CheckCooperationPremiumOp.m in Sources */,
 				18649CF41D48B7C000F1CCB0 /* ADViewController.m in Sources */,

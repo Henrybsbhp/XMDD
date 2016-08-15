@@ -85,7 +85,7 @@
     CGSize titleSize = [title labelSizeWithWidth:width-kPriceLabelMaxWidth font:[UIFont systemFontOfSize:14]];
     CGFloat height = titleSize.height + 6 + 15;
     if (desc.length > 0) {
-        height += 8 + [desc labelSizeWithWidth:width font:[UIFont systemFontOfSize:14]].height;
+        height += 8 + [desc labelSizeWithWidth:width-9-30-4-14 font:[UIFont systemFontOfSize:14]].height;
     }
     return ceil(MAX(height, 30));
 }
