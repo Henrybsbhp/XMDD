@@ -387,7 +387,7 @@
         
         if (self.selectedCouponArray.count >= self.numberLimit)
         {
-            NSString * str = [NSString stringWithFormat:@"您最多只能选择%f张优惠券",self.numberLimit];
+            NSString * str = [NSString stringWithFormat:@"您最多只能选择%.0f张优惠券",self.numberLimit];
             [gToast showError:str];
             return;
         }
