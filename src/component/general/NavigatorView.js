@@ -94,7 +94,10 @@ export class NavBarRightItem extends Component {
         return (
             <NavBarButtonItem
                 {...this.props}
-                style={[styles.navBarRightButton, this.props.style]}
+                style={[
+                    styles.navBarRightButton,
+                    this.props.image ? styles.navBarRightButtonImage : null,
+                    this.props.style]}
             />
         );
     }
@@ -209,6 +212,13 @@ const styles = StyleSheet.create({
     arrow: {
         width: 18,
         height: 18,
+    },
+    navBarRightButtonImage: {
+        paddingLeft: 10,
+        paddingRight: 14,
+        paddingTop: 6,
+        paddingBottom: 10,
+        marginRight: 0,
     },
     scene: {
         flex: 1,

@@ -35,6 +35,7 @@ typedef NS_ENUM(NSInteger, HKServiceOrderStatus) {
 @property (nonatomic, strong) NSString *servicename;
 @property (nonatomic, strong) NSString *orderPic;
 @property (nonatomic, strong) JTShop *shop;
+@property (nonatomic, assign) ShopServiceType serviceType;
 @property (nonatomic, strong) NSString *licencenumber;
 @property (nonatomic, assign) PaymentChannelType paychannel;
 ///支付方式

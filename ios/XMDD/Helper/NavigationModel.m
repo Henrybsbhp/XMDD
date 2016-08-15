@@ -18,7 +18,6 @@
 #import "PaymentCenterViewController.h"
 #import "ViolationViewController.h"
 #import "InsuranceVC.h"
-#import "CarWashTableVC.h"
 #import "MyBankVC.h"
 #import "InsSimpleCar.h"
 #import "InsCheckResultsVC.h"
@@ -32,6 +31,8 @@
 #import "MutualInsStoryAdPageVC.h"
 #import "MutualInsGroupDetailVC.h"
 #import "HKViewControllerFactory.h"
+#import "CarwashShopListVC.h"
+#import "ShopListVC.h"
 #import "AppDelegate.h"
 
 @interface NavigationModel()
@@ -106,16 +107,35 @@
         }
         //普洗商户列表
         else if ([@"sl" equalByCaseInsensitive:name]) {
-            if (![self popToViewControllerIfNeededByIdentify:@"CarWashTableVC"]) {
-                CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+            if (![self popToViewControllerIfNeededByIdentify:@"CarwashShopListVC"]) {
+                CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
+                vc.serviceType = ShopServiceCarWash;
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
         }
         //精洗商户列表
         else if ([@"whsl" equalByCaseInsensitive:name]) {
-            if (![self popToViewControllerIfNeededByIdentify:@"CarWashTableVC"]) {
-                CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
+            if (![self popToViewControllerIfNeededByIdentify:@"CarwashShopListVC"]) {
+                CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
                 vc.serviceType = ShopServiceCarwashWithHeart;
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+        }
+        //保养
+        else if ([@"mtsl" equalByCaseInsensitive:name]) {
+            if (![self popToViewControllerIfNeededByIdentify:kCarMaintenanceShopListVCID]) {
+                ShopListVC *vc = [[ShopListVC alloc] init];
+                vc.router.key = kCarMaintenanceShopListVCID;
+                vc.serviceType = ShopServiceCarMaintenance;
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+        }
+        // 美容
+        else if ([@"beautysl" equalByCaseInsensitive:name]) {
+            if (![self popToViewControllerIfNeededByIdentify:kCarBeautyShopListVCID]) {
+                ShopListVC *vc = [[ShopListVC alloc] init];
+                vc.router.key = kCarBeautyShopListVCID;
+                vc.serviceType = ShopServiceCarBeauty;
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
         }
@@ -592,12 +612,12 @@
     return rUrlStr;
 }
 
-- (BOOL)popToViewControllerIfNeededByIdentify:(NSString *)identify
+- (BOOL)popToViewControllerIfNeededByIdentify:(id)identify
 {
     return [self popToViewControllerIfNeededByIdentify:identify withPrecidate:nil];
 }
 
-- (BOOL)popToViewControllerIfNeededByIdentify:(NSString *)identify withPrecidate:(BOOL(^)(UIViewController *))precidate
+- (BOOL)popToViewControllerIfNeededByIdentify:(id)identify withPrecidate:(BOOL(^)(UIViewController *))precidate
 {
     UIViewController *vc = [self viewControllerByIdentify:identify withPrecidate:precidate];
     if (vc) {
@@ -606,20 +626,14 @@
     return (BOOL)vc;
 }
 
-- (UIViewController *)viewControllerByIdentify:(NSString *)identify withPrecidate:(BOOL(^)(UIViewController *))precidate
+- (UIViewController *)viewControllerByIdentify:(id)identify withPrecidate:(BOOL(^)(UIViewController *))precidate
 {
-    UIViewController *vc;
-    for (UIViewController *curvc in self.curNavCtrl.viewControllers) {
-        if ([[curvc className] isEqualToString:identify]) {
-            if (precidate && precidate(curvc)) {
-                vc = curvc;
-            }
-            else if (!precidate) {
-                vc = curvc;
-            }
-        }
+    HKNavigationController *navCtrl = (HKNavigationController *)self.curNavCtrl;
+    CKRouter *router = navCtrl.routerList[identify];
+    if (router && precidate && precidate(router.targetViewController)) {
+        return router.targetViewController;
     }
-    return vc;
+    return nil;
 }
 
 @end

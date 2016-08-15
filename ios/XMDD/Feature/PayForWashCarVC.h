@@ -3,7 +3,7 @@
 //  XiaoMa
 //
 //  Created by jiangjunchen on 15/4/8.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Copyright (c) 2015年 huika. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -17,7 +17,8 @@
 
 @property (nonatomic, strong) JTShopService *service;
 @property (nonatomic, strong) JTShop *shop;
-@property (nonatomic, strong) HKMyCar * defaultCar;
+@property (nonatomic, strong) HKMyCar *defaultCar;
+@property (nonatomic, strong) HKCoupon *coupon;
 @property (nonatomic, weak) UIViewController *originVC;
 
 /// 为优惠劵选择服务

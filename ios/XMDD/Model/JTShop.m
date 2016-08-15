@@ -18,7 +18,7 @@
         return nil;
     }
     ChargeContent * content = [[ChargeContent alloc] init];
-    content.amount = [rsp floatParamForName:@"amount"];
+    content.amount = [rsp doubleParamForName:@"amount"];
     content.paymentChannelType = (PaymentChannelType)[rsp integerParamForName:@"channel"];
     return content;
 }
@@ -46,11 +46,20 @@
         
     }
     service.chargeArray = [NSArray arrayWithArray:t];
-    service.contractprice = [rsp floatParamForName:@"contractprice"];
-    service.origprice = [rsp floatParamForName:@"origprice"];
-    service.oldOriginPrice = [rsp floatParamForName:@"oldoriginprice"];
+    service.contractprice = [rsp doubleParamForName:@"contractprice"];
+    service.origprice = [rsp doubleParamForName:@"origprice"];
+    service.oldOriginPrice = [rsp doubleParamForName:@"oldoriginprice"];
     
     return service;
+}
+
+#pragma mark - CKItemDelegate
+- (id<NSCopying>)key {
+    return self.serviceID;
+}
+
+- (instancetype)setKey:(id<NSCopying>)key {
+    return self;
 }
 
 @end
@@ -88,7 +97,7 @@
     shop.shopID  = rsp[@"shopid"];
     shop.shopName = rsp[@"name"];
     shop.picArray = rsp[@"pics"];
-    shop.shopRate = [rsp floatParamForName:@"rate"];
+    shop.shopRate = [rsp doubleParamForName:@"rate"];
     shop.shopAddress = rsp[@"address"];
     shop.shopLongitude = [rsp doubleParamForName:@"longitude"];
     shop.shopLatitude = [rsp doubleParamForName:@"latitude"];
@@ -99,15 +108,56 @@
     shop.announcement = [rsp stringParamForName:@"note"];
     shop.ratenumber = [rsp integerParamForName:@"ratenumber"];
     shop.isVacation = [rsp numberParamForName:@"isvacation"];
-    NSArray * array = rsp[@"services"];
-    NSMutableArray * t = [NSMutableArray array];
-    for (NSDictionary * dict in array)
-    {
-        [t addObject:[JTShopService shopServiceWithJSONResponse:dict]];
-    }
-    shop.shopServiceArray = [NSArray arrayWithArray:t];
     shop.allowABC = [rsp boolParamForName:@"abcbanksupport"];
+    shop.shopServiceArray = [rsp[@"services"] arrayByMapFilteringOperator:^id(id obj) {
+        return [JTShopService shopServiceWithJSONResponse:obj];
+    }];
+    shop.maintenanceServiceArray = [rsp[@"byservices"] arrayByMapFilteringOperator:^id(id obj) {
+        return [JTShopService shopServiceWithJSONResponse:obj];
+    }];
+    shop.beautyServiceArray = [rsp[@"mrservices"] arrayByMapFilteringOperator:^id(id obj) {
+        return [JTShopService shopServiceWithJSONResponse:obj];
+    }];
+    shop.maintenanceRateNumber = [rsp integerParamForName:@"byrate"];
+    shop.beautyRateNumber = [rsp integerParamForName:@"mrrate"];
+    shop.maintenanceCommentNumber = [rsp integerParamForName:@"byratenumber"];
+    shop.beautyCommentNumber = [rsp integerParamForName:@"mrratenumber"];
     return shop;
+}
+
+- (BOOL)isInBusinessHours {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    
+    NSDate * nowDate = [NSDate date];
+    NSString * transStr = [formatter stringFromDate:nowDate];
+    NSDate * transDate = [formatter dateFromString:transStr];
+    
+    NSDate * beginDate = [formatter dateFromString:self.openHour];
+    NSDate * endDate = [formatter dateFromString:self.closeHour];
+    
+    return (transDate == [transDate earlierDate:beginDate]) || (transDate == [transDate laterDate:endDate]) ? NO : YES;
+}
+
+- (NSString *)descForBusinessStatus {
+    if ([self.isVacation integerValue] == 1) {
+        return @"暂停营业";
+    }
+    return [self isInBusinessHours] ? @"营业中" : @"已休息";
+}
+
+- (NSArray *)filterShopServiceByType:(ShopServiceType)type {
+    return [self.shopServiceArray arrayByFilteringOperator:^BOOL(JTShopService *service) {
+        return service.shopServiceType == type;
+    }];
+}
+
+- (instancetype)setKey:(id<NSCopying>)key {
+    return self;
+}
+
+- (id<NSCopying>)key {
+    return self.shopID;
 }
 
 @end

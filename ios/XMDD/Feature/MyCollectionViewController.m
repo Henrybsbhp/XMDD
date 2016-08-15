@@ -11,11 +11,14 @@
 #import "FavoriteModel.h"
 #import "JTShop.h"
 #import "JTRatingView.h"
-#import "ShopDetailVC.h"
+#import "ShopDetailViewController.h"
 #import "DeleteUserFavoriteOp.h"
 #import "UIView+Layer.h"
 #import "PhoneHelper.h"
 #import "DistanceCalcHelper.h"
+#import "ShopDetailStore.h"
+#import "ShopListStore.h"
+#import "UILabel+MarkupExtensions.h"
 
 
 @interface MyCollectionViewController ()
@@ -24,9 +27,8 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *allSelectBtn;
 @property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
-
+@property (nonatomic, strong) CKList *datasource;
 @property (nonatomic) BOOL  isEditing;
-
 /// 已选中的index
 @property (nonatomic,strong)NSMutableIndexSet * selectSet;
 
@@ -36,7 +38,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     if (gAppMgr.myUser.favorites.favoritesArray.count > 0)
     {
         [self setupNavigationBar];
@@ -54,6 +56,7 @@
         [self getData];
     }];
     
+    [self reloadDatasource];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,7 +67,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self reloadData];
+    [self refreshViews];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -80,10 +83,32 @@
     DebugLog(@"MyCollectionViewController dealloc");
 }
 
-- (void)reloadData
-{
+- (void)reloadDatasource {
+    
+    CKList *datasource = [CKList list];
+    for (JTShop *shop in gAppMgr.myUser.favorites.favoritesArray) {
+        CKDict *dict = [CKDict dictWith:@{kCKItemKey: shop.shopID, @"shop": shop}];
+        NSMutableArray *serviceItems = [NSMutableArray array];
+        if (shop.shopServiceArray.count > 0) {
+            [serviceItems addObjectsFromArray:shop.shopServiceArray];
+        }
+        if (shop.beautyServiceArray.count > 0) {
+            [serviceItems addObject:shop.beautyServiceArray[0]];
+        }
+        if (shop.maintenanceServiceArray.count > 0) {
+            [serviceItems addObject:shop.maintenanceServiceArray[0]];
+        }
+        dict[@"serviceItems"] = serviceItems;
+        [datasource addObject:dict forKey:nil];
+    }
+    self.datasource = datasource;
     [self.tableView reloadData];
-    if (gAppMgr.myUser.favorites.favoritesArray.count == 0) {
+}
+
+- (void)refreshViews {
+    
+    [self.tableView reloadData];
+    if (self.datasource.count == 0) {
         [self.view showImageEmptyViewWithImageName:@"def_withoutCollection" text:@"您暂未收藏商户"];
     }
     else {
@@ -97,8 +122,8 @@
     [[gAppMgr.myUser.favorites rac_requestData]subscribeNext:^(id x) {
         
         @strongify(self);
-        [self.tableView reloadData];
         [self.tableView.refreshView endRefreshing];
+        [self reloadDatasource];
     }];
 }
 
@@ -138,7 +163,7 @@
 
 - (void)refreshCheckBox
 {
-    if(self.selectSet.count == gAppMgr.myUser.favorites.favoritesArray.count)
+    if(self.selectSet.count == self.datasource.count)
     {
         [self.allSelectBtn setSelected:YES];
     }
@@ -155,7 +180,7 @@
         
         [MobClick event:@"rp316_8"];
         @strongify(self)
-        if (self.selectSet.count == gAppMgr.myUser.favorites.favoritesArray.count)
+        if (self.selectSet.count == self.datasource.count)
         {
             [self.selectSet removeAllIndexes];
             [self.tableView reloadData];
@@ -163,11 +188,11 @@
             return;
         }
         [self.selectSet removeAllIndexes];
-        for (NSInteger i = 0 ; i < gAppMgr.myUser.favorites.favoritesArray.count ; i++)
+        for (NSInteger i = 0 ; i < self.datasource.count ; i++)
         {
             [self.selectSet addIndex:i];
         }
-        [self reloadData];
+        [self refreshViews];
         [self refreshCheckBox];
     }];
     
@@ -206,12 +231,12 @@
     [self refreshBottomView];
 
     [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
-    if (gAppMgr.myUser.favorites.favoritesArray.count == 0)
+    if (self.datasource.count == 0)
     {
         self.navigationItem.rightBarButtonItem = nil;
     }
     
-    [self reloadData];
+    [self refreshViews];
 }
 
 
@@ -243,7 +268,7 @@
     NSMutableArray * array = [NSMutableArray array];
     [self.selectSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         
-        JTShop * shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:idx];
+        JTShop * shop = self.datasource[idx][@"shop"];
         [array addObject:shop.shopID];
     }];
     
@@ -266,22 +291,20 @@
 
 #pragma mark - Table view data source 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return gAppMgr.myUser.favorites.favoritesArray.count;
+    return self.datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    NSInteger num = 0;
-    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:section];
-    num = 1 + shop.shopServiceArray.count + 1;
-    return num;
+    NSArray *serviceItems = self.datasource[section][@"serviceItems"];
+    return serviceItems.count + 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat height = 0.0;
-    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
-    NSInteger serviceAmount = shop.shopServiceArray.count;
+    NSArray *serivceItems = self.datasource[indexPath.section][@"serviceItems"];
+    NSInteger serviceAmount = serivceItems.count;
     NSInteger sectionAmount = 1 + serviceAmount + 1;
     
     if(indexPath.row == 0)
@@ -313,8 +336,8 @@
     
     UITableViewCell * cell;
     
-    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
-    NSInteger serviceAmount = shop.shopServiceArray.count;
+    NSArray *serviceItems = self.datasource[indexPath.section][@"serviceItems"];
+    NSInteger serviceAmount = serviceItems.count;
     NSInteger rowAmount = 1 + serviceAmount + 1;
     
     if(indexPath.row == 0)
@@ -347,10 +370,8 @@
     if (!self.isEditing)
     {
         [MobClick event:@"rp316_2"];
-        JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
-        ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
-        vc.hidesBottomBarWhenPushed = YES;
-        vc.shop = shop;
+        ShopDetailViewController *vc = [[ShopDetailViewController alloc] init];
+        vc.shop = self.datasource[indexPath.section][@"shop"];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -369,7 +390,7 @@
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
     
-    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
+    JTShop *shop = self.datasource[indexPath.section][@"shop"];
     
     //row 0  缩略图、名称、评分、地址、距离、营业状况等
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
@@ -441,7 +462,7 @@
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"EditShopCell" forIndexPath:indexPath];
     
-    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
+    JTShop *shop = self.datasource[indexPath.section][@"shop"];
     
     //row 0  缩略图、名称、评分、地址、距离、营业状况等
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
@@ -541,32 +562,14 @@
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ServiceCell" forIndexPath:indexPath];
     
-    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
-    
+    NSArray *serviceItems = self.datasource[indexPath.section][@"serviceItems"];
+    JTShopService *service = serviceItems[indexPath.row - 1];
     //row 1 洗车服务与价格
     UILabel *washTypeL = (UILabel *)[cell.contentView viewWithTag:2001];
-    UILabel *integralL = (UILabel *)[cell.contentView viewWithTag:2002];
     UILabel *priceL = (UILabel *)[cell.contentView viewWithTag:2003];
-    UILabel *originalPriceLabel = (UILabel *)[cell.contentView viewWithTag:2004];
     
-    JTShopService * service = [shop.shopServiceArray safetyObjectAtIndex:indexPath.row - 1];
-    
-    washTypeL.text = service.serviceName;
-    
-    ChargeContent * cc = [service.chargeArray firstObjectByFilteringOperator:^BOOL(ChargeContent * tcc) {
-        return tcc.paymentChannelType == PaymentChannelABCIntegral;
-    }];
-    
-    NSAttributedString *originalPrice = [self priceStringWithOldPrice:@(service.oldOriginPrice) curPrice:nil];
-    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@"原价" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
-    
-    [titleString appendAttributedString:originalPrice];
-    
-    originalPriceLabel.hidden = service.oldOriginPrice <= service.origprice ? YES : NO;
-    
-    integralL.text = [NSString stringWithFormat:@"%.0f分",cc.amount];
-    priceL.attributedText = [self priceStringWithOldPrice:nil curPrice:@(service.origprice)];
-    originalPriceLabel.attributedText = titleString;
+    washTypeL.text = [ShopDetailStore serviceGroupDescForServiceType:service.shopServiceType];
+    [priceL setMarkup:[ShopListStore markupForShopServicePrice:service]];
     
     return cell;
 }
@@ -575,7 +578,7 @@
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"NavigationCell" forIndexPath:indexPath];
     
-    JTShop *shop = [gAppMgr.myUser.favorites.favoritesArray safetyObjectAtIndex:indexPath.section];
+    JTShop *shop = self.datasource[indexPath.section][@"shop"];
     
     //row 2
     UIButton *guideB = (UIButton *)[cell.contentView viewWithTag:3001];

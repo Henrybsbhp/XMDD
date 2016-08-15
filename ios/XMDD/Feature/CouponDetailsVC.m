@@ -10,7 +10,7 @@
 #import "GetCouponDetailsOp.h"
 #import "SocialShareViewController.h"
 #import "ShareUserCouponOp.h"
-#import "CarWashTableVC.h"
+#import "CarwashShopListVC.h"
 #import "InsuranceVC.h"
 #import "UIView+DefaultEmptyView.h"
 #import "RescueDetailsVC.h"
@@ -54,8 +54,8 @@
 - (void)goToUse:(CouponNewType)newType
 {
     if (newType == CouponNewTypeCarWash) {
-        CarWashTableVC *vc = [UIStoryboard vcWithId:@"CarWashTableVC" inStoryboard:@"Carwash"];
-        vc.couponForWashDic = self.couponDic;
+        CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
+        vc.coupon = self.couponDic;
         vc.serviceType = self.oldType == CouponTypeWithHeartCarwash ? ShopServiceCarwashWithHeart : ShopServiceCarWash;
         [self.navigationController pushViewController:vc animated:YES];
     }
