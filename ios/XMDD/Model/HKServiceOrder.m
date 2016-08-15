@@ -37,6 +37,7 @@
     order.status = [rsp[@"status"] integerValue];
     order.statusDesc = rsp[@"statusdesc"];
     order.serviceDesc = rsp[@"servicedesc"];
+    order.serviceType = [rsp integerParamForName:@"category"];
     return order;
 }
 

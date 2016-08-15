@@ -10,7 +10,6 @@
 #import "GetShopByRangeV2Op.h"
 #import "JTShop.h"
 #import "MapBottomView.h"
-#import "ShopDetailVC.h"
 #import "SYPaginator.h"
 #import "AddUserFavoriteOp.h"
 #import <CoreLocation/CoreLocation.h>
@@ -19,6 +18,7 @@
 #import "GetParkingShopGasInfoOp.h"
 #import "MapBottomV2View.h"
 #import "MapBottomNavigationView.h"
+#import "ShopDetailViewController.h"
 
 /// 超过2km
 #define RequestDistance 2000
@@ -189,6 +189,7 @@
     self.lastRequestCorrdinate = coordinate;
     
     GetShopByRangeV2Op * op = [GetShopByRangeV2Op operation];
+    op.serviceType = self.serviceType;
     op.longitude = coordinate.longitude;
     op.latitude = coordinate.latitude;
     op.range = range;
@@ -208,12 +209,6 @@
             }];
             [self highlightMapViewWithIndex:0];
             [self.bottomSYView reloadData];
-            //            if (self.nearbyShopArray.count)
-            //            {
-            //                JTShop * shop = [self.nearbyShopArray firstObject];
-            //                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(shop.shopLatitude, shop.shopLongitude);
-            //                [self setCenter:coordinate];
-            //            }
             self.bottomSYView.currentPageIndex = 0;
         }
     } error:^(NSError *error) {
@@ -637,12 +632,12 @@
     
     @weakify(self)
     [[[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-        
-        [MobClick event:@"rp104_2"];
-        ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
-        vc.shop = shop;
-        
+
         @strongify(self)
+        [MobClick event:@"rp104_2"];
+        ShopDetailViewController *vc = [[ShopDetailViewController alloc] init];
+        vc.serviceType = self.serviceType;
+        vc.shop = shop;
         [self.navigationController pushViewController:vc animated:YES];
     }];
     
@@ -694,7 +689,7 @@
                     [gToast dismiss];
                 }] subscribeNext:^(id x) {
                     
-                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collection"] forState:UIControlStateNormal];
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collection_300"] forState:UIControlStateNormal];
                 } error:^(NSError *error) {
                     
                     [gToast showError:error.domain];

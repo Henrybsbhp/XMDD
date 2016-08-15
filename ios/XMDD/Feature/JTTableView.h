@@ -10,19 +10,12 @@
 #import "UIView+JTLoadingView.h"
 
 @class JTTableView;
-@protocol JTTableViewDelegate;
 
 @interface JTTableView : UITableView
 @property (nonatomic, strong) UIView *bottomLoadingView;
 ///(Default is NO)
 @property (nonatomic, assign) BOOL showBottomLoadingView;
 
-@end
-
-@protocol JTTableViewDelegate <NSObject, UITableViewDelegate>
-
-@optional
-- (void)tableViewDidStartRefresh:(JTTableView *)tableView;
 @end
 
 

@@ -191,7 +191,7 @@
     
     if (self.sourceImagesContainerViewContentMode == sourceImagesContainerViewContentFill)
     {
-        targetTemp = self.sourceImagesContainerView.frame;
+        targetTemp = [self.sourceImagesContainerView convertRect:self.sourceImagesContainerView.bounds toView:self];
     }
     else
     {

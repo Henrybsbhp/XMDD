@@ -28,7 +28,7 @@
 
 #import "HKNavigationController.h"
 #import "CarsListVC.h"
-#import "ShopDetailVC.h"
+
 
 @interface MineVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
