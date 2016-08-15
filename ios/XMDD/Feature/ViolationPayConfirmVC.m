@@ -48,8 +48,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [self getViolationCommissionCoupons];
-//    [self confirmViolationCommissionOrderConfirm];
+    [self getViolationCommissionCoupons];
+    [self confirmViolationCommissionOrderConfirm];
     [self setupDataSource];
 }
 
