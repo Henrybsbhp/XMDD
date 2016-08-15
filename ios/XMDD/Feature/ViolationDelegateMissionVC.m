@@ -270,9 +270,9 @@
         NSDictionary *data = [self.dataSource safetyObjectAtIndex:(self.tip.length != 0 ? indexPath.row - 1 : indexPath.row)];
         NSString *actStr = data[@"act"];
         NSString *areaStr = data[@"area"];
-        CGFloat height = 140 +
-        ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:15]].height) +
-        ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 75 font:[UIFont systemFontOfSize:13]].height);
+        CGFloat heightAct = actStr.length == 0 ? 0 : ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:15]].height);
+        CGFloat heightArea = ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 75 font:[UIFont systemFontOfSize:13]].height);
+        CGFloat height = 140 + heightAct + heightArea;
         return height;
     }
 }
@@ -371,7 +371,7 @@
     
     @weakify(self)
     
-    if (self.tip.length != 0)
+    if (self.tip.length == 0)
     {
         [self applyViolationCommission];
     }
