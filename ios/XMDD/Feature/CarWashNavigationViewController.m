@@ -3,14 +3,14 @@
 //  XiaoMa
 //
 //  Created by jt on 15-4-16.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Copyright (c) 2015年 huika. All rights reserved.
 //
 
 #import "CarWashNavigationViewController.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "MapBottomView.h"
-#import "ShopDetailVC.h"
+#import "ShopDetailViewController.h"
 #import "AddUserFavoriteOp.h"
 
 
@@ -89,11 +89,11 @@
     UIImage * image = [UIImage imageNamed:self.favorite ? @"nb_collected_300" : @"nb_collection_300"];
     [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
     
-    @weakify(self)
+    @weakify(self);
     [[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        @strongify(self)
-        ShopDetailVC *vc = [UIStoryboard vcWithId:@"ShopDetailVC" inStoryboard:@"Carwash"];
+        @strongify(self);
+        ShopDetailViewController *vc = [[ShopDetailViewController alloc] init];
         vc.shop = self.shop;
         [self.navigationController pushViewController:vc animated:YES];
     }];
