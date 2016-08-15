@@ -509,14 +509,18 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
         cell.titleLabel.text = data[@"title"];
         [cell.priceLabel setMarkup:data[@"price"]];
         cell.descLabel.text = data[@"desc"];
-        @weakify(data, cell);
+        
+        @strongify(self);
         [[[cell.radioButton rac_signalForControlEvents:UIControlEventTouchUpInside]
           takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            @strongify(self, data);
+            
+            @strongify(self);
             [self actionSelectServiceCell:data];
         }];
         
+        @weakify(data, cell);
         [[RACObserve(data, forceReload) takeUntilForCell:cell] subscribeNext:^(id x) {
+            
             @strongify(self, data, cell);
             JTShopService *service = data[@"service"];
             JTShopService *curService = [self.store currentSelectedService];

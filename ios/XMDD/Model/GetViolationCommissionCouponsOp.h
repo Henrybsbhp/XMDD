@@ -7,6 +7,7 @@
 //
 
 #import "BaseOp.h"
+#import "HKCoupon.h"
 
 @interface GetViolationCommissionCouponsOp : BaseOp
 
