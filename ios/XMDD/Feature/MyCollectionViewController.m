@@ -227,7 +227,7 @@
     if (!self.isEditing)
         [MobClick event:@"rp316_1"];
     self.isEditing = !self.isEditing;
-    
+    [self reloadDatasource];
     [self refreshBottomView];
 
     [self.navigationItem.rightBarButtonItem setTitle:(self.isEditing ? @"完成":@"编辑")];
@@ -279,7 +279,6 @@
     }] subscribeNext:^(id x) {
         @strongify(self)
         [gToast showText:@"移除成功！"];
-        
         [self.selectSet removeAllIndexes];
         [self editActions:nil];
     } error:^(NSError *error) {
