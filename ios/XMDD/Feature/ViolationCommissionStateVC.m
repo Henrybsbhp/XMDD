@@ -36,7 +36,7 @@
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
-    [self cancelListenNotificationByName:kNotifyViolationPaySuccess];
+//    [self cancelListenNotificationByName:kNotifyViolationPaySuccess];
     DebugLog(@"ViolationComissionStateVC is deallocated");
 }
 
@@ -44,6 +44,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    /// 当获取到凭证图片后，立即刷新页面适应凭证图片 Cell 的高度
     @weakify(self);
     [[RACObserve(self, proofImage) distinctUntilChanged] subscribeNext:^(id x) {
         @strongify(self);
@@ -61,17 +62,18 @@
 }
 
 #pragma mark - Notification observe
+/// 监听是否支付成功，如成功则刷新页面
 - (void)observeViolationPaySuccessEvent
 {
-    @weakify(self)
-    [self listenNotificationByName:kNotifyViolationPaySuccess withNotifyBlock:^(NSNotification *note, id weakSelf) {
-        @strongify(self)
-        [self fetchStateData];
-    }];
+//    @weakify(self)
+//    [self listenNotificationByName:kNotifyViolationPaySuccess withNotifyBlock:^(NSNotification *note, id weakSelf) {
+//        @strongify(self)
+//        [self fetchStateData];
+//    }];
 }
 
 #pragma mark - Actions
-/// 支付按钮
+/// 支付按钮点击事件
 - (void)actionPay
 {
     ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Temp_YZC"];
@@ -79,10 +81,10 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-/// 放弃按钮
+/// 放弃按钮点击事件
 - (void)actionAbandon:(UIButton *)sender
 {
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kDefTintColor clickBlock:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认放弃" color:kDefTintColor clickBlock:^(id alertVC) {
         CancelViolationCommissionOp *op = [CancelViolationCommissionOp operation];
         op.recordID = self.recordID;
@@ -103,7 +105,7 @@
     [alert show];
 }
 
-/// 联系客服
+/// 联系客服按钮点击事件
 - (IBAction)actionCallService:(id)sender
 {
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
@@ -115,6 +117,7 @@
 }
 
 #pragma mark - fetch data
+/// 获取数据
 - (void)fetchStateData
 {
     GetViolationCommissionStateOp *op = [GetViolationCommissionStateOp operation];
@@ -148,10 +151,12 @@
     }];
 }
 
+/// 通过 model 设置 dataSource 的方法
 - (void)setDataSourceWithFetchedData:(ViolationCommissionStateModel *)model
 {
     self.dataSource = [CKList list];
     
+    // 通过状态设置 dataSource 的样式
     if (model.status == XMVCommissionWaiting) {
         // 等待受理
         
@@ -492,31 +497,32 @@
 }
 
 #pragma mark - Utilities
-// 返回虚线image的方法
+// 画虚线的方法
 - (void)drawDashLine:(UIView *)lineView lineLength:(int)lineLength lineSpacing:(int)lineSpacing lineColor:(UIColor *)lineColor
 {
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     [shapeLayer setBounds:lineView.bounds];
     [shapeLayer setPosition:CGPointMake(CGRectGetWidth(lineView.frame) / 2, CGRectGetHeight(lineView.frame))];
     [shapeLayer setFillColor:[UIColor clearColor].CGColor];
-    //  设置虚线颜色为blackColor
+    // 通过 lineColor 设置虚线的颜色
     [shapeLayer setStrokeColor:lineColor.CGColor];
-    //  设置虚线宽度
+    // 通过 lineView 设置虚线宽度
     [shapeLayer setLineWidth:CGRectGetHeight(lineView.frame)];
     [shapeLayer setLineJoin:kCALineJoinRound];
-    //  设置线宽，线间距
+    // 设置线宽，线间距
     [shapeLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:lineLength], [NSNumber numberWithInt:lineSpacing], nil]];
-    //  设置路径
+    // 设置路径
     CGMutablePathRef path = CGPathCreateMutable();
     CGPathMoveToPoint(path, NULL, 0, 0);
-    CGPathAddLineToPoint(path, NULL,CGRectGetWidth(lineView.frame), 0);
+    CGPathAddLineToPoint(path, NULL, CGRectGetWidth(lineView.frame), 0);
     [shapeLayer setPath:path];
     CGPathRelease(path);
-    //  把绘制好的虚线添加上来
+    // 把绘制好的虚线添加上来
     [lineView.layer addSublayer:shapeLayer];
     lineView.layer.masksToBounds = YES;
 }
 
+/// 点击查看图片的方法
 - (void)tapDetected
 {
     SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
@@ -528,6 +534,7 @@
     [browser show];
 }
 
+/// 当获取图片失败则点击重新获取图片
 - (void)tapDetectedWhileErrorOccrured:(UIGestureRecognizer *)gesture
 {
     [self.tableView reloadData];
@@ -542,7 +549,7 @@
 }
 
 
-// 返回高质量图片的url
+// 返回高质量图片的 URL
 - (NSURL *)photoBrowser:(SDPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index
 {
     return [NSURL URLWithString:self.proofImageURL];

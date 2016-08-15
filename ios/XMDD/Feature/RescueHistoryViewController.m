@@ -357,8 +357,7 @@
     
     op.applytime = self.applyTime;
     HKRescueHistory *his = [self.dataSourceArray lastObject];
-    NSString *timeStr = [NSString stringWithFormat:@"%@", his.applyTime];
-    op.applytime = [timeStr longLongValue];
+    op.applytime = [his.applyTime longLongValue];
     op.type = self.type;
     @weakify(self);
     [[[op rac_postRequest] initially:^{
