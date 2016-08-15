@@ -11,8 +11,8 @@
 @interface CommentListViewController : JTTableViewController
 
 ///
-@property (nonatomic,strong)NSNumber * shopid;
-
-@property (nonatomic,strong)NSArray * commentArray;
+@property (nonatomic, strong) NSNumber * shopid;
+@property (nonatomic, assign) ShopServiceType serviceType;
+@property (nonatomic, strong) NSArray * commentArray;
 
 @end

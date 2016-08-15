@@ -28,6 +28,7 @@
 #import "ShopDetailCommentCell.h"
 #import "CarWashNavigationViewController.h"
 #import "CommentListViewController.h"
+#import "PayForWashCarVC.h"
 
 typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath, __kindof UICollectionViewCell *cell);
 @interface ShopDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
@@ -49,19 +50,29 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.hidesBottomBarWhenPushed = YES;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.store = [[ShopDetailStore alloc] init];
+    self.store = [ShopDetailStore fetchOrCreateStoreByShopID:self.shop.shopID];
     [self.store resetDataWithShop:self.shop];
     
     [self setupCollectionView];
     [self setupNavitationBar];
     [self setupHeaderView];
+    [self setupSignals];
     [self reloadDatasource];
-    [self requestComments];
+    [self.store fetchAllCommentGroups];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,6 +84,10 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     [super viewWillAppear:animated];
     [self.headerView.trottingView refreshLabels];
     self.customNavBar.isCollected = self.store.isShopCollected;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return self.customNavBar.titleDidShowed ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
 }
 
 #pragma mark - Setup
@@ -147,8 +162,27 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     }];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return self.customNavBar.titleDidShowed ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
+- (void)setupSignals {
+    @weakify(self);
+    [[[RACObserve(self.store, reloadAllCommentsSignal) distinctUntilChanged] skip:1]
+     subscribeNext:^(RACSignal *signal) {
+        
+        @strongify(self);
+        [[signal initially:^{
+            
+            @strongify(self);
+            self.loadStatus = HKLoadStatusLoading;
+        }] subscribeNext:^(id x) {
+            
+            @strongify(self);
+            self.loadStatus = HKLoadStatusSuccess;
+            [self reloadComments];
+        } error:^(NSError *error) {
+            
+            @strongify(self);
+            self.loadStatus = HKLoadStatusError;
+        }];
+    }];
 }
 #pragma mark - Datasource
 - (void)reloadDatasource {
@@ -201,24 +235,6 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:index]];
 }
 
-#pragma mark - Request
-- (void)requestComments {
-    @weakify(self);
-    [[[self.store fetchAllCommentGroups] initially:^{
-        
-        @strongify(self);
-        self.loadStatus = HKLoadStatusLoading;
-    }] subscribeNext:^(id x) {
-        
-        @strongify(self);
-        self.loadStatus = HKLoadStatusSuccess;
-        [self reloadComments];
-    } error:^(NSError *error) {
-        
-        @strongify(self);
-        self.loadStatus = HKLoadStatusError;
-    }];
-}
 #pragma mark - Action
 /// 收藏
 - (void)actionCollect:(id)sender {
@@ -315,12 +331,18 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 }
 
 - (void)actionPayment:(id)sender {
-    JTShopService *service = [self.store currentSelectedService];
+    PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
+    vc.service = [self.store currentSelectedService];
+    vc.shop = self.shop;
+    vc.coupon = self.coupon;
+    vc.originVC = self;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionGotoCommentListVC {
     CommentListViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CommentListViewController"];
     vc.shopid = self.shop.shopID;
+    vc.serviceType = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
     vc.commentArray = [[self.store currentCommentList] allObjects];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -633,7 +655,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         if (self.loadStatus == HKLoadStatusError) {
-            [self requestComments];
+            [self.store fetchAllCommentGroups];
         }
     });
     return dict;

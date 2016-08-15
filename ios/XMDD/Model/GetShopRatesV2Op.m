@@ -44,4 +44,15 @@
     return @"获取商户评价列表V2";
 }
 
+- (NSArray *)commentArrayForServiceType:(ShopServiceType)serviceType {
+    switch (serviceType) {
+        case ShopServiceCarMaintenance:
+            return self.rsp_maintenanceCommentArray;
+        case ShopServiceCarBeauty:
+            return self.rsp_beautyCommentArray;
+        default:
+            return self.rsp_carwashCommentArray;
+    }
+}
+
 @end

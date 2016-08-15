@@ -3684,6 +3684,15 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
+		185A15501D61521C0051D9F7 /* Collect */ = {
+			isa = PBXGroup;
+			children = (
+				18649C331D48B49600F1CCB0 /* MyCollectionViewController.h */,
+				18649C341D48B49600F1CCB0 /* MyCollectionViewController.m */,
+			);
+			name = Collect;
+			sourceTree = "<group>";
+		};
 		18648F441D48558000F1CCB0 /* AlipaySDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -4462,6 +4471,7 @@
 		18649BA21D48AC1800F1CCB0 /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				185A15501D61521C0051D9F7 /* Collect */,
 				18649DA81D48BC0800F1CCB0 /* Base */,
 				18649BA31D48AC2100F1CCB0 /* Login */,
 				18649C931D48B63000F1CCB0 /* Order */,
@@ -5001,8 +5011,6 @@
 				18649C3E1D48B4B300F1CCB0 /* ReactTestViewController.m */,
 				18649C311D48B49600F1CCB0 /* MineVC.h */,
 				18649C321D48B49600F1CCB0 /* MineVC.m */,
-				18649C331D48B49600F1CCB0 /* MyCollectionViewController.h */,
-				18649C341D48B49600F1CCB0 /* MyCollectionViewController.m */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -6279,7 +6287,6 @@
 				18649DFE1D48BD6B00F1CCB0 /* MutualInsOrderInfoVC.m in Sources */,
 				6BB884D21AE0BC6A00EBD8F4 /* MONActivityIndicatorView.m in Sources */,
 				186499F21D489A9700F1CCB0 /* GetTokenOp.m in Sources */,
-				1864953C1D4888BE00F1CCB0 /* CKStore.m in Sources */,
 				FAC9868B1D5819F7000FE245 /* GasChargeOrderOp.m in Sources */,
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				183F570B1D4C90860001E26A /* MutualInsMessage.m in Sources */,
@@ -6365,7 +6372,6 @@
 				1864999D1D489A9700F1CCB0 /* BaseOp.m in Sources */,
 				183F57211D4C90860001E26A /* GetCooperationConfiOp.m in Sources */,
 				18649BB71D48AE9B00F1CCB0 /* HomePageVC.m in Sources */,
-				186495291D4888BE00F1CCB0 /* NSObject+Notify.m in Sources */,
 				FAE1A1811D543AE500574B1C /* ViolationCommissionStateVC.m in Sources */,
 				18649D331D48B9A600F1CCB0 /* InsuranceInfoSubmitingVC.m in Sources */,
 				18649A061D489A9700F1CCB0 /* RescueCancelHostcarOp.m in Sources */,
@@ -6472,7 +6478,6 @@
 				186499711D489A9700F1CCB0 /* AdListData.m in Sources */,
 				186499791D489A9700F1CCB0 /* HKBankCard.m in Sources */,
 				183F570E1D4C90860001E26A /* AddGascardOp.m in Sources */,
-				18649A1D1D489A9700F1CCB0 /* GasCardStore.m in Sources */,
 				4E78DDED1D5A1A3A00EC52C7 /* ViolationPayConfirmVC.m in Sources */,
 				186499D31D489A9700F1CCB0 /* GetMutualInsListOp.m in Sources */,
 				1888F41B1D48CB8600C64288 /* RCTLoginManager.m in Sources */,
@@ -6556,7 +6561,6 @@
 				18649E471D48BE0A00F1CCB0 /* MutInsCalculateVC.m in Sources */,
 				18649E211D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.m in Sources */,
 				1836B7B71D54220B0078DB15 /* NSString+CKExpansion.m in Sources */,
-				18649BC11D48AECE00F1CCB0 /* HomePageVModel.m in Sources */,
 				186495D01D4895D200F1CCB0 /* xmdd.xcdatamodeld in Sources */,
 				18649DF61D48BD2300F1CCB0 /* MutualInsStore.m in Sources */,
 				183F57181D4C90860001E26A /* DeleteCooperationGroupOp.m in Sources */,
@@ -6631,7 +6635,6 @@
 				18649D901D48BB5D00F1CCB0 /* GasReminderCell.m in Sources */,
 				186496D21D489A4200F1CCB0 /* ShareResponeManager.m in Sources */,
 				4E78DDF71D5A1A8E00EC52C7 /* ApplyViolationCommissionOp.m in Sources */,
-				1864953E1D4888BE00F1CCB0 /* CKMethods.m in Sources */,
 				18649C671D48B54E00F1CCB0 /* UsedCouponVModel.m in Sources */,
 				1864970F1D489A5800F1CCB0 /* NSDate+DateForText.m in Sources */,
 				18649A0E1D489A9700F1CCB0 /* UpdateCarOp.m in Sources */,
@@ -6814,7 +6817,6 @@
 				1836B8301D54711B0078DB15 /* ShopDetailCollectionLayout.m in Sources */,
 				1836B8391D547BAC0078DB15 /* ShopDetailCommentCell.m in Sources */,
 				4E78DF6E1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m in Sources */,
-
 				C3D9B81F1CC0DBF000B5D2A7 /* FLAnimatedImageView.m in Sources */,
 				1837A75F1B72130F0006E6C5 /* SDBrowserImageView.m in Sources */,
 				186499FD1D489A9700F1CCB0 /* GetVcodeOp.m in Sources */,

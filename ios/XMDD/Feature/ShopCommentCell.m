@@ -30,7 +30,7 @@
     _titleLabel = [self addLabelWithFontSize:13 andColor:kDarkTextColor];
     _timeLabel = [self addLabelWithFontSize:13 andColor:kGrayTextColor];
     _timeLabel.textAlignment = NSTextAlignmentRight;
-    _serviceLabel = [self addLabelWithFontSize:13 andColor:kGrayTextColor];
+    _serviceLabel = [self addLabelWithFontSize:13 andColor:kDarkTextColor];
     _commentLabel = [self addLabelWithFontSize:13 andColor:kDarkTextColor];
     _commentLabel.numberOfLines = 0;
     

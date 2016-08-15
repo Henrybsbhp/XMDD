@@ -17,7 +17,8 @@
 
 @property (nonatomic, strong) JTShopService *service;
 @property (nonatomic, strong) JTShop *shop;
-@property (nonatomic, strong) HKMyCar * defaultCar;
+@property (nonatomic, strong) HKMyCar *defaultCar;
+@property (nonatomic, strong) HKCoupon *coupon;
 @property (nonatomic, weak) UIViewController *originVC;
 
 /// 为优惠劵选择服务

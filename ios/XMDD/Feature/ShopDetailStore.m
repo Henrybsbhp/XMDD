@@ -17,15 +17,23 @@
 @implementation ShopDetailStore
 
 #pragma mark - Public
++ (instancetype)fetchOrCreateStoreByShopID:(NSNumber *)shopid {
+    return [self fetchOrCreateStoreForKey:[NSString stringWithFormat:@"Shop.Detail.%@", shopid]];
+}
+
++ (instancetype)fetchExistsStoreByShopID:(NSNumber *)shopid {
+    return [self fetchExistsStoreForKey:[NSString stringWithFormat:@"Shop.Detail.%@", shopid]];
+}
+
 - (void)resetDataWithShop:(JTShop *)shop {
     _shop = shop;
 
     CKDict *selectedServices = [[CKDict alloc] init];
     CKList *serviceGroups = [CKList list];
     if (shop.shopServiceArray.count > 0) {
-        CKList *group = [[CKList listWithArray:shop.shopServiceArray] setKey:@(ShopServiceCarWash)];
+        CKList *group = [[CKList listWithArray:shop.shopServiceArray] setKey:@(ShopServiceAllCarWash)];
         [serviceGroups addObject:group forKey:nil];
-        selectedServices[@(ShopServiceCarWash)] = group[0];
+        selectedServices[@(ShopServiceAllCarWash)] = group[0];
     }
     if ([shop.beautyServiceArray count] > 0) {
         CKList *group = [[CKList listWithArray:shop.beautyServiceArray] setKey:@(ShopServiceCarBeauty)];
@@ -41,6 +49,7 @@
     _serviceGroups = serviceGroups;
     _selectedServices = selectedServices;
     [self selectServiceGroup:serviceGroups[0]];
+    _commentGroups = nil;
 }
 
 #pragma mark - Service
@@ -53,8 +62,8 @@
 }
 
 - (NSNumber *)serviceGroupKeyForServiceType:(ShopServiceType)type {
-    if (type == ShopServiceCarwashWithHeart) {
-        return @(ShopServiceCarWash);
+    if (type == ShopServiceCarwashWithHeart || type == ShopServiceCarWash) {
+        return @(ShopServiceAllCarWash);
     }
     return @(type);
 }
@@ -65,6 +74,10 @@
             return @"小保养";
         case ShopServiceCarBeauty:
             return @"美容";
+        case ShopServiceCarwashWithHeart:
+            return @"精洗";
+        case ShopServiceCarWash:
+            return @"普洗";
         default:
             return @"洗车";
     }
@@ -103,13 +116,15 @@
     }
 }
 
-- (RACSignal *)fetchAllCommentGroups {
+- (void)fetchAllCommentGroups {
     GetShopRatesV2Op * op = [GetShopRatesV2Op operation];
     op.req_shopid = self.shop.shopID;
     op.req_pageno = 1;
     op.req_serviceTypes = @"1,2,3,4";
-    return [[op rac_postRequest] doNext:^(GetShopRatesV2Op *op) {
+    @weakify(self);
+    self.reloadAllCommentsSignal = [[op rac_postRequest] doNext:^(GetShopRatesV2Op *op) {
         
+        @strongify(self);
         _commentsOp = op;
         self.shop.commentNumber = op.rsp_carwashTotalNumber;
         self.shop.maintenanceCommentNumber = op.rsp_maintenanceTotalNumber;

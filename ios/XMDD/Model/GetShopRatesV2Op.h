@@ -31,4 +31,6 @@
 /// 美容评论列表
 @property (nonatomic,strong)NSArray * rsp_beautyCommentArray;
 
+- (NSArray *)commentArrayForServiceType:(ShopServiceType)serviceType;
+
 @end

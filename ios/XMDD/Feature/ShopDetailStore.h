@@ -16,8 +16,11 @@
 @property (nonatomic, strong, readonly) CKDict *selectedServices;
 @property (nonatomic, strong, readonly) CKList *selectedServiceGroup;
 @property (nonatomic, strong, readonly) CKList *commentGroups;
+@property (nonatomic, strong) RACSignal *reloadAllCommentsSignal;
 
 - (void)resetDataWithShop:(JTShop *)shop;
++ (instancetype)fetchOrCreateStoreByShopID:(NSNumber *)shopid;
++ (instancetype)fetchExistsStoreByShopID:(NSNumber *)shopid;
 
 //// 服务相关
 + (NSString *)serviceGroupDescForServiceType:(ShopServiceType)type;
@@ -30,7 +33,7 @@
 
 
 //// 评论相关
-- (RACSignal *)fetchAllCommentGroups;
+- (void)fetchAllCommentGroups;
 - (CKList *)currentCommentList;
 - (NSInteger)currentCommentNumber;
 
