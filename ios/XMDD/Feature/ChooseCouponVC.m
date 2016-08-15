@@ -143,7 +143,6 @@
             pay4GasVC.couponType = coupon.conponType;
         }
     }
-    
     if (vc && [vc isKindOfClass:[MutualInsPayViewController class]])
     {
         MutualInsPayViewController * mutualInsPayVC = (MutualInsPayViewController *)vc;
@@ -370,6 +369,25 @@
         if (totalCoupon >= self.couponLimit)
         {
             NSString * str = [NSString stringWithFormat:@"您选择的优惠券已满最大优惠额度：%@元",[NSString formatForPrice:self.couponLimit]];
+            [gToast showError:str];
+            return;
+        }
+        [self.selectedCouponArray addObject:coupon];
+        [self.tableView reloadData];
+    }
+    else if (self.type == CouponTypeViolation)
+    {   
+        HKCoupon *c = self.selectedCouponArray.firstObject;
+        if ([c.couponId isEqualToNumber:coupon.couponId])
+        {
+            [self.selectedCouponArray safetyRemoveObject:c];
+            [self.tableView reloadData];
+            return;
+        }
+        
+        if (self.selectedCouponArray.count >= self.numberLimit)
+        {
+            NSString * str = [NSString stringWithFormat:@"您最多只能选择%f张优惠券",self.numberLimit];
             [gToast showError:str];
             return;
         }

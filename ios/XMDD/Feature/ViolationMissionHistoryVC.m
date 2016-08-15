@@ -18,12 +18,17 @@
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) WebVC *webVC;
+@property (strong, nonatomic) DetailWebVC *webVC;
 
 @property (strong, nonatomic) NSArray *tips;
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) NSDictionary *statusDic;
 @property (strong, nonatomic) NSIndexPath *indexPath;
+/**
+ *  记录上次页面偏移量。保证后台更新后位置不变。
+ */
+@property (assign, nonatomic) CGPoint offset;
+@property (strong, nonatomic) NSNumber *recordID;
 
 @end
 
@@ -34,16 +39,51 @@
     
     [self setupUI];
     [self setupNavi];
-    //    [self getSimutateData];
+    [self setupNotify];
     [self getViolationCommissionApply];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    if (self.offset.y != 0)
+    {
+        self.tableView.contentOffset = self.offset;
+    }
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    self.offset = self.tableView.contentOffset;
 }
 
 #pragma mark - Setup
+
+-(void)setupNotify
+{
+    @weakify(self)
+    
+    [self listenNotificationByName:kNotifyViolationPaySuccess withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        
+        @strongify(self)
+        
+        [self getViolationCommissionApply];
+        
+    }];
+    
+    [self listenNotificationByName:kNotifyCommissionAbandoned withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        
+        @strongify(self)
+        
+        [self getViolationCommissionApply];
+        
+    }];
+    
+}
 
 -(void)setupUI
 {
@@ -63,92 +103,6 @@
 }
 
 #pragma mark - Network
-
--(void)getSimutateData
-{
-    self.bottomView.hidden = YES;
-    self.tableView.hidden = YES;
-    [self.view hideDefaultEmptyView];
-    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-    
-    CKAfter(0.5, ^{
-        if (random()%2)
-        {
-            
-            
-            [self.view stopActivityAnimation];
-            
-            self.bottomView.hidden = NO;
-            self.tableView.hidden = NO;
-            
-            
-            NSDictionary *dic = @{@"date":@"2015-11-25 17:00",
-                                  @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
-                                  @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
-                                  @"code":@"100",
-                                  @"money":@"200",
-                                  @"servicefee":@"40",
-                                  @"licencenumber":@"浙A12345",
-                                  @"status" : @(0)};
-            NSDictionary *dic1 = @{@"date":@"2015-11-25 17:00",
-                                   @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
-                                   @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
-                                   @"code":@"100",
-                                   @"money":@"200",
-                                   @"servicefee":@"40",
-                                   @"licencenumber":@"浙A12345",
-                                   @"status" : @(1)};
-            NSDictionary *dic2 = @{@"date":@"2015-11-25 17:00",
-                                   @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
-                                   @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
-                                   @"code":@"100",
-                                   @"money":@"200",
-                                   @"servicefee":@"40",
-                                   @"licencenumber":@"浙A12345",
-                                   @"status" : @(2)};
-            NSDictionary *dic3 = @{@"date":@"2015-11-25 17:00",
-                                   @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
-                                   @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
-                                   @"code":@"100",
-                                   @"money":@"200",
-                                   @"servicefee":@"40",
-                                   @"licencenumber":@"浙A12345",
-                                   @"status" : @(3)};
-            NSDictionary *dic4 = @{@"date":@"2015-11-25 17:00",
-                                   @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
-                                   @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
-                                   @"code":@"100",
-                                   @"money":@"100",
-                                   @"servicefee":@"35",
-                                   @"licencenumber":@"浙A12345",
-                                   @"status" : @(1)};
-            NSDictionary *dic6 = @{@"date":@"2015-11-25 17:00",
-                                   @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
-                                   @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
-                                   @"code":@"100",
-                                   @"money":@"200",
-                                   @"servicefee":@"40",
-                                   @"licencenumber":@"浙A12345",
-                                   @"status" : @(6)};
-            self.tips = @[@"浙A12345的证件信息不完整，完善后即可申请代办"];
-            self.dataSource = @[dic1,dic,dic2,dic3,dic4,dic6,dic4,dic1,dic3,dic2,dic,dic6,dic2,dic1,dic,dic6];
-            
-            [self.tableView reloadData];
-        }
-        else
-        {
-            [self.view stopActivityAnimation];
-            
-            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败。点击请重试" tapBlock:^{
-                
-                
-                [self getSimutateData];
-                
-            }];
-        }
-    });
-    
-}
 
 -(void)getViolationCommissionApply
 {
@@ -223,7 +177,7 @@
     if (indexPath.row < self.tips.count)
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"IssuesCell"];
-        NSDictionary *dic = self.tips[indexPath.row];
+        NSDictionary *dic = [self.tips safetyObjectAtIndex:indexPath.row];
         UILabel *tipLabel = [cell viewWithTag:100];
         tipLabel.text = [NSString stringWithFormat:@"%@",dic[@"tip"]];
         
@@ -240,20 +194,20 @@
         serviceFeeLabel.text = [NSString stringWithFormat:@"服务费%@元",data[@"servicefee"]];
         
         UILabel *licenceLabel = [cell viewWithTag:102];
-        licenceLabel.text = [NSString stringWithFormat:@"%@",data[@"licencenumber"]];
+        licenceLabel.text = data[@"licencenumber"];
         
         UILabel *dateLabel = [cell viewWithTag:103];
-        dateLabel.text = [NSString stringWithFormat:@"%@",data[@"date"]];
+        dateLabel.text = data[@"date"];
         
         UILabel *areaLabel = [cell viewWithTag:104];
-        areaLabel.text = [NSString stringWithFormat:@"%@",data[@"area"]];
+        areaLabel.text = data[@"area"];
         
         UILabel *actLabel = [cell viewWithTag:105];
-        actLabel.text = [NSString stringWithFormat:@"%@",data[@"act"]];
+        actLabel.text = data[@"act"];
         
         UIImageView *selectImg = [cell viewWithTag:106];
         selectImg.hidden = [(NSNumber *)data[@"status"] integerValue] != 1;
-        selectImg.image = (self.indexPath.row == indexPath.row && self.indexPath.section == indexPath.section) ? [UIImage imageNamed:@"illegal_radioSelect"] : [UIImage imageNamed:@"illegal_radioUnselect"];
+        selectImg.image = (self.indexPath.row == indexPath.row && self.indexPath.section == indexPath.section && self.indexPath) ? [UIImage imageNamed:@"illegal_radioSelect"] : [UIImage imageNamed:@"illegal_radioUnselect"];
         
         UILabel *tagLabel = [cell viewWithTag:107];
         tagLabel.text = [self.statusDic objectForKey:data[@"status"]];
@@ -287,9 +241,9 @@
         NSDictionary *data = [self.dataSource safetyObjectAtIndex:indexPath.row - self.tips.count];
         NSString *actStr = data[@"act"];
         NSString *areaStr = data[@"area"];
-        CGFloat height = 140 +
-        ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:15]].height) +
-        ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 90 font:[UIFont systemFontOfSize:13]].height);
+        CGFloat heightAct = actStr.length == 0 ? 0 : ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:15]].height);
+        CGFloat heightArea = ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 75 font:[UIFont systemFontOfSize:13]].height);
+        CGFloat height = 140 + heightAct + heightArea;
         return height;
     }
 }
@@ -392,7 +346,9 @@
 
 - (IBAction)actionCommit:(id)sender
 {
+    NSDictionary *dic = self.dataSource[self.indexPath.row];
     ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Temp_YZC"];
+    vc.recordID = (NSNumber *)dic[@"recordid"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -427,7 +383,7 @@
     return _statusDic;
 }
 
--(WebVC *)webVC
+-(DetailWebVC *)webVC
 {
     if (!_webVC)
     {

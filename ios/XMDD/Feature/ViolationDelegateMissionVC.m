@@ -9,7 +9,7 @@
 #import "ViolationDelegateMissionVC.h"
 #import "ViolationMyLicenceVC.h"
 #import "ViolationMissionHistoryVC.h"
-#import "WebVC.h"
+#import "DetailWebVC.h"
 #import "ViolationDelegateCommitSuccessVC.h"
 #import "GetViolationCommissionOp.h"
 #import "ApplyViolationCommissionOp.h"
@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *confirmReadBtn;
-@property (strong, nonatomic) WebVC *webVC;
+@property (strong, nonatomic) DetailWebVC *webVC;
 
 
 @property (strong, nonatomic) NSArray *dataSource;
@@ -144,12 +144,23 @@
         
         [self.view stopActivityAnimation];
         
-        self.bottomView.hidden = NO;
-        self.tableView.hidden = NO;
+        if (op.rsp_lists.count == 0)
+        {
+            self.bottomView.hidden = YES;
+            self.tableView.hidden = YES;
+            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"暂无可代办违章"];
+        }
+        else
+        {
+            self.bottomView.hidden = NO;
+            self.tableView.hidden = NO;
+            
+            self.dataSource = op.rsp_lists;
+            self.tip = op.rsp_tip;
+            [self.tableView reloadData];
+        }
         
-        self.dataSource = op.rsp_lists;
-        self.tip = op.rsp_tip;
-        [self.tableView reloadData];
+        
         
     } error:^(NSError *error) {
         
@@ -270,9 +281,9 @@
         NSDictionary *data = [self.dataSource safetyObjectAtIndex:(self.tip.length != 0 ? indexPath.row - 1 : indexPath.row)];
         NSString *actStr = data[@"act"];
         NSString *areaStr = data[@"area"];
-        CGFloat height = 140 +
-        ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:15]].height) +
-        ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 75 font:[UIFont systemFontOfSize:13]].height);
+        CGFloat heightAct = actStr.length == 0 ? 0 : ceil([actStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 60 font:[UIFont systemFontOfSize:15]].height);
+        CGFloat heightArea = ceil([areaStr labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 75 font:[UIFont systemFontOfSize:13]].height);
+        CGFloat height = 140 + heightAct + heightArea;
         return height;
     }
 }
@@ -371,7 +382,7 @@
     
     @weakify(self)
     
-    if (self.tip.length != 0)
+    if (self.tip.length == 0)
     {
         [self applyViolationCommission];
     }
@@ -421,7 +432,7 @@
     return _carArr;
 }
 
--(WebVC *)webVC
+-(DetailWebVC *)webVC
 {
     if (!_webVC)
     {
