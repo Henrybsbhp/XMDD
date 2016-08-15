@@ -213,6 +213,8 @@
         
         @strongify(self)
         
+        [gToast dismiss];
+        
         [self callPaymentHelperWithPayOp:op];
         
     } error:^(NSError *error) {
@@ -632,7 +634,7 @@
         [self.navigationController popViewControllerAnimated:YES];
         
     }];
-    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_ok" Message:@"订单支付成功。请点进确认返回" ActionItems:@[confirm]];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_ok" Message:@"您的订单已支付完成！" ActionItems:@[confirm]];
     
     [alert show];
     
