@@ -46,14 +46,14 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)dealloc
+- (void)dealloc
 {
     DDLogDebug(@"ViolationDelegateMissionVC dealloc");
 }
 
 #pragma mark - Setup
 
--(void)setupUI
+- (void)setupUI
 {
     NSString *btnTitle = self.carArr.count != 0 ? [NSString stringWithFormat:@"服务费合计%ld元，立即申请代办",self.carArr.count * 235] : @"请选择您需要代办的违章";
     
@@ -66,7 +66,7 @@
 
 #pragma mark - Network
 
--(void)getViolationCommission
+- (void)getViolationCommission
 {
     @weakify(self)
     GetViolationCommissionOp *op = [GetViolationCommissionOp operation];
@@ -81,7 +81,6 @@
         self.tableView.hidden = YES;
         
         [self.view hideDefaultEmptyView];
-        
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }]subscribeNext:^(GetViolationCommissionOp *op) {
@@ -123,7 +122,7 @@
     }];
 }
 
--(void)applyViolationCommission
+- (void)applyViolationCommission
 {
     @weakify(self)
     ApplyViolationCommissionOp *op = [ApplyViolationCommissionOp operation];
@@ -159,17 +158,17 @@
 
 #pragma mark - UITableViewDataSource
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.dataSource.count + (self.tip.length == 0 ? 0 : 1);
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = nil;
     if (self.tip.length != 0 && indexPath.row == 0)
@@ -212,7 +211,7 @@
 
 #pragma mark - UITableViewDelegate
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     if (self.tip.length != 0 && indexPath.row == 0)
@@ -232,7 +231,7 @@
     }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     @weakify(self)
@@ -273,7 +272,7 @@
 
 #pragma mark - Utility
 
--(void)configCommitBtn
+- (void)configCommitBtn
 {
     if (self.carArr.count == 0)
     {
@@ -290,7 +289,7 @@
     
 }
 
--(NSInteger)calculateDelegateFee
+- (NSInteger)calculateDelegateFee
 {
     NSDictionary *dic = nil;
     NSInteger total = 0;
@@ -367,7 +366,7 @@
 
 #pragma mark - Lazyload
 
--(NSMutableArray *)carArr
+- (NSMutableArray *)carArr
 {
     if (!_carArr)
     {
@@ -376,7 +375,7 @@
     return _carArr;
 }
 
--(DetailWebVC *)webVC
+- (DetailWebVC *)webVC
 {
     if (!_webVC)
     {
