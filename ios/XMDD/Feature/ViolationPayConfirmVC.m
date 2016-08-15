@@ -49,7 +49,7 @@
     [super viewDidLoad];
     
     [self getViolationCommissionCoupons];
-    [self confirmViolationCommissionOrderConfirm];
+//    [self confirmViolationCommissionOrderConfirm];
     [self setupDataSource];
 }
 
@@ -240,6 +240,15 @@
         
         self.isLoadingResourse = YES;
         self.couponArray = op.rsp_coupons;
+        
+        HKCoupon * selectedCoupon = [self.couponArray safetyObjectAtIndex:0];
+        if (selectedCoupon)
+        {
+            self.selectCoupouArray = [NSMutableArray arrayWithObject:selectedCoupon];
+        }
+        
+        [self.tableView reloadData];
+        
     } error:^(NSError *error) {
         
         @strongify(self)
@@ -560,7 +569,7 @@
         ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
         vc.originVC = self;
         vc.numberLimit = 1;
-        vc.type = CouponTypeGasNormal; /// 加油券类型的用普通代替
+        vc.type = CouponTypeViolation; /// 加油券类型的用普通代替
         vc.selectedCouponArray = self.selectCoupouArray;
         vc.couponArray = self.couponArray;
         [self.navigationController pushViewController:vc animated:YES];
