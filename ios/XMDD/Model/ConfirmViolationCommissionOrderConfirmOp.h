@@ -10,7 +10,7 @@
 
 @interface ConfirmViolationCommissionOrderConfirmOp : BaseOp
 
-@property (strong, nonatomic) NSString *req_recordid;
+@property (strong, nonatomic) NSNumber *req_recordid;
 
 @property (strong, nonatomic) NSNumber *rsp_money;
 @property (strong, nonatomic) NSNumber *rsp_servicefee;

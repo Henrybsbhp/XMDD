@@ -6,7 +6,7 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "confirmViolationCommissionOrderConfirmOp.h"
+#import "ConfirmViolationCommissionOrderConfirmOp.h"
 
 @implementation ConfirmViolationCommissionOrderConfirmOp
 
@@ -16,7 +16,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
-   [params addParam:self.req_recordid forName:@"licenseurl"];
+   [params addParam:self.req_recordid forName:@"recordid"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

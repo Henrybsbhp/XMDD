@@ -20,7 +20,13 @@
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-    self.rsp_coupons = rspObj[@"coupons"];
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    for (NSDictionary * dict  in rspObj[@"coupons"])
+    {
+        HKCoupon * coupon = [HKCoupon couponWithJSONResponse:dict];
+        [array safetyAddObject:coupon];
+    }
+    self.rsp_coupons = [NSArray arrayWithArray:array];
     return self;
 }
 

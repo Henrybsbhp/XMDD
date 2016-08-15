@@ -10,6 +10,6 @@
 
 @interface ViolationPayConfirmVC : UIViewController
 
-@property (strong, nonatomic) NSString *recordID;
+@property (strong, nonatomic) NSNumber *recordID;
 
 @end

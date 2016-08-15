@@ -16,6 +16,7 @@ typedef enum : NSUInteger {
     TradeTypeStagingRefuel = 4,
     TradeTypeGeneral = 5,
     TradeTypeXMIns = 6,
+    TradeTypeViolation = 7,
 } TradeType;
 
 typedef enum : NSInteger
