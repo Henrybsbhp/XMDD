@@ -119,7 +119,7 @@
     
     [self.licenseData setHeightBlock:^CGFloat(UITableView *tableView) {
         CGSize size = [TTTAttributedLabel sizeThatFitsAttributedString:attstr
-                                                       withConstraints:CGSizeMake(tableView.frame.size.width-60, 10000)
+                                                       withConstraints:CGSizeMake(self.view.frame.size.width-60, 10000)
                                                 limitedToNumberOfLines:0];
         return MAX(40, ceil(size.height+24));
     }];
@@ -127,7 +127,7 @@
     [self.tableView reloadData];
 }
 
-- (NSDictionary)getPaymentChannelInfo:(PaymentChannelType)type
+- (NSDictionary *)getPaymentChannelInfo:(PaymentChannelType)type
 {
     if (type == PaymentChannelAlipay)
     {
@@ -220,6 +220,7 @@
     
     cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
         UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
         UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
         logoV.cornerRadius = 5.0f;
@@ -252,6 +253,7 @@
     
     cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
         UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
         UILabel *infoL = (UILabel *)[cell.contentView viewWithTag:1002];
         
@@ -301,6 +303,7 @@
     
     cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
         UIActivityIndicatorView * indicator = (UIActivityIndicatorView *)[cell searchViewWithTag:202];
         indicator.animating = self.isLoadingResourse;
         indicator.hidden = !self.isLoadingResourse;
@@ -320,6 +323,7 @@
     
     cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        @strongify(self)
         if (self.isSelectActivity)
         {
             self.isSelectActivity = NO;
@@ -336,6 +340,7 @@
     
     cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
         UILabel *label = (UILabel *)[cell.contentView viewWithTag:101];
         UILabel *tagLb = (UILabel *)[cell.contentView viewWithTag:20201];
         UIView *tagBg = (UIView *)[cell.contentView viewWithTag:102];
@@ -371,6 +376,7 @@
     
     cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        @strongify(self)
         [self jumpToChooseCouponVC];
         ///取消支付宝，微信勾选
         [self.tableView reloadData];
@@ -382,7 +388,7 @@
         UILabel *couponLb = (UILabel *)[cell.contentView viewWithTag:102];
         UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:103];
         
-        
+        @strongify(self)
         nameLb.text = @"保险代金券";
         
         if (self.couponType == CouponTypeInsurance)
@@ -404,15 +410,10 @@
 
 - (CKDict *)setupPaymentPlatformTitleCell
 {
-    @weakify(self);
     CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"OtherInfoCell", kCKCellID: @"OtherInfoCell"}];
     cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
         return 40;
-    });
-    
-    cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
     });
     
     cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -434,12 +435,14 @@
     
     cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        @strongify(self)
         PaymentChannelType tt = (PaymentChannelType)[dict[@"payment"] integerValue];
         self.paymentChannel = tt;
     });
     
     cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
         UIImageView *iconV = (UIImageView *)[cell searchViewWithTag:101];
         UILabel * titleLb = (UILabel *)[cell searchViewWithTag:102];
         UILabel * noteLb = (UILabel *)[cell searchViewWithTag:104];
@@ -473,7 +476,8 @@
     CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"LicenseCell", kCKCellID: @"LicenseCell"}];
     cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
-        height = self.licenseData.heightBlock(tableView);
+        CGFloat height = self.licenseData.heightBlock(nil);
+        return height;
     });
     
     cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
@@ -481,7 +485,9 @@
         
     });
     
-    cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+    cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *dict, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self)
         
         UIButton *checkB = [cell viewWithTag:1001];
         TTTAttributedLabel *richL = [cell viewWithTag:1002];
