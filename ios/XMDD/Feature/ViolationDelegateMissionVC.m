@@ -39,8 +39,6 @@
     
     [self setupUI];
     
-    
-    //    [self getSimutateData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,58 +65,6 @@
 }
 
 #pragma mark - Network
-
--(void)getSimutateData
-{
-    @weakify(self)
-    
-    self.bottomView.hidden = YES;
-    self.tableView.hidden = YES;
-    [self.view hideDefaultEmptyView];
-    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
-    
-    CKAfter(0.5, ^{
-        
-        @strongify(self)
-        
-        if (random()%2)
-        {
-            
-            
-            [self.view stopActivityAnimation];
-            
-            self.bottomView.hidden = NO;
-            self.tableView.hidden = NO;
-            
-            
-            NSDictionary *dic = @{@"date":@"2015-11-25 17:00",
-                                  @"area":@"[浙江衢州] S33龙丽温高速丽水方向16KM889M",
-                                  @"act":@"驾驶中型以上载客载货汽车、危险物品运输车辆以外的其它机动车行驶超过规定时速10%未达20%",
-                                  @"code":@"100",
-                                  @"money":@"200",
-                                  @"servicefee":@"40",
-                                  @"licencenumber":@"浙A12345"};
-            self.tip = @"浙A12345的证件信息不完整，完善后即可申请代办";
-            self.licenceNumber = @"浙A12345";
-            self.dataSource = @[dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic,dic];
-            
-            [self.tableView reloadData];
-        }
-        else
-        {
-            [self.view stopActivityAnimation];
-            
-            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"网络请求失败。点击请重试" tapBlock:^{
-                
-                @strongify(self)
-                
-                [self getSimutateData];
-                
-            }];
-        }
-    });
-    
-}
 
 -(void)getViolationCommission
 {
@@ -159,8 +105,6 @@
             self.tip = op.rsp_tip;
             [self.tableView reloadData];
         }
-        
-        
         
     } error:^(NSError *error) {
         
@@ -233,7 +177,7 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"IssuesCell"];
         
         UILabel *tipLabel = [cell viewWithTag:100];
-        tipLabel.text = [NSString stringWithFormat:@"%@",self.tip];
+        tipLabel.text = self.tip;
         
     }
     else
@@ -251,16 +195,16 @@
         serviceFeeLabel.text = [NSString stringWithFormat:@"服务费%@元",data[@"servicefee"]];
         
         UILabel *licenceLabel = [cell viewWithTag:102];
-        licenceLabel.text = [NSString stringWithFormat:@"%@",data[@"licencenumber"]];
+        licenceLabel.text = data[@"licencenumber"];
         
         UILabel *dateLabel = [cell viewWithTag:103];
-        dateLabel.text = [NSString stringWithFormat:@"%@",data[@"date"]];
+        dateLabel.text = data[@"date"];
         
         UILabel *areaLabel = [cell viewWithTag:104];
-        areaLabel.text = [NSString stringWithFormat:@"%@",data[@"area"]];
+        areaLabel.text = data[@"area"];
         
         UILabel *actLabel = [cell viewWithTag:105];
-        actLabel.text = [NSString stringWithFormat:@"%@",data[@"act"]];
+        actLabel.text = data[@"act"];
         
     }
     return cell;
