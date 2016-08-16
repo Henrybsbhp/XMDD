@@ -24,7 +24,9 @@ typedef enum : NSUInteger {
     CouponTypeGasFqjy1 = 204,//分期加油1
     CouponTypeGasFqjy2 = 205,//分期加油2
     CouponTypeXMHZ = 301,//小马互助
-    CouponTypeViolation = 601 // 违章代办
+    CouponTypeBeauty = 401, // 美容代金券
+    CouponTypeMaintenance = 501, // 保养代金券
+    CouponTypeViolation = 601, // 违章代办
 } CouponType;
 
 typedef enum : NSUInteger {

@@ -36,7 +36,7 @@ typedef enum : NSUInteger {
     PaymentChannelABCIntegral,
     PaymentChannelCoupon,
     PaymentChannelCZBCreditCard,
-    PaymentChannelUPpay ,
+    PaymentChannelUPpay = 8 ,
     PaymentChannelApplePay = 81
 } PaymentChannelType;
 
@@ -185,7 +185,6 @@ typedef enum : NSUInteger {
 #define kNotifyUpdateClaimList              @"k.notification.MutualInsAskForCompensationVC.fetchAllData"
 /// 违章放弃代办通知
 #define kNotifyCommissionAbandoned          @"com.huika.xmdd.commissionAbandoned"
-
 
 //key定义
 #define kOriginVC       @"originVC"
