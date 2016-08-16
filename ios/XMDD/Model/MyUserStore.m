@@ -10,4 +10,28 @@
 
 @implementation MyUserStore
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self observeMyUser];
+    }
+    return self;
+}
+
+- (void)observeMyUser
+{
+    @weakify(self);
+    RACDisposable *dsp = [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(id x) {
+        @strongify(self);
+        [self resetForMyUser:x];
+    }];
+    [[self rac_deallocDisposable] addDisposable:dsp];
+}
+
+
+- (void)resetForMyUser:(JTUser *)user {
+    
+}
+
 @end
