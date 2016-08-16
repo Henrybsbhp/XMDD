@@ -12,19 +12,20 @@ script_path=$(pwd)
 echo "**************switch xiaoniu project**************"
 cd ..
 cd ..
+cd ..
 # 根目录
 root_path=$(pwd)
 echo "root_path :"$root_path
-cd $root_path"/xmdd_ios"
+cd $root_path"/xmdd_ios/ios/"
 
 # 项目目录
 project_path=$(pwd)
-project_pbxproj_path=$project_path"/XiaoMa.xcodeproj/project.pbxproj"
+project_pbxproj_path=$project_path"/XMDD.xcodeproj/project.pbxproj"
 echo "project_pbxproj_path : "$project_pbxproj_path
 # echo $project_pbxproj_path
 
-sh $project_path"/Script/plist_replace.sh" $project_path"/XiaoMa/Misc/Info.plist"
-bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/XiaoMa/Misc/Info.plist")
+sh $project_path"/Script/plist_replace.sh" $project_path"/XMDD/Resource/Plist/Info.plist"
+bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/XMDD/Resource/Plist/Info.plist")
 echo $bundleVersion
 
 #删除缓存。以前的终端编译会导致后面的编译失败
@@ -44,7 +45,7 @@ sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
 sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER=.*/PRODUCT_BUNDLE_IDENTIFIER=com.huika.xmdd.ent;/" $project_pbxproj_path
 
 echo "**************change to ent**************"
-sh $project_path"/Script/change_to_xmddent.sh" $project_path"/XiaoMa/Misc/Info.plist"
+sh $project_path"/Script/change_to_xmddent.sh" $project_path"/XMDD/Resource/Plist/Info.plist"
 
 
 echo "**************begin building1**************"
@@ -53,11 +54,11 @@ cd $project_path
 security unlock-keychain -p ${1} ~/Library/Keychains/login.keychain
 
 # 先clean
-xcodebuild -project XiaoMa.xcodeproj clean 
+xcodebuild -project XMDD.xcodeproj clean 
 
 # build
-xcworkspace_name="XiaoMa.xcworkspace"
-scheme_name="XiaoMa"
+xcworkspace_name="XMDD.xcworkspace"
+scheme_name="XMDD"
 configuration_type="Debug"
 build_dir=$root_path"/build/ios-xmdd-inhouse-"$bundleVersion
 release_ipa_name="ios-xmdd-inhouse-"$bundleVersion".ipa"
@@ -68,7 +69,7 @@ xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $con
 # archieve
 archieve_dir=$root_path"/ipa"
 
-xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$release_ipa_name
+xcrun -sdk iphoneos PackageApplication -v $build_dir"/XMDD.app" -o $archieve_dir"/"$release_ipa_name
 
 echo "**************finish building inhouse-正式环境**************"
 
@@ -81,7 +82,7 @@ sh $project_path"/Script/project_replace.sh" "$inhouse_code_sign_id" "$inhouse_p
 sed -i  '' "s/XMDDENT=0/XMDDENT=1/" $project_pbxproj_path
 #切换到测试环境
 sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=1/" $project_pbxproj_path
-sh $project_path"/Script/change_to_xmddent.sh" $project_path"/XiaoMa/Misc/Info.plist"
+sh $project_path"/Script/change_to_xmddent.sh" $project_path"/XMDD/Resource/Plist/Info.plist"
 
 echo "**************begin building1**************"
 
@@ -89,11 +90,11 @@ cd $project_path
 security unlock-keychain -p ${1} ~/Library/Keychains/login.keychain
 
 # 先clean
-xcodebuild -project XiaoMa.xcodeproj clean 
+xcodebuild -project XMDD.xcodeproj clean 
 
 # build
-xcworkspace_name="XiaoMa.xcworkspace"
-scheme_name="XiaoMa"
+xcworkspace_name="XMDD.xcworkspace"
+scheme_name="XMDD"
 configuration_type="Debug"
 build_dir=$root_path"/build/ios-xmdd-inhouse-d-"$bundleVersion
 debug_ipa_name="ios-xmdd-inhouse-d-"$bundleVersion".ipa"
@@ -104,7 +105,7 @@ xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $con
 # archieve
 archieve_dir=$root_path"/ipa"
 
-xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$debug_ipa_name
+xcrun -sdk iphoneos PackageApplication -v $build_dir"/XMDD.app" -o $archieve_dir"/"$debug_ipa_name
 
 echo "**************finish building inhouse-测试环境**************"
 
