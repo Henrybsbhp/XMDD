@@ -78,4 +78,10 @@
     }];
 }
 
+- (RACDisposable *)subscribed {
+    return [self subscribeNext:^(id x) {
+        
+    }];
+}
+
 @end
