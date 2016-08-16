@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		02284D120D3D4C8CAB70541C /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C243F5EAA1714F9A9CA63D5B /* Entypo.ttf */; };
 		13AA78669F9046A389977DDE /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2218E7662B054DDBA205E349 /* libRNImagePicker.a */; };
+		180294DA1D61C3C900FC0C05 /* ConfigStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294D91D61C3C900FC0C05 /* ConfigStore.m */; };
+		180294DD1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */; };
+		180294E11D62AADD00FC0C05 /* ShopCommentListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294E01D62AADD00FC0C05 /* ShopCommentListVC.m */; };
 		1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */; };
 		1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4971ACD3B0900BBCC96 /* SYPageControl.m */; };
 		1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4991ACD3B0900BBCC96 /* SYPageView.m */; };
@@ -742,6 +745,7 @@
 		18E28A151B93E5A20070E759 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A141B93E5A20070E759 /* QuartzCore.framework */; };
 		18E28A171B93E5AF0070E759 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E28A161B93E5AF0070E759 /* Security.framework */; };
 		18F54AD41D6199330008F306 /* MyCollectionStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F54AD31D6199330008F306 /* MyCollectionStore.m */; };
+		18F54AD81D61B0D90008F306 /* GlobalStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F54AD71D61B0D90008F306 /* GlobalStoreManager.m */; };
 		18FC01DC1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01BF1C4E6C6F00FD61BF /* IQUIView+Hierarchy.m */; };
 		18FC01DD1C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C11C4E6C6F00FD61BF /* IQUIWindow+Hierarchy.m */; };
 		18FC01DE1C4E6C6F00FD61BF /* IQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC01C61C4E6C6F00FD61BF /* IQKeyboardManager.m */; };
@@ -947,6 +951,12 @@
 
 /* Begin PBXFileReference section */
 		024A61212A7D4DDF9DFA2834 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		180294D81D61C3C900FC0C05 /* ConfigStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigStore.h; sourceTree = "<group>"; };
+		180294D91D61C3C900FC0C05 /* ConfigStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigStore.m; sourceTree = "<group>"; };
+		180294DB1D61C3F700FC0C05 /* GetSystemConfigInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSystemConfigInfoOp.h; sourceTree = "<group>"; };
+		180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSystemConfigInfoOp.m; sourceTree = "<group>"; };
+		180294DF1D62AADD00FC0C05 /* ShopCommentListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopCommentListVC.h; sourceTree = "<group>"; };
+		180294E01D62AADD00FC0C05 /* ShopCommentListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCommentListVC.m; sourceTree = "<group>"; };
 		1816F4941ACD3B0900BBCC96 /* NSBundle+SYPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SYPaginator.h"; sourceTree = "<group>"; };
 		1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SYPaginator.m"; sourceTree = "<group>"; };
 		1816F4961ACD3B0900BBCC96 /* SYPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPageControl.h; sourceTree = "<group>"; };
@@ -2460,6 +2470,8 @@
 		18E28A161B93E5AF0070E759 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		18F54AD21D6199330008F306 /* MyCollectionStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionStore.h; sourceTree = "<group>"; };
 		18F54AD31D6199330008F306 /* MyCollectionStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionStore.m; sourceTree = "<group>"; };
+		18F54AD61D61B0D90008F306 /* GlobalStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalStoreManager.h; sourceTree = "<group>"; };
+		18F54AD71D61B0D90008F306 /* GlobalStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalStoreManager.m; sourceTree = "<group>"; };
 		18FC01BC1C4E6C6F00FD61BF /* IQNSArray+Sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQNSArray+Sort.h"; sourceTree = "<group>"; };
 		18FC01BD1C4E6C6F00FD61BF /* IQNSArray+Sort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQNSArray+Sort.m"; sourceTree = "<group>"; };
 		18FC01BE1C4E6C6F00FD61BF /* IQUIView+Hierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQUIView+Hierarchy.h"; sourceTree = "<group>"; };
@@ -3591,6 +3603,8 @@
 				4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */,
 				4E78E02B1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.h */,
 				4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */,
+				180294DB1D61C3F700FC0C05 /* GetSystemConfigInfoOp.h */,
+				180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */,
 			);
 			name = Netop;
 			sourceTree = "<group>";
@@ -3693,17 +3707,19 @@
 				18649BE41D48B0E100F1CCB0 /* ShopDetailVC.h */,
 				1836B82B1D546BBC0078DB15 /* ShopDetailViewController.h */,
 				1836B82C1D546BBC0078DB15 /* ShopDetailViewController.m */,
+				180294DF1D62AADD00FC0C05 /* ShopCommentListVC.h */,
+				180294E01D62AADD00FC0C05 /* ShopCommentListVC.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
 		};
-		185A15501D61521C0051D9F7 /* Collect */ = {
+		185A15501D61521C0051D9F7 /* Collection */ = {
 			isa = PBXGroup;
 			children = (
 				18649C331D48B49600F1CCB0 /* MyCollectionViewController.h */,
 				18649C341D48B49600F1CCB0 /* MyCollectionViewController.m */,
 			);
-			name = Collect;
+			name = Collection;
 			sourceTree = "<group>";
 		};
 		18648F441D48558000F1CCB0 /* AlipaySDK */ = {
@@ -4056,6 +4072,7 @@
 		1864965D1D489A4200F1CCB0 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				18F54AD51D61B0AF0008F306 /* Manager */,
 				185A14F81D5B2E0B0051D9F7 /* Loading */,
 				1888F40E1D48CAD200C64288 /* ReactNative */,
 				18649AD71D48A12500F1CCB0 /* Factory */,
@@ -4365,7 +4382,7 @@
 				18649BA51D48AC7800F1CCB0 /* Other */,
 				18649BA41D48AC4300F1CCB0 /* Discover */,
 				18649BA21D48AC1800F1CCB0 /* Mine */,
-				18649BD01D48B08800F1CCB0 /* CarWash */,
+				18649BD01D48B08800F1CCB0 /* Carwash */,
 				18649D0C1D48B8D400F1CCB0 /* Insurance */,
 				18649D0B1D48B8CB00F1CCB0 /* Gas */,
 				18649CC11D48B72000F1CCB0 /* Rescue */,
@@ -4484,7 +4501,7 @@
 		18649BA21D48AC1800F1CCB0 /* Mine */ = {
 			isa = PBXGroup;
 			children = (
-				185A15501D61521C0051D9F7 /* Collect */,
+				185A15501D61521C0051D9F7 /* Collection */,
 				18649DA81D48BC0800F1CCB0 /* Base */,
 				18649BA31D48AC2100F1CCB0 /* Login */,
 				18649C931D48B63000F1CCB0 /* Order */,
@@ -4530,7 +4547,7 @@
 			name = Other;
 			sourceTree = "<group>";
 		};
-		18649BD01D48B08800F1CCB0 /* CarWash */ = {
+		18649BD01D48B08800F1CCB0 /* Carwash */ = {
 			isa = PBXGroup;
 			children = (
 				185A14E01D5B19180051D9F7 /* ShopList */,
@@ -4550,7 +4567,7 @@
 				18649BE01D48B0E100F1CCB0 /* PaymentSuccessVC.h */,
 				18649BE11D48B0E100F1CCB0 /* PaymentSuccessVC.m */,
 			);
-			name = CarWash;
+			name = Carwash;
 			sourceTree = "<group>";
 		};
 		18649BFF1D48B32A00F1CCB0 /* Valuation */ = {
@@ -5470,6 +5487,8 @@
 				1836B8771D5871080078DB15 /* MyUserStore.m */,
 				18F54AD21D6199330008F306 /* MyCollectionStore.h */,
 				18F54AD31D6199330008F306 /* MyCollectionStore.m */,
+				180294D81D61C3C900FC0C05 /* ConfigStore.h */,
+				180294D91D61C3C900FC0C05 /* ConfigStore.m */,
 			);
 			name = Store;
 			sourceTree = "<group>";
@@ -5572,6 +5591,15 @@
 				18D17F761B53B21E00F66F04 /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		18F54AD51D61B0AF0008F306 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				18F54AD61D61B0D90008F306 /* GlobalStoreManager.h */,
+				18F54AD71D61B0D90008F306 /* GlobalStoreManager.m */,
+			);
+			name = Manager;
 			sourceTree = "<group>";
 		};
 		18FC01BA1C4E6C6F00FD61BF /* IQKeyBoardManager */ = {
@@ -6282,6 +6310,7 @@
 				18649C751D48B59200F1CCB0 /* MessageListVC.m in Sources */,
 				183F56FF1D4C90860001E26A /* BankCard.m in Sources */,
 				183F57061D4C90860001E26A /* InsSimpleCar.m in Sources */,
+				18F54AD81D61B0D90008F306 /* GlobalStoreManager.m in Sources */,
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				188EF0B21D351A0F000D01D6 /* NSString+MarkupExtensions.m in Sources */,
 				18649CCE1D48B72D00F1CCB0 /* RescueDetailsVC.m in Sources */,
@@ -6308,6 +6337,7 @@
 				18CECC281C30F8890075B7F9 /* JT3DScrollView.m in Sources */,
 				18649D8C1D48BB5D00F1CCB0 /* GasPayForCZBVC.m in Sources */,
 				1836B7B11D54220B0078DB15 /* NSData+JSON.m in Sources */,
+				180294DD1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m in Sources */,
 				18649D621D48BAA800F1CCB0 /* AnimationBoardView.m in Sources */,
 				18649DE81D48BCF100F1CCB0 /* MutualInsAlertVC.m in Sources */,
 				186496B21D489A4200F1CCB0 /* AlipayHelper.m in Sources */,
@@ -6379,6 +6409,7 @@
 				18649D8F1D48BB5D00F1CCB0 /* GasRecordVC.m in Sources */,
 				18649C8C1D48B61900F1CCB0 /* EditCarVC.m in Sources */,
 				18649BE91D48B0E100F1CCB0 /* ChooseBankCardVC.m in Sources */,
+				180294E11D62AADD00FC0C05 /* ShopCommentListVC.m in Sources */,
 				186496BB1D489A4200F1CCB0 /* HKCatchErrorModel.m in Sources */,
 				18648FC11D48558000F1CCB0 /* DataVerifier.m in Sources */,
 				186499E21D489A9700F1CCB0 /* GetShareButtonOpV2.m in Sources */,
@@ -6521,6 +6552,7 @@
 				18649D231D48B96700F1CCB0 /* InsInputNameVC.m in Sources */,
 				1844532E1C8FEE81007B895D /* UIView+RoundedCorner.m in Sources */,
 				18FC01E21C4E6C6F00FD61BF /* IQBarButtonItem.m in Sources */,
+				180294DA1D61C3C900FC0C05 /* ConfigStore.m in Sources */,
 				18649BCB1D48AF8200F1CCB0 /* HKProgressView.m in Sources */,
 				1836B7CC1D54220B0078DB15 /* CKSegmentHelper.m in Sources */,
 				186499C01D489A9700F1CCB0 /* GetCooperationGroupOp.m in Sources */,

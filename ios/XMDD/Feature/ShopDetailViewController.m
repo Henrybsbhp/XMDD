@@ -27,7 +27,7 @@
 #import "ShopDetailCommentLoadingCell.h"
 #import "ShopDetailCommentCell.h"
 #import "CarWashNavigationViewController.h"
-#import "CommentListViewController.h"
+#import "ShopCommentListVC.h"
 #import "PayForWashCarVC.h"
 
 typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath, __kindof UICollectionViewCell *cell);
@@ -48,15 +48,6 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 
 - (void)dealloc {
     
-}
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        self.hidesBottomBarWhenPushed = YES;
-    }
-    return self;
 }
 
 - (void)viewDidLoad {
@@ -340,8 +331,8 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 }
 
 - (void)actionGotoCommentListVC {
-    CommentListViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"CommentListViewController"];
-    vc.shopid = self.shop.shopID;
+    ShopCommentListVC *vc = [[ShopCommentListVC alloc] init];
+    vc.shopID = self.shop.shopID;
     vc.serviceType = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
     vc.commentArray = [[self.store currentCommentList] allObjects];
     [self.navigationController pushViewController:vc animated:YES];
@@ -479,9 +470,12 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     return dict;
 }
 
-- (CKDict *)serviceDescCell {
+- (id)serviceDescCell {
+    if ([ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup] != ShopServiceCarMaintenance) {
+        return CKNULL;
+    }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"serviceDesc", kCKCellID:@"serviceDesc"}];
-    dict[@"desc"] = [ShopDetailStore maintenanceDesc];
+    dict[@"desc"] = gStoreMgr.configStore.systemConfig.maintenanceDesc;
     
     dict[kCKCellPrepare] = ^(CKDict *item, NSIndexPath *indexPath, ShopDetailServiceDescCell *cell) {
         cell.descLabel.text = item[@"desc"];
@@ -618,7 +612,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         [MobClick event:@"rp105_8"];
-        if ([self.store currentCommentNumber] > 0) {
+        if ([[self.store currentCommentList] count] > 0) {
             [self actionGotoCommentListVC];
         }
     });
