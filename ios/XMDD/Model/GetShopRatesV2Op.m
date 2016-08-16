@@ -12,7 +12,7 @@
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/shop/rates/get";
+    self.req_method = @"/shop/rates/v2/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.req_shopid forName:@"shopid"];
