@@ -129,7 +129,7 @@
         self.shop.commentNumber = op.rsp_carwashTotalNumber;
         self.shop.maintenanceCommentNumber = op.rsp_maintenanceTotalNumber;
         self.shop.beautyCommentNumber = op.rsp_beautyTotalNumber;
-        _commentGroups = $([[CKList listWithArray:op.rsp_carwashCommentArray] setKey:@(ShopServiceCarWash)],
+        _commentGroups = $([[CKList listWithArray:op.rsp_carwashCommentArray] setKey:@(ShopServiceAllCarWash)],
                            [[CKList listWithArray:op.rsp_maintenanceCommentArray] setKey:@(ShopServiceCarMaintenance)],
                            [[CKList listWithArray:op.rsp_beautyCommentArray] setKey:@(ShopServiceCarBeauty)]);
     }];
@@ -178,10 +178,6 @@
         spaceNote = [spaceNote append:@" "];
     }
     return spaceNote;
-}
-
-+ (NSString *)maintenanceDesc {
-    return nil;
 }
 
 @end

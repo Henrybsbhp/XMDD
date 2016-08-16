@@ -15,6 +15,15 @@
 
 @implementation HKViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.hidesBottomBarWhenPushed = YES;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
