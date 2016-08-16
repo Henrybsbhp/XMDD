@@ -44,7 +44,6 @@
 
 //// 其他
 + (NSString *)markupStringWithOldPrice:(double)price1 curPrices:(double)price2;
-+ (NSString *)maintenanceDesc;
 - (NSString *)stringWithAppendSpace:(NSString *)note andWidth:(CGFloat)width;
 
 @end

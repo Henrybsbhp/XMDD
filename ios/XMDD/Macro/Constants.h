@@ -154,6 +154,7 @@ typedef enum : NSUInteger {
 #define gAdMgr [AdvertisementManager sharedManager]
 #define gSupportFileMgr [SupportFileManager sharedManager]
 #define gAssistiveMgr [AssistiveManager sharedManager]
+#define gStoreMgr   [GlobalStoreManager sharedManager]
 
 #define mainStoryboard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define carWashStoryboard [UIStoryboard storyboardWithName:@"Carwash" bundle:nil]

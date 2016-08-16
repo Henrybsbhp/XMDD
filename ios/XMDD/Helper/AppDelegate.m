@@ -16,6 +16,7 @@
 #import <JPEngine.h>
 #import "RRFPSBar.h"
 #import "ReactNativeManager.h"
+#import "GlobalStoreManager.h"
 
 #import "DefaultStyleModel.h"
 
@@ -89,6 +90,8 @@
     [self setupPasteboard];
     
     [self setupAssistive];
+    
+    [[GlobalStoreManager sharedManager] setupGlobalStores];
     
     [self setupReactNative];
     //设置崩溃捕捉(官方建议放在最后面)

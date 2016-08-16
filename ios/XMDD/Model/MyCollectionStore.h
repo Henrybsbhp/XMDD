@@ -9,8 +9,10 @@
 #import "MyUserStore.h"
 
 @interface MyCollectionStore : MyUserStore
-@property (nonatomic, strong) CKList *collectionList;
+@property (nonatomic, strong) CKList *collections;
 @property (nonatomic, strong) RACSignal *loadingCollectionsSignal;
 
 - (RACSignal *)fetchAllCollections;
+- (RACSignal *)addCollection:(JTShop *)shop;
+- (RACSignal *)removeCollections:(NSArray *)shops;
 @end
