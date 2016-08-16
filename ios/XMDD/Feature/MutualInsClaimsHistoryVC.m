@@ -28,7 +28,7 @@
 
 @implementation MutualInsClaimsHistoryVC
 
--(void)dealloc
+- (void)dealloc
 {
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
@@ -57,12 +57,12 @@
 
 #pragma mark UITableViewDataSource
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.dataArr.count;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 1;
 }

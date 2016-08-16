@@ -760,7 +760,6 @@
 		2E52F24A1C2032BB00D94F68 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		4CEFBEBAA7BE4E58AF8C448E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9411A8DA5E84CBC911B19E1 /* Zocial.ttf */; };
 		4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */; };
-		4E78DDD01D5A19E900EC52C7 /* Temp_YZC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E78DDCF1D5A19E900EC52C7 /* Temp_YZC.storyboard */; };
 		4E78DDE91D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */; };
 		4E78DDEA1D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE21D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m */; };
 		4E78DDEB1D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE41D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m */; };
@@ -845,7 +844,6 @@
 		FAC986A81D587890000FE245 /* ViolationCommissionStateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC986A71D587890000FE245 /* ViolationCommissionStateModel.m */; };
 		FADD81D21D53273900AB844E /* MaintainOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FADD81D11D53273900AB844E /* MaintainOrderViewModel.m */; };
 		FAE1A1811D543AE500574B1C /* ViolationCommissionStateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE1A1801D543AE500574B1C /* ViolationCommissionStateVC.m */; };
-		FAE1A1911D543B7B00574B1C /* HX_Temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE1A1901D543B7B00574B1C /* HX_Temp.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2507,7 +2505,6 @@
 		4E30E6CF1CFD8492000157D4 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
 		4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
 		4E30E6D11CFD8492000157D4 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
-		4E78DDCF1D5A19E900EC52C7 /* Temp_YZC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Temp_YZC.storyboard; sourceTree = "<group>"; };
 		4E78DDDF1D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateCommitSuccessVC.h; sourceTree = "<group>"; };
 		4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationDelegateCommitSuccessVC.m; sourceTree = "<group>"; };
 		4E78DDE11D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateMissionVC.h; sourceTree = "<group>"; };
@@ -2652,7 +2649,6 @@
 		FADD81D11D53273900AB844E /* MaintainOrderViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaintainOrderViewModel.m; sourceTree = "<group>"; };
 		FAE1A17F1D543AE500574B1C /* ViolationCommissionStateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationCommissionStateVC.h; sourceTree = "<group>"; };
 		FAE1A1801D543AE500574B1C /* ViolationCommissionStateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationCommissionStateVC.m; sourceTree = "<group>"; };
-		FAE1A1901D543B7B00574B1C /* HX_Temp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = HX_Temp.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3958,7 +3954,6 @@
 		186495B41D4895D200F1CCB0 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
-				4E78DDCF1D5A19E900EC52C7 /* Temp_YZC.storyboard */,
 				186495B51D4895D200F1CCB0 /* About.storyboard */,
 				186495B61D4895D200F1CCB0 /* Assistive.storyboard */,
 				186495B71D4895D200F1CCB0 /* Award.storyboard */,
@@ -3984,7 +3979,6 @@
 				186495CC1D4895D200F1CCB0 /* Rescue.storyboard */,
 				186495CE1D4895D200F1CCB0 /* Valuation.storyboard */,
 				186495CF1D4895D200F1CCB0 /* Violation.storyboard */,
-				FAE1A1901D543B7B00574B1C /* HX_Temp.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -6207,7 +6201,6 @@
 				186495E21D4895D200F1CCB0 /* area.plist in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
 				18648FB51D48558000F1CCB0 /* AlipaySDK.bundle in Resources */,
-				4E78DDD01D5A19E900EC52C7 /* Temp_YZC.storyboard in Resources */,
 				186495EA1D4895D200F1CCB0 /* Car.storyboard in Resources */,
 				186495F41D4895D200F1CCB0 /* Message.storyboard in Resources */,
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
@@ -6229,7 +6222,6 @@
 				186495F51D4895D200F1CCB0 /* Mine.storyboard in Resources */,
 				A0783511FA7E4824B97BDF70 /* Foundation.ttf in Resources */,
 				186495E81D4895D200F1CCB0 /* Award.storyboard in Resources */,
-				FAE1A1911D543B7B00574B1C /* HX_Temp.storyboard in Resources */,
 				186495E51D4895D200F1CCB0 /* policy.json in Resources */,
 				186495FC1D4895D200F1CCB0 /* Other.storyboard in Resources */,
 				186495DD1D4895D200F1CCB0 /* xmddrct_public_key.der in Resources */,

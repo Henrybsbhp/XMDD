@@ -76,7 +76,7 @@
 /// 支付按钮点击事件
 - (void)actionPay
 {
-    ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Temp_YZC"];
+    ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Violation"];
     vc.recordID = self.recordID;
     [self.navigationController pushViewController:vc animated:YES];
 }

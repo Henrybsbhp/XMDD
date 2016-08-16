@@ -146,7 +146,7 @@
     }
     else if (type == PaymentChannelUPpay)
     {
-        NSDictionary * uppay = @{@"title":@"银联支付",@"subtitle":@"推荐银联用户使用",
+        NSDictionary * uppay = @{@"title":@"银联在线支付",@"subtitle":@"推荐银联用户使用",
                                  @"payment":@(PaymentChannelUPpay),@"recommend":@(YES),
                                  @"cellname":@"PaymentPlatformCell",@"icon":@"uppay_logo_66",@"uppayrecommend":@(NO)};
         return uppay;
@@ -961,14 +961,14 @@
         else
         {
             iconImgV.image = [UIImage imageNamed:@"uppay_logo_66"];
-            titleLb.text = @"银联支付";
+            titleLb.text = @"银联在线支付";
             tickImgV.hidden = self.paymentChannel != PaymentChannelUPpay;
         }
         recommendLB.hidden = YES;
     }
     else if (indexPath.row == 3) {
         iconImgV.image = [UIImage imageNamed:@"uppay_logo_66"];
-        titleLb.text = @"银联支付";
+        titleLb.text = @"银联在线支付";
         recommendLB.hidden = YES;
         tickImgV.hidden = self.paymentChannel != PaymentChannelUPpay;
     }
