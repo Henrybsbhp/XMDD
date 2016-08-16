@@ -114,6 +114,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     JTShopComment *comment = self.datasource[indexPath.row];
     ShopCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"comment" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell.logoView setImageByUrl:comment.avatarUrl withType:ImageURLTypeThumbnail
                                     defImage:@"avatar_default" errorImage:@"avatar_default"];
     cell.titleLabel.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
