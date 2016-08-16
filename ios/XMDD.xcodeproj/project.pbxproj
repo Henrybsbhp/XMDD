@@ -827,7 +827,6 @@
 		C3F451521D2E3A6F00BA9BC4 /* AsstisTouch.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F4514F1D2E3A6F00BA9BC4 /* AsstisTouch.png */; };
 		C3F451531D2E3A6F00BA9BC4 /* DTouchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F451511D2E3A6F00BA9BC4 /* DTouchButton.m */; };
 		FA445C6D1D59B0B60099245E /* CancelViolationCommissionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */; };
-		FA65CD911D5199640076ED7D /* TempTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CD901D5199640076ED7D /* TempTableVC.m */; };
 		FA65CDA21D51CCC30076ED7D /* MutualOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */; };
 		FA65CDA51D51EF650076ED7D /* GasOrderModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
@@ -2619,8 +2618,6 @@
 		F99242C104D4445C9C8C11BC /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		FA445C6B1D59B0B50099245E /* CancelViolationCommissionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelViolationCommissionOp.h; sourceTree = "<group>"; };
 		FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelViolationCommissionOp.m; sourceTree = "<group>"; };
-		FA65CD8F1D5199640076ED7D /* TempTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempTableVC.h; sourceTree = "<group>"; };
-		FA65CD901D5199640076ED7D /* TempTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempTableVC.m; sourceTree = "<group>"; };
 		FA65CDA01D51CCC30076ED7D /* MutualOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualOrderViewModel.h; sourceTree = "<group>"; };
 		FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualOrderViewModel.m; sourceTree = "<group>"; };
 		FA65CDA31D51EF650076ED7D /* GasOrderModelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasOrderModelView.h; sourceTree = "<group>"; };
@@ -4775,8 +4772,6 @@
 				18649C9B1D48B64E00F1CCB0 /* MyOrderListVC.m */,
 				18649C9C1D48B64E00F1CCB0 /* OthersOrderViewModel.h */,
 				18649C9D1D48B64E00F1CCB0 /* OthersOrderViewModel.m */,
-				FA65CD8F1D5199640076ED7D /* TempTableVC.h */,
-				FA65CD901D5199640076ED7D /* TempTableVC.m */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -6437,7 +6432,6 @@
 				186499DD1D489A9700F1CCB0 /* GetRescueDetailOp.m in Sources */,
 				18649C661D48B54E00F1CCB0 /* UnusedCouponVModel.m in Sources */,
 				186499D51D489A9700F1CCB0 /* GetOtherOrderListOp.m in Sources */,
-				FA65CD911D5199640076ED7D /* TempTableVC.m in Sources */,
 				183F57301D4C90860001E26A /* GetGascardListOp.m in Sources */,
 				18649B831D48A93000F1CCB0 /* OETextField.m in Sources */,
 				1836B7BC1D54220B0078DB15 /* UIImage+Utility.m in Sources */,
