@@ -217,7 +217,7 @@
     {
         [gAppMgr saveElementReaded:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]];
         /// 是否展示根据hot标记
-        BOOL isNewFlag = YES;
+        BOOL isNewFlag = NO;
         BOOL isHotFlag = item.isHotFlag;
         NSString * iconImageName = isHotFlag ? @"hp_hot_icon" : @"hp_new_icon";
         iconImageView.image = [UIImage imageNamed:iconImageName];

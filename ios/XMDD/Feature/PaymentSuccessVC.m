@@ -56,9 +56,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY4;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offset5;
 
-
 @property (nonatomic, strong) GuideStore *guideStore;
 
+@property (nonatomic,strong)NSArray * currentArray;
 @end
 
 @implementation PaymentSuccessVC
@@ -74,9 +74,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-    
+
     [self setupStaticInfo];
     [self setupGuideStore];
 
@@ -95,6 +93,12 @@
         }];
     });
     
+    if (self.order.serviceType == ShopServiceCarWash || self.order.serviceType == ShopServiceCarwashWithHeart)
+        self.currentArray = gAppMgr.commentList;
+    else if (self.order.serviceType == ShopServiceCarMaintenance)
+        self.currentArray = gAppMgr.mrcommentList;
+    else
+        self.currentArray = gAppMgr.bycommentList;
     
     [self requestCommentlist];
 }
@@ -199,7 +203,7 @@
         
         @strongify(self)
         NSInteger i = [number integerValue] - 1;
-        self.currentRateTemplate = [gAppMgr.commentList safetyObjectAtIndex:i];
+        self.currentRateTemplate = [self.currentArray safetyObjectAtIndex:i];
         [self changeCollectionHeight];
         [self.collectionView reloadData];
         
@@ -360,10 +364,12 @@
     UILabel * lb = (UILabel *)[cell searchViewWithTag:20102];
     
     NSDictionary * d = [self.currentRateTemplate safetyObjectAtIndex:indexPath.section * 2 + indexPath.row];
-    lb.text = d[[d.allKeys safetyObjectAtIndex:0]];
+    NSString * text = d[@"comment"];
+    lb.text = text;
     
     imgV.image = d.customTag ? [UIImage imageNamed:@"gouzi_orange"]:[UIImage imageNamed:@"gouzi_gray"];
-    lb.textColor = d.customTag ? [UIColor colorWithHex:@"#ffa800" alpha:1.0f]:[UIColor darkGrayColor];
+    NSInteger tag = d.customTag;
+    lb.textColor = tag ? [UIColor colorWithHex:@"#ffa800" alpha:1.0f]:[UIColor darkGrayColor];
     if (d.customTag)
     {
         cell.contentView.layer.borderWidth = 0.5f;
@@ -420,9 +426,9 @@
 
 - (void)requestCommentlist
 {
-    if (gAppMgr.commentList.count)
+    if (self.currentArray.count)
     {
-        for (NSArray * template in gAppMgr.commentList)
+        for (NSArray * template in self.currentArray)
         {
             for (NSObject * obj in template)
             {
@@ -435,6 +441,8 @@
     [[op rac_postRequest] subscribeNext:^(SystemFastrateGetOp * op) {
         
         gAppMgr.commentList = op.rsp_commentlist;
+        gAppMgr.bycommentList = op.rsp_bycommentlist;
+        gAppMgr.mrcommentList = op.rsp_mrcommentlist;
     }];
 }
 

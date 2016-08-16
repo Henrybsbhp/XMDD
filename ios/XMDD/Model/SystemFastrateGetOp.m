@@ -21,6 +21,8 @@
 {
     NSDictionary *dict = rspObj;
     self.rsp_commentlist = dict[@"commentlist"];
+    self.rsp_bycommentlist = dict[@"bycommentlist"];
+    self.rsp_mrcommentlist = dict[@"mrcommentlist"];
     return self;
 }
 

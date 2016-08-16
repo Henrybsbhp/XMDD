@@ -4,21 +4,14 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-<<<<<<< HEAD
-    "B36F052223C29FCF04CE0CC57E2A66A3F57D8690" : 0,
-    "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0" : 0
-  },
-  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "59932C8B-5EAA-4CCF-BEB0-CF6F146640AD",
-  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "B36F052223C29FCF04CE0CC57E2A66A3F57D8690" : "xmdd_ios\/ios\/CKKit\/",
-=======
     "912EA88EEBF83933726C69DF40244E4329CB7123" : 0,
+    "B36F052223C29FCF04CE0CC57E2A66A3F57D8690" : 0,
     "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "E9BB161E-16BA-4585-845A-F39D1EA3CF04",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "912EA88EEBF83933726C69DF40244E4329CB7123" : "",
->>>>>>> 12ce2ff0e20b233ea1eb8187516109376a9a0d44
+    "B36F052223C29FCF04CE0CC57E2A66A3F57D8690" : "xmdd_ios\/ios\/CKKit\/",
     "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0" : "xmdd_ios\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "XMDD",
@@ -31,15 +24,14 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "883C55EE312FC1961E5EE8C1C2815FF726B7A0E0"
     },
     {
-<<<<<<< HEAD
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/rm.xiaomadada.com:7999\/ckkit\/ckkit.git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B36F052223C29FCF04CE0CC57E2A66A3F57D8690"
-=======
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/www.xiaomadada.com\/stash\/scm\/xmddproxy\/xmddproxy.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "912EA88EEBF83933726C69DF40244E4329CB7123"
->>>>>>> 12ce2ff0e20b233ea1eb8187516109376a9a0d44
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/rm.xiaomadada.com:7999\/ckkit\/ckkit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B36F052223C29FCF04CE0CC57E2A66A3F57D8690"
     }
   ]
 }

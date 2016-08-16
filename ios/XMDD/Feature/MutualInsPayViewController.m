@@ -23,6 +23,7 @@
 #import "InsLicensePopVC.h"
 #import "MutualInsGroupDetailVM.h"
 #import "MutualInsGroupDetailVC.h"
+#import "UPApplePayHelper.h"
 
 @interface MutualInsPayViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 
@@ -109,22 +110,19 @@
         [section2 safetyAddObject:[self celldataFor1_2]];
     }
     
-    NSArray * section3;
+    NSMutableArray * section3 = [NSMutableArray array];
+    [section3 safetyAddObject:[self celldataFor2_0]];
+    [section3 safetyAddObject:[self celldataFor2_3]];
+    if ([UPApplePayHelper isApplePayAvailable])
+    {
+        [section3 safetyAddObject:[self celldataFor2_4]];
+    }
+    [section3 safetyAddObject:[self celldataFor2_1]];
     if (gPhoneHelper.exsitWechat)
     {
-        section3 = @[[self celldataFor2_0],
-                           [self celldataFor2_1],
-                           [self celldataFor2_2],
-                           [self celldataFor2_3],
-                           [self celldataFor2_4]];
+        [section3 safetyAddObject:[self celldataFor2_2]];
     }
-    else
-    {
-        section3 = @[[self celldataFor2_0],
-                     [self celldataFor2_1],
-                     [self celldataFor2_3],
-                     [self celldataFor2_4]];
-    }
+    [section3 safetyAddObject:[self celldataFor2_5]];
     
     
     self.datasource = @[section1,section2,section3];
@@ -323,6 +321,8 @@
         [gToast showingWithText:@"订单生成中..."];
     }] subscribeNext:^(PayCooperationContractOrderOp * rop) {
         @strongify(self);
+        
+        [gToast dismiss];
         [self callPaymentHelperWithPayOp:rop];
         
     } error:^(NSError *error) {
@@ -353,10 +353,17 @@
             text = @"订单生成成功,正在跳转到银联平台进行支付";
             [helper resetForUPPayWithTradeNumber:op.rsp_tradeno targetVC:self];
         } break;
+        case PaymentChannelApplePay:{
+            
+            [helper resetForUPApplePayWithTradeNumber:op.rsp_tradeno targetVC:self];
+        } break;
         default:
             return NO;
     }
-    [gToast showText:text];
+    if (text.length)
+    {
+        [gToast showText:text];
+    }
     @weakify(self);
     [[helper rac_startPay] subscribeNext:^(id x) {
         
@@ -595,23 +602,28 @@
 
 - (void)payPlatformCell:(UITableViewCell *)cell withCellDate:(HKCellData *)data
 {
-    UIImageView *iconImgV,*tickImgV;
+    UIImageView *iconImgV,*uppayRecommendImg;
     UILabel *titleLb,*recommendLB;
+    UIButton *tickBtn;
     
     iconImgV = (UIImageView *)[cell searchViewWithTag:101];
     titleLb = (UILabel *)[cell searchViewWithTag:102];
-    tickImgV = (UIImageView *)[cell searchViewWithTag:103];
+    tickBtn = (UIButton *)[cell searchViewWithTag:103];
     recommendLB = (UILabel *)[cell searchViewWithTag:104];
+    uppayRecommendImg = [cell.contentView viewWithTag:105];
+    
     recommendLB.cornerRadius = 3.0f;
     recommendLB.layer.masksToBounds = YES;
     recommendLB.hidden = ![data.customInfo[@"recommand"] integerValue];
+    
+    uppayRecommendImg.hidden = ![data.customInfo[@"uppayrecommand"] integerValue];
     
     iconImgV.image = [UIImage imageNamed:data.tag];
     titleLb.text = data.object;
     
     [[RACObserve(self.payOp, req_paychannel) takeUntilForCell:cell] subscribeNext:^(id x) {
         
-        tickImgV.hidden = data.customTag != self.payOp.req_paychannel;
+        tickBtn.hidden = data.customTag != self.payOp.req_paychannel;
     }];
 }
 
@@ -664,7 +676,7 @@
 {
     if (!_payOp){
         _payOp = [PayCooperationContractOrderOp operation];
-        _payOp.req_paychannel = PaymentChannelAlipay;
+        _payOp.req_paychannel = PaymentChannelUPpay;
     }
     return _payOp;
 }
@@ -788,7 +800,8 @@
     celldata.object = @"支付宝支付";
     celldata.tag = @"alipay_logo_66";
     celldata.customTag = PaymentChannelAlipay;
-    celldata.customInfo[@"recommand"] = @(YES);
+    celldata.customInfo[@"recommand"] = @(NO);
+    celldata.customInfo[@"uppayrecommand"] = @(NO);
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 50;
     }];
@@ -802,6 +815,7 @@
     celldata.tag = @"wechat_logo_66";
     celldata.customTag = PaymentChannelWechat;
     celldata.customInfo[@"recommand"] = @(NO);
+    celldata.customInfo[@"uppayrecommand"] = @(NO);
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 50;
     }];
@@ -815,6 +829,7 @@
     celldata.tag = @"uppay_logo_66";
     celldata.customTag = PaymentChannelUPpay;
     celldata.customInfo[@"recommand"] = @(NO);
+    celldata.customInfo[@"uppayrecommand"] = @(NO);
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 50;
     }];
@@ -824,10 +839,11 @@
 - (HKCellData *)celldataFor2_4
 {
     HKCellData *celldata = [HKCellData dataWithCellID:@"PayPlatformCell" tag:nil];
-    celldata.object = @"银联支付";
-    celldata.tag = @"uppay_logo_66";
-    celldata.customTag = PaymentChannelUPpay;
+    celldata.object = @"Apple Pay";
+    celldata.tag = @"apple_pay_logo_66";
+    celldata.customTag = PaymentChannelApplePay;
     celldata.customInfo[@"recommand"] = @(NO);
+    celldata.customInfo[@"uppayrecommand"] = @(YES);
     [celldata setHeightBlock:^CGFloat(UITableView *tableView) {
         return 50;
     }];

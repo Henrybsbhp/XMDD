@@ -59,7 +59,9 @@
         // 过滤代金券可用的,然后按金额排序
         NSArray * cashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
             
-            if (c.conponType == CouponTypeCash)
+            if (c.conponType == CouponTypeCash ||
+                c.conponType == CouponTypeBeauty ||
+                c.conponType == CouponTypeMaintenance)
             {
                 if (c.valid)
                 {
