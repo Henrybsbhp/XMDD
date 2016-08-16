@@ -151,7 +151,7 @@
                                @"payment":@(PaymentChannelWechat),@"recommend":@(NO),
                                @"cellname":@"PaymentPlatformCell",@"icon":@"wechat_logo_66",@"uppayrecommend":@(NO)};
     
-    NSDictionary * dict2_3 = @{@"title":@"银联支付",@"subtitle":@"推荐银联用户使用",
+    NSDictionary * dict2_3 = @{@"title":@"银联在线支付",@"subtitle":@"推荐银联用户使用",
                                @"payment":@(PaymentChannelUPpay),@"recommend":@(YES),
                                @"cellname":@"PaymentPlatformCell",@"icon":@"uppay_logo_66",@"uppayrecommend":@(NO)};
     

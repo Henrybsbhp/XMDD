@@ -1475,13 +1475,13 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U3i-sA-GTb" userLabel="Label1">
-                                                    <rect key="frame" x="54" y="13.5" width="35.5" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <rect key="frame" x="54" y="13" width="37.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1005" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Dp-eW-TVF">
-                                                    <rect key="frame" x="94" y="14" width="30" height="16"/>
+                                                    <rect key="frame" x="96.5" y="14" width="30" height="16"/>
                                                     <color key="backgroundColor" red="1" green="0.4549019608" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="I1r-VS-09D"/>
@@ -1495,7 +1495,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" tag="1006" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="applepay_background" translatesAutoresizingMaskIntoConstraints="NO" id="IlD-fD-UFB">
-                                                    <rect key="frame" x="123" y="12" width="70" height="20"/>
+                                                    <rect key="frame" x="125.5" y="12" width="70" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="0oK-FL-A3z"/>
                                                         <constraint firstAttribute="width" constant="70" id="Lha-Gz-ueZ"/>

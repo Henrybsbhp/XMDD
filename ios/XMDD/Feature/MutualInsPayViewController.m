@@ -825,7 +825,7 @@
 - (HKCellData *)celldataFor2_3
 {
     HKCellData *celldata = [HKCellData dataWithCellID:@"PayPlatformCell" tag:nil];
-    celldata.object = @"银联支付";
+    celldata.object = @"银联在线支付";
     celldata.tag = @"uppay_logo_66";
     celldata.customTag = PaymentChannelUPpay;
     celldata.customInfo[@"recommand"] = @(NO);
