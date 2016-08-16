@@ -93,13 +93,12 @@
                 [payVc setPaymentChannel:PaymentChannelCZBCreditCard];
                 [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
             }
-            else if (self.type == CouponTypeCarWash)
+            else if (self.type == CouponTypeCarWash ||
+                     self.type == CouponTypeCash ||
+                     self.type == CouponTypeBeauty ||
+                     self.type == CouponTypeMaintenance)
             {
                 [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
-            }
-            else if (self.type == CouponTypeCash)
-            {
-                [payVc setSelectCashCoupouArray:self.selectedCouponArray];
             }
             [payVc setCouponType:self.type];
         }
@@ -392,6 +391,26 @@
         
         [self actionBack];
         [self.tableView reloadData];
+    }
+    else if (self.type == CouponTypeBeauty ||
+             self.type == CouponTypeMaintenance)
+    {
+        // 美容，保养只能选1张
+        for (HKCoupon * c in self.selectedCouponArray)
+        {
+            if ([c.couponId isEqualToNumber:coupon.couponId])
+            {
+                [self.selectedCouponArray safetyRemoveObject:c];
+                [self.tableView reloadData];
+                return;
+            }
+        }
+        
+        self.type = coupon.conponType;
+        [self.selectedCouponArray removeAllObjects];
+        [self.selectedCouponArray addObject:coupon];
+        
+        [self actionBack];
     }
 }
 

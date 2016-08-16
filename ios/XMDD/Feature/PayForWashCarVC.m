@@ -387,7 +387,12 @@
             [MobClick event:@"rp108_4"];
             ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
             vc.originVC = self.originVC;
-            vc.type = CouponTypeCash;
+            if (self.service.shopServiceType == ShopServiceCarMaintenance)
+                vc.type = CouponTypeMaintenance;
+            else if (self.service.shopServiceType == ShopServiceCarBeauty)
+                vc.type = CouponTypeBeauty;
+            else
+                vc.type = CouponTypeCash;
             vc.selectedCouponArray = self.selectCashCoupouArray;
             vc.couponArray = self.getUserResourcesV2Op.validCashCouponArray;
             [self.navigationController pushViewController:vc animated:YES];
@@ -646,7 +651,9 @@
             [coupons addObject:c.couponId];
         }
     }
-    else if (couponType == CouponTypeCash || couponType == CouponTypeBeauty || couponType == CouponTypeMaintenance) {
+    else if (couponType == CouponTypeCash ||
+             couponType == CouponTypeBeauty ||
+             couponType == CouponTypeMaintenance) {
         coupons = [NSMutableArray array];
         for (HKCoupon * c in self.selectCashCoupouArray) {
             [coupons addObject:c.couponId];
@@ -834,16 +841,27 @@
     }
     if (self.getUserResourcesV2Op.validCashCouponArray.count)
     {
-        CGFloat amount = 0;
-        for (NSInteger i = 0 ; i < self.getUserResourcesV2Op.validCashCouponArray.count ; i++)
+        // 美容保险只选一张券
+        if (self.service.shopServiceType == ShopServiceCarMaintenance ||
+            self.service.shopServiceType == ShopServiceCarBeauty)
         {
-            HKCoupon * coupon = [self.getUserResourcesV2Op.validCashCouponArray safetyObjectAtIndex:i];
-            amount = amount + coupon.couponAmount;
-            [self.selectCashCoupouArray addObject:coupon];
-            if (amount >= self.service.origprice)
-                break;
+            HKCoupon * coupon = [self.getUserResourcesV2Op.validCashCouponArray safetyObjectAtIndex:0];
+            [self.selectCashCoupouArray safetyAddObject:coupon];
+            self.couponType = coupon.conponType;
         }
-        self.couponType = CouponTypeCash;
+        else
+        {
+            CGFloat amount = 0;
+            for (NSInteger i = 0 ; i < self.getUserResourcesV2Op.validCashCouponArray.count ; i++)
+            {
+                HKCoupon * coupon = [self.getUserResourcesV2Op.validCashCouponArray safetyObjectAtIndex:i];
+                amount = amount + coupon.couponAmount;
+                [self.selectCashCoupouArray addObject:coupon];
+                if (amount >= self.service.origprice)
+                    break;
+            }
+            self.couponType = CouponTypeCash;
+        }
         [self.tableView reloadData];
         [self refreshPriceLb];
         return;
@@ -959,7 +977,9 @@
         paymoney = coupon.couponAmount;
         discount = serviceAmount - paymoney;
     }
-    else if (self.couponType == CouponTypeCash)
+    else if (self.couponType == CouponTypeCash ||
+             self.couponType == CouponTypeMaintenance ||
+             self.couponType == CouponTypeBeauty)
     {
         for (NSInteger i = 0 ; i < self.selectCashCoupouArray.count ; i++)
         {
