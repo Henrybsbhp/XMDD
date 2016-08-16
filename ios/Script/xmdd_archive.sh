@@ -35,7 +35,7 @@ echo "project_pbxproj_path : "$project_pbxproj_path
 echo "**************pull code**************"
 git checkout .
 git checkout dev
-if  git submodule forearch git pull origin master;then 
+if  git submodule foreach git pull origin master;then 
 	echo "git submodule forearch git pull origin master success"
 else 
 	echo "git submodule forearch git pull origin master error"
