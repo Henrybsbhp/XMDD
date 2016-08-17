@@ -41,6 +41,10 @@
 
 ///评价小标，从1-5星排序
 @property (nonatomic,strong)NSArray * commentList;
+///美容评价小标，从1-5星排序
+@property (nonatomic,strong)NSArray * beautycommentList;
+///保养评价小标，从1-5星排序
+@property (nonatomic,strong)NSArray * maintenancecommentList;
 
 // 是否需要切换到测试环境，用于Debug模式的正式测试环境切换
 @property (nonatomic)BOOL isSwitchToFormalSurrounding;

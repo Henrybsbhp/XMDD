@@ -3161,8 +3161,8 @@
                                                     <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Common_pointer_imageView" translatesAutoresizingMaskIntoConstraints="NO" id="Y6P-gx-fA2">
-                                                    <rect key="frame" x="576" y="19" width="10" height="12"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Common_pointer_imageView" translatesAutoresizingMaskIntoConstraints="NO" id="Y6P-gx-fA2">
+                                                    <rect key="frame" x="576" y="16" width="10" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="12" id="2qh-v5-iZO"/>
                                                         <constraint firstAttribute="width" constant="10" id="DNu-6r-JT8"/>

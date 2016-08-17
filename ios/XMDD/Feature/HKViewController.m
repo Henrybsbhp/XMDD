@@ -11,10 +11,18 @@
 #define SuperClassName NSStringFromClass([self class])
 
 @interface HKViewController ()
-
 @end
 
 @implementation HKViewController
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.hidesBottomBarWhenPushed = YES;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,5 +55,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+
 
 @end

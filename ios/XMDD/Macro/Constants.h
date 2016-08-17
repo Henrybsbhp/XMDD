@@ -11,9 +11,16 @@
 
 /// 服务类型
 typedef enum : NSUInteger {
+    /// 全部洗车服务
+    ShopServiceAllCarWash = 0,
+    /// 普洗
     ShopServiceCarWash = 1,
     /// 精洗，用心洗
-    ShopServiceCarwashWithHeart
+    ShopServiceCarwashWithHeart = 2,
+    /// 汽车保养
+    ShopServiceCarMaintenance = 3,
+    /// 汽车美容
+    ShopServiceCarBeauty = 4,
 } ShopServiceType;
 
 /**
@@ -29,7 +36,7 @@ typedef enum : NSUInteger {
     PaymentChannelABCIntegral,
     PaymentChannelCoupon,
     PaymentChannelCZBCreditCard,
-    PaymentChannelUPpay ,
+    PaymentChannelUPpay = 8 ,
     PaymentChannelApplePay = 81
 } PaymentChannelType;
 
@@ -147,6 +154,7 @@ typedef enum : NSUInteger {
 #define gAdMgr [AdvertisementManager sharedManager]
 #define gSupportFileMgr [SupportFileManager sharedManager]
 #define gAssistiveMgr [AssistiveManager sharedManager]
+#define gStoreMgr   [GlobalStoreManager sharedManager]
 
 #define mainStoryboard [UIStoryboard storyboardWithName:@"Main" bundle:nil]
 #define carWashStoryboard [UIStoryboard storyboardWithName:@"Carwash" bundle:nil]
@@ -172,7 +180,6 @@ typedef enum : NSUInteger {
 //通知定义
 #define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"
 #define kNotifyRefreshMyCouponList          @"com.huika.xmdd.RefreshMyCouponList"
-
 #define kNotifyViolationPaySuccess          @"com.huika.xmdd.ViolationPaySuccess"
 ///通知MutualInsAskForCompensationVC进行fetchAllData操作
 #define kNotifyUpdateClaimList              @"k.notification.MutualInsAskForCompensationVC.fetchAllData"

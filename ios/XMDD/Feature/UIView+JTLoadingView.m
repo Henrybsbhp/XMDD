@@ -165,7 +165,7 @@ static char sActivityIndicatorView;
     else {
         if (![self.activityIndicatorView isKindOfClass:[GifActivityIndicatorView class]]) {
             [self.activityIndicatorView removeFromSuperview];
-            GifActivityIndicatorView *view = [[GifActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 93, 93)];
+            GifActivityIndicatorView *view = [[GifActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 120)];
             view.hidden = YES;
             [self addSubview:view];
             self.activityIndicatorView = view;
@@ -226,7 +226,7 @@ static char sActivityIndicatorView;
 - (UIColor *)activityIndicatorView:(MONActivityIndicatorView *)activityIndicatorView
       circleBackgroundColorAtIndex:(NSUInteger)index
 {
-    return [UIColor colorWithHex:@"#32a447" alpha:1.0f];;
+    return kDefTintColor;
 }
     
 @end

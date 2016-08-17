@@ -30,13 +30,18 @@
 + (BOOL)isApplePayAvailable
 {
     if (![PKPaymentAuthorizationViewController class]) {
-        //检查系统版本支持性
+        // 检查系统版本支持性
         return NO;
+        
     } else if (![PKPaymentAuthorizationViewController canMakePayments]) {
-        //检查设备支持性
+        // 检查设备支持性
         return NO;
-    } else
-    {
+        
+    } else if (![PKPaymentAuthorizationViewController canMakePaymentsUsingNetworks:@[PKPaymentNetworkChinaUnionPay]]) {
+        // 检查卡片支持性
+        return NO;
+        
+    } else {
         return YES;
     }
 }

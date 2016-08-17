@@ -21,6 +21,6 @@
 - (RACDisposable *)subscribeNext:(void (^)(id x))nextBlock
                            error:(void (^)(NSError *error))errorBlock
                          success:(void (^)(BOOL isEmpty))successBlock;
-
+- (RACDisposable *)subscribed;
 
 @end

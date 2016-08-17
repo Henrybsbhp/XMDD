@@ -3,7 +3,7 @@
 //  XiaoMa
 //
 //  Created by jiangjunchen on 15/4/9.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Copyright (c) 2015年 huika. All rights reserved.
 //
 
 #import "PaymentSuccessVC.h"
@@ -13,12 +13,13 @@
 #import "JTRatingView.h"
 #import "SystemFastrateGetOp.h"
 #import "SubmitCommentOp.h"
-#import "ShopDetailVC.h"
+#import "ShopDetailViewController.h"
 #import "NSDate+DateForText.h"
 #import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
 #import "GasVC.h"
 #import "GuideStore.h"
+#import "ShopDetailStore.h"
 #import "PayForWashCarVC.h"
 
 
@@ -55,9 +56,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offsetY4;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offset5;
 
-
 @property (nonatomic, strong) GuideStore *guideStore;
 
+@property (nonatomic,strong)NSArray * currentArray;
 @end
 
 @implementation PaymentSuccessVC
@@ -73,9 +74,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-    
+
     [self setupStaticInfo];
     [self setupGuideStore];
 
@@ -94,6 +93,12 @@
         }];
     });
     
+    if (self.order.serviceType == ShopServiceCarWash || self.order.serviceType == ShopServiceCarwashWithHeart)
+        self.currentArray = gAppMgr.commentList;
+    else if (self.order.serviceType == ShopServiceCarMaintenance)
+        self.currentArray = gAppMgr.maintenancecommentList;
+    else
+        self.currentArray = gAppMgr.beautycommentList;
     
     [self requestCommentlist];
 }
@@ -107,17 +112,10 @@
 - (void)actionBack:(id)sender
 {
     if (self.originVC) {
-        if ([self.originVC isKindOfClass:[ShopDetailVC class]])
-        {
-            ShopDetailVC * vc = (ShopDetailVC *)self.originVC;
-            vc.needRequestShopComments = YES;
-            vc.needPopToFirstCarwashTableVC = YES;
-        }
         [self.navigationController popToViewController:self.originVC animated:YES];
     }
     else {
         [super actionBack:sender];
-//        [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 - (IBAction)shareAction:(id)sender {
@@ -173,6 +171,7 @@
     }] subscribeNext:^(SubmitCommentOp *rspOp) {
         
         [gToast showSuccess:@"评价成功!"];
+        [[ShopDetailStore fetchExistsStoreByShopID:self.order.shop.shopID] fetchAllCommentGroups];
         self.subLabel.text = @"评价成功!";
         self.currentRateTemplate = selected;
         [self setupUI:Commented];
@@ -204,7 +203,7 @@
         
         @strongify(self)
         NSInteger i = [number integerValue] - 1;
-        self.currentRateTemplate = [gAppMgr.commentList safetyObjectAtIndex:i];
+        self.currentRateTemplate = [self.currentArray safetyObjectAtIndex:i];
         [self changeCollectionHeight];
         [self.collectionView reloadData];
         
@@ -365,10 +364,12 @@
     UILabel * lb = (UILabel *)[cell searchViewWithTag:20102];
     
     NSDictionary * d = [self.currentRateTemplate safetyObjectAtIndex:indexPath.section * 2 + indexPath.row];
-    lb.text = d[[d.allKeys safetyObjectAtIndex:0]];
+    NSString * text = d[@"comment"];
+    lb.text = text;
     
     imgV.image = d.customTag ? [UIImage imageNamed:@"gouzi_orange"]:[UIImage imageNamed:@"gouzi_gray"];
-    lb.textColor = d.customTag ? [UIColor colorWithHex:@"#ffa800" alpha:1.0f]:[UIColor darkGrayColor];
+    NSInteger tag = d.customTag;
+    lb.textColor = tag ? [UIColor colorWithHex:@"#ffa800" alpha:1.0f]:[UIColor darkGrayColor];
     if (d.customTag)
     {
         cell.contentView.layer.borderWidth = 0.5f;
@@ -425,9 +426,9 @@
 
 - (void)requestCommentlist
 {
-    if (gAppMgr.commentList.count)
+    if (self.currentArray.count)
     {
-        for (NSArray * template in gAppMgr.commentList)
+        for (NSArray * template in self.currentArray)
         {
             for (NSObject * obj in template)
             {
@@ -440,6 +441,8 @@
     [[op rac_postRequest] subscribeNext:^(SystemFastrateGetOp * op) {
         
         gAppMgr.commentList = op.rsp_commentlist;
+        gAppMgr.maintenancecommentList = op.rsp_bycommentlist;
+        gAppMgr.beautycommentList = op.rsp_mrcommentlist;
     }];
 }
 

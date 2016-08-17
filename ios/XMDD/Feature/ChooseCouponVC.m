@@ -93,13 +93,12 @@
                 [payVc setPaymentChannel:PaymentChannelCZBCreditCard];
                 [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
             }
-            else if (self.type == CouponTypeCarWash)
+            else if (self.type == CouponTypeCarWash ||
+                     self.type == CouponTypeCash ||
+                     self.type == CouponTypeBeauty ||
+                     self.type == CouponTypeMaintenance)
             {
                 [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
-            }
-            else if (self.type == CouponTypeCash)
-            {
-                [payVc setSelectCashCoupouArray:self.selectedCouponArray];
             }
             [payVc setCouponType:self.type];
         }
@@ -377,22 +376,41 @@
     }
     else if (self.type == CouponTypeViolation)
     {   
-        HKCoupon *c = self.selectedCouponArray.firstObject;
-        if ([c.couponId isEqualToNumber:coupon.couponId])
+        HKCoupon * originCoupon = [self.selectedCouponArray safetyObjectAtIndex:0];
+        if (originCoupon && [coupon.couponId isEqualToNumber:originCoupon.couponId])
         {
-            [self.selectedCouponArray safetyRemoveObject:c];
-            [self.tableView reloadData];
-            return;
+            [self.selectedCouponArray removeAllObjects];
+        }
+        else
+        {
+            self.type = coupon.conponType;
+            
+            [self.selectedCouponArray removeAllObjects];
+            [self.selectedCouponArray addObject:coupon];
         }
         
-        if (self.selectedCouponArray.count >= self.numberLimit)
-        {
-            NSString * str = [NSString stringWithFormat:@"您最多只能选择%f张优惠券",self.numberLimit];
-            [gToast showError:str];
-            return;
-        }
-        [self.selectedCouponArray addObject:coupon];
+        [self actionBack];
         [self.tableView reloadData];
+    }
+    else if (self.type == CouponTypeBeauty ||
+             self.type == CouponTypeMaintenance)
+    {
+        // 美容，保养只能选1张
+        for (HKCoupon * c in self.selectedCouponArray)
+        {
+            if ([c.couponId isEqualToNumber:coupon.couponId])
+            {
+                [self.selectedCouponArray safetyRemoveObject:c];
+                [self.tableView reloadData];
+                return;
+            }
+        }
+        
+        self.type = coupon.conponType;
+        [self.selectedCouponArray removeAllObjects];
+        [self.selectedCouponArray addObject:coupon];
+        
+        [self actionBack];
     }
 }
 

@@ -1,7 +1,7 @@
 ##################################################################################
 
 # adhoc－xmdd对应的信息
-adhoc_provisioning_id='9df2c481-f7b2-4061-bf66-32967e913518'
+adhoc_provisioning_id='3793cdf4-53f4-4f85-b9c7-e209582ab43f'
 adhoc_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)'
 
 # inhouse－xmdd对应的信息
@@ -17,23 +17,31 @@ appstore_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7
 script_path=$(pwd)
 
 # 切换到xiaoniu项目目录，pull一下代码
-echo "**************switch xiaoniu project**************"
+echo "**************switch XiaoMa project**************"
+cd ..
 cd ..
 cd ..
 # 根目录
 root_path=$(pwd)
 echo "root_path :"$root_path
-cd $root_path"/xmdd_ios"
+cd $root_path"/xmdd_ios/ios/"
 
 # 项目目录
 project_path=$(pwd)
-project_pbxproj_path=$project_path"/XiaoMa.xcodeproj/project.pbxproj"
+project_pbxproj_path=$project_path"/XMDD.xcodeproj/project.pbxproj"
 echo "project_pbxproj_path : "$project_pbxproj_path
 # echo $project_pbxproj_path
 
 echo "**************pull code**************"
 git checkout .
 git checkout dev
+if  git submodule foreach git pull origin master;then 
+	echo "git submodule forearch git pull origin master success"
+else 
+	echo "git submodule forearch git pull origin master error"
+	exit
+fi
+
 if git pull;then
 	echo "git pull success"
 else 
@@ -43,8 +51,8 @@ fi
 
 
 echo "**************update Version**************"
-sh $project_path"/Script/plist_replace.sh" $project_path"/XiaoMa/Misc/Info.plist"
-bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/XiaoMa/Misc/Info.plist")
+sh $project_path"/Script/plist_replace.sh" $project_path"/XMDD/Resource/Plist/Info.plist"
+bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/XMDD/Resource/Plist/Info.plist")
 echo $bundleVersion
 # git add . && git commit -a -m "change version" && git push
 if git add . ; then
@@ -77,7 +85,7 @@ echo "**************switch script adhoc-release**************"
 cd $script_path
 echo "**************replace pbxproj file**************"
 sh project_replace.sh "$adhoc_code_sign_id" "$adhoc_provisioning_id" "$project_pbxproj_path"
-#切换到开发环境
+#切换到正式环境
 sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
 echo "**************finish replace pbxproj file**************"
 
@@ -87,11 +95,11 @@ cd $project_path
 security unlock-keychain -p ${1} ~/Library/Keychains/login.keychain
 
 # 先clean
-xcodebuild -project XiaoMa.xcodeproj clean 
+xcodebuild -project XMDD.xcodeproj clean 
 
 # build
-xcworkspace_name="XiaoMa.xcworkspace"
-scheme_name="XiaoMa"
+xcworkspace_name="XMDD.xcworkspace"
+scheme_name="XMDD"
 configuration_type="Debug"
 build_dir=$root_path"/build/ios-xmdd-adhoc-"$bundleVersion
 release_ipa_name="ios-xmdd-adhoc-"$bundleVersion".ipa"
@@ -102,7 +110,7 @@ xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $con
 # archieve
 archieve_dir=$root_path"/ipa"
 
-xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$release_ipa_name
+xcrun -sdk iphoneos PackageApplication -v $build_dir"/XMDD.app" -o $archieve_dir"/"$release_ipa_name
 
 echo "**************finish building adhoc-开发环境**************"
 
@@ -115,7 +123,7 @@ cd $script_path
 echo "**************replace pbxproj file**************"
 sh project_replace.sh "$adhoc_code_sign_id" "$adhoc_provisioning_id" "$project_pbxproj_path"
 #切换到测试环境
-sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=1/" $project_pbxproj_path
+sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=0/" $project_pbxproj_path
 echo "**************finish replace pbxproj file**************"
 
 echo "**************begin building adhoc-debug**************"
@@ -124,11 +132,11 @@ cd $project_path
 security unlock-keychain -p ${1} ~/Library/Keychains/login.keychain
 
 # 先clean
-xcodebuild -project XiaoMa.xcodeproj clean 
+xcodebuild -project XMDD.xcodeproj clean 
 
 # build
-xcworkspace_name="XiaoMa.xcworkspace"
-scheme_name="XiaoMa"
+xcworkspace_name="XMDD.xcworkspace"
+scheme_name="XMDD"
 configuration_type="Debug"
 build_dir=$root_path"/build/ios-xmdd-adhoc-d-"$bundleVersion
 debug_ipa_name="ios-xmdd-adhoc-d-"$bundleVersion".ipa"
@@ -139,7 +147,7 @@ xcodebuild -workspace $xcworkspace_name -scheme $scheme_name -configuration $con
 # archieve
 archieve_dir=$root_path"/ipa"
 
-xcrun -sdk iphoneos PackageApplication -v $build_dir"/XiaoMa.app" -o $archieve_dir"/"$debug_ipa_name
+xcrun -sdk iphoneos PackageApplication -v $build_dir"/XMDD.app" -o $archieve_dir"/"$debug_ipa_name
 
 echo "**************finish building adhoc-测试环境**************"
 

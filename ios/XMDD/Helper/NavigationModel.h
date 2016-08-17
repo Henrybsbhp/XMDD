@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HKNavigationController.h"
 
 @interface NavigationModel : NSObject
 @property (nonatomic, strong) UINavigationController *curNavCtrl;

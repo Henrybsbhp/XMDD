@@ -47,7 +47,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CKDict *item = [[self.datasource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:item[kCKItemKey]];
+    id cellid = item[kCKCellID] ? item[kCKCellID] : item[kCKItemKey];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellid];
     if (item[kCKCellPrepare]) {
         ((CKCellPrepareBlock)item[kCKCellPrepare])(item, cell, indexPath);
     }
@@ -62,5 +63,11 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    CKDict *item = self.datasource[indexPath.section][indexPath.row];
+    if (item[kCKCellWillDisplay]) {
+        ((CKCellWillDisplayBlock)item[kCKCellWillDisplay])(item, cell, indexPath);
+    }
+}
 
 @end

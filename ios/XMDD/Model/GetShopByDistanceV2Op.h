@@ -22,7 +22,7 @@
 /// 商户过滤码
 @property (nonatomic)NSInteger typemask;
 
-/// 类型过滤吗
+/// 类型过滤码
 @property (nonatomic)NSInteger serviceType;
 
 @property (nonatomic,strong)NSArray * rsp_shopArray;

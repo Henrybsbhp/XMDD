@@ -360,8 +360,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString * userAgent = [self.webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
     userAgent = userAgent ?: @"";
-    NSString * newUserAgent = [userAgent append:[NSString stringWithFormat:@" %@/%@",@"XMDD",version]];
-    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
-    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+    
+    if ([userAgent rangeOfString:@"XMDD"].location == NSNotFound)
+    {
+        NSString * newUserAgent = [userAgent append:[NSString stringWithFormat:@" %@/%@",@"XMDD",version]];
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+    }
 }
 @end
