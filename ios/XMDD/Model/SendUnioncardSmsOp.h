@@ -10,4 +10,7 @@
 
 @interface SendUnioncardSmsOp : BaseOp
 
+@property (strong, nonatomic) NSString *req_tokenid;
+@property (strong, nonatomic) NSString *req_tradeno;
+
 @end

@@ -8,6 +8,7 @@
 
 #import "HKSMSModel.h"
 #import "GetTokenOp.h"
+#import "SendUnioncardSmsOp.h"
 #import "GetBindCZBVcodeOp.h"
 #import "GetUnbindBankcardVcodeOp.h"
 
@@ -18,8 +19,10 @@
 
 static NSTimeInterval s_coolingTimeForCZBGasCharge = 0;
 static NSTimeInterval s_coolingTimeForUnbindCZB = 0;
+static NSTimeInterval s_coolingTimeForUnionCard = 0;
 static NSTimeInterval s_coolingTimeForBindCZB = 0;
 static NSTimeInterval s_coolingTimeForLogin = 0;
+
 
 @interface HKSMSModel ()<UITextFieldDelegate>
 
@@ -48,6 +51,16 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
     RACSignal *signal = [op rac_postRequest];
     return [[signal doNext:^(id x) {
         s_coolingTimeForUnbindCZB = [[NSDate date] timeIntervalSince1970];
+    }] deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
+/// 获取银联快捷支付短信验证码
+- (RACSignal *)rac_getUnionCardVcodeWithTokenID:(NSString *)tokenID andTradeNo:(NSString *)tradeNO
+{
+    SendUnioncardSmsOp *op = [SendUnioncardSmsOp operation];
+    RACSignal *signal = [op rac_postRequest];
+    return [[signal doNext:^(id x) {
+        s_coolingTimeForUnionCard = [[NSDate date] timeIntervalSince1970];
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 

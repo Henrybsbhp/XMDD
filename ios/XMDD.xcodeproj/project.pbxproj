@@ -759,7 +759,9 @@
 		18FC01E61C4E6C6F00FD61BF /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18FC01DA1C4E6C6F00FD61BF /* IQKeyboardManager.bundle */; };
 		2E52F24A1C2032BB00D94F68 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		4CEFBEBAA7BE4E58AF8C448E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9411A8DA5E84CBC911B19E1 /* Zocial.ttf */; };
+		4E2159A21D6409F5004A81D6 /* UPayVerifyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */; };
 		4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */; };
+		4E56350D1D63FF46005353D2 /* Temp_YZC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E56350C1D63FF46005353D2 /* Temp_YZC.storyboard */; };
 		4E78DDE91D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */; };
 		4E78DDEA1D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE21D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m */; };
 		4E78DDEB1D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE41D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m */; };
@@ -774,6 +776,7 @@
 		4E78DF6E1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DF6D1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m */; };
 		4E78DFBA1D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */; };
 		4E78E02D1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */; };
+		4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
 		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
@@ -2501,9 +2504,12 @@
 		28FBB925F230AB7BE6AD87FF /* libPods-XMDD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-XMDD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FF6BC86D83245F3AA5579BF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		42A4FF4931374F8E9563443E /* libRCTToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTToast.a; sourceTree = "<group>"; };
+		4E2159A01D6409F5004A81D6 /* UPayVerifyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPayVerifyVC.h; sourceTree = "<group>"; };
+		4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UPayVerifyVC.m; sourceTree = "<group>"; };
 		4E30E6CF1CFD8492000157D4 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
 		4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
 		4E30E6D11CFD8492000157D4 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
+		4E56350C1D63FF46005353D2 /* Temp_YZC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Temp_YZC.storyboard; sourceTree = "<group>"; };
 		4E78DDDF1D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateCommitSuccessVC.h; sourceTree = "<group>"; };
 		4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationDelegateCommitSuccessVC.m; sourceTree = "<group>"; };
 		4E78DDE11D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateMissionVC.h; sourceTree = "<group>"; };
@@ -2532,6 +2538,8 @@
 		4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetViolationCommissionByIdOp.m; sourceTree = "<group>"; };
 		4E78E02B1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayViolationCommissionOrderOp.h; sourceTree = "<group>"; };
 		4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayViolationCommissionOrderOp.m; sourceTree = "<group>"; };
+		4ED048611D643A5500F48A1F /* SendUnioncardSmsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendUnioncardSmsOp.h; sourceTree = "<group>"; };
+		4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendUnioncardSmsOp.m; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
@@ -3598,6 +3606,8 @@
 				4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */,
 				180294DB1D61C3F700FC0C05 /* GetSystemConfigInfoOp.h */,
 				180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */,
+				4ED048611D643A5500F48A1F /* SendUnioncardSmsOp.h */,
+				4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */,
 			);
 			name = Netop;
 			sourceTree = "<group>";
@@ -3976,6 +3986,7 @@
 				186495CC1D4895D200F1CCB0 /* Rescue.storyboard */,
 				186495CE1D4895D200F1CCB0 /* Valuation.storyboard */,
 				186495CF1D4895D200F1CCB0 /* Violation.storyboard */,
+				4E56350C1D63FF46005353D2 /* Temp_YZC.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -4382,6 +4393,8 @@
 				18649CA31D48B6C100F1CCB0 /* Violation */,
 				18649C171D48B38D00F1CCB0 /* MutualIns */,
 				18649BFF1D48B32A00F1CCB0 /* Valuation */,
+				4E2159A01D6409F5004A81D6 /* UPayVerifyVC.h */,
+				4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -6196,6 +6209,7 @@
 				186495E21D4895D200F1CCB0 /* area.plist in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
 				18648FB51D48558000F1CCB0 /* AlipaySDK.bundle in Resources */,
+				4E56350D1D63FF46005353D2 /* Temp_YZC.storyboard in Resources */,
 				186495EA1D4895D200F1CCB0 /* Car.storyboard in Resources */,
 				186495F41D4895D200F1CCB0 /* Message.storyboard in Resources */,
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
@@ -6745,6 +6759,7 @@
 				18649CD51D48B77700F1CCB0 /* ChooseCouponVC.m in Sources */,
 				1836B7C71D54220B0078DB15 /* CKQueue.m in Sources */,
 				186496BD1D489A4200F1CCB0 /* HKLaunchManager.m in Sources */,
+				4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */,
 				18649D5F1D48BA9800F1CCB0 /* InsInputInfoVC.m in Sources */,
 				181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */,
 				186499A91D489A9700F1CCB0 /* DeleteUserFavoriteOp.m in Sources */,
@@ -6934,6 +6949,7 @@
 				6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */,
 				186496C51D489A4200F1CCB0 /* HKVersionManager.m in Sources */,
 				18649B6A1D48A93000F1CCB0 /* HKImageAlertVC.m in Sources */,
+				4E2159A21D6409F5004A81D6 /* UPayVerifyVC.m in Sources */,
 				186499E01D489A9700F1CCB0 /* GetRescueNoLoginOp.m in Sources */,
 				1864998F1D489A9700F1CCB0 /* JTShop.m in Sources */,
 				18649CB51D48B6F100F1CCB0 /* CommissionOrderVC.m in Sources */,

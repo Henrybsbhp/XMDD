@@ -103,7 +103,7 @@
         self.helper = helper;
     }
     
-    return [[signal map:^id(id value) {
+    return [signal map:^id(id value) {
         
         if ([value isKindOfClass:[UPPayResult class]])
         {
@@ -117,9 +117,6 @@
             self.uppayCouponInfo = couponInfo;
         }
         return self;
-    }] catch:^RACSignal *(NSError *error) {
-        
-        return [RACSignal error:error];
     }];
 }
 

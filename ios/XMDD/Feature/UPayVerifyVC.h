@@ -10,4 +10,8 @@
 
 @interface UPayVerifyVC : UIViewController
 
+@property (strong, nonatomic) NSString *tradeNo;
+@property (assign, nonatomic) CGFloat orderFee;
+@property (strong, nonatomic) NSString *serviceName;
+
 @end

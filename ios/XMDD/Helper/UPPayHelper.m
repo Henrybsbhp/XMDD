@@ -7,6 +7,7 @@
 //
 
 #import "UPPayHelper.h"
+#import "UPayVerifyVC.h"
 
 //接入模式  "00":代表生产环境   "01":代表测试环境、
 #ifdef DEBUG
@@ -20,30 +21,12 @@
 
 @implementation UPPayHelper
 
-- (void)dealloc
-{
-    
-}
-
 - (RACSignal *)rac_payWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc
 {
-    
-    return [RACSignal return:@"OK"];
-//    [UPPayPlugin startPay:tn mode:UPPayPaymentMode viewController:tvc delegate:self];
-//    return [[[self rac_signalForSelector:@selector(UPPayPluginResult:) fromProtocol:@protocol(UPPayPluginDelegate)] take:1] flattenMap:^RACStream *(RACTuple *tuple) {
-//        NSString *result = [tuple first];
-//        if ([@"success" isEqualToString:result]) {
-//            return [RACSignal return:result];
-//        }
-//        else if ([@"fail" isEqualToString:result]) {
-//            return [RACSignal error:[NSError errorWithDomain:@"银联支付失败" code:0 userInfo:nil]];
-//        }
-//        return [RACSignal empty];
-//    }];
-}
-
-- (void)UPPayPluginResult:(NSString *)result
-{
+    UPayVerifyVC *vc = [UIStoryboard vcWithId:@"UPayVerifyVC" inStoryboard:@"Temp_YZC"];
+    vc.customObject = [RACSubject subject];
+    [tvc.navigationController pushViewController:vc animated:YES];
+    return vc.customObject;
 }
 
 @end
