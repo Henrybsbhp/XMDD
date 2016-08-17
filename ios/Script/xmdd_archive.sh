@@ -1,7 +1,7 @@
 ##################################################################################
 
 # adhoc－xmdd对应的信息
-adhoc_provisioning_id='9df2c481-f7b2-4061-bf66-32967e913518'
+adhoc_provisioning_id='3793cdf4-53f4-4f85-b9c7-e209582ab43f'
 adhoc_code_sign_id='iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)'
 
 # inhouse－xmdd对应的信息
@@ -85,7 +85,7 @@ echo "**************switch script adhoc-release**************"
 cd $script_path
 echo "**************replace pbxproj file**************"
 sh project_replace.sh "$adhoc_code_sign_id" "$adhoc_provisioning_id" "$project_pbxproj_path"
-#切换到开发环境
+#切换到正式环境
 sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
 echo "**************finish replace pbxproj file**************"
 
@@ -123,7 +123,7 @@ cd $script_path
 echo "**************replace pbxproj file**************"
 sh project_replace.sh "$adhoc_code_sign_id" "$adhoc_provisioning_id" "$project_pbxproj_path"
 #切换到测试环境
-sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=1/" $project_pbxproj_path
+sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=0/" $project_pbxproj_path
 echo "**************finish replace pbxproj file**************"
 
 echo "**************begin building adhoc-debug**************"
