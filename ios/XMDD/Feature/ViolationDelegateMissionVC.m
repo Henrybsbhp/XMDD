@@ -146,7 +146,7 @@
             self.missionSuccessBlock(op.rsp_tip);
         }
         
-        ViolationDelegateCommitSuccessVC *vc = [UIStoryboard vcWithId:@"ViolationDelegateCommitSuccessVC" inStoryboard:@"Temp_YZC"];
+        ViolationDelegateCommitSuccessVC *vc = [UIStoryboard vcWithId:@"ViolationDelegateCommitSuccessVC" inStoryboard:@"Violation"];
         [self.navigationController pushViewController:vc animated:YES];
         
     } error:^(NSError *error) {
@@ -256,7 +256,7 @@
     }
     else
     {
-        ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
+        ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Violation"];
         vc.usercarID = self.userCarID;
         vc.carNum = self.licenceNumber;
         [vc setCommitSuccessBlock:^{
@@ -335,7 +335,7 @@
             
             @strongify(self)
             
-            ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
+            ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Violation"];
             vc.usercarID = self.userCarID;
             vc.carNum = self.licenceNumber;
             [vc setCommitSuccessBlock:^{

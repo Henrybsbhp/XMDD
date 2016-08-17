@@ -762,7 +762,6 @@
 		2E52F24A1C2032BB00D94F68 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		4CEFBEBAA7BE4E58AF8C448E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9411A8DA5E84CBC911B19E1 /* Zocial.ttf */; };
 		4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */; };
-		4E78DDD01D5A19E900EC52C7 /* Temp_YZC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E78DDCF1D5A19E900EC52C7 /* Temp_YZC.storyboard */; };
 		4E78DDE91D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */; };
 		4E78DDEA1D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE21D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m */; };
 		4E78DDEB1D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE41D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m */; };
@@ -830,7 +829,6 @@
 		C3F451521D2E3A6F00BA9BC4 /* AsstisTouch.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F4514F1D2E3A6F00BA9BC4 /* AsstisTouch.png */; };
 		C3F451531D2E3A6F00BA9BC4 /* DTouchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F451511D2E3A6F00BA9BC4 /* DTouchButton.m */; };
 		FA445C6D1D59B0B60099245E /* CancelViolationCommissionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */; };
-		FA65CD911D5199640076ED7D /* TempTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CD901D5199640076ED7D /* TempTableVC.m */; };
 		FA65CDA21D51CCC30076ED7D /* MutualOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */; };
 		FA65CDA51D51EF650076ED7D /* GasOrderModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
@@ -847,7 +845,6 @@
 		FAC986A81D587890000FE245 /* ViolationCommissionStateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC986A71D587890000FE245 /* ViolationCommissionStateModel.m */; };
 		FADD81D21D53273900AB844E /* MaintainOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FADD81D11D53273900AB844E /* MaintainOrderViewModel.m */; };
 		FAE1A1811D543AE500574B1C /* ViolationCommissionStateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE1A1801D543AE500574B1C /* ViolationCommissionStateVC.m */; };
-		FAE1A1911D543B7B00574B1C /* HX_Temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE1A1901D543B7B00574B1C /* HX_Temp.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2513,7 +2510,6 @@
 		4E30E6CF1CFD8492000157D4 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
 		4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
 		4E30E6D11CFD8492000157D4 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
-		4E78DDCF1D5A19E900EC52C7 /* Temp_YZC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Temp_YZC.storyboard; sourceTree = "<group>"; };
 		4E78DDDF1D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateCommitSuccessVC.h; sourceTree = "<group>"; };
 		4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationDelegateCommitSuccessVC.m; sourceTree = "<group>"; };
 		4E78DDE11D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateMissionVC.h; sourceTree = "<group>"; };
@@ -2628,8 +2624,6 @@
 		F99242C104D4445C9C8C11BC /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		FA445C6B1D59B0B50099245E /* CancelViolationCommissionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelViolationCommissionOp.h; sourceTree = "<group>"; };
 		FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelViolationCommissionOp.m; sourceTree = "<group>"; };
-		FA65CD8F1D5199640076ED7D /* TempTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempTableVC.h; sourceTree = "<group>"; };
-		FA65CD901D5199640076ED7D /* TempTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempTableVC.m; sourceTree = "<group>"; };
 		FA65CDA01D51CCC30076ED7D /* MutualOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualOrderViewModel.h; sourceTree = "<group>"; };
 		FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualOrderViewModel.m; sourceTree = "<group>"; };
 		FA65CDA31D51EF650076ED7D /* GasOrderModelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasOrderModelView.h; sourceTree = "<group>"; };
@@ -2658,7 +2652,6 @@
 		FADD81D11D53273900AB844E /* MaintainOrderViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaintainOrderViewModel.m; sourceTree = "<group>"; };
 		FAE1A17F1D543AE500574B1C /* ViolationCommissionStateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationCommissionStateVC.h; sourceTree = "<group>"; };
 		FAE1A1801D543AE500574B1C /* ViolationCommissionStateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationCommissionStateVC.m; sourceTree = "<group>"; };
-		FAE1A1901D543B7B00574B1C /* HX_Temp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = HX_Temp.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3975,7 +3968,6 @@
 		186495B41D4895D200F1CCB0 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
-				4E78DDCF1D5A19E900EC52C7 /* Temp_YZC.storyboard */,
 				186495B51D4895D200F1CCB0 /* About.storyboard */,
 				186495B61D4895D200F1CCB0 /* Assistive.storyboard */,
 				186495B71D4895D200F1CCB0 /* Award.storyboard */,
@@ -4001,7 +3993,6 @@
 				186495CC1D4895D200F1CCB0 /* Rescue.storyboard */,
 				186495CE1D4895D200F1CCB0 /* Valuation.storyboard */,
 				186495CF1D4895D200F1CCB0 /* Violation.storyboard */,
-				FAE1A1901D543B7B00574B1C /* HX_Temp.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -4789,8 +4780,6 @@
 				18649C9B1D48B64E00F1CCB0 /* MyOrderListVC.m */,
 				18649C9C1D48B64E00F1CCB0 /* OthersOrderViewModel.h */,
 				18649C9D1D48B64E00F1CCB0 /* OthersOrderViewModel.m */,
-				FA65CD8F1D5199640076ED7D /* TempTableVC.h */,
-				FA65CD901D5199640076ED7D /* TempTableVC.m */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -6217,7 +6206,6 @@
 				186495E21D4895D200F1CCB0 /* area.plist in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
 				18648FB51D48558000F1CCB0 /* AlipaySDK.bundle in Resources */,
-				4E78DDD01D5A19E900EC52C7 /* Temp_YZC.storyboard in Resources */,
 				186495EA1D4895D200F1CCB0 /* Car.storyboard in Resources */,
 				186495F41D4895D200F1CCB0 /* Message.storyboard in Resources */,
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
@@ -6239,7 +6227,6 @@
 				186495F51D4895D200F1CCB0 /* Mine.storyboard in Resources */,
 				A0783511FA7E4824B97BDF70 /* Foundation.ttf in Resources */,
 				186495E81D4895D200F1CCB0 /* Award.storyboard in Resources */,
-				FAE1A1911D543B7B00574B1C /* HX_Temp.storyboard in Resources */,
 				186495E51D4895D200F1CCB0 /* policy.json in Resources */,
 				186495FC1D4895D200F1CCB0 /* Other.storyboard in Resources */,
 				186495DD1D4895D200F1CCB0 /* xmddrct_public_key.der in Resources */,
@@ -6455,7 +6442,6 @@
 				186499DD1D489A9700F1CCB0 /* GetRescueDetailOp.m in Sources */,
 				18649C661D48B54E00F1CCB0 /* UnusedCouponVModel.m in Sources */,
 				186499D51D489A9700F1CCB0 /* GetOtherOrderListOp.m in Sources */,
-				FA65CD911D5199640076ED7D /* TempTableVC.m in Sources */,
 				183F57301D4C90860001E26A /* GetGascardListOp.m in Sources */,
 				18649B831D48A93000F1CCB0 /* OETextField.m in Sources */,
 				1836B7BC1D54220B0078DB15 /* UIImage+Utility.m in Sources */,
@@ -7148,8 +7134,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7244,7 +7230,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "3793cdf4-53f4-4f85-b9c7-e209582ab43f";
 			};
 			name = Debug;
 		};
@@ -7256,8 +7242,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7271,7 +7257,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=1",
+					"XMDDEnvironment=0",
 					"REACT_DEV=0",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -7352,7 +7338,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "3793cdf4-53f4-4f85-b9c7-e209582ab43f";
 			};
 			name = Release;
 		};

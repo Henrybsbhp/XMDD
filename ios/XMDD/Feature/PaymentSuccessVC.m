@@ -96,9 +96,9 @@
     if (self.order.serviceType == ShopServiceCarWash || self.order.serviceType == ShopServiceCarwashWithHeart)
         self.currentArray = gAppMgr.commentList;
     else if (self.order.serviceType == ShopServiceCarMaintenance)
-        self.currentArray = gAppMgr.mrcommentList;
+        self.currentArray = gAppMgr.maintenancecommentList;
     else
-        self.currentArray = gAppMgr.bycommentList;
+        self.currentArray = gAppMgr.beautycommentList;
     
     [self requestCommentlist];
 }
@@ -441,8 +441,8 @@
     [[op rac_postRequest] subscribeNext:^(SystemFastrateGetOp * op) {
         
         gAppMgr.commentList = op.rsp_commentlist;
-        gAppMgr.bycommentList = op.rsp_bycommentlist;
-        gAppMgr.mrcommentList = op.rsp_mrcommentlist;
+        gAppMgr.maintenancecommentList = op.rsp_bycommentlist;
+        gAppMgr.beautycommentList = op.rsp_mrcommentlist;
     }];
 }
 

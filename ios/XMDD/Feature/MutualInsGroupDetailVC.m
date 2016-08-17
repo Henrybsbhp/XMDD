@@ -228,7 +228,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing16"}];
+        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing16"}];
         MutualInsClaimsHistoryVC *vc = [UIStoryboard vcWithId:@"MutualInsClaimsHistoryVC" inStoryboard:@"MutualInsClaims"];
         [vc setValue:self.router.userInfo[kMutInsGroupID] forKey:@"gid"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -300,7 +300,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing12"}];
+        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing12"}];
         UIViewController *vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
         [vc setValue:self.viewModel.baseInfo.rsp_contractid forKey:@"contractId"];
         vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
@@ -320,7 +320,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing17"}];
+        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing17"}];
         HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
         alert.topTitle = @"温馨提示";
         alert.imageName = @"mins_bulb";
@@ -346,7 +346,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"key":@"tuanxiangqing",@"values":@"tuanxiangqing15"}];
+        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing15"}];
         UIViewController *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         [vc setValue:self forKey:@"originVC"];
         [vc setValue:MutualInsGroupDetailHelpUrl forKey:@"url"];

@@ -60,7 +60,7 @@
 
 - (IBAction)actionJumpToMyCommisionVC:(id)sender
 {
-    ViolationMissionHistoryVC *vc = [UIStoryboard vcWithId:@"ViolationMissionHistoryVC" inStoryboard:@"Temp_YZC"];
+    ViolationMissionHistoryVC *vc = [UIStoryboard vcWithId:@"ViolationMissionHistoryVC" inStoryboard:@"Violation"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

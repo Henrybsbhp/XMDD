@@ -150,18 +150,7 @@
     // 如果是银联支付需要请求服务器得到银联流水号
     if (self.getGeneralOrderdetailOp.rsp_fee)
     {
-        if (self.paychannel == PaymentChannelUPpay)
-        {
-            [self requestGetUppayTradenoWithTradeNo:tradeno];
-        }
-        else if (self.paychannel == PaymentChannelAlipay)
-        {
-            [self requestAliPayWithTradeId:tradeno andAlipayInfo:op.rsp_payInfoModel.alipayInfo];
-        }
-        else if (self.paychannel == PaymentChannelWechat)
-        {
-            [self requestWechatPayWithTradeId:tradeno andWechatPayInfo:op.rsp_payInfoModel.wechatInfo];
-        }
+        [self callPaymentHelperWithPayOp:op];
     }
     else
     {
@@ -173,6 +162,8 @@
         }];
     }
 }
+
+
 
 - (void)actionPaySuccess
 {
@@ -360,6 +351,48 @@
     return cell;
 }
 
+#pragma mark - 调用第三方支付
+- (BOOL)callPaymentHelperWithPayOp:(GetGeneralActivityLefttimeOp *)paidop {
+    
+    PaymentHelper *helper = [[PaymentHelper alloc] init];
+    
+    switch (paidop.panchannel) {
+        case PaymentChannelAlipay: {
+            
+            [helper resetForAlipayWithTradeNumber:paidop.tradeNo  alipayInfo:paidop.rsp_payInfoModel.alipayInfo];;
+        } break;
+        case PaymentChannelWechat: {
+            
+            [helper resetForWeChatWithTradeNumber:paidop.tradeNo andPayInfoModel:paidop.rsp_payInfoModel.wechatInfo andTradeType:TradeTypeCarwash];
+        } break;
+        case PaymentChannelUPpay: {
+            
+            [helper resetForUPPayWithTradeNumber:paidop.tradeNo targetVC:self];
+        } break;
+        case PaymentChannelApplePay:{
+            
+            [helper resetForUPApplePayWithTradeNumber:paidop.tradeNo targetVC:self];
+        } break;
+        default:
+            return NO;
+    }
+    
+    @weakify(self);
+    [[helper rac_startPay] subscribeNext:^(id x) {
+        
+        @strongify(self);
+        OrderPaidSuccessOp *op = [OrderPaidSuccessOp operation];
+        op.req_notifytype = 4;
+        op.req_tradeno = paidop.tradeNo;
+        [[op rac_postRequest] subscribeNext:^(id x) {
+            DebugLog(@"已通知服务器支付成功!");
+        }];
+        
+        [self actionPaySuccess];
+    }];
+    return YES;
+}
+
 
 #pragma mark - Utilitly
 - (NSAttributedString *)attributeDeleteLine:(NSString *)oStr
@@ -430,100 +463,24 @@
         {
             NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:
                                           @{@"paymentType":@(PaymentChannelUPpay),
-                                            @"title":@"银联支付",
+                                            @"title":@"银联在线支付",
                                             @"subTitle":@"推荐银联用户使用",
                                             @"logo":@"uppay_logo_66"}];
+            [tArray safetyAddObject:dict];
+        }
+        else if ([paychannelStr isEqualToString:@"81"])
+        {
+            NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:
+                                          @{@"paymentType":@(PaymentChannelApplePay),
+                                            @"title":@"Apple Pay",
+                                            @"subTitle":@"推荐银联用户使用",
+                                            @"logo":@"apple_pay_logo_66"}];
             [tArray safetyAddObject:dict];
         }
     }
     self.paymentArray = [NSArray arrayWithArray:tArray];
 }
 
-
-
-- (void)requestAliPayWithTradeId:(NSString *)tradeId andAlipayInfo:(NSString *)alipayInfo
-{
-    PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForAlipayWithTradeNumber:tradeId alipayInfo:alipayInfo];
-    
-    [[helper rac_startPay2] subscribeNext:^(id x) {
-        
-        OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
-        iop.req_notifytype = 4;
-        iop.req_tradeno = tradeId;
-        [[iop rac_postRequest] subscribeNext:^(id x) {
-            DebugLog(@"通用订单通知服务器支付成功!");
-        }];
-        
-        @weakify(self)
-        [self dismissViewControllerAnimated:YES completion:^{
-            
-            @strongify(self)
-            [self actionPaySuccess];
-        }];
-        
-    } error:^(NSError *error) {
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
-}
-
-- (void)requestWechatPayWithTradeId:(NSString *)tradeId andWechatPayInfo:(WechatPayInfo *)wechatPayInfo
-{
-    PaymentHelper *helper = [[PaymentHelper alloc] init];
-    [helper resetForWeChatWithTradeNumber:tradeId andPayInfoModel:wechatPayInfo andTradeType:TradeTypeGeneral];
-    [[helper rac_startPay2] subscribeNext:^(NSString * info) {
-        
-        OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
-        iop.req_notifytype = 4;
-        iop.req_tradeno = tradeId;
-        [[iop rac_postRequest] subscribeNext:^(id x) {
-            DebugLog(@"通用订单通知服务器支付成功!");
-        }];
-        
-        @weakify(self)
-        [self dismissViewControllerAnimated:YES completion:^{
-            
-            @strongify(self)
-            [self actionPaySuccess];
-        }];
-        
-    } error:^(NSError *error) {
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
-}
-
-- (void)requestGetUppayTradenoWithTradeNo:(NSString *)tradeId
-{
-    GetGeneralUnionpayTradenoOp * op = [[GetGeneralUnionpayTradenoOp alloc] init];
-    op.tradeNo = self.tradeNo;
-    op.tradeType = self.tradeType;
-    [[[op rac_postRequest] flattenMap:^RACStream *(GetGeneralUnionpayTradenoOp * rop) {
-        
-        PaymentHelper *helper = [[PaymentHelper alloc] init];
-        [helper resetForUPPayWithTradeNumber:rop.rsp_uniontradeno targetVC:self];
-        return [helper rac_startPay2];
-    }] subscribeNext:^(NSString * uppayTradeNo) {
-        
-        OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
-        iop.req_notifytype = 4;
-        iop.req_tradeno = tradeId;
-        [[iop rac_postRequest] subscribeNext:^(id x) {
-            DebugLog(@"通用订单通知服务器支付成功!");
-        }];
-        
-        @weakify(self)
-        [self dismissViewControllerAnimated:YES completion:^{
-            
-            @strongify(self)
-            [self actionPaySuccess];
-        }];
-    } error:^(NSError *error) {
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
-}
 
 
 @end

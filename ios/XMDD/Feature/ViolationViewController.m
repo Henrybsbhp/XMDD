@@ -139,7 +139,7 @@
 /// 跳转到违章记录VC
 - (void)jumpToMyVoilationMissionHistoryVC
 {
-    ViolationMissionHistoryVC *vc = [UIStoryboard vcWithId:@"ViolationMissionHistoryVC" inStoryboard:@"Temp_YZC"];
+    ViolationMissionHistoryVC *vc = [UIStoryboard vcWithId:@"ViolationMissionHistoryVC" inStoryboard:@"Violation"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

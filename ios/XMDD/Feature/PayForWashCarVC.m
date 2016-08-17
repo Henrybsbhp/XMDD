@@ -123,7 +123,7 @@
                             @"payment":@(PaymentChannelWechat),@"recommend":@(NO),
                                @"cellname":@"PaymentPlatformCell",@"icon":@"wechat_logo_66",@"uppayrecommend":@(NO)};
     
-    NSDictionary * uppay = @{@"title":@"银联支付",
+    NSDictionary * uppay = @{@"title":@"银联在线支付",
                             @"payment":@(PaymentChannelUPpay),@"recommend":@(YES),
                                @"cellname":@"PaymentPlatformCell",@"icon":@"uppay_logo_66",@"uppayrecommend":@(NO)};
     
@@ -703,14 +703,18 @@
 
 - (void)requestCommentlist
 {
+    if (gAppMgr.beautycommentList.count && self.service.shopServiceType == ShopServiceCarBeauty)
+        return;
+    if (gAppMgr.maintenancecommentList.count && self.service.shopServiceType == ShopServiceCarMaintenance)
+        return;
     if (gAppMgr.commentList.count)
         return;
     SystemFastrateGetOp * op = [SystemFastrateGetOp operation];
     [[op rac_postRequest] subscribeNext:^(SystemFastrateGetOp * op) {
         
         gAppMgr.commentList = op.rsp_commentlist;
-        gAppMgr.bycommentList = op.rsp_bycommentlist;
-        gAppMgr.mrcommentList = op.rsp_mrcommentlist;
+        gAppMgr.beautycommentList = op.rsp_mrcommentlist;
+        gAppMgr.maintenancecommentList = op.rsp_bycommentlist;
     }];
 }
 

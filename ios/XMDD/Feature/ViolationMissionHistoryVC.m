@@ -257,14 +257,14 @@
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
         NSDictionary *dic = self.dataSource[indexPath.row];
-        ViolationCommissionStateVC *vc = [UIStoryboard vcWithId:@"ViolationCommissionStateVC" inStoryboard:@"HX_Temp"];
+        ViolationCommissionStateVC *vc = [UIStoryboard vcWithId:@"ViolationCommissionStateVC" inStoryboard:@"Violation"];
         vc.recordID = (NSNumber *)dic[@"recordid"];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else
     {
         NSDictionary *dic = self.tips[indexPath.row];
-        ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Temp_YZC"];
+        ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Violation"];
         vc.usercarID = (NSNumber *)dic[@"usercarid"];
         vc.carNum = dic[@"licensenumber"];
         [vc setCommitSuccessBlock:^{
@@ -347,7 +347,7 @@
 - (IBAction)actionCommit:(id)sender
 {
     NSDictionary *dic = self.dataSource[self.indexPath.row];
-    ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Temp_YZC"];
+    ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Violation"];
     vc.recordID = (NSNumber *)dic[@"recordid"];
     [self.navigationController pushViewController:vc animated:YES];
 }
