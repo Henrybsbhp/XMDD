@@ -189,13 +189,14 @@ const styles = StyleSheet.create({
     },
     navBarTitleText: {
         color: '#373E4D',
-        fontWeight: '500',
-        marginVertical: 9,
+        fontWeight: 'bold',
+        fontSize: 17,
+        marginVertical: 13,
     },
     navBarBackButton: {
-        paddingVertical: 10,
+        paddingVertical: 12,
         paddingHorizontal: 12,
-        marginLeft: 5,
+        marginLeft: 2,
     },
     navBarButton: {
         padding: 10,
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
     navBarRightButtonImage: {
         paddingLeft: 10,
         paddingRight: 14,
-        paddingTop: 6,
+        paddingTop: 8,
         paddingBottom: 10,
         marginRight: 0,
     },

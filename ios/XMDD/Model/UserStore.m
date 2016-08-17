@@ -41,8 +41,7 @@
 {
 }
 
-- (BOOL)needUpdateTimetagForKey:(NSString *)key
-{
+- (BOOL)needUpdateTimetagForKey:(NSString *)key {
     if (!key) {
         key = kDefTimetagKey;
     }
@@ -50,16 +49,21 @@
     return [[NSDate date] timeIntervalSince1970] - timetag > self.updateDuration;
 }
 
-- (void)updateTimetagForKey:(NSString *)key
-{
+- (void)updateTimetagForKey:(NSString *)key {
     if (!key) {
         key = kDefTimetagKey;
     }
     [self.timetagDict setObject:@([[NSDate date] timeIntervalSince1970]) forKey:key];
 }
 
-- (void)resetAllTimetags
-{
+- (void)resetTimetagForKey:(NSString *)key {
+    if (!key) {
+        key = kDefTimetagKey;
+    }
+    [self.timetagDict removeObjectForKey:key];
+}
+
+- (void)resetAllTimetags {
     [self.timetagDict removeAllObjects];
 }
 

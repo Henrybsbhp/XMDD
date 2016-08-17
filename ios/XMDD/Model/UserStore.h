@@ -19,7 +19,7 @@
 ///(if key is nil, then the inner key is "$DefTimetag")
 - (BOOL)needUpdateTimetagForKey:(NSString *)key;
 - (void)updateTimetagForKey:(NSString *)key;
+- (void)resetTimetagForKey:(NSString *)key;
 - (void)resetAllTimetags;
-
 
 @end

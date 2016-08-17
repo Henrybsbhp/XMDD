@@ -12,6 +12,8 @@
 		180294DA1D61C3C900FC0C05 /* ConfigStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294D91D61C3C900FC0C05 /* ConfigStore.m */; };
 		180294DD1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */; };
 		180294E11D62AADD00FC0C05 /* ShopCommentListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294E01D62AADD00FC0C05 /* ShopCommentListVC.m */; };
+		180294E51D63121B00FC0C05 /* HKNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294E41D63121B00FC0C05 /* HKNavigationBar.m */; };
+		180294E81D64148E00FC0C05 /* GetReactNativeConfigOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294E71D64148E00FC0C05 /* GetReactNativeConfigOp.m */; };
 		1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */; };
 		1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4971ACD3B0900BBCC96 /* SYPageControl.m */; };
 		1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4991ACD3B0900BBCC96 /* SYPageView.m */; };
@@ -957,6 +959,10 @@
 		180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSystemConfigInfoOp.m; sourceTree = "<group>"; };
 		180294DF1D62AADD00FC0C05 /* ShopCommentListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopCommentListVC.h; sourceTree = "<group>"; };
 		180294E01D62AADD00FC0C05 /* ShopCommentListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCommentListVC.m; sourceTree = "<group>"; };
+		180294E31D63121B00FC0C05 /* HKNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKNavigationBar.h; sourceTree = "<group>"; };
+		180294E41D63121B00FC0C05 /* HKNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKNavigationBar.m; sourceTree = "<group>"; };
+		180294E61D64148E00FC0C05 /* GetReactNativeConfigOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetReactNativeConfigOp.h; sourceTree = "<group>"; };
+		180294E71D64148E00FC0C05 /* GetReactNativeConfigOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetReactNativeConfigOp.m; sourceTree = "<group>"; };
 		1816F4941ACD3B0900BBCC96 /* NSBundle+SYPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SYPaginator.h"; sourceTree = "<group>"; };
 		1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SYPaginator.m"; sourceTree = "<group>"; };
 		1816F4961ACD3B0900BBCC96 /* SYPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPageControl.h; sourceTree = "<group>"; };
@@ -2704,6 +2710,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		180294E21D6311FC00FC0C05 /* NavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				180294E31D63121B00FC0C05 /* HKNavigationBar.h */,
+				180294E41D63121B00FC0C05 /* HKNavigationBar.m */,
+			);
+			name = NavigationBar;
+			sourceTree = "<group>";
+		};
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -3605,6 +3620,8 @@
 				4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */,
 				180294DB1D61C3F700FC0C05 /* GetSystemConfigInfoOp.h */,
 				180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */,
+				180294E61D64148E00FC0C05 /* GetReactNativeConfigOp.h */,
+				180294E71D64148E00FC0C05 /* GetReactNativeConfigOp.m */,
 			);
 			name = Netop;
 			sourceTree = "<group>";
@@ -4072,7 +4089,7 @@
 		1864965D1D489A4200F1CCB0 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				18F54AD51D61B0AF0008F306 /* Manager */,
+				18F54AD51D61B0AF0008F306 /* Data */,
 				185A14F81D5B2E0B0051D9F7 /* Loading */,
 				1888F40E1D48CAD200C64288 /* ReactNative */,
 				18649AD71D48A12500F1CCB0 /* Factory */,
@@ -4084,7 +4101,6 @@
 				18649ACE1D489FA800F1CCB0 /* Login */,
 				18649ACD1D489F8700F1CCB0 /* GPS */,
 				18649ACC1D489F8200F1CCB0 /* Other */,
-				18649ACB1D489F4D00F1CCB0 /* Persistence */,
 				18649ACA1D489F3400F1CCB0 /* Debug */,
 				18649AC91D489F2500F1CCB0 /* App */,
 				18649AC81D489F1D00F1CCB0 /* Payment */,
@@ -4258,15 +4274,6 @@
 			name = Debug;
 			sourceTree = "<group>";
 		};
-		18649ACB1D489F4D00F1CCB0 /* Persistence */ = {
-			isa = PBXGroup;
-			children = (
-				1864966C1D489A4200F1CCB0 /* CoreDataManager.h */,
-				1864966D1D489A4200F1CCB0 /* CoreDataManager.m */,
-			);
-			name = Persistence;
-			sourceTree = "<group>";
-		};
 		18649ACC1D489F8200F1CCB0 /* Other */ = {
 			isa = PBXGroup;
 			children = (
@@ -4413,6 +4420,7 @@
 		18649AFE1D48A93000F1CCB0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				180294E21D6311FC00FC0C05 /* NavigationBar */,
 				183F57D11D4CA6650001E26A /* Badge */,
 				183F57D01D4CA6590001E26A /* Cell */,
 				18649B461D48A93000F1CCB0 /* PopAnimation.h */,
@@ -5593,13 +5601,15 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
-		18F54AD51D61B0AF0008F306 /* Manager */ = {
+		18F54AD51D61B0AF0008F306 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				1864966C1D489A4200F1CCB0 /* CoreDataManager.h */,
+				1864966D1D489A4200F1CCB0 /* CoreDataManager.m */,
 				18F54AD61D61B0D90008F306 /* GlobalStoreManager.h */,
 				18F54AD71D61B0D90008F306 /* GlobalStoreManager.m */,
 			);
-			name = Manager;
+			name = Data;
 			sourceTree = "<group>";
 		};
 		18FC01BA1C4E6C6F00FD61BF /* IQKeyBoardManager */ = {
@@ -6453,6 +6463,7 @@
 				18649B761D48A93000F1CCB0 /* JTImageBadge.m in Sources */,
 				18649B7A1D48A93000F1CCB0 /* JTTableViewCell.m in Sources */,
 				186499901D489A9700F1CCB0 /* JTUser.m in Sources */,
+				180294E51D63121B00FC0C05 /* HKNavigationBar.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				4E78DDFA1D5A1A8E00EC52C7 /* GetViolationCommissionOp.m in Sources */,
 				18649DE71D48BCF100F1CCB0 /* HKPopoverView.m in Sources */,
@@ -6668,6 +6679,7 @@
 				1836B7C11D54220B0078DB15 /* CKDispatcher.m in Sources */,
 				1836B81D1D5466180078DB15 /* ShopDetailPaymentCell.m in Sources */,
 				18649B5D1D48A93000F1CCB0 /* HKNavigationController.m in Sources */,
+				180294E81D64148E00FC0C05 /* GetReactNativeConfigOp.m in Sources */,
 				183F57351D4C90860001E26A /* GetInsBaseCarListOp.m in Sources */,
 				186499B51D489A9700F1CCB0 /* GetAutomobileModelOp.m in Sources */,
 				18649B661D48A93000F1CCB0 /* HKAlertVC.m in Sources */,
