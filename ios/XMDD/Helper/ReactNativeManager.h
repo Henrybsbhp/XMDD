@@ -6,11 +6,11 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "MyUserStore.h"
 #import "HKRCTPackageConfig.h"
 #import "GetReactNativePackageOp.h"
 
-@interface ReactNativeManager : NSObject
+@interface ReactNativeManager : MyUserStore
 
 @property (nonatomic, strong, readonly) RACSignal *loadingSignal;
 @property (nonatomic, strong, readonly) HKRCTPackageConfig *defaultPackageConfig;
@@ -19,11 +19,17 @@
 
 - (void)loadDefaultBundle;
 + (instancetype)sharedManager;
-- (BOOL)isReactNativeEnabled;
+
+//// 检测是否支持开启react native
+- (BOOL)checkReactNativeEnabledIfNeeded;
+
+//// Update
 - (RACSignal *)rac_checkPackageVersion;
 - (RACSignal *)rac_downloadPackageWithPackageOp:(GetReactNativePackageOp *)pkgop;
 - (RACSignal *)rac_checkAndUpdatePackage;
 - (RACSignal *)rac_checkAndUpdatePackageIfNeeded;
+
+//// Util
 - (NSURL *)latestJSBundleUrl;
 
 @end

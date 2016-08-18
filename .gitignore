@@ -10,4 +10,6 @@ UserInterface.xcuserstate
 Breakpoints_v2.xcbkptlist
 node_modules/
 rctpatch.conf
+fabfile.py
+fabfile.pyc
 rct_bundle/
