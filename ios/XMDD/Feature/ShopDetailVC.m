@@ -1,12 +1,12 @@
 //
-//  ShopDetailViewController.m
+//  ShopDetailVC.m
 //  XMDD
 //
 //  Created by jiangjunchen on 16/8/5.
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "ShopDetailViewController.h"
+#import "ShopDetailVC.h"
 #import "ShopDetailCollectionLayout.h"
 #import "DistanceCalcHelper.h"
 #import "NSString+RectSize.h"
@@ -31,7 +31,7 @@
 #import "PayForWashCarVC.h"
 
 typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath, __kindof UICollectionViewCell *cell);
-@interface ShopDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface ShopDetailVC ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) ShopDetailCollectionLayout *collectionLayout;
 @property (nonatomic, strong) ShopDetailNavigationBar *customNavBar;
@@ -42,9 +42,10 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 @property (nonatomic, assign) NSInteger segmentIndex;
 @property (nonatomic, assign) HKLoadStatus loadStatus;
 @property (nonatomic, assign) BOOL shouldExpandServices;
+@property (nonatomic, strong) NSDictionary *mobEventTags;
 @end
 
-@implementation ShopDetailViewController
+@implementation ShopDetailVC
 
 - (void)dealloc {
     
@@ -58,6 +59,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     self.store = [ShopDetailStore fetchOrCreateStoreByShopID:self.shop.shopID];
     [self.store resetDataWithShop:self.shop];
     
+    [self setupAllMobEvents];
     [self setupCollectionView];
     [self setupNavitationBar];
     [self setupHeaderView];
@@ -130,6 +132,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     // 点击 收藏/取消收藏
     [self.customNavBar setActionDidCollect:^{
         @strongify(self);
+        [self mobClickWithEventKey:@"collect"];
         if (self.customNavBar.isCollected) {
             [self actionUncollect:nil];
         }
@@ -149,7 +152,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     self.headerView.trottingContainerView.hidden = self.shop.announcement.length == 0;
     self.headerView.picURLArray = self.shop.picArray;
     [[self.headerView.tapGesture rac_gestureSignal] subscribeNext:^(id x) {
-        [MobClick event:@"rp105_2"];
+        [self mobClickWithEventKey:@"header"];
     }];
 }
 
@@ -227,6 +230,10 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 }
 
 #pragma mark - Action
+- (void)actionBack:(id)sender {
+    [super actionBack:sender];
+    [self mobClickWithEventKey:@"back"];
+}
 /// 收藏
 - (void)actionCollect:(id)sender {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
@@ -267,7 +274,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 
 /// 跳转到地图页面
 - (void)actionGotoMapVC {
-    [MobClick event:@"rp105_4"];
+    [self mobClickWithEventKey:@"map"];
     CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
     vc.shop = self.shop;
     vc.favorite = self.customNavBar.isCollected;
@@ -276,6 +283,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 
 /// 拨打商户电话
 - (void)actionMakeCall {
+    [self mobClickWithEventKey:@"phone"];
     if (self.shop.shopPhone.length == 0) {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:kDefTintColor clickBlock:nil];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb"
@@ -290,9 +298,12 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 - (void)serivceSegmentDidChanged:(UISegmentedControl *)segmentControl {
     NSInteger oldIndex = self.segmentIndex;
     NSInteger newIndex = segmentControl.selectedSegmentIndex;
+    ShopServiceType oldType = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
+    ShopServiceType newType = oldType;
     if (oldIndex != newIndex) {
         self.segmentIndex = newIndex;
         [self.store selectServiceGroup:self.store.serviceGroups[newIndex]];
+        newType = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
         self.collectionLayout.animationType = oldIndex < newIndex ? ShopDetailCollectionScrollRightToLeft : ShopDetailCollectionScrollLeftToRight;
         @weakify(self);
         [self.collectionView performBatchUpdates:^{
@@ -308,11 +319,21 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
             
         }];
     }
+    [self mobClickWithEventKey:[NSString stringWithFormat:@"segment-%ld-%ld", oldType, newType]];
 }
 
 - (void)actionSelectServiceCell:(CKDict *)cell {
     JTShopService *oldService = [self.store currentSelectedService];
     JTShopService *newService = cell[@"service"];
+
+//  友盟点击事件
+    NSInteger serviceIndex = [self.store.selectedServiceGroup indexOfObjectForKey:newService.key];
+    ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
+    NSString *strtag = [self.mobEventTags objectForKey:[NSString stringWithFormat:@"service-%ld", type]];
+    if (serviceIndex != NSNotFound && strtag) {
+        [self mobClickWithEventTag:[strtag integerValue] + serviceIndex];
+    }
+
     CKDict *oldCell = self.datasource[@"serviceSection"][oldService.key];
     [self.store selectService:newService];
 // 刷新UI
@@ -322,6 +343,9 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 }
 
 - (void)actionPayment:(id)sender {
+
+    ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
+    [self mobClickWithEventKey:[NSString stringWithFormat:@"pay-%ld", type]];
     PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
     vc.service = [self.store currentSelectedService];
     vc.shop = self.shop;
@@ -339,6 +363,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 }
 
 - (void)actionCloseServiceItems {
+    [self mobClickWithEventKey:@"close-servcies"];
     CKList *serviceSection = self.datasource[@"serviceSection"];
     NSInteger section = [self.datasource indexOfObjectForKey:@"serviceSection"];
     NSMutableArray *indexPaths = [NSMutableArray array];
@@ -352,7 +377,8 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     [self.collectionView deleteItemsAtIndexPaths:indexPaths];
 }
 
-- (void)actionExpandServiceItems {
+- (void)actionOpenServiceItems {
+    [self mobClickWithEventKey:@"open-services"];
     CKList *serviceSection = self.datasource[@"serviceSection"];
     NSInteger section = [self.datasource indexOfObjectForKey:@"serviceSection"];
     NSMutableArray *indexPaths = [NSMutableArray array];
@@ -555,7 +581,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
         self.shouldExpandServices = !self.shouldExpandServices;
         [cell setExpand:self.shouldExpandServices title:[self titleForServiceSwitchCell] animated:YES];
         if (self.shouldExpandServices) {
-            [self actionExpandServiceItems];
+            [self actionOpenServiceItems];
         }
         else {
             [self actionCloseServiceItems];
@@ -611,7 +637,8 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp105_8"];
+        ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
+        [self mobClickWithEventKey:[NSString stringWithFormat:@"all-comments-%ld", type]];
         if ([[self.store currentCommentList] count] > 0) {
             [self actionGotoCommentListVC];
         }
@@ -679,6 +706,13 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
         
         [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(0, 14, 0, 0)];
     };
+    
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
+        [self mobClickWithEventKey:[NSString stringWithFormat:@"comment-%ld", type]];
+    });
     
     return dict;
 }
@@ -751,6 +785,32 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
         return @"收起";
     }
     return [NSString stringWithFormat:@"您还有%ld种选择", [self.store.selectedServiceGroup count] - 2];
+}
+
+#pragma mark - UMeng
+- (void)setupAllMobEvents {
+    self.mobEventTags = @{@"back": @"1", @"collect": @"2", @"header": @"3", @"map": @"4",
+                          @"phone": @"5", @"open-services": @"9", @"close-services": @"13",
+                          @"segment-0-0": @"14", @"segment-0-4": @"15", @"segment-0-3": @"16",
+                          @"segment-3-0": @"6", @"segment-3-4": @"7", @"segment-3-3": @"8",
+                          @"segment-4-0": @"20", @"segment-4-4": @"21", @"segment-4-3": @"22",
+                          @"pay-0": @"17", @"pay-3": @"10", @"pay-4": @"23",
+                          @"all-comments-0": @"18", @"all-comments-3": @"11", @"all-comments-4": @"24",
+                          @"comment-0": @"19", @"comment-3": @"12", @"comment-4": @"25",
+                          @"service-0": @"101", @"service-3": @"301", @"service-4": @"201",
+                       };
+}
+
+- (void)mobClickWithEventKey:(NSString *)key {
+    NSString *strtag = self.mobEventTags[key];
+    if (strtag) {
+        [self mobClickWithEventTag:[strtag integerValue]];
+    }
+}
+
+- (void)mobClickWithEventTag:(NSInteger)tag {
+    NSString *value = [NSString stringWithFormat:@"shangjiaxiangqing%ld", tag];
+    [MobClick event:@"shangjiaxiangqing" attributes:@{@"shangjiaxiangqing": value}];
 }
 
 @end

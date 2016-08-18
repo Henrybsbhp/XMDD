@@ -19,7 +19,7 @@
 #import "ShopListServiceCell.h"
 #import "ShopListActionCell.h"
 #import "HKTableTextCell.h"
-#import "ShopDetailViewController.h"
+#import "ShopDetailVC.h"
 
 @interface SearchShopListVC ()<UISearchBarDelegate>
 @property (nonatomic, strong) SearchShopListBar *searchView;
@@ -204,7 +204,7 @@
 }
 
 - (void)actionGotoShopDetailWithShop:(JTShop *)shop {
-    ShopDetailViewController *vc = [[ShopDetailViewController alloc] init];
+    ShopDetailVC *vc = [[ShopDetailVC alloc] init];
     vc.shop = shop;
     vc.serviceType = self.serviceType;
     [self.navigationController pushViewController:vc animated:YES];

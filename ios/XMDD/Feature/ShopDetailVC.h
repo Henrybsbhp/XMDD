@@ -1,5 +1,5 @@
 //
-//  ShopDetailViewController.h
+//  ShopDetailVC.h
 //  XMDD
 //
 //  Created by jiangjunchen on 16/8/5.
@@ -10,7 +10,7 @@
 #import "JTShop.h"
 #import "HKCoupon.h"
 
-@interface ShopDetailViewController : HKViewController
+@interface ShopDetailVC : HKViewController
 
 @property (nonatomic, strong) JTShop *shop;
 @property (nonatomic, strong) HKCoupon *coupon;

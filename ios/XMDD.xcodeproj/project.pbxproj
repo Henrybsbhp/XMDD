@@ -71,7 +71,7 @@
 		1836B8241D54672B0078DB15 /* ShopCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B8231D54672B0078DB15 /* ShopCommentCell.m */; };
 		1836B8271D5468010078DB15 /* ShopDetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B8261D5468010078DB15 /* ShopDetailHeaderView.m */; };
 		1836B82A1D5469230078DB15 /* ShopDetailNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B8291D5469230078DB15 /* ShopDetailNavigationBar.m */; };
-		1836B82D1D546BBC0078DB15 /* ShopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B82C1D546BBC0078DB15 /* ShopDetailViewController.m */; };
+		1836B82D1D546BBC0078DB15 /* ShopDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B82C1D546BBC0078DB15 /* ShopDetailVC.m */; };
 		1836B8301D54711B0078DB15 /* ShopDetailCollectionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B82F1D54711B0078DB15 /* ShopDetailCollectionLayout.m */; };
 		1836B8331D54787A0078DB15 /* HKCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B8321D54787A0078DB15 /* HKCollectionViewCell.m */; };
 		1836B8391D547BAC0078DB15 /* ShopDetailCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B8381D547BAC0078DB15 /* ShopDetailCommentCell.m */; };
@@ -1082,8 +1082,8 @@
 		1836B8261D5468010078DB15 /* ShopDetailHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailHeaderView.m; sourceTree = "<group>"; };
 		1836B8281D5469230078DB15 /* ShopDetailNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailNavigationBar.h; sourceTree = "<group>"; };
 		1836B8291D5469230078DB15 /* ShopDetailNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailNavigationBar.m; sourceTree = "<group>"; };
-		1836B82B1D546BBC0078DB15 /* ShopDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailViewController.h; sourceTree = "<group>"; };
-		1836B82C1D546BBC0078DB15 /* ShopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailViewController.m; sourceTree = "<group>"; };
+		1836B82B1D546BBC0078DB15 /* ShopDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailVC.h; sourceTree = "<group>"; };
+		1836B82C1D546BBC0078DB15 /* ShopDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailVC.m; sourceTree = "<group>"; };
 		1836B82E1D54711B0078DB15 /* ShopDetailCollectionLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailCollectionLayout.h; sourceTree = "<group>"; };
 		1836B82F1D54711B0078DB15 /* ShopDetailCollectionLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailCollectionLayout.m; sourceTree = "<group>"; };
 		1836B8311D54787A0078DB15 /* HKCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKCollectionViewCell.h; sourceTree = "<group>"; };
@@ -3728,8 +3728,8 @@
 		185A14FF1D5C5C700051D9F7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				1836B82B1D546BBC0078DB15 /* ShopDetailViewController.h */,
-				1836B82C1D546BBC0078DB15 /* ShopDetailViewController.m */,
+				1836B82B1D546BBC0078DB15 /* ShopDetailVC.h */,
+				1836B82C1D546BBC0078DB15 /* ShopDetailVC.m */,
 				180294DF1D62AADD00FC0C05 /* ShopCommentListVC.h */,
 				180294E01D62AADD00FC0C05 /* ShopCommentListVC.m */,
 			);
@@ -7044,7 +7044,7 @@
 				18649A101D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.m in Sources */,
 				186499EA1D489A9700F1CCB0 /* GetStartHostCarOp.m in Sources */,
 				186499831D489A9700F1CCB0 /* HKMutualGroup.m in Sources */,
-				1836B82D1D546BBC0078DB15 /* ShopDetailViewController.m in Sources */,
+				1836B82D1D546BBC0078DB15 /* ShopDetailVC.m in Sources */,
 				1864997A1D489A9700F1CCB0 /* HKCellData.m in Sources */,
 				18649DA31D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.m in Sources */,
 				183F571E1D4C90860001E26A /* GetCooperationClaimBankcardOp.m in Sources */,

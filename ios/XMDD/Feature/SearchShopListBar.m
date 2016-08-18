@@ -35,7 +35,7 @@
     _searchBar.layer.masksToBounds = YES;
     [self addSubview:_searchBar];
     
-    _searchButton = [[UIButton alloc] initWithFrame:CGRectMake(width - 72, 0, 52, frame.size.height)];
+    _searchButton = [[UIButton alloc] initWithFrame:CGRectMake(width - 72, 0, 60, frame.size.height)];
     [_searchButton setBackgroundColor:kDefTintColor];
     [_searchButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_searchButton setTitle:@"搜索" forState:UIControlStateNormal];

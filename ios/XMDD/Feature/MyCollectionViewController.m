@@ -11,7 +11,7 @@
 #import "FavoriteModel.h"
 #import "JTShop.h"
 #import "JTRatingView.h"
-#import "ShopDetailViewController.h"
+#import "ShopDetailVC.h"
 #import "DeleteUserFavoriteOp.h"
 #import "UIView+Layer.h"
 #import "PhoneHelper.h"
@@ -369,7 +369,7 @@
     if (!self.isEditing)
     {
         [MobClick event:@"rp316_2"];
-        ShopDetailViewController *vc = [[ShopDetailViewController alloc] init];
+        ShopDetailVC *vc = [[ShopDetailVC alloc] init];
         vc.shop = self.datasource[indexPath.section][@"shop"];
         [self.navigationController pushViewController:vc animated:YES];
     }
