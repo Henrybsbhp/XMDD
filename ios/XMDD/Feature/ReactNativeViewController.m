@@ -27,7 +27,6 @@
         _properties = props;
         _modulName = moduleName;
         self.router.navigationBarHidden = YES;
-        self.router.disableInteractivePopGestureRecognizer = YES;
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;

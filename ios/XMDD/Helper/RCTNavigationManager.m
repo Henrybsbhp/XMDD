@@ -34,6 +34,15 @@ RCT_EXPORT_METHOD(pushComponent:(NSString *)component withProperties:(NSDictiona
     });
 }
 
+RCT_EXPORT_METHOD(setInteractivePopGestureRecognizerDisable:(BOOL)disable) {
+    CKAsyncMainQueue(^{
+        if ([gAppMgr.navModel.curNavCtrl.topViewController isKindOfClass:[ReactNativeViewController class]]) {
+            ReactNativeViewController *vc = (ReactNativeViewController *)gAppMgr.navModel.curNavCtrl.topViewController;
+            vc.router.disableInteractivePopGestureRecognizer = disable;
+        }
+    });
+}
+
 
 RCT_EXPORT_METHOD(setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated) {
     CKAsyncMainQueue(^{

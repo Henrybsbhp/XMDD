@@ -137,17 +137,12 @@ export default class NavigatorView extends Component {
     render() {
         return (
             <Navigator
+                ref="nav"
                 debugOverlay={false}
                 style={styles.appContainer}
                 initialRoute={this.props.route}
-                renderScene={(route, navigator) => (
-                    <View style={styles.scene}>
-                        {React.createElement(
-                            route.component,
-                            {route, navigator, ...route.passProps},
-                        )}
-                    </View>
-                )}
+                renderScene={this._renderScene}
+                onDidFocus={this._onDidFocus.bind(this)}
                 navigationBar={
                     <Navigator.NavigationBar
                         routeMapper={NavigationBarRouteMapper}
@@ -156,6 +151,24 @@ export default class NavigatorView extends Component {
                 }
             />
         );
+    }
+
+    _onDidFocus() {
+        if (this.refs.nav) {
+            var disable = this.refs.nav.getCurrentRoutes().length > 1;
+            NativeModules.NavigationManager.setInteractivePopGestureRecognizerDisable(disable);
+        }
+    }
+
+    _renderScene(route, navigator) {
+        return (
+            <View style={styles.scene}>
+                {React.createElement(
+                    route.component,
+                    {route, navigator, ...route.passProps},
+                )}
+            </View>
+        )
     }
 };
 

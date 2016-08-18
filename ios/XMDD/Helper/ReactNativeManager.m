@@ -363,7 +363,6 @@
 
 #pragma mark - 检测react native是否启用
 - (BOOL)checkReactNativeEnabledIfNeeded {
-    return YES;
     if ([self needUpdateTimetagForKey:kTimetagForReactEnabledWithoutLogin]) {
         [self checkReactEnabledWithLogin:NO];
     }
