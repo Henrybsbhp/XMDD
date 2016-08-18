@@ -13,12 +13,12 @@
 #import "UnbindingBankCardOp.h"
 #import "MyBankCardListModel.h"
 #import "JGActionSheet.h"
+#import "BindBankCardVC.h"
 
 @interface MyBindedCardVC () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *fetchedData;
-@property (nonatomic, strong) CKList *dataSource;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
 @property (nonatomic, assign) BOOL isEditing;
@@ -40,9 +40,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-     
-    [self observeTheFetchedDataToDetemineTheHiddenOfBarButtonItem];
-    [self observeIsEditingValueToChangeBarButtonItemName];
+    
+    CKAfter (0.5, ^{
+        [self observeTheFetchedDataToDetemineTheHiddenOfBarButtonItem];
+        [self observeIsEditingValueToChangeBarButtonItemName];
+        [self observeWhetherOrNotCardBindingSuccess];
+    });
     
     [self fetchData];
 }
@@ -61,7 +64,8 @@
 // 浙商加油卡
 - (void)actionToCZJCard
 {
-    
+    BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 // 添加银行卡
@@ -82,7 +86,7 @@
             [gToast showingWithText:@"正在解绑中..."];
         }] subscribeNext:^(id x) {
             [gToast showSuccess:@"解绑成功"];
-            [self.dataSource[indexPath.section] removeObjectAtIndex:indexPath.row];
+            [self.datasource[indexPath.section] removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         } error:^(NSError *error) {
             [gToast showError:error.domain];
@@ -138,6 +142,7 @@
         @strongify(self);
         [self.view stopActivityAnimation];
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取银行卡信息失败，请点击重试" tapBlock:^{
+            @strongify(self);
             [self.view hideDefaultEmptyView];
             [self fetchData];
         }];
@@ -146,15 +151,15 @@
 
 - (void)setDataSourceWithDataArray:(NSArray *)dataArray
 {
-    self.dataSource = [CKList list];
+    self.datasource = [CKList list];
     CKList *bankCardList = [CKList list];
     for (MyBankCardListModel *model in dataArray) {
         CKDict *cardInfoCell = [self setupCardInfoCellWithModel:model];
         [bankCardList addObject:cardInfoCell forKey:nil];
     }
     
-    [self.dataSource addObject:bankCardList forKey:nil];
-    [self.dataSource addObject:$([self setupAddBankCardCell]) forKey:nil];
+    [self.datasource addObject:bankCardList forKey:nil];
+    [self.datasource addObject:$([self setupAddBankCardCell]) forKey:nil];
     [self.tableView reloadData];
 }
 
@@ -175,6 +180,7 @@
     });
     
     cardInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
         if (model.czbFlag == 1) {
             [self actionToCheckPrivilege];
         }
@@ -195,7 +201,7 @@
         checkButton.layer.cornerRadius = 7;
         checkButton.layer.masksToBounds = YES;
         
-        CKList *cellList = self.dataSource[indexPath.section];
+        CKList *cellList = self.datasource[indexPath.section];
         separator.hidden = indexPath.row == cellList.count - 1 ? YES : NO;
         
         [logoImageView setImageByUrl:model.bankLogo withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
@@ -222,10 +228,10 @@
     
     addBankCardCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
         UIButton *addButton = (UIButton *)[cell.contentView viewWithTag:1000];
-        
+        @strongify(self);
         [[[addButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
-            [self actionToAddCard];
+            [self popUpAddCardActionSheet];
         }];
     });
     
@@ -233,29 +239,6 @@
 }
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return self.dataSource.count;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    CKList *cellList = self.dataSource[section];
-    return cellList.count;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CKDict *item = self.dataSource[indexPath.section][indexPath.row];
-    CKCellGetHeightBlock block = item[kCKCellGetHeight];
-    
-    if (block) {
-        return block(item, indexPath);
-    }
-    
-    return 102;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return CGFLOAT_MIN;
@@ -266,35 +249,15 @@
     return 10;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CKDict *item = self.dataSource[indexPath.section][indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:item[kCKCellID] forIndexPath:indexPath];
-    CKCellPrepareBlock block = item[kCKCellPrepare];
-    
-    if (block) {
-        block(item, cell, indexPath);
-    }
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CKDict *data = self.dataSource[indexPath.section][indexPath.row];
-    CKCellSelectedBlock block = data[kCKCellSelected];
-    if (block) {
-        block(data, indexPath);
-    }
-}
-
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 1) {
         return NO;
     }
     
-    self.isEditing = !self.isEditing;
+    if (self.isEditing) {
+        self.isEditing = NO;
+    }
     
     return YES;
 }
@@ -313,6 +276,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    self.isEditing = YES;
     return @"解除绑定";
 }
 
@@ -353,6 +317,7 @@
     [RACObserve(self, fetchedData) subscribeNext:^(id x) {
         @strongify(self);
         if (self.fetchedData.count > 0) {
+            self.editButton.title = @"编辑";
             self.editButton.enabled = YES;
         } else {
             [self.editButton setTitle:@""];
@@ -377,6 +342,44 @@
     }];
 }
 
+/// 监听银行卡是否绑定成功
+- (void)observeWhetherOrNotCardBindingSuccess
+{
+    @weakify(self)
+    [self listenNotificationByName:kNotifyCardBindingSuccess withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        @strongify(self);
+        [self fetchedData];
+    }];
+}
+
+- (void)popUpAddCardActionSheet
+{
+    JGActionSheetSection *opSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"浙商汽车卡", @"绑定银联支付"] buttonStyle:JGActionSheetButtonStyleDefault];
+    JGActionSheetSection *cancelSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"取消"] buttonStyle:JGActionSheetButtonStyleCancel];
+    JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:@[opSection, cancelSection]];
+    sheet.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+    [sheet showInView:self.navigationController.view animated:YES];
+    
+    @weakify(self);
+    [sheet setButtonPressedBlock:^(JGActionSheet *rsheet, NSIndexPath *indexPath) {
+        
+        [rsheet dismissAnimated:YES];
+        
+        if (indexPath.section != 0) {
+            return;
+        }
+        
+        if (indexPath.section == 0 && indexPath.row == 0) {
+            @strongify(self);
+            [self actionToCZJCard];
+            
+        } else if (indexPath.section == 0 && indexPath.row == 1) {
+            @strongify(self);
+            [self actionToAddCard];
+        }
+    }];
+}
+
 #pragma mark - Lazy instantiation
 - (UIButton *)addbutton
 {
@@ -390,29 +393,7 @@
         @weakify(self);
         [[_addbutton rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
             @strongify(self);
-            JGActionSheetSection *opSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"浙商汽车卡", @"绑定银联支付"] buttonStyle:JGActionSheetButtonStyleDefault];
-            JGActionSheetSection *cancelSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"取消"] buttonStyle:JGActionSheetButtonStyleCancel];
-            JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:@[opSection, cancelSection]];
-            sheet.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-            [sheet showInView:self.navigationController.view animated:YES];
-            
-            [sheet setButtonPressedBlock:^(JGActionSheet *rsheet, NSIndexPath *indexPath) {
-                
-                [rsheet dismissAnimated:YES];
-                
-                if (indexPath.section != 0) {
-                    return;
-                }
-                
-                if (indexPath.section == 0 && indexPath.row == 0) {
-                    @strongify(self);
-                    [self actionToCZJCard];
-                    
-                } else if (indexPath.section == 0 && indexPath.row == 1) {
-                    @strongify(self);
-                    [self actionToAddCard];
-                }
-            }];
+            [self popUpAddCardActionSheet];
         }];
     }
     return _addbutton;

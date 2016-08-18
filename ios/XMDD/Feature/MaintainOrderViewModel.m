@@ -100,7 +100,7 @@
         
         gasCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
             @strongify(self);
-            [MobClick event:@"rp318_2"];
+            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan7"}];
             CarwashOrderDetailVC *vc = [UIStoryboard vcWithId:@"CarwashOrderDetailVC" inStoryboard:@"Mine"];
             vc.order = order;
             vc.originVC = self.targetVC;
@@ -142,7 +142,7 @@
 
             [[[reviewButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
-                [MobClick event:@"rp318_1"];
+                [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan8"}];
                 @strongify(self);
                 [self actionCommentForOrder:order];
             }];
