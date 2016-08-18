@@ -826,6 +826,13 @@
 		C3DEFD651D586647006337D5 /* GetCityInfoByLicenseNumberOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C3DEFD641D586647006337D5 /* GetCityInfoByLicenseNumberOp.m */; };
 		C3F451521D2E3A6F00BA9BC4 /* AsstisTouch.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F4514F1D2E3A6F00BA9BC4 /* AsstisTouch.png */; };
 		C3F451531D2E3A6F00BA9BC4 /* DTouchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F451511D2E3A6F00BA9BC4 /* DTouchButton.m */; };
+		FA1459DD1D62A8F700690140 /* AddBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459DC1D62A8F700690140 /* AddBankCardVC.m */; };
+		FA1459EE1D62DDEC00690140 /* GetBankCardBaseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459ED1D62DDEC00690140 /* GetBankCardBaseInfoOp.m */; };
+		FA1459F11D62EC8200690140 /* PrebindingBankCardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F01D62EC8200690140 /* PrebindingBankCardOp.m */; };
+		FA1459F41D6302BA00690140 /* MyBindedCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F31D6302BA00690140 /* MyBindedCardVC.m */; };
+		FA1459F71D631C5500690140 /* GetBankCardListV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F61D631C5500690140 /* GetBankCardListV2Op.m */; };
+		FA1459FA1D631D7E00690140 /* MyBankCardListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F91D631D7E00690140 /* MyBankCardListModel.m */; };
+		FA1459FD1D632FA900690140 /* UnbindingBankCardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459FC1D632FA900690140 /* UnbindingBankCardOp.m */; };
 		FA445C6D1D59B0B60099245E /* CancelViolationCommissionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */; };
 		FA65CDA21D51CCC30076ED7D /* MutualOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */; };
 		FA65CDA51D51EF650076ED7D /* GasOrderModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */; };
@@ -2616,6 +2623,20 @@
 		E574C35E0C5B4698BA396F43 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		F9411A8DA5E84CBC911B19E1 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		F99242C104D4445C9C8C11BC /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		FA1459DB1D62A8F700690140 /* AddBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddBankCardVC.h; sourceTree = "<group>"; };
+		FA1459DC1D62A8F700690140 /* AddBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBankCardVC.m; sourceTree = "<group>"; };
+		FA1459EC1D62DDEC00690140 /* GetBankCardBaseInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetBankCardBaseInfoOp.h; sourceTree = "<group>"; };
+		FA1459ED1D62DDEC00690140 /* GetBankCardBaseInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetBankCardBaseInfoOp.m; sourceTree = "<group>"; };
+		FA1459EF1D62EC8200690140 /* PrebindingBankCardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrebindingBankCardOp.h; sourceTree = "<group>"; };
+		FA1459F01D62EC8200690140 /* PrebindingBankCardOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrebindingBankCardOp.m; sourceTree = "<group>"; };
+		FA1459F21D6302BA00690140 /* MyBindedCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBindedCardVC.h; sourceTree = "<group>"; };
+		FA1459F31D6302BA00690140 /* MyBindedCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBindedCardVC.m; sourceTree = "<group>"; };
+		FA1459F51D631C5500690140 /* GetBankCardListV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetBankCardListV2Op.h; sourceTree = "<group>"; };
+		FA1459F61D631C5500690140 /* GetBankCardListV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetBankCardListV2Op.m; sourceTree = "<group>"; };
+		FA1459F81D631D7E00690140 /* MyBankCardListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBankCardListModel.h; sourceTree = "<group>"; };
+		FA1459F91D631D7E00690140 /* MyBankCardListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBankCardListModel.m; sourceTree = "<group>"; };
+		FA1459FB1D632FA900690140 /* UnbindingBankCardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnbindingBankCardOp.h; sourceTree = "<group>"; };
+		FA1459FC1D632FA900690140 /* UnbindingBankCardOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnbindingBankCardOp.m; sourceTree = "<group>"; };
 		FA445C6B1D59B0B50099245E /* CancelViolationCommissionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelViolationCommissionOp.h; sourceTree = "<group>"; };
 		FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelViolationCommissionOp.m; sourceTree = "<group>"; };
 		FA65CDA01D51CCC30076ED7D /* MutualOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualOrderViewModel.h; sourceTree = "<group>"; };
@@ -3596,6 +3617,14 @@
 				4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */,
 				4E78E02B1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.h */,
 				4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */,
+				FA1459EC1D62DDEC00690140 /* GetBankCardBaseInfoOp.h */,
+				FA1459ED1D62DDEC00690140 /* GetBankCardBaseInfoOp.m */,
+				FA1459EF1D62EC8200690140 /* PrebindingBankCardOp.h */,
+				FA1459F01D62EC8200690140 /* PrebindingBankCardOp.m */,
+				FA1459F51D631C5500690140 /* GetBankCardListV2Op.h */,
+				FA1459F61D631C5500690140 /* GetBankCardListV2Op.m */,
+				FA1459FB1D632FA900690140 /* UnbindingBankCardOp.h */,
+				FA1459FC1D632FA900690140 /* UnbindingBankCardOp.m */,
 				180294DB1D61C3F700FC0C05 /* GetSystemConfigInfoOp.h */,
 				180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */,
 			);
@@ -4661,6 +4690,10 @@
 				18649C4C1D48B4E500F1CCB0 /* ResultVC.m */,
 				18649C4D1D48B4E500F1CCB0 /* UnbundlingVC.h */,
 				18649C4E1D48B4E500F1CCB0 /* UnbundlingVC.m */,
+				FA1459DB1D62A8F700690140 /* AddBankCardVC.h */,
+				FA1459DC1D62A8F700690140 /* AddBankCardVC.m */,
+				FA1459F21D6302BA00690140 /* MyBindedCardVC.h */,
+				FA1459F31D6302BA00690140 /* MyBindedCardVC.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -5569,6 +5602,8 @@
 				FAC986A11D583A44000FE245 /* MutualOrderListModel.m */,
 				FAC986A61D587890000FE245 /* ViolationCommissionStateModel.h */,
 				FAC986A71D587890000FE245 /* ViolationCommissionStateModel.m */,
+				FA1459F81D631D7E00690140 /* MyBankCardListModel.h */,
+				FA1459F91D631D7E00690140 /* MyBankCardListModel.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -6444,9 +6479,11 @@
 				18649DE71D48BCF100F1CCB0 /* HKPopoverView.m in Sources */,
 				186496C81D489A4200F1CCB0 /* KeyboardHelper.m in Sources */,
 				188EF0B01D351A0F000D01D6 /* CMarkupTransformer.m in Sources */,
+				FA1459F71D631C5500690140 /* GetBankCardListV2Op.m in Sources */,
 				18649DE91D48BCF100F1CCB0 /* MutualInsGroupFundCell.m in Sources */,
 				1864971B1D489A5800F1CCB0 /* RACSignal+Extension.m in Sources */,
 				183F573C1D4C90860001E26A /* InsuranceAppointmentV2Op.m in Sources */,
+				FA1459FA1D631D7E00690140 /* MyBankCardListModel.m in Sources */,
 				18649CBF1D48B70A00F1CCB0 /* AwardShareSheetVC.m in Sources */,
 				186496C91D489A4200F1CCB0 /* LogAlertView.m in Sources */,
 				18649BE71D48B0E100F1CCB0 /* CarWashNavigationViewController.m in Sources */,
@@ -6679,6 +6716,7 @@
 				4E78DF171D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.m in Sources */,
 				18649DEC1D48BCF100F1CCB0 /* MutualInsGroupMyBottomButtonCell.m in Sources */,
 				186499B41D489A9700F1CCB0 /* GetAutomobileBrandV2Op.m in Sources */,
+				FA1459F41D6302BA00690140 /* MyBindedCardVC.m in Sources */,
 				183F571D1D4C90860001E26A /* GascardChargeOp.m in Sources */,
 				18649A1C1D489A9700F1CCB0 /* FavoriteModel.m in Sources */,
 				1836B7BF1D54220B0078DB15 /* CKBaseStore.m in Sources */,
@@ -6913,6 +6951,7 @@
 				18649E4C1D48BE0A00F1CCB0 /* MutualInsRequestJoinGroupVC.m in Sources */,
 				186496D01D489A4200F1CCB0 /* PhoneHelper.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
+				FA1459FD1D632FA900690140 /* UnbindingBankCardOp.m in Sources */,
 				185A150E1D5C85810051D9F7 /* SearchShopListBar.m in Sources */,
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
 				18649A0D1D489A9700F1CCB0 /* UnbindBankcardOp.m in Sources */,
@@ -6930,6 +6969,7 @@
 				18649E4D1D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.m in Sources */,
 				18649CC01D48B70A00F1CCB0 /* NewGainAwardVC.m in Sources */,
 				186499941D489A9700F1CCB0 /* PictureRecord.m in Sources */,
+				FA1459F11D62EC8200690140 /* PrebindingBankCardOp.m in Sources */,
 				18649CD61D48B77700F1CCB0 /* PaymentCenterViewController.m in Sources */,
 				6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */,
 				186496C51D489A4200F1CCB0 /* HKVersionManager.m in Sources */,
@@ -6943,6 +6983,7 @@
 				1864998B1D489A9700F1CCB0 /* HKServiceOrder.m in Sources */,
 				18649E201D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
+				FA1459EE1D62DDEC00690140 /* GetBankCardBaseInfoOp.m in Sources */,
 				1888F4321D48CD6500C64288 /* AFDownloadRequestOperation.m in Sources */,
 				FAC986A21D583A44000FE245 /* MutualOrderListModel.m in Sources */,
 				FAA240591D505224008AA1EC /* GetGasCardInfoOp.m in Sources */,
@@ -7030,6 +7071,7 @@
 				186499E71D489A9700F1CCB0 /* GetShopByRangeV2Op.m in Sources */,
 				1864971C1D489A5800F1CCB0 /* UIImage+Utilities.mm in Sources */,
 				18649D2A1D48B98B00F1CCB0 /* InsuranceSelectModel.m in Sources */,
+				FA1459DD1D62A8F700690140 /* AddBankCardVC.m in Sources */,
 				18649BEC1D48B0E100F1CCB0 /* PayForWashCarVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7122,8 +7164,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7218,7 +7261,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3793cdf4-53f4-4f85-b9c7-e209582ab43f";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -7230,8 +7273,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7326,7 +7369,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3793cdf4-53f4-4f85-b9c7-e209582ab43f";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
