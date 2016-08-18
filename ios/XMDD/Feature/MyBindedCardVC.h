@@ -6,8 +6,8 @@
 //  Copyright © 2016 huika. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "HKTableViewController.h"
 
-@interface MyBindedCardVC : UIViewController
+@interface MyBindedCardVC : HKTableViewController
 
 @end

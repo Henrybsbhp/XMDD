@@ -85,6 +85,7 @@
         @strongify(self);
         if (index == 0) {
             
+            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan2"}];
             self.maintainTableView.hidden = NO;
             self.carwashTableView.hidden = YES;
             self.gasTableView.hidden = YES;
@@ -94,6 +95,7 @@
             
         } else if (index == 1) {
             
+            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan3"}];
             self.gasTableView.hidden = NO;
             self.maintainTableView.hidden = YES;
             self.mutualTableView.hidden = YES;
@@ -103,6 +105,7 @@
             
         } else if (index == 2) {
             
+            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan4"}];
             self.mutualTableView.hidden = NO;
             self.maintainTableView.hidden = YES;
             self.carwashTableView.hidden = YES;
@@ -112,7 +115,7 @@
             
         } else if (index == 3) {
             
-            [MobClick event:@"rp318_4"];
+            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan5"}];
             self.carwashTableView.hidden = YES;
             self.gasTableView.hidden = YES;
             self.mutualTableView.hidden = YES;
@@ -122,6 +125,7 @@
             
         } else {
             
+            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan6"}];
             self.maintainTableView.hidden = YES;
             self.carwashTableView.hidden = YES;
             self.mutualTableView.hidden = YES;
@@ -148,6 +152,7 @@
 
 - (void)dealloc
 {
+    [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan1"}];
     DebugLog(@"MyOrderListVC dealloc");
 }
 

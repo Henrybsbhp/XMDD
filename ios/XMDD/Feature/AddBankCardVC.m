@@ -11,13 +11,14 @@
 #import "UIView+Shake.h"
 #import "GetBankCardBaseInfoOp.h"
 #import "PrebindingBankCardOp.h"
+#import "DetailWebVC.h"
 
-@interface AddBankCardVC () <UITableViewDelegate, UITableViewDataSource>
+@interface AddBankCardVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) CKList *dataSource;
 @property (nonatomic, copy) NSString *issueBankName;
 @property (nonatomic, copy) NSString *bankLogoURL;
+@property (nonatomic, copy) NSString *cardType;
 
 @end
 
@@ -34,7 +35,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.dataSource = $($([self setupAddCardNumCell], [self setupCardInfoCell], [self setupNextUpCell]));
+    self.datasource = $($([self setupAddCardNumCell], [self setupCardInfoCell], [self setupNextUpCell]));
     [self.tableView reloadData];
 }
 
@@ -64,12 +65,15 @@
     
     [[[op rac_postRequest] initially:^{
         
-        [gToast showingWithText:@"正在添加银行卡..."];
+        [gToast showingWithText:@"正在请求中..."];
         
-    }] subscribeNext:^(id x) {
-        [gToast showSuccess:@"添加成功"];
+    }] subscribeNext:^(PrebindingBankCardOp *rop) {
         
-        
+        [gToast dismiss];
+        DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        vc.title = @"绑定银行卡";
+        vc.url = rop.bindURL;
+        [self.navigationController pushViewController:vc animated:YES];
         
     } error:^(NSError *error) {
         
@@ -201,20 +205,9 @@
 }
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return self.dataSource.count;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    CKList *cellList = self.dataSource[section];
-    return cellList.count;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CKDict *item = self.dataSource[indexPath.section][indexPath.row];
+    CKDict *item = self.datasource[indexPath.section][indexPath.row];
     CKCellGetHeightBlock block = item[kCKCellGetHeight];
     
     if (block) {
@@ -229,18 +222,6 @@
     return 10;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CKDict *item = self.dataSource[indexPath.section][indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:item[kCKCellID] forIndexPath:indexPath];
-    CKCellPrepareBlock block = item[kCKCellPrepare];
-    
-    if (block) {
-        block(item, cell, indexPath);
-    }
-    
-    return cell;
-}
 
 #pragma mark - Utility
 
@@ -256,6 +237,8 @@
         @strongify(self);
         [gToast dismiss];
         self.issueBankName = op.issueBank;
+        self.cardType = op.cardType;
+        self.bankLogoURL = op.bankLogo;
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         textField.enabled = YES;
