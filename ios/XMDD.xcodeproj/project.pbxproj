@@ -525,7 +525,6 @@
 		18649BE61D48B0E100F1CCB0 /* CarwashFreshmanGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BD31D48B0E100F1CCB0 /* CarwashFreshmanGuideVC.m */; };
 		18649BE71D48B0E100F1CCB0 /* CarWashNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BD51D48B0E100F1CCB0 /* CarWashNavigationViewController.m */; };
 		18649BE91D48B0E100F1CCB0 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BD91D48B0E100F1CCB0 /* ChooseBankCardVC.m */; };
-		18649BEA1D48B0E100F1CCB0 /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BDB1D48B0E100F1CCB0 /* CommentListViewController.m */; };
 		18649BEB1D48B0E100F1CCB0 /* NearbyShopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BDD1D48B0E100F1CCB0 /* NearbyShopsViewController.m */; };
 		18649BEC1D48B0E100F1CCB0 /* PayForWashCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BDF1D48B0E100F1CCB0 /* PayForWashCarVC.m */; };
 		18649BED1D48B0E100F1CCB0 /* PaymentSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BE11D48B0E100F1CCB0 /* PaymentSuccessVC.m */; };
@@ -2026,8 +2025,6 @@
 		18649BD51D48B0E100F1CCB0 /* CarWashNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarWashNavigationViewController.m; sourceTree = "<group>"; };
 		18649BD81D48B0E100F1CCB0 /* ChooseBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBankCardVC.h; sourceTree = "<group>"; };
 		18649BD91D48B0E100F1CCB0 /* ChooseBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBankCardVC.m; sourceTree = "<group>"; };
-		18649BDA1D48B0E100F1CCB0 /* CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentListViewController.h; sourceTree = "<group>"; };
-		18649BDB1D48B0E100F1CCB0 /* CommentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentListViewController.m; sourceTree = "<group>"; };
 		18649BDC1D48B0E100F1CCB0 /* NearbyShopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyShopsViewController.h; sourceTree = "<group>"; };
 		18649BDD1D48B0E100F1CCB0 /* NearbyShopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyShopsViewController.m; sourceTree = "<group>"; };
 		18649BDE1D48B0E100F1CCB0 /* PayForWashCarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForWashCarVC.h; sourceTree = "<group>"; };
@@ -4573,8 +4570,6 @@
 				18649BD51D48B0E100F1CCB0 /* CarWashNavigationViewController.m */,
 				18649BD81D48B0E100F1CCB0 /* ChooseBankCardVC.h */,
 				18649BD91D48B0E100F1CCB0 /* ChooseBankCardVC.m */,
-				18649BDA1D48B0E100F1CCB0 /* CommentListViewController.h */,
-				18649BDB1D48B0E100F1CCB0 /* CommentListViewController.m */,
 				18649BDE1D48B0E100F1CCB0 /* PayForWashCarVC.h */,
 				18649BDF1D48B0E100F1CCB0 /* PayForWashCarVC.m */,
 				18649BE01D48B0E100F1CCB0 /* PaymentSuccessVC.h */,
@@ -6633,7 +6628,6 @@
 				18649C531D48B4E500F1CCB0 /* MyBankVC.m in Sources */,
 				18649E461D48BE0A00F1CCB0 /* MutInsCalculateResultVC.m in Sources */,
 				18649CCD1D48B72D00F1CCB0 /* RescueCouponViewController.m in Sources */,
-				18649BEA1D48B0E100F1CCB0 /* CommentListViewController.m in Sources */,
 				18649D021D48B7C000F1CCB0 /* SuspendedAdVC.m in Sources */,
 				186499821D489A9700F1CCB0 /* HKMessage.m in Sources */,
 				1836B7CB1D54220B0078DB15 /* CKPaths.m in Sources */,
