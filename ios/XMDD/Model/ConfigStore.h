@@ -12,9 +12,12 @@
 #import "GetSystemConfigInfoOp.h"
 
 @interface ConfigStore : CKBaseStore
-@property (nonatomic, strong) GetSystemConfigInfoOp *systemConfig;
+@property (nonatomic, strong) NSDictionary *systemConfig;
 
 - (void)loadDefaultSystemConfig;
 - (RACSignal *)fetchSystemConfig;
+
+- (NSString *)maintenanceDesc;
+
 
 @end

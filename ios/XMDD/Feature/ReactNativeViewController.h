@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ReactView.h"
+#import "HKNavigationBar.h"
 
 @interface ReactNativeViewController : UIViewController
 
@@ -15,5 +16,7 @@
 
 @property (strong, nonatomic) ReactView *rctView;
 @property (nonatomic, strong, readonly) NSString * modulName;
+
+- (void)setNavigationBarHidden:(BOOL)navigationBarHidden animated:(BOOL)animated;
 
 @end

@@ -177,7 +177,7 @@ export default class MyInfoView extends Component {
                             source={{uri: this.state.avatar}}
                             style={styles.avatar}
                             defaultSource={{uri: this.state.defAvatar}}
-                            onLoad={() => this.state.defAvatar = null}
+                            onLoad={() => {this.state.defAvatar = undefined}}
                         />
                     </View>
                 </View>
