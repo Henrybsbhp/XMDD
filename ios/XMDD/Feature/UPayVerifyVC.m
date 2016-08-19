@@ -8,24 +8,22 @@
 
 #import "HKSMSModel.h"
 #import "UPayVerifyVC.h"
-#import "NetworkManager.h"
-
-// 倒入头文件
-@class MyBankCardListModel;
+#import "DetailWebVC.h"
+#import "PayInfoModel.h"
+#import "UIView+Shake.h"
+#import "CheckoutUnioncardQuickpayOp.h"
+#import "GetTokenOp.h"
 
 @interface UPayVerifyVC ()<UITableViewDelegate, UITableViewDataSource>
 
-
-@property (strong, nonatomic) CKList *dataSource;
-@property (strong, nonatomic) HKSMSModel *smsModel;
+/// 记录插入和删除的索引
+@property (strong, nonatomic) NSArray *indexArr;
 /// 是否打开选择其它银行卡
 @property (assign, nonatomic) BOOL openMore;
-// @YZC 可能需要更改
-@property (strong, nonatomic) NSString *currentPhone;
-@property (strong, nonatomic) NSMutableArray *cards;
-
+@property (strong, nonatomic) HKSMSModel *smsModel;
+@property (strong, nonatomic) CKList *dataSource;
+@property (strong, nonatomic) NSString *vcode;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @end
 
 @implementation UPayVerifyVC
@@ -34,8 +32,8 @@
 {
     [super viewDidLoad];
     
-    [self setupSimulateData];
     [self setupDataSource];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,12 +48,6 @@
 
 #pragma mark - Setup
 
-- (void)setupSimulateData
-{
-    self.orderFee = 100.00;
-    self.serviceName = @"壳牌 蓝喜力矿物机油HX3 15W-40 SN级 4L";
-}
-
 - (void)setupDataSource
 {
     self.dataSource = $(
@@ -66,9 +58,6 @@
                         $(
                           [self cardCellData],
                           CKJoin([self createCardCellDataList]),
-                          self.openMore ? [self otherCardCellData] : CKNULL,
-                          self.openMore ? [self otherCardCellData] : CKNULL,
-                          self.openMore ? [self otherCardCellData] : CKNULL,
                           [self phoneNumCellData],
                           [self qrCodeCellData]
                           ),
@@ -83,12 +72,40 @@
 
 #pragma mark - Network
 
-
+-(void)checkoutUnioncardQuickpay
+{
+    @weakify(self)
+    
+    CheckoutUnioncardQuickpayOp *op = [CheckoutUnioncardQuickpayOp operation];
+    
+    [[[op rac_postRequest]initially:^{
+        
+        [gToast showingWithText:@"银联快捷支付中"];
+        
+    }]subscribeNext:^(CheckoutUnioncardQuickpayOp *op) {
+        
+        @strongify(self)
+        
+        [gToast showSuccess:@"银联快捷支付成功"];
+        
+        [self.subject sendNext:op];
+        [self.subject sendCompleted];
+        [self actionDismiss:nil];
+        
+    } error:^(NSError *error) {
+        
+        [gToast showMistake:@"银联快捷支付失败"];
+        
+    }];
+    
+}
 
 #pragma mark - Cell
 
 - (CKDict *)headerCellDataForID:(NSString *)identifier
 {
+    
+    @weakify(self)
     
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"HeaderCell"}];
     
@@ -97,6 +114,8 @@
     });
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self)
         
         UILabel *titleLabel = [cell viewWithTag:100];
         UILabel *detailLabel = [cell viewWithTag:101];
@@ -135,48 +154,70 @@
         
         @strongify(self)
         
-        MyBankCardListModel *model = self.cards.firstObject;
+        UnionBankCard *model = self.bankCardInfo.firstObject;
         
         UILabel *bankLabel = [cell viewWithTag:101];
-        bankLabel.text = @"招商银行";
+        bankLabel.text = model.issuebank;
         
         UILabel *detailLabel = [cell viewWithTag:102];
-        detailLabel.text = @"尾号5710(民生借记卡)";
+        detailLabel.text = [NSString stringWithFormat:@"尾号%@（%@）",model.cardno, model.cardtypename];
         
         UIImageView *imgView = [cell viewWithTag:103];
-        imgView.image = self.openMore ? [UIImage imageNamed:@"cw_arrow_down"] : [UIImage imageNamed:@"cw_arrow_down"];
+        
+        if (self.bankCardInfo.count > 1)
+        {
+            imgView.hidden = NO;
+            for (NSLayoutConstraint *consraint in cell.contentView.constraints)
+            {
+                if ([consraint.identifier isEqualToString:@"carNoTrailing"])
+                {
+                    consraint.constant = 40;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            imgView.hidden = YES;
+            for (NSLayoutConstraint *consraint in cell.contentView.constraints)
+            {
+                if ([consraint.identifier isEqualToString:@"carNoTrailing"])
+                {
+                    consraint.constant = 10;
+                    break;
+                }
+            }
+        }
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            
+            @strongify(self)
+            
+            imgView.image = self.openMore ? [UIImage imageNamed:@"arrow_up"] : [UIImage imageNamed:@"arrow_down"];
+            
+        }];
         
     });
     
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        @strongify(self)
         
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        UIImageView *imgView = [cell viewWithTag:103];
-        
-        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-            if (!self.openMore)
-            {
-                imgView.transform = CGAffineTransformMakeRotation(M_PI);
-            }
-            else
-            {
-                imgView.transform = CGAffineTransformMakeRotation(-M_PI);
-            }
-            
-        } completion:nil];
-        
-        
-        [self folderTableView];
+        if (self.bankCardInfo.count > 1)
+        {
+            [self folderTableView];
+        }
         
     });
     
     return data;
-
+    
 }
 
-- (CKDict *)otherCardCellData//WithModel:(MyBankCardListModel *)model
+- (CKDict *)otherCardCellDataWithModel:(UnionBankCard *)model
 {
+    
+    @weakify(self)
     
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"OtherCardCell"}];
     
@@ -186,19 +227,28 @@
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
+        
+        UnionBankCard *model = [self.bankCardInfo safetyObjectAtIndex:indexPath.row];
+        
         UILabel *bankLabel = [cell viewWithTag:101];
-        bankLabel.text = @"广发银行";
+        bankLabel.text = model.issuebank;
         
         UILabel *detailLabel = [cell viewWithTag:102];
-        detailLabel.text = @"尾号6481(民生借记卡)";
+        detailLabel.text = [NSString stringWithFormat:@"尾号%@（%@）",[model.cardno safteySubstringFromIndex:(model.cardno.length - 5)],model.cardtypename];
         
     });
     
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
-        [self.cards exchangeObjectAtIndex:0 withObjectAtIndex:(indexPath.row - 1)];
+        @strongify(self)
+        
+        // 如果出现可选择其它银行卡，indexPath.row一定不会越界
+        // 移动银行卡位置
+        NSMutableArray *temp = [self.bankCardInfo mutableCopy];
+        [temp exchangeObjectAtIndex:0 withObjectAtIndex:(indexPath.row)];
+        self.bankCardInfo = [temp copy];
         [self folderTableView];
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
         
     });
     
@@ -210,6 +260,8 @@
 - (CKDict *)phoneNumCellData
 {
     
+    @weakify(self)
+    
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"PhoneNumCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -218,13 +270,18 @@
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
+        
+        UnionBankCard *bankCard = self.bankCardInfo.firstObject;
+        
         UIButton *button = [cell viewWithTag:101];
+        button.hidden = bankCard.changephoneurl.length == 0;
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
         }];
         
         UILabel *phoneLabel = [cell viewWithTag:102];
-        phoneLabel.text = @"188****8594";
+        phoneLabel.text = [gAppMgr.myUser.userID stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
         
     });
     
@@ -246,11 +303,16 @@
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
         
         VCodeInputField *textField = [cell viewWithTag:101];
         self.smsModel.inputVcodeField = textField;
-        [[[textField rac_signalForControlEvents:UIControlEventEditingDidBegin]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+        
+        [[textField.rac_textSignal takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             
+            @strongify(self)
+            
+            self.vcode = x;
             
         }];
         
@@ -260,7 +322,11 @@
             
             @strongify(self)
             
-            [self getUnionSms];
+            UnionBankCard *bankCard = self.bankCardInfo.firstObject;
+            
+            [self getUnionSmsWithTokenID:bankCard.tokenid];
+            
+            [textField becomeFirstResponder];
             
         }];
         
@@ -272,6 +338,7 @@
 
 - (CKDict *)addCardCellData
 {
+    @weakify(self)
     
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"AddCardCell"}];
     
@@ -280,6 +347,11 @@
     });
     
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        @strongify(self)
+        
+//        AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"HX_Temp"];
+//        [self.navigationController pushViewController:vc animated:YES];
         
     });
     return data;
@@ -302,6 +374,17 @@
         button.layer.masksToBounds = YES;
         
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+            
+            if (self.vcode.length == 0)
+            {
+                [gToast showMistake:@"请填写验证码"];
+            }
+            else
+            {
+                
+                [self.view endEditing:YES];
+                [self checkoutUnioncardQuickpay];
+            }
             
         }];
         
@@ -375,7 +458,20 @@
     return CGFLOAT_MIN;
 }
 
+#pragma mark - Action
+
+- (IBAction)actionDismiss:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - Utility
+
+- (void)shakeVCodeTextField
+{
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1]];
+    [cell.contentView shake];
+}
 
 -(void)folderTableView
 {
@@ -387,33 +483,58 @@
     
     if (self.openMore)
     {
-        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1],
-                                                 [NSIndexPath indexPathForRow:2 inSection:1],
-                                                 [NSIndexPath indexPathForRow:3 inSection:1],]
-                              withRowAnimation:UITableViewRowAnimationMiddle];
+        [self.tableView insertRowsAtIndexPaths:[self createIndexArr] withRowAnimation:UITableViewRowAnimationMiddle];
     }
     else
     {
         
-        [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1],
-                                                 [NSIndexPath indexPathForRow:2 inSection:1],
-                                                 [NSIndexPath indexPathForRow:3 inSection:1],] withRowAnimation:UITableViewRowAnimationMiddle];
+        [self.tableView deleteRowsAtIndexPaths:[self createIndexArr] withRowAnimation:UITableViewRowAnimationMiddle];
     }
     
     [self.tableView endUpdates];
+    
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+    
 }
 
 - (NSArray *)createCardCellDataList
 {
-//    NSMutableArray *mArr = [[NSMutableArray alloc]init];
-    return nil;
+    if (self.openMore)
+    {
+        NSMutableArray *otherCellDataArr = [[NSMutableArray alloc]init];
+        
+        for (NSInteger i = 1; i < self.bankCardInfo.count; i++)
+        {
+            CKDict *data = [self otherCardCellDataWithModel:[self.bankCardInfo safetyObjectAtIndex:i]];
+            [otherCellDataArr addObject:data];
+        }
+        
+        return [NSArray arrayWithArray:otherCellDataArr];
+    }
+    else
+    {
+        return nil;
+    }
+}
+
+- (NSArray *)createIndexArr
+{
+    NSMutableArray *indexArr = [[NSMutableArray alloc]init];
+    
+    for (NSInteger i = 1; i < self.bankCardInfo.count; i++)
+    {
+        [indexArr addObject:[NSIndexPath indexPathForRow:i inSection:1]];
+    }
+    
+    return [NSArray arrayWithArray:indexArr];
 }
 
 /// 获取验证码
-- (void)getUnionSms
+- (void)getUnionSmsWithTokenID:(NSString *)tokenID
 {
-    RACSignal *sig = [self.smsModel rac_getUnionCardVcodeWithTokenID:[NetworkManager sharedManager].token andTradeNo:self.tradeNo];
-    [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig andPhone:self.currentPhone] subscribeError:^(NSError *error) {
+    // 测试
+    RACSignal *sig = [self.smsModel rac_getUnionCardVcodeWithTokenID:tokenID andTradeNo:self.tradeNo];
+    [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig andPhone:gAppMgr.myUser.userID] subscribeError:^(NSError *error) {
         
         [gToast showError:error.domain];
         
@@ -422,6 +543,15 @@
 
 
 #pragma mark - LazyLoad
+
+-(RACSubject *)subject
+{
+    if (!_subject)
+    {
+        _subject = [RACSubject subject];
+    }
+    return _subject;
+}
 
 - (CKList *)dataSource
 {
@@ -442,5 +572,7 @@
     }
     return _smsModel;
 }
+
+
 
 @end

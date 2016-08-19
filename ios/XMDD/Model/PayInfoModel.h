@@ -7,26 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UnionBankCard.h"
 
 @interface WechatPayInfo : NSObject
 
 @property (nonatomic,strong)NSDictionary * payInfo;
 
-//@property (nonatomic,copy)NSString * appid;
-//@property (nonatomic,copy)NSString * partnerId;
-//@property (nonatomic,copy)NSString * prepayId;
-//@property (nonatomic,copy)NSString * noncestr;
-//@property (nonatomic,copy)NSString * timestamp;
-//@property (nonatomic,copy)NSString * package;
-//@property (nonatomic,copy)NSString * sign;
-
-
 @end
 
 @interface PayInfoModel : NSObject
 
-@property (nonatomic,copy)NSString * alipayInfo;
-@property (nonatomic,strong)WechatPayInfo * wechatInfo;
+@property (nonatomic, copy) NSString * alipayInfo;
+@property (strong, nonatomic) WechatPayInfo * wechatInfo;
+@property (strong, nonatomic) NSArray<UnionBankCard *> *bankListInfo;
+@property (strong, nonatomic) NSString *unionPayDesc;
 
 + (instancetype)payInfoWithJSONResponse:(NSDictionary *)rsp;
 

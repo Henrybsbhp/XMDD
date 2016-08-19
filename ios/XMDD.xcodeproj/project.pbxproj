@@ -762,6 +762,7 @@
 		4E2159A21D6409F5004A81D6 /* UPayVerifyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */; };
 		4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */; };
 		4E56350D1D63FF46005353D2 /* Temp_YZC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E56350C1D63FF46005353D2 /* Temp_YZC.storyboard */; };
+		4E63B7881D66D1A4004F9200 /* UnionBankCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E63B7871D66D1A4004F9200 /* UnionBankCard.m */; };
 		4E78DDE91D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */; };
 		4E78DDEA1D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE21D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m */; };
 		4E78DDEB1D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE41D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m */; };
@@ -777,6 +778,7 @@
 		4E78DFBA1D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */; };
 		4E78E02D1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */; };
 		4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */; };
+		4ED048C81D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
 		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
@@ -2510,6 +2512,8 @@
 		4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
 		4E30E6D11CFD8492000157D4 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
 		4E56350C1D63FF46005353D2 /* Temp_YZC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Temp_YZC.storyboard; sourceTree = "<group>"; };
+		4E63B7861D66D1A4004F9200 /* UnionBankCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnionBankCard.h; sourceTree = "<group>"; };
+		4E63B7871D66D1A4004F9200 /* UnionBankCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnionBankCard.m; sourceTree = "<group>"; };
 		4E78DDDF1D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateCommitSuccessVC.h; sourceTree = "<group>"; };
 		4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationDelegateCommitSuccessVC.m; sourceTree = "<group>"; };
 		4E78DDE11D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateMissionVC.h; sourceTree = "<group>"; };
@@ -2540,6 +2544,8 @@
 		4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayViolationCommissionOrderOp.m; sourceTree = "<group>"; };
 		4ED048611D643A5500F48A1F /* SendUnioncardSmsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendUnioncardSmsOp.h; sourceTree = "<group>"; };
 		4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendUnioncardSmsOp.m; sourceTree = "<group>"; };
+		4ED048C61D64964600F48A1F /* CheckoutUnioncardQuickpayOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutUnioncardQuickpayOp.h; sourceTree = "<group>"; };
+		4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutUnioncardQuickpayOp.m; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
@@ -3608,6 +3614,8 @@
 				180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */,
 				4ED048611D643A5500F48A1F /* SendUnioncardSmsOp.h */,
 				4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */,
+				4ED048C61D64964600F48A1F /* CheckoutUnioncardQuickpayOp.h */,
+				4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */,
 			);
 			name = Netop;
 			sourceTree = "<group>";
@@ -5582,6 +5590,8 @@
 				FAC986A11D583A44000FE245 /* MutualOrderListModel.m */,
 				FAC986A61D587890000FE245 /* ViolationCommissionStateModel.h */,
 				FAC986A71D587890000FE245 /* ViolationCommissionStateModel.m */,
+				4E63B7861D66D1A4004F9200 /* UnionBankCard.h */,
+				4E63B7871D66D1A4004F9200 /* UnionBankCard.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -6527,6 +6537,7 @@
 				183F570E1D4C90860001E26A /* AddGascardOp.m in Sources */,
 				4E78DDED1D5A1A3A00EC52C7 /* ViolationPayConfirmVC.m in Sources */,
 				186499D31D489A9700F1CCB0 /* GetMutualInsListOp.m in Sources */,
+				4ED048C81D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m in Sources */,
 				1888F41B1D48CB8600C64288 /* RCTLoginManager.m in Sources */,
 				1836B7AF1D54220B0078DB15 /* NSArray+Encoding.m in Sources */,
 				18649C0F1D48B35000F1CCB0 /* HistoryCollectionVC.m in Sources */,
@@ -6684,6 +6695,7 @@
 				186496D21D489A4200F1CCB0 /* ShareResponeManager.m in Sources */,
 				4E78DDF71D5A1A8E00EC52C7 /* ApplyViolationCommissionOp.m in Sources */,
 				18649C671D48B54E00F1CCB0 /* UsedCouponVModel.m in Sources */,
+				4E63B7881D66D1A4004F9200 /* UnionBankCard.m in Sources */,
 				1864970F1D489A5800F1CCB0 /* NSDate+DateForText.m in Sources */,
 				18649A0E1D489A9700F1CCB0 /* UpdateCarOp.m in Sources */,
 				18649BBD1D48AEC000F1CCB0 /* HomeSuspendedAdVC.m in Sources */,
@@ -7138,8 +7150,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Hangzhou Huika Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7234,7 +7247,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3793cdf4-53f4-4f85-b9c7-e209582ab43f";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -7246,8 +7259,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7342,7 +7355,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3793cdf4-53f4-4f85-b9c7-e209582ab43f";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

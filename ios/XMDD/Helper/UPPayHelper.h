@@ -10,6 +10,6 @@
 
 @interface UPPayHelper : NSObject
 
-- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc;
+- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn bankCardInfo:(NSArray *)bankCardInfo unionPayDesc:(NSString *)unionPayDesc totalFee:(CGFloat)total targetVC:(UIViewController *)tvc;
 
 @end

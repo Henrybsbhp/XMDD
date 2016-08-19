@@ -21,12 +21,18 @@
 
 @implementation UPPayHelper
 
-- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc
+- (RACSignal *)rac_payWithTradeNumber:(NSString *)tn bankCardInfo:(NSArray *)bankCardInfo unionPayDesc:(NSString *)unionPayDesc totalFee:(CGFloat)total targetVC:(UIViewController *)tvc
 {
     UPayVerifyVC *vc = [UIStoryboard vcWithId:@"UPayVerifyVC" inStoryboard:@"Temp_YZC"];
-    vc.customObject = [RACSubject subject];
-    [tvc.navigationController pushViewController:vc animated:YES];
-    return vc.customObject;
+    
+    vc.bankCardInfo = bankCardInfo;
+    vc.orderFee = total;
+    vc.serviceName = unionPayDesc;
+    vc.tradeNo = tn;
+    
+    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:vc];
+    [tvc presentViewController:navi animated:YES completion:nil];
+    return vc.subject;
 }
 
 @end
