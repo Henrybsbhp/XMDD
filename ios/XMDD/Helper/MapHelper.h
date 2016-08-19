@@ -3,7 +3,7 @@
 //  XiaoMa
 //
 //  Created by jt on 15-4-16.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Copyright (c) 2015年 huika. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -21,7 +21,8 @@
 
 /// 当前位置
 @property (nonatomic)CLLocationCoordinate2D coordinate;
-
+/// 当前反地理位置编码的signal
+@property (nonatomic, strong) RACSignal *currentReGeocodeSignal;
 ///有值说明定位成功
 @property (nonatomic, strong)HKAddressComponent *addrComponent;
 
@@ -31,6 +32,8 @@
 - (RACSignal *)rac_getUserLocationAndInvertGeoInfoWithAccuracy:(CLLocationAccuracy)accuracy;
 ///得到用户城市信息code（return : GetAreaByPcdOp)）
 - (RACSignal *)rac_getAreaInfo;
+/// 反地理位置编码，如果self.currentReGeocodeSignal存在直接返回，否则重新定位并获取反地理位置编码
+- (RACSignal *)rac_getReGeocodeIfNeededWithAccuracy:(CLLocationAccuracy)accuracy;
 
 - (void)handleGPSError:(NSError *)error;
 

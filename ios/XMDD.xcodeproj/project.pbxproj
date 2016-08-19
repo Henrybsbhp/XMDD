@@ -12,6 +12,8 @@
 		180294DA1D61C3C900FC0C05 /* ConfigStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294D91D61C3C900FC0C05 /* ConfigStore.m */; };
 		180294DD1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */; };
 		180294E11D62AADD00FC0C05 /* ShopCommentListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294E01D62AADD00FC0C05 /* ShopCommentListVC.m */; };
+		180294E51D63121B00FC0C05 /* HKNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294E41D63121B00FC0C05 /* HKNavigationBar.m */; };
+		180294E81D64148E00FC0C05 /* GetReactNativeConfigOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 180294E71D64148E00FC0C05 /* GetReactNativeConfigOp.m */; };
 		1816F4A21ACD3B0900BBCC96 /* NSBundle+SYPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */; };
 		1816F4A31ACD3B0900BBCC96 /* SYPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4971ACD3B0900BBCC96 /* SYPageControl.m */; };
 		1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4991ACD3B0900BBCC96 /* SYPageView.m */; };
@@ -826,12 +828,20 @@
 		C3DEFD651D586647006337D5 /* GetCityInfoByLicenseNumberOp.m in Sources */ = {isa = PBXBuildFile; fileRef = C3DEFD641D586647006337D5 /* GetCityInfoByLicenseNumberOp.m */; };
 		C3F451521D2E3A6F00BA9BC4 /* AsstisTouch.png in Resources */ = {isa = PBXBuildFile; fileRef = C3F4514F1D2E3A6F00BA9BC4 /* AsstisTouch.png */; };
 		C3F451531D2E3A6F00BA9BC4 /* DTouchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F451511D2E3A6F00BA9BC4 /* DTouchButton.m */; };
+		FA1459DD1D62A8F700690140 /* AddBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459DC1D62A8F700690140 /* AddBankCardVC.m */; };
+		FA1459EE1D62DDEC00690140 /* GetBankCardBaseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459ED1D62DDEC00690140 /* GetBankCardBaseInfoOp.m */; };
+		FA1459F11D62EC8200690140 /* PrebindingBankCardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F01D62EC8200690140 /* PrebindingBankCardOp.m */; };
+		FA1459F41D6302BA00690140 /* MyBindedCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F31D6302BA00690140 /* MyBindedCardVC.m */; };
+		FA1459F71D631C5500690140 /* GetBankCardListV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F61D631C5500690140 /* GetBankCardListV2Op.m */; };
+		FA1459FA1D631D7E00690140 /* MyBankCardListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F91D631D7E00690140 /* MyBankCardListModel.m */; };
+		FA1459FD1D632FA900690140 /* UnbindingBankCardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459FC1D632FA900690140 /* UnbindingBankCardOp.m */; };
 		FA445C6D1D59B0B60099245E /* CancelViolationCommissionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */; };
 		FA65CDA21D51CCC30076ED7D /* MutualOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */; };
 		FA65CDA51D51EF650076ED7D /* GasOrderModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
 		FA941B3F1D13A5AA00F56B96 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA941B3E1D13A5AA00F56B96 /* PassKit.framework */; };
 		FAA240591D505224008AA1EC /* GetGasCardInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */; };
+		FAA665541D6549E400781CB1 /* HX_Temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAA665531D6549E400781CB1 /* HX_Temp.storyboard */; };
 		FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C41D1246490045531C /* CFNetwork.framework */; };
 		FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C81D12466E0045531C /* SystemConfiguration.framework */; };
 		FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */; };
@@ -954,6 +964,10 @@
 		180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSystemConfigInfoOp.m; sourceTree = "<group>"; };
 		180294DF1D62AADD00FC0C05 /* ShopCommentListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopCommentListVC.h; sourceTree = "<group>"; };
 		180294E01D62AADD00FC0C05 /* ShopCommentListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCommentListVC.m; sourceTree = "<group>"; };
+		180294E31D63121B00FC0C05 /* HKNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKNavigationBar.h; sourceTree = "<group>"; };
+		180294E41D63121B00FC0C05 /* HKNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKNavigationBar.m; sourceTree = "<group>"; };
+		180294E61D64148E00FC0C05 /* GetReactNativeConfigOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetReactNativeConfigOp.h; sourceTree = "<group>"; };
+		180294E71D64148E00FC0C05 /* GetReactNativeConfigOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetReactNativeConfigOp.m; sourceTree = "<group>"; };
 		1816F4941ACD3B0900BBCC96 /* NSBundle+SYPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SYPaginator.h"; sourceTree = "<group>"; };
 		1816F4951ACD3B0900BBCC96 /* NSBundle+SYPaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SYPaginator.m"; sourceTree = "<group>"; };
 		1816F4961ACD3B0900BBCC96 /* SYPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPageControl.h; sourceTree = "<group>"; };
@@ -2616,6 +2630,20 @@
 		E574C35E0C5B4698BA396F43 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		F9411A8DA5E84CBC911B19E1 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		F99242C104D4445C9C8C11BC /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		FA1459DB1D62A8F700690140 /* AddBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddBankCardVC.h; sourceTree = "<group>"; };
+		FA1459DC1D62A8F700690140 /* AddBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBankCardVC.m; sourceTree = "<group>"; };
+		FA1459EC1D62DDEC00690140 /* GetBankCardBaseInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetBankCardBaseInfoOp.h; sourceTree = "<group>"; };
+		FA1459ED1D62DDEC00690140 /* GetBankCardBaseInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetBankCardBaseInfoOp.m; sourceTree = "<group>"; };
+		FA1459EF1D62EC8200690140 /* PrebindingBankCardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrebindingBankCardOp.h; sourceTree = "<group>"; };
+		FA1459F01D62EC8200690140 /* PrebindingBankCardOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrebindingBankCardOp.m; sourceTree = "<group>"; };
+		FA1459F21D6302BA00690140 /* MyBindedCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBindedCardVC.h; sourceTree = "<group>"; };
+		FA1459F31D6302BA00690140 /* MyBindedCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBindedCardVC.m; sourceTree = "<group>"; };
+		FA1459F51D631C5500690140 /* GetBankCardListV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetBankCardListV2Op.h; sourceTree = "<group>"; };
+		FA1459F61D631C5500690140 /* GetBankCardListV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetBankCardListV2Op.m; sourceTree = "<group>"; };
+		FA1459F81D631D7E00690140 /* MyBankCardListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBankCardListModel.h; sourceTree = "<group>"; };
+		FA1459F91D631D7E00690140 /* MyBankCardListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBankCardListModel.m; sourceTree = "<group>"; };
+		FA1459FB1D632FA900690140 /* UnbindingBankCardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnbindingBankCardOp.h; sourceTree = "<group>"; };
+		FA1459FC1D632FA900690140 /* UnbindingBankCardOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnbindingBankCardOp.m; sourceTree = "<group>"; };
 		FA445C6B1D59B0B50099245E /* CancelViolationCommissionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelViolationCommissionOp.h; sourceTree = "<group>"; };
 		FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelViolationCommissionOp.m; sourceTree = "<group>"; };
 		FA65CDA01D51CCC30076ED7D /* MutualOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualOrderViewModel.h; sourceTree = "<group>"; };
@@ -2627,6 +2655,7 @@
 		FA941B3E1D13A5AA00F56B96 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		FAA240571D505224008AA1EC /* GetGasCardInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGasCardInfoOp.h; sourceTree = "<group>"; };
 		FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGasCardInfoOp.m; sourceTree = "<group>"; };
+		FAA665531D6549E400781CB1 /* HX_Temp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = HX_Temp.storyboard; sourceTree = "<group>"; };
 		FAAD30C41D1246490045531C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FAAD30C81D12466E0045531C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
@@ -2697,6 +2726,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		180294E21D6311FC00FC0C05 /* NavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				180294E31D63121B00FC0C05 /* HKNavigationBar.h */,
+				180294E41D63121B00FC0C05 /* HKNavigationBar.m */,
+			);
+			name = NavigationBar;
+			sourceTree = "<group>";
+		};
 		1816F4921ACD3AFE00BBCC96 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -3596,8 +3634,18 @@
 				4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */,
 				4E78E02B1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.h */,
 				4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */,
+				FA1459EC1D62DDEC00690140 /* GetBankCardBaseInfoOp.h */,
+				FA1459ED1D62DDEC00690140 /* GetBankCardBaseInfoOp.m */,
+				FA1459EF1D62EC8200690140 /* PrebindingBankCardOp.h */,
+				FA1459F01D62EC8200690140 /* PrebindingBankCardOp.m */,
+				FA1459F51D631C5500690140 /* GetBankCardListV2Op.h */,
+				FA1459F61D631C5500690140 /* GetBankCardListV2Op.m */,
+				FA1459FB1D632FA900690140 /* UnbindingBankCardOp.h */,
+				FA1459FC1D632FA900690140 /* UnbindingBankCardOp.m */,
 				180294DB1D61C3F700FC0C05 /* GetSystemConfigInfoOp.h */,
 				180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */,
+				180294E61D64148E00FC0C05 /* GetReactNativeConfigOp.h */,
+				180294E71D64148E00FC0C05 /* GetReactNativeConfigOp.m */,
 			);
 			name = Netop;
 			sourceTree = "<group>";
@@ -3951,6 +3999,7 @@
 		186495B41D4895D200F1CCB0 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				FAA665531D6549E400781CB1 /* HX_Temp.storyboard */,
 				186495B51D4895D200F1CCB0 /* About.storyboard */,
 				186495B61D4895D200F1CCB0 /* Assistive.storyboard */,
 				186495B71D4895D200F1CCB0 /* Award.storyboard */,
@@ -4063,7 +4112,7 @@
 		1864965D1D489A4200F1CCB0 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				18F54AD51D61B0AF0008F306 /* Manager */,
+				18F54AD51D61B0AF0008F306 /* Data */,
 				185A14F81D5B2E0B0051D9F7 /* Loading */,
 				1888F40E1D48CAD200C64288 /* ReactNative */,
 				18649AD71D48A12500F1CCB0 /* Factory */,
@@ -4075,7 +4124,6 @@
 				18649ACE1D489FA800F1CCB0 /* Login */,
 				18649ACD1D489F8700F1CCB0 /* GPS */,
 				18649ACC1D489F8200F1CCB0 /* Other */,
-				18649ACB1D489F4D00F1CCB0 /* Persistence */,
 				18649ACA1D489F3400F1CCB0 /* Debug */,
 				18649AC91D489F2500F1CCB0 /* App */,
 				18649AC81D489F1D00F1CCB0 /* Payment */,
@@ -4249,15 +4297,6 @@
 			name = Debug;
 			sourceTree = "<group>";
 		};
-		18649ACB1D489F4D00F1CCB0 /* Persistence */ = {
-			isa = PBXGroup;
-			children = (
-				1864966C1D489A4200F1CCB0 /* CoreDataManager.h */,
-				1864966D1D489A4200F1CCB0 /* CoreDataManager.m */,
-			);
-			name = Persistence;
-			sourceTree = "<group>";
-		};
 		18649ACC1D489F8200F1CCB0 /* Other */ = {
 			isa = PBXGroup;
 			children = (
@@ -4404,6 +4443,7 @@
 		18649AFE1D48A93000F1CCB0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				180294E21D6311FC00FC0C05 /* NavigationBar */,
 				183F57D11D4CA6650001E26A /* Badge */,
 				183F57D01D4CA6590001E26A /* Cell */,
 				18649B461D48A93000F1CCB0 /* PopAnimation.h */,
@@ -4661,6 +4701,10 @@
 				18649C4C1D48B4E500F1CCB0 /* ResultVC.m */,
 				18649C4D1D48B4E500F1CCB0 /* UnbundlingVC.h */,
 				18649C4E1D48B4E500F1CCB0 /* UnbundlingVC.m */,
+				FA1459DB1D62A8F700690140 /* AddBankCardVC.h */,
+				FA1459DC1D62A8F700690140 /* AddBankCardVC.m */,
+				FA1459F21D6302BA00690140 /* MyBindedCardVC.h */,
+				FA1459F31D6302BA00690140 /* MyBindedCardVC.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -5569,6 +5613,8 @@
 				FAC986A11D583A44000FE245 /* MutualOrderListModel.m */,
 				FAC986A61D587890000FE245 /* ViolationCommissionStateModel.h */,
 				FAC986A71D587890000FE245 /* ViolationCommissionStateModel.m */,
+				FA1459F81D631D7E00690140 /* MyBankCardListModel.h */,
+				FA1459F91D631D7E00690140 /* MyBankCardListModel.m */,
 			);
 			name = Dataset;
 			sourceTree = "<group>";
@@ -5582,13 +5628,15 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
-		18F54AD51D61B0AF0008F306 /* Manager */ = {
+		18F54AD51D61B0AF0008F306 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				1864966C1D489A4200F1CCB0 /* CoreDataManager.h */,
+				1864966D1D489A4200F1CCB0 /* CoreDataManager.m */,
 				18F54AD61D61B0D90008F306 /* GlobalStoreManager.h */,
 				18F54AD71D61B0D90008F306 /* GlobalStoreManager.m */,
 			);
-			name = Manager;
+			name = Data;
 			sourceTree = "<group>";
 		};
 		18FC01BA1C4E6C6F00FD61BF /* IQKeyBoardManager */ = {
@@ -6213,6 +6261,7 @@
 				186495D21D4895D200F1CCB0 /* 90_0.gpx in Resources */,
 				02284D120D3D4C8CAB70541C /* Entypo.ttf in Resources */,
 				97C110D9AD37422B9F4C9088 /* EvilIcons.ttf in Resources */,
+				FAA665541D6549E400781CB1 /* HX_Temp.storyboard in Resources */,
 				7BEC76FDFD744A34A5C4BD8F /* FontAwesome.ttf in Resources */,
 				186495F51D4895D200F1CCB0 /* Mine.storyboard in Resources */,
 				A0783511FA7E4824B97BDF70 /* Foundation.ttf in Resources */,
@@ -6439,14 +6488,17 @@
 				18649B761D48A93000F1CCB0 /* JTImageBadge.m in Sources */,
 				18649B7A1D48A93000F1CCB0 /* JTTableViewCell.m in Sources */,
 				186499901D489A9700F1CCB0 /* JTUser.m in Sources */,
+				180294E51D63121B00FC0C05 /* HKNavigationBar.m in Sources */,
 				181F6DA91B15919900D38555 /* LFDisplayBridge.m in Sources */,
 				4E78DDFA1D5A1A8E00EC52C7 /* GetViolationCommissionOp.m in Sources */,
 				18649DE71D48BCF100F1CCB0 /* HKPopoverView.m in Sources */,
 				186496C81D489A4200F1CCB0 /* KeyboardHelper.m in Sources */,
 				188EF0B01D351A0F000D01D6 /* CMarkupTransformer.m in Sources */,
+				FA1459F71D631C5500690140 /* GetBankCardListV2Op.m in Sources */,
 				18649DE91D48BCF100F1CCB0 /* MutualInsGroupFundCell.m in Sources */,
 				1864971B1D489A5800F1CCB0 /* RACSignal+Extension.m in Sources */,
 				183F573C1D4C90860001E26A /* InsuranceAppointmentV2Op.m in Sources */,
+				FA1459FA1D631D7E00690140 /* MyBankCardListModel.m in Sources */,
 				18649CBF1D48B70A00F1CCB0 /* AwardShareSheetVC.m in Sources */,
 				186496C91D489A4200F1CCB0 /* LogAlertView.m in Sources */,
 				18649BE71D48B0E100F1CCB0 /* CarWashNavigationViewController.m in Sources */,
@@ -6654,6 +6706,7 @@
 				1836B7C11D54220B0078DB15 /* CKDispatcher.m in Sources */,
 				1836B81D1D5466180078DB15 /* ShopDetailPaymentCell.m in Sources */,
 				18649B5D1D48A93000F1CCB0 /* HKNavigationController.m in Sources */,
+				180294E81D64148E00FC0C05 /* GetReactNativeConfigOp.m in Sources */,
 				183F57351D4C90860001E26A /* GetInsBaseCarListOp.m in Sources */,
 				186499B51D489A9700F1CCB0 /* GetAutomobileModelOp.m in Sources */,
 				18649B661D48A93000F1CCB0 /* HKAlertVC.m in Sources */,
@@ -6679,6 +6732,7 @@
 				4E78DF171D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.m in Sources */,
 				18649DEC1D48BCF100F1CCB0 /* MutualInsGroupMyBottomButtonCell.m in Sources */,
 				186499B41D489A9700F1CCB0 /* GetAutomobileBrandV2Op.m in Sources */,
+				FA1459F41D6302BA00690140 /* MyBindedCardVC.m in Sources */,
 				183F571D1D4C90860001E26A /* GascardChargeOp.m in Sources */,
 				18649A1C1D489A9700F1CCB0 /* FavoriteModel.m in Sources */,
 				1836B7BF1D54220B0078DB15 /* CKBaseStore.m in Sources */,
@@ -6913,6 +6967,7 @@
 				18649E4C1D48BE0A00F1CCB0 /* MutualInsRequestJoinGroupVC.m in Sources */,
 				186496D01D489A4200F1CCB0 /* PhoneHelper.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
+				FA1459FD1D632FA900690140 /* UnbindingBankCardOp.m in Sources */,
 				185A150E1D5C85810051D9F7 /* SearchShopListBar.m in Sources */,
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
 				18649A0D1D489A9700F1CCB0 /* UnbindBankcardOp.m in Sources */,
@@ -6930,6 +6985,7 @@
 				18649E4D1D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.m in Sources */,
 				18649CC01D48B70A00F1CCB0 /* NewGainAwardVC.m in Sources */,
 				186499941D489A9700F1CCB0 /* PictureRecord.m in Sources */,
+				FA1459F11D62EC8200690140 /* PrebindingBankCardOp.m in Sources */,
 				18649CD61D48B77700F1CCB0 /* PaymentCenterViewController.m in Sources */,
 				6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */,
 				186496C51D489A4200F1CCB0 /* HKVersionManager.m in Sources */,
@@ -6943,6 +6999,7 @@
 				1864998B1D489A9700F1CCB0 /* HKServiceOrder.m in Sources */,
 				18649E201D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
+				FA1459EE1D62DDEC00690140 /* GetBankCardBaseInfoOp.m in Sources */,
 				1888F4321D48CD6500C64288 /* AFDownloadRequestOperation.m in Sources */,
 				FAC986A21D583A44000FE245 /* MutualOrderListModel.m in Sources */,
 				FAA240591D505224008AA1EC /* GetGasCardInfoOp.m in Sources */,
@@ -7030,6 +7087,7 @@
 				186499E71D489A9700F1CCB0 /* GetShopByRangeV2Op.m in Sources */,
 				1864971C1D489A5800F1CCB0 /* UIImage+Utilities.mm in Sources */,
 				18649D2A1D48B98B00F1CCB0 /* InsuranceSelectModel.m in Sources */,
+				FA1459DD1D62A8F700690140 /* AddBankCardVC.m in Sources */,
 				18649BEC1D48B0E100F1CCB0 /* PayForWashCarVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7122,8 +7180,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7218,7 +7277,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3793cdf4-53f4-4f85-b9c7-e209582ab43f";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -7230,8 +7289,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7326,7 +7385,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3793cdf4-53f4-4f85-b9c7-e209582ab43f";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

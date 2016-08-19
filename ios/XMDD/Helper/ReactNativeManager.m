@@ -9,7 +9,9 @@
 #import "ReactNativeManager.h"
 #import "AFDownloadRequestOperation.h"
 #import <ZipArchive/ZipArchive.h>
+#import <AMapLocationKit/AMapLocationKit.h>
 #import <Google-Diff-Match-Patch/DiffMatchPatch.h>
+#import "GetReactNativeConfigOp.h"
 #import "HKSecurityManager.h"
 #import "HKFileCache.h"
 #import "NSData+MD5Digest.h"
@@ -17,11 +19,13 @@
 
 //更新间隔暂定为6小时
 #define kUpdateTimeInterval        6 * 60 * 60
+#define kTimetagForReactEnabledWithLogin            @"react.enabled.login"
+#define kTimetagForReactEnabledWithoutLogin         @"react.enabled.notlogin"
+#define kTimetagForReactUpdating                    @"react.updating"
+#define kDefaultReactEnabled    NO
 
 @interface ReactNativeManager ()
-@property (nonatomic, assign) NSTimeInterval latestUpdateTime;
 @property (nonatomic, strong) HKFileCache *fileCache;
-@property (nonatomic, assign) BOOL isReactNativeEnabledForNotLogin;
 @end
 
 @implementation ReactNativeManager
@@ -46,6 +50,13 @@
         self.fileCache.retentionCacheSize = 1024 * 1024 * 100;
     }
     return self;
+}
+
+- (void)resetForMyUser:(JTUser *)user {
+    if (user) {
+        [self resetTimetagForKey:kTimetagForReactEnabledWithLogin];
+    }
+    [self checkReactNativeEnabledIfNeeded];
 }
 
 #pragma mark - Bundle
@@ -140,10 +151,11 @@
 
 
 #pragma mark - Network
+
 - (RACSignal *)rac_checkAndUpdatePackageIfNeeded
 {
     //去检测更新
-    if ([[NSDate date] timeIntervalSince1970] - self.latestUpdateTime > kUpdateTimeInterval) {
+    if ([self needUpdateTimetagForKey:kTimetagForReactUpdating]) {
         return [self.loadingSignal concat:[self rac_checkAndUpdatePackage]];
     }
     return [RACSignal empty];
@@ -173,7 +185,7 @@
         
         //刷新版本配置信息
         @strongify(self);
-        self.latestUpdateTime = [[NSDate date] timeIntervalSince1970];
+        [self updateTimetagForKey:kTimetagForReactUpdating];
         self->_latestPackageConfig = [HKRCTPackageConfig configWithPath:CKPathForDocument(@"rct/bundle/latest/contents/rctbundle.json")];
     }] deliverOn:[RACScheduler mainThreadScheduler]];
     return signal;
@@ -349,13 +361,54 @@
     }
 }
 
-#pragma mark - Switch
-- (BOOL)isReactNativeEnabled {
-    if (self.isReactNativeEnabledForNotLogin) {
+#pragma mark - 检测react native是否启用
+- (BOOL)checkReactNativeEnabledIfNeeded {
+    if ([self needUpdateTimetagForKey:kTimetagForReactEnabledWithoutLogin]) {
+        [self checkReactEnabledWithLogin:NO];
+    }
+    if (gAppMgr.myUser && [self needUpdateTimetagForKey:kTimetagForReactEnabledWithLogin]) {
+        [self checkReactEnabledWithLogin:YES];
+    }
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSNumber *enabled = [userDefault objectForKey:@"$React.NotLogin.Enable"];
+    if ([enabled boolValue]) {
         return YES;
     }
-    //TODO: 从UserDefault中获取当前user相关的参数
-    return NO;
+    else if (enabled && ![enabled boolValue] && gAppMgr.myUser) {
+        // 当默认不开启ReactNative的时候，检测用户下的开关状态
+        NSString *key = [NSString stringWithFormat:@"$React.Login.Enable.%@", gAppMgr.myUser.userID];
+        return [[userDefault objectForKey:key] boolValue];
+    }
+    return kDefaultReactEnabled;
+}
+
+- (void)checkReactEnabledWithLogin:(BOOL)login {
+    NSString *objectKey = @"$React.NotLogin.Enable";
+    GetReactNativeConfigOp *op = [GetReactNativeConfigOp operation];
+    if (login) {
+        op.req_security = login;
+        objectKey = [NSString stringWithFormat:@"$React.Login.Enable.%@", gAppMgr.myUser.userID];
+    }
+    
+    // 获取反地理位置编码（有缓存）
+    [[[[[gMapHelper rac_getReGeocodeIfNeededWithAccuracy:kCLLocationAccuracyKilometer] ignoreError]
+       doNext:^(RACTuple *tuple) {
+           
+           AMapLocationReGeocode *reGeocode = tuple.second;
+           op.req_province = reGeocode.province;
+           op.req_city = reGeocode.city;
+           op.req_district = reGeocode.district;
+       }] then:^RACSignal *{
+           
+           // 获取ReactNative的配置信息
+           return [op rac_postRequest];
+       }] subscribeNext:^(GetReactNativeConfigOp *op) {
+           
+           [[NSUserDefaults standardUserDefaults] setObject:@(op.rsp_openflag == 1) forKey:objectKey];
+           NSString *timetagKey = login ? kTimetagForReactEnabledWithLogin : kTimetagForReactEnabledWithoutLogin;
+           [self updateTimetagForKey:timetagKey];
+       }];
+    
 }
 
 #pragma mark - Util

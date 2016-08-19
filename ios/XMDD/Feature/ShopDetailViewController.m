@@ -475,7 +475,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
         return CKNULL;
     }
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"serviceDesc", kCKCellID:@"serviceDesc"}];
-    dict[@"desc"] = gStoreMgr.configStore.systemConfig.maintenanceDesc;
+    dict[@"desc"] = [gStoreMgr.configStore maintenanceDesc];
     
     dict[kCKCellPrepare] = ^(CKDict *item, NSIndexPath *indexPath, ShopDetailServiceDescCell *cell) {
         cell.descLabel.text = item[@"desc"];
