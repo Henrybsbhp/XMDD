@@ -18,7 +18,7 @@
 #import "GetParkingShopGasInfoOp.h"
 #import "MapBottomV2View.h"
 #import "MapBottomNavigationView.h"
-#import "ShopDetailViewController.h"
+#import "ShopDetailVC.h"
 
 /// 超过2km
 #define RequestDistance 2000
@@ -635,7 +635,7 @@
 
         @strongify(self)
         [MobClick event:@"rp104_2"];
-        ShopDetailViewController *vc = [[ShopDetailViewController alloc] init];
+        ShopDetailVC *vc = [[ShopDetailVC alloc] init];
         vc.serviceType = self.serviceType;
         vc.shop = shop;
         [self.navigationController pushViewController:vc animated:YES];
