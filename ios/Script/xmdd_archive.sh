@@ -87,6 +87,7 @@ echo "**************replace pbxproj file**************"
 sh project_replace.sh "$adhoc_code_sign_id" "$adhoc_provisioning_id" "$project_pbxproj_path"
 #切换到正式环境
 sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=2/" $project_pbxproj_path
+sed -i '' "s/REACT_DEV=./REACT_DEV=0/" $project_pbxproj_path
 echo "**************finish replace pbxproj file**************"
 
 echo "**************begin building1**************"
@@ -124,6 +125,7 @@ echo "**************replace pbxproj file**************"
 sh project_replace.sh "$adhoc_code_sign_id" "$adhoc_provisioning_id" "$project_pbxproj_path"
 #切换到测试环境
 sed -i '' "s/XMDDEnvironment=./XMDDEnvironment=1/" $project_pbxproj_path
+sed -i '' "s/REACT_DEV=./REACT_DEV=0/" $project_pbxproj_path
 echo "**************finish replace pbxproj file**************"
 
 echo "**************begin building adhoc-debug**************"
