@@ -13,7 +13,7 @@
 #import "JTRatingView.h"
 #import "SystemFastrateGetOp.h"
 #import "SubmitCommentOp.h"
-#import "ShopDetailViewController.h"
+#import "ShopDetailVC.h"
 #import "NSDate+DateForText.h"
 #import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"

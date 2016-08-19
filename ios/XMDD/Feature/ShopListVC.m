@@ -18,7 +18,7 @@
 #import "ShopListActionCell.h"
 #import "ADViewController.h"
 #import "SearchShopListVC.h"
-#import "ShopDetailViewController.h"
+#import "ShopDetailVC.h"
 #import "NearbyShopsViewController.h"
 
 const NSString *kCarMaintenanceShopListVCID = @"$CarMaintenanceShopListVCID";
@@ -87,12 +87,18 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
 }
 
 #pragma mark - Action 
+- (void)actionBack:(id)sender {
+    [super actionBack:sender];
+    [self mobClickForEventSuffix:@"1"];
+}
+
 - (void)actionRefresh:(id)sender {
     [self requestShopList];
     [self reloadADList];
 }
 
 - (void)actionSearch:(id)sender {
+    [self mobClickForEventSuffix:@"2"];
     SearchShopListVC *vc = [[SearchShopListVC alloc] init];
     if (self.serviceType == ShopServiceCarWash || self.serviceType == ShopServiceCarwashWithHeart) {
         vc.serviceType = ShopServiceAllCarWash;
@@ -104,7 +110,9 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
 }
 
 - (void)actionMap:(id)sender {
-    [MobClick event:@"rp102_1"];
+    if (![self mobClickForEventSuffix:@"3"]) {
+        [MobClick event:@"rp102_1"];
+    }
     NearbyShopsViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
     if (self.serviceType == ShopServiceCarWash || self.serviceType == ShopServiceCarwashWithHeart) {
         vc.serviceType = ShopServiceAllCarWash;
@@ -116,7 +124,7 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
 }
 
 - (void)actionGotoShopDetailWithShop:(JTShop *)shop {
-    ShopDetailViewController *vc = [[ShopDetailViewController alloc] init];
+    ShopDetailVC *vc = [[ShopDetailVC alloc] init];
     vc.shop = shop;
     vc.coupon = self.coupon;
     vc.serviceType = self.serviceType;
@@ -142,6 +150,14 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
     [gPhoneHelper navigationRedirectThirdMap:shop
                              andUserLocation:self.store.coordinate
                                      andView:self.navigationController.view];
+}
+
+- (void)onServiceNameLabelTapped:(UITapGestureRecognizer *)tap {
+    [self mobClickForEventSuffix:@"5"];
+}
+
+- (void)onServicePriceLabelTapped:(UITapGestureRecognizer *)tap {
+    [self mobClickForEventSuffix:@"6"];
 }
 
 #pragma mark - Datasource
@@ -354,6 +370,7 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        [self mobClickForEventSuffix:@"4"];
         [self actionGotoShopDetailWithShop:data[@"shop"]];
     });
     return dict;
@@ -381,10 +398,14 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
     CKDict *dict = [CKDict dictWith:@{kCKCellID: @"service", @"shop": shop}];
     dict[@"service"] = [ShopListStore descForShopServiceWithService:service andShop:shop];
     dict[@"price"] = [ShopListStore markupForShopServicePrice:service];
-    
+
+    @weakify(self);
     dict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, ShopListServiceCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
         cell.serviceLabel.text = dict[@"service"];
         [cell.priceLabel setMarkup:dict[@"price"]];
+        [cell.serviceLabelTapGesture addTarget:self action:@selector(onServiceNameLabelTapped:)];
+        [cell.priceLabelTapGesture addTarget:self action:@selector(onServicePriceLabelTapped:)];
         [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 14, 0, 14)];
     });
     
@@ -392,7 +413,6 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
         return 45;
     });
     
-    @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         [self actionGotoShopDetailWithShop:data[@"shop"]];
@@ -410,11 +430,13 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
         @strongify(self);
         [[[cell.navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
+            [self mobClickForEventSuffix:@"7"];
             [self actionNavigationWithShop:data[@"shop"]];
         }];
         
         [[[cell.phoneButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
+            [self mobClickForEventSuffix:@"8"];
             JTShop *shop = data[@"shop"];
             [self actionMakeCallWithPhoneNumber:shop.shopPhone];
         }];
@@ -442,6 +464,21 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 10;
+}
+
+#pragma mark - UMeng
+- (BOOL)mobClickForEventSuffix:(NSString *)suffix {
+    BOOL result = YES;
+    if ([kCarMaintenanceShopListVCID isEqual:self.router.key]) {
+        [MobClick event:@"xiaobaoyang" attributes:@{@"xiaobaoyang":[NSString stringWithFormat:@"xiaobaoyang%@", suffix]}];
+    }
+    else if ([kCarBeautyShopListVCID isEqual:self.router.key]) {
+        [MobClick event:@"meirong" attributes:@{@"meirong":[NSString stringWithFormat:@"meirong%@", suffix]}];
+    }
+    else {
+        result = NO;
+    }
+    return result;
 }
 
 @end

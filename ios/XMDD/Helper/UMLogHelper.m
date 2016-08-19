@@ -22,8 +22,8 @@
                              
                              //洗车
                              @"HomePageVC":@{@"pagetag":@"rp101"},//首页
-                             @"CarWashTableVC":@{@"pagetag":@"rp102"},//一键洗车
-                             @"SearchViewController":@{@"pagetag":@"rp103"},//一键洗车搜索
+                             @"CarwashShopListVC":@{@"pagetag":@"rp102"},//一键洗车
+                             @"SearchShopListVC":@{@"pagetag":@"rp103"},//一键洗车搜索
                              @"CarWashNavigationViewController":@{@"pagetag":@"rp104"},//店铺导航
                              @"NearbyShopsViewController":@{@"pagetag":@"rp104"},//附近店铺
                              @"ShopDetailVC":@{@"pagetag":@"rp105"},// 商户详情

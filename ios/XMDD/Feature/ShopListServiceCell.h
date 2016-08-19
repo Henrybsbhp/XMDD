@@ -11,4 +11,6 @@
 @interface ShopListServiceCell : HKTableViewCell
 @property (nonatomic, strong) UILabel *serviceLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
+@property (nonatomic, strong) UITapGestureRecognizer *serviceLabelTapGesture;
+@property (nonatomic, strong) UITapGestureRecognizer *priceLabelTapGesture;
 @end

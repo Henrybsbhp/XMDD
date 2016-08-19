@@ -15,12 +15,8 @@
 #import "MutualInsPicUpdateVC.h"
 
 @interface MutInsSystemGroupListVC ()
-@property (weak, nonatomic) IBOutlet UIView *groupBeginLine;
-@property (weak, nonatomic) IBOutlet UIView *groupEndLine;
-
 
 @property (strong, nonatomic) MutInsSystemGroupListVM *groupBeginVM;
-@property (strong, nonatomic) MutInsSystemGroupListVM *groupEndVM;
 
 @end
 
@@ -38,7 +34,6 @@
     [self setupNavigationBar];
     
     [self.groupBeginVM getCooperationGroupList];
-    [self.groupEndVM getCooperationGroupList];
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     
@@ -61,54 +56,7 @@
 {
     self.applyBtn.layer.cornerRadius = 5;
     self.applyBtn.layer.masksToBounds = YES;
-    
-    self.groupBeginBtn.selected = YES;
-    self.groupBeginTable.hidden = NO;
-    self.groupEndBtn.selected = NO;
-    self.groupEndTable.hidden = YES;
-    
-    @weakify(self)
-    [[self.groupBeginBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        @strongify(self)
-        
-        [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan2"}];
-        
-        [self changeUIByVCIsBegin:YES];
-    }];
-    
-    [[self.groupEndBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        @strongify(self)
-        
-        [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan3"}];
-        
-        [self changeUIByVCIsBegin:NO];
-    }];
 }
-
-#pragma mark - Utility
-
--(void)changeUIByVCIsBegin:(BOOL)type
-{
-    
-    self.groupBeginBtn.selected = type;
-    self.groupEndBtn.selected = !type;
-    
-    if (type)
-    {
-        self.groupBeginLine.backgroundColor = HEXCOLOR(@"#18D06A");
-        self.groupEndLine.backgroundColor = HEXCOLOR(@"#FFFFFF");
-    }
-    else
-    {
-        self.groupBeginLine.backgroundColor = HEXCOLOR(@"#FFFFFF");
-        self.groupEndLine.backgroundColor = HEXCOLOR(@"#18D06A");
-    }
-    
-    self.groupBeginTable.hidden = !type;
-    self.groupEndTable.hidden = type;
-    
-}
-
 
 #pragma mark - Action
 
@@ -125,7 +73,6 @@
     [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan1"}];
     
     self.groupBeginVM = nil;
-    self.groupEndVM = nil;
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -141,15 +88,5 @@
     }
     return _groupBeginVM;
 }
-
--(MutInsSystemGroupListVM *)groupEndVM
-{
-    if (!_groupEndVM)
-    {
-        _groupEndVM = [[MutInsSystemGroupListVM alloc] initWithTableView:self.groupEndTable andType:GroupStatusTypeEnd andTargetVC:self];
-    }
-    return _groupEndVM;
-}
-
 
 @end
