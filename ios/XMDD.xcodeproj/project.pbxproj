@@ -71,7 +71,7 @@
 		1836B8241D54672B0078DB15 /* ShopCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B8231D54672B0078DB15 /* ShopCommentCell.m */; };
 		1836B8271D5468010078DB15 /* ShopDetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B8261D5468010078DB15 /* ShopDetailHeaderView.m */; };
 		1836B82A1D5469230078DB15 /* ShopDetailNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B8291D5469230078DB15 /* ShopDetailNavigationBar.m */; };
-		1836B82D1D546BBC0078DB15 /* ShopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B82C1D546BBC0078DB15 /* ShopDetailViewController.m */; };
+		1836B82D1D546BBC0078DB15 /* ShopDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B82C1D546BBC0078DB15 /* ShopDetailVC.m */; };
 		1836B8301D54711B0078DB15 /* ShopDetailCollectionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B82F1D54711B0078DB15 /* ShopDetailCollectionLayout.m */; };
 		1836B8331D54787A0078DB15 /* HKCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B8321D54787A0078DB15 /* HKCollectionViewCell.m */; };
 		1836B8391D547BAC0078DB15 /* ShopDetailCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B8381D547BAC0078DB15 /* ShopDetailCommentCell.m */; };
@@ -524,14 +524,10 @@
 		18649BCB1D48AF8200F1CCB0 /* HKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BCA1D48AF8200F1CCB0 /* HKProgressView.m */; };
 		18649BE61D48B0E100F1CCB0 /* CarwashFreshmanGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BD31D48B0E100F1CCB0 /* CarwashFreshmanGuideVC.m */; };
 		18649BE71D48B0E100F1CCB0 /* CarWashNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BD51D48B0E100F1CCB0 /* CarWashNavigationViewController.m */; };
-		18649BE81D48B0E100F1CCB0 /* CarWashTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BD71D48B0E100F1CCB0 /* CarWashTableVC.m */; };
 		18649BE91D48B0E100F1CCB0 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BD91D48B0E100F1CCB0 /* ChooseBankCardVC.m */; };
-		18649BEA1D48B0E100F1CCB0 /* CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BDB1D48B0E100F1CCB0 /* CommentListViewController.m */; };
 		18649BEB1D48B0E100F1CCB0 /* NearbyShopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BDD1D48B0E100F1CCB0 /* NearbyShopsViewController.m */; };
 		18649BEC1D48B0E100F1CCB0 /* PayForWashCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BDF1D48B0E100F1CCB0 /* PayForWashCarVC.m */; };
 		18649BED1D48B0E100F1CCB0 /* PaymentSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BE11D48B0E100F1CCB0 /* PaymentSuccessVC.m */; };
-		18649BEE1D48B0E100F1CCB0 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BE31D48B0E100F1CCB0 /* SearchViewController.m */; };
-		18649BEF1D48B0E100F1CCB0 /* ShopDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BE51D48B0E100F1CCB0 /* ShopDetailVC.m */; };
 		18649BF21D48B11900F1CCB0 /* DetailWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BF11D48B11900F1CCB0 /* DetailWebVC.m */; };
 		18649BF51D48B12B00F1CCB0 /* ListWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BF41D48B12B00F1CCB0 /* ListWebVC.m */; };
 		18649BFE1D48B1B100F1CCB0 /* MyWebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BFD1D48B1B100F1CCB0 /* MyWebViewBridge.m */; };
@@ -1087,8 +1083,8 @@
 		1836B8261D5468010078DB15 /* ShopDetailHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailHeaderView.m; sourceTree = "<group>"; };
 		1836B8281D5469230078DB15 /* ShopDetailNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailNavigationBar.h; sourceTree = "<group>"; };
 		1836B8291D5469230078DB15 /* ShopDetailNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailNavigationBar.m; sourceTree = "<group>"; };
-		1836B82B1D546BBC0078DB15 /* ShopDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailViewController.h; sourceTree = "<group>"; };
-		1836B82C1D546BBC0078DB15 /* ShopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailViewController.m; sourceTree = "<group>"; };
+		1836B82B1D546BBC0078DB15 /* ShopDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailVC.h; sourceTree = "<group>"; };
+		1836B82C1D546BBC0078DB15 /* ShopDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailVC.m; sourceTree = "<group>"; };
 		1836B82E1D54711B0078DB15 /* ShopDetailCollectionLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailCollectionLayout.h; sourceTree = "<group>"; };
 		1836B82F1D54711B0078DB15 /* ShopDetailCollectionLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailCollectionLayout.m; sourceTree = "<group>"; };
 		1836B8311D54787A0078DB15 /* HKCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKCollectionViewCell.h; sourceTree = "<group>"; };
@@ -2028,22 +2024,14 @@
 		18649BD31D48B0E100F1CCB0 /* CarwashFreshmanGuideVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarwashFreshmanGuideVC.m; sourceTree = "<group>"; };
 		18649BD41D48B0E100F1CCB0 /* CarWashNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarWashNavigationViewController.h; sourceTree = "<group>"; };
 		18649BD51D48B0E100F1CCB0 /* CarWashNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarWashNavigationViewController.m; sourceTree = "<group>"; };
-		18649BD61D48B0E100F1CCB0 /* CarWashTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarWashTableVC.h; sourceTree = "<group>"; };
-		18649BD71D48B0E100F1CCB0 /* CarWashTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarWashTableVC.m; sourceTree = "<group>"; };
 		18649BD81D48B0E100F1CCB0 /* ChooseBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBankCardVC.h; sourceTree = "<group>"; };
 		18649BD91D48B0E100F1CCB0 /* ChooseBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBankCardVC.m; sourceTree = "<group>"; };
-		18649BDA1D48B0E100F1CCB0 /* CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentListViewController.h; sourceTree = "<group>"; };
-		18649BDB1D48B0E100F1CCB0 /* CommentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentListViewController.m; sourceTree = "<group>"; };
 		18649BDC1D48B0E100F1CCB0 /* NearbyShopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyShopsViewController.h; sourceTree = "<group>"; };
 		18649BDD1D48B0E100F1CCB0 /* NearbyShopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyShopsViewController.m; sourceTree = "<group>"; };
 		18649BDE1D48B0E100F1CCB0 /* PayForWashCarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForWashCarVC.h; sourceTree = "<group>"; };
 		18649BDF1D48B0E100F1CCB0 /* PayForWashCarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForWashCarVC.m; sourceTree = "<group>"; };
 		18649BE01D48B0E100F1CCB0 /* PaymentSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentSuccessVC.h; sourceTree = "<group>"; };
 		18649BE11D48B0E100F1CCB0 /* PaymentSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentSuccessVC.m; sourceTree = "<group>"; };
-		18649BE21D48B0E100F1CCB0 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
-		18649BE31D48B0E100F1CCB0 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
-		18649BE41D48B0E100F1CCB0 /* ShopDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailVC.h; sourceTree = "<group>"; };
-		18649BE51D48B0E100F1CCB0 /* ShopDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailVC.m; sourceTree = "<group>"; };
 		18649BF01D48B11900F1CCB0 /* DetailWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailWebVC.h; sourceTree = "<group>"; };
 		18649BF11D48B11900F1CCB0 /* DetailWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailWebVC.m; sourceTree = "<group>"; };
 		18649BF31D48B12B00F1CCB0 /* ListWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListWebVC.h; sourceTree = "<group>"; };
@@ -3722,8 +3710,6 @@
 				18649BDD1D48B0E100F1CCB0 /* NearbyShopsViewController.m */,
 				185A15091D5C84D70051D9F7 /* SearchShopListVC.h */,
 				185A150A1D5C84D70051D9F7 /* SearchShopListVC.m */,
-				18649BE21D48B0E100F1CCB0 /* SearchViewController.h */,
-				18649BE31D48B0E100F1CCB0 /* SearchViewController.m */,
 				185A14E11D5B19390051D9F7 /* ShopListVC.h */,
 				185A14E21D5B19390051D9F7 /* ShopListVC.m */,
 			);
@@ -3744,10 +3730,8 @@
 		185A14FF1D5C5C700051D9F7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				18649BE51D48B0E100F1CCB0 /* ShopDetailVC.m */,
-				18649BE41D48B0E100F1CCB0 /* ShopDetailVC.h */,
-				1836B82B1D546BBC0078DB15 /* ShopDetailViewController.h */,
-				1836B82C1D546BBC0078DB15 /* ShopDetailViewController.m */,
+				1836B82B1D546BBC0078DB15 /* ShopDetailVC.h */,
+				1836B82C1D546BBC0078DB15 /* ShopDetailVC.m */,
 				180294DF1D62AADD00FC0C05 /* ShopCommentListVC.h */,
 				180294E01D62AADD00FC0C05 /* ShopCommentListVC.m */,
 			);
@@ -4583,16 +4567,12 @@
 			children = (
 				185A14E01D5B19180051D9F7 /* ShopList */,
 				1836B7FB1D5464350078DB15 /* ShopDetail */,
-				18649BD61D48B0E100F1CCB0 /* CarWashTableVC.h */,
-				18649BD71D48B0E100F1CCB0 /* CarWashTableVC.m */,
 				18649BD21D48B0E100F1CCB0 /* CarwashFreshmanGuideVC.h */,
 				18649BD31D48B0E100F1CCB0 /* CarwashFreshmanGuideVC.m */,
 				18649BD41D48B0E100F1CCB0 /* CarWashNavigationViewController.h */,
 				18649BD51D48B0E100F1CCB0 /* CarWashNavigationViewController.m */,
 				18649BD81D48B0E100F1CCB0 /* ChooseBankCardVC.h */,
 				18649BD91D48B0E100F1CCB0 /* ChooseBankCardVC.m */,
-				18649BDA1D48B0E100F1CCB0 /* CommentListViewController.h */,
-				18649BDB1D48B0E100F1CCB0 /* CommentListViewController.m */,
 				18649BDE1D48B0E100F1CCB0 /* PayForWashCarVC.h */,
 				18649BDF1D48B0E100F1CCB0 /* PayForWashCarVC.m */,
 				18649BE01D48B0E100F1CCB0 /* PaymentSuccessVC.h */,
@@ -6504,7 +6484,6 @@
 				18649BE71D48B0E100F1CCB0 /* CarWashNavigationViewController.m in Sources */,
 				FAC986A51D5877C3000FE245 /* GetViolationCommissionStateOp.m in Sources */,
 				186499B61D489A9700F1CCB0 /* GetAutomobileModelV2Op.m in Sources */,
-				18649BEF1D48B0E100F1CCB0 /* ShopDetailVC.m in Sources */,
 				186499FA1D489A9700F1CCB0 /* GetUserResourcesGaschargeOp.m in Sources */,
 				18649B811D48A93000F1CCB0 /* MyUIPageControl.m in Sources */,
 				18649CB31D48B6F100F1CCB0 /* CommissionConfirmVC.m in Sources */,
@@ -6653,7 +6632,6 @@
 				18649C531D48B4E500F1CCB0 /* MyBankVC.m in Sources */,
 				18649E461D48BE0A00F1CCB0 /* MutInsCalculateResultVC.m in Sources */,
 				18649CCD1D48B72D00F1CCB0 /* RescueCouponViewController.m in Sources */,
-				18649BEA1D48B0E100F1CCB0 /* CommentListViewController.m in Sources */,
 				18649D021D48B7C000F1CCB0 /* SuspendedAdVC.m in Sources */,
 				186499821D489A9700F1CCB0 /* HKMessage.m in Sources */,
 				1836B7CB1D54220B0078DB15 /* CKPaths.m in Sources */,
@@ -6756,7 +6734,6 @@
 				18649D4D1D48BA3D00F1CCB0 /* PayForInsuranceVC.m in Sources */,
 				186496B01D489A4200F1CCB0 /* AdvertisementManager.m in Sources */,
 				18649D541D48BA7500F1CCB0 /* InsCheckFailVC.m in Sources */,
-				18649BE81D48B0E100F1CCB0 /* CarWashTableVC.m in Sources */,
 				186499741D489A9700F1CCB0 /* CouponModel.m in Sources */,
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
 				18649A161D489A9700F1CCB0 /* UserViolationQueryOp.m in Sources */,
@@ -6910,7 +6887,6 @@
 				1837A75F1B72130F0006E6C5 /* SDBrowserImageView.m in Sources */,
 				186499FD1D489A9700F1CCB0 /* GetVcodeOp.m in Sources */,
 				186499EB1D489A9700F1CCB0 /* GetSystemHomeModuleNoLoginOp.m in Sources */,
-				18649BEE1D48B0E100F1CCB0 /* SearchViewController.m in Sources */,
 				186499B21D489A9700F1CCB0 /* GetAreaInfoOp.m in Sources */,
 				18649C3A1D48B49600F1CCB0 /* MineVC.m in Sources */,
 				186499FC1D489A9700F1CCB0 /* GetUserResourcesV2Op.m in Sources */,
@@ -7072,7 +7048,7 @@
 				18649A101D489A9700F1CCB0 /* UpdateCooperationIdlicenseInfoV2Op.m in Sources */,
 				186499EA1D489A9700F1CCB0 /* GetStartHostCarOp.m in Sources */,
 				186499831D489A9700F1CCB0 /* HKMutualGroup.m in Sources */,
-				1836B82D1D546BBC0078DB15 /* ShopDetailViewController.m in Sources */,
+				1836B82D1D546BBC0078DB15 /* ShopDetailVC.m in Sources */,
 				1864997A1D489A9700F1CCB0 /* HKCellData.m in Sources */,
 				18649DA31D48BBBE00F1CCB0 /* NetworkInterfaceTableVC.m in Sources */,
 				183F571E1D4C90860001E26A /* GetCooperationClaimBankcardOp.m in Sources */,

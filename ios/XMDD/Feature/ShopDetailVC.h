@@ -1,25 +1,19 @@
 //
 //  ShopDetailVC.h
-//  XiaoMa
+//  XMDD
 //
-//  Created by jiangjunchen on 15/4/7.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Created by jiangjunchen on 16/8/5.
+//  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "JTTableViewController.h"
+#import "HKViewController.h"
 #import "JTShop.h"
-
-@class HKCoupon;
+#import "HKCoupon.h"
 
 @interface ShopDetailVC : HKViewController
 
-@property (nonatomic, strong)JTShop * shop;
-@property (nonatomic, strong)HKCoupon * couponFordetailsDic;
-
-@property (nonatomic)BOOL needRequestShopComments;
-@property (nonatomic)BOOL needPopToFirstCarwashTableVC;
-
-@property (nonatomic, weak) UIViewController *originVC;
+@property (nonatomic, strong) JTShop *shop;
+@property (nonatomic, strong) HKCoupon *coupon;
+@property (nonatomic, assign) ShopServiceType serviceType;
 
 @end

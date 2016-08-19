@@ -22,16 +22,21 @@
 - (void)__commonInit {
     self.backgroundColor = [UIColor whiteColor];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    _serviceLabelTapGesture = [[UITapGestureRecognizer alloc] init];
+    _priceLabelTapGesture = [[UITapGestureRecognizer alloc] init];
     
     _serviceLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _serviceLabel.font = [UIFont systemFontOfSize:14];
     _serviceLabel.textColor = kDarkTextColor;
+    [_serviceLabel addGestureRecognizer:_serviceLabelTapGesture];
     [self.contentView addSubview:_serviceLabel];
     
     _priceLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _priceLabel.font = [UIFont systemFontOfSize:16];
     _priceLabel.textColor = kOrangeColor;
     _priceLabel.textAlignment = NSTextAlignmentRight;
+    [_priceLabel addGestureRecognizer:_priceLabelTapGesture];
     [self.contentView addSubview:_priceLabel];
     
     [self setupConstraints];
