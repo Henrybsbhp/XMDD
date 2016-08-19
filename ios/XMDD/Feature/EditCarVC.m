@@ -381,7 +381,7 @@
     cell2_2.customInfo[@"block"] = [^(OETextField *field, RACSignal *stopSig) {
         @strongify(self);
         
-        [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
+        [field setNormalInputAccessoryViewWithDataArr:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"]];
         
         field.text = self.curCar.classno;
         
@@ -423,7 +423,7 @@
     cell2_3.customInfo[@"block"] = [^(OETextField *field, RACSignal *stopSig) {
         @strongify(self);
         
-        [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
+        [field setNormalInputAccessoryViewWithDataArr:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"]];
         field.text = self.curCar.engineno;
         
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
@@ -844,7 +844,7 @@
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1001];
     ProvinceChooseView *chooseV = (ProvinceChooseView *)[cell.contentView viewWithTag:1002];
     OETextField *field = (OETextField *)[cell.contentView viewWithTag:1003];
-    [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
+    [field setNormalInputAccessoryViewWithDataArr:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"]];
     field.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
     
     cell.contentView.userInteractionEnabled  = self.curCar.editMask & HKCarEditableEditPlateNumber;

@@ -556,7 +556,7 @@
     OETextField *textF = [cell viewWithTag:1002];
     UIButton *addB = [cell viewWithTag:1003];
     
-    [textF setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
+    [textF setNormalInputAccessoryViewWithDataArr:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"]];
     
     Area *province = data[@"province"];
     provinceL.text = province.abbr;
