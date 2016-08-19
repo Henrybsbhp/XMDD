@@ -57,21 +57,9 @@
     [[[op rac_postRequest]initially:^{
         
         @strongify(self)
-        self.targetVC.groupEndTable.hidden = YES;
-        self.targetVC.groupBeginTable.hidden = YES;
-        self.targetVC.applyBtn.enabled = NO;
-        self.targetVC.groupEndBtn.enabled = NO;
-        self.targetVC.groupBeginBtn.enabled = NO;
-        
         [self.targetVC.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }]subscribeNext:^(GetCooperationGroupOp *op) {
-        
-        self.targetVC.groupEndTable.hidden = NO;
-        self.targetVC.groupBeginTable.hidden = NO;
-        self.targetVC.applyBtn.enabled = YES;
-        self.targetVC.groupEndBtn.enabled = YES;
-        self.targetVC.groupBeginBtn.enabled = YES;
         
         self.isShowDetailFlag = op.rsp_isShowdetailflag;
         [self configDataSourceWithGroupList:op.rsp_groupList];
