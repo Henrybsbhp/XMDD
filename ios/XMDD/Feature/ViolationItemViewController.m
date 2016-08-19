@@ -484,7 +484,7 @@
         
         //输入框
         OETextField * field = (OETextField *)[cell searchViewWithTag:104];
-        [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
+        [field setNormalInputAccessoryViewWithDataArr:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"]];
         
         
         field.placeholder = [NSString stringWithFormat:@"请输入%@%@",dict[@"title"],num ? [NSString stringWithFormat:@"后%ld位",(long)num]:@"全部"];

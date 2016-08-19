@@ -195,7 +195,7 @@
         [chooseV setCornerRadius:5 withBorderColor:kDefTintColor borderWidth:0.5];
         
         OETextField *field = (OETextField *)[cell.contentView viewWithTag:1003];
-        [field setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
+        [field setNormalInputAccessoryViewWithDataArr:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"]];
         field.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
         
 
