@@ -32,6 +32,9 @@
 @property (nonatomic, strong) ADViewController *adVC;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 
+@property (nonatomic, assign) NSInteger repeatCnt;
+@property (nonatomic, assign) NSInteger currentLabelMark;
+
 /// 菜单视图
 @property (nonatomic, weak) HKPopoverView *popoverMenu;
 /// 菜单数据源
@@ -216,24 +219,88 @@
 /// 设置顶部广告页
 - (void)setupTableViewADView
 {
+    NSString *string1 = @"我为长者续一秒";
+    NSString *string2 = @"暴力膜蛤不可取";
+    NSString *string3 = @"总想搞个大新闻";
+    NSString *string4 = @"图样图森破";
+    NSString *string5 = @"索尼大法好";
+    NSString *string6 = @"胸口碎大石";
+    NSArray *stringArray = @[string1, string2, string3, string4, string5, string6];
+    
     UIView *adContainer = [[UIView alloc] initWithFrame:CGRectZero];
     adContainer.backgroundColor = kBackgroundColor;
     
-    self.adVC = [ADViewController vcWithMutualADType:AdvertisementMutualInsTop boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:@"huzhushouye" mobBaseEventDict:@{@"huzhushouye" : @"huzhushouye3"}];
-    CGFloat height = floor(self.adVC.adView.frame.size.height);
-    adContainer.frame = CGRectMake(0, 0, self.view.frame.size.width, height);
-    [self.tableView addSubview:adContainer];
-    [adContainer addSubview:self.adVC.adView];
-    [self.adVC.adView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(adContainer);
-        make.right.equalTo(adContainer);
-        make.top.equalTo(adContainer);
-        make.height.mas_equalTo(height);
+    adContainer.frame = CGRectMake(0, 0, self.view.frame.size.width, 40);
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, self.view.frame.size.width - 40, 20)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(20, 40, self.view.frame.size.width - 40, 20)];
+    [adContainer addSubview:label1];
+    [adContainer addSubview:label2];
+    self.repeatCnt = 0;
+    label1.text = stringArray[self.repeatCnt];
+    label2.text = stringArray[self.repeatCnt + 1];
+    @weakify(self);
+    [[RACSignal interval:3 onScheduler:[RACScheduler mainThreadScheduler]]subscribeNext:^(id x) {
+        @strongify(self);
+        if (self.repeatCnt <= stringArray.count - 1) {
+            CGRect frame = label1.frame;
+            CGRect frame2 = label2.frame;
+            
+            if (self.currentLabelMark == 2) {
+                frame.origin.y = 40;
+                label1.frame = frame;
+                frame.origin.y = 10;
+                
+                frame2.origin.y = -21;
+                
+                if (self.repeatCnt < stringArray.count - 1) {
+                    label1.text = stringArray[self.repeatCnt + 1];
+                } else {
+                    label1.text = stringArray.firstObject;
+                    self.repeatCnt = 0;
+                }
+                
+                self.currentLabelMark = 1;
+                
+            } else if (self.currentLabelMark == 1) {
+                
+                frame2.origin.y = 40;
+                label2.frame = frame2;
+                frame2.origin.y = 10;
+                
+                frame.origin.y = -21;
+                
+                if (self.repeatCnt < stringArray.count - 1) {
+                    label2.text = stringArray[self.repeatCnt + 1];
+                } else {
+                    label2.text = stringArray.firstObject;
+                    self.repeatCnt = 0;
+                }
+                
+                self.currentLabelMark = 2;
+                
+            } else {
+                
+                frame.origin.y = -21;
+                frame2.origin.y = 10;
+                
+                self.currentLabelMark = 2;
+            }
+            
+            [UIView animateWithDuration:0.5 animations:^{
+                label1.frame = frame;
+                label2.frame = frame2;
+            }];
+        }
+        
+        self.repeatCnt += 1;
     }];
+    
+    
+    [self.tableView addSubview:adContainer];
     
     self.tableView.tableHeaderView = adContainer;
     
-    [self.adVC reloadDataWithForce:YES completed:nil];
+    self.tableView.tableHeaderView.clipsToBounds = YES;
 }
 
 
@@ -473,7 +540,7 @@
 /// 获取到数据后设置数据源
 - (void)setDataSource
 {
-    CKList *dataSource = $($([self setupCalculateCell]));
+    CKList *dataSource = $($([self setupBannerAdCell], [self setupCalculateCell]));
     
     for (MutualInsCarListModel *dict in self.fetchedDataSource) {
     
@@ -516,6 +583,36 @@
 }
 
 #pragma mark - The settings of Cells
+
+- (CKDict *)setupBannerAdCell
+{
+    @weakify(self);
+    CKDict *bannerAdCell = [CKDict dictWith:@{kCKItemKey: @"bannerAdCell", kCKCellID: @"BannerAdCell"}];
+    bannerAdCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        self.adVC = [ADViewController vcWithMutualADType:AdvertisementMutualInsTop boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:@"huzhushouye" mobBaseEventDict:@{@"huzhushouye" : @"huzhushouye3"}];
+        CGFloat height = floor(self.adVC.adView.frame.size.height);
+        return height;
+    });
+    
+    bannerAdCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        if (!cell.contentView.tag) {
+            [cell.contentView addSubview:self.adVC.adView];
+            cell.contentView.tag = 1001;
+            [self.adVC.adView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(cell.contentView);
+                make.right.equalTo(cell.contentView);
+                make.top.equalTo(cell.contentView);
+                make.height.mas_equalTo(cell.frame.size.height);
+            }];
+        }
+        
+        [self.adVC reloadDataWithForce:YES completed:nil];
+    });
+    
+    return bannerAdCell;
+}
 
 ///设置「互助费用试算」Cell
 - (CKDict *)setupCalculateCell
@@ -1093,14 +1190,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 1;
-    } else {
-        CKList *cellList = self.dataSource[section];
-        NSArray *countArray = [cellList allObjects];
-        return countArray.count;
-    }
-    return 1;
+    CKList *cellList = self.dataSource[section];
+    return cellList.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -1127,10 +1218,6 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        return 49;
-    }
-    
     CKDict *item = self.dataSource[indexPath.section][indexPath.row];
     CKCellGetHeightBlock block = item[kCKCellGetHeight];
     
