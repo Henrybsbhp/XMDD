@@ -29,39 +29,21 @@
 
 @implementation UPayVerifyVC
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    [self setupDataSource];
-    
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
 }
 
--(void)dealloc
+- (void)dealloc
 {
-    
+    DebugLog(@"UPayVerifyVC dealloc");
 }
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewDidLoad
 {
-    [super viewWillAppear:animated];
+    [super viewDidLoad];
     
-//    UIImageView *imgview = [self.view viewWithTag:999];
-//    
-//    [UIView animateWithDuration:1 delay:0.3 options:UIViewAnimationOptionCurveLinear animations:^{
-//        
-//        imgview.alpha = 0;
-//        
-//    } completion:^(BOOL finished) {
-//        
-//        [imgview removeFromSuperview];
-//        
-//    }];
+    [self setupDataSource];
     
 }
 
@@ -382,6 +364,7 @@
         @strongify(self)
         
         AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"HX_Temp"];
+        vc.tradeNum = self.tradeNo;
         [self.navigationController pushViewController:vc animated:YES];
         
     });
