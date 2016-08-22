@@ -32,6 +32,8 @@
 #import "MutualInsGroupDetailVC.h"
 #import "HKViewControllerFactory.h"
 #import "CarwashShopListVC.h"
+#import "ViolationMissionHistoryVC.h"
+#import "ViolationCommissionStateVC.h"
 #import "ShopListVC.h"
 #import "AppDelegate.h"
 
@@ -466,11 +468,25 @@
             vc.hidesBottomBarWhenPushed = YES;
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
+        ///附近服务
         else if ([@"nearbyservice" equalByCaseInsensitive:name]) {
             
             NSString *type = params[@"type"];
             ParkingShopGasInfoVC * vc = [UIStoryboard vcWithId:@"ParkingShopGasInfoVC" inStoryboard:@"Common"];
             vc.searchType = @([type integerValue]);
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        ///我的违章代办列表
+        else if ([@"violist" equalByCaseInsensitive:name]) {
+            
+            ViolationMissionHistoryVC *vc = [UIStoryboard vcWithId:@"ViolationMissionHistoryVC" inStoryboard:@"Violation"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        ///我的违章代办详情
+        else if ([@"viodetail" equalByCaseInsensitive:name]) {
+            
+            ViolationCommissionStateVC *vc = [UIStoryboard vcWithId:@"ViolationCommissionStateVC" inStoryboard:@"Violation"];
+            vc.recordID = value;
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
     }

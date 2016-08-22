@@ -46,7 +46,7 @@
         UIImageView * iconImageView = (UIImageView *)[itemView searchViewWithTag:iconNewTag];
         BOOL isNewFlag = ((![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]]) && item.isNewFlag);
         BOOL isHotFlag = item.isHotFlag;
-        NSString * iconImageName = isHotFlag ? @"hp_hot_icon" : @"hp_new_icon";
+        NSString * iconImageName = isHotFlag ? @"hp_hot_icon_330" : @"hp_new_icon_330";
         iconImageView.image = [UIImage imageNamed:iconImageName];
         iconImageView.hidden = (!isNewFlag) && (!isHotFlag);
         
@@ -115,15 +115,15 @@
     
     [iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(40);
-        make.top.equalTo(itemView);
-        make.right.equalTo(itemView);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(14);
+        make.top.equalTo(itemView).offset(6);
+        make.right.equalTo(itemView).offset(-6);
     }];
     
     BOOL isNewFlag = ((![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]]) && item.isNewFlag);
     BOOL isHotFlag = item.isHotFlag;
-    NSString * iconImageName = isHotFlag ? @"hp_hot_icon" : @"hp_new_icon";
+    NSString * iconImageName = isHotFlag ? @"hp_hot_icon_330" : @"hp_new_icon_330";
     iconImageView.image = [UIImage imageNamed:iconImageName];
     iconImageView.hidden = (!isNewFlag) && (!isHotFlag);
     
@@ -219,7 +219,7 @@
         /// 是否展示根据hot标记
         BOOL isNewFlag = NO;
         BOOL isHotFlag = item.isHotFlag;
-        NSString * iconImageName = isHotFlag ? @"hp_hot_icon" : @"hp_new_icon";
+        NSString * iconImageName = isHotFlag ? @"hp_hot_icon_330" : @"hp_new_icon_330";
         iconImageView.image = [UIImage imageNamed:iconImageName];
         iconImageView.hidden = (!isNewFlag) && (!isHotFlag);
     }
