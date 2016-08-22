@@ -234,7 +234,6 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
 - (RACSignal *)rac_startGetLongIntervalVcodeWithFetchVcodeSignal:(RACSignal *)vcodeSignal andPhone:(NSString *)phone
 {
     UIButton *btn = self.getVcodeButton;
-    VCodeInputField *field = self.inputVcodeField;
     
     NSString *originTitle = [btn titleForState:UIControlStateNormal];
     RACSubject *subject = [RACSubject subject];
@@ -247,13 +246,6 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
         @strongify(self);
         [subject sendNext:value];
         [subject sendCompleted];
-        [field showRightViewAfterInterval:kVCodePromptInteval withFilter:^BOOL{
-            @strongify(self);
-            if (phone && self.phoneField) {
-                return [phone isEqualToString:self.phoneField.text];
-            }
-            return YES;
-        }];
         return [self rac_timeCountDown:kLongVcodeInterval];
     }] finally:^{
         @strongify(self);
