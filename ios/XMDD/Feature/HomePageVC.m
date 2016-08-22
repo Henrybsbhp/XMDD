@@ -218,8 +218,7 @@
     [self setupSquaresView:squaresView withHeight:squaresHeight];
     
     //9宫格加边框
-    [squaresView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsZero];
-    [squaresView drawLineWithDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
+    [squaresView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsMake(0,18,0,18)];
     
     return squaresView;
 }
