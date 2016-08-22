@@ -355,7 +355,7 @@
     label.attributedText = attstr;
     [label setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10],
                                NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
-    [label setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11],
+    [label setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10],
                                      NSForegroundColorAttributeName: kGrayTextColor}];
     [label addLinkToURL:[NSURL URLWithString:@""] withRange:linkRange];
 }

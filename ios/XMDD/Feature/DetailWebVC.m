@@ -15,10 +15,12 @@
 #import "MyWebViewBridge.h"
 #import "CheckGeneralTradenoStatusOp.h"
 
+
 typedef NS_ENUM(NSInteger, MenuItemsType) {
     menuItemsTypeShare                  = 0,
     menuItemsTypeCollection             = 1
 };
+
 
 @interface DetailWebVC () <UIWebViewDelegate, NJKWebViewProgressDelegate>
 
@@ -33,6 +35,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 @property (nonatomic, strong) NSURLRequest *request;
 
 @end
+
+
+
 
 @implementation DetailWebVC
 
@@ -88,7 +93,19 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
     self.webView.delegate = self;
+
+#if XMDDEnvironment==0
+    [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"101.231.204.80"];
+    [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"101.231.204.87"];
+#elif XMDDEnvironment==1
+    [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"101.231.204.80"];
+    [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"101.231.204.87"];
+#else
+
+#endif
+
     self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
+
     [self setupBridge];
     CKAsyncMainQueue(^{
         self.webView.scrollView.contentInset = UIEdgeInsetsZero;
@@ -299,7 +316,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         [self.navModel pushToViewControllerByUrl:url.absoluteString];
         return NO;
     }
-    
 //    @yzc 修改
     
     if (navigationType == UIWebViewNavigationTypeFormSubmitted)

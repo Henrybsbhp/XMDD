@@ -486,7 +486,7 @@
         else if ([@"viodetail" equalByCaseInsensitive:name]) {
             
             ViolationCommissionStateVC *vc = [UIStoryboard vcWithId:@"ViolationCommissionStateVC" inStoryboard:@"Violation"];
-            vc.recordID = value;
+            vc.recordID = @([value integerValue]);
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
     }

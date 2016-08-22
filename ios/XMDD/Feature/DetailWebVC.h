@@ -8,6 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+#if XMDDEnvironment==0
+@interface NSURLRequest (IgnoreSSL)
++ (BOOL)allowsAnyHTTPSCertificateForHost:(NSString*)host;
++ (void)setAllowsAnyHTTPSCertificate:(BOOL)allow forHost:(NSString*)host;
+@end
+#elif XMDDEnvironment==1
+@interface NSURLRequest (IgnoreSSL)
++ (BOOL)allowsAnyHTTPSCertificateForHost:(NSString*)host;
++ (void)setAllowsAnyHTTPSCertificate:(BOOL)allow forHost:(NSString*)host;
+@end
+#else
+
+#endif
+
+
 @interface DetailWebVC : HKViewController
 
 @property (nonatomic, weak) UIViewController *originVC;
