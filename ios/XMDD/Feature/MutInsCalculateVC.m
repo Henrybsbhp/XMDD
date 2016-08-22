@@ -176,7 +176,7 @@
         }];
         
         OETextField *textField = [cell viewWithTag:101];
-        [textField setNormalInputAccessoryViewWithDataArr:@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"]];
+        [textField setNormalInputAccessoryViewWithDataArr:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"]];
         
         [textField setTextDidChangedBlock:^(CKLimitTextField *textField) {
             
