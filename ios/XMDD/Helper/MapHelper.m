@@ -3,7 +3,7 @@
 //  XiaoMa
 //
 //  Created by jt on 15-4-16.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Copyright (c) 2015年 huika. All rights reserved.
 //
 
 #import "MapHelper.h"
@@ -88,7 +88,7 @@
 {
     [self.locationManager setDesiredAccuracy:accuracy];
     
-    RACSignal * signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+    RACSignal * signal = [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         
         [self.locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
             
@@ -100,6 +100,7 @@
                 {
                     [subscriber sendError:error];
                 }
+                self.currentReGeocodeSignal = nil;
             }
             
             if (location && regeocode)
@@ -112,14 +113,20 @@
                 [subscriber sendNext:RACTuplePack(location,regeocode)];
                 [subscriber sendCompleted];
             }
-            
-           
         }];
         
         return nil;
-    }];
+    }] replayLast];
     
+    self.currentReGeocodeSignal = signal;
     return signal;
+}
+
+- (RACSignal *)rac_getReGeocodeIfNeededWithAccuracy:(CLLocationAccuracy)accuracy {
+    if (self.currentReGeocodeSignal) {
+        return self.currentReGeocodeSignal;
+    }
+    return [self rac_getUserLocationAndInvertGeoInfoWithAccuracy:accuracy];
 }
 
 - (RACSignal *)rac_getAreaInfo

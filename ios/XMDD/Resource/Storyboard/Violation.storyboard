@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -868,7 +868,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uOg-xX-pvM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="335" y="311"/>
+            <point key="canvasLocation" x="1018" y="-480"/>
         </scene>
         <!--我的证件照-->
         <scene sceneID="Xx2-1y-xTf">
@@ -1017,7 +1017,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5mr-x7-wHZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="980" y="311"/>
+            <point key="canvasLocation" x="1018" y="229"/>
         </scene>
         <!--我的代办-->
         <scene sceneID="0T5-QH-VL0">
@@ -1254,8 +1254,8 @@
                                                     <exclude reference="bnO-sO-5hQ"/>
                                                     <exclude reference="4Za-cL-zML"/>
                                                     <exclude reference="1bq-jo-lGU"/>
-                                                    <exclude reference="wBE-uQ-IGU"/>
                                                     <exclude reference="XT1-Nn-fOE"/>
+                                                    <exclude reference="wBE-uQ-IGU"/>
                                                     <exclude reference="7ID-Th-4qW"/>
                                                     <exclude reference="PAv-CI-KP9"/>
                                                     <exclude reference="bo4-Xb-1Sf"/>
@@ -1357,6 +1357,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="bottomView" destination="4wM-H5-IfQ" id="UiB-Kw-gNG"/>
+                        <outlet property="bottomViewHeight" destination="qUH-rf-ATd" id="qsJ-V1-gPj"/>
                         <outlet property="commitBtn" destination="Pdp-go-V1Q" id="edX-Jh-WvU"/>
                         <outlet property="tableView" destination="Caf-DI-wBg" id="Nkk-TV-3jv"/>
                     </connections>
@@ -1572,9 +1573,9 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="AGc-OV-cgD"/>
                                                     <exclude reference="AVg-s1-fx9"/>
                                                     <exclude reference="Af0-Jd-1Ab"/>
-                                                    <exclude reference="AGc-OV-cgD"/>
                                                     <exclude reference="fQ1-3I-3R6"/>
                                                     <exclude reference="EVT-sY-49M"/>
                                                 </mask>
@@ -1710,9 +1711,9 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="zEu-HC-Rz3"/>
-                                                    <exclude reference="oyG-zW-aaN"/>
                                                     <exclude reference="9Ev-wI-bJ9"/>
+                                                    <exclude reference="oyG-zW-aaN"/>
+                                                    <exclude reference="zEu-HC-Rz3"/>
                                                     <exclude reference="AoP-R0-wch"/>
                                                     <exclude reference="qri-SS-Mwh"/>
                                                 </mask>
@@ -2000,8 +2001,8 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="v0L-8k-EcX"/>
                                         <exclude reference="K96-10-EiQ"/>
+                                        <exclude reference="v0L-8k-EcX"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -2132,8 +2133,8 @@
                                                     <exclude reference="ZcV-2b-rzv"/>
                                                     <exclude reference="iVu-BU-lXT"/>
                                                     <exclude reference="Z2m-eJ-dyl"/>
-                                                    <exclude reference="fGg-HF-v5Y"/>
                                                     <exclude reference="NEb-py-9vL"/>
+                                                    <exclude reference="fGg-HF-v5Y"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -2215,8 +2216,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="iDu-0G-cFJ"/>
                                                     <exclude reference="057-Mv-V1u"/>
+                                                    <exclude reference="iDu-0G-cFJ"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -2437,7 +2438,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LCq-2Y-dKG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="318" y="298"/>
+            <point key="canvasLocation" x="-284" y="-480"/>
         </scene>
     </scenes>
     <resources>

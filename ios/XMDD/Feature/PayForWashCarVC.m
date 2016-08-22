@@ -191,6 +191,9 @@
     self.bottomScrollLb.fadeLength = 5.f;
     [self.bottomScrollLb observeApplicationNotifications];
     self.bottomScrollLb.text = @"0元洗车：支付成功后将获取x元加油代金券";
+    
+    self.bottomScrollLb.hidden = YES;
+    self.bottomViewHeightConstraint.constant = 62;
 }
 
 

@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "MapBottomView.h"
-#import "ShopDetailViewController.h"
+#import "ShopDetailVC.h"
 #import "AddUserFavoriteOp.h"
 
 
@@ -93,7 +93,7 @@
     [[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         @strongify(self);
-        ShopDetailViewController *vc = [[ShopDetailViewController alloc] init];
+        ShopDetailVC *vc = [[ShopDetailVC alloc] init];
         vc.shop = self.shop;
         [self.navigationController pushViewController:vc animated:YES];
     }];

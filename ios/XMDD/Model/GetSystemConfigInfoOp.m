@@ -26,12 +26,7 @@
 {
     NSDictionary *dict = rspObj;
     self.rsp_configInfo = dict[@"configinfo"];
-    self.dict = dict;
     return self;
-}
-
-- (NSString *)maintenanceDesc {
-    return self.rsp_configInfo[@"bydesc"];
 }
 
 @end

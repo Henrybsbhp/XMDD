@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
 @property (strong, nonatomic) DetailWebVC *webVC;
 
 @property (strong, nonatomic) NSArray *tips;
@@ -87,13 +88,15 @@
 
 -(void)setupUI
 {
-    NSString *btnTitle = @"请选择您需要代办的违章";
+    NSString *btnTitle = @"请选择您需要支付的代办订单";
     
     self.commitBtn.enabled = (self.indexPath != nil);
     self.commitBtn.layer.cornerRadius = 5;
     self.commitBtn.layer.masksToBounds = YES;
     self.commitBtn.backgroundColor = self.indexPath != nil ? HEXCOLOR(@"#FF7428") : HEXCOLOR(@"#d3d3d3");
     [self.commitBtn setTitle:btnTitle forState:UIControlStateNormal];
+    
+    self.bottomViewHeight.constant = 0;
 }
 
 -(void)setupNavi
@@ -140,6 +143,8 @@
             self.tips = op.rsp_tipslist;
             [self.tableView reloadData];
         }
+        
+        [self configButtomView];
         
     } error:^(NSError *error) {
         
@@ -279,6 +284,18 @@
 
 #pragma mark - Utility
 
+- (void)configButtomView
+{
+    for (NSDictionary *data in self.dataSource)
+    {
+        if ([data[@"status"] integerValue] == 1)
+        {
+            self.bottomViewHeight.constant = 60;
+            break;
+        }
+    }
+}
+
 -(void)configRadioBtnWithIndexPath:(NSIndexPath *)indexPath
 {
     if (self.indexPath && (self.indexPath.row != indexPath.row || self.indexPath.section != indexPath.section))
@@ -305,7 +322,7 @@
     if (!self.indexPath)
     {
         self.commitBtn.enabled = NO;
-        [self.commitBtn setTitle:@"请选择您需要代办的违章" forState:UIControlStateNormal];
+        [self.commitBtn setTitle:@"请选择您需要支付的代办订单" forState:UIControlStateNormal];
         self.commitBtn.backgroundColor = HEXCOLOR(@"#d3d3d3");
     }
     else

@@ -256,7 +256,9 @@
     
     titleL.text = indexPath.row == 1 ? @"加油卡号" : @"确认卡号";
     
+    @weakify(self);
     [[RACObserve(self, curCard) distinctUntilChanged] subscribeNext:^(GasCard *card) {
+        @strongify(self);
         field.placeholder = card.cardtype == 1 ? @"请输入19位加油卡号" : @"请输入16位加油卡号";
         field.textLimit = card.cardtype == 1 ? 23 : 19;
         if (indexPath.row == 1) {

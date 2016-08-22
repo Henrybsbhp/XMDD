@@ -13,7 +13,7 @@
 #import "JTRatingView.h"
 #import "HKLoadingModel.h"
 #import "GetCarwashOrderV2Op.h"
-#import "ShopDetailViewController.h"
+#import "ShopDetailVC.h"
 #import "PaymentSuccessVC.h"
 #import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
@@ -345,7 +345,7 @@
 {
     if (indexPath.section == 0 && indexPath.row == 0 )
     {
-        ShopDetailViewController *vc = [[ShopDetailViewController alloc] init];
+        ShopDetailVC *vc = [[ShopDetailVC alloc] init];
         vc.shop = self.order.shop;
         vc.serviceType = self.order.serviceType;
         [self.navigationController pushViewController:vc animated:YES];

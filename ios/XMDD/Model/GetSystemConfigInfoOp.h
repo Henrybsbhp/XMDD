@@ -17,8 +17,6 @@
 
 /// 保养描述文案
 @property (nonatomic, strong) NSDictionary *rsp_configInfo;
-@property (nonatomic, strong) NSDictionary *dict;
 
-- (NSString *)maintenanceDesc;
 
 @end

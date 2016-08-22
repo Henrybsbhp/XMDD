@@ -30,8 +30,8 @@
     
 //    @YZC 要改
     NSMutableArray *bankList = [[NSMutableArray alloc]init];
-   
-    for (NSDictionary *dic in [(NSDictionary *)rsp[@"unionpayinfo"] objectForKey:@"cards"])
+    
+    for (NSDictionary *dic in (NSArray *)rsp[@"unionpayinfo"])
     {
         UnionBankCard *bankCard = [[UnionBankCard alloc] init];
         bankCard.cardno = dic[@"cardno"];

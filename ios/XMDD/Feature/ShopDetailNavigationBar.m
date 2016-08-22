@@ -108,22 +108,25 @@
     }];
     
     [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_titleContainerView);
-        make.right.equalTo(_titleContainerView);
-        make.top.equalTo(_titleContainerView);
+        @strongify(self);
+        make.left.equalTo(self.titleContainerView);
+        make.right.equalTo(self.titleContainerView);
+        make.top.equalTo(self.titleContainerView);
         make.bottom.equalTo(shadowView.mas_top);
     }];
     
     [shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_titleContainerView);
-        make.right.equalTo(_titleContainerView);
-        make.bottom.equalTo(_titleContainerView);
+        @strongify(self);
+        make.left.equalTo(self.titleContainerView);
+        make.right.equalTo(self.titleContainerView);
+        make.bottom.equalTo(self.titleContainerView);
         make.height.mas_equalTo(3);
     }];
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(_titleContainerView);
-        make.centerY.equalTo(_titleContainerView).offset(10);
+        @strongify(self);
+        make.centerX.equalTo(self.titleContainerView);
+        make.centerY.equalTo(self.titleContainerView).offset(10);
     }];
 }
 

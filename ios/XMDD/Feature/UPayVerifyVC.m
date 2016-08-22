@@ -11,6 +11,7 @@
 #import "DetailWebVC.h"
 #import "PayInfoModel.h"
 #import "UIView+Shake.h"
+#import "AddBankCardVC.h"
 #import "CheckoutUnioncardQuickpayOp.h"
 #import "GetTokenOp.h"
 
@@ -43,6 +44,24 @@
 
 -(void)dealloc
 {
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+//    UIImageView *imgview = [self.view viewWithTag:999];
+//    
+//    [UIView animateWithDuration:1 delay:0.3 options:UIViewAnimationOptionCurveLinear animations:^{
+//        
+//        imgview.alpha = 0;
+//        
+//    } completion:^(BOOL finished) {
+//        
+//        [imgview removeFromSuperview];
+//        
+//    }];
     
 }
 
@@ -157,7 +176,7 @@
         UnionBankCard *model = self.bankCardInfo.firstObject;
         
         UILabel *bankLabel = [cell viewWithTag:101];
-        bankLabel.text = model.issuebank;
+        bankLabel.text = model.issuebank.length == 0 ? @" " : model.issuebank;
         
         UILabel *detailLabel = [cell viewWithTag:102];
         detailLabel.text = [NSString stringWithFormat:@"尾号%@（%@）",model.cardno, model.cardtypename];
@@ -183,7 +202,7 @@
             {
                 if ([consraint.identifier isEqualToString:@"carNoTrailing"])
                 {
-                    consraint.constant = 10;
+                    consraint.constant = 15;
                     break;
                 }
             }
@@ -350,8 +369,8 @@
         
         @strongify(self)
         
-//        AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"HX_Temp"];
-//        [self.navigationController pushViewController:vc animated:YES];
+        AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"HX_Temp"];
+        [self.navigationController pushViewController:vc animated:YES];
         
     });
     return data;
