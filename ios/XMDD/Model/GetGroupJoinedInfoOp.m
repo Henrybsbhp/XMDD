@@ -32,6 +32,10 @@
     self.isShowPlanBtn = [rspObj boolParamForName:@"showplanbtn"];
     self.isShowRegistBtn = [rspObj boolParamForName:@"showregistbtn"];
     self.couponList = rspObj[@"couponlist"];
+    self.totalMemberCnt = [rspObj[@"totalmembercnt"] integerValue];
+    self.totalPoolAmt = rspObj[@"totalpoolamt"];
+    self.totalClaimCnt = [rspObj[@"totalclaimcnt"] integerValue];
+    self.totalClaimAmt = rspObj[@"totalclaimamt"];
     
     return self;
 }
