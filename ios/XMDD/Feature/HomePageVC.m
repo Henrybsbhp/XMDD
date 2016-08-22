@@ -31,7 +31,6 @@
 #import "MutualInsVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
-#define ItemCount 3
 
 
 @interface HomePageVC ()<UIScrollViewDelegate,TTTAttributedLabelDelegate>
@@ -185,15 +184,15 @@
         make.right.equalTo(self.scrollView);
         make.width.equalTo(self.scrollView);
         
-        make.height.mas_equalTo(@(46));
+        make.height.mas_equalTo(@(54));
     }];
 }
 
 - (UIView *)setupSquaresViewInContainer:(UIView *)container
 {
     CGFloat deviceWidth = gAppMgr.deviceInfo.screenSize.width;
-    ///，长宽比 250 ：210
-    CGFloat squaresHeight = 208.0f / 250.0f * deviceWidth;
+    ///，长宽比 750 ：612
+    CGFloat squaresHeight = 612.0f / 750.0f * deviceWidth;
     if (gAppMgr.deviceInfo.screenSize.height < 568)
         squaresHeight = squaresHeight; //4s 480
     else if (gAppMgr.deviceInfo.screenSize.height < 667)
@@ -217,18 +216,9 @@
     // 设置九宫格内部数据
     [self setupSquaresView:squaresView withHeight:squaresHeight];
     
-    //小方块高度
-    CGFloat squareHeight = squaresHeight / 3.0f;
-    CGFloat squareWidth = deviceWidth / 3.0f;
-    
     //9宫格加边框
     [squaresView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsZero];
     [squaresView drawLineWithDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
-    //9宫格里面的四条线 ＃
-    [squaresView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsMake(squareHeight, 0, 0, 0)];
-    [squaresView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsMake(squareHeight * 2, 0, 0, 0)];
-    [squaresView drawLineWithDirection:CKViewBorderDirectionLeft withEdge:UIEdgeInsetsMake(0, squareWidth, 0, 0)];
-    [squaresView drawLineWithDirection:CKViewBorderDirectionLeft withEdge:UIEdgeInsetsMake(0, squareWidth * 2, 0, 0)];
     
     return squaresView;
 }
@@ -338,9 +328,9 @@
     CGFloat squqresWidth = gAppMgr.deviceInfo.screenSize.width;
     
     self.moduleModel.moduleArray = gAppMgr.homePicModel.homeItemArray;
-    self.moduleModel.numOfColumn = 3;
+    self.moduleModel.numOfColumn = 4;
     
-    [self.moduleModel setupSquaresViewWithContainView:containView andItemWith:squqresWidth/3.0 andItemHeigth:squaresHeight/3.0];
+    [self.moduleModel setupSquaresViewWithContainView:containView andItemWith:squqresWidth/4.0 andItemHeigth:squaresHeight/3.0];
 }
 
 - (void)setupTTTLabel:(TTTAttributedLabel *)label withContent:(NSString *)text withRange:(NSRange)range

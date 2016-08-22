@@ -644,7 +644,7 @@
         
         // 违章标题
         UILabel * titleLb = (UILabel *)[cell searchViewWithTag:101];
-        titleLb.text = [NSString stringWithFormat:@"罚款%ld元，共扣%ld分",(long)self.violationModel.violationTotalmoney,(long)self.violationModel.violationCount];
+        titleLb.text = [NSString stringWithFormat:@"罚款%ld元，共扣%ld分",(long)self.violationModel.violationTotalmoney,(long)self.violationModel.violationTotalfen];
     });
     
     return cell;
