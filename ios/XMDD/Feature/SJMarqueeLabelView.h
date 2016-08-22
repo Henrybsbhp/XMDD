@@ -10,10 +10,14 @@
 
 @interface SJMarqueeLabelView : UIView
 
+/// 交替滚动的第一个 Label
 @property (nonatomic, strong) UILabel *label1;
+/// 交替滚动的第二个 Label
 @property (nonatomic, strong) UILabel *label2;
 
 - (instancetype)initWithFrame:(CGRect)frame tipsArray:(NSArray *)tipsArray;
+
+/// 使两个 Label 交替滚动
 - (void)showScrollingMessageView;
 
 @end
