@@ -842,6 +842,7 @@
 		FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C41D1246490045531C /* CFNetwork.framework */; };
 		FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C81D12466E0045531C /* SystemConfiguration.framework */; };
 		FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */; };
+		FAB79D3D1D6AD63100CFD0F4 /* SJMarqueeLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB79D3C1D6AD63100CFD0F4 /* SJMarqueeLabelView.m */; };
 		FAC9868B1D5819F7000FE245 /* GasChargeOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC9868A1D5819F7000FE245 /* GasChargeOrderOp.m */; };
 		FAC9869C1D581B98000FE245 /* GasChargedOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC9869B1D581B98000FE245 /* GasChargedOrderModel.m */; };
 		FAC9869F1D582C7F000FE245 /* MutualOrderListGetOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC9869E1D582C7F000FE245 /* MutualOrderListGetOp.m */; };
@@ -2650,6 +2651,8 @@
 		FAAD30C41D1246490045531C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FAAD30C81D12466E0045531C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
+		FAB79D3B1D6AD63100CFD0F4 /* SJMarqueeLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJMarqueeLabelView.h; sourceTree = "<group>"; };
+		FAB79D3C1D6AD63100CFD0F4 /* SJMarqueeLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJMarqueeLabelView.m; sourceTree = "<group>"; };
 		FAC986891D5819F7000FE245 /* GasChargeOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasChargeOrderOp.h; sourceTree = "<group>"; };
 		FAC9868A1D5819F7000FE245 /* GasChargeOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasChargeOrderOp.m; sourceTree = "<group>"; };
 		FAC9869A1D581B98000FE245 /* GasChargedOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasChargedOrderModel.h; sourceTree = "<group>"; };
@@ -4502,6 +4505,10 @@
 				18649B061D48A93000F1CCB0 /* DashLine.m */,
 				18649B491D48A93000F1CCB0 /* TopMenuScrollView.h */,
 				18649B4A1D48A93000F1CCB0 /* TopMenuScrollView.m */,
+				FA29560F1D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.h */,
+				FA2956101D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.m */,
+				FAB79D3B1D6AD63100CFD0F4 /* SJMarqueeLabelView.h */,
+				FAB79D3C1D6AD63100CFD0F4 /* SJMarqueeLabelView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -5148,8 +5155,6 @@
 				18649DAB1D48BC5600F1CCB0 /* MutualInsHomeAdVC.m */,
 				18649DAC1D48BC5600F1CCB0 /* MutualInsVC.h */,
 				18649DAD1D48BC5600F1CCB0 /* MutualInsVC.m */,
-				FA29560F1D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.h */,
-				FA2956101D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -7017,6 +7022,7 @@
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
 				185A15221D5DA0200051D9F7 /* GetShopRatesV2Op.m in Sources */,
 				183F57031D4C90860001E26A /* InsBaseCar.m in Sources */,
+				FAB79D3D1D6AD63100CFD0F4 /* SJMarqueeLabelView.m in Sources */,
 				183F57081D4C90860001E26A /* MutualInsContract.m in Sources */,
 				1836B7C41D54220B0078DB15 /* CKList.m in Sources */,
 				18F54AD41D6199330008F306 /* MyCollectionStore.m in Sources */,
