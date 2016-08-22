@@ -25,6 +25,7 @@
 #import "MutualInsAdModel.h"
 #import "MutualInsStoryAdPageVC.h"
 #import "MutualInsGroupDetailVC.h"
+#import "MutualInsTipsInfoExtendedView.h"
 
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
@@ -32,8 +33,11 @@
 @property (nonatomic, strong) ADViewController *adVC;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 
+@property (nonatomic, strong) UIView *tipsContainerView;
+@property (nonatomic, strong) MutualInsTipsInfoExtendedView *extView;
 @property (nonatomic, assign) NSInteger repeatCnt;
 @property (nonatomic, assign) NSInteger currentLabelMark;
+@property (nonatomic, assign) CGFloat extViewHeight;
 
 /// 菜单视图
 @property (nonatomic, weak) HKPopoverView *popoverMenu;
@@ -69,7 +73,6 @@
     // Do any additional setup after loading the view.
     
     [self setupNavigationBar];
-    [self setupTableViewADView];
     [self setupRefreshView];
     
     [self setItemList];
@@ -216,90 +219,75 @@
 }
 
 #pragma mark - Setups
-/// 设置顶部广告页
-- (void)setupTableViewADView
+/// 设置顶部消息 View
+- (void)setupTableViewBannerTipsView
 {
-    NSString *string1 = @"我为长者续一秒";
-    NSString *string2 = @"暴力膜蛤不可取";
-    NSString *string3 = @"总想搞个大新闻";
-    NSString *string4 = @"图样图森破";
-    NSString *string5 = @"索尼大法好";
-    NSString *string6 = @"胸口碎大石";
-    NSArray *stringArray = @[string1, string2, string3, string4, string5, string6];
+    NSString *string1 = [NSString stringWithFormat:@"参加人数合计%ld人", (long)self.minsStore.totalMemberCnt];
+    NSString *string2 = [NSString stringWithFormat:@"互助金合计%@元", self.minsStore.totalPoolAmt];
+    NSString *string3 = [NSString stringWithFormat:@"补偿次数合计%ld次", (long)self.minsStore.totalClaimCnt];
+    NSString *string4 = [NSString stringWithFormat:@"补偿金额合计%@元", self.minsStore.totalClaimAmt];
+    NSArray *stringArray = @[string1, string2, string3, string4];
     
-    UIView *adContainer = [[UIView alloc] initWithFrame:CGRectZero];
-    adContainer.backgroundColor = kBackgroundColor;
+    self.tipsContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tipsContainerView.backgroundColor = kBackgroundColor;
     
-    adContainer.frame = CGRectMake(0, 0, self.view.frame.size.width, 40);
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, self.view.frame.size.width - 40, 20)];
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(20, 40, self.view.frame.size.width - 40, 20)];
-    [adContainer addSubview:label1];
-    [adContainer addSubview:label2];
+    self.tipsContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, 40);
+    self.tipsContainerView.backgroundColor = [UIColor whiteColor];
+    UIImageView *tipsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 5, 80, 39)];
+    tipsImageView.contentMode = UIViewContentModeScaleAspectFit;
+    tipsImageView.image = [UIImage imageNamed:@"mutualIns_tipsBanner"];
+    UIImageView *sepImageView = [[UIImageView alloc] initWithFrame:CGRectMake(110, 8, 1, 24)];
+    sepImageView.image = [UIImage imageNamed:@"Verticalline"];
+    UIImageView *separator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 39, self.view.frame.size.width, 1)];
+    separator.image = [UIImage imageNamed:@"Horizontaline"];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(130, 10, self.view.frame.size.width - 170, 20)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(130, 40, self.view.frame.size.width - 170, 20)];
+    UIButton *extButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 40, 0, 40, 39)];
+    [extButton setImage:[UIImage imageNamed:@"common_grayArrow_down"] forState:UIControlStateNormal];
+    [extButton setImage:[UIImage imageNamed:@"common_grayArrow_up"] forState:UIControlStateSelected];
+    
+    [self.tipsContainerView addSubview:label1];
+    [self.tipsContainerView addSubview:label2];
+    [self.tipsContainerView addSubview:tipsImageView];
+    [self.tipsContainerView addSubview:sepImageView];
+    [self.tipsContainerView addSubview:separator];
+    [self.tipsContainerView addSubview:extButton];
     self.repeatCnt = 0;
+    
+    label1.textColor = HEXCOLOR(@"#454545");
+    label2.textColor = HEXCOLOR(@"#454545");
+    label1.font = [UIFont systemFontOfSize:14];
+    label2.font = [UIFont systemFontOfSize:14];
     label1.text = stringArray[self.repeatCnt];
     label2.text = stringArray[self.repeatCnt + 1];
+    
+    [self scrollingMessageViewWithLabelArray:@[label1, label2] andTextArray:stringArray];
     @weakify(self);
-    [[RACSignal interval:3 onScheduler:[RACScheduler mainThreadScheduler]]subscribeNext:^(id x) {
+    [[extButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        if (self.repeatCnt <= stringArray.count - 1) {
-            CGRect frame = label1.frame;
-            CGRect frame2 = label2.frame;
-            
-            if (self.currentLabelMark == 2) {
-                frame.origin.y = 40;
-                label1.frame = frame;
-                frame.origin.y = 10;
-                
-                frame2.origin.y = -21;
-                
-                if (self.repeatCnt < stringArray.count - 1) {
-                    label1.text = stringArray[self.repeatCnt + 1];
-                } else {
-                    label1.text = stringArray.firstObject;
-                    self.repeatCnt = 0;
-                }
-                
-                self.currentLabelMark = 1;
-                
-            } else if (self.currentLabelMark == 1) {
-                
-                frame2.origin.y = 40;
-                label2.frame = frame2;
-                frame2.origin.y = 10;
-                
-                frame.origin.y = -21;
-                
-                if (self.repeatCnt < stringArray.count - 1) {
-                    label2.text = stringArray[self.repeatCnt + 1];
-                } else {
-                    label2.text = stringArray.firstObject;
-                    self.repeatCnt = 0;
-                }
-                
-                self.currentLabelMark = 2;
-                
-            } else {
-                
-                frame.origin.y = -21;
-                frame2.origin.y = 10;
-                
-                self.currentLabelMark = 2;
-            }
-            
-            [UIView animateWithDuration:0.5 animations:^{
-                label1.frame = frame;
-                label2.frame = frame2;
+        if (!extButton.selected) {
+            extButton.selected = YES;
+            self.extView.hidden = NO;
+            CGRect frame = self.extView.frame;
+            frame.origin.y = 41;
+            [self.tableView bringSubviewToFront:self.tipsContainerView];
+            [UIView animateWithDuration:0.2 animations:^{
+                self.extView.frame = frame;
             }];
+        } else {
+            extButton.selected = NO;
+            CGRect frame = self.extView.frame;
+            frame.origin.y -= self.extViewHeight + 1;
+            [UIView animateWithDuration:0.2 animations:^{
+                self.extView.frame = frame;
+            } completion:^(BOOL finished) {
+                self.extView.hidden = YES;
+            }];;
         }
-        
-        self.repeatCnt += 1;
     }];
     
-    
-    [self.tableView addSubview:adContainer];
-    
-    self.tableView.tableHeaderView = adContainer;
-    
+    [self.tableView addSubview:self.tipsContainerView];
+    self.tableView.tableHeaderView = self.tipsContainerView;
     self.tableView.tableHeaderView.clipsToBounds = YES;
 }
 
@@ -470,8 +458,9 @@
             [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:self.minsStore.couponDict sourceDict:nil])) forKey:nil];
             [self.tableView reloadData];
         }
-        [self setItemList];
         
+        [self setItemList];
+        [self setupTableViewBannerTipsView];
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         self.tableView.hidden = NO;
@@ -592,6 +581,7 @@
         @strongify(self);
         self.adVC = [ADViewController vcWithMutualADType:AdvertisementMutualInsTop boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:@"huzhushouye" mobBaseEventDict:@{@"huzhushouye" : @"huzhushouye3"}];
         CGFloat height = floor(self.adVC.adView.frame.size.height);
+        self.extViewHeight = height + 84;
         return height;
     });
     
@@ -1249,6 +1239,8 @@
         label.textColor = HEXCOLOR(@"#888888");
         label.font = [UIFont systemFontOfSize:13];
         [containerView addSubview:label];
+        [self.tableView bringSubviewToFront:self.extView];
+        [self.tableView bringSubviewToFront:self.tipsContainerView];
         
         return containerView;
     }
@@ -1379,4 +1371,85 @@
     }
     return _adModel;
 }
+
+- (void)scrollingMessageViewWithLabelArray:(NSArray *)labelArray andTextArray:(NSArray *)textArray
+{
+    UILabel *label1 = labelArray[0];
+    UILabel *label2 = labelArray[1];
+    
+    @weakify(self);
+    [[RACSignal interval:3 onScheduler:[RACScheduler mainThreadScheduler]]subscribeNext:^(id x) {
+        @strongify(self);
+        if (self.repeatCnt <= textArray.count - 1) {
+            CGRect frame = label1.frame;
+            CGRect frame2 = label2.frame;
+            
+            if (self.currentLabelMark == 2) {
+                frame.origin.y = 40;
+                label1.frame = frame;
+                frame.origin.y = 10;
+                
+                frame2.origin.y = -21;
+                
+                if (self.repeatCnt < textArray.count - 1) {
+                    label1.text = textArray[self.repeatCnt + 1];
+                } else {
+                    label1.text = textArray.firstObject;
+                    self.repeatCnt = 0;
+                }
+                
+                self.currentLabelMark = 1;
+                
+            } else if (self.currentLabelMark == 1) {
+                
+                frame2.origin.y = 40;
+                label2.frame = frame2;
+                frame2.origin.y = 10;
+                
+                frame.origin.y = -21;
+                
+                if (self.repeatCnt < textArray.count - 1) {
+                    label2.text = textArray[self.repeatCnt + 1];
+                } else {
+                    label2.text = textArray.firstObject;
+                    self.repeatCnt = 0;
+                }
+                
+                self.currentLabelMark = 2;
+                
+            } else {
+                
+                frame.origin.y = -21;
+                frame2.origin.y = 10;
+                
+                self.currentLabelMark = 2;
+            }
+            
+            [UIView animateWithDuration:0.5 animations:^{
+                label1.frame = frame;
+                label2.frame = frame2;
+            }];
+        }
+        
+        self.repeatCnt += 1;
+    }];
+}
+
+#pragma mark - Lazy instantiation
+/// 顶部的消息栏和扩展栏
+- (MutualInsTipsInfoExtendedView *)extView
+{
+    if (!_extView) {
+        _extView = [[MutualInsTipsInfoExtendedView alloc] initWithFrame:CGRectMake(0, -(self.extViewHeight + 41), gAppMgr.deviceInfo.screenSize.width, self.extViewHeight)];
+        _extView.peopleSumString = [NSString stringWithFormat:@"%ld人", (long)self.minsStore.totalMemberCnt];
+        _extView.moneySumString = [NSString stringWithFormat:@"%@元", self.minsStore.totalPoolAmt];
+        _extView.countingString = [NSString stringWithFormat:@"%ld次", (long)self.minsStore.totalClaimCnt];
+        _extView.claimSumString = [NSString stringWithFormat:@"%@元", self.minsStore.totalClaimAmt];
+        [_extView showInfo];
+        [self.tableView addSubview:_extView];
+    }
+    
+    return _extView;
+}
+
 @end

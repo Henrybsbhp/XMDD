@@ -46,6 +46,10 @@
             self.rsp_getGroupJoinedInfoOp = op;
             self.carList = op.carList;
             self.couponDict = op.couponList;
+            self.totalMemberCnt = op.totalMemberCnt;
+            self.totalPoolAmt = op.totalPoolAmt;
+            self.totalClaimCnt = op.totalClaimCnt;
+            self.totalClaimAmt = op.totalClaimAmt;
         }] replayLast];
         event = [signal eventWithName:@"getSimpleGroups" object:nil];
     }

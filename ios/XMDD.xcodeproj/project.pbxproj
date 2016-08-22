@@ -831,6 +831,7 @@
 		FA1459F71D631C5500690140 /* GetBankCardListV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F61D631C5500690140 /* GetBankCardListV2Op.m */; };
 		FA1459FA1D631D7E00690140 /* MyBankCardListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F91D631D7E00690140 /* MyBankCardListModel.m */; };
 		FA1459FD1D632FA900690140 /* UnbindingBankCardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459FC1D632FA900690140 /* UnbindingBankCardOp.m */; };
+		FA2956111D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2956101D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.m */; };
 		FA445C6D1D59B0B60099245E /* CancelViolationCommissionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */; };
 		FA65CDA21D51CCC30076ED7D /* MutualOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */; };
 		FA65CDA51D51EF650076ED7D /* GasOrderModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */; };
@@ -2632,6 +2633,8 @@
 		FA1459F91D631D7E00690140 /* MyBankCardListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBankCardListModel.m; sourceTree = "<group>"; };
 		FA1459FB1D632FA900690140 /* UnbindingBankCardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnbindingBankCardOp.h; sourceTree = "<group>"; };
 		FA1459FC1D632FA900690140 /* UnbindingBankCardOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnbindingBankCardOp.m; sourceTree = "<group>"; };
+		FA29560F1D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsTipsInfoExtendedView.h; sourceTree = "<group>"; };
+		FA2956101D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsTipsInfoExtendedView.m; sourceTree = "<group>"; };
 		FA445C6B1D59B0B50099245E /* CancelViolationCommissionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelViolationCommissionOp.h; sourceTree = "<group>"; };
 		FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelViolationCommissionOp.m; sourceTree = "<group>"; };
 		FA65CDA01D51CCC30076ED7D /* MutualOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualOrderViewModel.h; sourceTree = "<group>"; };
@@ -5145,6 +5148,8 @@
 				18649DAB1D48BC5600F1CCB0 /* MutualInsHomeAdVC.m */,
 				18649DAC1D48BC5600F1CCB0 /* MutualInsVC.h */,
 				18649DAD1D48BC5600F1CCB0 /* MutualInsVC.m */,
+				FA29560F1D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.h */,
+				FA2956101D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -6478,6 +6483,7 @@
 				18649DE91D48BCF100F1CCB0 /* MutualInsGroupFundCell.m in Sources */,
 				1864971B1D489A5800F1CCB0 /* RACSignal+Extension.m in Sources */,
 				183F573C1D4C90860001E26A /* InsuranceAppointmentV2Op.m in Sources */,
+				FA2956111D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.m in Sources */,
 				FA1459FA1D631D7E00690140 /* MyBankCardListModel.m in Sources */,
 				18649CBF1D48B70A00F1CCB0 /* AwardShareSheetVC.m in Sources */,
 				186496C91D489A4200F1CCB0 /* LogAlertView.m in Sources */,
@@ -7172,7 +7178,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=1",
+					"XMDDEnvironment=0",
 					"REACT_DEV=1",
 				);
 				HEADER_SEARCH_PATHS = (

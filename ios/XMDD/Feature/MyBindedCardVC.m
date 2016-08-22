@@ -113,7 +113,7 @@
 - (void)fetchData
 {
     GetBankCardListV2Op *op = [GetBankCardListV2Op operation];
-    op.isAll = @(1);
+    op.cardType = @(10);
     
     @weakify(self);
     [[[op rac_postRequest] initially:^{
