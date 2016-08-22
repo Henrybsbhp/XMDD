@@ -26,6 +26,7 @@
 #import "MutualInsStoryAdPageVC.h"
 #import "MutualInsGroupDetailVC.h"
 #import "MutualInsTipsInfoExtendedView.h"
+#import "SJMarqueeLabelView.h"
 
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
@@ -240,28 +241,18 @@
     sepImageView.image = [UIImage imageNamed:@"Verticalline"];
     UIImageView *separator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 39, self.view.frame.size.width, 1)];
     separator.image = [UIImage imageNamed:@"Horizontaline"];
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(130, 10, self.view.frame.size.width - 170, 20)];
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(130, 40, self.view.frame.size.width - 170, 20)];
+    SJMarqueeLabelView *marqueeLabelView = [[SJMarqueeLabelView alloc] initWithFrame:CGRectMake(130, 0, self.view.frame.size.width - 170, 40) tipsArray:stringArray];
     UIButton *extButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 40, 0, 40, 39)];
     [extButton setImage:[UIImage imageNamed:@"common_grayArrow_down"] forState:UIControlStateNormal];
     [extButton setImage:[UIImage imageNamed:@"common_grayArrow_up"] forState:UIControlStateSelected];
     
-    [self.tipsContainerView addSubview:label1];
-    [self.tipsContainerView addSubview:label2];
+    [self.tipsContainerView addSubview:marqueeLabelView];
     [self.tipsContainerView addSubview:tipsImageView];
     [self.tipsContainerView addSubview:sepImageView];
     [self.tipsContainerView addSubview:separator];
     [self.tipsContainerView addSubview:extButton];
     self.repeatCnt = 0;
     
-    label1.textColor = HEXCOLOR(@"#454545");
-    label2.textColor = HEXCOLOR(@"#454545");
-    label1.font = [UIFont systemFontOfSize:14];
-    label2.font = [UIFont systemFontOfSize:14];
-    label1.text = stringArray[self.repeatCnt];
-    label2.text = stringArray[self.repeatCnt + 1];
-    
-    [self scrollingMessageViewWithLabelArray:@[label1, label2] andTextArray:stringArray];
     @weakify(self);
     [[extButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -285,6 +276,8 @@
             }];;
         }
     }];
+    
+    [marqueeLabelView showScrollingMessageView];
     
     [self.tableView addSubview:self.tipsContainerView];
     self.tableView.tableHeaderView = self.tipsContainerView;
@@ -459,8 +452,11 @@
             [self.tableView reloadData];
         }
         
+        if (self.minsStore.totalMemberCnt || self.minsStore.totalPoolAmt || self.minsStore.totalClaimCnt || self.minsStore.totalClaimAmt) {
+            [self setupTableViewBannerTipsView];
+        }
+        
         [self setItemList];
-        [self setupTableViewBannerTipsView];
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         self.tableView.hidden = NO;
@@ -1446,6 +1442,7 @@
         _extView.countingString = [NSString stringWithFormat:@"%ld次", (long)self.minsStore.totalClaimCnt];
         _extView.claimSumString = [NSString stringWithFormat:@"%@元", self.minsStore.totalClaimAmt];
         [_extView showInfo];
+        _extView.hidden = YES;
         [self.tableView addSubview:_extView];
     }
     
