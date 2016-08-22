@@ -28,7 +28,6 @@
     wxPayInfo.payInfo = rsp[@"wechatpayinfo"];
     info.wechatInfo = wxPayInfo;
     
-//    @YZC 要改
     NSMutableArray *bankList = [[NSMutableArray alloc]init];
     
     for (NSDictionary *dic in (NSArray *)rsp[@"unionpayinfo"])

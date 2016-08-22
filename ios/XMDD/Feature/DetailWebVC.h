@@ -12,6 +12,7 @@
 
 @property (nonatomic, weak) UIViewController *originVC;
 @property (nonatomic, copy) NSString *url;
+@property (nonatomic, strong) NSString *tradeno;
 @property (nonatomic, strong) RACSubject *subject;
 
 - (void)requestUrl:(NSString *)url;

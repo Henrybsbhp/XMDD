@@ -75,6 +75,9 @@
         
         vc.title = @"绑定银行卡";
         vc.subject = self.tradeNum.length == 0 ? nil : self.subject;
+        
+//        @YZC 记得修改
+        
 //        vc.url = rop.bindURL;
         vc.url = @"http://dev.xiaomadada.com/print.html";
         [self.navigationController pushViewController:vc animated:YES];
@@ -262,7 +265,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(RACSubject *)subject
+- (RACSubject *)subject
 {
     if (!_subject)
     {

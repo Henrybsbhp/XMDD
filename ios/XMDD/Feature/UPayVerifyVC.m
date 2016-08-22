@@ -186,26 +186,16 @@
         if (self.bankCardInfo.count > 1)
         {
             imgView.hidden = NO;
-            for (NSLayoutConstraint *consraint in cell.contentView.constraints)
-            {
-                if ([consraint.identifier isEqualToString:@"carNoTrailing"])
-                {
-                    consraint.constant = 40;
-                    break;
-                }
-            }
+            
+            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
+            constraint.constant = 40;
         }
         else
         {
             imgView.hidden = YES;
-            for (NSLayoutConstraint *consraint in cell.contentView.constraints)
-            {
-                if ([consraint.identifier isEqualToString:@"carNoTrailing"])
-                {
-                    consraint.constant = 15;
-                    break;
-                }
-            }
+            
+            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
+            constraint.constant = 15;
         }
         
         [UIView animateWithDuration:0.3 animations:^{
@@ -341,10 +331,23 @@
             
             @strongify(self)
             
+            if (self.openMore)
+            {
+                [self folderTableView];
+            }
+            
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
+            
+            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.constraints];
+            constraint.constant = 15;
+            
+            UIImageView *imgView = [cell viewWithTag:103];
+            imgView.hidden = YES;
+            
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+            
             UnionBankCard *bankCard = self.bankCardInfo.firstObject;
-            
             [self getUnionSmsWithTokenID:bankCard.tokenid];
-            
             [textField becomeFirstResponder];
             
         }];
@@ -486,6 +489,18 @@
 
 #pragma mark - Utility
 
+-(NSLayoutConstraint *)findConstraintInConstraintArr:(NSArray *)constraints
+{
+    for (NSLayoutConstraint *constraint in constraints)
+    {
+        if ([constraint.identifier isEqualToString:@"carNoTrailing"])
+        {
+            return constraint;
+        }
+    }
+    return nil;
+}
+
 - (void)shakeVCodeTextField
 {
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1]];
@@ -553,11 +568,25 @@
 {
     // 测试
     RACSignal *sig = [self.smsModel rac_getUnionCardVcodeWithTokenID:tokenID andTradeNo:self.tradeNo];
-    [[self.smsModel rac_startGetVcodeWithFetchVcodeSignal:sig andPhone:gAppMgr.myUser.userID] subscribeError:^(NSError *error) {
+    // 60s等待时间
+    [[self.smsModel rac_startGetLongIntervalVcodeWithFetchVcodeSignal:sig andPhone:gAppMgr.myUser.userID]subscribeError:^(NSError *error) {
         
         [gToast showError:error.domain];
         
+    } completed:^{
+        
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
+        
+        NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.constraints];
+        constraint.constant = 40;
+        
+        UIImageView *imgView = [cell viewWithTag:103];
+        imgView.hidden = NO;
+        
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
     }];
+     
+     
 }
 
 

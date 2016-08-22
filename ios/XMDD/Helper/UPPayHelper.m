@@ -34,9 +34,10 @@
         [tvc presentViewController:navi animated:YES completion:nil];
         [vc.subject subscribeNext:^(NSString *url) {
             
-            if ([url isEqualToString:@""])
+            if ([url isEqualToString:@"http://backtomerchant.com"])
             {
                 [subject sendNext:url];
+                [subject sendCompleted];
             }
             
         }];

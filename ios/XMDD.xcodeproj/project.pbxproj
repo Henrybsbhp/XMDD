@@ -777,6 +777,7 @@
 		4E78E02D1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */; };
 		4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */; };
 		4ED048C81D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */; };
+		4EF8BF661D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
 		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
@@ -2548,6 +2549,8 @@
 		4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendUnioncardSmsOp.m; sourceTree = "<group>"; };
 		4ED048C61D64964600F48A1F /* CheckoutUnioncardQuickpayOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutUnioncardQuickpayOp.h; sourceTree = "<group>"; };
 		4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutUnioncardQuickpayOp.m; sourceTree = "<group>"; };
+		4EF8BF641D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckGeneralTradenoStatusOp.h; sourceTree = "<group>"; };
+		4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckGeneralTradenoStatusOp.m; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
@@ -3652,6 +3655,8 @@
 				4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */,
 				180294E61D64148E00FC0C05 /* GetReactNativeConfigOp.h */,
 				180294E71D64148E00FC0C05 /* GetReactNativeConfigOp.m */,
+				4EF8BF641D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.h */,
+				4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */,
 			);
 			name = Netop;
 			sourceTree = "<group>";
@@ -6616,6 +6621,7 @@
 				18649B861D48A93000F1CCB0 /* TopMenuScrollView.m in Sources */,
 				1836B7C31D54220B0078DB15 /* CKEventPromise.m in Sources */,
 				186499B91D489A9700F1CCB0 /* GetBindCZBVcodeOp.m in Sources */,
+				4EF8BF661D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m in Sources */,
 				1864999B1D489A9700F1CCB0 /* AuthByPwdOp.m in Sources */,
 				18649E1E1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m in Sources */,
 				183F57261D4C90860001E26A /* GetCooperationGroupMyInfoOp.m in Sources */,

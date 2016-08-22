@@ -13,6 +13,7 @@
 #import "NavigationModel.h"
 #import "SocialShareViewController.h"
 #import "MyWebViewBridge.h"
+#import "CheckGeneralTradenoStatusOp.h"
 
 typedef NS_ENUM(NSInteger, MenuItemsType) {
     menuItemsTypeShare                  = 0,
@@ -164,7 +165,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     if (self.subject)
     {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"支付完成" style:UIBarButtonItemStylePlain target:self
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"支付完成"
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:self
                                                                                 action:@selector(actionUnionPayResult)];
     }
 }
@@ -296,17 +299,16 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         [self.navModel pushToViewControllerByUrl:url.absoluteString];
         return NO;
     }
+    
+//    @yzc 修改
+    
     if (navigationType == UIWebViewNavigationTypeFormSubmitted)
     {
-        [self.subject sendNext:url];
-        [self.subject sendCompleted];
-        return NO;
+        [self.subject sendNext:url.absoluteString];
     }
     else if (navigationType == UIWebViewNavigationTypeLinkClicked)
     {
-        [self.subject sendNext:url];
-        [self.subject sendCompleted];
-        return NO;
+        [self.subject sendNext:url.absoluteString];
     }
     return YES;
 }
@@ -322,6 +324,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 }
 
 #pragma mark - Action
+
 - (void)actionCloseWeb {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -393,6 +396,28 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)actionUnionPayResult
 {
+    
+    CheckGeneralTradenoStatusOp *op = [CheckGeneralTradenoStatusOp operation];
+    
+    op.req_tradeno = self.tradeno;
+    
+    [[[op rac_postRequest]initially:^{
+        
+        [gToast showingWithText:@"订单查询中"];
+        
+    }]subscribeNext:^(id x) {
+        
+        [self.subject sendNext:@"http://backtomerchant.com"];
+        [self.subject sendCompleted];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    } error:^(NSError *error) {
+        
+        
+        [gToast showingWithText:@"订单查询失败。请重试"];
+        
+    }];
     
 }
 
