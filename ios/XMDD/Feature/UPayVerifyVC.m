@@ -97,6 +97,11 @@
     
     CheckoutUnioncardQuickpayOp *op = [CheckoutUnioncardQuickpayOp operation];
     
+    UnionBankCard *model = self.bankCardInfo.firstObject;
+    op.req_tradeno = self.tradeNo;
+    op.req_tokenid = model.tokenid;
+    op.req_vcode = self.vcode;
+    
     [[[op rac_postRequest]initially:^{
         
         [gToast showingWithText:@"银联快捷支付中"];
@@ -286,11 +291,15 @@
         UIButton *button = [cell viewWithTag:101];
         button.hidden = bankCard.changephoneurl.length == 0;
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-            
+            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+            vc.url = bankCard.changephoneurl;
+            [self.navigationController pushViewController:vc animated:YES];
         }];
         
+        UnionBankCard *model = self.bankCardInfo.firstObject;
+        
         UILabel *phoneLabel = [cell viewWithTag:102];
-        phoneLabel.text = [gAppMgr.myUser.userID stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+        phoneLabel.text = model.bindphone;
         
     });
     
