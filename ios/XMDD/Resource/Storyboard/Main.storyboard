@@ -678,7 +678,7 @@
         <image name="hp_service_300" width="20" height="20"/>
         <image name="me_active_icon" width="116" height="55"/>
         <image name="me_active_text" width="144" height="32"/>
-        <image name="qing" width="43" height="34"/>
+        <image name="qing" width="44" height="38"/>
         <image name="tab_discover_300" width="26" height="26"/>
         <image name="tab_discover_highlighted_300" width="26" height="26"/>
         <image name="tab_home_300" width="26" height="26"/>

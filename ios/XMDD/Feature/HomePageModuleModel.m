@@ -115,8 +115,10 @@
     
     [iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.width.mas_equalTo(30);
-        make.height.mas_equalTo(14);
+        CGFloat width = 30 * gAppMgr.deviceInfo.screenSize.width / 375;
+        CGFloat height = width * 14 / 30;
+        make.width.mas_equalTo(width);
+        make.height.mas_equalTo(height);
         make.top.equalTo(itemView).offset(6);
         make.right.equalTo(itemView).offset(-6);
     }];
