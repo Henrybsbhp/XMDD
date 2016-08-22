@@ -107,8 +107,9 @@
     
     if (![self.subviews containsObject:self.backgroundImgViewOne])
     {
-        [self addSubview:self.backgroundImgViewOne];
-        [self addSubview:self.backgroundImgViewTwo];
+        [self.scrollView addSubview:self.backgroundImgViewOne];
+        [self.scrollView addSubview:self.backgroundImgViewTwo];
+        [self.scrollView addSubview:self.backgroundImgViewThree];
         [self setupImgView];
     }
     

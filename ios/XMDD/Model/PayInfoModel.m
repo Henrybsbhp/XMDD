@@ -10,18 +10,6 @@
 
 @implementation WechatPayInfo
 
-//+ (WechatPayInfo *)parseObject:(NSDictionary *)dict
-//{
-//    WechatPayInfo * info = [[WechatPayInfo alloc] init];
-//    info.appid = [dict stringParamForName:@"appid"];
-//    info.appid = [dict stringParamForName:@"appid"];
-//    info.appid = [dict stringParamForName:@"appid"];
-//    info.appid = [dict stringParamForName:@"appid"];
-//    info.appid = [dict stringParamForName:@"appid"];
-//    info.appid = [dict stringParamForName:@"appid"];
-//    info.appid = [dict stringParamForName:@"appid"];
-//}
-
 @end
 
 @implementation PayInfoModel
@@ -39,6 +27,26 @@
     WechatPayInfo * wxPayInfo = [[WechatPayInfo alloc] init];
     wxPayInfo.payInfo = rsp[@"wechatpayinfo"];
     info.wechatInfo = wxPayInfo;
+    
+    NSMutableArray *bankList = [[NSMutableArray alloc]init];
+    
+    for (NSDictionary *dic in (NSArray *)rsp[@"unionpayinfo"])
+    {
+        UnionBankCard *bankCard = [[UnionBankCard alloc] init];
+        bankCard.cardno = dic[@"cardno"];
+        bankCard.issuebank = dic[@"issuebank"];
+        bankCard.tokenid = dic[@"tokenid"];
+        bankCard.cardtypename = dic[@"cardtypename"];
+        bankCard.cardtype = dic[@"cardtype"];
+        bankCard.bindphone = dic[@"bindphone"];
+        bankCard.changephoneurl = dic[@"changephoneurl"];
+        bankCard.banklogo = dic[@"changephoneurl"];
+        bankCard.banktip = dic[@"banktip"];
+        [bankList addObject:bankCard];
+    }
+    info.unionPayDesc = rsp[@"unionpaydesc"];
+    info.bankListInfo = bankList;
+    
     return info;
 }
 
