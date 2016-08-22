@@ -367,7 +367,8 @@
         } break;
         case PaymentChannelUPpay: {
             
-            [helper resetForUPPayWithTradeNumber:paidop.tradeNo targetVC:self];
+            [helper resetForUPPayWithTradeNumber:paidop.tradeNo andPayInfoModel:paidop.rsp_payInfoModel andTotalFee:self.getGeneralOrderdetailOp.rsp_fee targetVC:self];
+            
         } break;
         case PaymentChannelApplePay:{
             

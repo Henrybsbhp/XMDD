@@ -14,4 +14,8 @@
 
 @property (nonatomic, copy) NSString *tradeNum;
 
+@property (strong, nonatomic) RACSubject *subject;
+
+@property (assign, nonatomic) BOOL isPresent;
+
 @end
