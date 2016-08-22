@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -52,54 +51,43 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" tag="20201" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="qing" translatesAutoresizingMaskIntoConstraints="NO" id="5JA-e5-Vh0">
-                                        <rect key="frame" x="20" y="10" width="43" height="34"/>
+                                        <rect key="frame" x="20" y="8" width="44" height="38"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="43" id="0bu-7c-z6R"/>
-                                            <constraint firstAttribute="height" constant="34" id="fC7-Mg-OxY"/>
+                                            <constraint firstAttribute="width" constant="44" id="0bu-7c-z6R"/>
+                                            <constraint firstAttribute="height" constant="38" id="fC7-Mg-OxY"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" tag="20202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="995" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r8W-Gh-kiq" customClass="TTTAttributedLabel">
-                                        <rect key="frame" x="83" y="27" width="0.0" height="0.0"/>
+                                        <rect key="frame" x="84" y="27" width="0.0" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view tag="20200" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vG4-j6-6hB">
-                                        <rect key="frame" x="518" y="0.0" width="82" height="54"/>
+                                        <rect key="frame" x="540" y="0.0" width="59.5" height="54"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="800" text="今日限行:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TEw-W8-8U4">
-                                                <rect key="frame" x="5" y="10" width="52" height="15"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="textColor" red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="800" text="今日限行" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TEw-W8-8U4">
+                                                <rect key="frame" x="5" y="36" width="40" height="12"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" tag="20204" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="尾号 4 和 6" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RdT-KI-Fdn">
-                                                <rect key="frame" x="0.0" y="29" width="62" height="15"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="20204" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="4/6" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RdT-KI-Fdn">
+                                                <rect key="frame" x="16" y="10.5" width="29.5" height="21.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <color key="textColor" red="1" green="0.45490196078431372" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="TEw-W8-8U4" firstAttribute="leading" secondItem="RdT-KI-Fdn" secondAttribute="leading" id="0cc-Ab-ohd"/>
-                                            <constraint firstItem="TEw-W8-8U4" firstAttribute="bottom" secondItem="vG4-j6-6hB" secondAttribute="centerY" constant="-2" id="1Tp-aT-l9H"/>
-                                            <constraint firstItem="RdT-KI-Fdn" firstAttribute="top" secondItem="TEw-W8-8U4" secondAttribute="bottom" constant="2" id="Duv-i5-pYr"/>
-                                            <constraint firstItem="RdT-KI-Fdn" firstAttribute="leading" secondItem="vG4-j6-6hB" secondAttribute="leading" id="MdY-6b-arP"/>
-                                            <constraint firstItem="RdT-KI-Fdn" firstAttribute="top" secondItem="vG4-j6-6hB" secondAttribute="centerY" constant="2" id="Q4p-4H-3Xn"/>
-                                            <constraint firstItem="TEw-W8-8U4" firstAttribute="centerX" secondItem="RdT-KI-Fdn" secondAttribute="centerX" id="dsf-gE-818"/>
-                                            <constraint firstAttribute="trailing" secondItem="TEw-W8-8U4" secondAttribute="trailing" constant="26" id="ogq-Pk-xwZ"/>
-                                            <constraint firstAttribute="trailing" secondItem="RdT-KI-Fdn" secondAttribute="trailing" constant="20" id="sMo-fh-4xv"/>
-                                            <constraint firstAttribute="width" constant="156" id="uNZ-MU-1Gj"/>
+                                            <constraint firstAttribute="leading" relation="lessThanOrEqual" secondItem="TEw-W8-8U4" secondAttribute="leading" constant="-5" id="3So-ET-3xI"/>
+                                            <constraint firstAttribute="trailing" secondItem="TEw-W8-8U4" secondAttribute="trailing" constant="14" id="5KS-wr-wOw"/>
+                                            <constraint firstAttribute="bottom" secondItem="TEw-W8-8U4" secondAttribute="bottom" constant="6" id="ABl-pq-g67"/>
+                                            <constraint firstItem="RdT-KI-Fdn" firstAttribute="leading" secondItem="vG4-j6-6hB" secondAttribute="leading" constant="16" id="ASi-9h-S0e"/>
+                                            <constraint firstItem="RdT-KI-Fdn" firstAttribute="trailing" secondItem="TEw-W8-8U4" secondAttribute="trailing" id="CKf-YB-wAW"/>
+                                            <constraint firstItem="RdT-KI-Fdn" firstAttribute="bottom" secondItem="TEw-W8-8U4" secondAttribute="top" constant="-4" id="OW4-id-zDN"/>
                                         </constraints>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="uNZ-MU-1Gj"/>
-                                                <exclude reference="0cc-Ab-ohd"/>
-                                                <exclude reference="ogq-Pk-xwZ"/>
-                                                <exclude reference="Duv-i5-pYr"/>
-                                            </mask>
-                                        </variation>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.95686274509803926" green="0.95294117647058818" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -690,7 +678,7 @@
         <image name="hp_service_300" width="20" height="20"/>
         <image name="me_active_icon" width="116" height="55"/>
         <image name="me_active_text" width="144" height="32"/>
-        <image name="qing" width="43" height="34"/>
+        <image name="qing" width="44" height="38"/>
         <image name="tab_discover_300" width="26" height="26"/>
         <image name="tab_discover_highlighted_300" width="26" height="26"/>
         <image name="tab_home_300" width="26" height="26"/>

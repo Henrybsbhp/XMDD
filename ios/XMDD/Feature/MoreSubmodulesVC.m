@@ -45,11 +45,10 @@
     self.numOfColumn = 4;
     self.numOfRow = self.submoduleArray.count / 3 + ((self.submoduleArray.count % 3) > 0 ? 1 : 0);
     self.squareWidth = gAppMgr.deviceInfo.screenSize.width / (CGFloat)self.numOfColumn;
-    self.squareHeight = 612.0f / 750.0f * self.squareWidth;
+    self.squareHeight = 204.0f / 188.0f * self.squareWidth;
     
     [self setupUI];
     [self setupModuleMode];
-    [self drawLine];
 }
 
 - (void)setupUI
@@ -88,19 +87,6 @@
     self.moduleModel.numOfColumn = self.numOfColumn;
     
     [self.moduleModel setupSquaresViewWithContainView:self.containView andItemWith:self.squareWidth andItemHeigth:self.squareHeight];
-}
-
-
-- (void)drawLine
-{
-    for (NSInteger i = 1; i< self.numOfColumn;i++)
-    {
-        [self.containView drawLineWithDirection:CKViewBorderDirectionLeft withEdge:UIEdgeInsetsMake(0, self.squareWidth * i, 0, 0)];
-    }
-    for (NSInteger i = 0; i < self.numOfRow ; i++)
-    {
-        [self.containView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsMake(self.squareHeight * (i+1), 0, 0, 0)];
-    }
 }
 
 
