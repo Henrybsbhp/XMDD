@@ -26,6 +26,7 @@
 #import "MutualInsStoryAdPageVC.h"
 #import "MutualInsGroupDetailVC.h"
 #import "MutualInsTipsInfoExtendedView.h"
+#import "SJMarqueeLabelView.h"
 
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
@@ -56,6 +57,8 @@
 @property (nonatomic, strong) MutualInsStore *minsStore;
 
 @property (strong, nonatomic) MutualInsAdModel *adModel;
+
+@property (nonatomic, copy) NSArray *totalTipsArray;
 
 @end
 
@@ -222,10 +225,10 @@
 /// 设置顶部消息 View
 - (void)setupTableViewBannerTipsView
 {
-    NSString *string1 = [NSString stringWithFormat:@"参加人数合计%ld人", (long)self.minsStore.totalMemberCnt];
-    NSString *string2 = [NSString stringWithFormat:@"互助金合计%@元", self.minsStore.totalPoolAmt];
-    NSString *string3 = [NSString stringWithFormat:@"补偿次数合计%ld次", (long)self.minsStore.totalClaimCnt];
-    NSString *string4 = [NSString stringWithFormat:@"补偿金额合计%@元", self.minsStore.totalClaimAmt];
+    NSString *string1 = [NSString stringWithFormat:@"参加人数合计%ld人", (long)[self.totalTipsArray[0] integerValue]];
+    NSString *string2 = [NSString stringWithFormat:@"互助金合计%@元", self.totalTipsArray[1]];
+    NSString *string3 = [NSString stringWithFormat:@"补偿次数合计%ld次", (long)[self.totalTipsArray[2] integerValue]];
+    NSString *string4 = [NSString stringWithFormat:@"补偿金额合计%@元", self.totalTipsArray[3]];
     NSArray *stringArray = @[string1, string2, string3, string4];
     
     self.tipsContainerView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -240,28 +243,18 @@
     sepImageView.image = [UIImage imageNamed:@"Verticalline"];
     UIImageView *separator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 39, self.view.frame.size.width, 1)];
     separator.image = [UIImage imageNamed:@"Horizontaline"];
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(130, 10, self.view.frame.size.width - 170, 20)];
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(130, 40, self.view.frame.size.width - 170, 20)];
+    SJMarqueeLabelView *marqueeLabelView = [[SJMarqueeLabelView alloc] initWithFrame:CGRectMake(130, 0, self.view.frame.size.width - 170, 40) tipsArray:stringArray];
     UIButton *extButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 40, 0, 40, 39)];
     [extButton setImage:[UIImage imageNamed:@"common_grayArrow_down"] forState:UIControlStateNormal];
     [extButton setImage:[UIImage imageNamed:@"common_grayArrow_up"] forState:UIControlStateSelected];
     
-    [self.tipsContainerView addSubview:label1];
-    [self.tipsContainerView addSubview:label2];
+    [self.tipsContainerView addSubview:marqueeLabelView];
     [self.tipsContainerView addSubview:tipsImageView];
     [self.tipsContainerView addSubview:sepImageView];
     [self.tipsContainerView addSubview:separator];
     [self.tipsContainerView addSubview:extButton];
     self.repeatCnt = 0;
     
-    label1.textColor = HEXCOLOR(@"#454545");
-    label2.textColor = HEXCOLOR(@"#454545");
-    label1.font = [UIFont systemFontOfSize:14];
-    label2.font = [UIFont systemFontOfSize:14];
-    label1.text = stringArray[self.repeatCnt];
-    label2.text = stringArray[self.repeatCnt + 1];
-    
-    [self scrollingMessageViewWithLabelArray:@[label1, label2] andTextArray:stringArray];
     @weakify(self);
     [[extButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -285,6 +278,8 @@
             }];;
         }
     }];
+    
+    [marqueeLabelView showScrollingMessageView];
     
     [self.tableView addSubview:self.tipsContainerView];
     self.tableView.tableHeaderView = self.tipsContainerView;
@@ -460,6 +455,7 @@
         }
         
         [self setItemList];
+        self.totalTipsArray =@[@(self.minsStore.totalMemberCnt), self.minsStore.totalPoolAmt, @(self.minsStore.totalClaimCnt), self.minsStore.totalClaimAmt];
         [self setupTableViewBannerTipsView];
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
@@ -506,7 +502,9 @@
                                @"couponlist" : rop.couponList,
                                @"activitylist" : rop.activityList,
                                };
-        self.dataSource = $($([self setupCalculateCell]));
+        self.totalTipsArray = @[@(rop.totalMemberCnt), rop.totalPoolAmt, @(rop.totalClaimCnt), rop.totalClaimAmt];
+        [self setupTableViewBannerTipsView];
+        self.dataSource = $($([self setupBannerAdCell], [self setupCalculateCell]));
         [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:dict sourceDict:nil])) forKey:nil];
         [self.tableView reloadData];
         
@@ -1441,11 +1439,12 @@
 {
     if (!_extView) {
         _extView = [[MutualInsTipsInfoExtendedView alloc] initWithFrame:CGRectMake(0, -(self.extViewHeight + 41), gAppMgr.deviceInfo.screenSize.width, self.extViewHeight)];
-        _extView.peopleSumString = [NSString stringWithFormat:@"%ld人", (long)self.minsStore.totalMemberCnt];
-        _extView.moneySumString = [NSString stringWithFormat:@"%@元", self.minsStore.totalPoolAmt];
-        _extView.countingString = [NSString stringWithFormat:@"%ld次", (long)self.minsStore.totalClaimCnt];
-        _extView.claimSumString = [NSString stringWithFormat:@"%@元", self.minsStore.totalClaimAmt];
+        _extView.peopleSumString = [NSString stringWithFormat:@"%ld人", (long)[self.totalTipsArray[0] integerValue]];
+        _extView.moneySumString = [NSString stringWithFormat:@"%@元", self.totalTipsArray[1]];
+        _extView.countingString = [NSString stringWithFormat:@"%ld次", (long)[self.totalTipsArray[2] integerValue]];
+        _extView.claimSumString = [NSString stringWithFormat:@"%@元", self.totalTipsArray[3]];
         [_extView showInfo];
+        _extView.hidden = YES;
         [self.tableView addSubview:_extView];
     }
     

@@ -24,6 +24,10 @@
     self.insuranceList = rspObj[@"insurancelist"];
     self.couponList = rspObj[@"couponlist"];
     self.activityList = rspObj[@"activitylist"];
+    self.totalMemberCnt = [rspObj[@"totalmembercnt"] integerValue];;
+    self.totalPoolAmt = rspObj[@"totalpoolamt"];
+    self.totalClaimCnt = [rspObj[@"totalclaimcnt"] integerValue];
+    self.totalClaimAmt = rspObj[@"totalclaimamt"];
     
     return self;
 }
