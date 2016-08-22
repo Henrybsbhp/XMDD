@@ -58,6 +58,8 @@
 
 @property (strong, nonatomic) MutualInsAdModel *adModel;
 
+@property (nonatomic, copy) NSArray *totalTipsArray;
+
 @end
 
 @implementation MutualInsVC
@@ -223,10 +225,10 @@
 /// 设置顶部消息 View
 - (void)setupTableViewBannerTipsView
 {
-    NSString *string1 = [NSString stringWithFormat:@"参加人数合计%ld人", (long)self.minsStore.totalMemberCnt];
-    NSString *string2 = [NSString stringWithFormat:@"互助金合计%@元", self.minsStore.totalPoolAmt];
-    NSString *string3 = [NSString stringWithFormat:@"补偿次数合计%ld次", (long)self.minsStore.totalClaimCnt];
-    NSString *string4 = [NSString stringWithFormat:@"补偿金额合计%@元", self.minsStore.totalClaimAmt];
+    NSString *string1 = [NSString stringWithFormat:@"参加人数合计%ld人", (long)[self.totalTipsArray[0] integerValue]];
+    NSString *string2 = [NSString stringWithFormat:@"互助金合计%@元", self.totalTipsArray[1]];
+    NSString *string3 = [NSString stringWithFormat:@"补偿次数合计%ld次", (long)[self.totalTipsArray[2] integerValue]];
+    NSString *string4 = [NSString stringWithFormat:@"补偿金额合计%@元", self.totalTipsArray[3]];
     NSArray *stringArray = @[string1, string2, string3, string4];
     
     self.tipsContainerView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -452,11 +454,9 @@
             [self.tableView reloadData];
         }
         
-        if (self.minsStore.totalMemberCnt || self.minsStore.totalPoolAmt || self.minsStore.totalClaimCnt || self.minsStore.totalClaimAmt) {
-            [self setupTableViewBannerTipsView];
-        }
-        
         [self setItemList];
+        self.totalTipsArray =@[@(self.minsStore.totalMemberCnt), self.minsStore.totalPoolAmt, @(self.minsStore.totalClaimCnt), self.minsStore.totalClaimAmt];
+        [self setupTableViewBannerTipsView];
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         self.tableView.hidden = NO;
@@ -502,7 +502,9 @@
                                @"couponlist" : rop.couponList,
                                @"activitylist" : rop.activityList,
                                };
-        self.dataSource = $($([self setupCalculateCell]));
+        self.totalTipsArray = @[@(rop.totalMemberCnt), rop.totalPoolAmt, @(rop.totalClaimCnt), rop.totalClaimAmt];
+        [self setupTableViewBannerTipsView];
+        self.dataSource = $($([self setupBannerAdCell], [self setupCalculateCell]));
         [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:dict sourceDict:nil])) forKey:nil];
         [self.tableView reloadData];
         
@@ -1437,10 +1439,10 @@
 {
     if (!_extView) {
         _extView = [[MutualInsTipsInfoExtendedView alloc] initWithFrame:CGRectMake(0, -(self.extViewHeight + 41), gAppMgr.deviceInfo.screenSize.width, self.extViewHeight)];
-        _extView.peopleSumString = [NSString stringWithFormat:@"%ld人", (long)self.minsStore.totalMemberCnt];
-        _extView.moneySumString = [NSString stringWithFormat:@"%@元", self.minsStore.totalPoolAmt];
-        _extView.countingString = [NSString stringWithFormat:@"%ld次", (long)self.minsStore.totalClaimCnt];
-        _extView.claimSumString = [NSString stringWithFormat:@"%@元", self.minsStore.totalClaimAmt];
+        _extView.peopleSumString = [NSString stringWithFormat:@"%ld人", (long)[self.totalTipsArray[0] integerValue]];
+        _extView.moneySumString = [NSString stringWithFormat:@"%@元", self.totalTipsArray[1]];
+        _extView.countingString = [NSString stringWithFormat:@"%ld次", (long)[self.totalTipsArray[2] integerValue]];
+        _extView.claimSumString = [NSString stringWithFormat:@"%@元", self.totalTipsArray[3]];
         [_extView showInfo];
         _extView.hidden = YES;
         [self.tableView addSubview:_extView];
