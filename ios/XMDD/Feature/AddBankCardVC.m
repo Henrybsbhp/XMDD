@@ -45,9 +45,11 @@
 }
 
 #pragma mark - Actions
-- (void)actionCheckSupportedBankCard
+- (void)actionCheckSupportedBankCardWithURLString:(NSString *)urlString
 {
-    
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.url = urlString;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionToNextSteup
@@ -160,11 +162,12 @@
         [logoImageView setImageByUrl:self.bankLogoURL withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
         bankNameLabel.text = self.issueBankName;
         
+        NSString *bankURL = gStoreMgr.configStore.systemConfig[@"supportbankurl"];
         [RACObserve(self, issueBankName) subscribeNext:^(NSString *string) {
             if (string.length > 0) {
                 logoImageView.hidden = NO;
                 bankNameLabel.hidden = NO;
-                checkButton.hidden = NO;
+                checkButton.hidden = bankURL.length > 0 ? NO : YES;
             } else {
                 logoImageView.hidden = YES;
                 bankNameLabel.hidden = YES;
@@ -175,7 +178,7 @@
         @weakify(self);
         [[[checkButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
-            [self actionCheckSupportedBankCard];
+            [self actionCheckSupportedBankCardWithURLString:bankURL];
         }];
     });
     

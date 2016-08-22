@@ -12,7 +12,7 @@
 @interface GetBankCardListV2Op : BaseOp
 
 /// 是否获取全部卡信息（0: 不是，1: 是）
-@property (nonatomic, strong) NSNumber *isAll;
+@property (nonatomic, strong) NSNumber *cardType;
 
 @property (nonatomic, copy) NSArray *cards;
 
