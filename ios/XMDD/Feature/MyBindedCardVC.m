@@ -35,11 +35,15 @@
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
     DebugLog(@"MyBindedCardVC is deallocated");
+    
 }
 
 - (void)viewDidLoad {
+    
+    @weakify(self)
+    
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     CKAfter (0.5, ^{
         [self observeTheFetchedDataToDetemineTheHiddenOfBarButtonItem];
@@ -48,6 +52,13 @@
     });
     
     [self fetchData];
+    
+    [self listenNotificationByName:kNotifyRefreshMyBankcardList withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        @strongify(self);
+
+        [self fetchData];
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,6 +83,8 @@
 - (void)actionToAddCard
 {
     AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"Bank"];
+    vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
+    vc.router.userInfo[kOriginRoute]= self.router;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

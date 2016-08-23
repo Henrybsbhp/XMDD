@@ -231,7 +231,7 @@
         bankLabel.text = model.issuebank;
         
         UILabel *detailLabel = [cell viewWithTag:102];
-        detailLabel.text = [NSString stringWithFormat:@"尾号%@（%@）",[model.cardno safteySubstringFromIndex:(model.cardno.length - 5)],model.cardtypename];
+        detailLabel.text = [NSString stringWithFormat:@"尾号%@（%@）",model.cardno, model.cardtypename];
         
     });
     
@@ -317,6 +317,9 @@
         }];
         
         UIButton *button = [cell viewWithTag:102];
+        [button setTitleColor:kDefTintColor forState:UIControlStateNormal];
+        
+        [button setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
         self.smsModel.getVcodeButton = button;
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             
@@ -519,7 +522,7 @@
     
     [self.tableView endUpdates];
     
-    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1],[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
     
 }
 
@@ -577,8 +580,6 @@
         
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
     }];
-     
-     
 }
 
 

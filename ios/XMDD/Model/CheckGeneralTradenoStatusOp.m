@@ -12,7 +12,7 @@
 
 - (RACSignal *)rac_postRequest
 {
-    self.req_method = @"/user/unioncard/quickpay/checkout";
+    self.req_method = @"/general/tradeno/status/check";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.req_tradeno forName:@"tradeno"];
