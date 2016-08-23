@@ -1585,6 +1585,7 @@
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="disabled">
+                                                        <color key="titleColor" red="0.81176470588235294" green="0.85882352941176465" blue="0.82745098039215681" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>

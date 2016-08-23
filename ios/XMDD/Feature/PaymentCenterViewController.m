@@ -146,7 +146,7 @@
 
 - (void)actionPay:(GetGeneralActivityLefttimeOp *)op
 {
-    NSString * tradeno = self.getGeneralOrderdetailOp.tradeNo;
+//    NSString * tradeno = self.getGeneralOrderdetailOp.tradeNo;
     // 如果是银联支付需要请求服务器得到银联流水号
     if (self.getGeneralOrderdetailOp.rsp_fee)
     {

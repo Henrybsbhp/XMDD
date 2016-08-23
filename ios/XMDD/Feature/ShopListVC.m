@@ -34,6 +34,7 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
 
 - (void)dealloc {
     
+    DebugLog(@"ShopListVC dealloc");
 }
 
 - (void)viewDidLoad {

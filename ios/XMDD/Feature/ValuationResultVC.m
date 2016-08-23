@@ -223,7 +223,7 @@
     else {
         imgStr = @"val_location";
         titleL.text = @"估值城市";
-        if (self.cityName.length)
+        if (self.cityName.length && ![self.cityName isEqualToString:self.provinceName])
         {
             contentL.text = [NSString stringWithFormat:@"%@/%@", self.provinceName, self.cityName];
         }

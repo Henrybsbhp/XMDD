@@ -170,20 +170,24 @@
         
         UIImageView *imgView = [cell viewWithTag:103];
         
-        if (self.bankCardInfo.count > 1)
-        {
-            imgView.hidden = NO;
+        [[RACObserve(self.smsModel.getVcodeButton, enabled)takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             
-            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
-            constraint.constant = 40;
-        }
-        else
-        {
-            imgView.hidden = YES;
+            if (self.bankCardInfo.count > 1 && self.smsModel.getVcodeButton.enabled)
+            {
+                imgView.hidden = NO;
+                
+                NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
+                constraint.constant = 40;
+            }
+            else
+            {
+                imgView.hidden = YES;
+                
+                NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
+                constraint.constant = 15;
+            }
             
-            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
-            constraint.constant = 15;
-        }
+        }];
         
         [UIView animateWithDuration:0.3 animations:^{
             
@@ -199,7 +203,7 @@
         
         @strongify(self)
         
-        if (self.bankCardInfo.count > 1)
+        if (self.bankCardInfo.count > 1 && self.smsModel.getVcodeButton.enabled)
         {
             [self folderTableView];
         }
@@ -231,7 +235,7 @@
         bankLabel.text = model.issuebank;
         
         UILabel *detailLabel = [cell viewWithTag:102];
-        detailLabel.text = [NSString stringWithFormat:@"尾号%@（%@）",[model.cardno safteySubstringFromIndex:(model.cardno.length - 5)],model.cardtypename];
+        detailLabel.text = [NSString stringWithFormat:@"尾号%@（%@）",model.cardno, model.cardtypename];
         
     });
     
@@ -274,7 +278,7 @@
         button.hidden = bankCard.changephoneurl.length == 0;
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-            vc.url = bankCard.changephoneurl;
+            vc.url = [NSString stringWithFormat:@"%@/%@",bankCard.changephoneurl,self.tradeNo];
             [self.navigationController pushViewController:vc animated:YES];
         }];
         
@@ -306,6 +310,7 @@
         @strongify(self)
         
         VCodeInputField *textField = [cell viewWithTag:101];
+        textField.keyboardType = UIKeyboardTypeNumberPad;
         self.smsModel.inputVcodeField = textField;
         
         [[textField.rac_textSignal takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
@@ -317,6 +322,9 @@
         }];
         
         UIButton *button = [cell viewWithTag:102];
+        [button setTitleColor:kDefTintColor forState:UIControlStateNormal];
+        [button setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
+        
         self.smsModel.getVcodeButton = button;
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             
@@ -340,6 +348,8 @@
             UnionBankCard *bankCard = self.bankCardInfo.firstObject;
             [self getUnionSmsWithTokenID:bankCard.tokenid];
             [textField becomeFirstResponder];
+
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
             
         }];
         
@@ -365,6 +375,7 @@
         
         AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"Bank"];
         vc.tradeNum = self.tradeNo;
+        vc.subject = self.subject;
         [self.navigationController pushViewController:vc animated:YES];
         
     });
@@ -519,7 +530,7 @@
     
     [self.tableView endUpdates];
     
-    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1],[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
     
 }
 
@@ -577,8 +588,6 @@
         
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
     }];
-     
-     
 }
 
 

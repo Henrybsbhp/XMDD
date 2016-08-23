@@ -69,6 +69,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupNavigationBar];
     [self setupBottomView];
     [self setupCarStore];
     
@@ -219,6 +220,17 @@
     [[self.carStore getAllCarsIfNeeded] send];
 }
 
+- (void)setupNavigationBar
+{
+    if (self.shop.shopPhone.length)
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"咨询商户"
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(actionCallShop)];
+    }
+}
+
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
@@ -261,7 +273,6 @@
         return;
     }
     
-    
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [self requestCheckoutWithCouponType:self.couponType];
@@ -270,9 +281,13 @@
     [alert show];
 }
 
+- (void)actionCallShop
+{
+    [gPhoneHelper makePhone:self.shop.shopPhone andInfo:self.shop.shopPhone];
+}
+
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return 3;
@@ -696,7 +711,15 @@
         
         [gToast dismiss];
         [self requestCommentlist];
-        [self callPaymentHelperWithPayOp:op];
+        
+        if (op.rsp_price > 0)
+        {
+            [self callPaymentHelperWithPayOp:op];
+        }
+        else
+        {
+            [self gotoPaymentSuccessVC];
+        }
     } error:^(NSError *error) {
         
         [self handerOrderError:error forOp:self.checkoutServiceOrderV4Op];

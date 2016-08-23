@@ -194,9 +194,11 @@
                        RACTuplePack(@"保险公司",_order.inscomp),
                        RACTuplePack(@"证件号码",_order.idcard),
                        RACTuplePack(@"投保车辆",_order.licencenumber),
-                       RACTuplePack(@"共计保费",amount,remark),
-                       RACTuplePack(@"商业险期限",_order.validperiod)];
+                       RACTuplePack(@"共计保费",amount,remark)];
     NSMutableArray *titles = [NSMutableArray arrayWithArray:array];
+    if (_order.validperiod.length > 0){
+        [titles safetyAddObject:RACTuplePack(@"商业险期限",_order.validperiod)];
+    }
     if (_order.insordernumber.length > 0) {
         [titles safetyInsertObject:RACTuplePack(@"保单编号",_order.insordernumber) atIndex:0];
     }

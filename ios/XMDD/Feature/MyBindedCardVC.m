@@ -18,7 +18,7 @@
 @interface MyBindedCardVC () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSArray *fetchedData;
+@property (nonatomic, strong) NSMutableArray *fetchedData;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
 @property (nonatomic, assign) BOOL isEditing;
@@ -35,11 +35,15 @@
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
     DebugLog(@"MyBindedCardVC is deallocated");
+    
 }
 
 - (void)viewDidLoad {
+    
+    @weakify(self)
+    
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     CKAfter (0.5, ^{
         [self observeTheFetchedDataToDetemineTheHiddenOfBarButtonItem];
@@ -48,6 +52,13 @@
     });
     
     [self fetchData];
+    
+    [self listenNotificationByName:kNotifyRefreshMyBankcardList withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        @strongify(self);
+
+        [self fetchData];
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,6 +83,8 @@
 - (void)actionToAddCard
 {
     AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"Bank"];
+    vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
+    vc.router.userInfo[kOriginRoute]= self.router;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -87,7 +100,13 @@
         }] subscribeNext:^(id x) {
             [gToast showSuccess:@"解绑成功"];
             [self.datasource[indexPath.section] removeObjectAtIndex:indexPath.row];
+            [self.fetchedData removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            if (self.fetchedData.count < 1) {
+                self.tableView.hidden = YES;
+                [self addBtn];
+                self.fetchedData = nil;
+            }
         } error:^(NSError *error) {
             [gToast showError:error.domain];
         }];
@@ -129,7 +148,7 @@
         @strongify(self);
         [self.view stopActivityAnimation];
         if (rop.cards.count > 0) {
-            self.fetchedData = rop.cards;
+            self.fetchedData = [NSMutableArray arrayWithArray:rop.cards];
             [self setDataSourceWithDataArray:rop.cards];
             self.tableView.hidden = NO;
         } else {
@@ -286,10 +305,7 @@
     //暂停动画并且显示缺省页
     @weakify(self)
     [self.view stopActivityAnimation];
-    [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"暂无银行卡" centerOffset:-100 tapBlock:^{
-        @strongify(self)
-        [self fetchData];
-    }];
+    [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"暂无银行卡" centerOffset:-100 tapBlock:nil];
     [self.view addSubview:self.addbutton];
     const CGFloat top = gAppMgr.deviceInfo.screenSize.height / 2 + 30;
     [self.addbutton mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -314,9 +330,9 @@
 - (void)observeTheFetchedDataToDetemineTheHiddenOfBarButtonItem
 {
     @weakify(self);
-    [RACObserve(self, fetchedData) subscribeNext:^(id x) {
+    [RACObserve(self, fetchedData) subscribeNext:^(NSMutableArray *mutableArray) {
         @strongify(self);
-        if (self.fetchedData.count > 0) {
+        if (mutableArray.count > 0) {
             self.editButton.title = @"编辑";
             self.editButton.enabled = YES;
         } else {

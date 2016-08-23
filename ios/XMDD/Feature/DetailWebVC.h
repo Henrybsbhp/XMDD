@@ -33,6 +33,10 @@
 /// 有信号的话，说明是从银联支付进入
 @property (nonatomic, strong) RACSubject *subject;
 
+/// 是否是从银联页面或者我的银行卡页面进入
+@property (assign, nonatomic) BOOL fromUnionCardVC;
+
+
 - (void)requestUrl:(NSString *)url;
 
 
