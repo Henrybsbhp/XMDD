@@ -148,8 +148,11 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     self.headerView = [[ShopDetailHeaderView alloc] initWithFrame:CGRectMake(0, -165, ScreenWidth, 165)];
     [self.collectionView addSubview:self.headerView];
 
-    self.headerView.trottingView.text = [self.store stringWithAppendSpace:_shop.announcement andWidth:ScreenWidth - 62];
-    self.headerView.trottingContainerView.hidden = self.shop.announcement.length == 0;
+    ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
+    NSString *note = [self.shop noteForServiceType:type];
+    
+    self.headerView.trottingView.text = [self.store stringWithAppendSpace:note andWidth:ScreenWidth - 62];
+    self.headerView.trottingContainerView.hidden = note.length == 0;
     self.headerView.picURLArray = self.shop.picArray;
     [[self.headerView.tapGesture rac_gestureSignal] subscribeNext:^(id x) {
         [self mobClickWithEventKey:@"header"];
