@@ -18,7 +18,7 @@
 @property (nonatomic, strong) CKList *selectedServiceGroup;
 @property (nonatomic, strong) RACSignal *reloadAllCommentsSignal;
 
-- (void)resetDataWithShop:(JTShop *)shop;
+- (void)resetDataWithShop:(JTShop *)shop withSelectedServiceType:(ShopServiceType)type;
 + (instancetype)fetchOrCreateStoreByShopID:(NSNumber *)shopid;
 + (instancetype)fetchExistsStoreByShopID:(NSNumber *)shopid;
 

@@ -93,22 +93,27 @@
 }
 
 - (RACSignal *)fetchShopListByName:(NSString *)name {
-    if (!CLLocationCoordinate2DIsValid(self.coordinate)) {
-        _coordinate = gMapHelper.coordinate;
-    }
-    GetShopByNameV2Op * op = [GetShopByNameV2Op operation];
-    op.shopName = name;
-    op.longitude = self.coordinate.longitude;
-    op.latitude = self.coordinate.latitude;
-    op.pageno = 1;
-    op.orderby = 1;
-    
     @weakify(self);
-    return [[op rac_postRequest] doNext:^(GetShopByNameV2Op *op) {
+    return [[[[gMapHelper rac_getUserLocationWithAccuracy:kCLLocationAccuracyHundredMeters]
+        catch:^RACSignal *(NSError *error) {
+            
+            return [RACSignal return:nil];
+    }] flattenMap:^RACStream *(CLLocation *userLocation) {
+
+        @strongify(self);
+        _coordinate = userLocation ? userLocation.coordinate : gMapHelper.coordinate;
+        GetShopByNameV2Op * op = [GetShopByNameV2Op operation];
+        op.shopName = name;
+        op.longitude = self.coordinate.longitude;
+        op.latitude = self.coordinate.latitude;
+        op.pageno = 1;
+        op.orderby = 1;
+        return [op rac_postRequest];
+    }] doNext:^(GetShopByNameV2Op *op) {
+        
         @strongify(self);
         self.currentShopOpByName = op;
     }];
-
 }
 
 - (RACSignal *)fetchMoreShopListByName {

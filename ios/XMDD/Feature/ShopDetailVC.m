@@ -57,7 +57,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.store = [ShopDetailStore fetchOrCreateStoreByShopID:self.shop.shopID];
-    [self.store resetDataWithShop:self.shop];
+    [self.store resetDataWithShop:self.shop withSelectedServiceType:self.serviceType];
     
     [self setupAllMobEvents];
     [self setupCollectionView];
