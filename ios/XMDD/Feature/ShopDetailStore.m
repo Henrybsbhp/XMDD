@@ -25,7 +25,7 @@
     return [self fetchExistsStoreForKey:[NSString stringWithFormat:@"Shop.Detail.%@", shopid]];
 }
 
-- (void)resetDataWithShop:(JTShop *)shop {
+- (void)resetDataWithShop:(JTShop *)shop withSelectedServiceType:(ShopServiceType)type {
     _shop = shop;
 
     CKDict *selectedServices = [[CKDict alloc] init];
@@ -34,6 +34,12 @@
         CKList *group = [[CKList listWithArray:shop.shopServiceArray] setKey:@(ShopServiceAllCarWash)];
         [serviceGroups addObject:group forKey:nil];
         selectedServices[@(ShopServiceAllCarWash)] = group[0];
+        if (type == ShopServiceCarwashWithHeart) {
+            JTShop *service = [[group allObjects] firstObjectByFilteringOperator:^BOOL(JTShopService *service) {
+                return service.shopServiceType == ShopServiceCarwashWithHeart;
+            }];
+            selectedServices[@(ShopServiceAllCarWash)] = service;
+        }
     }
     if ([shop.beautyServiceArray count] > 0) {
         CKList *group = [[CKList listWithArray:shop.beautyServiceArray] setKey:@(ShopServiceCarBeauty)];
@@ -54,7 +60,7 @@
 
 #pragma mark - Service
 - (void)selectServiceGroup:(CKList *)group {
-    _selectedServiceGroup = group;
+    self.selectedServiceGroup = group;
 }
 
 - (void)selectService:(JTShopService *)service {

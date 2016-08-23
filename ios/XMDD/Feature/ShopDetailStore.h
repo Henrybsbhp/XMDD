@@ -14,11 +14,11 @@
 @property (nonatomic, strong, readonly) JTShop *shop;
 @property (nonatomic, strong, readonly) CKList *serviceGroups;
 @property (nonatomic, strong, readonly) CKDict *selectedServices;
-@property (nonatomic, strong, readonly) CKList *selectedServiceGroup;
 @property (nonatomic, strong, readonly) CKList *commentGroups;
+@property (nonatomic, strong) CKList *selectedServiceGroup;
 @property (nonatomic, strong) RACSignal *reloadAllCommentsSignal;
 
-- (void)resetDataWithShop:(JTShop *)shop;
+- (void)resetDataWithShop:(JTShop *)shop withSelectedServiceType:(ShopServiceType)type;
 + (instancetype)fetchOrCreateStoreByShopID:(NSNumber *)shopid;
 + (instancetype)fetchExistsStoreByShopID:(NSNumber *)shopid;
 

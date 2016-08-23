@@ -57,7 +57,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.store = [ShopDetailStore fetchOrCreateStoreByShopID:self.shop.shopID];
-    [self.store resetDataWithShop:self.shop];
+    [self.store resetDataWithShop:self.shop withSelectedServiceType:self.serviceType];
     
     [self setupAllMobEvents];
     [self setupCollectionView];
@@ -147,15 +147,20 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 - (void)setupHeaderView {
     self.headerView = [[ShopDetailHeaderView alloc] initWithFrame:CGRectMake(0, -165, ScreenWidth, 165)];
     [self.collectionView addSubview:self.headerView];
-
-    ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
-    NSString *note = [self.shop noteForServiceType:type];
-    
-    self.headerView.trottingView.text = [self.store stringWithAppendSpace:note andWidth:ScreenWidth - 62];
-    self.headerView.trottingContainerView.hidden = note.length == 0;
     self.headerView.picURLArray = self.shop.picArray;
+    
+    @weakify(self);
     [[self.headerView.tapGesture rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
         [self mobClickWithEventKey:@"header"];
+    }];
+    
+    [[RACObserve(self.store, selectedServiceGroup) distinctUntilChanged] subscribeNext:^(CKList *group) {
+        @strongify(self);
+        ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:group];
+        NSString *note = [self.shop noteForServiceType:type];
+        self.headerView.trottingView.text = [self.store stringWithAppendSpace:note andWidth:ScreenWidth - 62];
+        self.headerView.trottingContainerView.hidden = note.length == 0;
     }];
 }
 
