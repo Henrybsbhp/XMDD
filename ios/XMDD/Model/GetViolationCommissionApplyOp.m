@@ -22,7 +22,7 @@
 - (instancetype)parseResponseObject:(id)rspObj
 {
     self.rsp_lists = rspObj[@"lists"];
-    self.rsp_tipslist = rspObj[@"tipslist"];
+    self.rsp_tipslist = rspObj[@"tiplist"];
     return self;
 }
 

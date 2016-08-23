@@ -221,7 +221,7 @@
                                                     <color key="textColor" red="0.98431372549019602" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="● 暂不支持副卡、司机卡的支持" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="maK-sX-Qyf">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="● 暂不支持副卡、司机卡的充值" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="maK-sX-Qyf">
                                                     <rect key="frame" x="16" y="144" width="572" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.98431372549999996" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -268,16 +268,21 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="加油卡号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rsM-Nu-LH0">
-                                                            <rect key="frame" x="12" y="0.0" width="65" height="59"/>
+                                                            <rect key="frame" x="12" y="0.0" width="64" height="59"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="65" id="Yib-uH-K4g"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="Yib-uH-K4g"/>
+                                                                </mask>
+                                                            </variation>
                                                         </label>
                                                         <textField opaque="NO" clipsSubviews="YES" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入16位加油卡号" textAlignment="right" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="d1t-XT-jtX" customClass="CKLimitTextField">
-                                                            <rect key="frame" x="87" y="0.0" width="495" height="59"/>
+                                                            <rect key="frame" x="86" y="0.0" width="496" height="59"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                         </textField>

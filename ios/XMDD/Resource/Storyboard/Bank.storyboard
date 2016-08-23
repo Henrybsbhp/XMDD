@@ -1861,10 +1861,10 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="u4q-BW-fsZ"/>
                                                     <exclude reference="dDj-lO-JdH"/>
-                                                    <exclude reference="rmV-Dq-XPq"/>
+                                                    <exclude reference="u4q-BW-fsZ"/>
                                                     <exclude reference="c31-Bz-Hzp"/>
+                                                    <exclude reference="rmV-Dq-XPq"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
