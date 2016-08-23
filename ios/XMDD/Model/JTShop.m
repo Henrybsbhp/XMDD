@@ -97,7 +97,6 @@
     shop.shopID  = rsp[@"shopid"];
     shop.shopName = rsp[@"name"];
     shop.picArray = rsp[@"pics"];
-    shop.shopRate = [rsp doubleParamForName:@"rate"];
     shop.shopAddress = rsp[@"address"];
     shop.shopLongitude = [rsp doubleParamForName:@"longitude"];
     shop.shopLatitude = [rsp doubleParamForName:@"latitude"];
@@ -105,8 +104,6 @@
     shop.openHour = rsp[@"openhour"];
     shop.closeHour = rsp[@"closehour"];
     shop.txnumber = [rsp integerParamForName:@"txnumber"];
-    shop.announcement = [rsp stringParamForName:@"note"];
-    shop.ratenumber = [rsp integerParamForName:@"ratenumber"];
     shop.isVacation = [rsp numberParamForName:@"isvacation"];
     shop.allowABC = [rsp boolParamForName:@"abcbanksupport"];
     shop.shopServiceArray = [rsp[@"services"] arrayByMapFilteringOperator:^id(id obj) {
@@ -118,10 +115,16 @@
     shop.beautyServiceArray = [rsp[@"mrservices"] arrayByMapFilteringOperator:^id(id obj) {
         return [JTShopService shopServiceWithJSONResponse:obj];
     }];
-    shop.maintenanceRateNumber = [rsp integerParamForName:@"byrate"];
-    shop.beautyRateNumber = [rsp integerParamForName:@"mrrate"];
+    shop.carwashRate = [rsp doubleParamForName:@"rate"];
+    shop.maintenanceRate = [rsp doubleParamForName:@"byrate"];
+    shop.beautyRate = [rsp doubleParamForName:@"mrrate"];
+    shop.carwashCommentNumber = [rsp integerParamForName:@"ratenumber"];
     shop.maintenanceCommentNumber = [rsp integerParamForName:@"byratenumber"];
     shop.beautyCommentNumber = [rsp integerParamForName:@"mrratenumber"];
+    shop.carwashNote = [rsp stringParamForName:@"note"];
+    shop.maintenanceNote = [rsp stringParamForName:@"bynote"];
+    shop.beautyNote = [rsp stringParamForName:@"mrnote"];
+
     return shop;
 }
 
@@ -150,6 +153,39 @@
     return [self.shopServiceArray arrayByFilteringOperator:^BOOL(JTShopService *service) {
         return service.shopServiceType == type;
     }];
+}
+
+- (NSString *)noteForServiceType:(ShopServiceType)type {
+    switch (type) {
+        case ShopServiceCarBeauty:
+            return self.beautyNote;
+        case ShopServiceCarMaintenance:
+            return self.maintenanceNote;
+        default:
+            return self.carwashNote;
+    }
+}
+
+- (double)rateForServiceType:(ShopServiceType)type {
+    switch (type) {
+        case ShopServiceCarBeauty:
+            return self.beautyRate;
+        case ShopServiceCarMaintenance:
+            return self.maintenanceRate;
+        default:
+            return self.carwashRate;
+    }
+}
+
+- (NSInteger)commentNumberForServiceType:(ShopServiceType)type {
+    switch (type) {
+        case ShopServiceCarBeauty:
+            return self.beautyCommentNumber;
+        case ShopServiceCarMaintenance:
+            return self.maintenanceCommentNumber;
+        default:
+            return self.carwashCommentNumber;
+    }
 }
 
 - (instancetype)setKey:(id<NSCopying>)key {

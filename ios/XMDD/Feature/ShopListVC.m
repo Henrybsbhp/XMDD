@@ -335,8 +335,11 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
                                                           lngA:self.store.coordinate.longitude
                                                           latB:shop.shopLatitude
                                                           lngB:shop.shopLongitude];
-    dict[@"rate"] = [NSString stringWithFormat:@"%@分",
-                     [@(shop.shopRate) decimalStringWithMaxFractionDigits:1 minFractionDigits:1]];
+    double rate = [shop rateForServiceType:self.serviceType];
+    dict[@"rate"] = @(rate);
+    dict[@"ratestr"] = [NSString stringWithFormat:@"%@分",
+                     [@(rate) decimalStringWithMaxFractionDigits:1 minFractionDigits:1]];
+    dict[@"commentno"] = @([shop commentNumberForServiceType:self.serviceType]);
     
     dict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, ShopListTitleCell *cell, NSIndexPath *indexPath) {
         
@@ -344,9 +347,9 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
         [cell.logoView setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail
                             defImage:@"cm_shop" errorImage:@"cm_shop"];
         cell.titleLabel.text = shop.shopName;
-        cell.ratingView.ratingValue = shop.shopRate;
-        cell.rateLabel.text = dict[@"rate"];
-        cell.commentLabel.text = [NSString stringWithFormat:@"%ld", shop.ratenumber];
+        cell.ratingView.ratingValue = [dict[@"rate"] doubleValue];
+        cell.rateLabel.text = dict[@"ratestr"];
+        cell.commentLabel.text = [NSString stringWithFormat:@"%@", dict[@"commentno"]];
         cell.addressLabel.text = shop.shopAddress;
         cell.distanceLabel.text = dict[@"distance"];
         cell.tipLabel.text = [shop descForBusinessStatus];
