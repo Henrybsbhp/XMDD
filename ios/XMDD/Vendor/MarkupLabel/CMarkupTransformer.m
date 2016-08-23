@@ -235,8 +235,11 @@ NSString *const kMarkupOutlineMetaAttributeName = @"com.touchcode.outline";
 
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack currentString:(NSAttributedString *)inAttributedString
     {
-    NSMutableDictionary *theCumulativeAttributes = [NSMutableDictionary dictionary];
-
+        NSMutableDictionary *theCumulativeAttributes = [NSMutableDictionary dictionary];
+        // 修复iOS8.1下，下划线消失的bug
+        if (IOSVersionGreaterThanOrEqualTo(@"8.1") && !IOSVersionGreaterThanOrEqualTo(@"8.4")) {
+            [theCumulativeAttributes setObject:@(NSUnderlineStyleNone) forKey:NSUnderlineStyleAttributeName];
+        }
     CMarkupTransformerContext *theContext = [[CMarkupTransformerContext alloc] init];
     theContext.currentString = inAttributedString;
 
