@@ -77,7 +77,7 @@
         
         vc.title = @"绑定银行卡";
         vc.subject = self.tradeNum.length == 0 ? nil : self.subject;
-        
+        vc.tradeno = self.tradeNum;
         vc.url = rop.bindURL;
         [self.navigationController pushViewController:vc animated:YES];
         
