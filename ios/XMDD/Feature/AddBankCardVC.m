@@ -79,6 +79,7 @@
         vc.subject = self.tradeNum.length == 0 ? nil : self.subject;
         vc.tradeno = self.tradeNum;
         vc.url = rop.bindURL;
+        vc.fromUnionCardVC = YES;
         [self.navigationController pushViewController:vc animated:YES];
         
     } error:^(NSError *error) {

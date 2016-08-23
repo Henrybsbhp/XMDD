@@ -10,7 +10,7 @@
 
 @interface UnionBankCard : NSObject
 
-@property (strong, nonatomic) NSString *cardno;
+@property (strong, nonatomic) NSNumber *cardno;
 @property (strong, nonatomic) NSString *issuebank;
 @property (strong, nonatomic) NSString *tokenid;
 @property (strong, nonatomic) NSString *cardtypename;

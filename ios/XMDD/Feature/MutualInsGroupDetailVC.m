@@ -304,7 +304,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
         UIViewController *vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
         [vc setValue:self.viewModel.baseInfo.rsp_contractid forKey:@"contractId"];
         vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
-        vc.router.userInfo[kOriginRoute]= self.router;
+        vc.router.userInfo[kOriginRoute] = self.router;
         [self.navigationController pushViewController:vc animated:YES];
     });
     return dict;
