@@ -6,9 +6,9 @@
 //  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "HKTableViewCell.h"
 
-@interface ShopListActionCell : UITableViewCell
+@interface ShopListActionCell : HKTableViewCell
 @property (nonatomic, strong) UIButton *navigationButton;
 @property (nonatomic, strong) UIButton *phoneButton;
 @end

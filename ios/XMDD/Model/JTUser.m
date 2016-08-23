@@ -12,16 +12,5 @@
 
 @implementation JTUser
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self)
-    {
-        _favorites = [[FavoriteModel alloc] init];
-    }
-    return self;
-}
-
-
 @end
 

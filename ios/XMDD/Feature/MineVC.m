@@ -14,7 +14,7 @@
 #import "MyInfoViewController.h"
 #import "AboutViewController.h"
 #import "MessageListVC.h"
-#import "MyCollectionViewController.h"
+#import "MyCollectionListVC.h"
 #import "CouponPkgViewController.h"
 #import "UIView+ShowDot.h"
 #import "UnbundlingVC.h"
@@ -475,7 +475,7 @@
     
     CKDict *collect = [self normalDataWithInfo:@{kCKItemKey:@"collect", @"img":@"Mine_collectStar_imageView", @"title":@"收藏", @"evt":@"rp301_7"}];
     collect[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        MyCollectionViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyCollectionViewController"];
+        MyCollectionListVC *vc = [[MyCollectionListVC alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     });
     

@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "HKMyCar.h"
-#import "FavoriteModel.h"
 #import "CouponModel.h"
 
 
@@ -27,9 +26,6 @@
 @property (nonatomic, strong)NSArray * carArray;
 /// 头像
 //@property (nonatomic,strong)UIImage * avatar;
-
-/// 收藏夹
-@property (nonatomic, strong)FavoriteModel * favorites;
 
 #pragma mark - Status
 ///有新消息

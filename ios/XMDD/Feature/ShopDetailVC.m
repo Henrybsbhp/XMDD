@@ -76,7 +76,6 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.headerView.trottingView refreshLabels];
-    self.customNavBar.isCollected = self.store.isShopCollected;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -116,6 +115,8 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     self.customNavBar = [[ShopDetailNavigationBar alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)
                                                          andScrollView:self.collectionView];
     self.customNavBar.titleLabel.text = @"商户详情";
+    self.customNavBar.isCollected = [gStoreMgr.collectionStore isCollectedByShopID:self.shop.shopID];
+
     @weakify(self);
     //更新状态栏
     [self.customNavBar setShouldUpdateStatusBar:^(void) {
@@ -185,6 +186,10 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
             self.loadStatus = HKLoadStatusError;
         }];
     }];
+    
+    [gStoreMgr.collectionStore.collectionsChanged subscribeNext:^(id x) {
+        self.customNavBar.isCollected = [gStoreMgr.collectionStore isCollectedByShopID:self.shop.shopID];
+    }];
 }
 #pragma mark - Datasource
 - (void)reloadDatasource {
@@ -245,17 +250,11 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 /// 收藏
 - (void)actionCollect:(id)sender {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        @weakify(self);
-        [[[self.store collectShop] initially:^{
-            
+        [[[gStoreMgr.collectionStore addCollection:self.shop] initially:^{
             [gToast showingWithText:@"添加中…"];
         }] subscribeNext:^(id x) {
-            
-            @strongify(self);
             [gToast dismiss];
-            self.customNavBar.isCollected = YES;
         } error:^(NSError *error) {
-            
             [gToast showError:error.domain];
         }];
     }
@@ -264,17 +263,11 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 /// 取消收藏
 - (void)actionUncollect:(id)sender {
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        @weakify(self);
-        [[[self.store unCollectShop] initially:^{
-            
+        [[[gStoreMgr.collectionStore removeCollections:@[self.shop]] initially:^{
             [gToast showingWithText:@"移除中…"];
         }] subscribeNext:^(id x) {
-            
-            @strongify(self);
             [gToast dismiss];
-            self.customNavBar.isCollected = NO;
         } error:^(NSError *error) {
-            
             [gToast showError:error.domain];
         }];
     }
