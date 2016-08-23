@@ -105,7 +105,9 @@
     shop.openHour = rsp[@"openhour"];
     shop.closeHour = rsp[@"closehour"];
     shop.txnumber = [rsp integerParamForName:@"txnumber"];
-    shop.announcement = [rsp stringParamForName:@"note"];
+    shop.carwashNote = [rsp stringParamForName:@"note"];
+    shop.maintenanceNote = [rsp stringParamForName:@"bynote"];
+    shop.beautyNote = [rsp stringParamForName:@"mrnote"];
     shop.ratenumber = [rsp integerParamForName:@"ratenumber"];
     shop.isVacation = [rsp numberParamForName:@"isvacation"];
     shop.allowABC = [rsp boolParamForName:@"abcbanksupport"];
@@ -150,6 +152,17 @@
     return [self.shopServiceArray arrayByFilteringOperator:^BOOL(JTShopService *service) {
         return service.shopServiceType == type;
     }];
+}
+
+- (NSString *)noteForServiceType:(ShopServiceType)type {
+    switch (type) {
+        case ShopServiceCarBeauty:
+            return self.beautyNote;
+        case ShopServiceCarMaintenance:
+            return self.maintenanceNote;
+        default:
+            return self.carwashNote;
+    }
 }
 
 - (instancetype)setKey:(id<NSCopying>)key {

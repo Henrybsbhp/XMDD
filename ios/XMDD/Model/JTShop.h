@@ -110,7 +110,10 @@ typedef enum : NSUInteger {
 ///商户服务[JTShopComment]
 @property (nonatomic,strong)NSArray * shopCommentArray;
 ///公报
-@property (nonatomic,copy)NSString * announcement;
+@property (nonatomic,strong)NSString *carwashNote;
+@property (nonatomic,strong)NSString *maintenanceNote;
+@property (nonatomic,strong)NSString *beautyNote;
+
 ///该商户洗车服务总评价数量
 @property (nonatomic)NSInteger ratenumber;
 //是否休假，1:是。0：营业
@@ -122,5 +125,6 @@ typedef enum : NSUInteger {
 ///营业中，已休息，暂停营业
 - (NSString *)descForBusinessStatus;
 - (NSArray *)filterShopServiceByType:(ShopServiceType)type;
+- (NSString *)noteForServiceType:(ShopServiceType)type;
 
 @end

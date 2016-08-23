@@ -3,7 +3,7 @@
 //  XiaoMa
 //
 //  Created by jiangjunchen on 15/8/10.
-//  Copyright (c) 2015年 jiangjunchen. All rights reserved.
+//  Copyright (c) 2015年 huika. All rights reserved.
 //
 
 #import "GetBankcardListOp.h"
