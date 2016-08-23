@@ -57,7 +57,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.store = [ShopDetailStore fetchOrCreateStoreByShopID:self.shop.shopID];
-    [self.store resetDataWithShop:self.shop];
+    [self.store resetDataWithShop:self.shop withSelectedServiceType:self.serviceType];
     
     [self setupAllMobEvents];
     [self setupCollectionView];
@@ -147,12 +147,20 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 - (void)setupHeaderView {
     self.headerView = [[ShopDetailHeaderView alloc] initWithFrame:CGRectMake(0, -165, ScreenWidth, 165)];
     [self.collectionView addSubview:self.headerView];
-
-    self.headerView.trottingView.text = [self.store stringWithAppendSpace:_shop.announcement andWidth:ScreenWidth - 62];
-    self.headerView.trottingContainerView.hidden = self.shop.announcement.length == 0;
     self.headerView.picURLArray = self.shop.picArray;
+    
+    @weakify(self);
     [[self.headerView.tapGesture rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
         [self mobClickWithEventKey:@"header"];
+    }];
+    
+    [[RACObserve(self.store, selectedServiceGroup) distinctUntilChanged] subscribeNext:^(CKList *group) {
+        @strongify(self);
+        ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:group];
+        NSString *note = [self.shop noteForServiceType:type];
+        self.headerView.trottingView.text = [self.store stringWithAppendSpace:note andWidth:ScreenWidth - 62];
+        self.headerView.trottingContainerView.hidden = note.length == 0;
     }];
 }
 
@@ -617,24 +625,25 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 
 - (CKDict *)commentTitleCell {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"commentTitle", kCKCellID:@"commentTitle"}];
+    double rate = [self.shop rateForServiceType:[self.store currentGroupServcieType]];
+    NSInteger commentno = [self.shop commentNumberForServiceType:[self.store currentGroupServcieType]];
+    dict[@"rate"] = @(rate);
+    dict[@"ratestr"] = [NSString stringWithFormat:@"%@分",
+                        [@(rate) decimalStringWithMaxFractionDigits:1 minFractionDigits:1]];
+    dict[@"comment"] = [NSString stringWithFormat:@"全部评价(%ld)%@",
+                          commentno, commentno == 0 ? @"" : @">"];
+    
     dict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 42;
     });
     
-    @weakify(self);
     dict[kCKCellPrepare] = ^(CKDict *data, NSIndexPath *indexPath, ShopDetailCommentTitleCell *cell) {
-        @strongify(self);
-        cell.ratingView.ratingValue = self.shop.shopRate;
-        
-        NSString *rateStr = [@(self.shop.shopRate) decimalStringWithMaxFractionDigits:1 minFractionDigits:1];
-        cell.rateLabel.text = [NSString stringWithFormat:@"%@分", rateStr];
-
-        NSString *commentTitle = [NSString stringWithFormat:@"全部评价(%ld)%@",
-                                  [self.store currentCommentNumber],
-                                  self.shop.ratenumber == 0 ? @"" : @">"];
-        [cell.commentButton setTitle:commentTitle forState:UIControlStateNormal];
+        cell.ratingView.ratingValue = [data[@"rate"] doubleValue];
+        cell.rateLabel.text = data[@"ratestr"];
+        [cell.commentButton setTitle:data[@"comment"] forState:UIControlStateNormal];
     };
     
+    @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];

@@ -25,7 +25,7 @@
     return [self fetchExistsStoreForKey:[NSString stringWithFormat:@"Shop.Detail.%@", shopid]];
 }
 
-- (void)resetDataWithShop:(JTShop *)shop {
+- (void)resetDataWithShop:(JTShop *)shop withSelectedServiceType:(ShopServiceType)type {
     _shop = shop;
 
     CKDict *selectedServices = [[CKDict alloc] init];
@@ -34,6 +34,12 @@
         CKList *group = [[CKList listWithArray:shop.shopServiceArray] setKey:@(ShopServiceAllCarWash)];
         [serviceGroups addObject:group forKey:nil];
         selectedServices[@(ShopServiceAllCarWash)] = group[0];
+        if (type == ShopServiceCarwashWithHeart) {
+            JTShop *service = [[group allObjects] firstObjectByFilteringOperator:^BOOL(JTShopService *service) {
+                return service.shopServiceType == ShopServiceCarwashWithHeart;
+            }];
+            selectedServices[@(ShopServiceAllCarWash)] = service;
+        }
     }
     if ([shop.beautyServiceArray count] > 0) {
         CKList *group = [[CKList listWithArray:shop.beautyServiceArray] setKey:@(ShopServiceCarBeauty)];
@@ -54,7 +60,7 @@
 
 #pragma mark - Service
 - (void)selectServiceGroup:(CKList *)group {
-    _selectedServiceGroup = group;
+    self.selectedServiceGroup = group;
 }
 
 - (void)selectService:(JTShopService *)service {
@@ -88,6 +94,10 @@
     return [groupkey integerValue];
 }
 
+- (ShopServiceType)currentGroupServcieType {
+    return [ShopDetailStore serviceTypeForServiceGroup:self.selectedServiceGroup];
+}
+
 - (NSString *)serviceGroupDescForServiceGroup:(CKList *)group {
     ShopServiceType type = [(NSNumber *)group.key integerValue];
     return [ShopDetailStore serviceGroupDescForServiceType:type];
@@ -104,18 +114,6 @@
     return self.commentGroups[self.selectedServiceGroup.key];
 }
 
-- (NSInteger)currentCommentNumber {
-    ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.selectedServiceGroup];
-    switch (type) {
-        case ShopServiceCarMaintenance:
-            return self.shop.maintenanceCommentNumber;
-        case ShopServiceCarBeauty:
-            return self.shop.beautyCommentNumber;
-        default:
-            return self.shop.commentNumber;
-    }
-}
-
 - (void)fetchAllCommentGroups {
     GetShopRatesV2Op * op = [GetShopRatesV2Op operation];
     op.req_shopid = self.shop.shopID;
@@ -126,7 +124,7 @@
         
         @strongify(self);
         _commentsOp = op;
-        self.shop.commentNumber = op.rsp_carwashTotalNumber;
+        self.shop.carwashCommentNumber = op.rsp_carwashTotalNumber;
         self.shop.maintenanceCommentNumber = op.rsp_maintenanceTotalNumber;
         self.shop.beautyCommentNumber = op.rsp_beautyTotalNumber;
         _commentGroups = $([[CKList listWithArray:op.rsp_carwashCommentArray] setKey:@(ShopServiceAllCarWash)],
