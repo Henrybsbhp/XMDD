@@ -129,9 +129,6 @@
     UIButton *bottomB = (UIButton *)[cell.contentView viewWithTag:4001];
     UIImageView *imgView = (UIImageView *)[cell viewWithTag:4000];
     
-    imgView.layer.borderWidth = 0.5;
-    imgView.layer.borderColor = kGrayTextColor.CGColor;
-    
     HKInsuranceOrder *order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     [imgView setImageByUrl:order.picUrl withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
     nameL.text = order.inscomp;

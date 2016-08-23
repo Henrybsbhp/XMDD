@@ -2509,8 +2509,8 @@
 		28FBB925F230AB7BE6AD87FF /* libPods-XMDD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-XMDD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FF6BC86D83245F3AA5579BF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		42A4FF4931374F8E9563443E /* libRCTToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTToast.a; sourceTree = "<group>"; };
-		4E2159A01D6409F5004A81D6 /* UPayVerifyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPayVerifyVC.h; sourceTree = "<group>"; };
-		4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UPayVerifyVC.m; sourceTree = "<group>"; };
+		4E2159A01D6409F5004A81D6 /* UPayVerifyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UPayVerifyVC.h; path = ../Feature/UPayVerifyVC.h; sourceTree = "<group>"; };
+		4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UPayVerifyVC.m; path = ../Feature/UPayVerifyVC.m; sourceTree = "<group>"; };
 		4E30E6CF1CFD8492000157D4 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
 		4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
 		4E30E6D11CFD8492000157D4 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
@@ -4257,6 +4257,8 @@
 		18649AC81D489F1D00F1CCB0 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
+				4E2159A01D6409F5004A81D6 /* UPayVerifyVC.h */,
+				4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */,
 				C3B129B91D5B0114008CBE6A /* UPApplePayHelper.h */,
 				C3B129BA1D5B0114008CBE6A /* UPApplePayHelper.m */,
 				186496AE1D489A4200F1CCB0 /* WeChatHelper.h */,
@@ -4429,8 +4431,6 @@
 				18649CA31D48B6C100F1CCB0 /* Violation */,
 				18649C171D48B38D00F1CCB0 /* MutualIns */,
 				18649BFF1D48B32A00F1CCB0 /* Valuation */,
-				4E2159A01D6409F5004A81D6 /* UPayVerifyVC.h */,
-				4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */,
 			);
 			path = Feature;
 			sourceTree = "<group>";

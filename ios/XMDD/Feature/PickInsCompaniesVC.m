@@ -82,11 +82,7 @@
     [self.collectionView reloadData];
     if (self.datasource.count == 0) {
         CGFloat offset = self.collectionView.contentInset.top;
-        @weakify(self);
-        [self.collectionView showImageEmptyViewWithImageName:@"def_failConnect" text:@"暂无保险公司信息，点击重试" centerOffset:offset tapBlock:^{
-            @strongify(self);
-            [self reloadData];
-        }];
+        [self.collectionView showImageEmptyViewWithImageName:@"def_failConnect" text:@"暂无保险公司信息" centerOffset:offset tapBlock:nil];
     }
     else
     {
