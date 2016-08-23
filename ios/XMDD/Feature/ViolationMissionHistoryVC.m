@@ -271,7 +271,7 @@
         NSDictionary *dic = self.tips[indexPath.row];
         ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Violation"];
         vc.usercarID = (NSNumber *)dic[@"usercarid"];
-        vc.carNum = dic[@"licensenumber"];
+        vc.carNum = dic[@"licencenumber"];
         [vc setCommitSuccessBlock:^{
             
             @strongify(self)

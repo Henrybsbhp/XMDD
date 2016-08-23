@@ -70,7 +70,7 @@
     }];
     
     CGFloat squaresHeight = self.numOfRow * self.squareHeight;
-    scrollView.contentSize = CGSizeMake(gAppMgr.deviceInfo.screenSize.width, MAX(CGRectGetHeight(self.view.frame), squaresHeight));
+    scrollView.contentSize = CGSizeMake(gAppMgr.deviceInfo.screenSize.width, MAX(gAppMgr.deviceInfo.screenSize.height - 64, squaresHeight));
     scrollView.backgroundColor = [UIColor clearColor];
     self.scrollView = scrollView;
     
