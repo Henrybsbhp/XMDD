@@ -73,8 +73,6 @@ typedef enum : NSUInteger {
 @property (nonatomic,copy)NSString * shopName;
 ///商户图片
 @property (nonatomic,strong)NSArray * picArray;
-///商户评级
-@property (nonatomic)CGFloat shopRate;
 ///地址
 @property (nonatomic,copy)NSString * shopAddress;
 ///精度
@@ -89,18 +87,20 @@ typedef enum : NSUInteger {
 @property (nonatomic,copy)NSString * closeHour;
 ///已完成单数
 @property (nonatomic)NSInteger txnumber;
-///评价数
-@property (nonatomic)NSInteger commentNumber;
 ///洗车服务[JTShopService]
 @property (nonatomic,strong)NSArray * shopServiceArray;
 ///保养服务[JTShopService]
 @property (nonatomic,strong)NSArray * maintenanceServiceArray;
 ///美容服务[JTShopService]
 @property (nonatomic,strong)NSArray * beautyServiceArray;
+///洗车商户评级
+@property (nonatomic, assign) double carwashRate;
 ///保养商户评级
-@property (nonatomic, assign) NSInteger maintenanceRateNumber;
+@property (nonatomic, assign) double maintenanceRate;
 ///美容商户评级
-@property (nonatomic, assign) NSInteger beautyRateNumber;
+@property (nonatomic, assign) double beautyRate;
+///洗车评论数量
+@property (nonatomic, assign) NSInteger carwashCommentNumber;
 ///保养评论数量
 @property (nonatomic, assign) NSInteger maintenanceCommentNumber;
 ///美容评论数量
@@ -114,8 +114,6 @@ typedef enum : NSUInteger {
 @property (nonatomic,strong)NSString *maintenanceNote;
 @property (nonatomic,strong)NSString *beautyNote;
 
-///该商户洗车服务总评价数量
-@property (nonatomic)NSInteger ratenumber;
 //是否休假，1:是。0：营业
 @property (nonatomic,strong)NSNumber *isVacation;
 
@@ -126,5 +124,7 @@ typedef enum : NSUInteger {
 - (NSString *)descForBusinessStatus;
 - (NSArray *)filterShopServiceByType:(ShopServiceType)type;
 - (NSString *)noteForServiceType:(ShopServiceType)type;
+- (double)rateForServiceType:(ShopServiceType)type;
+- (NSInteger)commentNumberForServiceType:(ShopServiceType)type;
 
 @end

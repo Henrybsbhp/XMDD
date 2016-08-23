@@ -94,6 +94,10 @@
     return [groupkey integerValue];
 }
 
+- (ShopServiceType)currentGroupServcieType {
+    return [ShopDetailStore serviceTypeForServiceGroup:self.selectedServiceGroup];
+}
+
 - (NSString *)serviceGroupDescForServiceGroup:(CKList *)group {
     ShopServiceType type = [(NSNumber *)group.key integerValue];
     return [ShopDetailStore serviceGroupDescForServiceType:type];
@@ -110,18 +114,6 @@
     return self.commentGroups[self.selectedServiceGroup.key];
 }
 
-- (NSInteger)currentCommentNumber {
-    ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.selectedServiceGroup];
-    switch (type) {
-        case ShopServiceCarMaintenance:
-            return self.shop.maintenanceCommentNumber;
-        case ShopServiceCarBeauty:
-            return self.shop.beautyCommentNumber;
-        default:
-            return self.shop.commentNumber;
-    }
-}
-
 - (void)fetchAllCommentGroups {
     GetShopRatesV2Op * op = [GetShopRatesV2Op operation];
     op.req_shopid = self.shop.shopID;
@@ -132,7 +124,7 @@
         
         @strongify(self);
         _commentsOp = op;
-        self.shop.commentNumber = op.rsp_carwashTotalNumber;
+        self.shop.carwashCommentNumber = op.rsp_carwashTotalNumber;
         self.shop.maintenanceCommentNumber = op.rsp_maintenanceTotalNumber;
         self.shop.beautyCommentNumber = op.rsp_beautyTotalNumber;
         _commentGroups = $([[CKList listWithArray:op.rsp_carwashCommentArray] setKey:@(ShopServiceAllCarWash)],

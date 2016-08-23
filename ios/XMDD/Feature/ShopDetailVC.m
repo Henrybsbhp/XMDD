@@ -625,24 +625,25 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 
 - (CKDict *)commentTitleCell {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"commentTitle", kCKCellID:@"commentTitle"}];
+    double rate = [self.shop rateForServiceType:[self.store currentGroupServcieType]];
+    NSInteger commentno = [self.shop commentNumberForServiceType:[self.store currentGroupServcieType]];
+    dict[@"rate"] = @(rate);
+    dict[@"ratestr"] = [NSString stringWithFormat:@"%@分",
+                        [@(rate) decimalStringWithMaxFractionDigits:1 minFractionDigits:1]];
+    dict[@"comment"] = [NSString stringWithFormat:@"全部评价(%ld)%@",
+                          commentno, commentno == 0 ? @"" : @">"];
+    
     dict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 42;
     });
     
-    @weakify(self);
     dict[kCKCellPrepare] = ^(CKDict *data, NSIndexPath *indexPath, ShopDetailCommentTitleCell *cell) {
-        @strongify(self);
-        cell.ratingView.ratingValue = self.shop.shopRate;
-        
-        NSString *rateStr = [@(self.shop.shopRate) decimalStringWithMaxFractionDigits:1 minFractionDigits:1];
-        cell.rateLabel.text = [NSString stringWithFormat:@"%@分", rateStr];
-
-        NSString *commentTitle = [NSString stringWithFormat:@"全部评价(%ld)%@",
-                                  [self.store currentCommentNumber],
-                                  self.shop.ratenumber == 0 ? @"" : @">"];
-        [cell.commentButton setTitle:commentTitle forState:UIControlStateNormal];
+        cell.ratingView.ratingValue = [data[@"rate"] doubleValue];
+        cell.rateLabel.text = data[@"ratestr"];
+        [cell.commentButton setTitle:data[@"comment"] forState:UIControlStateNormal];
     };
     
+    @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
