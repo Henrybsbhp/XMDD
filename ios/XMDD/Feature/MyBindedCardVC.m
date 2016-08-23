@@ -71,7 +71,7 @@
 // 添加银行卡
 - (void)actionToAddCard
 {
-    AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"HX_Temp"];
+    AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"Bank"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -113,7 +113,7 @@
 - (void)fetchData
 {
     GetBankCardListV2Op *op = [GetBankCardListV2Op operation];
-    op.isAll = @(1);
+    op.cardType = @(10);
     
     @weakify(self);
     [[[op rac_postRequest] initially:^{

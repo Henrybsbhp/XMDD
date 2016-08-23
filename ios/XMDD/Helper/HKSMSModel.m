@@ -8,18 +8,23 @@
 
 #import "HKSMSModel.h"
 #import "GetTokenOp.h"
+#import "SendUnioncardSmsOp.h"
 #import "GetBindCZBVcodeOp.h"
 #import "GetUnbindBankcardVcodeOp.h"
 
-///短信60秒冷却时间
+///短信30秒冷却时间
 #define kMaxVcodeInterval        30
+///短信60秒冷却时间
+#define kLongVcodeInterval        60
 /// 手机号码长度（11位）
 #define kPhoneNumberLength      11
 
 static NSTimeInterval s_coolingTimeForCZBGasCharge = 0;
 static NSTimeInterval s_coolingTimeForUnbindCZB = 0;
+static NSTimeInterval s_coolingTimeForUnionCard = 0;
 static NSTimeInterval s_coolingTimeForBindCZB = 0;
 static NSTimeInterval s_coolingTimeForLogin = 0;
+
 
 @interface HKSMSModel ()<UITextFieldDelegate>
 
@@ -48,6 +53,18 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
     RACSignal *signal = [op rac_postRequest];
     return [[signal doNext:^(id x) {
         s_coolingTimeForUnbindCZB = [[NSDate date] timeIntervalSince1970];
+    }] deliverOn:[RACScheduler mainThreadScheduler]];
+}
+
+/// 获取银联快捷支付短信验证码
+- (RACSignal *)rac_getUnionCardVcodeWithTokenID:(NSString *)tokenID andTradeNo:(NSString *)tradeNO
+{
+    SendUnioncardSmsOp *op = [SendUnioncardSmsOp operation];
+    op.req_tokenid = tokenID;
+    op.req_tradeno = tradeNO;
+    RACSignal *signal = [op rac_postRequest];
+    return [[signal doNext:^(id x) {
+        s_coolingTimeForUnionCard = [[NSDate date] timeIntervalSince1970];
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
@@ -192,6 +209,44 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
             return YES;
         }];
         return [self rac_timeCountDown:kMaxVcodeInterval];
+    }] finally:^{
+        @strongify(self);
+        if (self.phoneField) {
+            btn.enabled = [self.phoneField.text length] == 11 ? YES : NO;
+        }
+        else {
+            btn.enabled = YES;
+        }
+    }] subscribeNext:^(id x) {
+        NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
+        [btn setTitle:title forState:UIControlStateDisabled];
+        [btn setTitle:title forState:UIControlStateNormal];
+    } error:^(NSError *error) {
+        [subject sendError:error];
+        [btn setTitle:originTitle forState:UIControlStateNormal];
+    } completed:^{
+        [btn setTitle:originTitle forState:UIControlStateNormal];
+    }];
+    
+    return subject;
+}
+
+- (RACSignal *)rac_startGetLongIntervalVcodeWithFetchVcodeSignal:(RACSignal *)vcodeSignal andPhone:(NSString *)phone
+{
+    UIButton *btn = self.getVcodeButton;
+    
+    NSString *originTitle = [btn titleForState:UIControlStateNormal];
+    RACSubject *subject = [RACSubject subject];
+    @weakify(self);
+    [[[[vcodeSignal initially:^{
+        [btn setTitle:@"正在获取..." forState:UIControlStateDisabled];
+        [btn setTitle:@"正在获取..." forState:UIControlStateNormal];
+        btn.enabled = NO;
+    }] flattenMap:^RACStream *(id value) {
+        @strongify(self);
+        [subject sendNext:value];
+        [subject sendCompleted];
+        return [self rac_timeCountDown:kLongVcodeInterval];
     }] finally:^{
         @strongify(self);
         if (self.phoneField) {

@@ -36,6 +36,12 @@ typedef enum : NSInteger
 @property (nonatomic, strong) NSString * alipayInfo;
 ///微信支付信息
 @property (nonatomic, strong) WechatPayInfo * wechatPayInfo;
+/// 银联快捷支付信息
+@property (strong, nonatomic) NSArray *bankCardInfo;
+/// 银联快捷支付描述
+@property (strong, nonatomic) NSString *unionPayDesc;
+/// 支付金额
+@property (assign, nonatomic) CGFloat total;
 @property (nonatomic, weak) UIViewController *targetVC;
 /// 支付平台
 @property (nonatomic, assign) PaymentPlatformType platformType;
@@ -46,11 +52,12 @@ typedef enum : NSInteger
 
 - (void)resetForAlipayWithTradeNumber:(NSString *)tn alipayInfo:(NSString *)alipayInfo;
 - (void)resetForWeChatWithTradeNumber:(NSString *)tn andPayInfoModel:(WechatPayInfo *)wechatPayInfo andTradeType:(TradeType)type;
-- (void)resetForUPPayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc;
+- (void)resetForUPPayWithTradeNumber:(NSString *)tn andPayInfoModel:(PayInfoModel *)payInfoModel andTotalFee:(CGFloat)total targetVC:(UIViewController *)tvc;
 - (void)resetForUPApplePayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc;
 
 - (RACSignal *)rac_startPay;
 - (RACSignal *)rac_startPay2;
+
 + (int)paymentChannelForPlatformType:(PaymentPlatformType)platformType;
 
 @end

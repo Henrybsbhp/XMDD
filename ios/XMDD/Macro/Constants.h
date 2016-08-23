@@ -36,7 +36,7 @@ typedef enum : NSUInteger {
     PaymentChannelABCIntegral,
     PaymentChannelCoupon,
     PaymentChannelCZBCreditCard,
-    PaymentChannelUPpay = 8 ,
+    PaymentChannelUPpay = 82 ,
     PaymentChannelApplePay = 81
 } PaymentChannelType;
 

@@ -31,8 +31,8 @@
 #import "MutualInsVC.h"
 
 #define WeatherRefreshTimeInterval 60 * 30
-#define ItemCount 3
-
+#define KWeatherLinkRange @"weatherLinkRange"
+#define KWeatherBigFontRange @"weatherBigFontRange"
 
 @interface HomePageVC ()<UIScrollViewDelegate,TTTAttributedLabelDelegate>
 
@@ -185,15 +185,15 @@
         make.right.equalTo(self.scrollView);
         make.width.equalTo(self.scrollView);
         
-        make.height.mas_equalTo(@(46));
+        make.height.mas_equalTo(@(54));
     }];
 }
 
 - (UIView *)setupSquaresViewInContainer:(UIView *)container
 {
     CGFloat deviceWidth = gAppMgr.deviceInfo.screenSize.width;
-    ///，长宽比 250 ：210
-    CGFloat squaresHeight = 208.0f / 250.0f * deviceWidth;
+    ///，长宽比 750 ：612
+    CGFloat squaresHeight = 612.0f / 750.0f * deviceWidth;
     if (gAppMgr.deviceInfo.screenSize.height < 568)
         squaresHeight = squaresHeight; //4s 480
     else if (gAppMgr.deviceInfo.screenSize.height < 667)
@@ -217,18 +217,8 @@
     // 设置九宫格内部数据
     [self setupSquaresView:squaresView withHeight:squaresHeight];
     
-    //小方块高度
-    CGFloat squareHeight = squaresHeight / 3.0f;
-    CGFloat squareWidth = deviceWidth / 3.0f;
-    
     //9宫格加边框
-    [squaresView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsZero];
-    [squaresView drawLineWithDirection:CKViewBorderDirectionBottom withEdge:UIEdgeInsetsZero];
-    //9宫格里面的四条线 ＃
-    [squaresView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsMake(squareHeight, 0, 0, 0)];
-    [squaresView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsMake(squareHeight * 2, 0, 0, 0)];
-    [squaresView drawLineWithDirection:CKViewBorderDirectionLeft withEdge:UIEdgeInsetsMake(0, squareWidth, 0, 0)];
-    [squaresView drawLineWithDirection:CKViewBorderDirectionLeft withEdge:UIEdgeInsetsMake(0, squareWidth * 2, 0, 0)];
+    [squaresView drawLineWithDirection:CKViewBorderDirectionTop withEdge:UIEdgeInsetsMake(0,18,0,18)];
     
     return squaresView;
 }
@@ -306,26 +296,30 @@
 - (void)setupWeatherView
 {
     UIImageView * weatherImage = (UIImageView *)[self.weatherView searchViewWithTag:20201];
+    
     TTTAttributedLabel * tempLb = (TTTAttributedLabel *)[self.weatherView searchViewWithTag:20202];
-    UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
-    UIView *rightContainerV = (UIView *)[self.weatherView searchViewWithTag:20200];
     tempLb.numberOfLines = 2;
     tempLb.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width;
     tempLb.delegate = self;
+    UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
+    UIView *rightContainerV = (UIView *)[self.weatherView searchViewWithTag:20200];
+
     
+    //限行信息
     [[RACObserve(gAppMgr, restriction) distinctUntilChanged] subscribeNext:^(NSString *text) {
         rightContainerV.hidden = text.length == 0;
         restrictionLb.text = text;
     }];
     
+    // 天气信息
     [RACObserve(gAppMgr, temperatureAndTip) subscribeNext:^(NSString *text) {
         
         if (!text)
             return ;
-        NSRange range = [text.customObject isKindOfClass:[NSValue class]] ? [(NSValue *)text.customObject rangeValue]: NSMakeRange(0, 0);
-        [self setupTTTLabel:tempLb withContent:text withRange:range];
+        [self setupTTTLabel:tempLb withContent:text];
     }];
     
+    // 天气图片
     [[RACObserve(gAppMgr, temperaturepic)distinctUntilChanged] subscribeNext:^(id x) {
         NSString * picName = [[x componentsSeparatedByString:@"/"] lastObject];
         weatherImage.image = [UIImage imageNamed:picName];
@@ -338,27 +332,32 @@
     CGFloat squqresWidth = gAppMgr.deviceInfo.screenSize.width;
     
     self.moduleModel.moduleArray = gAppMgr.homePicModel.homeItemArray;
-    self.moduleModel.numOfColumn = 3;
+    self.moduleModel.numOfColumn = 4;
     
-    [self.moduleModel setupSquaresViewWithContainView:containView andItemWith:squqresWidth/3.0 andItemHeigth:squaresHeight/3.0];
+    [self.moduleModel setupSquaresViewWithContainView:containView andItemWith:squqresWidth/4.0 andItemHeigth:squaresHeight/3.0];
 }
 
-- (void)setupTTTLabel:(TTTAttributedLabel *)label withContent:(NSString *)text withRange:(NSRange)range
+- (void)setupTTTLabel:(TTTAttributedLabel *)label withContent:(NSString *)text
 {
+    NSRange linkRange = [text.customInfo[KWeatherLinkRange] isKindOfClass:[NSValue class]] ? [text.customInfo[KWeatherLinkRange] rangeValue]: NSMakeRange(0, 0);
+    NSRange bigFontRange = [text.customInfo[KWeatherBigFontRange] isKindOfClass:[NSValue class]] ? [text.customInfo[KWeatherBigFontRange] rangeValue]: NSMakeRange(0, 0);
+    
     NSMutableString *mutableString = [NSMutableString stringWithString:text];
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
-    ps.lineSpacing = 5;
-    NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:mutableString
-                                                                 attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12],
-                                                                              NSForegroundColorAttributeName: kDarkTextColor,
+    ps.lineSpacing = 7;
+    NSMutableAttributedString *attstr = [[NSMutableAttributedString alloc] initWithString:mutableString
+                                                                 attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:10],
+                                                                              NSForegroundColorAttributeName: kGrayTextColor,
                                                                               NSParagraphStyleAttributeName: ps}];
+    if (bigFontRange.length)
+        [attstr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:bigFontRange];
     
     label.attributedText = attstr;
-    [label setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
+    [label setLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10],
                                NSForegroundColorAttributeName: HEXCOLOR(@"#007aff")}];
-    [label setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],
-                                     NSForegroundColorAttributeName: kDarkTextColor}];
-    [label addLinkToURL:[NSURL URLWithString:@""] withRange:range];
+    [label setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10],
+                                     NSForegroundColorAttributeName: kGrayTextColor}];
+    [label addLinkToURL:[NSURL URLWithString:@""] withRange:linkRange];
 }
 
 #pragma mark - TTTAttributedLabelDelegate
@@ -568,7 +567,10 @@
     op.district = regeo.district;
     return [[[[op rac_postRequest] doNext:^(GetSystemTipsOp * op) {
         
-        gAppMgr.temperatureAndTip = [[op.rsp_temperature append:@"   "] append:op.rsp_temperaturetip];
+        NSString * tip = [[op.rsp_temperature append:@"   "] append:op.rsp_temperaturetip];
+        NSRange bigFontRange = NSMakeRange(0, op.rsp_temperature.length);
+        [tip.customInfo safetySetObject:[NSValue valueWithRange:bigFontRange] forKey:KWeatherBigFontRange];
+        gAppMgr.temperatureAndTip = tip;
         gAppMgr.temperaturepic = op.rsp_temperaturepic;
         gAppMgr.restriction = op.rsp_restriction;
     }] doError:^(NSError *error) {
@@ -614,17 +616,17 @@
     if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
     {
         NSRange range = NSMakeRange(9, 4);
-        text.customObject = [NSValue valueWithRange:range];
+        text.customInfo[KWeatherLinkRange] = [NSValue valueWithRange:range];
     }
     else
     {
         NSRange range = NSMakeRange(0, 0);
-        text.customObject = [NSValue valueWithRange:range];
+        text.customInfo[KWeatherLinkRange] = [NSValue valueWithRange:range];
     }
 
     gAppMgr.temperatureAndTip = text;
     gAppMgr.temperaturepic = @"yin";
-    gAppMgr.restriction = @"定位失败";
+    gAppMgr.restriction = @"";
 }
 
 #pragma mark - Lazy

@@ -349,7 +349,9 @@
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
-            [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeid targetVC:self];
+            
+            [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeid andPayInfoModel:paidop.rsp_payInfoModel andTotalFee:[self calculateTotalFee] targetVC:self];
+            
         } break;
         case PaymentChannelApplePay:{
             
@@ -413,6 +415,53 @@
 }
 
 #pragma mark - Util
+
+- (CGFloat)calculateTotalFee
+{
+    HKCoupon * coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
+    
+    NSUInteger rechargeAmount = self.gasNormalVC.rechargeAmount;
+    CGFloat couponlimit, discount = 0;
+    CGFloat systemPercent = 0;
+    CGFloat paymoney = (CGFloat)rechargeAmount;
+    
+    GasStore *store = [GasStore fetchExistsStore];
+    couponlimit = store.config.rsp_couponupplimit ? store.config.rsp_couponupplimit : 1000;
+    systemPercent = store.config ? store.config.rsp_discountrate : 2;
+    
+    ///分期付款
+    if (self.gasNormalVC.curChargePkg.pkgid) {
+        paymoney = rechargeAmount * self.gasNormalVC.curChargePkg.month;
+        discount = paymoney * (1-[self.gasNormalVC.curChargePkg.discount floatValue]/100.0);
+    }
+    /// 系统额度
+    else if (self.gasNormalVC.curGasCard) {
+        discount = MIN([self.gasNormalVC.curGasCard.couponedmoney integerValue], rechargeAmount * systemPercent / 100.0);
+    }
+    else
+    {
+        discount = MIN(couponlimit, rechargeAmount) * systemPercent / 100.0;
+    }
+    
+    if ([self isGasCouponType:self.couponType])
+    {
+        if (coupon.couponPercent < 100)
+        {
+            // 优惠劵有折扣优惠，直接乘
+            discount = paymoney - paymoney * coupon.couponPercent / 100;
+        }
+        else
+        {
+            /// 选择了优惠券，优惠劵没折扣优惠  = 原先系统额度 + 优惠劵面额 （ps：优惠劵打折力度和优惠劵面额只存在一个）
+            discount = discount + coupon.couponAmount;
+        }
+    }
+    
+    paymoney = paymoney - discount;
+    
+    return paymoney;
+}
+
 - (void)selectedCouponCell {
     [MobClick event:@"rp508_1"];
     [self jumpToChooseCouponVC];

@@ -772,7 +772,7 @@
     switch (paidop.paychannel) {
         case PaymentChannelAlipay: {
             
-            [helper resetForAlipayWithTradeNumber:paidop.rsp_tradeId  alipayInfo:paidop.rsp_payInfoModel.alipayInfo];;
+            [helper resetForAlipayWithTradeNumber:paidop.rsp_tradeId  alipayInfo:paidop.rsp_payInfoModel.alipayInfo];
         } break;
         case PaymentChannelWechat: {
             
@@ -780,7 +780,7 @@
         } break;
         case PaymentChannelUPpay: {
             
-            [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeId targetVC:self];
+            [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeId andPayInfoModel:paidop.rsp_payInfoModel andTotalFee:self.checkoutServiceOrderV4Op.rsp_price targetVC:self];
         } break;
         case PaymentChannelApplePay:{
             

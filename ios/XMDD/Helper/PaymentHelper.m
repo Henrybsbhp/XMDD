@@ -37,10 +37,13 @@
     _tradeType = type;
 }
 
-- (void)resetForUPPayWithTradeNumber:(NSString *)tn targetVC:(UIViewController *)tvc
+- (void)resetForUPPayWithTradeNumber:(NSString *)tn andPayInfoModel:(PayInfoModel *)payInfoModel andTotalFee:(CGFloat)total targetVC:(UIViewController *)tvc
 {
     _platformType = PaymentPlatformTypeUPPay;
     _tradeNumber = tn;
+    _bankCardInfo = payInfoModel.bankListInfo;
+    _unionPayDesc = payInfoModel.unionPayDesc;
+    _total = total;
     _targetVC = tvc;
 }
 
@@ -80,8 +83,9 @@
     //银联支付
     if (_platformType == PaymentPlatformTypeUPPay) {
         UPPayHelper *helper = [[UPPayHelper alloc] init];
-        signal = [helper rac_payWithTradeNumber:self.tradeNumber targetVC:self.targetVC];
+        signal = [helper rac_payWithTradeNumber:self.tradeNumber bankCardInfo:self.bankCardInfo unionPayDesc:self.unionPayDesc totalFee:self.total targetVC:self.targetVC];
         self.helper = helper;
+        
     }
     //支付宝支付
     else if (_platformType == PaymentPlatformTypeAlipay) {
@@ -103,7 +107,7 @@
         self.helper = helper;
     }
     
-    return [[signal map:^id(id value) {
+    return [signal map:^id(id value) {
         
         if ([value isKindOfClass:[UPPayResult class]])
         {
@@ -117,9 +121,6 @@
             self.uppayCouponInfo = couponInfo;
         }
         return self;
-    }] catch:^RACSignal *(NSError *error) {
-        
-        return [RACSignal error:error];
     }];
 }
 

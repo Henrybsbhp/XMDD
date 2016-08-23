@@ -148,7 +148,7 @@
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
-            [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeno targetVC:self];
+            [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeno andPayInfoModel:paidop.rsp_payInfoModel andTotalFee:self.totalFee.floatValue targetVC:self];
         } break;
         case PaymentChannelApplePay:{
             
@@ -208,7 +208,7 @@
         
         [gToast showingWithText:@"订单生成中..."];
         
-    }]subscribeNext:^(PayViolationCommissionOrderOp *op) {
+    }] subscribeNext:^(PayViolationCommissionOrderOp *op) {
         
         @strongify(self)
         

@@ -13,7 +13,7 @@
 #import "PrebindingBankCardOp.h"
 #import "DetailWebVC.h"
 
-@interface AddBankCardVC ()
+@interface AddBankCardVC ()<UIWebViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, copy) NSString *issueBankName;
@@ -37,6 +37,7 @@
     
     self.datasource = $($([self setupAddCardNumCell], [self setupCardInfoCell], [self setupNextUpCell]));
     [self.tableView reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,9 +46,11 @@
 }
 
 #pragma mark - Actions
-- (void)actionCheckSupportedBankCard
+- (void)actionCheckSupportedBankCardWithURLString:(NSString *)urlString
 {
-    
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.url = urlString;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionToNextSteup
@@ -58,7 +61,7 @@
         [self shakeTextFieldCellAtRow:0];
         return;
     }
-        
+    
     PrebindingBankCardOp *op = [PrebindingBankCardOp operation];
     op.cardNo = self.cardNum;
     op.tradeNo = self.tradeNum;
@@ -71,7 +74,10 @@
         
         [gToast dismiss];
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        
         vc.title = @"绑定银行卡";
+        vc.subject = self.tradeNum.length == 0 ? nil : self.subject;
+        
         vc.url = rop.bindURL;
         [self.navigationController pushViewController:vc animated:YES];
         
@@ -160,11 +166,12 @@
         [logoImageView setImageByUrl:self.bankLogoURL withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
         bankNameLabel.text = self.issueBankName;
         
+        NSString *bankURL = gStoreMgr.configStore.systemConfig[@"supportbankurl"];
         [RACObserve(self, issueBankName) subscribeNext:^(NSString *string) {
             if (string.length > 0) {
                 logoImageView.hidden = NO;
                 bankNameLabel.hidden = NO;
-                checkButton.hidden = NO;
+                checkButton.hidden = bankURL.length > 0 ? NO : YES;
             } else {
                 logoImageView.hidden = YES;
                 bankNameLabel.hidden = YES;
@@ -175,7 +182,7 @@
         @weakify(self);
         [[[checkButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
-            [self actionCheckSupportedBankCard];
+            [self actionCheckSupportedBankCardWithURLString:bankURL];
         }];
     });
     
@@ -252,6 +259,19 @@
 {
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
     [cell.contentView shake];
+}
+
+- (IBAction)actionDismiss:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (RACSubject *)subject
+{
+    if (!_subject)
+    {
+        _subject = [RACSubject subject];
+    }
+    return _subject;
 }
 
 @end

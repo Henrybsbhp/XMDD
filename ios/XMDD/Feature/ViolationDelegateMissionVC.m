@@ -8,7 +8,6 @@
 
 #import "ViolationDelegateMissionVC.h"
 #import "ViolationMyLicenceVC.h"
-#import "ViolationMissionHistoryVC.h"
 #import "DetailWebVC.h"
 #import "ViolationDelegateCommitSuccessVC.h"
 #import "GetViolationCommissionOp.h"
@@ -55,7 +54,7 @@
 
 - (void)setupUI
 {
-    NSString *btnTitle = self.carArr.count != 0 ? [NSString stringWithFormat:@"服务费合计%ld元，立即申请代办",self.carArr.count * 235] : @"请选择您需要代办的违章";
+    NSString *btnTitle = @"请选择您需要代办的违章";
     
     self.commitBtn.enabled = self.carArr.count != 0;
     self.commitBtn.layer.cornerRadius = 5;
@@ -185,7 +184,7 @@
         NSDictionary *data = [self.dataSource safetyObjectAtIndex:(self.tip.length != 0 ? indexPath.row - 1 : indexPath.row)];
         
         UIImageView *selectImg = [cell viewWithTag:106];
-        selectImg.image = [self.carArr containsObject:indexPath] ? [UIImage imageNamed:@"illegal_selected"] : [UIImage imageNamed:@"illegal_unselected"];
+        selectImg.image = [self.carArr containsObject:data] ? [UIImage imageNamed:@"illegal_selected"] : [UIImage imageNamed:@"illegal_unselected"];
         
         UILabel *moneyLabel = [cell viewWithTag:100];
         moneyLabel.text = [NSString stringWithFormat:@"罚款%@元",data[@"money"]];
@@ -237,20 +236,21 @@
     @weakify(self)
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSDictionary *data = [self.dataSource safetyObjectAtIndex:(self.tip.length != 0 ? indexPath.row - 1 : indexPath.row)];
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
         UIImageView *selectImg = [cell viewWithTag:106];
         
-        if ([self.carArr containsObject:indexPath])
+        if ([self.carArr containsObject:data])
         {
-            [self.carArr removeObject:indexPath];
+            [self.carArr removeObject:data];
         }
         else
         {
-            [self.carArr addObject:indexPath];
+            [self.carArr addObject:data];
         }
         
-        selectImg.image = [self.carArr containsObject:indexPath] ? [UIImage imageNamed:@"illegal_selected"] : [UIImage imageNamed:@"illegal_unselected"];
+        selectImg.image = [self.carArr containsObject:data] ? [UIImage imageNamed:@"illegal_selected"] : [UIImage imageNamed:@"illegal_unselected"];
         
         [self configCommitBtn];
     }
@@ -291,21 +291,11 @@
 
 - (NSInteger)calculateDelegateFee
 {
-    NSDictionary *dic = nil;
     NSInteger total = 0;
     NSMutableArray *tempArr = [[NSMutableArray alloc]init];
     
-    for (NSIndexPath *index in self.carArr)
+    for (NSDictionary *dic in self.carArr)
     {
-        if (self.tip.length != 0)
-        {
-            dic = [self.dataSource safetyObjectAtIndex:index.row - 1];
-        }
-        else
-        {
-            dic = [self.dataSource safetyObjectAtIndex:index.row];
-        }
-        
         [tempArr addObject:dic[@"date"]];
         total = total + [(NSString *)dic[@"money"] integerValue] + [(NSString *)dic[@"servicefee"] integerValue];
     }

@@ -594,7 +594,8 @@
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
-            [helper resetForUPPayWithTradeNumber:op.rsp_tradeno targetVC:self];
+            
+            [helper resetForUPPayWithTradeNumber:op.rsp_tradeno andPayInfoModel:op.rsp_payInfoModel andTotalFee:self.insOrder.totoalpay + self.insOrder.forcetaxfee targetVC:self];
         } break;
         default:
             return NO;

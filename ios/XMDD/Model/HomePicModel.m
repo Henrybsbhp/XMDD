@@ -110,29 +110,33 @@
 {
     //设置默认图片
     if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=g"])
-        item.defaultImageName = @"hp_refuel_300";
+        item.defaultImageName = @"hp_refuel_330";
     else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=sl"])
-        item.defaultImageName = @"hp_carwash_300";
+        item.defaultImageName = @"hp_carwash_330";
     else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=coins"])
-        item.defaultImageName = @"hp_mutualIns_300";
+        item.defaultImageName = @"hp_mutualIns_330";
     else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=ins"])
-        item.defaultImageName = @"hp_insurance_300";
+        item.defaultImageName = @"hp_insurance_330";
     else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=a"])
-        item.defaultImageName = @"hp_weekcoupon_300";
+        item.defaultImageName = @"hp_weekcoupon_330";
     else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=vio"])
-        item.defaultImageName = @"peccancy_300";
+        item.defaultImageName = @"hp_violtion_330";
     else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=val"])
-        item.defaultImageName = @"hp_valuation_300";
+        item.defaultImageName = @"hp_valuation_330";
     else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=rescue"])
-        item.defaultImageName = @"hp_rescue_300";
+        item.defaultImageName = @"hp_rescue_330";
     else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=ast"])
-        item.defaultImageName = @"hp_assist_300";
+        item.defaultImageName = @"hp_assist_330";
     else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=nearbyservice&type=1"])
-        item.defaultImageName = @"hp_parking_300";
+        item.defaultImageName = @"hp_parking_330";
     else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=nearbyservice&type=2"])
-            item.defaultImageName = @"hp_4sshop_300";
+        item.defaultImageName = @"hp_4sshop_330";
     else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=nearbyservice&type=3"])
-        item.defaultImageName = @"hp_gasshop_300";
+        item.defaultImageName = @"hp_gasshop_330";
+    else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=beautysl"])
+        item.defaultImageName = @"hp_beauty_330";
+    else if ([item.homeItemRedirect hasPrefix:@"xmdd://j?t=mtsl"])
+        item.defaultImageName = @"hp_maintance_330";
     else
         item.defaultImageName = @"hp_default_300";
 }

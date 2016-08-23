@@ -148,7 +148,7 @@
     normalCell1.customInfo[@"limit"] = @17;
     normalCell1.customInfo[@"field.event"] = @"rp1001_4";
     normalCell1.customInfo[@"help.event"] = @"rp1001_3";
-    normalCell1.customInfo[@"textfield.datasource"] = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
+    normalCell1.customInfo[@"textfield.datasource"] = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"];
     normalCell1.object = self.baseCar.frameno;
     [datasource addObject:normalCell1];
     
@@ -161,7 +161,7 @@
     normalCell2.customInfo[@"limit"] = @50;
     normalCell2.customInfo[@"field.event"] = @"rp1001_6";
     normalCell2.customInfo[@"help.event"] = @"rp1001_5";
-    normalCell2.customInfo[@"textfield.datasource"] = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
+    normalCell2.customInfo[@"textfield.datasource"] = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"];
     normalCell2.object = self.baseCar.brandname;
     [datasource addObject:normalCell2];
     
@@ -173,7 +173,7 @@
     normalCell3.customInfo[@"limit"] = @50;
     normalCell3.customInfo[@"field.event"] = @"rp1001_8";
     normalCell3.customInfo[@"help.event"] = @"rp1001_7";
-    normalCell3.customInfo[@"textfield.datasource"] = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
+    normalCell3.customInfo[@"textfield.datasource"] = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"];
     normalCell3.object = self.baseCar.engineno;
     [datasource addObject:normalCell3];
 

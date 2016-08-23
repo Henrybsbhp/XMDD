@@ -15,7 +15,7 @@
     self.req_method = @"/user/bankcard/v2/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:self.isAll forName:@"isall"];
+    [params addParam:self.cardType forName:@"cardtype"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

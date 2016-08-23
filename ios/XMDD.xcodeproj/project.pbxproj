@@ -757,7 +757,9 @@
 		18FC01E61C4E6C6F00FD61BF /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18FC01DA1C4E6C6F00FD61BF /* IQKeyboardManager.bundle */; };
 		2E52F24A1C2032BB00D94F68 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		4CEFBEBAA7BE4E58AF8C448E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9411A8DA5E84CBC911B19E1 /* Zocial.ttf */; };
+		4E2159A21D6409F5004A81D6 /* UPayVerifyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */; };
 		4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */; };
+		4E63B7881D66D1A4004F9200 /* UnionBankCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E63B7871D66D1A4004F9200 /* UnionBankCard.m */; };
 		4E78DDE91D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */; };
 		4E78DDEA1D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE21D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m */; };
 		4E78DDEB1D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE41D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m */; };
@@ -772,6 +774,9 @@
 		4E78DF6E1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DF6D1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m */; };
 		4E78DFBA1D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */; };
 		4E78E02D1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */; };
+		4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */; };
+		4ED048C81D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */; };
+		4EF8BF661D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
 		505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
@@ -831,16 +836,17 @@
 		FA1459F71D631C5500690140 /* GetBankCardListV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F61D631C5500690140 /* GetBankCardListV2Op.m */; };
 		FA1459FA1D631D7E00690140 /* MyBankCardListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F91D631D7E00690140 /* MyBankCardListModel.m */; };
 		FA1459FD1D632FA900690140 /* UnbindingBankCardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459FC1D632FA900690140 /* UnbindingBankCardOp.m */; };
+		FA2956111D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2956101D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.m */; };
 		FA445C6D1D59B0B60099245E /* CancelViolationCommissionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */; };
 		FA65CDA21D51CCC30076ED7D /* MutualOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */; };
 		FA65CDA51D51EF650076ED7D /* GasOrderModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
 		FA941B3F1D13A5AA00F56B96 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA941B3E1D13A5AA00F56B96 /* PassKit.framework */; };
 		FAA240591D505224008AA1EC /* GetGasCardInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */; };
-		FAA665541D6549E400781CB1 /* HX_Temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAA665531D6549E400781CB1 /* HX_Temp.storyboard */; };
 		FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C41D1246490045531C /* CFNetwork.framework */; };
 		FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C81D12466E0045531C /* SystemConfiguration.framework */; };
 		FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */; };
+		FAB79D3D1D6AD63100CFD0F4 /* SJMarqueeLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB79D3C1D6AD63100CFD0F4 /* SJMarqueeLabelView.m */; };
 		FAC9868B1D5819F7000FE245 /* GasChargeOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC9868A1D5819F7000FE245 /* GasChargeOrderOp.m */; };
 		FAC9869C1D581B98000FE245 /* GasChargedOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC9869B1D581B98000FE245 /* GasChargedOrderModel.m */; };
 		FAC9869F1D582C7F000FE245 /* MutualOrderListGetOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC9869E1D582C7F000FE245 /* MutualOrderListGetOp.m */; };
@@ -2503,9 +2509,13 @@
 		28FBB925F230AB7BE6AD87FF /* libPods-XMDD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-XMDD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FF6BC86D83245F3AA5579BF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		42A4FF4931374F8E9563443E /* libRCTToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTToast.a; sourceTree = "<group>"; };
+		4E2159A01D6409F5004A81D6 /* UPayVerifyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPayVerifyVC.h; sourceTree = "<group>"; };
+		4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UPayVerifyVC.m; sourceTree = "<group>"; };
 		4E30E6CF1CFD8492000157D4 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
 		4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
 		4E30E6D11CFD8492000157D4 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
+		4E63B7861D66D1A4004F9200 /* UnionBankCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnionBankCard.h; sourceTree = "<group>"; };
+		4E63B7871D66D1A4004F9200 /* UnionBankCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnionBankCard.m; sourceTree = "<group>"; };
 		4E78DDDF1D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateCommitSuccessVC.h; sourceTree = "<group>"; };
 		4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationDelegateCommitSuccessVC.m; sourceTree = "<group>"; };
 		4E78DDE11D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateMissionVC.h; sourceTree = "<group>"; };
@@ -2534,6 +2544,12 @@
 		4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetViolationCommissionByIdOp.m; sourceTree = "<group>"; };
 		4E78E02B1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayViolationCommissionOrderOp.h; sourceTree = "<group>"; };
 		4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayViolationCommissionOrderOp.m; sourceTree = "<group>"; };
+		4ED048611D643A5500F48A1F /* SendUnioncardSmsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendUnioncardSmsOp.h; sourceTree = "<group>"; };
+		4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendUnioncardSmsOp.m; sourceTree = "<group>"; };
+		4ED048C61D64964600F48A1F /* CheckoutUnioncardQuickpayOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutUnioncardQuickpayOp.h; sourceTree = "<group>"; };
+		4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutUnioncardQuickpayOp.m; sourceTree = "<group>"; };
+		4EF8BF641D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckGeneralTradenoStatusOp.h; sourceTree = "<group>"; };
+		4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckGeneralTradenoStatusOp.m; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
@@ -2632,6 +2648,8 @@
 		FA1459F91D631D7E00690140 /* MyBankCardListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBankCardListModel.m; sourceTree = "<group>"; };
 		FA1459FB1D632FA900690140 /* UnbindingBankCardOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnbindingBankCardOp.h; sourceTree = "<group>"; };
 		FA1459FC1D632FA900690140 /* UnbindingBankCardOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnbindingBankCardOp.m; sourceTree = "<group>"; };
+		FA29560F1D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsTipsInfoExtendedView.h; sourceTree = "<group>"; };
+		FA2956101D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsTipsInfoExtendedView.m; sourceTree = "<group>"; };
 		FA445C6B1D59B0B50099245E /* CancelViolationCommissionOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelViolationCommissionOp.h; sourceTree = "<group>"; };
 		FA445C6C1D59B0B60099245E /* CancelViolationCommissionOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelViolationCommissionOp.m; sourceTree = "<group>"; };
 		FA65CDA01D51CCC30076ED7D /* MutualOrderViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualOrderViewModel.h; sourceTree = "<group>"; };
@@ -2643,10 +2661,11 @@
 		FA941B3E1D13A5AA00F56B96 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		FAA240571D505224008AA1EC /* GetGasCardInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGasCardInfoOp.h; sourceTree = "<group>"; };
 		FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGasCardInfoOp.m; sourceTree = "<group>"; };
-		FAA665531D6549E400781CB1 /* HX_Temp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = HX_Temp.storyboard; sourceTree = "<group>"; };
 		FAAD30C41D1246490045531C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FAAD30C81D12466E0045531C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
+		FAB79D3B1D6AD63100CFD0F4 /* SJMarqueeLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJMarqueeLabelView.h; sourceTree = "<group>"; };
+		FAB79D3C1D6AD63100CFD0F4 /* SJMarqueeLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJMarqueeLabelView.m; sourceTree = "<group>"; };
 		FAC986891D5819F7000FE245 /* GasChargeOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasChargeOrderOp.h; sourceTree = "<group>"; };
 		FAC9868A1D5819F7000FE245 /* GasChargeOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasChargeOrderOp.m; sourceTree = "<group>"; };
 		FAC9869A1D581B98000FE245 /* GasChargedOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasChargedOrderModel.h; sourceTree = "<group>"; };
@@ -3632,8 +3651,14 @@
 				FA1459FC1D632FA900690140 /* UnbindingBankCardOp.m */,
 				180294DB1D61C3F700FC0C05 /* GetSystemConfigInfoOp.h */,
 				180294DC1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m */,
+				4ED048611D643A5500F48A1F /* SendUnioncardSmsOp.h */,
+				4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */,
+				4ED048C61D64964600F48A1F /* CheckoutUnioncardQuickpayOp.h */,
+				4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */,
 				180294E61D64148E00FC0C05 /* GetReactNativeConfigOp.h */,
 				180294E71D64148E00FC0C05 /* GetReactNativeConfigOp.m */,
+				4EF8BF641D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.h */,
+				4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */,
 			);
 			name = Netop;
 			sourceTree = "<group>";
@@ -3983,7 +4008,6 @@
 		186495B41D4895D200F1CCB0 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
-				FAA665531D6549E400781CB1 /* HX_Temp.storyboard */,
 				186495B51D4895D200F1CCB0 /* About.storyboard */,
 				186495B61D4895D200F1CCB0 /* Assistive.storyboard */,
 				186495B71D4895D200F1CCB0 /* Award.storyboard */,
@@ -4405,6 +4429,8 @@
 				18649CA31D48B6C100F1CCB0 /* Violation */,
 				18649C171D48B38D00F1CCB0 /* MutualIns */,
 				18649BFF1D48B32A00F1CCB0 /* Valuation */,
+				4E2159A01D6409F5004A81D6 /* UPayVerifyVC.h */,
+				4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -4499,6 +4525,10 @@
 				18649B061D48A93000F1CCB0 /* DashLine.m */,
 				18649B491D48A93000F1CCB0 /* TopMenuScrollView.h */,
 				18649B4A1D48A93000F1CCB0 /* TopMenuScrollView.m */,
+				FA29560F1D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.h */,
+				FA2956101D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.m */,
+				FAB79D3B1D6AD63100CFD0F4 /* SJMarqueeLabelView.h */,
+				FAB79D3C1D6AD63100CFD0F4 /* SJMarqueeLabelView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -5593,6 +5623,8 @@
 				FAC986A11D583A44000FE245 /* MutualOrderListModel.m */,
 				FAC986A61D587890000FE245 /* ViolationCommissionStateModel.h */,
 				FAC986A71D587890000FE245 /* ViolationCommissionStateModel.m */,
+				4E63B7861D66D1A4004F9200 /* UnionBankCard.h */,
+				4E63B7871D66D1A4004F9200 /* UnionBankCard.m */,
 				FA1459F81D631D7E00690140 /* MyBankCardListModel.h */,
 				FA1459F91D631D7E00690140 /* MyBankCardListModel.m */,
 			);
@@ -6241,7 +6273,6 @@
 				186495D21D4895D200F1CCB0 /* 90_0.gpx in Resources */,
 				02284D120D3D4C8CAB70541C /* Entypo.ttf in Resources */,
 				97C110D9AD37422B9F4C9088 /* EvilIcons.ttf in Resources */,
-				FAA665541D6549E400781CB1 /* HX_Temp.storyboard in Resources */,
 				7BEC76FDFD744A34A5C4BD8F /* FontAwesome.ttf in Resources */,
 				186495F51D4895D200F1CCB0 /* Mine.storyboard in Resources */,
 				A0783511FA7E4824B97BDF70 /* Foundation.ttf in Resources */,
@@ -6478,6 +6509,7 @@
 				18649DE91D48BCF100F1CCB0 /* MutualInsGroupFundCell.m in Sources */,
 				1864971B1D489A5800F1CCB0 /* RACSignal+Extension.m in Sources */,
 				183F573C1D4C90860001E26A /* InsuranceAppointmentV2Op.m in Sources */,
+				FA2956111D6A8B8B00EFF367 /* MutualInsTipsInfoExtendedView.m in Sources */,
 				FA1459FA1D631D7E00690140 /* MyBankCardListModel.m in Sources */,
 				18649CBF1D48B70A00F1CCB0 /* AwardShareSheetVC.m in Sources */,
 				186496C91D489A4200F1CCB0 /* LogAlertView.m in Sources */,
@@ -6544,6 +6576,7 @@
 				183F570E1D4C90860001E26A /* AddGascardOp.m in Sources */,
 				4E78DDED1D5A1A3A00EC52C7 /* ViolationPayConfirmVC.m in Sources */,
 				186499D31D489A9700F1CCB0 /* GetMutualInsListOp.m in Sources */,
+				4ED048C81D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m in Sources */,
 				1888F41B1D48CB8600C64288 /* RCTLoginManager.m in Sources */,
 				1836B7AF1D54220B0078DB15 /* NSArray+Encoding.m in Sources */,
 				18649C0F1D48B35000F1CCB0 /* HistoryCollectionVC.m in Sources */,
@@ -6591,6 +6624,7 @@
 				18649B861D48A93000F1CCB0 /* TopMenuScrollView.m in Sources */,
 				1836B7C31D54220B0078DB15 /* CKEventPromise.m in Sources */,
 				186499B91D489A9700F1CCB0 /* GetBindCZBVcodeOp.m in Sources */,
+				4EF8BF661D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m in Sources */,
 				1864999B1D489A9700F1CCB0 /* AuthByPwdOp.m in Sources */,
 				18649E1E1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m in Sources */,
 				183F57261D4C90860001E26A /* GetCooperationGroupMyInfoOp.m in Sources */,
@@ -6701,6 +6735,7 @@
 				186496D21D489A4200F1CCB0 /* ShareResponeManager.m in Sources */,
 				4E78DDF71D5A1A8E00EC52C7 /* ApplyViolationCommissionOp.m in Sources */,
 				18649C671D48B54E00F1CCB0 /* UsedCouponVModel.m in Sources */,
+				4E63B7881D66D1A4004F9200 /* UnionBankCard.m in Sources */,
 				1864970F1D489A5800F1CCB0 /* NSDate+DateForText.m in Sources */,
 				18649A0E1D489A9700F1CCB0 /* UpdateCarOp.m in Sources */,
 				18649BBD1D48AEC000F1CCB0 /* HomeSuspendedAdVC.m in Sources */,
@@ -6776,6 +6811,7 @@
 				18649CD51D48B77700F1CCB0 /* ChooseCouponVC.m in Sources */,
 				1836B7C71D54220B0078DB15 /* CKQueue.m in Sources */,
 				186496BD1D489A4200F1CCB0 /* HKLaunchManager.m in Sources */,
+				4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */,
 				18649D5F1D48BA9800F1CCB0 /* InsInputInfoVC.m in Sources */,
 				181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */,
 				186499A91D489A9700F1CCB0 /* DeleteUserFavoriteOp.m in Sources */,
@@ -6966,6 +7002,7 @@
 				6BBAB8C01ADBC21600EC342F /* DesUtil.m in Sources */,
 				186496C51D489A4200F1CCB0 /* HKVersionManager.m in Sources */,
 				18649B6A1D48A93000F1CCB0 /* HKImageAlertVC.m in Sources */,
+				4E2159A21D6409F5004A81D6 /* UPayVerifyVC.m in Sources */,
 				186499E01D489A9700F1CCB0 /* GetRescueNoLoginOp.m in Sources */,
 				1864998F1D489A9700F1CCB0 /* JTShop.m in Sources */,
 				18649CB51D48B6F100F1CCB0 /* CommissionOrderVC.m in Sources */,
@@ -7011,6 +7048,7 @@
 				6BB884D41AE0BC6A00EBD8F4 /* TYMActivityIndicatorView.m in Sources */,
 				185A15221D5DA0200051D9F7 /* GetShopRatesV2Op.m in Sources */,
 				183F57031D4C90860001E26A /* InsBaseCar.m in Sources */,
+				FAB79D3D1D6AD63100CFD0F4 /* SJMarqueeLabelView.m in Sources */,
 				183F57081D4C90860001E26A /* MutualInsContract.m in Sources */,
 				1836B7C41D54220B0078DB15 /* CKList.m in Sources */,
 				18F54AD41D6199330008F306 /* MyCollectionStore.m in Sources */,
@@ -7156,9 +7194,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7173,7 +7211,7 @@
 					"COCOAPODS=1",
 					"XMDDENT=0",
 					"XMDDEnvironment=1",
-					"REACT_DEV=1",
+					"REACT_DEV=0",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7253,7 +7291,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "86d6669a-9d41-413a-a618-335e7e698cc1";
 			};
 			name = Debug;
 		};
@@ -7280,7 +7318,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=0",
+					"XMDDEnvironment=1",
 					"REACT_DEV=0",
 				);
 				HEADER_SEARCH_PATHS = (
