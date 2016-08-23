@@ -75,7 +75,7 @@
                         <constraint firstAttribute="height" constant="35" id="7Ny-8P-5sL"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <state key="normal" title="  收藏" image="nb_collection">
+                    <state key="normal" title="  收藏" image="nb_collection_300">
                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -237,6 +237,6 @@
         <image name="common_callGrayV2_imageView" width="15" height="17"/>
         <image name="icon_navigation_3_0" width="16" height="16"/>
         <image name="icon_phone_3_0" width="16" height="16"/>
-        <image name="nb_collection" width="13" height="13"/>
+        <image name="nb_collection_300" width="13" height="13"/>
     </resources>
 </document>

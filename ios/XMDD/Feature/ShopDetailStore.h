@@ -32,15 +32,9 @@
 - (NSNumber *)serviceGroupKeyForServiceType:(ShopServiceType)type;
 - (NSString *)serviceGroupDescForServiceGroup:(CKList *)group;
 
-
 //// 评论相关
 - (void)fetchAllCommentGroups;
 - (CKList *)currentCommentList;
-
-/// 收藏相关
-- (BOOL)isShopCollected;
-- (RACSignal *)collectShop;
-- (RACSignal *)unCollectShop;
 
 //// 其他
 + (NSString *)markupStringWithOldPrice:(double)price1 curPrices:(double)price2;

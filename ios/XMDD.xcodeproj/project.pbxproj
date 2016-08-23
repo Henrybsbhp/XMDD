@@ -457,7 +457,6 @@
 		18649A191D489A9700F1CCB0 /* BankStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499121D489A9700F1CCB0 /* BankStore.m */; };
 		18649A1A1D489A9700F1CCB0 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499141D489A9700F1CCB0 /* BaseModel.m */; };
 		18649A1B1D489A9700F1CCB0 /* CarIDCodeCheckModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499161D489A9700F1CCB0 /* CarIDCodeCheckModel.m */; };
-		18649A1C1D489A9700F1CCB0 /* FavoriteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499181D489A9700F1CCB0 /* FavoriteModel.m */; };
 		18649A1E1D489A9700F1CCB0 /* GuideStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864991C1D489A9700F1CCB0 /* GuideStore.m */; };
 		18649A1F1D489A9700F1CCB0 /* HKStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864991E1D489A9700F1CCB0 /* HKStore.m */; };
 		18649A211D489A9700F1CCB0 /* InsuranceStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499221D489A9700F1CCB0 /* InsuranceStore.m */; };
@@ -546,7 +545,6 @@
 		18649C381D48B49600F1CCB0 /* CouponPkgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C2E1D48B49600F1CCB0 /* CouponPkgViewController.m */; };
 		18649C391D48B49600F1CCB0 /* EditMyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C301D48B49600F1CCB0 /* EditMyInfoViewController.m */; };
 		18649C3A1D48B49600F1CCB0 /* MineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C321D48B49600F1CCB0 /* MineVC.m */; };
-		18649C3B1D48B49600F1CCB0 /* MyCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C341D48B49600F1CCB0 /* MyCollectionViewController.m */; };
 		18649C3C1D48B49600F1CCB0 /* MyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C361D48B49600F1CCB0 /* MyInfoViewController.m */; };
 		18649C3F1D48B4B300F1CCB0 /* ReactTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C3E1D48B4B300F1CCB0 /* ReactTestViewController.m */; };
 		18649C4F1D48B4E500F1CCB0 /* BankCardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C421D48B4E500F1CCB0 /* BankCardDetailVC.m */; };
@@ -731,6 +729,9 @@
 		189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 189B31131ADB60AD001D7288 /* JGActionSheet.m */; };
 		189B31161ADBDF07001D7288 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189B31151ADBDF07001D7288 /* MobileCoreServices.framework */; };
 		189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */; settings = {COMPILER_FLAGS = "-Wno-shorten-64-to-32"; }; };
+		18A2F4B51D6C43A800035679 /* MyCollectionListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A2F4B41D6C43A800035679 /* MyCollectionListVC.m */; };
+		18A2F4B81D6C444100035679 /* MyCollectionListTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A2F4B71D6C444100035679 /* MyCollectionListTitleCell.m */; };
+		18A2F4BB1D6C639600035679 /* MyCollectionListBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A2F4BA1D6C639500035679 /* MyCollectionListBottomView.m */; };
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
 		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations -Wno-conditional-uninitialized"; }; };
 		18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41F81BCF75DA0039F210 /* RTLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
@@ -1891,8 +1892,6 @@
 		186499141D489A9700F1CCB0 /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		186499151D489A9700F1CCB0 /* CarIDCodeCheckModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarIDCodeCheckModel.h; sourceTree = "<group>"; };
 		186499161D489A9700F1CCB0 /* CarIDCodeCheckModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarIDCodeCheckModel.m; sourceTree = "<group>"; };
-		186499171D489A9700F1CCB0 /* FavoriteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteModel.h; sourceTree = "<group>"; };
-		186499181D489A9700F1CCB0 /* FavoriteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteModel.m; sourceTree = "<group>"; };
 		1864991B1D489A9700F1CCB0 /* GuideStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideStore.h; sourceTree = "<group>"; };
 		1864991C1D489A9700F1CCB0 /* GuideStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideStore.m; sourceTree = "<group>"; };
 		1864991D1D489A9700F1CCB0 /* HKStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKStore.h; sourceTree = "<group>"; };
@@ -2074,8 +2073,6 @@
 		18649C301D48B49600F1CCB0 /* EditMyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMyInfoViewController.m; sourceTree = "<group>"; };
 		18649C311D48B49600F1CCB0 /* MineVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineVC.h; sourceTree = "<group>"; };
 		18649C321D48B49600F1CCB0 /* MineVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineVC.m; sourceTree = "<group>"; };
-		18649C331D48B49600F1CCB0 /* MyCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionViewController.h; sourceTree = "<group>"; };
-		18649C341D48B49600F1CCB0 /* MyCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionViewController.m; sourceTree = "<group>"; };
 		18649C351D48B49600F1CCB0 /* MyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInfoViewController.h; sourceTree = "<group>"; };
 		18649C361D48B49600F1CCB0 /* MyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInfoViewController.m; sourceTree = "<group>"; };
 		18649C3D1D48B4B300F1CCB0 /* ReactTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactTestViewController.h; sourceTree = "<group>"; };
@@ -2454,6 +2451,12 @@
 		189B31151ADBDF07001D7288 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		189DD3FE1B10722700BA0A7F /* SRMonthPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRMonthPicker.h; sourceTree = "<group>"; };
 		189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRMonthPicker.m; sourceTree = "<group>"; };
+		18A2F4B31D6C43A800035679 /* MyCollectionListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionListVC.h; sourceTree = "<group>"; };
+		18A2F4B41D6C43A800035679 /* MyCollectionListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionListVC.m; sourceTree = "<group>"; };
+		18A2F4B61D6C444100035679 /* MyCollectionListTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionListTitleCell.h; sourceTree = "<group>"; };
+		18A2F4B71D6C444100035679 /* MyCollectionListTitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionListTitleCell.m; sourceTree = "<group>"; };
+		18A2F4B91D6C639500035679 /* MyCollectionListBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionListBottomView.h; sourceTree = "<group>"; };
+		18A2F4BA1D6C639500035679 /* MyCollectionListBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionListBottomView.m; sourceTree = "<group>"; };
 		18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		18A377F21AE4AB4B0031A574 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -3766,8 +3769,12 @@
 		185A15501D61521C0051D9F7 /* Collection */ = {
 			isa = PBXGroup;
 			children = (
-				18649C331D48B49600F1CCB0 /* MyCollectionViewController.h */,
-				18649C341D48B49600F1CCB0 /* MyCollectionViewController.m */,
+				18A2F4B31D6C43A800035679 /* MyCollectionListVC.h */,
+				18A2F4B41D6C43A800035679 /* MyCollectionListVC.m */,
+				18A2F4B61D6C444100035679 /* MyCollectionListTitleCell.h */,
+				18A2F4B71D6C444100035679 /* MyCollectionListTitleCell.m */,
+				18A2F4B91D6C639500035679 /* MyCollectionListBottomView.h */,
+				18A2F4BA1D6C639500035679 /* MyCollectionListBottomView.m */,
 			);
 			name = Collection;
 			sourceTree = "<group>";
@@ -5514,8 +5521,6 @@
 				186499141D489A9700F1CCB0 /* BaseModel.m */,
 				186499151D489A9700F1CCB0 /* CarIDCodeCheckModel.h */,
 				186499161D489A9700F1CCB0 /* CarIDCodeCheckModel.m */,
-				186499171D489A9700F1CCB0 /* FavoriteModel.h */,
-				186499181D489A9700F1CCB0 /* FavoriteModel.m */,
 				1864991B1D489A9700F1CCB0 /* GuideStore.h */,
 				1864991C1D489A9700F1CCB0 /* GuideStore.m */,
 				1864991D1D489A9700F1CCB0 /* HKStore.h */,
@@ -6478,6 +6483,7 @@
 				186499EE1D489A9700F1CCB0 /* GetSystemPromotionOp.m in Sources */,
 				18648FB71D48558000F1CCB0 /* NSObject+SBJSON.m in Sources */,
 				186496D81D489A4200F1CCB0 /* WeChatHelper.m in Sources */,
+				18A2F4B81D6C444100035679 /* MyCollectionListTitleCell.m in Sources */,
 				18649BBE1D48AEC000F1CCB0 /* MoreSubmodulesVC.m in Sources */,
 				186499981D489A9700F1CCB0 /* AddUserFavoriteOp.m in Sources */,
 				183F57361D4C90860001E26A /* GetInsCarListOp.m in Sources */,
@@ -6516,6 +6522,7 @@
 				18649BE71D48B0E100F1CCB0 /* CarWashNavigationViewController.m in Sources */,
 				FAC986A51D5877C3000FE245 /* GetViolationCommissionStateOp.m in Sources */,
 				186499B61D489A9700F1CCB0 /* GetAutomobileModelV2Op.m in Sources */,
+				18A2F4BB1D6C639600035679 /* MyCollectionListBottomView.m in Sources */,
 				186499FA1D489A9700F1CCB0 /* GetUserResourcesGaschargeOp.m in Sources */,
 				18649B811D48A93000F1CCB0 /* MyUIPageControl.m in Sources */,
 				18649CB31D48B6F100F1CCB0 /* CommissionConfirmVC.m in Sources */,
@@ -6747,7 +6754,6 @@
 				186499B41D489A9700F1CCB0 /* GetAutomobileBrandV2Op.m in Sources */,
 				FA1459F41D6302BA00690140 /* MyBindedCardVC.m in Sources */,
 				183F571D1D4C90860001E26A /* GascardChargeOp.m in Sources */,
-				18649A1C1D489A9700F1CCB0 /* FavoriteModel.m in Sources */,
 				1836B7BF1D54220B0078DB15 /* CKBaseStore.m in Sources */,
 				18649D971D48BB5D00F1CCB0 /* PayForGasViewController.m in Sources */,
 				18649BC71D48AF2600F1CCB0 /* HKViewController.m in Sources */,
@@ -6784,7 +6790,6 @@
 				2E52F24A1C2032BB00D94F68 /* (null) in Sources */,
 				6BBAB8BF1ADBC21600EC342F /* ConverUtil.m in Sources */,
 				18649DF11D48BCF100F1CCB0 /* MutualInsGrouponMsgCell.m in Sources */,
-				18649C3B1D48B49600F1CCB0 /* MyCollectionViewController.m in Sources */,
 				183F57441D4C90860001E26A /* UpdateCooperationInsInfoOp.m in Sources */,
 				186499811D489A9700F1CCB0 /* HKLocationDataModel.m in Sources */,
 				1836B7CA1D54220B0078DB15 /* CKMethods.m in Sources */,
@@ -6812,6 +6817,7 @@
 				1836B7C71D54220B0078DB15 /* CKQueue.m in Sources */,
 				186496BD1D489A4200F1CCB0 /* HKLaunchManager.m in Sources */,
 				4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */,
+				18A2F4B51D6C43A800035679 /* MyCollectionListVC.m in Sources */,
 				18649D5F1D48BA9800F1CCB0 /* InsInputInfoVC.m in Sources */,
 				181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */,
 				186499A91D489A9700F1CCB0 /* DeleteUserFavoriteOp.m in Sources */,
