@@ -18,7 +18,7 @@
 @interface MyBindedCardVC () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSArray *fetchedData;
+@property (nonatomic, strong) NSMutableArray *fetchedData;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
 @property (nonatomic, assign) BOOL isEditing;
@@ -87,6 +87,7 @@
         }] subscribeNext:^(id x) {
             [gToast showSuccess:@"解绑成功"];
             [self.datasource[indexPath.section] removeObjectAtIndex:indexPath.row];
+            [self.fetchedData removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         } error:^(NSError *error) {
             [gToast showError:error.domain];
@@ -129,7 +130,7 @@
         @strongify(self);
         [self.view stopActivityAnimation];
         if (rop.cards.count > 0) {
-            self.fetchedData = rop.cards;
+            self.fetchedData = [NSMutableArray arrayWithArray:rop.cards];
             [self setDataSourceWithDataArray:rop.cards];
             self.tableView.hidden = NO;
         } else {
