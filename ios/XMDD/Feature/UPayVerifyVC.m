@@ -199,7 +199,7 @@
         
         @strongify(self)
         
-        if (self.bankCardInfo.count > 1)
+        if (self.bankCardInfo.count > 1 && self.smsModel.getVcodeButton.enabled)
         {
             [self folderTableView];
         }
@@ -306,6 +306,7 @@
         @strongify(self)
         
         VCodeInputField *textField = [cell viewWithTag:101];
+        textField.keyboardType = UIKeyboardTypeNumberPad;
         self.smsModel.inputVcodeField = textField;
         
         [[textField.rac_textSignal takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
@@ -318,8 +319,8 @@
         
         UIButton *button = [cell viewWithTag:102];
         [button setTitleColor:kDefTintColor forState:UIControlStateNormal];
-        
         [button setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
+        
         self.smsModel.getVcodeButton = button;
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             
@@ -343,6 +344,8 @@
             UnionBankCard *bankCard = self.bankCardInfo.firstObject;
             [self getUnionSmsWithTokenID:bankCard.tokenid];
             [textField becomeFirstResponder];
+
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
             
         }];
         
@@ -368,6 +371,7 @@
         
         AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"Bank"];
         vc.tradeNum = self.tradeNo;
+        vc.subject = self.subject;
         [self.navigationController pushViewController:vc animated:YES];
         
     });
