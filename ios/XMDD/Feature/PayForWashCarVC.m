@@ -711,7 +711,15 @@
         
         [gToast dismiss];
         [self requestCommentlist];
-        [self callPaymentHelperWithPayOp:op];
+        
+        if (op.rsp_price > 0)
+        {
+            [self callPaymentHelperWithPayOp:op];
+        }
+        else
+        {
+            [self gotoPaymentSuccessVC];
+        }
     } error:^(NSError *error) {
         
         [self handerOrderError:error forOp:self.checkoutServiceOrderV4Op];
