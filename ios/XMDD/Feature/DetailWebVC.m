@@ -88,13 +88,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self setupUI];
     [self setupProcessView];
     [self setupLeftSingleBtn];
-    [self setupPaySuccessRightItem];
     [self changeUserAgent];
     
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
     self.webView.delegate = self;
-
+    
 #if XMDDEnvironment==0
     [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"101.231.204.80"];
     [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"101.231.204.87"];
@@ -102,11 +101,16 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"101.231.204.80"];
     [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"101.231.204.87"];
 #else
-
+    
 #endif
-
+    
+    if (self.fromUnionCardVC)
+    {
+        [self setupUnionBankNaviRightItem];
+    }
+    
     self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
-
+    
     [self setupBridge];
     CKAsyncMainQueue(^{
         self.webView.scrollView.contentInset = UIEdgeInsetsZero;
@@ -195,15 +199,27 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 }
 
-- (void)setupPaySuccessRightItem
+- (void)setupUnionBankNaviRightItem
 {
-    if (self.subject)
+    if (self.tradeno.length != 0)
     {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"支付完成"
                                                                                   style:UIBarButtonItemStylePlain
                                                                                  target:self
                                                                                  action:@selector(requestUnionPayResult)];
     }
+    else if (self.tradeno.length == 0)
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(notifyMyBankVCRefresh)];
+    }
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
 }
 
 #pragma mark - SetupJSBridge
@@ -278,9 +294,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         NSString * icon = [dic stringParamForName:@"icon"];
         NSString * title = [dic stringParamForName:@"title"];
         NSString * type = [dic stringParamForName:@"type"];
-
+        
         [self setupRightSingleBtn:type andBtnTitle:title andIconUrl:icon andTriggedId:triggerId];
-
+        
         responseCallback(nil);
     }];
 }
@@ -319,16 +335,13 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         [self.navModel pushToViewControllerByUrl:url.absoluteString];
         return NO;
     }
-//    @yzc 修改
     
-    if (navigationType == UIWebViewNavigationTypeFormSubmitted)
+    if ([url.absoluteString isEqualToString:@"http://backtomerchant.com/?"])
     {
-        [self.subject sendNext:url.absoluteString];
+        [self requestUnionPayResult];
+        return NO;
     }
-    else if (navigationType == UIWebViewNavigationTypeLinkClicked)
-    {
-        [self.subject sendNext:url.absoluteString];
-    }
+    
     return YES;
 }
 
@@ -348,6 +361,20 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)actionCloseWeb {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+-(void)actionBack
+{
+    if (self.router.userInfo[kOriginRoute])
+    {
+        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
+        [self.router.navigationController popToViewController:vc animated:YES];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)actionNewBack {
@@ -424,10 +451,15 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         
         [gToast showingWithText:@"订单查询中"];
         
-    }]subscribeNext:^(id x) {
+    }]subscribeNext:^(CheckGeneralTradenoStatusOp *op) {
         
-        [self.subject sendNext:@"http://backtomerchant.com"];
-        [self.subject sendCompleted];
+        [gToast dismiss];
+        
+        if (op.rsp_status.integerValue == 1)
+        {
+            [self.subject sendNext:@"http://backtomerchant.com/?"];
+            [self.subject sendCompleted];
+        }
         
         [self dismissViewControllerAnimated:YES completion:nil];
         
@@ -435,7 +467,12 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         
         [gToast showError:@"订单查询失败。请重试"];
     }];
-    
+}
+
+- (void)notifyMyBankVCRefresh
+{
+    [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
+    [self actionBack];
 }
 
 
