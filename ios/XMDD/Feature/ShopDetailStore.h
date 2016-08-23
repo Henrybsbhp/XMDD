@@ -25,6 +25,7 @@
 //// 服务相关
 + (NSString *)serviceGroupDescForServiceType:(ShopServiceType)type;
 + (ShopServiceType)serviceTypeForServiceGroup:(CKList *)group;
+- (ShopServiceType)currentGroupServcieType;
 - (void)selectServiceGroup:(CKList *)group;
 - (void)selectService:(JTShopService *)service;
 - (JTShopService *)currentSelectedService;
@@ -35,7 +36,6 @@
 //// 评论相关
 - (void)fetchAllCommentGroups;
 - (CKList *)currentCommentList;
-- (NSInteger)currentCommentNumber;
 
 /// 收藏相关
 - (BOOL)isShopCollected;
