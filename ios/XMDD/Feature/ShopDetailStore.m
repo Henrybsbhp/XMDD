@@ -54,7 +54,7 @@
 
 #pragma mark - Service
 - (void)selectServiceGroup:(CKList *)group {
-    _selectedServiceGroup = group;
+    self.selectedServiceGroup = group;
 }
 
 - (void)selectService:(JTShopService *)service {
