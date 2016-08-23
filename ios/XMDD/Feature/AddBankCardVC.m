@@ -13,7 +13,7 @@
 #import "PrebindingBankCardOp.h"
 #import "DetailWebVC.h"
 
-@interface AddBankCardVC ()
+@interface AddBankCardVC ()<UIWebViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, copy) NSString *issueBankName;
@@ -37,6 +37,7 @@
     
     self.datasource = $($([self setupAddCardNumCell], [self setupCardInfoCell], [self setupNextUpCell]));
     [self.tableView reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,7 +61,7 @@
         [self shakeTextFieldCellAtRow:0];
         return;
     }
-        
+    
     PrebindingBankCardOp *op = [PrebindingBankCardOp operation];
     op.cardNo = self.cardNum;
     op.tradeNo = self.tradeNum;
@@ -73,7 +74,10 @@
         
         [gToast dismiss];
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+        
         vc.title = @"绑定银行卡";
+        vc.subject = self.tradeNum.length == 0 ? nil : self.subject;
+        
         vc.url = rop.bindURL;
         [self.navigationController pushViewController:vc animated:YES];
         
@@ -255,6 +259,19 @@
 {
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
     [cell.contentView shake];
+}
+
+- (IBAction)actionDismiss:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (RACSubject *)subject
+{
+    if (!_subject)
+    {
+        _subject = [RACSubject subject];
+    }
+    return _subject;
 }
 
 @end

@@ -80,20 +80,28 @@
     
     if (!self.homePicModel.homeItemArray.count)
     {
-        HomeItem * item1 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=g" imageName:@"hp_refuel_300" isnew:NO];
-        HomeItem * item2 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=sl" imageName:@"hp_carwash_300" isnew:NO];
-        HomeItem * item3 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=coins" imageName:@"hp_mutualIns_300" isnew:NO];
-        HomeItem * item4 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=ins" imageName:@"hp_insurance_300" isnew:NO];
-        HomeItem * item5 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=a" imageName:@"hp_weekcoupon_300" isnew:NO];
-        HomeItem * item6 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=vio" imageName:@"hp_ peccancy_300" isnew:NO];
-        HomeItem * item7 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=val" imageName:@"hp_valuation_300" isnew:NO];
-        HomeItem * item8 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=rescue" imageName:@"hp_rescue_300" isnew:NO];
-        HomeItem * item9 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=ast" imageName:@"hp_assist_300" isnew:NO];
-        self.homePicModel.homeItemArray = @[item1,item2,item3,item4,item5,item6,item7,item8,item9];
+        HomeItem * item1 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=g" imageName:@"hp_refuel_330" isnew:NO];
+        HomeItem * item2 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=sl" imageName:@"hp_carwash_330" isnew:NO];
+        HomeItem * item3 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=a" imageName:@"hp_weekcoupon_330" isnew:NO];
+        HomeItem * item4 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=coins" imageName:@"hp_mutualIns_330" isnew:NO];
+        HomeItem * item5 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=beautysl" imageName:@"hp_beauty_330" isnew:NO];
+        HomeItem * item6 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=mtsl" imageName:@"hp_maintance_330" isnew:NO];
+        HomeItem * item7 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=vio" imageName:@"hp_violation_330" isnew:NO];
+        HomeItem * item8 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=ins" imageName:@"hp_insurance_330" isnew:NO];
+        HomeItem * item9 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=rescue" imageName:@"hp_rescue_330" isnew:NO];
+        HomeItem * item10 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=ast" imageName:@"hp_assist_330" isnew:NO];
+        HomeItem * item11 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=val" imageName:@"hp_valuation_330" isnew:NO];
+        HomeItem * item12 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=moresubmodule" imageName:@"hp_more_330" isnew:NO];
+        
+        self.homePicModel.homeItemArray = @[item1,item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12];
     }
     if (!self.homePicModel.moreItemArray.count)
     {
-        
+        HomeItem * item1 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=nearbyservice&type=1" imageName:@"hp_parking_330" isnew:NO];
+        HomeItem * item2 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=nearbyservice&type=2" imageName:@"hp_4sshop_330" isnew:NO];
+        HomeItem * item3 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=nearbyservice&type=3" imageName:@"hp_gasshop_330" isnew:NO];
+
+        self.homePicModel.moreItemArray = @[item1,item2,item3];
     }
 
     return self.homePicModel;

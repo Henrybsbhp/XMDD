@@ -13,11 +13,14 @@
 #import "NavigationModel.h"
 #import "SocialShareViewController.h"
 #import "MyWebViewBridge.h"
+#import "CheckGeneralTradenoStatusOp.h"
+
 
 typedef NS_ENUM(NSInteger, MenuItemsType) {
     menuItemsTypeShare                  = 0,
     menuItemsTypeCollection             = 1
 };
+
 
 @interface DetailWebVC () <UIWebViewDelegate, NJKWebViewProgressDelegate>
 
@@ -32,6 +35,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 @property (nonatomic, strong) NSURLRequest *request;
 
 @end
+
+
+
 
 @implementation DetailWebVC
 
@@ -69,7 +75,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
--(void)viewWillDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [_progressView removeFromSuperview];
@@ -78,20 +84,29 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
-    self.webView.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
     self.navModel.curNavCtrl = self.navigationController;
-    
+    [self setupUI];
     [self setupProcessView];
-    
     [self setupLeftSingleBtn];
-    
+    [self setupPaySuccessRightItem];
     [self changeUserAgent];
     
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
     self.webView.delegate = self;
+
+#if XMDDEnvironment==0
+    [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"101.231.204.80"];
+    [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"101.231.204.87"];
+#elif XMDDEnvironment==1
+    [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"101.231.204.80"];
+    [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"101.231.204.87"];
+#else
+
+#endif
+
     self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
+
     [self setupBridge];
     CKAsyncMainQueue(^{
         self.webView.scrollView.contentInset = UIEdgeInsetsZero;
@@ -99,6 +114,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         [self.webView loadRequest:self.request];
     });
 }
+
+#pragma mark - Network
 
 - (void)requestUrl:(NSString *)url
 {
@@ -108,6 +125,62 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         [self.webView loadRequest:urlRequest];
     });
 }
+
+#pragma mark - Setup
+
+- (void)setupLeftSingleBtn {
+    UIBarButtonItem *back = [UIBarButtonItem webBackButtonItemWithTarget:self action:@selector(actionNewBack)];
+    NSArray * backBtnArr = [[NSArray alloc] initWithObjects:back, nil];
+    self.navigationItem.leftBarButtonItems = backBtnArr;
+}
+
+- (void)setupLeftBtns {
+    UIBarButtonItem *back = [UIBarButtonItem webBackButtonItemWithTarget:self action:@selector(actionNewBack)];
+    UIBarButtonItem *close = [UIBarButtonItem closeButtonItemWithTarget:self action:@selector(actionCloseWeb)];
+    NSArray * backBtnArr = [[NSArray alloc] initWithObjects:back, close, nil];
+    self.navigationItem.leftBarButtonItems = backBtnArr;
+}
+
+
+- (void)setupRightSingleBtn:(NSString *)type andBtnTitle:(NSString *)btnTitle
+                 andIconUrl:(NSString *)urlStr andTriggedId:(NSString *)triggerId{
+    
+    __block UIBarButtonItem *right;
+    if ([type isEqualToString:@"0"]) {
+        right = [[UIBarButtonItem alloc] initWithTitle:btnTitle style:UIBarButtonItemStylePlain target:self action:@selector(actionRightItemHandle:)];
+        [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
+    }
+    else if ([type isEqualToString:@"1"])
+    {
+        right = [[UIBarButtonItem alloc] initWithTitle:btnTitle style:UIBarButtonItemStylePlain target:self action:@selector(actionRightItemHandle:)];
+        [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
+        
+        [[gMediaMgr rac_getImageByUrl:urlStr withType:ImageURLTypeOrigin defaultPic:@"" errorPic:@""] subscribeNext:^(UIImage * x) {
+            
+            if (!x)
+            {
+                return ;
+            }
+            CKAsyncMainQueue(^{
+                
+                right = [[UIBarButtonItem alloc] initWithImage:x style:UIBarButtonItemStylePlain target:self action:@selector(actionRightItemHandle:)];
+                right.customObject = triggerId;
+                self.navigationItem.rightBarButtonItem = right;
+                
+            });
+        }];
+    }
+    
+    right.customObject = triggerId;
+    self.navigationItem.rightBarButtonItem = right;
+}
+
+- (void)setupUI
+{
+    self.view.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
+    self.webView.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
+}
+
 - (void)setupProcessView
 {
     _progressProxy = [[NJKWebViewProgress alloc] init];
@@ -121,6 +194,19 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     _progressView.progress = 0;
     _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 }
+
+- (void)setupPaySuccessRightItem
+{
+    if (self.subject)
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"支付完成"
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(requestUnionPayResult)];
+    }
+}
+
+#pragma mark - SetupJSBridge
 
 - (void)setupBridge
 {
@@ -199,9 +285,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
-
 #pragma mark - NJKWebViewProgressDelegate
--(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
+
+- (void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {
     DebugLog(@"webViewProgress:%f", progress);
     
@@ -228,10 +314,20 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    NSString *url = request.URL.absoluteString;
-    if ([url hasPrefix:@"xmdd://"]) {
-        [self.navModel pushToViewControllerByUrl:url];
+    NSURL *url = request.URL;
+    if ([url.absoluteString hasPrefix:@"xmdd://"]) {
+        [self.navModel pushToViewControllerByUrl:url.absoluteString];
         return NO;
+    }
+//    @yzc 修改
+    
+    if (navigationType == UIWebViewNavigationTypeFormSubmitted)
+    {
+        [self.subject sendNext:url.absoluteString];
+    }
+    else if (navigationType == UIWebViewNavigationTypeLinkClicked)
+    {
+        [self.subject sendNext:url.absoluteString];
     }
     return YES;
 }
@@ -247,62 +343,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 }
 
 
-#pragma mark - Setup
-- (void)setupLeftSingleBtn {
-    UIBarButtonItem *back = [UIBarButtonItem webBackButtonItemWithTarget:self action:@selector(actionNewBack)];
-    NSArray * backBtnArr = [[NSArray alloc] initWithObjects:back, nil];
-    self.navigationItem.leftBarButtonItems = backBtnArr;
-}
-
-- (void)setupLeftBtns {
-    UIBarButtonItem *back = [UIBarButtonItem webBackButtonItemWithTarget:self action:@selector(actionNewBack)];
-    UIBarButtonItem *close = [UIBarButtonItem closeButtonItemWithTarget:self action:@selector(actionCloseWeb)];
-    NSArray * backBtnArr = [[NSArray alloc] initWithObjects:back, close, nil];
-    self.navigationItem.leftBarButtonItems = backBtnArr;
-}
-
-
-- (void)setupRightSingleBtn:(NSString *)type andBtnTitle:(NSString *)btnTitle
-                 andIconUrl:(NSString *)urlStr andTriggedId:(NSString *)triggerId{
-    
-    __block UIBarButtonItem *right;
-    if ([type isEqualToString:@"0"]) {
-        right = [[UIBarButtonItem alloc] initWithTitle:btnTitle style:UIBarButtonItemStylePlain target:self action:@selector(actionRightItemHandle:)];
-        [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
-    }
-    else if ([type isEqualToString:@"1"])
-    {
-        right = [[UIBarButtonItem alloc] initWithTitle:btnTitle style:UIBarButtonItemStylePlain target:self action:@selector(actionRightItemHandle:)];
-        [right setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:16.0]} forState:UIControlStateNormal];
-        
-        [[gMediaMgr rac_getImageByUrl:urlStr withType:ImageURLTypeOrigin defaultPic:@"" errorPic:@""] subscribeNext:^(UIImage * x) {
-            
-            if (!x)
-            {
-                return ;
-            }
-            CKAsyncMainQueue(^{
-               
-                right = [[UIBarButtonItem alloc] initWithImage:x style:UIBarButtonItemStylePlain target:self action:@selector(actionRightItemHandle:)];
-                right.customObject = triggerId;
-                self.navigationItem.rightBarButtonItem = right;
-                
-            });
-        }];
-    }
-    
-    right.customObject = triggerId;
-    self.navigationItem.rightBarButtonItem = right;
-}
-
-
-
-
-
-
-
 
 #pragma mark - Action
+
 - (void)actionCloseWeb {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -354,7 +397,10 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
+
+
 #pragma mark - Utilitly
+
 - (void)changeUserAgent
 {
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
@@ -368,4 +414,29 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
     }
 }
+
+- (void)requestUnionPayResult
+{
+    CheckGeneralTradenoStatusOp *op = [CheckGeneralTradenoStatusOp operation];
+    op.req_tradeno = self.tradeno;
+    
+    [[[op rac_postRequest]initially:^{
+        
+        [gToast showingWithText:@"订单查询中"];
+        
+    }]subscribeNext:^(id x) {
+        
+        [self.subject sendNext:@"http://backtomerchant.com"];
+        [self.subject sendCompleted];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    } error:^(NSError *error) {
+        
+        [gToast showError:@"订单查询失败。请重试"];
+    }];
+    
+}
+
+
 @end
