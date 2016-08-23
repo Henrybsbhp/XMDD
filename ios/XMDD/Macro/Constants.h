@@ -122,6 +122,7 @@ typedef enum : NSUInteger {
 #define XIAMMAWEB @"http://www.xiaomadada.com"
 #define ADDEFINEWEB @"http://www.xiaomadada.com/apphtml/couponpkg.html?jump=t"
 
+#define kUPayVerifyKey          @"http://backtomerchant.com/?"
 #define kKeyChainBaseServer     @"com.huika.xmdd"
 
 //字符串定义
