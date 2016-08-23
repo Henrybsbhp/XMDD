@@ -102,6 +102,11 @@
             [self.datasource[indexPath.section] removeObjectAtIndex:indexPath.row];
             [self.fetchedData removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            if (self.fetchedData.count < 1) {
+                self.tableView.hidden = YES;
+                [self addBtn];
+                self.fetchedData = nil;
+            }
         } error:^(NSError *error) {
             [gToast showError:error.domain];
         }];
@@ -300,10 +305,7 @@
     //暂停动画并且显示缺省页
     @weakify(self)
     [self.view stopActivityAnimation];
-    [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"暂无银行卡" centerOffset:-100 tapBlock:^{
-        @strongify(self)
-        [self fetchData];
-    }];
+    [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"暂无银行卡" centerOffset:-100 tapBlock:nil];
     [self.view addSubview:self.addbutton];
     const CGFloat top = gAppMgr.deviceInfo.screenSize.height / 2 + 30;
     [self.addbutton mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -328,9 +330,9 @@
 - (void)observeTheFetchedDataToDetemineTheHiddenOfBarButtonItem
 {
     @weakify(self);
-    [RACObserve(self, fetchedData) subscribeNext:^(id x) {
+    [RACObserve(self, fetchedData) subscribeNext:^(NSMutableArray *mutableArray) {
         @strongify(self);
-        if (self.fetchedData.count > 0) {
+        if (mutableArray.count > 0) {
             self.editButton.title = @"编辑";
             self.editButton.enabled = YES;
         } else {
