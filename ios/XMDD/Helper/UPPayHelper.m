@@ -28,7 +28,7 @@
     {
         RACSubject *subject = [RACSubject subject];
         
-        AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"HX_Temp"];
+        AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"Bank"];
         vc.tradeNum = tn;
         UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:vc];
         [tvc presentViewController:navi animated:YES completion:nil];
@@ -46,7 +46,7 @@
     }
     else
     {
-        UPayVerifyVC *vc = [UIStoryboard vcWithId:@"UPayVerifyVC" inStoryboard:@"Temp_YZC"];
+        UPayVerifyVC *vc = [UIStoryboard vcWithId:@"UPayVerifyVC" inStoryboard:@"Common"];
         vc.bankCardInfo = bankCardInfo;
         vc.orderFee = total;
         vc.serviceName = unionPayDesc;

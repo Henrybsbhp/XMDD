@@ -462,7 +462,7 @@
     
     CKDict *bank = [self normalDataWithInfo:@{kCKItemKey:@"bank", @"img":@"Mine_bankCard_imageView", @"title":@"银行卡", @"evt":@"rp301_10"}];
     bank[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        MyBindedCardVC *vc = [UIStoryboard vcWithId:@"MyBindedCardVC" inStoryboard:@"HX_Temp"];
+        MyBindedCardVC *vc = [UIStoryboard vcWithId:@"MyBindedCardVC" inStoryboard:@"Bank"];
         [self.navigationController pushViewController:vc animated:YES];
     });
     

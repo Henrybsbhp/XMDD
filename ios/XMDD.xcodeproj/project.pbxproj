@@ -759,7 +759,6 @@
 		4CEFBEBAA7BE4E58AF8C448E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9411A8DA5E84CBC911B19E1 /* Zocial.ttf */; };
 		4E2159A21D6409F5004A81D6 /* UPayVerifyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */; };
 		4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */; };
-		4E56350D1D63FF46005353D2 /* Temp_YZC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E56350C1D63FF46005353D2 /* Temp_YZC.storyboard */; };
 		4E63B7881D66D1A4004F9200 /* UnionBankCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E63B7871D66D1A4004F9200 /* UnionBankCard.m */; };
 		4E78DDE91D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */; };
 		4E78DDEA1D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE21D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m */; };
@@ -844,7 +843,6 @@
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
 		FA941B3F1D13A5AA00F56B96 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA941B3E1D13A5AA00F56B96 /* PassKit.framework */; };
 		FAA240591D505224008AA1EC /* GetGasCardInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */; };
-		FAA665541D6549E400781CB1 /* HX_Temp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAA665531D6549E400781CB1 /* HX_Temp.storyboard */; };
 		FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C41D1246490045531C /* CFNetwork.framework */; };
 		FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C81D12466E0045531C /* SystemConfiguration.framework */; };
 		FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */; };
@@ -2516,7 +2514,6 @@
 		4E30E6CF1CFD8492000157D4 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
 		4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
 		4E30E6D11CFD8492000157D4 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
-		4E56350C1D63FF46005353D2 /* Temp_YZC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Temp_YZC.storyboard; sourceTree = "<group>"; };
 		4E63B7861D66D1A4004F9200 /* UnionBankCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnionBankCard.h; sourceTree = "<group>"; };
 		4E63B7871D66D1A4004F9200 /* UnionBankCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnionBankCard.m; sourceTree = "<group>"; };
 		4E78DDDF1D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateCommitSuccessVC.h; sourceTree = "<group>"; };
@@ -2664,7 +2661,6 @@
 		FA941B3E1D13A5AA00F56B96 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		FAA240571D505224008AA1EC /* GetGasCardInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGasCardInfoOp.h; sourceTree = "<group>"; };
 		FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGasCardInfoOp.m; sourceTree = "<group>"; };
-		FAA665531D6549E400781CB1 /* HX_Temp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = HX_Temp.storyboard; sourceTree = "<group>"; };
 		FAAD30C41D1246490045531C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		FAAD30C81D12466E0045531C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
@@ -4012,7 +4008,6 @@
 		186495B41D4895D200F1CCB0 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
-				FAA665531D6549E400781CB1 /* HX_Temp.storyboard */,
 				186495B51D4895D200F1CCB0 /* About.storyboard */,
 				186495B61D4895D200F1CCB0 /* Assistive.storyboard */,
 				186495B71D4895D200F1CCB0 /* Award.storyboard */,
@@ -4038,7 +4033,6 @@
 				186495CC1D4895D200F1CCB0 /* Rescue.storyboard */,
 				186495CE1D4895D200F1CCB0 /* Valuation.storyboard */,
 				186495CF1D4895D200F1CCB0 /* Violation.storyboard */,
-				4E56350C1D63FF46005353D2 /* Temp_YZC.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -6262,7 +6256,6 @@
 				186495E21D4895D200F1CCB0 /* area.plist in Resources */,
 				6BB884D11AE0BC6A00EBD8F4 /* .gitkeep in Resources */,
 				18648FB51D48558000F1CCB0 /* AlipaySDK.bundle in Resources */,
-				4E56350D1D63FF46005353D2 /* Temp_YZC.storyboard in Resources */,
 				186495EA1D4895D200F1CCB0 /* Car.storyboard in Resources */,
 				186495F41D4895D200F1CCB0 /* Message.storyboard in Resources */,
 				1816F4A51ACD3B0900BBCC96 /* SYPaginatorResources-Info.plist in Resources */,
@@ -6280,7 +6273,6 @@
 				186495D21D4895D200F1CCB0 /* 90_0.gpx in Resources */,
 				02284D120D3D4C8CAB70541C /* Entypo.ttf in Resources */,
 				97C110D9AD37422B9F4C9088 /* EvilIcons.ttf in Resources */,
-				FAA665541D6549E400781CB1 /* HX_Temp.storyboard in Resources */,
 				7BEC76FDFD744A34A5C4BD8F /* FontAwesome.ttf in Resources */,
 				186495F51D4895D200F1CCB0 /* Mine.storyboard in Resources */,
 				A0783511FA7E4824B97BDF70 /* Foundation.ttf in Resources */,
