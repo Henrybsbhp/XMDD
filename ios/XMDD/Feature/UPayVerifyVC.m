@@ -363,7 +363,7 @@
         
         @strongify(self)
         
-        AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"HX_Temp"];
+        AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"Bank"];
         vc.tradeNum = self.tradeNo;
         [self.navigationController pushViewController:vc animated:YES];
         

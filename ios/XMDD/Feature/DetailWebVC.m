@@ -88,6 +88,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self setupUI];
     [self setupProcessView];
     [self setupLeftSingleBtn];
+    [self setupPaySuccessRightItem];
     [self changeUserAgent];
     
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
@@ -176,17 +177,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)setupUI
 {
-    
     self.view.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
     self.webView.backgroundColor = [UIColor colorWithHex:@"#f4f4f4" alpha:1.0f];
-    
-    if (self.subject)
-    {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"支付完成"
-                                                                                 style:UIBarButtonItemStylePlain
-                                                                                target:self
-                                                                                action:@selector(actionUnionPayResult)];
-    }
 }
 
 - (void)setupProcessView
@@ -201,6 +193,17 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     _progressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
     _progressView.progress = 0;
     _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+}
+
+- (void)setupPaySuccessRightItem
+{
+    if (self.subject)
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"支付完成"
+                                                                                  style:UIBarButtonItemStylePlain
+                                                                                 target:self
+                                                                                 action:@selector(requestUnionPayResult)];
+    }
 }
 
 #pragma mark - SetupJSBridge
@@ -394,6 +397,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }];
 }
 
+
+
 #pragma mark - Utilitly
 
 - (void)changeUserAgent
@@ -410,13 +415,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     }
 }
 
-#pragma mark - Action
-
-- (void)actionUnionPayResult
+- (void)requestUnionPayResult
 {
-    
     CheckGeneralTradenoStatusOp *op = [CheckGeneralTradenoStatusOp operation];
-    
     op.req_tradeno = self.tradeno;
     
     [[[op rac_postRequest]initially:^{
@@ -432,11 +433,10 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         
     } error:^(NSError *error) {
         
-        
-        [gToast showingWithText:@"订单查询失败。请重试"];
-        
+        [gToast showError:@"订单查询失败。请重试"];
     }];
     
 }
+
 
 @end
