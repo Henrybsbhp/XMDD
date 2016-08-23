@@ -266,13 +266,5 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (RACSubject *)subject
-{
-    if (!_subject)
-    {
-        _subject = [RACSubject subject];
-    }
-    return _subject;
-}
 
 @end
