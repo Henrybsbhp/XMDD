@@ -73,6 +73,7 @@
         @strongify(self)
         
         [self getViolationCommissionApply];
+        [self configButtomView];
         
     }];
     
@@ -81,6 +82,7 @@
         @strongify(self)
         
         [self getViolationCommissionApply];
+        [self configButtomView];
         
     }];
     
@@ -285,6 +287,7 @@
 
 #pragma mark - Utility
 
+// 重置底部按钮
 - (void)configButtomView
 {
     for (NSDictionary *data in self.dataSource)
@@ -295,6 +298,7 @@
             break;
         }
     }
+    self.bottomViewHeight.constant = 0;
 }
 
 -(void)configRadioBtnWithIndexPath:(NSIndexPath *)indexPath
