@@ -9,7 +9,7 @@
 #import "ShopDetailServiceCell.h"
 #import "NSString+RectSize.h"
 
-#define kPriceLabelMaxWidth     150
+#define kPriceLabelMaxWidth     115
 
 @implementation ShopDetailServiceCell
 
@@ -34,11 +34,14 @@
     _titleLabel.font = [UIFont systemFontOfSize:14];
     _titleLabel.textColor = kDarkTextColor;
     _titleLabel.numberOfLines = 0;
+    _titleLabel.lineBreakMode = NSLineBreakByCharWrapping;
     [self.contentView addSubview:_titleLabel];
     
     _priceLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _priceLabel.font = [UIFont systemFontOfSize:14];
     _priceLabel.textAlignment = NSTextAlignmentRight;
+    _priceLabel.adjustsFontSizeToFitWidth = YES;
+    _priceLabel.minimumScaleFactor = 0.7;
     [self.contentView addSubview:_priceLabel];
     
     _descLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -55,14 +58,14 @@
     [_radioButton mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.size.mas_equalTo(CGSizeMake(30, 30));
-        make.left.equalTo(self.contentView).offset(floor(9));
+        make.left.equalTo(self.contentView).offset(9);
         make.top.equalTo(self.contentView);
     }];
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.top.equalTo(self.contentView).offset(6);
-        make.left.equalTo(self.radioButton.mas_right).offset(4);
+        make.left.equalTo(self.radioButton.mas_right);
     }];
     
     [_priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -85,7 +88,7 @@
     CGSize titleSize = [title labelSizeWithWidth:width-kPriceLabelMaxWidth font:[UIFont systemFontOfSize:14]];
     CGFloat height = titleSize.height + 6 + 15;
     if (desc.length > 0) {
-        height += 8 + [desc labelSizeWithWidth:width-9-30-4-14 font:[UIFont systemFontOfSize:14]].height;
+        height += 8 + [desc labelSizeWithWidth:width-9-30-14 font:[UIFont systemFontOfSize:14]].height;
     }
     return ceil(MAX(height, 30));
 }
