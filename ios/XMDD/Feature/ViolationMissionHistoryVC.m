@@ -295,7 +295,7 @@
         if ([data[@"status"] integerValue] == 1)
         {
             self.bottomViewHeight.constant = 60;
-            break;
+            return;
         }
     }
     self.bottomViewHeight.constant = 0;
