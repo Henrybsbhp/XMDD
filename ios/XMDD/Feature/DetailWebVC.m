@@ -455,13 +455,14 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         
         [gToast dismiss];
         
-        if (op.rsp_status.integerValue == 1)
-        {
-            [self.subject sendNext:@"http://backtomerchant.com/?"];
-            [self.subject sendCompleted];
-        }
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+            if (op.rsp_status.integerValue == 1)
+            {
+                [self.subject sendNext:@"http://backtomerchant.com/?"];
+                [self.subject sendCompleted];
+            }
+        }];
         
     } error:^(NSError *error) {
         
