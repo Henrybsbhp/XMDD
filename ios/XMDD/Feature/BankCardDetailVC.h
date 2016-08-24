@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HKBankCard.h"
+#import "MyBankCard.h"
 
 @interface BankCardDetailVC : UIViewController
 
-@property (nonatomic, strong) HKBankCard *card;
+@property (nonatomic, strong) MyBankCard *card;
 @property (nonatomic, weak) UIViewController *originVC;
 
 @end

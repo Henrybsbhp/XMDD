@@ -192,7 +192,7 @@
             [MobClick event:@"rp313_6"];
             [self.navigationController popViewControllerAnimated:YES];
             BankStore *store = [BankStore fetchOrCreateStore];
-            [[store getAllBankCards] sendAndIgnoreError];
+            [[store getAllCZBBankCards] sendAndIgnoreError];
             MyCarStore *carStore = [MyCarStore fetchExistsStore];
             [[carStore getAllCars] sendAndIgnoreError];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];

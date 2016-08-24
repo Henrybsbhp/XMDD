@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UnionBankCard.h"
+#import "MyBankCard.h"
 
 @interface WechatPayInfo : NSObject
 
@@ -19,7 +19,7 @@
 
 @property (nonatomic, copy) NSString * alipayInfo;
 @property (strong, nonatomic) WechatPayInfo * wechatInfo;
-@property (strong, nonatomic) NSArray<UnionBankCard *> *bankListInfo;
+@property (strong, nonatomic) NSArray<MyBankCard *> *bankListInfo;
 @property (strong, nonatomic) NSString *unionPayDesc;
 
 + (instancetype)payInfoWithJSONResponse:(NSDictionary *)rsp;

@@ -15,7 +15,7 @@
     self.req_method = @"/user/bankcard/v2/get";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params addParam:self.cardType forName:@"cardtype"];
+    [params addParam:@(self.req_cardType) forName:@"cardtype"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
@@ -25,11 +25,11 @@
     NSMutableArray *array = [[NSMutableArray alloc] init];
     
     for (NSDictionary *dict in rspObj[@"cards"]) {
-        MyBankCardListModel *coupon = [MyBankCardListModel listWithJSONResponse:dict];
-        [array safetyAddObject:coupon];
+        MyBankCard *bankCard = [MyBankCard bankInfoWithJSONResponse:dict];
+        [array safetyAddObject:bankCard];
     }
     
-    self.cards = [NSArray arrayWithArray:array];
+    self.rsp_cardArray = [NSArray arrayWithArray:array];
     
     return self;
 }

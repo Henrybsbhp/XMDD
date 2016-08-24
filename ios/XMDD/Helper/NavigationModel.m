@@ -18,7 +18,6 @@
 #import "PaymentCenterViewController.h"
 #import "ViolationViewController.h"
 #import "InsuranceVC.h"
-#import "MyBankVC.h"
 #import "InsSimpleCar.h"
 #import "InsCheckResultsVC.h"
 #import "MyCollectionListVC.h"
@@ -37,6 +36,7 @@
 #import "ViolationCommissionStateVC.h"
 #import "ShopListVC.h"
 #import "AppDelegate.h"
+#import "MyBindedCardVC.h"
 
 @interface NavigationModel()
 
@@ -204,8 +204,8 @@
         else if ([@"bcl" equalByCaseInsensitive:name]) {
             if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
                 return YES;
-            if (![self popToViewControllerIfNeededByIdentify:@"MyBankVC"]) {
-                MyBankVC *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
+            if (![self popToViewControllerIfNeededByIdentify:@"MyBindedCardVC"]) {
+                MyBindedCardVC *vc = [UIStoryboard vcWithId:@"MyBindedCardVC" inStoryboard:@"Bank"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
         }

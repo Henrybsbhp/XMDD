@@ -10,10 +10,10 @@
 #import "UPayVerifyVC.h"
 #import "DetailWebVC.h"
 #import "PayInfoModel.h"
-#import "UIView+Shake.h"
 #import "AddBankCardVC.h"
 #import "CheckoutUnioncardQuickpayOp.h"
 #import "GetTokenOp.h"
+#import "MyBankCard.h"
 
 @interface UPayVerifyVC ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -79,9 +79,9 @@
     
     CheckoutUnioncardQuickpayOp *op = [CheckoutUnioncardQuickpayOp operation];
     
-    UnionBankCard *model = self.bankCardInfo.firstObject;
+    MyBankCard *model = self.bankCardInfo.firstObject;
     op.req_tradeno = self.tradeNo;
-    op.req_tokenid = model.tokenid;
+    op.req_tokenid = model.tokenID;
     op.req_vcode = self.vcode;
     
     [[[op rac_postRequest]initially:^{
@@ -160,13 +160,13 @@
         
         @strongify(self)
         
-        UnionBankCard *model = self.bankCardInfo.firstObject;
+        MyBankCard *model = self.bankCardInfo.firstObject;
         
         UILabel *bankLabel = [cell viewWithTag:101];
-        bankLabel.text = model.issuebank.length == 0 ? @" " : model.issuebank;
+        bankLabel.text = model.issueBank;
         
         UILabel *detailLabel = [cell viewWithTag:102];
-        detailLabel.text = [NSString stringWithFormat:@"尾号%@（%@）",model.cardno, model.cardtypename];
+        detailLabel.text = [NSString stringWithFormat:@"尾号%@（%@）",model.cardNo, model.cardTypeName];
         
         UIImageView *imgView = [cell viewWithTag:103];
         
@@ -214,7 +214,7 @@
     
 }
 
-- (CKDict *)otherCardCellDataWithModel:(UnionBankCard *)model
+- (CKDict *)otherCardCellDataWithModel:(MyBankCard *)model
 {
     
     @weakify(self)
@@ -229,13 +229,13 @@
         
         @strongify(self)
         
-        UnionBankCard *model = [self.bankCardInfo safetyObjectAtIndex:indexPath.row];
+        MyBankCard *model = [self.bankCardInfo safetyObjectAtIndex:indexPath.row];
         
         UILabel *bankLabel = [cell viewWithTag:101];
-        bankLabel.text = model.issuebank;
+        bankLabel.text = model.issueBank;
         
         UILabel *detailLabel = [cell viewWithTag:102];
-        detailLabel.text = [NSString stringWithFormat:@"尾号%@（%@）",model.cardno, model.cardtypename];
+        detailLabel.text = [NSString stringWithFormat:@"尾号%@（%@）",model.cardNo, model.cardTypeName];
         
     });
     
@@ -272,7 +272,7 @@
         
         @strongify(self)
         
-        UnionBankCard *bankCard = self.bankCardInfo.firstObject;
+        MyBankCard *bankCard = self.bankCardInfo.firstObject;
         
         UIButton *button = [cell viewWithTag:101];
         button.hidden = bankCard.changephoneurl.length == 0;
@@ -282,10 +282,10 @@
             [self.navigationController pushViewController:vc animated:YES];
         }];
         
-        UnionBankCard *model = self.bankCardInfo.firstObject;
+        MyBankCard *model = self.bankCardInfo.firstObject;
         
         UILabel *phoneLabel = [cell viewWithTag:102];
-        phoneLabel.text = model.bindphone;
+        phoneLabel.text = model.bindPhone;
         
     });
     
@@ -345,8 +345,8 @@
             
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
             
-            UnionBankCard *bankCard = self.bankCardInfo.firstObject;
-            [self getUnionSmsWithTokenID:bankCard.tokenid];
+            MyBankCard *bankCard = self.bankCardInfo.firstObject;
+            [self getUnionSmsWithTokenID:bankCard.tokenID];
             [textField becomeFirstResponder];
 
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
@@ -502,12 +502,6 @@
         }
     }
     return nil;
-}
-
-- (void)shakeVCodeTextField
-{
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:1]];
-    [cell.contentView shake];
 }
 
 -(void)folderTableView
