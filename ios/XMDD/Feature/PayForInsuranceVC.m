@@ -281,7 +281,6 @@
     
     cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
-        @strongify(self)
         UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
         UILabel *infoL = (UILabel *)[cell.contentView viewWithTag:1002];
         
