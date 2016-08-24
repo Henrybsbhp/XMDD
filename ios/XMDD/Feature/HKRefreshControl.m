@@ -254,6 +254,7 @@
     if (!refresh) {
         if (!self.bgImgView) {
             self.bgImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
+            self.bgImgView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
             [self addSubview:self.bgImgView];
             self.bgImgView.image = [UIImage imageNamed:@"refresh_bg"];
         }

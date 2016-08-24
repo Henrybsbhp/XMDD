@@ -140,10 +140,10 @@
     NSMutableString *markup = [NSMutableString string];
     if ([strPrice1 compare:strPrice2 options:NSNumericSearch] == NSOrderedDescending) {
         [markup appendString:
-         [NSString stringWithFormat:@"<font size='13' color='#888888'>原价<strike>￥%@</strike></font>", strPrice1]];
+         [NSString stringWithFormat:@"<font size='12' color='#888888'>原价<strike>￥%@ </strike></font>", strPrice1]];
     }
     
-    [markup appendString: [NSString stringWithFormat:@"<font size='16' color='#ff7428'> ￥%@</font>", strPrice2]];
+    [markup appendString: [NSString stringWithFormat:@"<font size='16' color='#ff7428'>￥%@</font>", strPrice2]];
     return markup;
 }
 

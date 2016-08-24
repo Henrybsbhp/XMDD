@@ -25,6 +25,7 @@
     self = [super init];
     if (self) {
         self.hidesBottomBarWhenPushed = YES;
+        self.serviceType = ShopServiceCarWash;
     }
     return self;
 }
