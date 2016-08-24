@@ -261,7 +261,8 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
-        NSDictionary *dic = self.dataSource[indexPath.row];
+        NSInteger index = indexPath.row - self.tips.count;
+        NSDictionary *dic = self.dataSource[index];
         ViolationCommissionStateVC *vc = [UIStoryboard vcWithId:@"ViolationCommissionStateVC" inStoryboard:@"Violation"];
         vc.recordID = (NSNumber *)dic[@"recordid"];
         [self.navigationController pushViewController:vc animated:YES];
