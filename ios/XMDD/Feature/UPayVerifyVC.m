@@ -278,6 +278,7 @@
         button.hidden = bankCard.changephoneurl.length == 0;
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+            vc.tradeno = self.tradeNo;
             vc.url = [NSString stringWithFormat:@"%@/%@",bankCard.changephoneurl,self.tradeNo];
             [self.navigationController pushViewController:vc animated:YES];
         }];

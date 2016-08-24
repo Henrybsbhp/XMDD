@@ -22,9 +22,10 @@
 @property (strong, nonatomic) PictureRecord *originRcd;
 @property (strong, nonatomic) PictureRecord *duplicateRcd;
 @property (strong, nonatomic) PictureRecord *currentRecord;
-
 @property (strong, nonatomic) PictureRecord *failedOriginRcd;
 @property (strong, nonatomic) PictureRecord *failedDuplicateRcd;
+@property (strong, nonatomic) NSString *originURL;
+@property (strong, nonatomic) NSString *duplicateURL;
 @property (strong, nonatomic) NSNumber *carID;
 
 @end
@@ -107,6 +108,8 @@
         
         self.failedOriginRcd.url = op.rsp_licenseurl;
         self.failedDuplicateRcd.url = op.rsp_licensecopyurl;
+        self.originURL = op.rsp_licenseurl;
+        self.duplicateURL = op.rsp_licensecopyurl;
         self.carID = op.rsp_carid;
         [self.tableView reloadData];
         [self getfailedOriginImg];
@@ -132,8 +135,8 @@
     UpdateViolationCommissionCarinfoOp *op = [UpdateViolationCommissionCarinfoOp operation];
     
     op.req_carid = self.carID;
-    op.req_licenseurl = self.originRcd.url;
-    op.req_licensecopyurl = self.duplicateRcd.url;
+    op.req_licenseurl = self.originRcd.url.length == 0 ? self.originURL : self.originRcd.url;
+    op.req_licensecopyurl = self.duplicateRcd.url.length == 0 ? self.duplicateURL : self.duplicateRcd.url;
     op.req_usercarid = self.usercarID;
     op.req_licencenumber = self.carNum;
     
@@ -422,7 +425,8 @@
             
             @strongify(self)
             
-            if (self.originRcd.url == 0 || self.duplicateRcd.url.length == 0)
+            if ((self.originRcd.url.length == 0 && self.self.originURL.length == 0) ||
+                (self.duplicateRcd.url.length == 0 && self.duplicateURL.length == 0))
             {
                 [gToast showMistake:@"请完善资料后上传"];
             }
