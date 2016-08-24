@@ -32,7 +32,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [self setupNavigationBar];
     
     CKAsyncMainQueue(^{
@@ -94,7 +94,7 @@
             make.leading.equalTo(self.tableView.tableFooterView).offset(18);
             make.trailing.equalTo(self.tableView.tableFooterView).offset(-18);
         }];
-
+        
     }
     else
     {
@@ -105,7 +105,7 @@
         [self.tableView.tableFooterView addSubview:self.commentBtn];
         @weakify(self)
         [[self.commentBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-           
+            
             @strongify(self)
             [self actionComment];
         }];
@@ -121,7 +121,7 @@
             [self actionShare];
         }];
         
-    
+        
         [self.commentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             
             @strongify(self)
@@ -194,7 +194,7 @@
 
 - (void)actionShare
 {
-//    [MobClick event:@"rp320_1"]; @fq
+    //    [MobClick event:@"rp320_1"]; @fq
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneCarwash;
     
@@ -267,9 +267,14 @@
             CGSize size = [self.order.shop.shopName labelSizeWithWidth:self.tableView.frame.size.width - 80 font:[UIFont systemFontOfSize:14]];
             return size.height + 70;
         }
-        else if (indexPath.row <= self.detailItems.count)
+        else if (indexPath.row <= self.detailItems.count && indexPath.row != 2)
         {
             return 40;
+        }
+        else if (indexPath.row == 2)
+        {
+            CGSize size = [self.order.servicename labelSizeWithWidth:self.tableView.frame.size.width - 110 font:[UIFont systemFontOfSize:16]];
+            return size.height + 10;
         }
         else
         {
@@ -284,9 +289,10 @@
         }
         else
         {
-        CGFloat width = CGRectGetWidth(self.tableView.frame) - 70;
-        CGSize size = [self.order.comment labelSizeWithWidth:width font:[UIFont systemFontOfSize:14]];
-        return ceil(size.height+90);
+            
+            CGSize size1 = [self.order.comment labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 75 font:[UIFont systemFontOfSize:14]];
+            CGSize size2 = [self.order.servicename labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 145 font:[UIFont systemFontOfSize:14]];
+            return ceil(size1.height + size2.height + 80);
         }
     }
     return 40;
@@ -381,6 +387,7 @@
     RACTuple *item = [self.detailItems safetyObjectAtIndex:(indexPath.row - 1)];
     titleL.text = item.first;
     detailL.text = item.second;
+
     int lineMask = CKViewBorderDirectionNone;
     if (indexPath.row == 0)
     {
@@ -421,7 +428,7 @@
     ratingV.ratingValue = self.order.rating;
     contentL.text = self.order.comment;
     contentL.numberOfLines = 0;
-    server.text = [NSString stringWithFormat:@"服务项目：%@",self.order.servicename];
+    server.text = self.order.servicename;
     
     [avatarV setImageByUrl:self.order.orderPic withType:ImageURLTypeThumbnail defImage:@"avatar_default" errorImage:@"avatar_default"];
     
