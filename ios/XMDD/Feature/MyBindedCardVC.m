@@ -11,9 +11,11 @@
 #import "AddBankCardVC.h"
 #import "GetBankCardListV2Op.h"
 #import "UnbindingBankCardOp.h"
-#import "MyBankCardListModel.h"
+#import "MyBankCard.h"
 #import "JGActionSheet.h"
 #import "BindBankCardVC.h"
+#import "UnbundlingVC.h"
+#import "BankCardDetailVC.h"
 
 @interface MyBindedCardVC () <UITableViewDelegate, UITableViewDataSource>
 
@@ -35,7 +37,6 @@
     self.tableView.delegate = nil;
     self.tableView.dataSource = nil;
     DebugLog(@"MyBindedCardVC is deallocated");
-    
 }
 
 - (void)viewDidLoad {
@@ -66,9 +67,12 @@
 }
 
 #pragma mark - Actions
-- (void)actionToCheckPrivilege
+- (void)actionToCheckPrivilege:(MyBankCard *)card
 {
-    DebugLog(@"Prvilege cell clicked");
+    BankCardDetailVC *vc = [UIStoryboard vcWithId:@"BankCardDetailVC" inStoryboard:@"Bank"];
+    vc.card = card;
+    vc.originVC = self;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 // 浙商加油卡
@@ -116,6 +120,15 @@
     [alert show];
 }
 
+- (void)actionUnbindCZBCard:(MyBankCard *)card
+{
+    UnbundlingVC *vc = [UIStoryboard vcWithId:@"UnbundlingVC" inStoryboard:@"Bank"];
+    vc.originVC = self;
+    vc.cardId = card.tokenID;
+    vc.cardNumber = card.cardNo;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (IBAction)actionEdit:(id)sender
 {
     if (!self.isEditing) {
@@ -131,7 +144,7 @@
 - (void)fetchData
 {
     GetBankCardListV2Op *op = [GetBankCardListV2Op operation];
-    op.cardType = @(10);
+    op.req_cardType = 10;
     
     @weakify(self);
     [[[op rac_postRequest] initially:^{
@@ -146,9 +159,9 @@
         
         @strongify(self);
         [self.view stopActivityAnimation];
-        if (rop.cards.count > 0) {
-            self.fetchedData = [NSMutableArray arrayWithArray:rop.cards];
-            [self setDataSourceWithDataArray:rop.cards];
+        if (rop.rsp_cardArray.count > 0) {
+            self.fetchedData = [NSMutableArray arrayWithArray:rop.rsp_cardArray];
+            [self setDataSourceWithDataArray:rop.rsp_cardArray];
             self.tableView.hidden = NO;
         } else {
             self.tableView.hidden = YES;
@@ -171,7 +184,7 @@
 {
     self.datasource = [CKList list];
     CKList *bankCardList = [CKList list];
-    for (MyBankCardListModel *model in dataArray) {
+    for (MyBankCard *model in dataArray) {
         CKDict *cardInfoCell = [self setupCardInfoCellWithModel:model];
         [bankCardList addObject:cardInfoCell forKey:nil];
     }
@@ -182,7 +195,7 @@
 }
 
 #pragma mark - The settings of cells
-- (CKDict *)setupCardInfoCellWithModel:(MyBankCardListModel *)model
+- (CKDict *)setupCardInfoCellWithModel:(MyBankCard *)model
 {
     CKDict *cardInfoCell = [CKDict dictWith:@{kCKItemKey: @"cardInfoCell", kCKCellID: @"CardInfoCell"}];
     
@@ -199,8 +212,8 @@
     
     cardInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        if (model.czbFlag == 1) {
-            [self actionToCheckPrivilege];
+        if (model.cardType == 1) {
+            [self actionToCheckPrivilege:model];
         }
     });
     
@@ -226,9 +239,9 @@
         bankNameLabel.text = model.issueBank;
         cardNumLabel.text = model.cardNo;
         bankTipsLabel.text = model.bankTips;
-        cardTypeLabel.text = model.cardType;
+        cardTypeLabel.text = model.cardTypeName;
         
-        checkButton.hidden = model.czbFlag == 1 ? NO : YES;
+        checkButton.hidden = model.cardType == 1 ? NO : YES;
         checkButton.enabled = NO;
     });
     
@@ -287,8 +300,15 @@
     }
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        MyBankCardListModel *model = [self.fetchedData safetyObjectAtIndex:indexPath.row];
-        [self actionToUnbindTheBankCardWithTokenID:model.tokenID AtIndexPath:indexPath];
+        MyBankCard *model = [self.fetchedData safetyObjectAtIndex:indexPath.row];
+        if (model.cardType == 1)
+        {
+            [self actionUnbindCZBCard:model];
+        }
+        else
+        {
+            [self actionToUnbindTheBankCardWithTokenID:model.tokenID AtIndexPath:indexPath];
+        }
     }
 }
 

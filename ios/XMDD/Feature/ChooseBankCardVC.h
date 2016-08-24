@@ -6,11 +6,10 @@
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
 //
 
-#import "MyBankVC.h"
 #import "JTShop.h"
+
 @class HKMyCar;
 @interface ChooseBankCardVC : HKViewController
-@property (nonatomic, strong) HKMyCar * defaultCar;
 
 @property (nonatomic, strong) JTShop *shop;
 @property (nonatomic, strong) JTShopService *service;

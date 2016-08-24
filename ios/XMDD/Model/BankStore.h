@@ -19,8 +19,8 @@
 @property (nonatomic, strong) JTQueue *bankCards;
 
 ///获取当前用户的所有银行卡
-- (CKEvent *)getAllBankCards;
-- (CKEvent *)getAllBankCardsIfNeeded;
+- (CKEvent *)getAllCZBBankCards;
+- (CKEvent *)getAllCZBBankCardsIfNeeded;
 - (CKEvent *)deleteBankCardByCID:(NSNumber *)cid vcode:(NSString *)vcode;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "GetGeneralOrderdetailOp.h"
-#import "HKBankCard.h"
 
 @implementation GetGeneralOrderdetailOp
 
@@ -33,17 +32,6 @@
         self.rsp_couponprice = [rspObj floatParamForName:@"couponprice"];
         self.rsp_fee = [rspObj floatParamForName:@"fee"];
         self.rsp_paychannels = rspObj[@"paychannels"];
-        NSArray * czbbanksArray = rspObj[@"czbcards"];
-        NSMutableArray * tArray = [NSMutableArray array];
-        for (NSDictionary * dict in czbbanksArray)
-        {
-            HKBankCard * card = [[HKBankCard alloc] init];
-            card.cardID = [dict numberParamForName:@"cid"];
-            card.cardNumber = [dict stringParamForName:@"cardno"];
-            card.cardType = HKBankCardTypeCredit;
-            card.bankType = HKBankTypeCZB;
-        }
-        self.rsp_czbCards = [NSArray arrayWithArray:tArray];
     }
     else
     {

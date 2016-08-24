@@ -7,8 +7,9 @@
 //
 
 #import "BankStore.h"
-#import "GetBankcardListOp.h"
 #import "UnbindBankcardOp.h"
+#import "GetBankCardListV2Op.h"
+#import "MyBankCard.h"
 
 @implementation BankStore
 
@@ -20,29 +21,29 @@
 {
     self.bankCards = nil;
     if (user) {
-        [[self getAllBankCards] send];
+        [[self getAllCZBBankCards] send];
     }
 }
 
 #pragma mark - Event
 ///获取当前用户的所有银行卡
-- (CKEvent *)getAllBankCards
+- (CKEvent *)getAllCZBBankCards
 {
     CKEvent *event;
     if (!gAppMgr.myUser) {
         event = [[RACSignal return:nil] eventWithName:@"reloadUser"];
     }
     else {
-        event = [[self rac_getAllBankCards] eventWithName:kEvtGetAllBankCards];
+        event = [[self rac_getAllCZBBankCards] eventWithName:kEvtGetAllBankCards];
     }
     return [self inlineEvent:event forDomain:kDomainBankCards];
 }
 
 
-- (CKEvent *)getAllBankCardsIfNeeded
+- (CKEvent *)getAllCZBBankCardsIfNeeded
 {
     if ([self needUpdateTimetagForKey:nil]) {
-        return [self getAllBankCards];
+        return [self getAllCZBBankCards];
     }
     return [CKEvent eventWithName:kEvtGetAllBankCards signal:nil];;
 }
@@ -56,21 +57,22 @@
 
 
 #pragma mark - Signal
-- (RACSignal *)rac_getAllBankCards
+- (RACSignal *)rac_getAllCZBBankCards
 {
-    GetBankcardListOp *op = [GetBankcardListOp operation];
+    GetBankCardListV2Op *op = [GetBankCardListV2Op operation];
+    op.req_cardType = 1;
     @weakify(self);
-    return [[[op rac_postRequest] map:^id(GetBankcardListOp *op) {
+    return [[[op rac_postRequest] map:^id(GetBankCardListV2Op *op) {
         @strongify(self);
         JTQueue *cache = [[JTQueue alloc] init];
-        for (HKBankCard *card in op.rsp_bankcards) {
-            HKBankCard *oldCard = [self.bankCards objectForKey:card.cardID];
+        for (MyBankCard *card in op.rsp_cardArray) {
+            MyBankCard *oldCard = [self.bankCards objectForKey:card.tokenID];
             card.gasInfo = oldCard.gasInfo;
-            [cache addObject:card forKey:card.cardID];
+            [cache addObject:card forKey:card.tokenID];
         }
         self.bankCards = cache;
         [self updateTimetagForKey:nil];
-        return op.rsp_bankcards;
+        return op.rsp_cardArray;
     }] replayLast];
 }
 
@@ -84,7 +86,7 @@
     return [[[op rac_postRequest] map:^id(id value) {
         @strongify(self);
         NSInteger index = [self.bankCards indexOfObjectForKey:cid];
-        HKBankCard *card = [self.bankCards objectAtIndex:index];
+        MyBankCard *card = [self.bankCards objectAtIndex:index];
         if (card) {
             [self.bankCards removeObjectAtIndex:index];
             NSNumber *indexNumber = index != NSNotFound ? @(index) : nil;

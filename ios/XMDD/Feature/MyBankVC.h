@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HKBankCard.h"
+#import "MyBankCard.h"
 
+/// 我的浙商卡页面
 @interface MyBankVC : HKViewController
 
-@property (nonatomic, copy) void(^didSelectedBlock)(HKBankCard *card);
+@property (nonatomic, copy) void(^didSelectedBlock)(MyBankCard *card);
 
 @end

@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HKBankCard.h"
+#import "MyBankCard.h"
 
 @interface UnbundlingVC : HKViewController
-@property (nonatomic, strong) HKBankCard *card;
+@property (nonatomic, copy)NSString *cardId;
+@property (nonatomic, copy)NSString *cardNumber;
 @property (nonatomic, weak) UIViewController *originVC;
 @end

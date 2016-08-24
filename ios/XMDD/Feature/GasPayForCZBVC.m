@@ -73,7 +73,7 @@
     }];
     
     HKCellData *prompt = [HKCellData dataWithCellID:@"Prompt" tag:nil];
-    NSString *cardno = [self.bankCard.cardNumber substringFromIndex:self.bankCard.cardNumber.length-4 length:4];
+    NSString *cardno = [self.bankCard.cardNo substringFromIndex:self.bankCard.cardNo.length-4 length:4];
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     ps.lineSpacing = 5;
     NSDictionary *attr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:13], NSForegroundColorAttributeName:kDarkTextColor, NSParagraphStyleAttributeName: ps};
@@ -131,7 +131,8 @@
     [MobClick event:@"rp507_2"];
     @weakify(self);
     GetCzbpayVcodeOp *op = [GetCzbpayVcodeOp operation];
-    op.req_cardid = self.bankCard.cardID;
+    NSNumber * cardId = @([self.bankCard.tokenID longLongValue]);
+    op.req_cardid = cardId;
     op.req_chargeamt = (int)self.rechargeAmount;
     op.req_gid = self.gasCard.gid;
     op.req_bill = self.needInvoice;
@@ -203,7 +204,8 @@
         [gToast dismiss];
         //加油到达上限（如果遇到该错误，客户端提醒用户后，需再调用一次查询卡的充值信息）
         if (error.code == 618602) {
-            [[[GasStore fetchExistsStore] updateCZBCardInfoByCID:self.bankCard.cardID] send];
+            NSNumber * cardId = @([self.bankCard.tokenID longLongValue]);
+            [[[GasStore fetchExistsStore] updateCZBCardInfoByCID:cardId] send];
         }
         //跳转到支付失败页面
         GasPaymentResultVC *vc = [UIStoryboard vcWithId:@"GasPaymentResultVC" inStoryboard:@"Gas"];
