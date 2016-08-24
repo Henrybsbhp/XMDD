@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HKBankCard.h"
 #import "GasCard.h"
+#import "MyBankCard.h"
 
 @interface GasPayForCZBVC : HKViewController
 
-@property (nonatomic, strong) HKBankCard *bankCard;
+@property (nonatomic, strong) MyBankCard *bankCard;
 @property (nonatomic, strong) GasCard *gasCard;
 @property (nonatomic, strong) NSString *payTitle;
 @property (nonatomic, assign) float rechargeAmount;

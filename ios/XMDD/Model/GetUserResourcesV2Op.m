@@ -7,7 +7,6 @@
 //
 
 #import "GetUserResourcesV2Op.h"
-#import "HKBankCard.h"
 
 @implementation GetUserResourcesV2Op
 
@@ -33,14 +32,8 @@
             [tArray addObject:coupon];
         }
         NSArray * creditCards = (NSArray *)rspObj[@"bindcards"];
-        NSMutableArray * tArray2 = [[NSMutableArray alloc] init];
-        for (NSDictionary * dict in creditCards)
-        {
-            HKBankCard * card = [HKBankCard bankCardWithJSONResponse:dict];
-            [tArray2 addObject:card];
-        }
         self.rsp_coupons = tArray;
-        self.rsp_czBankCreditCard = tArray2;
+        self.rsp_czBankCreditCard = creditCards;
         self.rsp_bankIntegral = [rspObj integerParamForName:@"bankcredits"];
         self.rsp_freewashes = [rspObj integerParamForName:@"freewashes"];
         

@@ -8,15 +8,12 @@
 
 #import "ChooseBankCardVC.h"
 #import "ADViewController.h"
-#import "HKBankCard.h"
 #import "HKConvertModel.h"
 #import "PayForWashCarVC.h"
 #import "BindBankCardVC.h"
-#import "GetBankcardListOp.h"
 #import "BankStore.h"
 #import "GetUserResourcesV2Op.h"
 #import "CouponModel.h"
-#import "Masonry.h"
 
 @interface ChooseBankCardVC ()
 
@@ -176,13 +173,15 @@
         if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
         {
             PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
-            HKBankCard * card = [self.bankCards safetyObjectAtIndex:indexPath.row];
+            NSDictionary * card = [self.bankCards safetyObjectAtIndex:indexPath.row];
             payVc.selectBankCard = card;
-            if (card.couponIds.count)
+            NSArray * cids = [card[@"cids"] componentsSeparatedByString:@","];
+            
+            if (cids.count)
             {
                 NSArray * array = [self.carwashCouponArray arrayByFilteringOperator:^BOOL(HKCoupon *obj) {
                     
-                    return [obj.couponId isEqualToNumber:[card.couponIds safetyObjectAtIndex:0]];
+                    return [obj.couponId isEqualToNumber:[cids safetyObjectAtIndex:0]];
                 }];
                 if (array.count && self.needRechooseCarwashCoupon)
                 {
@@ -240,7 +239,7 @@
     UILabel *cardTypeL = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *numberL = (UILabel *)[cell.contentView viewWithTag:1004];
     
-    HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
+    NSDictionary *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
     
     if (indexPath.row % 3 == 0) {
         bgV.image = [UIImage imageNamed:@"Bank_redCardBackground_imageView"];
@@ -253,9 +252,10 @@
     }
     
     logoV.image = [UIImage imageNamed:@"mb_logo"];
-    titleL.text = card.cardName;
-    cardTypeL.text = card.cardType == HKBankCardTypeCredit ? @"信用卡" : @"储蓄卡";
-    numberL.text = [HKConvertModel convertCardNumberForEncryption:card.cardNumber];
+    titleL.text = @"浙商银行 - 汽车卡";
+    cardTypeL.text = @"信用卡";
+    NSString * cardNumer = [NSString stringWithFormat:@"%@",card[@"cardno"]];
+    numberL.text = [HKConvertModel convertCardNumberForEncryption:cardNumer];
     return cell;
 }
 

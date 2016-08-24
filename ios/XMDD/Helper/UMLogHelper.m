@@ -58,7 +58,7 @@
                              @"EditMyInfoViewController":@{@"pagetag":@"rp305"},//我的资料编辑
                              @"CarsListVC":@{@"pagetag":@"rp309"},//我的爱车
                              @"EditCarVC":@{@"pagetag":@"rp312"},//编辑我的爱车
-                             @"MyBankVC":@{@"pagetag":@"rp314"},//我的银行卡
+                             @"MyBindedCardVC":@{@"pagetag":@"rp314"},//我的银行卡
                              @"BindBankCardVC":@{@"pagetag":@"rp313"},//绑定银行卡
                              @"CardDetailVC":@{@"pagetag":@"rp315"},//银行卡详情
                              @"MyCollectionListVC":@{@"pagetag":@"rp316"},//我的收藏

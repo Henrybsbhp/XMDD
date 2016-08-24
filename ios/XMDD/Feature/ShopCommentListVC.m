@@ -109,7 +109,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     JTShopComment *comment = self.datasource[indexPath.row];
-    return [ShopCommentCell cellHeightWithComment:comment.comment andBoundsWidth:ScreenWidth];
+    return [ShopCommentCell cellHeightWithComment:comment.comment serviceName:comment.serviceName andBoundsWidth:ScreenWidth];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -121,7 +121,7 @@
     cell.titleLabel.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
     cell.timeLabel.text = [comment.time dateFormatForYYMMdd2];
     cell.ratingView.ratingValue = comment.rate;
-    cell.serviceLabel.text = [NSString stringWithFormat:@"服务项目：%@", comment.serviceName];
+    cell.serviceLabel.text = comment.serviceName;
     cell.commentLabel.text = comment.comment;
     
     if (indexPath.row == 0) {

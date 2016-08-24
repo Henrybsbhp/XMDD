@@ -220,7 +220,7 @@
     RACSignal *sig = [[[op rac_postRequest] map:^id(GetCZBGaschargeInfoOp *op) {
 
         BankStore *store = [BankStore fetchExistsStore];
-        HKBankCard *card = [store.bankCards objectForKey:cid];
+        MyBankCard *card = [store.bankCards objectForKey:cid];
         card.gasInfo = op;
         return card;
     }] replay];
