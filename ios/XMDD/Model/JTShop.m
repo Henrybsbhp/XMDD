@@ -150,9 +150,20 @@
 }
 
 - (NSArray *)filterShopServiceByType:(ShopServiceType)type {
-    return [self.shopServiceArray arrayByFilteringOperator:^BOOL(JTShopService *service) {
-        return service.shopServiceType == type;
-    }];
+    switch (type) {
+        case ShopServiceCarBeauty:
+            return [self.beautyServiceArray arrayByFilteringOperator:^BOOL(JTShopService *service) {
+                return service.shopServiceType == type;
+            }];
+        case ShopServiceCarMaintenance:
+            return [self.maintenanceServiceArray arrayByFilteringOperator:^BOOL(JTShopService *service) {
+                return service.shopServiceType == type;
+            }];
+        default:
+            return [self.shopServiceArray arrayByFilteringOperator:^BOOL(JTShopService *service) {
+                return service.shopServiceType == type;
+            }];
+    }
 }
 
 - (NSString *)noteForServiceType:(ShopServiceType)type {

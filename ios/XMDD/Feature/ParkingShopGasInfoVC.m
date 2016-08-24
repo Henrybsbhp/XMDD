@@ -8,6 +8,7 @@
 
 #import "ParkingShopGasInfoVC.h"
 #import "NSString+RectSize.h"
+#import "JTShop.h"
 #import "GetParkingShopGasInfoOp.h"
 #import "AreaTablePickerVC.h"
 #import "HKLocationDataModel.h"

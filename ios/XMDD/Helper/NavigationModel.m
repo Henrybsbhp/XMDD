@@ -21,6 +21,7 @@
 #import "MyBankVC.h"
 #import "InsSimpleCar.h"
 #import "InsCheckResultsVC.h"
+#import "MyCollectionListVC.h"
 #import "ValuationHomeVC.h"
 #import "MutualInsOrderInfoVC.h"
 #import "MutualInsAskForCompensationVC.h"
@@ -361,8 +362,8 @@
             if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
                 return YES;
             
-            if (![self popToViewControllerIfNeededByIdentify:@"MyCollectionViewController"]) {
-                UIViewController *vc = [UIStoryboard vcWithId:@"MyCollectionViewController" inStoryboard:@"Mine"];
+            if (![self popToViewControllerIfNeededByIdentify:@"MyCollectionListVC"]) {
+                MyCollectionListVC *vc = [[MyCollectionListVC alloc] init];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
             flag = YES;

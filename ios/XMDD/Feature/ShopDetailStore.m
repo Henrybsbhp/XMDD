@@ -133,25 +133,6 @@
     }];
 }
 
-#pragma mark - 收藏相关
-- (BOOL)isShopCollected {
-    return [gAppMgr.myUser.favorites getFavoriteWithID:self.shop.shopID] != nil;
-}
-
-- (RACSignal *)collectShop {
-    return [[gAppMgr.myUser.favorites rac_addFavorite:self.shop] catch:^RACSignal *(NSError *error) {
-        if (error.code == 7002) {
-            return [RACSignal return:nil];
-        }
-        return [RACSignal error:error];
-    }];
-}
-
-- (RACSignal *)unCollectShop {
-    return [gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]];
-}
-
-
 #pragma mark - Util
 + (NSString *)markupStringWithOldPrice:(double)price1 curPrices:(double)price2 {
     NSString *strPrice1 = [@(price1) priceString];

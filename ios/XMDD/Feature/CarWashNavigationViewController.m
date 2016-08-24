@@ -130,7 +130,7 @@
             
             if (self.favorite)
             {
-                [[[[gAppMgr.myUser.favorites rac_removeFavorite:@[self.shop.shopID]] initially:^{
+                [[[[gStoreMgr.collectionStore removeCollections:@[self.shop]] initially:^{
                     
                     [gToast showingWithText:@"移除中..."];
                 }] finally:^{
@@ -140,7 +140,7 @@
                     
 
                     self.favorite = NO;
-                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collection"] forState:UIControlStateNormal];
+                    [mapBottomView.collectBtn setImage:[UIImage imageNamed:@"nb_collection_300"] forState:UIControlStateNormal];
                 } error:^(NSError *error) {
                     
                     [gToast showError:error.domain];
@@ -148,7 +148,7 @@
             }
             else
             {
-                [[[[gAppMgr.myUser.favorites rac_addFavorite:self.shop] initially:^{
+                [[[[gStoreMgr.collectionStore addCollection:self.shop] initially:^{
                     
                     [gToast showingWithText:@"添加中..."];
                 }] finally:^{

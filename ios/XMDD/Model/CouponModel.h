@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BaseModel.h"
+#import "Constants.h"
 
 
 @interface CouponModel : BaseOp

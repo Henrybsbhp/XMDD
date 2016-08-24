@@ -13,20 +13,27 @@
 
 @implementation MyCollectionStore
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _collectionsChanged = [RACSubject subject];
+    }
+    return self;
+}
+
 - (void)resetForMyUser:(JTUser *)user {
-    self.collections = nil;
+    _collections = nil;
     if (user) {
         [[self fetchAllCollections] subscribed];
     }
 }
 
 - (RACSignal *)fetchAllCollections {
-    @weakify(self);
-    self.loadingCollectionsSignal = [[[GetUserFavoriteV2Op operation] rac_postRequest] doNext:^(GetUserFavoriteV2Op *op) {
-        @strongify(self);
-        self.collections = [CKList listWithArray:op.rsp_shopArray];
+    return [[[GetUserFavoriteV2Op operation] rac_postRequest] doNext:^(GetUserFavoriteV2Op *op) {
+        _collections = [CKList listWithArray:op.rsp_shopArray];
+        [self.collectionsChanged sendNext:self.collections];
     }];
-    return self.loadingCollectionsSignal;
 }
 
 - (RACSignal *)addCollection:(JTShop *)shop {
@@ -39,22 +46,32 @@
             return [RACSignal return:nil];
         }
         return [RACSignal error:error];
-    }] doNext:^(id x) {
+    }] doNext:^(AddUserFavoriteOp *op) {
         
-        [self.collections removeObjectForKey:x];
+        [self.collections removeObjectForKey:op.shopid];
+        [self.collections insertObject:shop withKey:shop.shopID atIndex:0];
+        [self.collectionsChanged sendNext:self.collections];
     }];
 }
 
 - (RACSignal *)removeCollections:(NSArray *)shops {
     DeleteUserFavoriteOp * op = [DeleteUserFavoriteOp operation];
-    op.shopArray = shops;
+    op.shopArray = [shops arrayByMapFilteringOperator:^id(JTShop *shop) {
+        return shop.shopID;
+    }];
     
-    return [[op rac_postRequest] doNext:^(id x) {
+    return [[op rac_postRequest] doNext:^(DeleteUserFavoriteOp *op) {
+        
         for (JTShop *shop in shops) {
             [self.collections removeObjectForKey:shop.shopID];
         }
+        [self.collectionsChanged sendNext:self.collections];
     }];
 }
 
+#pragma mark - Getter
+- (BOOL)isCollectedByShopID:(NSNumber *)shopid {
+    return self.collections[shopid] != nil;
+}
 
 @end

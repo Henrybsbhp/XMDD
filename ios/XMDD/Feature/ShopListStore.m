@@ -104,6 +104,7 @@
         _coordinate = userLocation ? userLocation.coordinate : gMapHelper.coordinate;
         GetShopByNameV2Op * op = [GetShopByNameV2Op operation];
         op.shopName = name;
+        op.serviceType = self.serviceType;
         op.longitude = self.coordinate.longitude;
         op.latitude = self.coordinate.latitude;
         op.pageno = 1;
