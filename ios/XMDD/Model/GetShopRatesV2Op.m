@@ -7,6 +7,7 @@
 //
 
 #import "GetShopRatesV2Op.h"
+#import "JTShop.h"
 
 @implementation GetShopRatesV2Op
 

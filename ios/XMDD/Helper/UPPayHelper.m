@@ -34,7 +34,7 @@
         [tvc presentViewController:navi animated:YES completion:nil];
         [vc.subject subscribeNext:^(NSString *url) {
             
-            if ([url isEqualToString:@"http://backtomerchant.com/?"])
+            if ([url isEqualToString:kUPayVerifyKey])
             {
                 [subject sendNext:url];
                 [subject sendCompleted];

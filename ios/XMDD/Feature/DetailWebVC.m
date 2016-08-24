@@ -336,7 +336,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         return NO;
     }
     
-    if ([url.absoluteString isEqualToString:@"http://backtomerchant.com/?"])
+    if ([url.absoluteString isEqualToString:kUPayVerifyKey])
     {
         [self requestUnionPayResult];
         return NO;
@@ -459,7 +459,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             
             if (op.rsp_status.integerValue == 1)
             {
-                [self.subject sendNext:@"http://backtomerchant.com/?"];
+                [self.subject sendNext:kUPayVerifyKey];
                 [self.subject sendCompleted];
             }
         }];

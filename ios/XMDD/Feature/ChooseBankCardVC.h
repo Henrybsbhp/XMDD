@@ -7,6 +7,7 @@
 //
 
 #import "MyBankVC.h"
+#import "JTShop.h"
 @class HKMyCar;
 @interface ChooseBankCardVC : HKViewController
 @property (nonatomic, strong) HKMyCar * defaultCar;

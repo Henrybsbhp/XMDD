@@ -9,6 +9,7 @@
 #import "ShopCommentListVC.h"
 #import "GetShopRatesV2Op.h"
 #import "HKLoadingHelper.h"
+#import "JTShop.h"
 #import "JTTableView.h"
 #import "ShopCommentCell.h"
 

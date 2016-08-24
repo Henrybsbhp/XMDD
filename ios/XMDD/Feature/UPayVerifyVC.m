@@ -170,20 +170,24 @@
         
         UIImageView *imgView = [cell viewWithTag:103];
         
-        if (self.bankCardInfo.count > 1)
-        {
-            imgView.hidden = NO;
+        [[RACObserve(self.smsModel.getVcodeButton, enabled)takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             
-            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
-            constraint.constant = 40;
-        }
-        else
-        {
-            imgView.hidden = YES;
+            if (self.bankCardInfo.count > 1 && self.smsModel.getVcodeButton.enabled)
+            {
+                imgView.hidden = NO;
+                
+                NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
+                constraint.constant = 40;
+            }
+            else
+            {
+                imgView.hidden = YES;
+                
+                NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
+                constraint.constant = 15;
+            }
             
-            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
-            constraint.constant = 15;
-        }
+        }];
         
         [UIView animateWithDuration:0.3 animations:^{
             
@@ -274,7 +278,7 @@
         button.hidden = bankCard.changephoneurl.length == 0;
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-            vc.url = bankCard.changephoneurl;
+            vc.url = [NSString stringWithFormat:@"%@/%@",bankCard.changephoneurl,self.tradeNo];
             [self.navigationController pushViewController:vc animated:YES];
         }];
         

@@ -7,6 +7,7 @@
 //
 
 #import "MyWebViewBridge.h"
+#import "JTShop.h"
 #import "SocialShareViewController.h"
 #import "HKImagePicker.h"
 #import "UploadFileOp.h"

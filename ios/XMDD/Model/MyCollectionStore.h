@@ -7,12 +7,16 @@
 //
 
 #import "MyUserStore.h"
+#import "JTShop.h"
 
 @interface MyCollectionStore : MyUserStore
-@property (nonatomic, strong) CKList *collections;
-@property (nonatomic, strong) RACSignal *loadingCollectionsSignal;
+@property (nonatomic, strong, readonly) CKList *collections;
+///(sendNext: collections)
+@property (nonatomic, strong, readonly) RACSubject *collectionsChanged;
 
 - (RACSignal *)fetchAllCollections;
 - (RACSignal *)addCollection:(JTShop *)shop;
 - (RACSignal *)removeCollections:(NSArray *)shops;
+- (BOOL)isCollectedByShopID:(NSNumber *)shopid;
+
 @end
