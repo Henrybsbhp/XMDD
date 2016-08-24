@@ -405,7 +405,8 @@
     proofCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         if (self.proofImage) {
-            return self.proofImage.size.height + 40;
+            CGFloat multiple = self.proofImage.size.width / gAppMgr.deviceInfo.screenSize.width;
+            return self.proofImage.size.height / multiple + 40;
         }
         return gAppMgr.deviceInfo.screenSize.width / 2.2;
     });

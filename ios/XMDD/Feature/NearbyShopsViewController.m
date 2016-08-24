@@ -622,7 +622,7 @@
     
     JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
     
-    BOOL favorite = [gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID] ? YES : NO;
+    BOOL favorite = gStoreMgr.collectionStore.collections[shop.shopID] ? YES : NO;
     UIImage * image = [UIImage imageNamed:favorite ? @"nb_collected_300" : @"nb_collection_300"];
     [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
     
@@ -679,9 +679,9 @@
             k.calculationMode = kCAAnimationLinear;
             [mapBottomView.collectBtn.imageView.layer addAnimation:k forKey:@"SHOW"];
             
-            if ([gAppMgr.myUser.favorites getFavoriteWithID:shop.shopID])
+            if (gStoreMgr.collectionStore.collections[shop.shopID])
             {
-                [[[[gAppMgr.myUser.favorites rac_removeFavorite:@[shop.shopID]] initially:^{
+                [[[[gStoreMgr.collectionStore removeCollections:@[shop]] initially:^{
                     
                     [gToast showingWithText:@"移除中..."];
                 }] finally:^{
@@ -697,7 +697,7 @@
             }
             else
             {
-                [[[[gAppMgr.myUser.favorites rac_addFavorite:shop] initially:^{
+                [[[[gStoreMgr.collectionStore addCollection:shop] initially:^{
                     
                     [gToast showingWithText:@"添加中..."];
                 }] finally:^{

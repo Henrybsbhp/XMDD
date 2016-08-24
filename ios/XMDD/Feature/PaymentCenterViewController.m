@@ -16,7 +16,8 @@
 #import "OrderPaidSuccessOp.h"
 #import "GetGeneralActivityLefttimeOp.h"
 
-#import <POP.h>
+#import "UPApplePayHelper.h"
+
 
 
 @interface PaymentCenterViewController()<UITableViewDataSource,UITableViewDelegate>
@@ -47,7 +48,7 @@
 {
     [super viewDidLoad];
     
-    self.paychannel = PaymentChannelAlipay;
+    self.paychannel = PaymentChannelUPpay;
     
     [self setupUI];
     [self requestOrderDetail];
@@ -65,7 +66,6 @@
     
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     self.navigationItem.leftBarButtonItem = back;
-
 }
 
 - (void)setupPayBtn
@@ -106,38 +106,6 @@
     }];
 }
 
-- (void)requestOrderDetail
-{
-    GetGeneralOrderdetailOp * op = [[GetGeneralOrderdetailOp alloc] init];
-    self.getGeneralOrderdetailOp = op;
-    op.tradeNo = self.tradeNo;
-    op.tradeType = self.tradeType;
-    [[[op rac_postRequest]  initially:^{
-        
-        [gToast showingWithText:@"获取订单信息中..." inView:self.view];
-        self.tableView.hidden = YES;
-        self.bottomBtn.hidden = YES;
-    }] subscribeNext:^(GetGeneralOrderdetailOp * rop) {
-        
-        [self handlePaymentArray];
-        [gToast dismissInView:self.view];
-        self.bottomBtn.hidden = NO;
-        self.tableView.hidden = NO;
-        [self.tableView reloadData];
-        
-        NSString * bottomTitle = [NSString stringWithFormat:@"您只需支付%@元，现在支付",[NSString formatForPrice:self.getGeneralOrderdetailOp.rsp_fee]];
-        [self.payBtn setTitle:bottomTitle forState:UIControlStateNormal];
-        
-    } error:^(NSError *error) {
-        
-        self.tableView.hidden = YES;
-        self.bottomBtn.hidden = YES;
-        [gToast dismissInView:self.view];
-        
-        [gToast showError:error.domain];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
-}
 
 
 - (void)actionBack:(id)sender {
@@ -146,11 +114,18 @@
 
 - (void)actionPay:(GetGeneralActivityLefttimeOp *)op
 {
-//    NSString * tradeno = self.getGeneralOrderdetailOp.tradeNo;
-    // 如果是银联支付需要请求服务器得到银联流水号
     if (self.getGeneralOrderdetailOp.rsp_fee)
     {
-        [self callPaymentHelperWithPayOp:op];
+        if (self.paychannel == PaymentChannelApplePay)
+        {
+            NSString * tradeno = self.getGeneralOrderdetailOp.tradeNo;
+            //     如果是银联支付需要请求服务器得到银联流水号
+            [self requestGetUppayTradenoWithTradeNo:tradeno];
+        }
+        else
+        {
+            [self callPaymentHelperWithPayOp:op];
+        }
     }
     else
     {
@@ -389,7 +364,13 @@
             DebugLog(@"已通知服务器支付成功!");
         }];
         
-        [self actionPaySuccess];
+        
+        @weakify(self)
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+            @strongify(self)
+            [self actionPaySuccess];
+        }];
     }];
     return YES;
 }
@@ -460,7 +441,7 @@
                                             @"logo":@"cw_creditcard"}];
             [tArray safetyInsertObject:dict atIndex:0];
         }
-        else if ([paychannelStr isEqualToString:@"8"])
+        else if ([paychannelStr isEqualToString:@"82"])
         {
             NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:
                                           @{@"paymentType":@(PaymentChannelUPpay),
@@ -469,7 +450,7 @@
                                             @"logo":@"uppay_logo_66"}];
             [tArray safetyAddObject:dict];
         }
-        else if ([paychannelStr isEqualToString:@"81"])
+        else if ([paychannelStr isEqualToString:@"81"] && [UPApplePayHelper isApplePayAvailable])
         {
             NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:
                                           @{@"paymentType":@(PaymentChannelApplePay),
@@ -481,6 +462,72 @@
     }
     self.paymentArray = [NSArray arrayWithArray:tArray];
 }
+
+- (void)requestOrderDetail
+{
+    GetGeneralOrderdetailOp * op = [[GetGeneralOrderdetailOp alloc] init];
+    self.getGeneralOrderdetailOp = op;
+    op.tradeNo = self.tradeNo;
+    op.tradeType = self.tradeType;
+    [[[op rac_postRequest]  initially:^{
+        
+        [gToast showingWithText:@"获取订单信息中..." inView:self.view];
+        self.tableView.hidden = YES;
+        self.bottomBtn.hidden = YES;
+    }] subscribeNext:^(GetGeneralOrderdetailOp * rop) {
+        
+        [self handlePaymentArray];
+        [gToast dismissInView:self.view];
+        self.bottomBtn.hidden = NO;
+        self.tableView.hidden = NO;
+        [self.tableView reloadData];
+        
+        NSString * bottomTitle = [NSString stringWithFormat:@"您只需支付%@元，现在支付",[NSString formatForPrice:self.getGeneralOrderdetailOp.rsp_fee]];
+        [self.payBtn setTitle:bottomTitle forState:UIControlStateNormal];
+        
+    } error:^(NSError *error) {
+        
+        self.tableView.hidden = YES;
+        self.bottomBtn.hidden = YES;
+        [gToast dismissInView:self.view];
+        
+        [gToast showError:error.domain];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+}
+
+
+- (void)requestGetUppayTradenoWithTradeNo:(NSString *)tradeId
+{
+    GetGeneralUnionpayTradenoOp * op = [[GetGeneralUnionpayTradenoOp alloc] init];
+    op.tradeNo = self.tradeNo;
+    op.tradeType = self.tradeType;
+    [[[op rac_postRequest] flattenMap:^RACStream *(GetGeneralUnionpayTradenoOp * rop) {
+        
+        PaymentHelper *helper = [[PaymentHelper alloc] init];
+        [helper resetForUPApplePayWithTradeNumber:rop.rsp_uniontradeno targetVC:self];
+        return [helper rac_startPay2];
+    }] subscribeNext:^(NSString * uppayTradeNo) {
+        
+        OrderPaidSuccessOp *iop = [[OrderPaidSuccessOp alloc] init];
+        iop.req_notifytype = 4;
+        iop.req_tradeno = tradeId;
+        [[iop rac_postRequest] subscribeNext:^(id x) {
+            DebugLog(@"通用订单通知服务器支付成功!");
+        }];
+        
+        @weakify(self)
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+            @strongify(self)
+            [self actionPaySuccess];
+        }];
+    } error:^(NSError *error) {
+        
+//        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+}
+
 
 
 

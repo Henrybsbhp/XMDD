@@ -3,10 +3,11 @@
 //  XiaoMa
 //
 //  Created by jt on 15/10/20.
-//  Copyright © 2015年 jiangjunchen. All rights reserved.
+//  Copyright © 2015年 huika. All rights reserved.
 //
 
 #import "GetShopByNameV2Op.h"
+#import "JTShop.h"
 
 @implementation GetShopByNameV2Op
 
