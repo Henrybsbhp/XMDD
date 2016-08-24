@@ -42,11 +42,10 @@
     
     @weakify(self)
     
-    
     [super viewDidLoad];
     
+    [self observeTheFetchedDataToDetemineTheHiddenOfBarButtonItem];
     CKAfter (0.5, ^{
-        [self observeTheFetchedDataToDetemineTheHiddenOfBarButtonItem];
         [self observeIsEditingValueToChangeBarButtonItemName];
         [self observeWhetherOrNotCardBindingSuccess];
     });
