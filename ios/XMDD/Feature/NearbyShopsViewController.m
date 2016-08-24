@@ -55,7 +55,6 @@
     [self setupNavigationBar];
     [self setupMapView];
     [self setupLocationMe];
-    
     if (gMapHelper.coordinate.latitude != 0 || gMapHelper.coordinate.longitude != 0)
     {
         [self setCenter:gMapHelper.coordinate];
@@ -622,15 +621,16 @@
     
     JTShop * shop = [self.nearbyShopArray safetyObjectAtIndex:pageIndex];
     
-    BOOL favorite = gStoreMgr.collectionStore.collections[shop.shopID] ? YES : NO;
-    UIImage * image = [UIImage imageNamed:favorite ? @"nb_collected_300" : @"nb_collection_300"];
-    [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
-    
+    [[[gStoreMgr.collectionStore.collectionsChanged startWith:nil] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+        BOOL favorite = [gStoreMgr.collectionStore isCollectedByShopID:shop.shopID];
+        UIImage * image = [UIImage imageNamed:favorite ? @"nb_collected_300" : @"nb_collection_300"];
+        [mapBottomView.collectBtn setImage:image forState:UIControlStateNormal];
+    }];
     
     mapBottomView.titleLb.text = shop.shopName;
     mapBottomView.addressLb.text = shop.shopAddress;
     
-    @weakify(self)
+    @weakify(self);
     [[[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
 
         @strongify(self)
@@ -679,7 +679,7 @@
             k.calculationMode = kCAAnimationLinear;
             [mapBottomView.collectBtn.imageView.layer addAnimation:k forKey:@"SHOW"];
             
-            if (gStoreMgr.collectionStore.collections[shop.shopID])
+            if ([gStoreMgr.collectionStore isCollectedByShopID:shop.shopID])
             {
                 [[[[gStoreMgr.collectionStore removeCollections:@[shop]] initially:^{
                     

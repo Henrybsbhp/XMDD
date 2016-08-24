@@ -14,9 +14,10 @@
 @property (nonatomic, strong) JTRatingView *ratingView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) UILabel *servicePrefixLabel;
 @property (nonatomic, strong) UILabel *serviceLabel;
 @property (nonatomic, strong) UILabel *commentLabel;
 
-+ (CGFloat)cellHeightWithComment:(NSString *)comment andBoundsWidth:(CGFloat)width;
++ (CGFloat)cellHeightWithComment:(NSString *)comment serviceName:(NSString *)name andBoundsWidth:(CGFloat)width;
 
 @end

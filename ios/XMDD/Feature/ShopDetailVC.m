@@ -112,7 +112,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 - (void)setupNavitationBar {
     // 隐藏系统导航条
     self.router.navigationBarHidden = YES;
-    self.customNavBar = [[ShopDetailNavigationBar alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)
+    self.customNavBar = [[ShopDetailNavigationBar alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 67)
                                                          andScrollView:self.collectionView];
     self.customNavBar.titleLabel.text = @"商户详情";
     self.customNavBar.isCollected = [gStoreMgr.collectionStore isCollectedByShopID:self.shop.shopID];
@@ -693,7 +693,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     dict[@"comment"] = comment;
     dict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         JTShopComment *comment = data[@"comment"];
-        return [ShopCommentCell cellHeightWithComment:comment.comment andBoundsWidth:ScreenWidth];
+        return [ShopCommentCell cellHeightWithComment:comment.comment serviceName:comment.serviceName andBoundsWidth:ScreenWidth];
     });
     
     dict[kCKCellPrepare] = ^(CKDict *data, NSIndexPath *indexPath, ShopDetailCommentCell *cell) {
@@ -703,7 +703,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
         cell.commentView.titleLabel.text = comment.nickname.length ? comment.nickname : @"无昵称用户";
         cell.commentView.timeLabel.text = [comment.time dateFormatForYYMMdd2];
         cell.commentView.ratingView.ratingValue = comment.rate;
-        cell.commentView.serviceLabel.text = [NSString stringWithFormat:@"服务项目：%@", comment.serviceName];
+        cell.commentView.serviceLabel.text = comment.serviceName;
         cell.commentView.commentLabel.text = comment.comment;
         
         [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalTop insets:UIEdgeInsetsMake(0, 14, 0, 0)];
