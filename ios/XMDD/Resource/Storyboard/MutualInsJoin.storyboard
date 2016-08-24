@@ -3304,6 +3304,7 @@
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="ank-JO-Bj9"/>
+                                                            <exclude reference="r4l-wj-BNf"/>
                                                         </mask>
                                                     </variation>
                                                 </label>
