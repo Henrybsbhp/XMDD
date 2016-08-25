@@ -1798,7 +1798,7 @@
         <image name="val_clock" width="12" height="12"/>
         <image name="val_commitedSuccess_3_0" width="152" height="152"/>
         <image name="val_common" width="24" height="24"/>
-        <image name="val_ex" width="10" height="10"/>
+        <image name="val_ex" width="29" height="28"/>
         <image name="val_excellent" width="24" height="24"/>
         <image name="val_good" width="24" height="24"/>
         <image name="val_gradientline" width="339" height="2"/>
