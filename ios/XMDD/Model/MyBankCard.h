@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GetCZBGaschargeInfoOp.h"
 
-@interface MyBankCardListModel : NSObject
+@interface MyBankCard : NSObject<NSCopying>
 
 /// 银行卡号
 @property (nonatomic, copy) NSString *cardNo;
@@ -20,7 +21,10 @@
 @property (nonatomic, copy) NSString *tokenID;
 
 /// 卡的类型
-@property (nonatomic, copy) NSString *cardType;
+@property (nonatomic, copy) NSString *cardTypeName;
+
+/// 浙商汽车卡标示 1：浙商汽车卡。2:银联支付卡
+@property (nonatomic) NSInteger cardType;
 
 /// 浙商汽车卡标识
 @property (nonatomic, assign) NSInteger czbFlag;
@@ -34,6 +38,13 @@
 /// 银行卡下面的信息提示
 @property (nonatomic, copy) NSString *bankTips;
 
-+ (instancetype)listWithJSONResponse:(NSDictionary *)rsp;
+///支付时候，改变手机地址
+@property (nonatomic, copy) NSString *changephoneurl;
+
+@property (nonatomic, strong) NSArray  *couponIds;
+///加油信息
+@property (nonatomic, strong) GetCZBGaschargeInfoOp *gasInfo;
+
++ (instancetype)bankInfoWithJSONResponse:(NSDictionary *)rsp;
 
 @end

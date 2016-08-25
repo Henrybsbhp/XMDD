@@ -32,16 +32,7 @@
     
     for (NSDictionary *dic in (NSArray *)rsp[@"unionpayinfo"])
     {
-        UnionBankCard *bankCard = [[UnionBankCard alloc] init];
-        bankCard.cardno = dic[@"cardno"];
-        bankCard.issuebank = dic[@"issuebank"];
-        bankCard.tokenid = dic[@"tokenid"];
-        bankCard.cardtypename = dic[@"cardtypename"];
-        bankCard.cardtype = dic[@"cardtype"];
-        bankCard.bindphone = dic[@"bindphone"];
-        bankCard.changephoneurl = dic[@"changephoneurl"];
-        bankCard.banklogo = dic[@"changephoneurl"];
-        bankCard.banktip = dic[@"banktip"];
+        MyBankCard *bankCard = [MyBankCard bankInfoWithJSONResponse:dic];
         [bankList addObject:bankCard];
     }
     info.unionPayDesc = rsp[@"unionpaydesc"];

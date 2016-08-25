@@ -15,7 +15,6 @@
 
 #import "HKCoupon.h"
 #import "HKMyCar.h"
-#import "HKBankCard.h"
 #import "MyCarStore.h"
 #import "PaymentHelper.h"
 #import "UPApplePayHelper.h"
@@ -75,9 +74,9 @@
     
     self.selectCarwashCoupouArray = self.selectCarwashCoupouArray ? self.selectCarwashCoupouArray :[NSMutableArray array];
     self.selectCashCoupouArray = self.selectCashCoupouArray ? self.selectCashCoupouArray : [NSMutableArray array];
-    ///一开始设置支付宝，保证可用资源获取失败的时候能够正常默认选择
+    ///一开始设置银联，保证可用资源获取失败的时候能够正常默认选择
     self.checkoutServiceOrderV4Op = [[CheckoutServiceOrderV4Op alloc] init];
-    self.checkoutServiceOrderV4Op.paychannel = PaymentChannelAlipay;
+    self.checkoutServiceOrderV4Op.paychannel = PaymentChannelUPpay;
     
     [self setupCouponCell];
     [self setupPaymentArray];
@@ -134,15 +133,25 @@
     
     NSMutableArray * array = [NSMutableArray array];
     
-    if (self.getUserResourcesV2Op.rsp_czBankCreditCard.count)
-        [array safetyAddObject:czb];
+    if (self.service.shopServiceType == ShopServiceCarWash || self.service.shopServiceType == ShopServiceCarwashWithHeart)
+    {
+        if (self.getUserResourcesV2Op.rsp_czBankCreditCard.count)
+        {
+            [array safetyAddObject:czb];
+        }
+    }
     [array safetyAddObject:uppay];
     if ([UPApplePayHelper isApplePayAvailable])
         [array safetyAddObject:apple];
     [array safetyAddObject:alipay];
     [array safetyAddObject:wechat];
-    if (!self.getUserResourcesV2Op.rsp_czBankCreditCard.count)
-        [array safetyAddObject:czb];
+    if (self.service.shopServiceType == ShopServiceCarWash || self.service.shopServiceType == ShopServiceCarwashWithHeart)
+    {
+        if (!self.getUserResourcesV2Op.rsp_czBankCreditCard.count)
+        {
+            [array safetyAddObject:czb];
+        }
+    }
     
     self.paymentArray = [NSArray arrayWithArray:array];
 }
@@ -579,7 +588,8 @@
 
         iconImgV.image = [UIImage imageNamed:@"cw_creditcard"];
         titleLb.text = @"浙商汽车卡支付";
-        numberLb.text =  [NSString stringWithFormat:@"尾号:%@",[self.selectBankCard.cardNumber substringFromIndex:self.selectBankCard.cardNumber.length - 4]];
+        NSString * cardNo = self.selectBankCard[@"cardno"];
+        numberLb.text =  [NSString stringWithFormat:@"尾号:%@",[cardNo substringFromIndex:cardNo.length - 4]];
         numberLb.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelCZBCreditCard;
         tickImgV.hidden = self.checkoutServiceOrderV4Op.paychannel != PaymentChannelCZBCreditCard;
     }
@@ -661,7 +671,7 @@
 - (void)requestCheckoutWithCouponType:(CouponType)couponType
 {
     NSMutableArray *coupons;
-    HKBankCard * bandCard = [self.selectBankCard copy];
+    NSDictionary * bandCard = [self.selectBankCard copy];
     if (couponType == CouponTypeCZBankCarWash || couponType == CouponTypeCarWash)
     {
         coupons = [NSMutableArray array];
@@ -682,7 +692,7 @@
     self.checkoutServiceOrderV4Op.licencenumber = self.defaultCar.licencenumber ? self.defaultCar.licencenumber : @"";
     self.checkoutServiceOrderV4Op.carMake = self.defaultCar.brand;
     self.checkoutServiceOrderV4Op.carModel = self.defaultCar.seriesModel.seriesname;
-    self.checkoutServiceOrderV4Op.bankCardId = bandCard.cardID;
+    self.checkoutServiceOrderV4Op.bankCardId = bandCard[@"cardid"];
     
     FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
     NSString *blackBox = manager->getDeviceInfo();
@@ -950,11 +960,13 @@
     {
         // 选中的是浙商券，判断浙商劵是否属于我的浙商卡集下
         HKCoupon * coupon = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
-        for (HKBankCard * card in self.getUserResourcesV2Op.rsp_czBankCreditCard)
+        for (NSDictionary * card in self.getUserResourcesV2Op.rsp_czBankCreditCard)
         {
-            for (NSNumber * cid in card.couponIds)
+            NSString * cidStr = card[@"cids"];
+            NSArray * cidsArray = [cidStr componentsSeparatedByString:@","];
+            for (NSString * cid in cidsArray)
             {
-                if ([coupon.couponId isEqualToNumber:cid])
+                if ([coupon.couponId integerValue]  == [cid integerValue])
                 {
                     self.selectBankCard = card;
                     return;
@@ -967,7 +979,7 @@
         // 判断是否有浙商卡，有的话，优先浙商卡支付
         if (self.getUserResourcesV2Op.rsp_czBankCreditCard.count)
         {
-            HKBankCard * card = [self.getUserResourcesV2Op.rsp_czBankCreditCard safetyObjectAtIndex:0];
+            NSDictionary * card = [self.getUserResourcesV2Op.rsp_czBankCreditCard safetyObjectAtIndex:0];
             self.selectBankCard = card;
             self.checkoutServiceOrderV4Op.paychannel = PaymentChannelCZBCreditCard;
         }

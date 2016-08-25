@@ -73,6 +73,7 @@
         @strongify(self)
         
         [self getViolationCommissionApply];
+        [self configButtomView];
         
     }];
     
@@ -81,6 +82,7 @@
         @strongify(self)
         
         [self getViolationCommissionApply];
+        [self configButtomView];
         
     }];
     
@@ -261,7 +263,8 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
-        NSDictionary *dic = self.dataSource[indexPath.row];
+        NSInteger index = indexPath.row - self.tips.count;
+        NSDictionary *dic = self.dataSource[index];
         ViolationCommissionStateVC *vc = [UIStoryboard vcWithId:@"ViolationCommissionStateVC" inStoryboard:@"Violation"];
         vc.recordID = (NSNumber *)dic[@"recordid"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -284,6 +287,7 @@
 
 #pragma mark - Utility
 
+// 重置底部按钮
 - (void)configButtomView
 {
     for (NSDictionary *data in self.dataSource)
@@ -291,9 +295,10 @@
         if ([data[@"status"] integerValue] == 1)
         {
             self.bottomViewHeight.constant = 60;
-            break;
+            return;
         }
     }
+    self.bottomViewHeight.constant = 0;
 }
 
 -(void)configRadioBtnWithIndexPath:(NSIndexPath *)indexPath

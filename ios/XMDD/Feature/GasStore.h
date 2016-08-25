@@ -8,7 +8,7 @@
 
 #import "UserStore.h"
 #import "GasCard.h"
-#import "HKBankCard.h"
+#import "MyBankCard.h"
 #import "GetGaschargeConfigOp.h"
 #import "GetCZBCouponDefInfoOp.h"
 

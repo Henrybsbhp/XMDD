@@ -146,7 +146,7 @@
         endTimeLabel.text = [NSString stringWithFormat:@"保障结束：%@", model.insEndTime];
         servicePriceLabel.text = [NSString stringWithFormat:@"¥%@", model.memberFee];
         serviceDescLabel.text = @"服务费";
-        sumLabel.text = [NSString stringWithFormat:@"¥%@", model.fee];
+        sumLabel.text = [NSString stringWithFormat:@"支付金额：¥%@", model.fee];
     });
     
     return mutualCell;
@@ -191,7 +191,7 @@
         endTimeLabel.text = [NSString stringWithFormat:@"保障结束：%@", model.insEndTime];
         servicePriceLabel.text = [NSString stringWithFormat:@"¥%@", model.memberFee];
         serviceDescLabel.text = @"服务费";
-        sumLabel.text = [NSString stringWithFormat:@"¥%@", model.fee];
+        sumLabel.text = [NSString stringWithFormat:@"支付金额：¥%@", model.fee];
         
         UIImageView *brandImageView2 = (UIImageView *)[cell.contentView viewWithTag:7001];
         UILabel *insuranceLabel = (UILabel *)[cell.contentView viewWithTag:7002];

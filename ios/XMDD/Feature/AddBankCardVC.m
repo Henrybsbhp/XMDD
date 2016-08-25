@@ -163,8 +163,23 @@
         UIImageView *logoImageView = (UIImageView *)[cell.contentView viewWithTag:1000];
         UILabel *bankNameLabel = (UILabel *)[cell.contentView viewWithTag:1001];
         UIButton *checkButton = (UIButton *)[cell.contentView viewWithTag:1002];
-        
-        [logoImageView setImageByUrl:self.bankLogoURL withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
+        logoImageView.alpha = 0.0f;
+        [bankNameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(logoImageView.mas_left);
+            make.top.equalTo(cell);
+            make.bottom.equalTo(cell);
+        }];
+        [logoImageView sd_setImageWithURL:[NSURL URLWithString:self.bankLogoURL] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (image) {
+                [bankNameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(logoImageView.mas_right).offset(4);
+                }];
+                [UIView animateWithDuration:0.2 animations:^{
+                    [cell layoutIfNeeded];
+                    logoImageView.alpha = 1.0f;
+                }];
+            }
+        }];
         bankNameLabel.text = self.issueBankName;
         
         NSString *bankURL = gStoreMgr.configStore.systemConfig[@"supportbankurl"];
@@ -177,6 +192,8 @@
                 logoImageView.hidden = YES;
                 bankNameLabel.hidden = YES;
                 checkButton.hidden = YES;
+                logoImageView.image = nil;
+                bankNameLabel.text = nil;
             }
         }];
         

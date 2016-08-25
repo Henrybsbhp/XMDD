@@ -82,7 +82,7 @@
     self.tableView.delegate = self.curSubVC;
     self.tableView.dataSource = self.curSubVC;
     CKAsyncMainQueue(^{
-        [[[BankStore fetchExistsStore] getAllBankCards] send];
+        [[[BankStore fetchExistsStore] getAllCZBBankCards] send];
         [[[GasStore fetchExistsStore] getAllGasCards] send];
     });
 }
