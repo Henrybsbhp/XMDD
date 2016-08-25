@@ -10,7 +10,6 @@
 #import "ADViewController.h"
 #import "HKConvertModel.h"
 #import "BindBankCardVC.h"
-#import "GetBankcardListOp.h"
 #import "BankStore.h"
 #import "BankCardDetailVC.h"
 
@@ -70,14 +69,14 @@
 #pragma mark - Reload
 - (void)reloadDataIfNeeded
 {
-    CKEvent *event = [[self.bankStore getAllBankCardsIfNeeded] setObject:self];
+    CKEvent *event = [[self.bankStore getAllCZBBankCardsIfNeeded] setObject:self];
     [self reloadWithSignal:[event sendWithIgnoreError:YES andDelay:0.4]];
 }
 
 
 - (void)reloadData
 {
-    CKEvent *event = [[self.bankStore getAllBankCards] setObject:self];
+    CKEvent *event = [[self.bankStore getAllCZBBankCards] setObject:self];
     [self reloadWithSignal:[event sendWithIgnoreError:YES andDelay:0.4]];
 }
 
@@ -224,7 +223,7 @@
     //点击某张银行卡
     else if (indexPath.row < self.bankCards.count) {
         [MobClick event:@"rp314_2"];
-        HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
+        MyBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
         if (self.didSelectedBlock) {
             self.didSelectedBlock(card);
             [self actionBack:nil];
@@ -285,7 +284,7 @@
     UILabel *cardTypeL = (UILabel *)[cell.contentView viewWithTag:1003];
     UILabel *numberL = (UILabel *)[cell.contentView viewWithTag:1004];
     
-    HKBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
+    MyBankCard *card = [self.bankCards safetyObjectAtIndex:indexPath.row];
     
     if (indexPath.row % 3 == 0) {
         bgV.image = [UIImage imageNamed:@"Bank_redCardBackground_imageView"];
@@ -298,9 +297,9 @@
     }
     
     logoV.image = [UIImage imageNamed:@"mb_logo"];
-    titleL.text = card.cardName;
-    cardTypeL.text = card.cardType == HKBankCardTypeCredit ? @"信用卡" : @"储蓄卡";
-    numberL.text = [HKConvertModel convertCardNumberForEncryption:card.cardNumber];
+    titleL.text = card.cardTypeName;
+    cardTypeL.text = @"信用卡";
+    numberL.text = [HKConvertModel convertCardNumberForEncryption:card.cardNo];
     return cell;
 }
 

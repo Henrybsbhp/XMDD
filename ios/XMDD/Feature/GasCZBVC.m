@@ -25,7 +25,7 @@
 #import "GasPayForCZBVC.h"
 
 @interface GasCZBVC ()<RTLabelDelegate>
-@property (nonatomic, strong) HKBankCard *curBankCard;
+@property (nonatomic, strong) MyBankCard *curBankCard;
 @property (nonatomic, strong) GasStore *gasStore;
 @property (nonatomic, strong) BankStore *bankStore;
 @end
@@ -89,7 +89,7 @@
 
 #pragma mark - Reload
 - (void)reloadData {
-    [[self.bankStore getAllBankCards] send];
+    [[self.bankStore getAllCZBBankCards] send];
     [[self.gasStore getAllGasCards] send];
 }
 
@@ -114,9 +114,10 @@
     }
 
     //如果当前没有银行卡
-    if ([self.bankStore.bankCards count] > 0 && ![self.bankStore.bankCards objectForKey:self.curBankCard.cardID]) {
-        HKBankCard *bankCard = [self.bankStore.bankCards objectAtIndex:0];
-        [[self.gasStore updateCZBCardInfoByCID:bankCard.cardID] send];
+    if ([self.bankStore.bankCards count] > 0 && ![self.bankStore.bankCards objectForKey:self.curBankCard.tokenID]) {
+        MyBankCard *bankCard = [self.bankStore.bankCards objectAtIndex:0];
+        NSNumber * number = @([bankCard.tokenID longLongValue]);
+        [[self.gasStore updateCZBCardInfoByCID:number] send];
         return NO;
     }
     else if ([self.bankStore.bankCards count] == 0) {
@@ -172,9 +173,10 @@
         MyBankVC *vc = [UIStoryboard vcWithId:@"MyBankVC" inStoryboard:@"Bank"];
         //选中一个银行卡时被触发
         @weakify(self);
-        [vc setDidSelectedBlock:^(HKBankCard *bankCard) {
+        [vc setDidSelectedBlock:^(MyBankCard *bankCard) {
             @strongify(self);
-            [[self.gasStore updateCZBCardInfoByCID:bankCard.cardID] send];
+            NSNumber * cardId = @([bankCard.tokenID longLongValue]);
+            [[self.gasStore updateCZBCardInfoByCID:cardId] send];
         }];
 
         [self.targetVC.navigationController pushViewController:vc animated:YES];
@@ -236,7 +238,8 @@
         [vc setDidPaidSuccessBlock:^{
             @strongify(self);
             self.rechargeAmount = 500;
-            [[self.gasStore updateCZBCardInfoByCID:self.curBankCard.cardID] send];
+            NSNumber * cardId = @([self.curBankCard.tokenID longLongValue]);
+            [[self.gasStore updateCZBCardInfoByCID:cardId] send];
         }];
         
         [self.targetVC.navigationController pushViewController:vc animated:YES];
@@ -265,7 +268,7 @@
         UILabel *descL = (UILabel *)[cell.contentView viewWithTag:1006];
         descL.numberOfLines = 0;
         
-        NSString *cardno = self.curBankCard.cardNumber;
+        NSString *cardno = self.curBankCard.cardNo;
         if (cardno.length > 4) {
             cardno = [cardno substringFromIndex:cardno.length - 4 length:4];
         }
@@ -528,7 +531,7 @@
 
 
 ///浙商卡加油充值说明
-- (NSString *)rechargeDescriptionForCZBCard:(HKBankCard *)bank
+- (NSString *)rechargeDescriptionForCZBCard:(MyBankCard *)bank
 {
     if (bank && bank.gasInfo.rsp_desc) {
         return bank.gasInfo.rsp_desc;

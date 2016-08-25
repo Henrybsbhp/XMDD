@@ -113,6 +113,7 @@
                 
                 @strongify(self);
                 CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
+                vc.serviceType = ShopServiceCarWash;
                 [self.navigationController pushViewController:vc animated:YES];
             }];
             [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -134,6 +135,7 @@
                 }
                 else {
                     CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
+                    vc.serviceType = ShopServiceCarWash;
                     [self.navigationController pushViewController:vc animated:YES];
                 }
             }];
@@ -344,6 +346,7 @@
         @strongify(self);
         [resultSheet dismissAnimated:YES completionHandler:nil];
         CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
+        vc.serviceType = ShopServiceCarWash;
         [self.navigationController pushViewController:vc animated:YES];
     }];
     

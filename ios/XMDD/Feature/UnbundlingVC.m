@@ -79,7 +79,9 @@ static NSString *s_sendedPhone;
     BankStore *store = [BankStore fetchOrCreateStore];
     @weakify(self);
     
-    [[[[store deleteBankCardByCID:self.card.cardID vcode:self.vcodeField.text] sendAndIgnoreError] initially:^{
+    ///浙商的cardid
+    NSNumber * cardId = @([self.cardId longLongValue]);
+    [[[[store deleteBankCardByCID:cardId vcode:self.vcodeField.text] sendAndIgnoreError] initially:^{
         
         [gToast showingWithText:@"正在解绑..."];
     }] subscribeNext:^(id x) {
@@ -162,40 +164,6 @@ static NSString *s_sendedPhone;
     return CGFLOAT_MIN;
 }
 
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    if (!self.headerView) {
-//        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-//        UILabel * lb = [[UILabel alloc] initWithFrame:CGRectZero];
-//        lb.numberOfLines = 2;
-//        lb.lineBreakMode = NSLineBreakByWordWrapping;
-//        lb.font = [UIFont systemFontOfSize:14];
-//        lb.textColor = [UIColor darkGrayColor];
-//        lb.backgroundColor = [UIColor clearColor];
-//        lb.tag = 1001;
-//        headerView.backgroundColor = [UIColor clearColor];
-//        [headerView addSubview:lb];
-//        [lb mas_makeConstraints:^(MASConstraintMaker *make) {
-//            
-//            make.left.equalTo(headerView.mas_left).offset(16);
-//            make.centerY.equalTo(headerView.mas_centerY).offset(6);
-//            make.size.height.mas_equalTo(36);
-//            make.right.equalTo(headerView.mas_right).offset(-16);
-//        }];
-//        self.headerView = headerView;
-//    }
-//
-//    UILabel *lb = (UILabel *)[self.headerView viewWithTag:1001];
-//    @weakify(self);
-//    [[RACObserve(self, promptString) takeUntil:[self.headerView rac_signalForSelector:@selector(prepareForReuse)]]
-//     subscribeNext:^(id x) {
-//        @strongify(self);
-//        lb.attributedText = self.promptString;
-//    }];
-//
-//
-//    return self.headerView;
-//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -269,7 +237,7 @@ static NSString *s_sendedPhone;
      
 - (NSAttributedString *)attrStrWithPhone:(NSString *)phone
 {
-    NSString *last4CardNumber = [self.card.cardNumber substringFromIndex:MAX((int)[self.card.cardNumber length]-4, 0)];
+    NSString *last4CardNumber = [self.cardNumber substringFromIndex:MAX((int)[self.cardNumber length]-4, 0)];
     
     phone = [HKConvertModel convertPhoneNumberForEncryption:phone];
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"解绑尾号为" attributes:nil];

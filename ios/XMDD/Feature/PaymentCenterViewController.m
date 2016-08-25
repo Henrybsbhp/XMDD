@@ -8,7 +8,6 @@
 
 #import "PaymentCenterViewController.h"
 #import "DetailWebVC.h"
-#import "HKBankCard.h"
 #import "PaymentHelper.h"
 
 #import "GetGeneralOrderdetailOp.h"

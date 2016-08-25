@@ -20,6 +20,8 @@
 #import "RescueHomeViewController.h"
 #import "GasVC.h"
 #import "MutualInsVC.h"
+#import "ViolationViewController.h"
+#import "ShopListVC.h"
 
 @interface CouponDetailsVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -51,34 +53,7 @@
     [self requestData];
 }
 
-- (void)goToUse:(CouponNewType)newType
-{
-    if (newType == CouponNewTypeCarWash) {
-        CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
-        vc.coupon = self.couponDic;
-        vc.serviceType = self.oldType == CouponTypeWithHeartCarwash ? ShopServiceCarwashWithHeart : ShopServiceCarWash;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-    else if (newType == CouponNewTypeGas) {
-        GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-    else if (newType == CouponNewTypeOthers) {
-        //其他券使用老板优惠券类型判断跳转
-        if (self.oldType == CouponTypeAgency) {
-            CommissionOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-        else if (self.oldType == CouponTypeRescue) {
-            RescueHomeViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-        else if (self.oldType == CouponTypeXMHZ) {
-            MutualInsVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    }
-}
+
 
 - (void)requestData {
     GetCouponDetailsOp * op = [GetCouponDetailsOp operation];
@@ -113,11 +88,10 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - Share
-
+#pragma mark - Action
 -(void)share
 {
-    [self goToUse:self.newType];
+    [self actionGotoUse];
 }
 
 - (void)requestShareCoupon:(NSNumber *)cid
@@ -180,6 +154,58 @@
         [gToast showError:error.domain];
     }];
     
+}
+
+- (void)actionGotoUse
+{
+    if (self.oldType == CouponTypeCarWash || self.oldType == CouponTypeCash || self.oldType == CouponTypeCZBankCarWash)
+    {
+        CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
+        vc.coupon = self.couponDic;
+        vc.serviceType = ShopServiceCarWash;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (self.oldType == CouponTypeAgency) {
+        CommissionOrderVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (self.oldType == CouponTypeRescue) {
+        RescueHomeViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (self.oldType == CouponTypeWithHeartCarwash)
+    {
+        CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
+        vc.coupon = self.couponDic;
+        vc.serviceType = ShopServiceCarwashWithHeart;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (self.oldType == CouponTypeGasNormal || self.oldType == CouponTypeGasReduceWithThreshold || self.oldType == CouponTypeGasDiscount || self.oldType == CouponTypeGasFqjy1 || self.oldType ==CouponTypeGasFqjy2) {
+        GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (self.oldType == CouponTypeXMHZ) {
+        MutualInsVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (self.oldType == CouponTypeBeauty) {
+        ShopListVC *vc = [[ShopListVC alloc] init];
+        vc.coupon = self.couponDic;
+        vc.router.key = kCarBeautyShopListVCID;
+        vc.serviceType = ShopServiceCarBeauty;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (self.oldType == CouponTypeMaintenance) {
+        ShopListVC *vc = [[ShopListVC alloc] init];
+        vc.coupon = self.couponDic;
+        vc.router.key = kCarMaintenanceShopListVCID;
+        vc.serviceType = ShopServiceCarMaintenance;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if (self.oldType == CouponTypeViolation) {
+        ViolationViewController * vc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationViewController"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark - TableView Datasource
@@ -245,7 +271,7 @@
     @weakify(self)
     [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
         @strongify(self)
-        [self goToUse:self.newType];
+        [self actionGotoUse];
     }];
     
     return cell;
@@ -284,7 +310,7 @@
         [[op rac_postRequest] subscribeNext:^(id x) {
             
             [gToast dismiss];
-            [self goToUse:self.newType];
+            [self actionGotoUse];
         } error:^(NSError *error) {
             [gToast showError:error.domain];
         }];

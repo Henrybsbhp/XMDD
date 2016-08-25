@@ -254,14 +254,7 @@
 - (IBAction)deactiveButtonClicked:(id)sender
 {
     [MobClick event:@"rp315_1"];
-//    UIActionSheet * sheet = [[UIActionSheet alloc] init];
-//    NSInteger cancelIndex = 1;
-//    [sheet addButtonWithTitle:@"解除绑定"];
-//    [sheet addButtonWithTitle:@"取消"];
-//    sheet.cancelButtonIndex = cancelIndex;
-//    
-//    [sheet showInView:self.view];
-    
+
     JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"解除绑定", @"取消"]
                                                                 buttonStyle:JGActionSheetButtonStyleDefault];
     [section1 setButtonStyle:JGActionSheetButtonStyleRed forButtonAtIndex:0];
@@ -280,7 +273,8 @@
             [MobClick event:@"rp315_2"];
             UnbundlingVC *vc = [UIStoryboard vcWithId:@"UnbundlingVC" inStoryboard:@"Bank"];
             vc.originVC = self.originVC;
-            vc.card = self.card;
+            vc.cardNumber = self.card.cardNo;
+            vc.cardId = self.card.tokenID;
             [self.navigationController pushViewController:vc animated:YES];
             
         }
@@ -288,21 +282,6 @@
             [MobClick event:@"rp315_3"];
         }
     }];
-        
-    
-//    [[sheet rac_buttonClickedSignal] subscribeNext:^(NSNumber * index) {
-//        if ([index integerValue] == 0) {
-//            [MobClick event:@"rp315_2"];
-//            UnbundlingVC *vc = [UIStoryboard vcWithId:@"UnbundlingVC" inStoryboard:@"Bank"];
-//            vc.originVC = self.originVC;
-//            vc.card = self.card;
-//            [self.navigationController pushViewController:vc animated:YES];
-//            
-//        }
-//        else {
-//            [MobClick event:@"rp315_3"];
-//        }
-//    }];
 }
 
 @end
