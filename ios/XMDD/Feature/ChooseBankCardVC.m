@@ -37,6 +37,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.title = @"浙商银行卡";
+    
     [self setupAdView];
     [self reloadData];
     @weakify(self);
