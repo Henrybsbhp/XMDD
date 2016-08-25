@@ -72,14 +72,30 @@
     [self setupBottomView];
     [self setupCarStore];
     
-    self.selectCarwashCoupouArray = self.selectCarwashCoupouArray ? self.selectCarwashCoupouArray :[NSMutableArray array];
-    self.selectCashCoupouArray = self.selectCashCoupouArray ? self.selectCashCoupouArray : [NSMutableArray array];
     ///一开始设置银联，保证可用资源获取失败的时候能够正常默认选择
     self.checkoutServiceOrderV4Op = [[CheckoutServiceOrderV4Op alloc] init];
     self.checkoutServiceOrderV4Op.paychannel = PaymentChannelUPpay;
+    self.isAutoCouponSelect = self.coupon ? YES : NO;
+    
+    if (self.coupon)
+    {
+        self.isAutoCouponSelect = YES;
+        if (self.coupon.conponType == CouponTypeCarWash || self.coupon.conponType == CouponTypeCZBankCarWash)
+        {
+            self.selectCarwashCoupouArray = [NSMutableArray arrayWithObject:self.coupon];
+        }
+        else
+        {
+            self.selectCashCoupouArray = [NSMutableArray arrayWithObject:self.coupon];
+        }
+    }
+    
+    self.selectCarwashCoupouArray = self.selectCarwashCoupouArray ? self.selectCarwashCoupouArray :[NSMutableArray array];
+    self.selectCashCoupouArray = self.selectCashCoupouArray ? self.selectCashCoupouArray : [NSMutableArray array];
     
     [self setupCouponCell];
     [self setupPaymentArray];
+    
     [self requestGetUserResource:!self.isAutoCouponSelect];
     
     /// 是否自动选择指定的优惠劵。（场景：优惠劵-去使用进入本页面）
@@ -647,7 +663,7 @@
 }
 
 #pragma mark - 网络请求及处理
-- (void)requestGetUserResource:(BOOL)needAutoSelect
+- (void)requestGetUserResource:(BOOL)needDefaultSelect
 {
     CouponModel * couponModel = [[CouponModel alloc] init];
     [[[couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
@@ -658,7 +674,7 @@
         self.isLoadingResourse = NO;
         self.getUserResourcesV2Op = op;
         
-        [self actionAfterGetUserResource:needAutoSelect];
+        [self actionAfterGetUserResource:needDefaultSelect];
        
         [self alertFreshmanGuide];
     } error:^(NSError *error) {
@@ -969,6 +985,7 @@
                 if ([coupon.couponId integerValue]  == [cid integerValue])
                 {
                     self.selectBankCard = card;
+                    self.checkoutServiceOrderV4Op.paychannel = PaymentChannelCZBCreditCard;
                     return;
                 }
             }
@@ -1114,7 +1131,7 @@
     }
     else
     {
-        //不需要自动选择（去使用进来），先检查一下是否在可用资源里面
+        //不需要默认选择（去使用进来），先检查一下是否在可用资源里面
         HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
         if (!c){
             
