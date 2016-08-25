@@ -36,6 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupNavigationBar];
     self.tableView.tableHeaderView = nil;
     CKAsyncMainQueue(^{
         self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
@@ -46,6 +47,18 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
+#pragma mark - Actions
+- (void)actionBack
+{
+    [MobClick event:@"jiayoujilu" attributes:@{@"jiayoujilu" : @"jiayoujilu1"}];
 }
 
 - (void)setupHeadView
@@ -184,7 +197,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    GasChargeRecord *record = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
+    if (record.fqjyMonths != 0) {
+        [MobClick event:@"jiayoujilu" attributes:@{@"jiayoujilu" : @"jiayoujilu4"}];
+    } else {
+        [MobClick event:@"jiayoujilu" attributes:@{@"jiayoujilu" : @"jiayoujilu3"}];
+    }
 }
 
 @end
