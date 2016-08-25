@@ -194,7 +194,11 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 #pragma mark - Datasource
 - (void)reloadDatasource {
     NSNumber *groupkey = [self.store serviceGroupKeyForServiceType:self.serviceType];
-    self.segmentIndex = [self.store.serviceGroups indexOfObjectForKey:groupkey];
+    NSInteger index = [self.store.serviceGroups indexOfObjectForKey:groupkey];
+    if (index == NSNotFound) {
+        index = [self.store.serviceGroups indexOfObjectForKey:self.store.selectedServiceGroup.key];
+    }
+    self.segmentIndex = index;
     [self.store selectServiceGroup:self.store.serviceGroups[self.segmentIndex]];
     
     self.datasource = $($([self titleCell], [self addressCell], [self phoneCell], [self serviceSegmentCell]),

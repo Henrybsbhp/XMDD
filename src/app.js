@@ -18,10 +18,6 @@ export default class RootView extends React.Component {
     componentWillMount() {
         NativeModules.NavigationManager.setNavigationBarHidden(true, true);
     }
-    componentDidMount() {
-        console.log(this.refs)
-    }
-
     render() {
         return (
             <NavigatorView
