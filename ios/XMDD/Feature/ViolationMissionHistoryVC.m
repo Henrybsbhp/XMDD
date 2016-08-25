@@ -134,7 +134,7 @@
         
         if (op.rsp_lists.count == 0)
         {
-            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"暂无代办记录"];
+            [self.view showImageEmptyViewWithImageName:@"def_withoutViolationOrder" text:@"暂无代办记录"];
         }
         else
         {
