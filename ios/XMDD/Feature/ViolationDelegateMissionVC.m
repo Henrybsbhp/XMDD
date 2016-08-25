@@ -35,8 +35,9 @@
     [super viewDidLoad];
     
     [self getViolationCommission];
-    
     [self setupUI];
+    [self setupObserver];
+    [self setupNavi];
     
 }
 
@@ -61,6 +62,21 @@
     self.commitBtn.layer.masksToBounds = YES;
     self.commitBtn.backgroundColor = self.carArr.count != 0 ? HEXCOLOR(@"#FF7428") : HEXCOLOR(@"#d3d3d3");
     [self.commitBtn setTitle:btnTitle forState:UIControlStateNormal];
+}
+
+- (void)setupNavi
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
+-(void)setupObserver
+{
+    [[self.confirmReadBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+        
+        [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban5"}];
+        
+    }];
 }
 
 #pragma mark - Network
@@ -169,6 +185,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    @weakify(self)
+    
     UITableViewCell *cell = nil;
     if (self.tip.length != 0 && indexPath.row == 0)
     {
@@ -203,6 +222,28 @@
         
         UILabel *actLabel = [cell viewWithTag:105];
         actLabel.text = data[@"act"];
+        
+        UIButton *btn = [cell viewWithTag:107];
+        [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+            
+            @strongify(self)
+            
+            [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban3"}];
+            
+            if ([self.carArr containsObject:data])
+            {
+                [self.carArr removeObject:data];
+            }
+            else
+            {
+                [self.carArr addObject:data];
+            }
+            
+            selectImg.image = [self.carArr containsObject:data] ? [UIImage imageNamed:@"illegal_selected"] : [UIImage imageNamed:@"illegal_unselected"];
+            
+            [self configCommitBtn];
+            
+        }];
         
     }
     return cell;
@@ -239,6 +280,9 @@
     NSDictionary *data = [self.dataSource safetyObjectAtIndex:(self.tip.length != 0 ? indexPath.row - 1 : indexPath.row)];
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
+        
+        [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban4"}];
+        
         UIImageView *selectImg = [cell viewWithTag:106];
         
         if ([self.carArr containsObject:data])
@@ -256,6 +300,9 @@
     }
     else
     {
+        
+        [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban2"}];
+        
         ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Violation"];
         vc.usercarID = self.userCarID;
         vc.carNum = self.licenceNumber;
@@ -305,18 +352,30 @@
 
 #pragma mark - Action
 
+- (void)actionBack
+{
+    [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban1"}];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)actionJumpToGuideVC:(id)sender
 {
+    
+    [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban6"}];
     [self.navigationController pushViewController:self.webVC animated:YES];
 }
 
 - (IBAction)actionCommit:(id)sender
 {
-    
+
     @weakify(self)
+    
+    [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban7"}];
     
     if (self.tip.length == 0)
     {
+        
         [self applyViolationCommission];
     }
     else
@@ -324,6 +383,8 @@
         HKAlertActionItem *jumpToLicenceVC = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#18D06A") clickBlock:^(id alertVC) {
             
             @strongify(self)
+            
+            [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban9"}];
             
             ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Violation"];
             vc.usercarID = self.userCarID;
@@ -338,7 +399,7 @@
             [self.navigationController pushViewController:vc animated:YES];
         }];
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#454545") clickBlock:^(id alertVC) {
-            
+            [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban8"}];
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您的爱车的证件信息不完整，完善爱车的证件信息后即可申请代办。" ActionItems:@[cancel, jumpToLicenceVC]];
         [alert show];

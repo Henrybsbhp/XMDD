@@ -35,6 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupNavi];
     [self getViolationCommissionCarinfo];
     [self setupDataSource];
 }
@@ -60,6 +61,12 @@
                         [self blankCellData],
                         [self btnCellData]
                         );
+}
+
+- (void)setupNavi
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 #pragma mark - Network
@@ -201,6 +208,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    if (indexPath.row == 1)
+    {
+        [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao2"}];
+    }
+    else if(indexPath.row == 3)
+    {
+        [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao3"}];
+    }
+    
     CKDict *data = self.dataSource[indexPath.row];
     CKCellSelectedBlock block = data[kCKCellSelected];
     if (block)
@@ -436,6 +453,8 @@
             }
             else
             {
+                [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao4"}];
+                
                 [self updateViolationCommissionCarinfo];
             }
             
@@ -481,6 +500,15 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [self.pickerController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Action
+
+- (void)actionBack
+{
+    [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao1"}];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Utility
@@ -549,11 +577,13 @@
         [exampleView setHidden:YES animated:YES];
         [rsheet dismissAnimated:YES];
         if (sheetIndexPath.section != 0) {
+            [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao7"}];
             return ;
         }
         //拍照
         if (sheetIndexPath.section == 0 && sheetIndexPath.row == 0)
         {
+            [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao5"}];
             if ([UIImagePickerController isCameraAvailable])
             {
                 @strongify(self)
@@ -569,6 +599,7 @@
         // 从相册中选取
         else if (sheetIndexPath.section == 0 && sheetIndexPath.row == 1)
         {
+            [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao6"}];
             self.pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             [self presentViewController:self.pickerController animated:YES completion:nil];
         }
