@@ -646,14 +646,7 @@
     
     NSString *title = nil;
     
-    if (coupon.couponAmount > 0)
-    {
-        title = [NSString stringWithFormat:@"已优惠%.2f元，您只需支付%.2f元，现在支付", coupon.couponAmount,totalFee];
-    }
-    else
-    {
-        title = [NSString stringWithFormat:@"您需支付%.2f元，现在支付",self.totalFee.doubleValue];
-    }
+    title = [NSString stringWithFormat:@"您需支付%.2f元，现在支付",totalFee];
     
     [self.button setTitle:title forState:UIControlStateNormal];
     
