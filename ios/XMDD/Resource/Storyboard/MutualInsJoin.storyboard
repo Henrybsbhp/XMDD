@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -538,8 +538,9 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" tag="101" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yvh-gV-hug">
-                                                    <rect key="frame" x="30" y="12" width="203" height="20"/>
+                                                    <rect key="frame" x="30" y="12" width="220" height="20"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="220" id="R4D-MS-DWu"/>
                                                         <constraint firstAttribute="width" constant="203" id="XQk-CC-7Vd"/>
                                                         <constraint firstAttribute="height" constant="30" id="duw-RE-a9T"/>
                                                         <constraint firstAttribute="width" constant="30" id="oSA-MO-Wbc"/>
@@ -552,6 +553,7 @@
                                                     </state>
                                                     <variation key="default">
                                                         <mask key="constraints">
+                                                            <exclude reference="XQk-CC-7Vd"/>
                                                             <exclude reference="duw-RE-a9T"/>
                                                             <exclude reference="oSA-MO-Wbc"/>
                                                         </mask>

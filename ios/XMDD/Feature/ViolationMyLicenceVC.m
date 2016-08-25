@@ -68,7 +68,7 @@
 {
     if (self.failedOriginRcd.url.length != 0)
     {
-        [[SDWebImageManager sharedManager]downloadImageWithURL:[NSURL URLWithString:self.failedOriginRcd.url] options:SDWebImageRetryFailed progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        [[SDWebImageManager sharedManager]downloadImageWithURL:[NSURL URLWithString:self.failedOriginRcd.url] options:SDWebImageRetryFailed | SDWebImageRefreshCached progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             self.failedOriginRcd.image = image;
         }];
     }
@@ -78,7 +78,7 @@
 {
     if (self.failedDuplicateRcd.url.length != 0)
     {
-        [[SDWebImageManager sharedManager]downloadImageWithURL:[NSURL URLWithString:self.failedDuplicateRcd.url] options:SDWebImageRetryFailed progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        [[SDWebImageManager sharedManager]downloadImageWithURL:[NSURL URLWithString:self.failedDuplicateRcd.url] options:SDWebImageRetryFailed | SDWebImageRefreshCached progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             self.failedDuplicateRcd.image = image;
         }];
     }
