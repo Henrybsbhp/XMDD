@@ -59,34 +59,50 @@
     
     self.peopleSumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.peopleSumLabel.textColor = HEXCOLOR(@"#FF7428");
+    self.peopleSumLabel.minimumScaleFactor = .7f;
+    self.peopleSumLabel.adjustsFontSizeToFitWidth = YES;
     
     self.moneySumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.moneySumLabel.textColor = HEXCOLOR(@"#FF7428");
+    self.moneySumLabel.minimumScaleFactor = .7f;
+    self.moneySumLabel.adjustsFontSizeToFitWidth = YES;
     
     self.countingLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.countingLabel.textColor = HEXCOLOR(@"#FF7428");
+    self.countingLabel.minimumScaleFactor = .7f;
+    self.countingLabel.adjustsFontSizeToFitWidth = YES;
     
     self.claimSumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.claimSumLabel.textColor = HEXCOLOR(@"#FF7428");
+    self.claimSumLabel.minimumScaleFactor = .7f;
+    self.claimSumLabel.adjustsFontSizeToFitWidth = YES;
     
     UILabel *peoDescLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     peoDescLabel.textColor = HEXCOLOR(@"#888888");
     peoDescLabel.font = [UIFont systemFontOfSize:13];
+    peoDescLabel.minimumScaleFactor = .7f;
+    peoDescLabel.adjustsFontSizeToFitWidth = YES;
     peoDescLabel.text = @"参加人数合计";
     
     UILabel *sumDescLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     sumDescLabel.textColor = HEXCOLOR(@"#888888");
     sumDescLabel.font = [UIFont systemFontOfSize:13];
+    sumDescLabel.minimumScaleFactor = .7f;
+    sumDescLabel.adjustsFontSizeToFitWidth = YES;
     sumDescLabel.text = @"互助金合计";
     
     UILabel *stackDescLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     stackDescLabel.textColor = HEXCOLOR(@"#888888");
     stackDescLabel.font = [UIFont systemFontOfSize:13];
+    stackDescLabel.minimumScaleFactor = .7f;
+    stackDescLabel.adjustsFontSizeToFitWidth = YES;
     stackDescLabel.text = @"补偿次数合计";
     
     UILabel *statDescLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     statDescLabel.textColor = HEXCOLOR(@"#888888");
     statDescLabel.font = [UIFont systemFontOfSize:13];
+    statDescLabel.minimumScaleFactor = .7f;
+    statDescLabel.adjustsFontSizeToFitWidth = YES;
     statDescLabel.text = @"补偿金额合计";
     
     [self addSubview:horizontalSep];
@@ -165,41 +181,49 @@
     [self.peopleSumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(peopleImgView.mas_right).offset(10);
         make.centerY.equalTo(self).offset(-55);
+        make.right.equalTo(self);
     }];
     
     [self.moneySumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(sumImgView.mas_right).offset(10);
         make.centerY.equalTo(self).offset(-55);
+        make.right.equalTo(self);
     }];
     
     [self.countingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(stackImgView.mas_right).offset(10);
         make.centerY.equalTo(self).offset(32);
+        make.right.equalTo(self);
     }];
     
     [self.claimSumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(statisticsImgView.mas_right).offset(10);
         make.centerY.equalTo(self).offset(32);
+        make.right.equalTo(self);
     }];
     
     [peoDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(peopleImgView.mas_right).offset(10);
         make.centerY.equalTo(self).offset(-32);
+        make.right.equalTo(self);
     }];
     
     [sumDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(sumImgView.mas_right).offset(10);
         make.centerY.equalTo(self).offset(-32);
+        make.right.equalTo(self);
     }];
     
     [stackDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(stackImgView.mas_right).offset(10);
         make.centerY.equalTo(self).offset(50);
+        make.right.equalTo(self);
     }];
     
     [statDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(statisticsImgView.mas_right).offset(10);
         make.centerY.equalTo(self).offset(50);
+        make.right.equalTo(self);
     }];
 }
 
