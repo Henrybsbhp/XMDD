@@ -382,6 +382,8 @@
     cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self)
+        [MobClick event:@"baoxianzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren5"}];
+
         [self jumpToChooseCouponVC];
         ///取消支付宝，微信勾选
         [self.tableView reloadData];
@@ -443,6 +445,23 @@
         @strongify(self)
         PaymentChannelType tt = (PaymentChannelType)[dict[@"payment"] integerValue];
         self.paymentChannel = tt;
+        
+        if (tt == PaymentChannelUPpay)
+        {
+            [MobClick event:@"baoxianzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren6"}];
+        }
+        else if (tt == PaymentChannelApplePay)
+        {
+            [MobClick event:@"baoxianzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren7"}];
+        }
+        else if (tt == PaymentChannelAlipay)
+        {
+            [MobClick event:@"baoxianzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren8"}];
+        }
+        else
+        {
+            [MobClick event:@"baoxianzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren9"}];
+        }
     });
     
     cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
