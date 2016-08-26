@@ -114,7 +114,7 @@
             {
                 
             }
-            else if (self.type == CouponTypeCash && payVc.couponType == CouponTypeCarWash)
+            else if (self.type == CouponTypeCash && (payVc.couponType == CouponTypeCarWash || payVc.couponType == CouponTypeCZBankCarWash))
             {
                 
             }
