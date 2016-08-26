@@ -247,15 +247,19 @@
             return;
         }
         
-        if (payChannel == PaymentChannelUPpay)
+        NSMutableDictionary * dict = [self.paymentArray safetyObjectAtIndex:indexPath.row - 1];
+        PaymentChannelType paychannel = [dict[@"paymentType"] integerValue];
+        self.paychannel = paychannel;
+        
+        if (paychannel == PaymentChannelUPpay)
         {
             [MobClick event:@"tongyongzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren6"}];
         }
-        else if (payChannel == PaymentChannelApplePay)
+        else if (paychannel == PaymentChannelApplePay)
         {
             [MobClick event:@"tongyongzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren7"}];
         }
-        else if (payChannel == PaymentChannelAlipay)
+        else if (paychannel == PaymentChannelAlipay)
         {
             [MobClick event:@"tongyongzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren8"}];
         }
@@ -263,10 +267,6 @@
         {
             [MobClick event:@"tongyongzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren9"}];
         }
-        
-        NSMutableDictionary * dict = [self.paymentArray safetyObjectAtIndex:indexPath.row - 1];
-        PaymentChannelType paychannel = [dict[@"paymentType"] integerValue];
-        self.paychannel = paychannel;
     }
 }
 
