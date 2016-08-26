@@ -91,20 +91,37 @@
             {
                 [payVc autoSelectBankCard];
                 [payVc setPaymentChannel:PaymentChannelCZBCreditCard];
-                [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
+                payVc.selectCarwashCoupouArray = self.selectedCouponArray;
+                [payVc.selectCashCoupouArray removeAllObjects];
             }
-            else if (self.type == CouponTypeCarWash ||
-                     self.type == CouponTypeCash ||
+            else if (self.type == CouponTypeCarWash)
+            {
+                payVc.selectCarwashCoupouArray = self.selectedCouponArray;
+                [payVc.selectCashCoupouArray removeAllObjects];
+            }
+            else if (self.type == CouponTypeCash ||
                      self.type == CouponTypeBeauty ||
                      self.type == CouponTypeMaintenance)
             {
-                [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
+                payVc.selectCashCoupouArray = self.selectedCouponArray;
+                [payVc.selectCarwashCoupouArray removeAllObjects];
             }
             [payVc setCouponType:self.type];
         }
         else
         {
-            [payVc setCouponType:0];
+            if (self.type == CouponTypeCarWash && payVc.couponType == CouponTypeCash)
+            {
+                
+            }
+            else if (self.type == CouponTypeCash && (payVc.couponType == CouponTypeCarWash || payVc.couponType == CouponTypeCZBankCarWash))
+            {
+                
+            }
+            else
+            {
+                [payVc setCouponType:0];
+            }
         }
         [payVc tableViewReloadData];
     }

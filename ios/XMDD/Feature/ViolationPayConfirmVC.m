@@ -48,9 +48,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupUI];
     [self getViolationCommissionCoupons];
     [self confirmViolationCommissionOrderConfirm];
     [self setupDataSource];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -124,6 +126,12 @@
 {
     self.button.layer.cornerRadius = 5;
     self.button.layer.masksToBounds = YES;
+}
+
+- (void)setupNavi
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 #pragma mark - Network
@@ -397,24 +405,24 @@
     @weakify(self)
     
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"PaymentPlatformCell"}];
-
+    
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 48;
     });
-
+    
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
-
+        
         @strongify(self)
         
         UIImageView *channelLogo = [cell viewWithTag:1001];
         channelLogo.image = [UIImage imageNamed:payChannelData[@"logo"]];
-
+        
         UILabel *channelName = [cell viewWithTag:1002];
         channelName.text = payChannelData[@"name"];
-
+        
         UIImageView *selectView = [cell viewWithTag:1003];
         selectView.hidden = !([(NSNumber *)payChannelData[@"type"] integerValue] == self.paychannel);
-
+        
         UIImageView *recommendView = [cell viewWithTag:1005];
         recommendView.layer.cornerRadius = 3;
         recommendView.layer.masksToBounds = YES;
@@ -424,15 +432,32 @@
         uPayView.hidden = ![(NSNumber *)payChannelData[@"isApplePay"] boolValue];
         
     });
-
+    
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-
+        
         @strongify(self)
-
+        
+        if (self.paychannel == PaymentChannelUPpay)
+        {
+            [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang3"}];
+        }
+        else if (self.paychannel == PaymentChannelApplePay)
+        {
+            [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang4"}];
+        }
+        else if (self.paychannel == PaymentChannelAlipay)
+        {
+            [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang5"}];
+        }
+        else if (self.paychannel == PaymentChannelWechat)
+        {
+            [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang6"}];
+        }
+        
         self.paychannel = [(NSNumber *)payChannelData[@"type"] integerValue];
-
+        
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-
+        
     });
     
     return data;
@@ -466,7 +491,7 @@
         
         UIImageView *logoView = [cell viewWithTag:100];
         [[gMediaMgr rac_getGifImageDataByUrl:self.servicePicURL defaultPic:@"illegal_icon" errorPic:nil]subscribeNext:^(UIImage *img) {
-
+            
             
             logoView.image = img;
             
@@ -567,6 +592,8 @@
         
         @strongify(self)
         
+        [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang2"}];
+        
         ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
         vc.originVC = self;
         vc.numberLimit = 1;
@@ -596,8 +623,16 @@
 
 #pragma mark - Action
 
+- (void)actionBack
+{
+    [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang1"}];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)actionPay:(id)sender
 {
+    [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang7"}];
     [self payViolationCommissionOrder];
 }
 
@@ -646,14 +681,7 @@
     
     NSString *title = nil;
     
-    if (coupon.couponAmount > 0)
-    {
-        title = [NSString stringWithFormat:@"已优惠%.2f元，您只需支付%.2f元，现在支付", coupon.couponAmount,totalFee];
-    }
-    else
-    {
-        title = [NSString stringWithFormat:@"您需支付%.2f元，现在支付",self.totalFee.doubleValue];
-    }
+    title = [NSString stringWithFormat:@"您需支付%.2f元，现在支付",totalFee];
     
     [self.button setTitle:title forState:UIControlStateNormal];
     

@@ -463,20 +463,27 @@
 }
 
 - (void)selectedCouponCell {
-    [MobClick event:@"rp508_1"];
+    [MobClick event:@"youkazhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren5"}];
     [self jumpToChooseCouponVC];
 }
 
 - (void)selectedPaymentCellWithInfo:(NSDictionary *)dict {
     PaymentChannelType tt = (PaymentChannelType)[dict[@"payment"] integerValue];
-    if (tt == PaymentChannelAlipay) {
-        [MobClick event:@"rp508_3"];
+    if (tt == PaymentChannelUPpay)
+    {
+        [MobClick event:@"youkazhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren6"}];
     }
-    else if (tt == PaymentChannelWechat) {
-        [MobClick event:@"rp508_4"];
+    else if (tt == PaymentChannelApplePay)
+    {
+        [MobClick event:@"youkazhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren7"}];
     }
-    else {
-        [MobClick event:@"rp508_5"];
+    else if (tt == PaymentChannelAlipay)
+    {
+        [MobClick event:@"youkazhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren8"}];
+    }
+    else
+    {
+        [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren9"}];
     }
     self.paychannel = tt;
    

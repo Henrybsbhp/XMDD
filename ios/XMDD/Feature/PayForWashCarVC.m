@@ -72,14 +72,30 @@
     [self setupBottomView];
     [self setupCarStore];
     
-    self.selectCarwashCoupouArray = self.selectCarwashCoupouArray ? self.selectCarwashCoupouArray :[NSMutableArray array];
-    self.selectCashCoupouArray = self.selectCashCoupouArray ? self.selectCashCoupouArray : [NSMutableArray array];
     ///一开始设置银联，保证可用资源获取失败的时候能够正常默认选择
     self.checkoutServiceOrderV4Op = [[CheckoutServiceOrderV4Op alloc] init];
     self.checkoutServiceOrderV4Op.paychannel = PaymentChannelUPpay;
+    self.isAutoCouponSelect = self.coupon ? YES : NO;
+    
+    if (self.coupon)
+    {
+        self.isAutoCouponSelect = YES;
+        if (self.coupon.conponType == CouponTypeCarWash || self.coupon.conponType == CouponTypeCZBankCarWash)
+        {
+            self.selectCarwashCoupouArray = [NSMutableArray arrayWithObject:self.coupon];
+        }
+        else
+        {
+            self.selectCashCoupouArray = [NSMutableArray arrayWithObject:self.coupon];
+        }
+    }
+    
+    self.selectCarwashCoupouArray = self.selectCarwashCoupouArray ? self.selectCarwashCoupouArray :[NSMutableArray array];
+    self.selectCashCoupouArray = self.selectCashCoupouArray ? self.selectCashCoupouArray : [NSMutableArray array];
     
     [self setupCouponCell];
     [self setupPaymentArray];
+    
     [self requestGetUserResource:!self.isAutoCouponSelect];
     
     /// 是否自动选择指定的优惠劵。（场景：优惠劵-去使用进入本页面）
@@ -243,7 +259,7 @@
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
-    [MobClick event:@"rp108-7"];
+    [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren10"}];
     if (!self.defaultCar) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:3 inSection:0];
         [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
@@ -292,6 +308,7 @@
 
 - (void)actionCallShop
 {
+    [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren2"}];
     [gPhoneHelper makePhone:self.shop.shopPhone andInfo:self.shop.shopPhone];
 }
 
@@ -380,9 +397,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0){
-        if (indexPath.row == 3) {
+        if (indexPath.row == 0)
+        {
+            [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren3"}];
+        }
+        else if (indexPath.row == 3) {
             // 选择爱车
-            [MobClick event:@"rp108_10"];
+            [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren4"}];
             PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
             vc.defaultCar = self.defaultCar;
             @weakify(self);
@@ -401,7 +422,7 @@
         if (couponCellTag == 1)
         {
             //点击查看洗车券
-            [MobClick event:@"rp108_2"];
+            [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren5_1"}];
             ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
             vc.originVC = self.originVC;
             vc.type = CouponTypeCarWash;
@@ -411,7 +432,7 @@
         }
         else if (couponCellTag == 2)
         {
-            [MobClick event:@"rp108_4"];
+            [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren5_2"}];
             ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
             vc.originVC = self.originVC;
             if (self.service.shopServiceType == ShopServiceCarMaintenance)
@@ -434,7 +455,7 @@
         PaymentChannelType payChannel = [paymentDict integerParamForName:@"payment"];
         
         if (payChannel == PaymentChannelCZBCreditCard) {
-            [MobClick event:@"rp108_12"];
+    
             ChooseBankCardVC * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"ChooseBankCardVC"];
             vc.service = self.service;
             vc.shop = self.shop;
@@ -445,6 +466,22 @@
         }
         else
         {
+            if (payChannel == PaymentChannelUPpay)
+            {
+                [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren6"}];
+            }
+            else if (payChannel == PaymentChannelApplePay)
+            {
+                [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren7"}];
+            }
+            else if (payChannel == PaymentChannelAlipay)
+            {
+                [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren8"}];
+            }
+            else
+            {
+                [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren9"}];
+            }
             /// 如果是浙商，无法选择
             if (self.couponType == CouponTypeCZBankCarWash)
             {
@@ -647,7 +684,7 @@
 }
 
 #pragma mark - 网络请求及处理
-- (void)requestGetUserResource:(BOOL)needAutoSelect
+- (void)requestGetUserResource:(BOOL)needDefaultSelect
 {
     CouponModel * couponModel = [[CouponModel alloc] init];
     [[[couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
@@ -658,7 +695,7 @@
         self.isLoadingResourse = NO;
         self.getUserResourcesV2Op = op;
         
-        [self actionAfterGetUserResource:needAutoSelect];
+        [self actionAfterGetUserResource:needDefaultSelect];
        
         [self alertFreshmanGuide];
     } error:^(NSError *error) {
@@ -969,6 +1006,7 @@
                 if ([coupon.couponId integerValue]  == [cid integerValue])
                 {
                     self.selectBankCard = card;
+                    self.checkoutServiceOrderV4Op.paychannel = PaymentChannelCZBCreditCard;
                     return;
                 }
             }
@@ -1114,7 +1152,7 @@
     }
     else
     {
-        //不需要自动选择（去使用进来），先检查一下是否在可用资源里面
+        //不需要默认选择（去使用进来），先检查一下是否在可用资源里面
         HKCoupon * c = [self.selectCarwashCoupouArray safetyObjectAtIndex:0];
         if (!c){
             
