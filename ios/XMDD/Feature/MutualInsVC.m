@@ -488,7 +488,7 @@
         }
         
         [self setItemList];
-        self.totalTipsArray =@[@(self.minsStore.totalMemberCnt), self.minsStore.totalPoolAmt, @(self.minsStore.totalClaimCnt), self.minsStore.totalClaimAmt];
+        self.totalTipsArray = @[@(self.minsStore.totalMemberCnt), self.minsStore.totalPoolAmt ?: @"", @(self.minsStore.totalClaimCnt), self.minsStore.totalClaimAmt ?: @""];
         [self setupTableViewBannerTipsView];
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
