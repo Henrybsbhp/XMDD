@@ -51,6 +51,8 @@
         [self.tableView reloadData];
     }];
     
+    [self setupNavigationBar];
+    
     [self observeViolationPaySuccessEvent];
     
     [self fetchStateData];
@@ -59,6 +61,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 #pragma mark - Notification observe
@@ -73,9 +81,15 @@
 }
 
 #pragma mark - Actions
+- (void)actionBack
+{
+    [MobClick event:@"daibanzhuangtai" attributes:@{@"daibanzhuangtai" : @"daibanzhuangtai1"}];
+}
+
 /// 支付按钮点击事件
 - (void)actionPay
 {
+    [MobClick event:@"daibanzhuangtai" attributes:@{@"daibanzhuangtai" : @"daibanzhuangtai4"}];
     ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Violation"];
     vc.recordID = self.recordID;
     [self.navigationController pushViewController:vc animated:YES];
@@ -84,8 +98,12 @@
 /// 放弃按钮点击事件
 - (void)actionAbandon:(UIButton *)sender
 {
-    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+    [MobClick event:@"daibanzhuangtai" attributes:@{@"daibanzhuangtai" : @"daibanzhuangtai3"}];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
+        [MobClick event:@"daibanzhuangtai" attributes:@{@"daibanzhuangtai" : @"daibanzhuangtai5"}];
+    }];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认放弃" color:kDefTintColor clickBlock:^(id alertVC) {
+        [MobClick event:@"daibanzhuangtai" attributes:@{@"daibanzhuangtai" : @"daibanzhuangtai6"}];
         CancelViolationCommissionOp *op = [CancelViolationCommissionOp operation];
         op.recordID = self.recordID;
         @weakify(self);
@@ -108,6 +126,7 @@
 /// 联系客服按钮点击事件
 - (IBAction)actionCallService:(id)sender
 {
+    [MobClick event:@"daibanzhuangtai" attributes:@{@"daibanzhuangtai" : @"daibanzhuangtai2"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
@@ -526,6 +545,7 @@
 /// 点击查看图片的方法
 - (void)tapDetected
 {
+    [MobClick event:@"daibanzhuangtai" attributes:@{@"daibanzhuangtai" : @"daibanzhuangtai7"}];
     SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
     browser.sourceImagesContainerView = self.proofCell;
     browser.imageCount = 1;
