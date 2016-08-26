@@ -2931,7 +2931,7 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1007" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="服务项目：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xB1-yD-Pn8">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1007" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="服务项目：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xB1-yD-Pn8">
                                                     <rect key="frame" x="62" y="63" width="70" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="EVU-Xc-TPR"/>
@@ -2939,6 +2939,11 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="EVU-Xc-TPR"/>
+                                                        </mask>
+                                                    </variation>
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1001" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bl1-Zt-v0M">
                                                     <rect key="frame" x="15" y="13" width="35" height="35"/>
@@ -2960,7 +2965,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1006" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="kRa-c1-bj3">
-                                                    <rect key="frame" x="132" y="63" width="456" height="17"/>
+                                                    <rect key="frame" x="132" y="63" width="35.5" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -2980,7 +2985,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="XDP-td-hIl" secondAttribute="trailing" constant="12" id="R5c-W0-MAj"/>
                                                 <constraint firstItem="Bl1-Zt-v0M" firstAttribute="leading" secondItem="Tm5-qc-eZB" secondAttribute="leading" constant="15" id="Rmk-pD-XBE"/>
                                                 <constraint firstItem="XDP-td-hIl" firstAttribute="top" secondItem="kRa-c1-bj3" secondAttribute="bottom" constant="8" id="RoW-NF-jEe"/>
-                                                <constraint firstAttribute="trailing" secondItem="kRa-c1-bj3" secondAttribute="trailing" constant="12" id="YoC-Ue-KYn"/>
+                                                <constraint firstItem="kRa-c1-bj3" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Tm5-qc-eZB" secondAttribute="trailing" constant="-12" id="YoC-Ue-KYn"/>
                                                 <constraint firstItem="uMQ-wO-kJI" firstAttribute="top" secondItem="Tm5-qc-eZB" secondAttribute="top" constant="14" id="bH3-LW-bPO"/>
                                                 <constraint firstAttribute="trailing" secondItem="7QQ-Vw-J20" secondAttribute="trailing" constant="12" id="c4m-Ct-3yR"/>
                                                 <constraint firstItem="eoi-do-U4F" firstAttribute="top" secondItem="uMQ-wO-kJI" secondAttribute="bottom" constant="8" id="dxB-6h-2Dy"/>
