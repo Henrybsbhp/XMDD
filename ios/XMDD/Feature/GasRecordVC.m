@@ -59,6 +59,7 @@
 - (void)actionBack
 {
     [MobClick event:@"jiayoujilu" attributes:@{@"jiayoujilu" : @"jiayoujilu1"}];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)setupHeadView
