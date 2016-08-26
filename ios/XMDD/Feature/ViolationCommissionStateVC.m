@@ -84,6 +84,7 @@
 - (void)actionBack
 {
     [MobClick event:@"daibanzhuangtai" attributes:@{@"daibanzhuangtai" : @"daibanzhuangtai1"}];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 /// 支付按钮点击事件
