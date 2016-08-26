@@ -1160,7 +1160,7 @@
                                                         <constraint firstAttribute="height" constant="1" id="Up1-6a-HYi"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" tag="107" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="illegal_radioUnselect" translatesAutoresizingMaskIntoConstraints="NO" id="yuq-jh-gxS">
+                                                <imageView userInteractionEnabled="NO" tag="106" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="illegal_radioUnselect" translatesAutoresizingMaskIntoConstraints="NO" id="yuq-jh-gxS">
                                                     <rect key="frame" x="565" y="93" width="20" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="NMQ-Ec-wJT"/>
@@ -2337,7 +2337,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BCB-7l-cWX">
-                                                    <rect key="frame" x="256.5" y="0.0" width="75" height="48"/>
+                                                    <rect key="frame" x="257" y="0.0" width="75" height="48"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="common_failed" translatesAutoresizingMaskIntoConstraints="NO" id="gnO-wJ-1h3">
                                                             <rect key="frame" x="5" y="14" width="20" height="20"/>
