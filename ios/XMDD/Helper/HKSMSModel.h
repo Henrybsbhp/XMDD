@@ -19,7 +19,8 @@ typedef enum : NSInteger
     HKVcodeTypeRegist = 3,
     HKVcodeTypeBindCZB,
     HKVcodeTypeUnbindCZB,
-    HKVcodeTypeCZBGasCharge
+    HKVcodeTypeCZBGasCharge,
+    HKVcodeTypeUPay
 }HKVcodeType;
 
 @interface HKSMSModel : NSObject
