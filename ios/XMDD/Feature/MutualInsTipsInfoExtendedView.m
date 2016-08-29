@@ -32,6 +32,7 @@
 - (void)bundleInit
 {
     self.backgroundColor = [UIColor whiteColor];
+    self.clipsToBounds = YES;
     UIImageView *horizontalSep = [[UIImageView alloc] initWithFrame:CGRectZero];
     horizontalSep.image = [UIImage imageNamed:@"Horizontaline"];
     UIImageView *verticalSep1 = [[UIImageView alloc] initWithFrame:CGRectZero];

@@ -228,17 +228,19 @@
         self.extButton.selected = YES;
         self.extView.hidden = NO;
         CGRect frame = self.extView.frame;
-        frame.origin.y = 41;
+        frame.size.height= 174;
         [self.tableView bringSubviewToFront:self.tipsContainerView];
         [UIView animateWithDuration:0.2 animations:^{
             self.extView.frame = frame;
+            [self.extView layoutIfNeeded];
         }];
     } else {
         self.extButton.selected = NO;
         CGRect frame = self.extView.frame;
-        frame.origin.y -= 174 + 1;
+        frame.size.height = 0;
         [UIView animateWithDuration:0.2 animations:^{
             self.extView.frame = frame;
+            [self.extView layoutIfNeeded];
         } completion:^(BOOL finished) {
             self.extView.hidden = YES;
         }];;
@@ -323,7 +325,7 @@
         @strongify(self);
         
         CGRect frame = self.extView.frame;
-        frame.origin.y -= 174 + 1;
+        frame.size.height = 0;
         self.extView.frame = frame;
         self.extView.hidden = YES;
         
@@ -488,7 +490,7 @@
         }
         
         [self setItemList];
-        self.totalTipsArray =@[@(self.minsStore.totalMemberCnt), self.minsStore.totalPoolAmt, @(self.minsStore.totalClaimCnt), self.minsStore.totalClaimAmt];
+        self.totalTipsArray = @[@(self.minsStore.totalMemberCnt), self.minsStore.totalPoolAmt ?: @"", @(self.minsStore.totalClaimCnt), self.minsStore.totalClaimAmt ?: @""];
         [self setupTableViewBannerTipsView];
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
@@ -1470,7 +1472,7 @@
 - (MutualInsTipsInfoExtendedView *)extView
 {
     if (!_extView) {
-        _extView = [[MutualInsTipsInfoExtendedView alloc] initWithFrame:CGRectMake(0, -(174 + 41), gAppMgr.deviceInfo.screenSize.width, 174)];
+        _extView = [[MutualInsTipsInfoExtendedView alloc] initWithFrame:CGRectMake(0, 41, gAppMgr.deviceInfo.screenSize.width, 0)];
         _extView.peopleSumString = [NSString stringWithFormat:@"%ld人", (long)[self.totalTipsArray[0] integerValue]];
         _extView.moneySumString = [NSString stringWithFormat:@"%ld元", (long)[self.totalTipsArray[1] integerValue]];
         _extView.countingString = [NSString stringWithFormat:@"%ld次", (long)[self.totalTipsArray[2] integerValue]];

@@ -257,7 +257,6 @@
 /// 保险信息
 - (CKDict *)setupInsItemCell:(NSDictionary *)dict
 {
-    @weakify(self);
     CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"InsuranceItemCell", kCKCellID: @"InsuranceItemCell"}];
     cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
