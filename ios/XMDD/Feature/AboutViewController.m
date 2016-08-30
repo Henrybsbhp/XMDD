@@ -323,7 +323,7 @@
 {
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"使用帮助";
-    vc.url = kServiceHelpUrl;
+    vc.url = AboutViewServiceHelpUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
