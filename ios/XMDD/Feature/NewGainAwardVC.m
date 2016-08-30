@@ -62,7 +62,7 @@
 - (IBAction)helpAction:(id)sender {
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"每周礼券";
-    vc.url = kMeizhouliquanUrl;
+    vc.url = WeeklyCouponHelpUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

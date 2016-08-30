@@ -57,8 +57,9 @@
     #define OrderDetailsUrl @"http://dev01.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
     #define kInsuranceIntroUrl  @"http://dev.xiaomadada.com/apphtml/baoxianfuwu.html"  //保险服务首页介绍
     #define LogUploadUrl @"http://dev01.xiaomadada.com/log/upload"
-    //小马互助团详情使用帮助
-    #define MutualInsGroupDetailHelpUrl @"http://dev01.xiaomadada.com/apphtml/tuan-help.html"
+    #define MutualInsGroupDetailHelpUrl @"http://dev01.xiaomadada.com/apphtml/tuan-help.html" //小马互助团详情使用帮助
+    #define AboutViewServiceHelpUrl     @"http://dev01.xiaomadada.com/apphtml/shiyongbangzhu-v3.3.0.html"// 使用帮助
+    #define WeeklyCouponHelpUrl    @"http://dev01.xiaomadada.com/apphtml/meizhouliquan-v3.3.0.html"//每周礼券
 
 #elif XMDDEnvironment==1
 //测试环境
@@ -71,8 +72,9 @@
     #define OrderDetailsUrl @"https://dev.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 测试地址
     #define kInsuranceIntroUrl  @"http://dev.xiaomadada.com/apphtml/baoxianfuwu.html"  //保险服务首页介绍
     #define LogUploadUrl @"http://dev01.xiaomadada.com/log/upload"
-    //小马互助团详情使用帮助
-    #define MutualInsGroupDetailHelpUrl @"http://dev.xiaomadada.com/apphtml/tuan-help.html"
+    #define MutualInsGroupDetailHelpUrl @"http://dev.xiaomadada.com/apphtml/tuan-help.html"//小马互助团详情使用帮助
+    #define AboutViewServiceHelpUrl     @"http://dev.xiaomadada.com/apphtml/shiyongbangzhu-v3.3.0.html"// 使用帮助
+    #define WeeklyCouponHelpUrl    @"http://dev.xiaomadada.com/apphtml/meizhouliquan-v3.3.0.html"//每周礼券
 #else
 //开发环境
     #define XmddBaseUrl @"https://www.xiaomadada.com"
@@ -84,6 +86,7 @@
     #define OrderDetailsUrl @"https://www.xiaomadada.com/paaweb/general/order/detail/by-id"//订单详情 正式地址
     #define kInsuranceIntroUrl  @"http://www.xiaomadada.com/apphtml/baoxianfuwu.html"  //保险服务首页介绍
     #define LogUploadUrl @"http://dev01.xiaomadada.com/log/upload"
-    //小马互助团详情使用帮助
-    #define MutualInsGroupDetailHelpUrl @"http://www.xiaomadada.com/apphtml/tuan-help.html"
+    #define MutualInsGroupDetailHelpUrl @"http://www.xiaomadada.com/apphtml/tuan-help.html"//小马互助团详情使用帮助
+    #define AboutViewServiceHelpUrl     @"http://www.xiaomadada.com/apphtml/shiyongbangzhu-v3.3.0.html"// 使用帮助
+    #define WeeklyCouponHelpUrl    @"http://www.xiaomadada.com/apphtml/meizhouliquan-v3.3.0.html"//每周礼券
 #endif
