@@ -48,6 +48,49 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
     [self actionRefresh:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (self.serviceType == ShopServiceCarMaintenance)
+    {
+        [MobClick beginLogPageView:@"xiaobaoyang"];
+    }
+    else if (self.serviceType == ShopServiceCarBeauty)
+    {
+        [MobClick beginLogPageView:@"meirong"];
+    }
+    else if (self.serviceType == ShopServiceCarwashWithHeart)
+    {
+        [MobClick beginLogPageView:@"jingxi"];
+    }
+    else
+    {
+        [MobClick beginLogPageView:@"puxi"];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if (self.serviceType == ShopServiceCarMaintenance)
+    {
+        [MobClick endLogPageView:@"xiaobaoyang"];
+    }
+    else if (self.serviceType == ShopServiceCarBeauty)
+    {
+        [MobClick endLogPageView:@"meirong"];
+    }
+    else if (self.serviceType == ShopServiceCarwashWithHeart)
+    {
+        [MobClick endLogPageView:@"jingxi"];
+    }
+    else
+    {
+        [MobClick endLogPageView:@"puxi"];
+    }
+}
+
 #pragma mark - Setup
 - (void)setupNavigationBar {
     UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_search_300"]
