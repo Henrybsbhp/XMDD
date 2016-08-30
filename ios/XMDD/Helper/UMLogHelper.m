@@ -26,7 +26,7 @@
                              @"SearchShopListVC":@{@"pagetag":@"rp103"},//一键洗车搜索
                              @"CarWashNavigationViewController":@{@"pagetag":@"rp104"},//店铺导航
                              @"NearbyShopsViewController":@{@"pagetag":@"rp104"},//附近店铺
-                             @"ShopDetailVC":@{@"pagetag":@"rp105"},// 商户详情
+                             @"ShopDetailVC":@{@"pagetag":@"shangjiaxiangqing"},// 商户详情
                              @"PayForWashCarVC":@{@"pagetag":@"rp1018"},// 洗车支付
                              @"ChooseCarwashTicketVC":@{@"pagetag":@"rp109"},//优惠劵选择
                              @"PaymentSuccessVC":@{@"pagetag":@"rp110"},//支付成功
@@ -76,11 +76,12 @@
                              
                              //加油
                              @"GasVC":@{@"pagetag":@"rp501"},//加油首页
-                             @"GasAddCardVC":@{@"pagetag":@"rp504"},//油卡添加
+                             @"GasAddCardVC":@{@"pagetag":@"tianjiayouka"},//油卡添加
                              @"GasCardListVC":@{@"pagetag":@"rp505"},//油卡列表
                              @"GasPaymentResultVC":@{@"pagetag":@"rp506"},//油卡充值支付结果
                              @"GasPayForCZBVC":@{@"pagetag":@"rp507"},//浙商支付
                              @"PayForGasViewController":@{@"pagetag":@"rp508"},//油卡充值支付
+                             @"GasRecordVC":@{@"pagetag":@"jiayoujilu"},//加油记录
                              
                              // 估值
                              @"ValuationHomeVC":@{@"pagetag":@"rp601"},//二手车估值
