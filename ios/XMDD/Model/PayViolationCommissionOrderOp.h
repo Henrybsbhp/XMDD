@@ -15,9 +15,7 @@
 @property (strong, nonatomic) NSNumber *req_paychannel;
 @property (strong, nonatomic) NSString *req_couponid;
 
-@property (strong, nonatomic) NSNumber *rsp_money;
-@property (strong, nonatomic) NSNumber *rsp_servicefee;
-@property (strong, nonatomic) NSNumber *rsp_totalfee;
+@property (nonatomic) CGFloat rsp_totalfee;
 @property (strong, nonatomic) NSString *rsp_tradeno;
 @property (strong, nonatomic) PayInfoModel *rsp_payInfoModel;
 
