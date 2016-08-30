@@ -160,7 +160,10 @@
     if ([UPApplePayHelper isApplePayAvailable])
         [array safetyAddObject:apple];
     [array safetyAddObject:alipay];
-    [array safetyAddObject:wechat];
+    if (gPhoneHelper.exsitWechat)
+    {
+        [array safetyAddObject:wechat];
+    }
     if (self.service.shopServiceType == ShopServiceCarWash || self.service.shopServiceType == ShopServiceCarwashWithHeart)
     {
         if (!self.getUserResourcesV2Op.rsp_czBankCreditCard.count)
