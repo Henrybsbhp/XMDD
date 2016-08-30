@@ -193,7 +193,7 @@
             if (c.lowerLimit <= self.gasNormalVC.rechargeAmount)
             {
                 self.selectGasCoupouArray = [NSMutableArray arrayWithObject:c];
-                self.couponType = selectedCoupon.conponType;
+                self.couponType = c.conponType;
                 break;
             }
         }
