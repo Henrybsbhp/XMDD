@@ -171,11 +171,14 @@
 
 - (void)actionGotoCalculateVC
 {
-    MutInsCalculateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateVC"];
-    vc.router.userInfo = [[CKDict alloc] init];
-    vc.router.userInfo[kOriginRoute] = self.router;
-    
-    [self.router.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self])
+    {
+        MutInsCalculateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateVC"];
+        vc.router.userInfo = [[CKDict alloc] init];
+        vc.router.userInfo[kOriginRoute] = self.router;
+        
+        [self.router.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)actionGotoSystemGroupListVC

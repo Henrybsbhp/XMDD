@@ -24,9 +24,7 @@
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-    self.rsp_money = rspObj[@"money"];
-    self.rsp_servicefee = rspObj[@"servicefee"];
-    self.rsp_totalfee = rspObj[@"totalfee"];
+    self.rsp_totalfee = [rspObj floatParamForName:@"totalfee"];
     self.rsp_tradeno = rspObj[@"tradeno"];
     self.rsp_payInfoModel = [PayInfoModel payInfoWithJSONResponse:rspObj[@"payinfo"]];
     return self;
