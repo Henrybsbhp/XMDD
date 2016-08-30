@@ -103,6 +103,11 @@
                              
                              //违章查询
                              @"ViolationItemViewController":@{@"pagetag":@"rp901"},//违章查询
+                             @"ViolationMissionHistoryVC" : @{@"pagetag":@"wodedaiban"}, // 我的代办
+                             @"ViolationDelegateMissionVC" : @{@"pagetag":@"weizhangdaiban"}, // 违章代办
+                             @"ViolationDelegateCommitSuccessVC" : @{@"pagetag":@"shenqingchenggong"}, // 申请成功
+                             @"ViolationMyLicenceVC" : @{@"pagetag":@"zhengjianzhao"}, // 证件照上传
+                             @"ViolationPayConfirmVC" : @{@"pagetag":@"zhifuqueren-weizhang"}, // 违章支付确认
                              
                              //小马互助
                              @"MutualInsVC":@{@"pagetag":@"huzhushouye"},//互助首页
@@ -115,13 +120,6 @@
                              @"MutualInsPicUpdateResultVC":@{@"pagetag":@"tijiaochenggong"},//提交成功
                              @"MutualInsGroupDetailVC":@{@"pagetag":@"tuanxiangqing"},//团详情
                              @"MutualInsPicListVC":@{@"pagetag":@"woyaobuchang"},//我要补偿
-                             
-                             //违章
-                             @"ViolationMissionHistoryVC" : @{@"pagetag":@"wodedaiban"}, // 我的代办
-                             @"ViolationDelegateMissionVC" : @{@"pagetag":@"weizhangdaiban"}, // 违章代办
-                             @"ViolationDelegateCommitSuccessVC" : @{@"pagetag":@"shenqingchenggong"}, // 申请成功
-                             @"ViolationMyLicenceVC" : @{@"pagetag":@"zhengjianzhao"}, // 证件照上传
-                             @"ViolationPayConfirmVC" : @{@"pagetag":@"zhifuqueren-weizhang"}, // 违章支付确认
                              
                              };
     });
