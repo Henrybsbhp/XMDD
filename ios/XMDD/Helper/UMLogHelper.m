@@ -116,6 +116,12 @@
                              @"MutualInsGroupDetailVC":@{@"pagetag":@"tuanxiangqing"},//团详情
                              @"MutualInsPicListVC":@{@"pagetag":@"woyaobuchang"},//我要补偿
                              
+                             //违章
+                             @"ViolationMissionHistoryVC" : @{@"pagetag":@"wodedaiban"}, // 我的代办
+                             @"ViolationDelegateMissionVC" : @{@"pagetag":@"weizhangdaiban"}, // 违章代办
+                             @"ViolationDelegateCommitSuccessVC" : @{@"pagetag":@"shenqingchenggong"}, // 申请成功
+                             @"ViolationMyLicenceVC" : @{@"pagetag":@"zhengjianzhao"}, // 证件照上传
+                             @"ViolationPayConfirmVC" : @{@"pagetag":@"zhifuqueren-weizhang"}, // 违章支付确认
                              
                              };
     });
