@@ -187,11 +187,15 @@
         
         self.isLoadingResourse = NO;
         self.gasCouponArray = op.rsp_couponArray;
-        HKCoupon * selectedCoupon = [self.gasCouponArray safetyObjectAtIndex:0];
-        if (selectedCoupon)
+    
+        for (HKCoupon * c in self.gasCouponArray)
         {
-            self.selectGasCoupouArray = [NSMutableArray arrayWithObject:selectedCoupon];
-            self.couponType = selectedCoupon.conponType;
+            if (c.lowerLimit <= self.gasNormalVC.rechargeAmount)
+            {
+                self.selectGasCoupouArray = [NSMutableArray arrayWithObject:c];
+                self.couponType = selectedCoupon.conponType;
+                break;
+            }
         }
         
         [self setupDatasource];
