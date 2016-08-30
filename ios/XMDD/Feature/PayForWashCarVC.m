@@ -762,13 +762,20 @@
         [gToast dismiss];
         [self requestCommentlist];
         
-        if (op.rsp_price > 0)
+        if (op.paychannel == PaymentChannelCZBCreditCard)
         {
-            [self callPaymentHelperWithPayOp:op];
+            [self gotoPaymentSuccessVC];
         }
         else
         {
-            [self gotoPaymentSuccessVC];
+            if (op.rsp_price > 0)
+            {
+                [self callPaymentHelperWithPayOp:op];
+            }
+            else
+            {
+                [self gotoPaymentSuccessVC];
+            }
         }
     } error:^(NSError *error) {
         
