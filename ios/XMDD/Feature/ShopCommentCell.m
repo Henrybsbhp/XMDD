@@ -9,7 +9,7 @@
 #import "ShopCommentCell.h"
 #import "NSString+RectSize.h"
 
-#define kServicePrefixWidth 65
+#define kServicePrefixWidth 67
 
 @implementation ShopCommentCell
 
