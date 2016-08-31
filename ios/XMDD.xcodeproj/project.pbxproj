@@ -7182,7 +7182,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=1",
+					"XMDDEnvironment=2",
 					"REACT_DEV=0",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -7373,7 +7373,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3793cdf4-53f4-4f85-b9c7-e209582ab43f";
+				PROVISIONING_PROFILE = "01bd7551-83c0-486d-a870-d19fc3ff3615";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
