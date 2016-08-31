@@ -25,6 +25,7 @@
 @property (strong, nonatomic) CKList *dataSource;
 @property (strong, nonatomic) NSString *vcode;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *upayLogoHeight;
 @end
 
 @implementation UPayVerifyVC
@@ -207,8 +208,6 @@
 - (CKDict *)otherCardCellDataWithModel:(MyBankCard *)model
 {
     
-    @weakify(self)
-    
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"OtherCardCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -216,10 +215,6 @@
     });
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
-        
-        @strongify(self)
-        
-        MyBankCard *model = [self.bankCardInfo safetyObjectAtIndex:indexPath.row];
         
         UILabel *bankLabel = [cell viewWithTag:101];
         bankLabel.text = model.issueBank;
@@ -230,8 +225,6 @@
     });
     
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
-        @strongify(self)
         
         // 如果出现可选择其它银行卡，indexPath.row一定不会越界
         // 移动银行卡位置
@@ -490,7 +483,19 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    if (section == self.dataSource.count - 1)
+    {
+        return 80;
+    }
+    else
+    {
+        return CGFLOAT_MIN;
+    }
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    self.upayLogoHeight.constant = scrollView.contentOffset.y > 0 ? (scrollView.contentOffset.y + 30) : 30;
 }
 
 #pragma mark - Action
