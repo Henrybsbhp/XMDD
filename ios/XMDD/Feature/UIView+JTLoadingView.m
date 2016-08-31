@@ -172,6 +172,7 @@ static char sActivityIndicatorView;
         }
         [(GifActivityIndicatorView *)self.activityIndicatorView startAnimating];
     }
+    self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     self.activityIndicatorView.center = position;
     [self bringSubviewToFront:self.activityIndicatorView];
 }

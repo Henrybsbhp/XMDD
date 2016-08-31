@@ -52,7 +52,7 @@ export default class MutualInsView extends Component {
 
     render() {
         return (
-            <BlankView style={styles.container}>
+            <BlankView style={styles.container} loading={true}>
                 <RefreshControl.ListView
                     onRefresh={this._onRefresh.bind(this)}
                     style={styles.bg}
