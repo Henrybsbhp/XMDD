@@ -194,6 +194,11 @@
                     payVc.couponType = CouponTypeCZBankCarWash;
                 }
             }
+            else
+            {
+                payVc.selectCarwashCoupouArray = [NSMutableArray array];
+                payVc.couponType = CouponTypeNone;
+            }
             [payVc setPaymentChannel:PaymentChannelCZBCreditCard];
             [payVc tableViewReloadData];
             [self.navigationController popViewControllerAnimated:YES];
