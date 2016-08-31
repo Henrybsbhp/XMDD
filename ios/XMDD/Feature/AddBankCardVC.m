@@ -250,7 +250,7 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    self.upayLogoHeight.constant = scrollView.contentOffset.y > 0 ? (scrollView.contentOffset.y + 30) : 30;
+    self.upayLogoHeight.constant = scrollView.contentOffset.y + 30;
 }
 
 
