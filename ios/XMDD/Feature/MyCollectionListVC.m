@@ -290,7 +290,7 @@
         @weakify(cell, self);
         [[[RACObserve(self, selectedCollections) merge:RACObserve(data, forceReload)] takeUntilForCell:cell] subscribeNext:^(id x) {
             @strongify(cell, self);
-            cell.checkBox.selected = (BOOL)self.selectedCollections[shop.key];
+            cell.checked = (BOOL)self.selectedCollections[shop.key];
         }];
         
         [[RACObserve(self, isEditing) takeUntilForCell:cell] subscribeNext:^(NSNumber *x) {

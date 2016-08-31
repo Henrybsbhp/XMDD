@@ -15,6 +15,7 @@
 @property (nonatomic, assign) BOOL navigationBarHidden;
 @property (nonatomic, strong) HKNavigationBar *navigationBar;
 @property (nonatomic, strong, readonly) NSDictionary *properties;
+@property (nonatomic, strong) UIView *containerView;
 @end
 
 @implementation ReactNativeViewController
@@ -57,10 +58,15 @@
 }
 
 - (void)setupRCTView {
+    self.containerView = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.containerView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+    [self.view addSubview:self.containerView];
+    
     self.rctView = [[ReactView alloc] initWithFrame:self.view.bounds];
     self.rctView.backgroundColor = [UIColor whiteColor];
-    self.rctView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self.view addSubview:self.rctView];
+    self.rctView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+    [self.containerView addSubview:self.rctView];
+    
     [self.view bringSubviewToFront:self.navigationBar];
 }
 
@@ -78,18 +84,18 @@
     [[[[ReactNativeManager sharedManager] rac_checkAndUpdatePackageIfNeeded] initially:^{
 
         @strongify(self);
-        [self.view hideDefaultEmptyView];
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        [self.containerView hideDefaultEmptyView];
+        [self.containerView startActivityAnimationWithType:GifActivityIndicatorType];
     }] subscribeNext:^(id x) {
         
         @strongify(self);
         [self loadWithModuleName:@"App" properties:self.properties];
-        [self.view stopActivityAnimation];
+        [self.containerView stopActivityAnimation];
     } error:^(NSError *error) {
 
         @strongify(self);
-        [self.view stopActivityAnimation];
-        [self.view showImageEmptyViewWithImageName:kImageFailConnect text:@"加载失败，点击重试" tapBlock:^{
+        [self.containerView stopActivityAnimation];
+        [self.containerView showImageEmptyViewWithImageName:kImageFailConnect text:@"加载失败，点击重试" tapBlock:^{
             
             @strongify(self);
             [self checkAndUpdatePackage];
@@ -99,7 +105,7 @@
         
         @strongify(self);
         [self loadWithModuleName:@"App" properties:self.properties];
-        [self.view stopActivityAnimation];
+        [self.containerView stopActivityAnimation];
     }];
 }
 

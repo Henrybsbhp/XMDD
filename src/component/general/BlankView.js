@@ -9,9 +9,9 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
+import LoadingView from './LoadingView';
 
 const empty = () => {};
-
 export default class BlankView extends Component {
 
     static propTypes = {
@@ -23,21 +23,27 @@ export default class BlankView extends Component {
 
     static defaultProps = {
         visible: false,
+        loading: true,
         onPress: empty,
         image: {name: 'def_failConnect', width: 152, height: 152},
     }
 
+    componentWillReceiveProps(props) {
+        this.setState()
+    }
+
     render() {
+        // {this.props.visible ? this._renderBlankContent() : this.props.children}
         return (
             <View {...this.props} style={[this.props.style, styles.container]}>
-                {this.props.visible ? this._renderBlankContent() : this.props.children}
+                <LoadingView loading={true} style={styles.loadingView}/>
             </View>
         )
     }
 
     _renderBlankContent() {
         return (
-            <View style={styles.content}>
+            <View style={styles.content} >
                 <TouchableOpacity onPress={this.props.onPress}>
                     <Image source={{uri: this.props.image.name}}
                            style={[styles.image, {width:this.props.image.width, height:this.props.image.height}]}/>
@@ -54,5 +60,6 @@ const styles = StyleSheet.create({
     container: {flex: 1},
     content: {flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent:'center', top: -64},
     image: {margin: 20},
-    text: {fontSize: 17, fontWeight: 'bold', color: '#aaaaaa'}
+    text: {fontSize: 17, fontWeight: 'bold', color: '#aaaaaa'},
+    loadingView: {position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}
 })
