@@ -16,6 +16,7 @@ export default class BlankView extends Component {
 
     static propTypes = {
         visible: PropTypes.bool,
+        loading: PropTypes.bool,
         text: PropTypes.string,
         image: PropTypes.object,
         onPress: PropTypes.func,
@@ -23,20 +24,31 @@ export default class BlankView extends Component {
 
     static defaultProps = {
         visible: false,
-        loading: true,
+        loading: false,
         onPress: empty,
         image: {name: 'def_failConnect', width: 152, height: 152},
     }
 
+    constructor(props) {
+        super(props);
+        this.state = {forceRerend: false}
+    }
+
     componentWillReceiveProps(props) {
-        this.setState()
+        this.setState({forceRerend: !this.state.forceRerend})
     }
 
     render() {
-        // {this.props.visible ? this._renderBlankContent() : this.props.children}
+        var content = null;
+        if (this.props.loading) {
+            content = (<LoadingView loading={true} style={styles.loadingView}/>);
+        }
+        else  if (this.props.visible) {
+            content = this._renderBlankContent();
+        }
         return (
             <View {...this.props} style={[this.props.style, styles.container]}>
-                <LoadingView loading={true} style={styles.loadingView}/>
+                {content}
             </View>
         )
     }
