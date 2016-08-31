@@ -19,7 +19,7 @@
 /// 订单记录 ID
 @property (nonatomic, assign) NSInteger orderID;
 
-/// 油卡类型（1: 中石油，2: 中石化）
+/// 油卡类型（1: 中石化，2: 中石油）
 @property (nonatomic, assign) NSInteger cardType;
 
 /// 油卡卡号
