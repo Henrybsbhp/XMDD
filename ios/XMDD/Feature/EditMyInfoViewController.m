@@ -63,6 +63,7 @@
     self.textFeild.placeholder = self.placeholder;
     self.textFeild.text = self.content;
     self.textFeild.clearButtonMode = UITextFieldViewModeWhileEditing;
+    self.textFeild.textColor = kDefTintColor;
 }
 
 

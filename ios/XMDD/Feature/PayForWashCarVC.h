@@ -11,13 +11,13 @@
 #import "HKCoupon.h"
 
 @class HKMyCar;
-@class HKBankCard;
 
 @interface PayForWashCarVC : HKViewController
 
 @property (nonatomic, strong) JTShopService *service;
 @property (nonatomic, strong) JTShop *shop;
 @property (nonatomic, strong) HKMyCar *defaultCar;
+/// 去使用带过来的优惠券
 @property (nonatomic, strong) HKCoupon *coupon;
 @property (nonatomic, weak) UIViewController *originVC;
 

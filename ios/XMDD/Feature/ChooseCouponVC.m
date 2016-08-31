@@ -89,22 +89,40 @@
             self.type = c.conponType;
             if (self.type == CouponTypeCZBankCarWash)
             {
+                [payVc setCouponType:self.type];
                 [payVc autoSelectBankCard];
                 [payVc setPaymentChannel:PaymentChannelCZBCreditCard];
-                [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
+                payVc.selectCarwashCoupouArray = self.selectedCouponArray;
+                [payVc.selectCashCoupouArray removeAllObjects];
             }
-            else if (self.type == CouponTypeCarWash ||
-                     self.type == CouponTypeCash ||
+            else if (self.type == CouponTypeCarWash)
+            {
+                payVc.selectCarwashCoupouArray = self.selectedCouponArray;
+                [payVc.selectCashCoupouArray removeAllObjects];
+            }
+            else if (self.type == CouponTypeCash ||
                      self.type == CouponTypeBeauty ||
                      self.type == CouponTypeMaintenance)
             {
-                [payVc setSelectCarwashCoupouArray:self.selectedCouponArray];
+                payVc.selectCashCoupouArray = self.selectedCouponArray;
+                [payVc.selectCarwashCoupouArray removeAllObjects];
             }
             [payVc setCouponType:self.type];
         }
         else
         {
-            [payVc setCouponType:0];
+            if (self.type == CouponTypeCarWash && payVc.couponType == CouponTypeCash)
+            {
+                
+            }
+            else if (self.type == CouponTypeCash && (payVc.couponType == CouponTypeCarWash || payVc.couponType == CouponTypeCZBankCarWash))
+            {
+                
+            }
+            else
+            {
+                [payVc setCouponType:0];
+            }
         }
         [payVc tableViewReloadData];
     }
@@ -135,12 +153,9 @@
     if (vc && [vc isKindOfClass:[PayForGasViewController class]])
     {
         PayForGasViewController * pay4GasVC = (PayForGasViewController *)vc;
-        if (self.selectedCouponArray.count)
-        {
-            HKCoupon * coupon = [self.selectedCouponArray safetyObjectAtIndex:0];
-            pay4GasVC.selectGasCoupouArray = self.selectedCouponArray;
-            pay4GasVC.couponType = coupon.conponType;
-        }
+        HKCoupon * coupon = [self.selectedCouponArray safetyObjectAtIndex:0];
+        pay4GasVC.selectGasCoupouArray = self.selectedCouponArray;
+        pay4GasVC.couponType = coupon.conponType;
     }
     if (vc && [vc isKindOfClass:[MutualInsPayViewController class]])
     {
@@ -338,11 +353,18 @@
     {
         if (coupon.lowerLimit <= self.payAmount)
         {
-            self.type = coupon.conponType;
-        
-            [self.selectedCouponArray removeAllObjects];
-            [self.selectedCouponArray addObject:coupon];
-        
+            HKCoupon * originCoupon = [self.selectedCouponArray safetyObjectAtIndex:0];
+            if (originCoupon && [coupon.couponId isEqualToNumber:originCoupon.couponId])
+            {
+                [self.selectedCouponArray removeAllObjects];
+            }
+            else
+            {
+                self.type = coupon.conponType;
+                
+                [self.selectedCouponArray removeAllObjects];
+                [self.selectedCouponArray addObject:coupon];
+            }
             [self actionBack];
         }
         else

@@ -306,19 +306,20 @@
             [gToast showError:@"请输入车架号"];
             return;
         }
-        else if (self.violationModel.classno.length < self.violationModel.cityInfo.classSuffixNum)
-        {
-            [gToast showError:@"请输入满足位数的车架号"];
-            return;
-        }
         else if (self.violationModel.cityInfo.classSuffixNum == 0)
         {
-            if (self.violationModel.cityInfo.classSuffixNum == 0)
+            if (self.violationModel.classno.length == 0)
             {
                 [gToast showError:@"请输入车架号"];
                 return;
             }
         }
+        else if (self.violationModel.classno.length < self.violationModel.cityInfo.classSuffixNum)
+        {
+            [gToast showError:@"请输入满足位数的车架号"];
+            return;
+        }
+        
         
     }
     

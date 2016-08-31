@@ -107,6 +107,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     if (self.fromUnionCardVC)
     {
         [self setupUnionBankNaviRightItem];
+        [self setupBackgroundView];
     }
     
     self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
@@ -197,6 +198,28 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     _progressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
     _progressView.progress = 0;
     _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+}
+
+- (void)setupBackgroundView
+{
+    self.webView.backgroundColor = [UIColor clearColor];
+    
+    UIImageView *upayTitle = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"upayTitle"]];
+    [self.view addSubview:upayTitle];
+    [upayTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(30);
+        make.centerX.mas_equalTo(14);
+    }];
+    
+    UIImageView *upayLogo = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"upayLogo"]];
+    [self.view addSubview:upayLogo];
+    [upayLogo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(upayTitle);
+        make.right.mas_equalTo(upayTitle.mas_left).mas_equalTo(-5);
+    }];
+    
+    [self.view bringSubviewToFront:self.webView];
+    
 }
 
 - (void)setupUnionBankNaviRightItem

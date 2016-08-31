@@ -21,9 +21,9 @@
 
 static NSTimeInterval s_coolingTimeForCZBGasCharge = 0;
 static NSTimeInterval s_coolingTimeForUnbindCZB = 0;
-static NSTimeInterval s_coolingTimeForUnionCard = 0;
 static NSTimeInterval s_coolingTimeForBindCZB = 0;
 static NSTimeInterval s_coolingTimeForLogin = 0;
+static NSTimeInterval s_coolingTimeForUPay = 0;
 
 
 @interface HKSMSModel ()<UITextFieldDelegate>
@@ -64,7 +64,7 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
     op.req_tradeno = tradeNO;
     RACSignal *signal = [op rac_postRequest];
     return [[signal doNext:^(id x) {
-        s_coolingTimeForUnionCard = [[NSDate date] timeIntervalSince1970];
+        s_coolingTimeForUPay = [[NSDate date] timeIntervalSince1970];
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
@@ -91,6 +91,8 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
             case HKVcodeTypeResetPwd:
                 s_coolingTimeForLogin = timetag;
                 break;
+            case HKVcodeTypeUPay:
+                s_coolingTimeForUPay = timetag;
             default:
                 break;
         }
@@ -153,13 +155,18 @@ static NSTimeInterval s_coolingTimeForLogin = 0;
     else if (type == HKVcodeTypeCZBGasCharge) {
         coolingTime = s_coolingTimeForCZBGasCharge;
     }
+    else if (type == HKVcodeTypeUPay){
+        coolingTime = s_coolingTimeForUPay;
+    }
     NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] - coolingTime;
-    if (interval < kMaxVcodeInterval) {
+    NSTimeInterval currentInterval = type == HKVcodeTypeUPay ? kLongVcodeInterval : kMaxVcodeInterval;
+    
+    if (interval < currentInterval) {
         NSString *originTitle = [vbtn titleForState:UIControlStateNormal];
         vbtn.enabled = NO;
 
         @weakify(self);
-        [[self rac_timeCountDown:kMaxVcodeInterval - interval] subscribeNext:^(id x) {
+        [[self rac_timeCountDown:currentInterval - interval] subscribeNext:^(id x) {
             NSString *title = [NSString stringWithFormat:@"剩余%d秒", [x intValue]];
             [vbtn setTitle:title forState:UIControlStateDisabled];
             [vbtn setTitle:title forState:UIControlStateNormal];

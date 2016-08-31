@@ -187,11 +187,15 @@
         
         self.isLoadingResourse = NO;
         self.gasCouponArray = op.rsp_couponArray;
-        HKCoupon * selectedCoupon = [self.gasCouponArray safetyObjectAtIndex:0];
-        if (selectedCoupon)
+    
+        for (HKCoupon * c in self.gasCouponArray)
         {
-            self.selectGasCoupouArray = [NSMutableArray arrayWithObject:selectedCoupon];
-            self.couponType = selectedCoupon.conponType;
+            if (c.lowerLimit <= self.gasNormalVC.rechargeAmount)
+            {
+                self.selectGasCoupouArray = [NSMutableArray arrayWithObject:c];
+                self.couponType = c.conponType;
+                break;
+            }
         }
         
         [self setupDatasource];
@@ -350,7 +354,7 @@
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
             
-            [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeid andPayInfoModel:paidop.rsp_payInfoModel andTotalFee:[self calculateTotalFee] targetVC:self];
+            [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeid andPayInfoModel:paidop.rsp_payInfoModel andTotalFee:paidop.rsp_total targetVC:self];
             
         } break;
         case PaymentChannelApplePay:{
@@ -463,20 +467,27 @@
 }
 
 - (void)selectedCouponCell {
-    [MobClick event:@"rp508_1"];
+    [MobClick event:@"youkazhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren5"}];
     [self jumpToChooseCouponVC];
 }
 
 - (void)selectedPaymentCellWithInfo:(NSDictionary *)dict {
     PaymentChannelType tt = (PaymentChannelType)[dict[@"payment"] integerValue];
-    if (tt == PaymentChannelAlipay) {
-        [MobClick event:@"rp508_3"];
+    if (tt == PaymentChannelUPpay)
+    {
+        [MobClick event:@"youkazhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren6"}];
     }
-    else if (tt == PaymentChannelWechat) {
-        [MobClick event:@"rp508_4"];
+    else if (tt == PaymentChannelApplePay)
+    {
+        [MobClick event:@"youkazhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren7"}];
     }
-    else {
-        [MobClick event:@"rp508_5"];
+    else if (tt == PaymentChannelAlipay)
+    {
+        [MobClick event:@"youkazhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren8"}];
+    }
+    else
+    {
+        [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren9"}];
     }
     self.paychannel = tt;
    

@@ -257,7 +257,6 @@
 /// 保险信息
 - (CKDict *)setupInsItemCell:(NSDictionary *)dict
 {
-    @weakify(self);
     CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"InsuranceItemCell", kCKCellID: @"InsuranceItemCell"}];
     cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
@@ -281,7 +280,6 @@
     
     cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
-        @strongify(self)
         UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1001];
         UILabel *infoL = (UILabel *)[cell.contentView viewWithTag:1002];
         
@@ -383,6 +381,8 @@
     cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self)
+        [MobClick event:@"baoxianzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren5"}];
+
         [self jumpToChooseCouponVC];
         ///取消支付宝，微信勾选
         [self.tableView reloadData];
@@ -444,6 +444,23 @@
         @strongify(self)
         PaymentChannelType tt = (PaymentChannelType)[dict[@"payment"] integerValue];
         self.paymentChannel = tt;
+        
+        if (tt == PaymentChannelUPpay)
+        {
+            [MobClick event:@"baoxianzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren6"}];
+        }
+        else if (tt == PaymentChannelApplePay)
+        {
+            [MobClick event:@"baoxianzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren7"}];
+        }
+        else if (tt == PaymentChannelAlipay)
+        {
+            [MobClick event:@"baoxianzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren8"}];
+        }
+        else
+        {
+            [MobClick event:@"baoxianzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren9"}];
+        }
     });
     
     cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -594,7 +611,7 @@
             [helper resetForWeChatWithTradeNumber:op.rsp_tradeno andPayInfoModel:op.rsp_payInfoModel.wechatInfo andTradeType:TradeTypeIns];
         } break;
         case PaymentChannelUPpay: {
-            [helper resetForUPPayWithTradeNumber:op.rsp_tradeno andPayInfoModel:op.rsp_payInfoModel andTotalFee:self.insOrder.totoalpay + self.insOrder.forcetaxfee targetVC:self];
+            [helper resetForUPPayWithTradeNumber:op.rsp_tradeno andPayInfoModel:op.rsp_payInfoModel andTotalFee:op.rsp_total targetVC:self];
         } break;
         case PaymentChannelApplePay: {
             [helper resetForUPApplePayWithTradeNumber:op.rsp_tradeno targetVC:self];

@@ -351,7 +351,7 @@
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
-            [helper resetForUPPayWithTradeNumber:op.rsp_tradeno andPayInfoModel:op.rsp_payInfoModel andTotalFee:self.priceLb.text.floatValue targetVC:self];
+            [helper resetForUPPayWithTradeNumber:op.rsp_tradeno andPayInfoModel:op.rsp_payInfoModel andTotalFee:op.rsp_total targetVC:self];
         } break;
         case PaymentChannelApplePay:{
             

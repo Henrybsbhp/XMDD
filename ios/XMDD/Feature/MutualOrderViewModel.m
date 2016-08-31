@@ -67,6 +67,16 @@
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)topViewSingleTap:(UIGestureRecognizer *)recognizer
+{
+    [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan11"}];
+}
+
+- (void)bottomViewSingleTap:(UIGestureRecognizer *)recognizer
+{
+    [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan12"}];
+}
+
 #pragma mark - HKLoadingModelDelegate
 
 -(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
@@ -166,6 +176,7 @@
     });
     
     mutualCompletedCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
         UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:1001];
         UILabel *statusLabel = (UILabel *)[cell.contentView viewWithTag:1002];
         UIImageView *brandImageView = (UIImageView *)[cell.contentView viewWithTag:2001];
@@ -178,6 +189,8 @@
         UILabel *servicePriceLabel = (UILabel *)[cell.contentView viewWithTag:5001];
         UILabel *serviceDescLabel = (UILabel *)[cell.contentView viewWithTag:5002];
         UILabel *sumLabel = (UILabel *)[cell.contentView viewWithTag:6001];
+        UIButton *topButton = (UIButton *)[cell.contentView viewWithTag:9003];
+        UIButton *bottomButton = (UIButton *)[cell.contentView viewWithTag:9004];
         
         [brandImageView setImageByUrl:model.brandLogoAddress withType:ImageURLTypeOrigin defImage:@"cm_shop" errorImage:@"cm_shop"];
         brandImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -213,6 +226,18 @@
         insEndTimeLabel.text = [NSString stringWithFormat:@"保障开始：%@", model.forceInfo.forceEndDate];
         insTaxShipFeeLabel.text = [NSString stringWithFormat:@"¥%@", model.forceInfo.taxShipFee];
         insTaxShipFeeDescLabel.text = @"车船税";
+        
+        [[[topButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(self);
+            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan11"}];
+            [self actionGoToMutualInsOrderInfoVCWithModel:model];
+        }];
+        
+        [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(self);
+            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan12"}];
+            [self actionGoToMutualInsOrderInfoVCWithModel:model];
+        }];
     });
     
     return mutualCompletedCell;

@@ -37,6 +37,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.title = @"浙商银行卡";
+    
     [self setupAdView];
     [self reloadData];
     @weakify(self);
@@ -114,13 +117,13 @@
             [self.tableView.refreshView endRefreshing];
         }
         
-        NSArray * viewcontroller = self.navigationController.viewControllers;
-        UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
-        if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
-        {
-            PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
-            [payVc chooseResource];
-        }
+//        NSArray * viewcontroller = self.navigationController.viewControllers;
+//        UIViewController * vc = [viewcontroller safetyObjectAtIndex:viewcontroller.count - 2];
+//        if (vc && [vc isKindOfClass:[PayForWashCarVC class]])
+//        {
+//            PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
+//            [payVc chooseResource];
+//        }
     } error:^(NSError *error) {
         @strongify(self);
         [self.view stopActivityAnimation];
@@ -175,19 +178,26 @@
             PayForWashCarVC * payVc = (PayForWashCarVC *)vc;
             NSDictionary * card = [self.bankCards safetyObjectAtIndex:indexPath.row];
             payVc.selectBankCard = card;
-            NSArray * cids = [card[@"cids"] componentsSeparatedByString:@","];
+            NSString * cidsString = card[@"cids"];
+            NSArray * cids = [cidsString componentsSeparatedByString:@","];
             
-            if (cids.count)
+            if (cids.count && cidsString.length)
             {
+                NSNumber * cidId = @([[cids safetyObjectAtIndex:0] integerValue]);
                 NSArray * array = [self.carwashCouponArray arrayByFilteringOperator:^BOOL(HKCoupon *obj) {
                     
-                    return [obj.couponId isEqualToNumber:[cids safetyObjectAtIndex:0]];
+                    return [obj.couponId isEqualToNumber:cidId];
                 }];
                 if (array.count && self.needRechooseCarwashCoupon)
                 {
                     payVc.selectCarwashCoupouArray = [NSMutableArray arrayWithObject:[array safetyObjectAtIndex:0]];
                     payVc.couponType = CouponTypeCZBankCarWash;
                 }
+            }
+            else
+            {
+                payVc.selectCarwashCoupouArray = [NSMutableArray array];
+                payVc.couponType = CouponTypeNone;
             }
             [payVc setPaymentChannel:PaymentChannelCZBCreditCard];
             [payVc tableViewReloadData];

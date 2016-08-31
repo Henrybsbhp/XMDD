@@ -21,6 +21,8 @@
 
 // 九宫格按钮的dispoable数据，控制点击事件释放
 @property (nonatomic, strong)NSMutableArray * disposableArray;
+@property (nonatomic)CGFloat itemWidth;
+@property (nonatomic)CGFloat itemHeight;
 
 @end
 
@@ -39,32 +41,22 @@
         HomeItem *item = [self.moduleArray safetyObjectAtIndex:i];
         NSInteger itemTag = 20101 + i;
         FLAnimatedImageView * itemView = (FLAnimatedImageView *)[containView searchViewWithTag:itemTag];
-        itemView.hidden = NO;
         
-        
-        NSInteger iconNewTag = 2010101 + i;
-        UIImageView * iconImageView = (UIImageView *)[itemView searchViewWithTag:iconNewTag];
-        BOOL isNewFlag = ((![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]]) && item.isNewFlag);
-        BOOL isHotFlag = item.isHotFlag;
-        NSString * iconImageName = isHotFlag ? @"hp_hot_icon_330" : @"hp_new_icon_330";
-        iconImageView.image = [UIImage imageNamed:iconImageName];
-        iconImageView.hidden = (!isNewFlag) && (!isHotFlag);
-        
-        [self requestHomePicWithBtn:itemView andUrl:item.homeItemPicUrl andDefaultPic:item.defaultImageName errPic:item.defaultImageName];
-        
-        //先移除手势
-        for (UIGestureRecognizer *recognizer in itemView.gestureRecognizers) {
-            [itemView removeGestureRecognizer:recognizer];
+        if (itemView)
+        {
+            [self refreshExistItemView:itemView andItem:item andIndex:i];
         }
-        UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] init];
-        RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
-            
-            [self tapGestureSubscribeWith:item andIconImageView:iconImageView];
-        }];
-        [itemView addGestureRecognizer:tapGesture];
-        [self.disposableArray safetyAddObject:disposable];
+        else
+        {
+            [self mainButtonWithSubmudule:item
+                                    index:i
+                              inContainer:containView
+                                    width:self.itemWidth
+                                   height:self.itemHeight];
+        }
+        
     }
-    /// 如果只有7个或者8个，把多余的隐藏
+    /// 如果少于制定个数，把多余的隐藏
     for (UIView * view in containView.subviews)
     {
         if ([view isKindOfClass:[FLAnimatedImageView class]])
@@ -80,6 +72,8 @@
 
 - (void)setupSquaresViewWithContainView:(UIView *)containView andItemWith:(CGFloat)width andItemHeigth:(CGFloat)height
 {
+    self.itemWidth = width;
+    self.itemHeight = height;
     for (NSInteger i = 0; i < self.moduleArray.count; i++)
     {
         HomeItem *item = [self.moduleArray safetyObjectAtIndex:i];
@@ -230,6 +224,32 @@
 - (void)jumpToViewControllerByUrl:(NSString *)url
 {
     [gAppMgr.navModel pushToViewControllerByUrl:url];
+}
+
+- (void)refreshExistItemView:(FLAnimatedImageView *)itemView andItem:(HomeItem *)item andIndex:(NSInteger)i
+{
+    itemView.hidden = NO;
+    NSInteger iconNewTag = 2010101 + i;
+    UIImageView * iconImageView = (UIImageView *)[itemView searchViewWithTag:iconNewTag];
+    BOOL isNewFlag = ((![gAppMgr getElementReadStatus:[NSString stringWithFormat:@"%@%@",HomeSubmuduleReadedKey,item.homeItemId]]) && item.isNewFlag);
+    BOOL isHotFlag = item.isHotFlag;
+    NSString * iconImageName = isHotFlag ? @"hp_hot_icon_330" : @"hp_new_icon_330";
+    iconImageView.image = [UIImage imageNamed:iconImageName];
+    iconImageView.hidden = (!isNewFlag) && (!isHotFlag);
+    
+    [self requestHomePicWithBtn:itemView andUrl:item.homeItemPicUrl andDefaultPic:item.defaultImageName errPic:item.defaultImageName];
+    
+    //先移除手势
+    for (UIGestureRecognizer *recognizer in itemView.gestureRecognizers) {
+        [itemView removeGestureRecognizer:recognizer];
+    }
+    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] init];
+    RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
+        
+        [self tapGestureSubscribeWith:item andIconImageView:iconImageView];
+    }];
+    [itemView addGestureRecognizer:tapGesture];
+    [self.disposableArray safetyAddObject:disposable];
 }
 
 

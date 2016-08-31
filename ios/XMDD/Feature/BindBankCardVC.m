@@ -49,10 +49,6 @@
     [super viewDidLoad];
     self.smsModel = [[HKSMSModel alloc] init];
     
-    if (IOSVersionGreaterThanOrEqualTo(@"8.0")) {
-        self.tableView.estimatedRowHeight = 26;
-        self.tableView.rowHeight = UITableViewAutomaticDimension;
-    }
     self.promptLb.numberOfLines = 2;
 }
 
@@ -274,14 +270,8 @@
         
         if (indexPath.row == 0) {
             
-            if (IOSVersionGreaterThanOrEqualTo(@"8.0")) {
-                
-                return _firstRowVisible ? UITableViewAutomaticDimension : 0;
-                
-            }
-            
             UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"AlertCell"];
-            UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:100];
+            UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
             CGSize size = [tipsLabel.text labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 36 font:[UIFont systemFontOfSize:13]];
             CGFloat height = size.height + 4;
             height = MAX(height, 20);
@@ -397,7 +387,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"AlertCell"];
     UILabel * lb = [cell viewWithTag:101];
-    lb.numberOfLines = 1;
+    lb.numberOfLines = 0;
     
     return cell;
 }

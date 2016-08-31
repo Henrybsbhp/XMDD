@@ -889,11 +889,11 @@
         field.text = [newtext uppercaseString];
         self.curCar.licenceSuffix = field.text;
         
-        if (field.text.length == 6 && !self.curCar.detailModel)
-        {
-            [self showPickAutomobileBrandVC];
-            [field endEditing:YES];
-        }
+//        if (field.text.length == 6 && !self.curCar.detailModel)
+//        {
+////            [self showPickAutomobileBrandVC];
+//            [field endEditing:YES];
+//        }
         
     }];
 }

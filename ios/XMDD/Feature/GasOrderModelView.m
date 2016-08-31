@@ -97,6 +97,11 @@
         
         gasCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
             @strongify(self);
+            if (order.cardType == 1) {
+                [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan10"}];
+            } else {
+                [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan9"}];
+            }
             if ([order.tradeType isEqualToString:@"FQJY"]) {
                 [self actionJumpToDetailVCWithModel:order];
             }
@@ -114,12 +119,12 @@
             
             NSDate *date = [NSDate dateWithUTS:@(order.payedTime)];
             if (order.cardType == 1) {
-                brandImageView.image = [UIImage imageNamed:@"gas_icon_cnpc"];
-            } else {
                 brandImageView.image = [UIImage imageNamed:@"gas_icon_snpn"];
+            } else {
+                brandImageView.image = [UIImage imageNamed:@"gas_icon_cnpc"];
             }
             
-            titleLabel.text = order.cardType == 1 ? @"中石油" : @"中石化";
+            titleLabel.text = order.cardType == 1 ? @"中石化" : @"中石油";
             statusLabel.text = order.statusDesc;
             cardNumLabel.text = [order.gasCardNum splitByStep:4 replacement:@" "];
             originalPriceLabel.text = [NSString stringWithFormat:@"¥%@", order.chargeMoney];

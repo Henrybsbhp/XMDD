@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -164,6 +164,7 @@
                                                 <constraint firstItem="gL7-MM-inO" firstAttribute="top" secondItem="oqy-tK-K7w" secondAttribute="top" id="DJ5-EP-48f"/>
                                                 <constraint firstItem="oqy-tK-K7w" firstAttribute="leading" secondItem="gL7-MM-inO" secondAttribute="trailing" constant="5" id="IlB-VE-mBS"/>
                                                 <constraint firstItem="W0w-U7-Naq" firstAttribute="top" secondItem="C8W-dO-wzY" secondAttribute="top" constant="5" id="V6W-qM-Vow"/>
+                                                <constraint firstItem="oqy-tK-K7w" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="W0w-U7-Naq" secondAttribute="trailing" constant="10" id="VZh-Ud-n6A"/>
                                                 <constraint firstAttribute="centerY" secondItem="W0w-U7-Naq" secondAttribute="centerY" id="bgg-dk-bZZ"/>
                                                 <constraint firstItem="W0w-U7-Naq" firstAttribute="top" secondItem="C8W-dO-wzY" secondAttribute="top" constant="14" id="cnh-Ip-RVX"/>
                                                 <constraint firstItem="gL7-MM-inO" firstAttribute="top" secondItem="C8W-dO-wzY" secondAttribute="top" constant="5" id="mTJ-0P-sb9"/>

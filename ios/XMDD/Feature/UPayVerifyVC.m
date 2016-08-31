@@ -25,6 +25,7 @@
 @property (strong, nonatomic) CKList *dataSource;
 @property (strong, nonatomic) NSString *vcode;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *upayLogoHeight;
 @end
 
 @implementation UPayVerifyVC
@@ -44,7 +45,6 @@
     [super viewDidLoad];
     
     [self setupDataSource];
-    
 }
 
 #pragma mark - Setup
@@ -82,7 +82,7 @@
     MyBankCard *model = self.bankCardInfo.firstObject;
     op.req_tradeno = self.tradeNo;
     op.req_tokenid = model.tokenID;
-    op.req_vcode = self.vcode;
+    op.req_vcode = self.vcode.length == 0 ? self.smsModel.inputVcodeField.text : self.vcode;
     
     [[[op rac_postRequest]initially:^{
         
@@ -170,32 +170,23 @@
         
         UIImageView *imgView = [cell viewWithTag:103];
         
-        [[RACObserve(self.smsModel.getVcodeButton, enabled)takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+        if (self.bankCardInfo.count > 1 && self.smsModel.getVcodeButton.enabled && [self.smsModel countDownIfNeededWithVcodeType:HKVcodeTypeUPay])
+        {
+            imgView.hidden = NO;
             
-            if (self.bankCardInfo.count > 1 && self.smsModel.getVcodeButton.enabled)
-            {
-                imgView.hidden = NO;
-                
-                NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
-                constraint.constant = 40;
-            }
-            else
-            {
-                imgView.hidden = YES;
-                
-                NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
-                constraint.constant = 15;
-            }
+            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
+            constraint.constant = 40;
+        }
+        else
+        {
+            imgView.hidden = YES;
             
-        }];
+            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
+            constraint.constant = 15;
+        }
         
-        [UIView animateWithDuration:0.3 animations:^{
-            
-            @strongify(self)
-            
-            imgView.image = self.openMore ? [UIImage imageNamed:@"arrow_up"] : [UIImage imageNamed:@"arrow_down"];
-            
-        }];
+        imgView.image = self.openMore ? [UIImage imageNamed:@"arrow_up"] : [UIImage imageNamed:@"arrow_down"];
+        
         
     });
     
@@ -217,8 +208,6 @@
 - (CKDict *)otherCardCellDataWithModel:(MyBankCard *)model
 {
     
-    @weakify(self)
-    
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"OtherCardCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -226,10 +215,6 @@
     });
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
-        
-        @strongify(self)
-        
-        MyBankCard *model = [self.bankCardInfo safetyObjectAtIndex:indexPath.row];
         
         UILabel *bankLabel = [cell viewWithTag:101];
         bankLabel.text = model.issueBank;
@@ -240,8 +225,6 @@
     });
     
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        
-        @strongify(self)
         
         // 如果出现可选择其它银行卡，indexPath.row一定不会越界
         // 移动银行卡位置
@@ -277,6 +260,9 @@
         UIButton *button = [cell viewWithTag:101];
         button.hidden = bankCard.changephoneurl.length == 0;
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            
+            @strongify(self)
+            
             DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
             vc.tradeno = self.tradeNo;
             vc.url = [NSString stringWithFormat:@"%@/%@",bankCard.changephoneurl,self.tradeNo];
@@ -327,6 +313,7 @@
         [button setTitleColor:HEXCOLOR(@"#CFDBD3") forState:UIControlStateDisabled];
         
         self.smsModel.getVcodeButton = button;
+        [self.smsModel countDownIfNeededWithVcodeType:HKVcodeTypeUPay];
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             
             @strongify(self)
@@ -344,13 +331,22 @@
             UIImageView *imgView = [cell viewWithTag:103];
             imgView.hidden = YES;
             
-            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
-            
             MyBankCard *bankCard = self.bankCardInfo.firstObject;
             [self getUnionSmsWithTokenID:bankCard.tokenID];
             [textField becomeFirstResponder];
-
+            
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+            
+        }];
+        
+        [RACObserve(self.smsModel.getVcodeButton, enabled) subscribeNext:^(id x) {
+            
+            @strongify(self)
+            
+            if (self.smsModel.getVcodeButton.enabled)
+            {
+                [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+            }
             
         }];
         
@@ -387,6 +383,8 @@
 - (CKDict *)confirmCellData
 {
     
+    @weakify(self)
+    
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"ConfirmCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -395,13 +393,17 @@
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
+        
         UIButton *button = [cell viewWithTag:100];
         button.layer.cornerRadius = 5;
         button.layer.masksToBounds = YES;
         
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
             
-            if (self.vcode.length == 0)
+            @strongify(self)
+            
+            if (self.vcode.length == 0 && self.smsModel.inputVcodeField.text.length == 0)
             {
                 [gToast showMistake:@"请填写验证码"];
             }
@@ -481,7 +483,19 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return CGFLOAT_MIN;
+    if (section == self.dataSource.count - 1)
+    {
+        return 80;
+    }
+    else
+    {
+        return CGFLOAT_MIN;
+    }
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    self.upayLogoHeight.constant = scrollView.contentOffset.y > 0 ? (scrollView.contentOffset.y + 30) : 30;
 }
 
 #pragma mark - Action
@@ -567,7 +581,7 @@
     // 测试
     RACSignal *sig = [self.smsModel rac_getUnionCardVcodeWithTokenID:tokenID andTradeNo:self.tradeNo];
     // 60s等待时间
-    [[self.smsModel rac_startGetLongIntervalVcodeWithFetchVcodeSignal:sig andPhone:gAppMgr.myUser.userID]subscribeError:^(NSError *error) {
+    [[self.smsModel rac_startGetLongIntervalVcodeWithFetchVcodeSignal:sig andPhone:gAppMgr.myUser.userID] subscribeError:^(NSError *error) {
         
         [gToast showError:error.domain];
         
@@ -611,8 +625,9 @@
     if (!_smsModel)
     {
         _smsModel = [[HKSMSModel alloc] init];
+        _smsModel.getVcodeButton = [[UIButton alloc]init];
+        _smsModel.getVcodeButton.enabled = YES;
         [_smsModel setupWithTargetVC:self mobEvents:nil];
-        [_smsModel countDownIfNeededWithVcodeType:HKVcodeTypeLogin];
     }
     return _smsModel;
 }

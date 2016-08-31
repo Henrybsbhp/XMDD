@@ -8,11 +8,15 @@
 
 #import "UPApplePayHelper.h"
 
-
 // 接入模式  "00": 表示生产环境   "01": 表示测试环境
-#ifdef DEBUG
+#if XMDDEnvironment==0
+//开发环境
+    #define UPApplePayPaymentMode @"01"
+#elif XMDDEnvironment==1
+//测试环境
     #define UPApplePayPaymentMode @"01"
 #else
+//正式环境
     #define UPApplePayPaymentMode @"00"
 #endif
 

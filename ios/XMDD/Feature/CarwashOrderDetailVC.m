@@ -283,17 +283,11 @@
     }
     if (indexPath.section == 1 && indexPath.row == 1)
     {
-        if (self.order.comment.length == 0)
-        {
-            return 90;
-        }
-        else
-        {
-            
-            CGSize size1 = [self.order.comment labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 75 font:[UIFont systemFontOfSize:14]];
-            CGSize size2 = [self.order.servicename labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 145 font:[UIFont systemFontOfSize:14]];
-            return ceil(size1.height + size2.height + 80);
-        }
+        CGSize size1 = [self.order.comment labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 75 font:[UIFont systemFontOfSize:14]];
+        CGSize size2 = [self.order.servicename labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 145 font:[UIFont systemFontOfSize:14]];
+        CGFloat height1 = self.order.comment.length == 0 ? 0 : size1.height;
+        CGFloat height2 = self.order.servicename.length == 0 ? 0 : size2.height;
+        return ceil(height1 + height2 + 80);
     }
     return 40;
 }
@@ -387,7 +381,7 @@
     RACTuple *item = [self.detailItems safetyObjectAtIndex:(indexPath.row - 1)];
     titleL.text = item.first;
     detailL.text = item.second;
-
+    
     int lineMask = CKViewBorderDirectionNone;
     if (indexPath.row == 0)
     {

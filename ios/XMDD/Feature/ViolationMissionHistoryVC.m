@@ -19,12 +19,13 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
-@property (strong, nonatomic) DetailWebVC *webVC;
 
+@property (strong, nonatomic) DetailWebVC *webVC;
 @property (strong, nonatomic) NSArray *tips;
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) NSDictionary *statusDic;
 @property (strong, nonatomic) NSIndexPath *indexPath;
+@property (assign, nonatomic) CGFloat tipHeight;
 /**
  *  记录上次页面偏移量。保证后台更新后位置不变。
  */
@@ -49,7 +50,7 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     if (self.offset.y != 0)
     {
@@ -57,14 +58,14 @@
     }
 }
 
--(void)viewWillDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
     self.offset = self.tableView.contentOffset;
 }
 
 #pragma mark - Setup
 
--(void)setupNotify
+- (void)setupNotify
 {
     @weakify(self)
     
@@ -88,7 +89,7 @@
     
 }
 
--(void)setupUI
+- (void)setupUI
 {
     NSString *btnTitle = @"请选择您需要支付的代办订单";
     
@@ -101,7 +102,7 @@
     self.bottomViewHeight.constant = 0;
 }
 
--(void)setupNavi
+- (void)setupNavi
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.navigationItem.leftBarButtonItem = back;
@@ -109,7 +110,7 @@
 
 #pragma mark - Network
 
--(void)getViolationCommissionApply
+- (void)getViolationCommissionApply
 {
     @weakify(self)
     GetViolationCommissionApplyOp *op = [GetViolationCommissionApplyOp operation];
@@ -132,9 +133,17 @@
         
         [self.view stopActivityAnimation];
         
-        if (op.rsp_lists.count == 0)
+        if (op.rsp_lists.count == 0 && op.rsp_tipslist.count == 0)
         {
-            [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"暂无代办记录"];
+            [self.view showImageEmptyViewWithImageName:@"def_withoutViolationOrder" text:@"暂无代办记录"];
+        }
+        else if (op.rsp_tipslist.count != 0 && op.rsp_lists.count == 0)
+        {
+            self.tableView.hidden = NO;
+            self.tips = op.rsp_tipslist;
+            [self showDefaultEmptyView];
+            [self.tableView reloadData];
+            
         }
         else
         {
@@ -167,17 +176,17 @@
 
 #pragma mark - UITableViewDataSource
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.dataSource.count + self.tips.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     @weakify(self)
     UITableViewCell *cell = nil;
@@ -225,6 +234,8 @@
             
             @strongify(self)
             
+            [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"wodedaiban7"}];
+            
             [self configRadioBtnWithIndexPath:indexPath];
             
         }];
@@ -234,7 +245,7 @@
 
 #pragma mark - UITableViewDelegate
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     if (indexPath.row < self.tips.count)
@@ -255,7 +266,7 @@
     }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     @weakify(self)
@@ -263,6 +274,9 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
+        
+        [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"wodedaiban3"}];
+        
         NSInteger index = indexPath.row - self.tips.count;
         NSDictionary *dic = self.dataSource[index];
         ViolationCommissionStateVC *vc = [UIStoryboard vcWithId:@"ViolationCommissionStateVC" inStoryboard:@"Violation"];
@@ -271,6 +285,9 @@
     }
     else
     {
+        
+        [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"wodedaiban6"}];
+        
         NSDictionary *dic = self.tips[indexPath.row];
         ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Violation"];
         vc.usercarID = (NSNumber *)dic[@"usercarid"];
@@ -287,6 +304,38 @@
 
 #pragma mark - Utility
 
+// 当无申请代办业户但是信息不完整时显示
+-(void)showDefaultEmptyView
+{
+    UIView *view = [[UIView alloc]init];
+    [self.view addSubview:view];
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(0);
+        make.height.mas_equalTo(self.view.bounds.size.height - self.tipHeight);
+        make.bottom.mas_equalTo(0);
+    }];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"def_withoutViolationOrder"]];
+    imgView.contentMode = UIViewContentModeScaleAspectFill;
+    [view addSubview:imgView];
+    [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.center.mas_equalTo(0);
+        
+    }];
+
+    UILabel *label = [[UILabel alloc]init];
+    label.text = @"暂无代办记录";
+    [view addSubview:label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.mas_equalTo(imgView.mas_bottom);
+        
+        make.centerY.mas_equalTo(0);
+        
+    }];
+}
+
 // 重置底部按钮
 - (void)configButtomView
 {
@@ -301,7 +350,7 @@
     self.bottomViewHeight.constant = 0;
 }
 
--(void)configRadioBtnWithIndexPath:(NSIndexPath *)indexPath
+- (void)configRadioBtnWithIndexPath:(NSIndexPath *)indexPath
 {
     if (self.indexPath && (self.indexPath.row != indexPath.row || self.indexPath.section != indexPath.section))
     {
@@ -322,7 +371,7 @@
     [self configCommitBtn];
 }
 
--(void)configCommitBtn
+- (void)configCommitBtn
 {
     if (!self.indexPath)
     {
@@ -340,7 +389,18 @@
     
 }
 
--(NSInteger)calculateDelegateFee
+- (void)calculateTipsHeight
+{
+    self.tipHeight = 0;
+    for (NSDictionary *dic in self.tips)
+    {
+        CGFloat height = 25 + ceil([(NSString *)dic[@"tip"] labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 80
+                                                                          font:[UIFont systemFontOfSize:12]].height);
+        self.tipHeight += height;
+    }
+}
+
+- (NSInteger)calculateDelegateFee
 {
     NSDictionary *dic = nil;
     
@@ -363,19 +423,27 @@
 
 - (IBAction)actionJumpToGuideVC:(id)sender
 {
+    [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"wodedaiban2"}];
+    
     [self.navigationController pushViewController:self.webVC animated:YES];
 }
 
 - (IBAction)actionCommit:(id)sender
 {
+    
+    [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"wodedaiban8"}];
+    
     NSDictionary *dic = self.dataSource[self.indexPath.row];
     ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Violation"];
     vc.recordID = (NSNumber *)dic[@"recordid"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
--(void)actionBack
+- (void)actionBack
 {
+    
+    [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"wodedaiban1"}];
+    
     if (self.router.userInfo[kOriginRoute])
     {
         UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
@@ -389,7 +457,7 @@
 
 #pragma mark - Lazyload
 
--(NSDictionary *)statusDic
+- (NSDictionary *)statusDic
 {
     if (!_statusDic)
     {
@@ -405,7 +473,7 @@
     return _statusDic;
 }
 
--(DetailWebVC *)webVC
+- (DetailWebVC *)webVC
 {
     if (!_webVC)
     {

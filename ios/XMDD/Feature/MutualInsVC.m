@@ -35,6 +35,7 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 
 @property (nonatomic, strong) UIView *tipsContainerView;
+@property (nonatomic, strong) UIButton *extButton;
 @property (nonatomic, strong) MutualInsTipsInfoExtendedView *extView;
 @property (nonatomic, assign) NSInteger repeatCnt;
 @property (nonatomic, assign) NSInteger currentLabelMark;
@@ -170,11 +171,14 @@
 
 - (void)actionGotoCalculateVC
 {
-    MutInsCalculateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateVC"];
-    vc.router.userInfo = [[CKDict alloc] init];
-    vc.router.userInfo[kOriginRoute] = self.router;
-    
-    [self.router.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self])
+    {
+        MutInsCalculateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateVC"];
+        vc.router.userInfo = [[CKDict alloc] init];
+        vc.router.userInfo[kOriginRoute] = self.router;
+        
+        [self.router.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)actionGotoSystemGroupListVC
@@ -220,14 +224,64 @@
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
+/// 顶部 tipsContainerView 的手势事件
+- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer
+{
+    if (!self.extButton.selected) {
+        self.extButton.selected = YES;
+        self.extView.hidden = NO;
+        CGRect frame = self.extView.frame;
+        frame.size.height= 174;
+        [self.tableView bringSubviewToFront:self.tipsContainerView];
+        [UIView animateWithDuration:0.2 animations:^{
+            self.extView.frame = frame;
+            [self.extView layoutIfNeeded];
+        }];
+    } else {
+        self.extButton.selected = NO;
+        CGRect frame = self.extView.frame;
+        frame.size.height = 0;
+        [UIView animateWithDuration:0.2 animations:^{
+            self.extView.frame = frame;
+            [self.extView layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            self.extView.hidden = YES;
+        }];;
+    }
+}
+
 #pragma mark - Setups
 /// 设置顶部消息 View
 - (void)setupTableViewBannerTipsView
 {
-    NSString *string1 = [NSString stringWithFormat:@"参加人数合计%ld人", (long)[self.totalTipsArray[0] integerValue]];
-    NSString *string2 = [NSString stringWithFormat:@"互助金合计%@元", self.totalTipsArray[1]];
-    NSString *string3 = [NSString stringWithFormat:@"补偿次数合计%ld次", (long)[self.totalTipsArray[2] integerValue]];
-    NSString *string4 = [NSString stringWithFormat:@"补偿金额合计%@元", self.totalTipsArray[3]];
+    NSMutableString *mutualSum = [NSMutableString stringWithFormat:@"%ld", (long)[self.totalTipsArray[1] integerValue]];
+    NSMutableString *compensationSum = [NSMutableString stringWithFormat:@"%ld", (long)[self.totalTipsArray[3] integerValue]];
+    NSMutableString *peoCnt = [NSMutableString stringWithFormat:@"%ld", (long)[self.totalTipsArray[0] integerValue]];
+    NSMutableString *compCnt = [NSMutableString stringWithFormat:@"%ld", (long)[self.totalTipsArray[2] integerValue]];
+    if (mutualSum.length >= 5) {
+        [mutualSum deleteCharactersInRange:NSMakeRange(mutualSum.length - 4, 4)];
+        [mutualSum appendString:@"万"];
+    }
+    
+    if (compensationSum.length >= 5) {
+        [compensationSum deleteCharactersInRange:NSMakeRange(compensationSum.length - 4, 4)];
+        [compensationSum appendString:@"万"];
+    }
+    
+    if (peoCnt.length >= 5) {
+        [peoCnt deleteCharactersInRange:NSMakeRange(compensationSum.length - 4, 4)];
+        [peoCnt appendString:@"万"];
+    }
+    
+    if (compCnt.length >= 5) {
+        [compCnt deleteCharactersInRange:NSMakeRange(compCnt.length - 4, 4)];
+        [compCnt appendString:@"万"];
+    }
+    
+    NSString *string1 = [NSString stringWithFormat:@"参加人数合计%@人", peoCnt];
+    NSString *string2 = [NSString stringWithFormat:@"互助金合计%@元", mutualSum];
+    NSString *string3 = [NSString stringWithFormat:@"补偿次数合计%@次", compCnt];
+    NSString *string4 = [NSString stringWithFormat:@"补偿金额合计%@元", compensationSum];
     NSArray *stringArray = @[string1, string2, string3, string4];
     
     self.tipsContainerView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -246,6 +300,8 @@
     UIButton *extButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 40, 0, 40, 39)];
     [extButton setImage:[UIImage imageNamed:@"common_grayArrow_down"] forState:UIControlStateNormal];
     [extButton setImage:[UIImage imageNamed:@"common_grayArrow_up"] forState:UIControlStateSelected];
+    extButton.userInteractionEnabled = NO;
+    self.extButton = extButton;
     
     [self.tipsContainerView addSubview:marqueeLabelView];
     [self.tipsContainerView addSubview:tipsImageView];
@@ -254,29 +310,8 @@
     [self.tipsContainerView addSubview:extButton];
     self.repeatCnt = 0;
     
-    @weakify(self);
-    [[extButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        if (!extButton.selected) {
-            extButton.selected = YES;
-            self.extView.hidden = NO;
-            CGRect frame = self.extView.frame;
-            frame.origin.y = 41;
-            [self.tableView bringSubviewToFront:self.tipsContainerView];
-            [UIView animateWithDuration:0.2 animations:^{
-                self.extView.frame = frame;
-            }];
-        } else {
-            extButton.selected = NO;
-            CGRect frame = self.extView.frame;
-            frame.origin.y -= 174 + 1;
-            [UIView animateWithDuration:0.2 animations:^{
-                self.extView.frame = frame;
-            } completion:^(BOOL finished) {
-                self.extView.hidden = YES;
-            }];;
-        }
-    }];
+    UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    [self.tipsContainerView addGestureRecognizer:singleFingerTap];
     
     [marqueeLabelView showScrollingMessageView];
     
@@ -284,7 +319,6 @@
     self.tableView.tableHeaderView = self.tipsContainerView;
     self.tableView.tableHeaderView.clipsToBounds = YES;
 }
-
 
 /// 下拉刷新设置
 - (void)setupRefreshView
@@ -294,7 +328,7 @@
         @strongify(self);
         
         CGRect frame = self.extView.frame;
-        frame.origin.y -= 174 + 1;
+        frame.size.height = 0;
         self.extView.frame = frame;
         self.extView.hidden = YES;
         
@@ -453,13 +487,13 @@
         else
         {
             self.isEmptyGroup = YES;
-            self.dataSource = $($([self setupCalculateCell]));
+            self.dataSource = $($([self setupBannerAdCell], [self setupCalculateCell]));
             [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:self.minsStore.couponDict sourceDict:nil])) forKey:nil];
             [self.tableView reloadData];
         }
         
         [self setItemList];
-        self.totalTipsArray =@[@(self.minsStore.totalMemberCnt), self.minsStore.totalPoolAmt, @(self.minsStore.totalClaimCnt), self.minsStore.totalClaimAmt];
+        self.totalTipsArray = @[@(self.minsStore.totalMemberCnt), self.minsStore.totalPoolAmt ?: @"", @(self.minsStore.totalClaimCnt), self.minsStore.totalClaimAmt ?: @""];
         [self setupTableViewBannerTipsView];
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
@@ -1441,11 +1475,11 @@
 - (MutualInsTipsInfoExtendedView *)extView
 {
     if (!_extView) {
-        _extView = [[MutualInsTipsInfoExtendedView alloc] initWithFrame:CGRectMake(0, -(174 + 41), gAppMgr.deviceInfo.screenSize.width, 174)];
+        _extView = [[MutualInsTipsInfoExtendedView alloc] initWithFrame:CGRectMake(0, 41, gAppMgr.deviceInfo.screenSize.width, 0)];
         _extView.peopleSumString = [NSString stringWithFormat:@"%ld人", (long)[self.totalTipsArray[0] integerValue]];
-        _extView.moneySumString = [NSString stringWithFormat:@"%@元", self.totalTipsArray[1]];
+        _extView.moneySumString = [NSString stringWithFormat:@"%ld元", (long)[self.totalTipsArray[1] integerValue]];
         _extView.countingString = [NSString stringWithFormat:@"%ld次", (long)[self.totalTipsArray[2] integerValue]];
-        _extView.claimSumString = [NSString stringWithFormat:@"%@元", self.totalTipsArray[3]];
+        _extView.claimSumString = [NSString stringWithFormat:@"%ld元", (long)[self.totalTipsArray[3] integerValue]];
         [_extView showInfo];
         _extView.hidden = YES;
         [self.tableView addSubview:_extView];

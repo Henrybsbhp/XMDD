@@ -121,17 +121,12 @@
         make.width.mas_equalTo(width);
         make.height.mas_equalTo(0.24 * width);
     }];
-    self.placeholderLb = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.placeholderLb = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 100, 20)];
     _placeholderLb.text = @"其他建议或意见";
     _placeholderLb.textColor = [UIColor colorWithHex:@"#e3e3e3" alpha:1.0];
     _placeholderLb.font = [UIFont systemFontOfSize:12];
     _placeholderLb.hidden = NO;
     [self.commentsTV addSubview:self.placeholderLb];
-    [self.placeholderLb mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.commentsTV.mas_right).offset(5);
-        make.top.equalTo(self.commentsTV).offset(5);
-        make.size.mas_equalTo(CGSizeMake(100, 20));
-    }];
     
     self.submitBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     _submitBtn.backgroundColor = [UIColor colorWithHex:@"#ffa800" alpha:1.0];

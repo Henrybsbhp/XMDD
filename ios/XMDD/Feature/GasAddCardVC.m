@@ -59,6 +59,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self setupNavigationBar];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,7 +67,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
 #pragma mark - Action
+- (void)actionBack
+{
+    [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka1"}];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)actionSwitch:(UIButton *)sender
 {
     if (sender.tag != self.tag) {
@@ -87,10 +100,10 @@
     
     
     if (sender.tag == 1001) {
-        [MobClick event:@"rp504_1"];
+        [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka2"}];
     }
     else {
-        [MobClick event:@"rp504_2"];
+        [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka3"}];
     }
     self.curCard = sender.tag == 1001 ? self.snpnCard : self.cnpcCard;
     
@@ -101,6 +114,8 @@
 
 - (IBAction)actionAddCard:(id)sender
 {
+    [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka4"}];
+    
     [self.view endEditing:NO];
     
     if (self.curCard.gascardno.length != [self.curCard maxCardNumberLength]) {
@@ -154,10 +169,12 @@
             }
         }
         
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"返回" color:kGrayTextColor clickBlock:nil];
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"返回" color:kGrayTextColor clickBlock:^(id alertVC) {
+            [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka5"}];
+        }];
         
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认无误" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
-            [MobClick event:@"rp504_5"];
+            [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka6"}];
             
             //    if (![self.curCard.gascardno isEqual:self.curCard.customObject]) {
             //        [self shakeTextFieldCellAtRow:2];
