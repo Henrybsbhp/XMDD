@@ -133,9 +133,9 @@
             NSString *realText = originText.length > maxLength ? [originText substringToIndex:maxLength] : originText;
             self.cardNum = realText;
             
-            if (realText.length == 12) {
+            if (realText.length == 12 || realText.length == 16 || realText.length == 19) {
                 [self getUserInfoBaseOnTextField:textField withCardNumber:realText];
-            } else if (realText.length < 12) {
+            } else if (realText.length == 11 || realText.length == 0) {
                 self.issueBankName = @"";
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
                 [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -183,15 +183,14 @@
         bankNameLabel.text = self.issueBankName;
         
         NSString *bankURL = gStoreMgr.configStore.systemConfig[@"supportbankurl"];
+        checkButton.hidden = bankURL.length > 0 ? NO : YES;
         [RACObserve(self, issueBankName) subscribeNext:^(NSString *string) {
             if (string.length > 0) {
                 logoImageView.hidden = NO;
                 bankNameLabel.hidden = NO;
-                checkButton.hidden = bankURL.length > 0 ? NO : YES;
             } else {
                 logoImageView.hidden = YES;
                 bankNameLabel.hidden = YES;
-                checkButton.hidden = YES;
                 logoImageView.image = nil;
                 bankNameLabel.text = nil;
             }
