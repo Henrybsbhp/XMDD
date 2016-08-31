@@ -22,6 +22,8 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *fetchedData;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *upayLogoHeight;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 @property (nonatomic, strong) ADViewController *advc;
 
@@ -331,6 +333,11 @@
 {
     self.isEditing = YES;
     return @"解除绑定";
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    self.upayLogoHeight.constant = scrollView.contentOffset.y > 0 ? (scrollView.contentOffset.y + 30) : 30;
 }
 
 #pragma mark - Utilities

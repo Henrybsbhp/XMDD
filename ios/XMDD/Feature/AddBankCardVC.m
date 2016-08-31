@@ -19,6 +19,7 @@
 @property (nonatomic, copy) NSString *issueBankName;
 @property (nonatomic, copy) NSString *bankLogoURL;
 @property (nonatomic, copy) NSString *cardType;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *upayLogoHeight;
 
 @end
 
@@ -245,6 +246,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 10;
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    self.upayLogoHeight.constant = scrollView.contentOffset.y > 0 ? (scrollView.contentOffset.y + 30) : 30;
 }
 
 
