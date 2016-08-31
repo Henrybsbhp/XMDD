@@ -611,7 +611,7 @@
             [helper resetForWeChatWithTradeNumber:op.rsp_tradeno andPayInfoModel:op.rsp_payInfoModel.wechatInfo andTradeType:TradeTypeIns];
         } break;
         case PaymentChannelUPpay: {
-            [helper resetForUPPayWithTradeNumber:op.rsp_tradeno andPayInfoModel:op.rsp_payInfoModel andTotalFee:self.insOrder.totoalpay + self.insOrder.forcetaxfee targetVC:self];
+            [helper resetForUPPayWithTradeNumber:op.rsp_tradeno andPayInfoModel:op.rsp_payInfoModel andTotalFee:op.rsp_total targetVC:self];
         } break;
         case PaymentChannelApplePay: {
             [helper resetForUPApplePayWithTradeNumber:op.rsp_tradeno targetVC:self];

@@ -160,7 +160,10 @@
     if ([UPApplePayHelper isApplePayAvailable])
         [array safetyAddObject:apple];
     [array safetyAddObject:alipay];
-    [array safetyAddObject:wechat];
+    if (gPhoneHelper.exsitWechat)
+    {
+        [array safetyAddObject:wechat];
+    }
     if (self.service.shopServiceType == ShopServiceCarWash || self.service.shopServiceType == ShopServiceCarwashWithHeart)
     {
         if (!self.getUserResourcesV2Op.rsp_czBankCreditCard.count)
@@ -759,13 +762,20 @@
         [gToast dismiss];
         [self requestCommentlist];
         
-        if (op.rsp_price > 0)
+        if (op.paychannel == PaymentChannelCZBCreditCard)
         {
-            [self callPaymentHelperWithPayOp:op];
+            [self gotoPaymentSuccessVC];
         }
         else
         {
-            [self gotoPaymentSuccessVC];
+            if (op.rsp_price > 0)
+            {
+                [self callPaymentHelperWithPayOp:op];
+            }
+            else
+            {
+                [self gotoPaymentSuccessVC];
+            }
         }
     } error:^(NSError *error) {
         

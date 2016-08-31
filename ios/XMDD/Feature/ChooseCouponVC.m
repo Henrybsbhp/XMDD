@@ -152,12 +152,9 @@
     if (vc && [vc isKindOfClass:[PayForGasViewController class]])
     {
         PayForGasViewController * pay4GasVC = (PayForGasViewController *)vc;
-        if (self.selectedCouponArray.count)
-        {
-            HKCoupon * coupon = [self.selectedCouponArray safetyObjectAtIndex:0];
-            pay4GasVC.selectGasCoupouArray = self.selectedCouponArray;
-            pay4GasVC.couponType = coupon.conponType;
-        }
+        HKCoupon * coupon = [self.selectedCouponArray safetyObjectAtIndex:0];
+        pay4GasVC.selectGasCoupouArray = self.selectedCouponArray;
+        pay4GasVC.couponType = coupon.conponType;
     }
     if (vc && [vc isKindOfClass:[MutualInsPayViewController class]])
     {
@@ -355,11 +352,18 @@
     {
         if (coupon.lowerLimit <= self.payAmount)
         {
-            self.type = coupon.conponType;
-        
-            [self.selectedCouponArray removeAllObjects];
-            [self.selectedCouponArray addObject:coupon];
-        
+            HKCoupon * originCoupon = [self.selectedCouponArray safetyObjectAtIndex:0];
+            if (originCoupon && [coupon.couponId isEqualToNumber:originCoupon.couponId])
+            {
+                [self.selectedCouponArray removeAllObjects];
+            }
+            else
+            {
+                self.type = coupon.conponType;
+                
+                [self.selectedCouponArray removeAllObjects];
+                [self.selectedCouponArray addObject:coupon];
+            }
             [self actionBack];
         }
         else

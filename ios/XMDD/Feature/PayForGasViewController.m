@@ -187,11 +187,15 @@
         
         self.isLoadingResourse = NO;
         self.gasCouponArray = op.rsp_couponArray;
-        HKCoupon * selectedCoupon = [self.gasCouponArray safetyObjectAtIndex:0];
-        if (selectedCoupon)
+    
+        for (HKCoupon * c in self.gasCouponArray)
         {
-            self.selectGasCoupouArray = [NSMutableArray arrayWithObject:selectedCoupon];
-            self.couponType = selectedCoupon.conponType;
+            if (c.lowerLimit <= self.gasNormalVC.rechargeAmount)
+            {
+                self.selectGasCoupouArray = [NSMutableArray arrayWithObject:c];
+                self.couponType = c.conponType;
+                break;
+            }
         }
         
         [self setupDatasource];
@@ -350,7 +354,7 @@
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
             
-            [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeid andPayInfoModel:paidop.rsp_payInfoModel andTotalFee:[self calculateTotalFee] targetVC:self];
+            [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeid andPayInfoModel:paidop.rsp_payInfoModel andTotalFee:paidop.rsp_total targetVC:self];
             
         } break;
         case PaymentChannelApplePay:{

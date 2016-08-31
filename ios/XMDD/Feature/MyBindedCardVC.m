@@ -16,12 +16,14 @@
 #import "BindBankCardVC.h"
 #import "UnbundlingVC.h"
 #import "BankCardDetailVC.h"
+#import "ADViewController.h"
 
 @interface MyBindedCardVC () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *fetchedData;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
+@property (nonatomic, strong) ADViewController *advc;
 
 @property (nonatomic, assign) BOOL isEditing;
 
@@ -44,6 +46,7 @@
     @weakify(self)
     
     [super viewDidLoad];
+    [self setupAdView];
     
     [self observeTheFetchedDataToDetemineTheHiddenOfBarButtonItem];
     CKAfter (0.5, ^{
@@ -61,9 +64,21 @@
     }];
 }
 
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Setup
+- (void)setupAdView
+{
+    CKAsyncMainQueue(^{
+        self.advc  =[ADViewController vcWithADType:AdvertisementBankCardBinding boundsWidth:self.view.bounds.size.width
+                                          targetVC:self mobBaseEvent:@"rp314_1" mobBaseEventDict:nil];
+        [self.advc reloadDataForTableView:self.tableView];
+    });
 }
 
 #pragma mark - Actions
