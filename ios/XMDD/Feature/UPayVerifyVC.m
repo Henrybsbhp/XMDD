@@ -44,8 +44,6 @@
 {
     [super viewDidLoad];
     
-    self.bankCardInfo = @[[self.bankCardInfo.firstObject copy],[self.bankCardInfo.firstObject copy],[self.bankCardInfo.firstObject copy],[self.bankCardInfo.firstObject copy],[self.bankCardInfo.firstObject copy],[self.bankCardInfo.firstObject copy],[self.bankCardInfo.firstObject copy]];
-    
     [self setupDataSource];
     
     
