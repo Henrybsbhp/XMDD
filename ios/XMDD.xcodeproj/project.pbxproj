@@ -21,6 +21,8 @@
 		1816F4A61ACD3B0900BBCC96 /* SYPaginatorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F49D1ACD3B0900BBCC96 /* SYPaginatorScrollView.m */; };
 		1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F49F1ACD3B0900BBCC96 /* SYPaginatorView.m */; };
 		1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4A11ACD3B0900BBCC96 /* SYPaginatorViewController.m */; };
+		181E2EAC1D766ED600ED13A4 /* RCTLoadingViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2EAB1D766ED600ED13A4 /* RCTLoadingViewManager.m */; };
+		181E2EBE1D766FE500ED13A4 /* HKLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2EBD1D766FE500ED13A4 /* HKLoadingView.m */; };
 		181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */; };
 		181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D981B15919900D38555 /* CXAlertButtonContainerView.m */; };
 		181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9A1B15919900D38555 /* CXAlertButtonItem.m */; };
@@ -981,6 +983,10 @@
 		1816F49F1ACD3B0900BBCC96 /* SYPaginatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPaginatorView.m; sourceTree = "<group>"; };
 		1816F4A01ACD3B0900BBCC96 /* SYPaginatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPaginatorViewController.h; sourceTree = "<group>"; };
 		1816F4A11ACD3B0900BBCC96 /* SYPaginatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPaginatorViewController.m; sourceTree = "<group>"; };
+		181E2EAA1D766ED600ED13A4 /* RCTLoadingViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTLoadingViewManager.h; sourceTree = "<group>"; };
+		181E2EAB1D766ED600ED13A4 /* RCTLoadingViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTLoadingViewManager.m; sourceTree = "<group>"; };
+		181E2EBC1D766FE500ED13A4 /* HKLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKLoadingView.h; sourceTree = "<group>"; };
+		181E2EBD1D766FE500ED13A4 /* HKLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKLoadingView.m; sourceTree = "<group>"; };
 		181F6D951B15919900D38555 /* CXAlertBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertBackgroundWindow.h; sourceTree = "<group>"; };
 		181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertBackgroundWindow.m; sourceTree = "<group>"; };
 		181F6D971B15919900D38555 /* CXAlertButtonContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertButtonContainerView.h; sourceTree = "<group>"; };
@@ -2793,6 +2799,23 @@
 			path = SYPaginator;
 			sourceTree = "<group>";
 		};
+		181E2EBB1D766F6900ED13A4 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				18649B231D48A93000F1CCB0 /* HKRefreshControl.h */,
+				18649B241D48A93000F1CCB0 /* HKRefreshControl.m */,
+				18649B4B1D48A93000F1CCB0 /* UIScrollView+RefreshView.h */,
+				18649B4C1D48A93000F1CCB0 /* UIScrollView+RefreshView.m */,
+				18649B4F1D48A93000F1CCB0 /* UIView+DefaultEmptyView.h */,
+				18649B501D48A93000F1CCB0 /* UIView+DefaultEmptyView.m */,
+				18649B511D48A93000F1CCB0 /* UIView+JTLoadingView.h */,
+				18649B521D48A93000F1CCB0 /* UIView+JTLoadingView.m */,
+				181E2EBC1D766FE500ED13A4 /* HKLoadingView.h */,
+				181E2EBD1D766FE500ED13A4 /* HKLoadingView.m */,
+			);
+			name = Loading;
+			sourceTree = "<group>";
+		};
 		181F6D941B15919900D38555 /* CXAlertView */ = {
 			isa = PBXGroup;
 			children = (
@@ -4438,6 +4461,7 @@
 		18649AFE1D48A93000F1CCB0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				181E2EBB1D766F6900ED13A4 /* Loading */,
 				180294E21D6311FC00FC0C05 /* NavigationBar */,
 				183F57D11D4CA6650001E26A /* Badge */,
 				183F57D01D4CA6590001E26A /* Cell */,
@@ -4448,8 +4472,6 @@
 				18649D081D48B85200F1CCB0 /* ProvinceChooseView.xib */,
 				18649B421D48A93000F1CCB0 /* OEButton.h */,
 				18649B431D48A93000F1CCB0 /* OEButton.m */,
-				18649B4F1D48A93000F1CCB0 /* UIView+DefaultEmptyView.h */,
-				18649B501D48A93000F1CCB0 /* UIView+DefaultEmptyView.m */,
 				183F57AC1D4CA21B0001E26A /* HKToast.h */,
 				183F57AD1D4CA21B0001E26A /* HKToast.m */,
 				18649BC91D48AF8200F1CCB0 /* HKProgressView.h */,
@@ -4488,12 +4510,6 @@
 				18649B0A1D48A93000F1CCB0 /* GridLabel.m */,
 				18649B1B1D48A93000F1CCB0 /* HKInclinedLabel.h */,
 				18649B1C1D48A93000F1CCB0 /* HKInclinedLabel.m */,
-				18649B4B1D48A93000F1CCB0 /* UIScrollView+RefreshView.h */,
-				18649B4C1D48A93000F1CCB0 /* UIScrollView+RefreshView.m */,
-				18649B511D48A93000F1CCB0 /* UIView+JTLoadingView.h */,
-				18649B521D48A93000F1CCB0 /* UIView+JTLoadingView.m */,
-				18649B231D48A93000F1CCB0 /* HKRefreshControl.h */,
-				18649B241D48A93000F1CCB0 /* HKRefreshControl.m */,
 				18649B071D48A93000F1CCB0 /* GifActivityIndicatorView.h */,
 				18649B081D48A93000F1CCB0 /* GifActivityIndicatorView.m */,
 				18649B441D48A93000F1CCB0 /* OETextField.h */,
@@ -5358,6 +5374,8 @@
 				18CFD8711D506A8D00C12259 /* RCTUMengManager.m */,
 				1836B75A1D5319E90078DB15 /* RCTHKRefreshControl.h */,
 				1836B75B1D5319E90078DB15 /* RCTHKRefreshControl.m */,
+				181E2EAA1D766ED600ED13A4 /* RCTLoadingViewManager.h */,
+				181E2EAB1D766ED600ED13A4 /* RCTLoadingViewManager.m */,
 			);
 			name = Bridege;
 			sourceTree = "<group>";
@@ -6542,6 +6560,7 @@
 				182BEF0C1CA0F65200D67C18 /* JCAlertView.m in Sources */,
 				186499A41D489A9700F1CCB0 /* CheckUserAwardOp.m in Sources */,
 				183F573A1D4C90860001E26A /* GetPremiumByIdOp.m in Sources */,
+				181E2EBE1D766FE500ED13A4 /* HKLoadingView.m in Sources */,
 				18649CA81D48B6D200F1CCB0 /* ViolationItemViewController.m in Sources */,
 				1888F41A1D48CB8600C64288 /* RCTAppManager.m in Sources */,
 				18649DFF1D48BD6B00F1CCB0 /* MutualInsPayResultVC.m in Sources */,
@@ -6905,6 +6924,7 @@
 				183F57151D4C90860001E26A /* CancelGaschargeOp.m in Sources */,
 				186496BC1D489A4200F1CCB0 /* HKConvertModel.m in Sources */,
 				186499EC1D489A9700F1CCB0 /* GetSystemHomeModuleOp.m in Sources */,
+				181E2EAC1D766ED600ED13A4 /* RCTLoadingViewManager.m in Sources */,
 				18649B5B1D48A93000F1CCB0 /* CKNavigationController.m in Sources */,
 				18649A031D489A9700F1CCB0 /* LogoutOp.m in Sources */,
 				186496D51D489A4200F1CCB0 /* UMLogHelper.m in Sources */,
@@ -7182,7 +7202,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=2",
+					"XMDDEnvironment=1",
 					"REACT_DEV=0",
 				);
 				HEADER_SEARCH_PATHS = (

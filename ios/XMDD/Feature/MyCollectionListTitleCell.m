@@ -58,12 +58,11 @@
     
     _checkBox = [[UIButton alloc] initWithFrame:CGRectZero];
     _checkBox.hidden = YES;
-    [_checkBox setImage:[UIImage imageNamed:@"collect_uncheck"] forState:UIControlStateNormal];
-    [_checkBox setImage:[UIImage imageNamed:@"collect_check"] forState:UIControlStateSelected];
     _checkBox.imageEdgeInsets = UIEdgeInsetsMake(-20, 8, 0, 0);
     [self.contentView addSubview:_checkBox];
     
     [self setupConstraints];
+    self.checked = NO;
 }
 
 - (void)setupConstraints {
@@ -115,6 +114,11 @@
         make.top.equalTo(self.contentView);
         make.right.equalTo(self.contentView);
     }];
+}
+
+- (void)setChecked:(BOOL)checked {
+    _checked = checked;
+    [_checkBox setImage:[UIImage imageNamed:checked ? @"collect_check" : @"collect_uncheck"] forState:UIControlStateNormal];
 }
 
 
