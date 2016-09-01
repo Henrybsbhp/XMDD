@@ -56,6 +56,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 - (void)awakeFromNib
 {
     self.navModel = [[NavigationModel alloc] init];
+    
+    [self changeUserAgent];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -88,7 +90,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self setupUI];
     [self setupProcessView];
     [self setupLeftSingleBtn];
-    [self changeUserAgent];
+//    [self changeUserAgent];
     
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
@@ -460,8 +462,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)changeUserAgent
 {
+    UIWebView * webview = [[UIWebView alloc] init];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    NSString * userAgent = [self.webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    NSString * userAgent = [webview stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
     userAgent = userAgent ?: @"";
     
     if ([userAgent rangeOfString:@"XMDD"].location == NSNotFound)
