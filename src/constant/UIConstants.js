@@ -7,6 +7,7 @@ const constants = {
         DefaultAD: {uri: 'ad_default_2_5'},
         DefaultADHomeBottom: {uri: 'hp_bottom_ad_default'},
         DefaultADMutIns: {uri: 'ad_default_mutualIns_top'},
+        DefaultMutInsCarBrand: {url: 'mins_def'},
         ArrowRight: {uri: 'Common_pointer_imageView', width: 10, height: 12},
     },
     Win: {
