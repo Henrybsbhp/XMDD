@@ -604,6 +604,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     @weakify(self);
     dict[kCKCellPrepare] = ^(CKDict *data, NSIndexPath *indexPath, ShopDetailPaymentCell *cell) {
         @strongify(self);
+        cell.payButton.enabled = [self.shop.isVacation integerValue] == 0;
         [cell.payButton removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
         [cell.payButton addTarget:self action:@selector(actionPayment:) forControlEvents:UIControlEventTouchUpInside];
         

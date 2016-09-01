@@ -85,7 +85,7 @@
 
         @strongify(self);
         [self.containerView hideDefaultEmptyView];
-        [self.containerView startActivityAnimationWithType:GifActivityIndicatorType];
+        [self.containerView startActivityAnimationWithType:MONActivityIndicatorType];
     }] subscribeNext:^(id x) {
         
         @strongify(self);

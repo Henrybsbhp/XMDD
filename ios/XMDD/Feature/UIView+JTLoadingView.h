@@ -11,7 +11,7 @@
 #import "MONActivityIndicatorView.h"
 
 typedef enum : NSUInteger {
-    TYMActivityIndicatorType,
+    TYMActivityIndicatorType = 0,
     MONActivityIndicatorType,
     UIActivityIndicatorType,
     GifActivityIndicatorType
