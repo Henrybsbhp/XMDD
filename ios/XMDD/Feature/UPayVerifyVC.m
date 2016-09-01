@@ -45,6 +45,9 @@
     [super viewDidLoad];
     
     [self setupDataSource];
+    
+    
+    
 }
 
 #pragma mark - Setup
@@ -264,6 +267,7 @@
             @strongify(self)
             
             DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+            vc.fromUnionCardVC = YES;
             vc.tradeno = self.tradeNo;
             vc.url = [NSString stringWithFormat:@"%@/%@",bankCard.changephoneurl,self.tradeNo];
             [self.navigationController pushViewController:vc animated:YES];
@@ -495,7 +499,7 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    self.upayLogoHeight.constant = scrollView.contentOffset.y > 0 ? (scrollView.contentOffset.y + 30) : 30;
+    self.upayLogoHeight.constant = scrollView.contentOffset.y + 30;
 }
 
 #pragma mark - Action
