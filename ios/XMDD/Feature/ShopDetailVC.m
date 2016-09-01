@@ -349,6 +349,8 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 
 - (void)actionPayment:(id)sender {
 
+    if (![LoginViewModel loginIfNeededForTargetViewController:self])
+        return;
     ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
     [self mobClickWithEventKey:[NSString stringWithFormat:@"pay-%ld", type]];
     PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
