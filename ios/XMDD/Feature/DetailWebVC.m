@@ -339,6 +339,11 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         });
     }
     
+    if (self.fromUnionCardVC)
+    {
+        self.navigationItem.title = @"银联支付";
+    }
+    
     [self.bridge registerGetToken];
 }
 

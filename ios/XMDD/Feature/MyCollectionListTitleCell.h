@@ -16,4 +16,6 @@
 @property (nonatomic, strong) UIImageView *closedView;
 @property (nonatomic, strong) UILabel *addressLabel;
 @property (nonatomic, strong) UILabel *distanceLabel;
+
+@property (nonatomic, assign) BOOL checked;
 @end
