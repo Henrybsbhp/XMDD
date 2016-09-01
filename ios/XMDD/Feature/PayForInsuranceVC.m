@@ -358,6 +358,7 @@
         [[RACObserve(self, isSelectActivity) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
             
             squareView.hidden = ![number integerValue];
+            [self refreshPriceLb];
         }];
         
         [tagLb mas_remakeConstraints:^(MASConstraintMaker *make) {

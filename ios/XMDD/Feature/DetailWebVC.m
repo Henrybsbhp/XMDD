@@ -332,11 +332,18 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     [_progressView setProgress:progress animated:YES];
     
-    NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    if (title.length > 0) {
-        CKAsyncMainQueue(^{
-            self.navigationItem.title = title;
-        });
+    if (self.fromUnionCardVC)
+    {
+        self.navigationItem.title = @"银联支付";
+    }
+    else
+    {
+        NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+        if (title.length > 0) {
+            CKAsyncMainQueue(^{
+                self.navigationItem.title = title;
+            });
+        }
     }
     
     [self.bridge registerGetToken];
