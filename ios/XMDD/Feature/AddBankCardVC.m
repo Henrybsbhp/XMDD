@@ -137,13 +137,18 @@
             
             if (realText.length >= 12) {
                 NSString *trimmedString = [realText substringToIndex:12];
-                NSString *url = self.cardLogoURLDict[trimmedString];
-                if (url.length < 1) {
+                NSString *mergedString = self.cardLogoURLDict[trimmedString];
+                if (!mergedString) {
                     [self getUserInfoBaseOnTextField:textField withCardNumber:trimmedString];
                 } else {
-                    if (self.issueBankName.length < 1) {
-                        self.issueBankName = self.cardLogoURLDict[@"issueBank"];
-                        self.bankLogoURL = url;
+                    NSArray *stringArray = [mergedString componentsSeparatedByString:@"$$"];
+                    NSString *tempBankName = [stringArray safetyObjectAtIndex:0];
+                    NSString *tempBankLogoURL = [mergedString stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@$$", tempBankName] withString:@""];
+                    NSString *currentMergedString = [NSString stringWithFormat:@"%@$$%@", self.issueBankName, self.bankLogoURL];
+                    // 展示出来的银行没有或者展示出来的银行和搜索出来的银行不一致
+                    if (![currentMergedString isEqualToString:mergedString]) {
+                        self.issueBankName = tempBankName;
+                        self.bankLogoURL = tempBankLogoURL;
                         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
                         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
                     }
@@ -281,9 +286,8 @@
         self.issueBankName = op.issueBank;
         self.cardType = op.cardType;
         self.bankLogoURL = op.bankLogo;
-        [self.cardLogoURLDict removeAllObjects];
-        [self.cardLogoURLDict setObject:op.bankLogo forKey:cardNumber];
-        [self.cardLogoURLDict setObject:op.issueBank forKey:@"issueBank"];
+        NSString *mergedString = [NSString stringWithFormat:@"%@$$%@", op.issueBank, op.bankLogo];
+        [self.cardLogoURLDict setObject:mergedString forKey:cardNumber];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         textField.enabled = YES;
