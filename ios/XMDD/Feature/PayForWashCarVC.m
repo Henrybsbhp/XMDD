@@ -43,6 +43,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeightConstraint;
 
 @property (nonatomic)BOOL isLoadingResourse;
+@property (nonatomic)BOOL isLoadingResourseSuccess;
 
 @property (nonatomic,strong) MyCarStore *carStore;
 
@@ -693,9 +694,11 @@
     [[[couponModel rac_getVaildResource:self.service.shopServiceType andShopId:self.shop.shopID] initially:^{
         
         self.isLoadingResourse = YES;
+        self.isLoadingResourseSuccess = NO;
     }] subscribeNext:^(GetUserResourcesV2Op * op) {
         
         self.isLoadingResourse = NO;
+        self.isLoadingResourseSuccess = YES;
         self.getUserResourcesV2Op = op;
         
         [self actionAfterGetUserResource:needDefaultSelect];
@@ -704,6 +707,7 @@
     } error:^(NSError *error) {
         
         self.isLoadingResourse = NO;
+        self.isLoadingResourseSuccess = NO;
     }];
 }
 
@@ -1094,7 +1098,7 @@
     
     /// 如果是活动日 || 新手
     if ((!self.getUserResourcesV2Op.rsp_carwashFlag || self.getUserResourcesV2Op.rsp_neverCarwashFlag)
-        && paymoney >= 0 && self.service.shopServiceType == ShopServiceCarWash)
+        && paymoney >= 0 && self.service.shopServiceType == ShopServiceCarWash && self.isLoadingResourseSuccess)
     {
         self.bottomScrollLb.hidden = NO;
         self.bottomViewHeightConstraint.constant = 84;
