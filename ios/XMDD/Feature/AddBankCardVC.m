@@ -153,10 +153,18 @@
                         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
                     }
                 }
+                
             } else if (realText.length < 12) {
-                self.issueBankName = @"";
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
-                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                
+                if (self.issueBankName.length == 0) {
+                    self.issueBankName = @"";
+                    self.bankLogoURL = @"";
+                } else {
+                    self.issueBankName = @"";
+                    self.bankLogoURL = @"";
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                }
             }
             
             NSString *text = [originText splitByStep:4 replacement:@" "];

@@ -109,7 +109,7 @@
     
     [_commentImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
-        make.left.equalTo(self.rateLabel.mas_right).offset(13);
+        make.left.equalTo(self.rateLabel.mas_right).offset(5);
         make.centerY.equalTo(self.ratingView.mas_centerY);
     }];
     
