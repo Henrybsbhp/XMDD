@@ -135,14 +135,34 @@ export default class MutualInsView extends Component {
     }
 
     renderCarSection(row) {
+        var detail = null;
+        if (row.car.tip && row.car.tip.length > 0) {
+            detail = (
+                <View style={styles.carCellDetailContailer}>
+                    <Text style={styles.carCellDetail} numberOfLines={0}>
+                        {row.car.tip}
+                    </Text>
+                </View>
+            );
+        }
         return (
-            <View>
-                <View style={styles.horizontalContainer}>
+            <View style={styles.verticalContainer}>
+                <View style={[styles.horizontalContainer, {marginTop: 19, marginBottom: 12}]}>
                     <Image source={{uri: row.car.brandlogo}}
                            defaultSource={UI.Img.DefaultMutInsCarBrand}
                            style={styles.carCellImage}/>
                     <Text style={styles.carCellTitle}>{row.car.licensenum}</Text>
                 </View>
+                {detail}
+                <View style={styles.carCellTipContainer}>
+                    <Image source={{url: 'mins_tip_bg1'}}
+                           capInsets={{top: 0, left: 13, bottom: 0, right: 0}}
+                           style={styles.carCellTipBg} />
+                    <Text style={styles.carCellTipTitle}>{row.car.statusdesc}</Text>
+                </View>
+                <View style={styles.line2}/>
+                {this.renderCouponCell(row)}
+                <View style={styles.emptyCell}/>
             </View>
         );
     }
@@ -161,6 +181,7 @@ const styles = StyleSheet.create({
     bg: {flex: 1, backgroundColor: UI.Color.Background},
     ad: {height: Math.ceil(UI.Win.Width/4.15), flex:1},
     line: {backgroundColor: UI.Color.Line, height: 1},
+    line2: {backgroundColor: UI.Color.Line, height: 0.5, marginLeft:17},
 
     bottomContainer: {height: 60, backgroundColor: 'white'},
     bottomContent: {flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'},
@@ -184,6 +205,14 @@ const styles = StyleSheet.create({
 
     horizontalContainer: {backgroundColor: 'white', flexDirection: 'row', alignItems: 'center'},
     verticalContainer: {backgroundColor: 'white', flexDirection: 'column'},
-    carCellImage: {width: 40, height: 40},
-    carCellTitle: {marginLeft: 10, flex: 1}
+
+    emptyCell: {height: 10, backgroundColor: UI.Color.Background},
+
+    carCellImage: {width: 40, height: 40, marginLeft: 17},
+    carCellTitle: {marginLeft: 10, flex: 1},
+    carCellTipContainer: {height: 23, position: 'absolute', right: 0, top: 7, justifyContent: 'center'},
+    carCellTipBg: {position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, resizeMode: 'stretch'},
+    carCellTipTitle: { color: UI.Color.Orange, marginLeft: 23, marginRight: 14},
+    carCellDetailContailer: {justifyContent: 'center', alignItems: 'center'},
+    carCellDetail: {marginHorizontal: 17, marginBottom: 14, color: UI.Color.GrayText, fontSize: 13},
 });

@@ -113,6 +113,12 @@
 }
 
 #pragma mark - Refresh Views
+- (void)refreshViews {
+    [self refreshNavigationBar];
+    [self refreshBottomView];
+    [self refreshTableView];
+}
+
 - (void)refreshNavigationBar {
     UIBarButtonItem *rightBtn;
     if (self.datasource.count == 0) {
@@ -137,7 +143,8 @@
     [self.tableView reloadData];
 }
 
-- (void)refreshCheckBox {
+- (void)refreshBottomView {
+    self.bottomView.hidden = !self.isEditing;
     if (self.selectedCollections.count < gStoreMgr.collectionStore.collections.count) {
         self.bottomView.checkBox.selected = NO;
     }
@@ -170,7 +177,7 @@
     else {
         self.selectedCollections = nil;
     }
-    [self refreshCheckBox];
+    [self refreshViews];
 }
 
 - (void)actionSelect:(CKDict *)item {
@@ -182,13 +189,13 @@
     else {
         [self.selectedCollections addObject:shop forKey:shop.key];
     }
-    item.forceReload = !item.forceReload;
-    [self refreshCheckBox];
+    [self refreshViews];
 }
 
 - (void)actionDelete:(id)sender {
     if (self.selectedCollections.count == 0) {
         [gToast showError:@"请选择一家商户进行删除"];
+        return;
     }
     @weakify(self);
     [[[gStoreMgr.collectionStore removeCollections:[self.selectedCollections allObjects]] initially:^{
@@ -207,14 +214,12 @@
 
 - (void)actionEndEditing:(id)sender {
     self.isEditing = NO;
-    self.bottomView.hidden = YES;
-    [self refreshNavigationBar];
+    [self refreshViews];
 }
 
 - (void)actionBeginEditing:(id)sender {
     self.isEditing = YES;
-    self.bottomView.hidden = NO;
-    [self refreshNavigationBar];
+    [self refreshViews];
 }
 
 - (void)actionGotoShopDetail:(JTShop *)shop {
@@ -269,6 +274,8 @@
         cell.addressLabel.text = shop.shopAddress;
         cell.distanceLabel.text = dict[@"distance"];
         cell.tipLabel.text = [shop descForBusinessStatus];
+        cell.checked = self.selectedCollections[shop.key] != nil;
+        cell.checkBox.hidden = !self.isEditing;
         // 休假
         if ([shop.isVacation integerValue] == 1) {
             cell.closedView.hidden = NO;
@@ -287,16 +294,16 @@
              [self actionSelect:data];
         }];
         
-        @weakify(cell, self);
-        [[[RACObserve(self, selectedCollections) merge:RACObserve(data, forceReload)] takeUntilForCell:cell] subscribeNext:^(id x) {
-            @strongify(cell, self);
-            cell.checked = (BOOL)self.selectedCollections[shop.key];
-        }];
-        
-        [[RACObserve(self, isEditing) takeUntilForCell:cell] subscribeNext:^(NSNumber *x) {
-            @strongify(cell);
-            cell.checkBox.hidden = ![x boolValue];
-        }];
+//        @weakify(cell, self);
+//        [[[RACObserve(self, selectedCollections) merge:RACObserve(data, forceReload)] takeUntilForCell:cell] subscribeNext:^(id x) {
+//            @strongify(cell, self);
+//            cell.checked = (BOOL)self.selectedCollections[shop.key];
+//        }];
+//        
+//        [[RACObserve(self, isEditing) takeUntilForCell:cell] subscribeNext:^(NSNumber *x) {
+//            @strongify(cell);
+//            cell.checkBox.hidden = ![x boolValue];
+//        }];
         [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 14, 0, 14)];
     });
     
