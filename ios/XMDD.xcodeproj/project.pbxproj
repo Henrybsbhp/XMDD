@@ -23,6 +23,7 @@
 		1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4A11ACD3B0900BBCC96 /* SYPaginatorViewController.m */; };
 		181E2EAC1D766ED600ED13A4 /* RCTLoadingViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2EAB1D766ED600ED13A4 /* RCTLoadingViewManager.m */; };
 		181E2EBE1D766FE500ED13A4 /* HKLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2EBD1D766FE500ED13A4 /* HKLoadingView.m */; };
+		181E2ED21D77BBB000ED13A4 /* RCTLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2ED11D77BBB000ED13A4 /* RCTLoadingView.m */; };
 		181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */; };
 		181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D981B15919900D38555 /* CXAlertButtonContainerView.m */; };
 		181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9A1B15919900D38555 /* CXAlertButtonItem.m */; };
@@ -987,6 +988,8 @@
 		181E2EAB1D766ED600ED13A4 /* RCTLoadingViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTLoadingViewManager.m; sourceTree = "<group>"; };
 		181E2EBC1D766FE500ED13A4 /* HKLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKLoadingView.h; sourceTree = "<group>"; };
 		181E2EBD1D766FE500ED13A4 /* HKLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKLoadingView.m; sourceTree = "<group>"; };
+		181E2ED01D77BBB000ED13A4 /* RCTLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTLoadingView.h; sourceTree = "<group>"; };
+		181E2ED11D77BBB000ED13A4 /* RCTLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTLoadingView.m; sourceTree = "<group>"; };
 		181F6D951B15919900D38555 /* CXAlertBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertBackgroundWindow.h; sourceTree = "<group>"; };
 		181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertBackgroundWindow.m; sourceTree = "<group>"; };
 		181F6D971B15919900D38555 /* CXAlertButtonContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertButtonContainerView.h; sourceTree = "<group>"; };
@@ -5376,6 +5379,8 @@
 				1836B75B1D5319E90078DB15 /* RCTHKRefreshControl.m */,
 				181E2EAA1D766ED600ED13A4 /* RCTLoadingViewManager.h */,
 				181E2EAB1D766ED600ED13A4 /* RCTLoadingViewManager.m */,
+				181E2ED01D77BBB000ED13A4 /* RCTLoadingView.h */,
+				181E2ED11D77BBB000ED13A4 /* RCTLoadingView.m */,
 			);
 			name = Bridege;
 			sourceTree = "<group>";
@@ -6829,6 +6834,7 @@
 				183F57281D4C90860001E26A /* GetCooperationIdlicenseInfoOp.m in Sources */,
 				4E78DDF81D5A1A8E00EC52C7 /* GetViolationCommissionApplyOp.m in Sources */,
 				1844531D1C8EA30F007B895D /* AhaWaterWaveView.m in Sources */,
+				181E2ED21D77BBB000ED13A4 /* RCTLoadingView.m in Sources */,
 				18649C1E1D48B3BB00F1CCB0 /* LoginViewModel.m in Sources */,
 				18649C391D48B49600F1CCB0 /* EditMyInfoViewController.m in Sources */,
 				186496BA1D489A4200F1CCB0 /* DistanceCalcHelper.m in Sources */,
@@ -7185,9 +7191,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7A3B9332PS;
 				ENABLE_BITCODE = NO;
@@ -7203,7 +7209,7 @@
 					"COCOAPODS=1",
 					"XMDDENT=0",
 					"XMDDEnvironment=1",
-					"REACT_DEV=0",
+					"REACT_DEV=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7296,8 +7302,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7A3B9332PS;
 				ENABLE_BITCODE = NO;
@@ -7393,7 +7399,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "01bd7551-83c0-486d-a870-d19fc3ff3615";
+				PROVISIONING_PROFILE = "86d6669a-9d41-413a-a618-335e7e698cc1";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;

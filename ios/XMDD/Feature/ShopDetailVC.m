@@ -349,6 +349,8 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 
 - (void)actionPayment:(id)sender {
 
+    if (![LoginViewModel loginIfNeededForTargetViewController:self])
+        return;
     ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
     [self mobClickWithEventKey:[NSString stringWithFormat:@"pay-%ld", type]];
     PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
@@ -604,6 +606,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     @weakify(self);
     dict[kCKCellPrepare] = ^(CKDict *data, NSIndexPath *indexPath, ShopDetailPaymentCell *cell) {
         @strongify(self);
+        cell.payButton.enabled = [self.shop.isVacation integerValue] == 0;
         [cell.payButton removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
         [cell.payButton addTarget:self action:@selector(actionPayment:) forControlEvents:UIControlEventTouchUpInside];
         

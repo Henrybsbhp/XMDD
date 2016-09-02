@@ -20,6 +20,7 @@
 @property (nonatomic, copy) NSString *bankLogoURL;
 @property (nonatomic, copy) NSString *cardType;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *upayLogoHeight;
+@property (nonatomic, strong) NSMutableDictionary *cardLogoURLDict;
 
 @end
 
@@ -134,12 +135,36 @@
             NSString *realText = originText.length > maxLength ? [originText substringToIndex:maxLength] : originText;
             self.cardNum = realText;
             
-            if (realText.length == 12) {
-                [self getUserInfoBaseOnTextField:textField withCardNumber:realText];
+            if (realText.length >= 12) {
+                NSString *trimmedString = [realText substringToIndex:12];
+                NSString *mergedString = self.cardLogoURLDict[trimmedString];
+                if (!mergedString) {
+                    [self getUserInfoBaseOnTextField:textField withCardNumber:trimmedString];
+                } else {
+                    NSArray *stringArray = [mergedString componentsSeparatedByString:@"$$"];
+                    NSString *tempBankName = [stringArray safetyObjectAtIndex:0];
+                    NSString *tempBankLogoURL = [mergedString stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@$$", tempBankName] withString:@""];
+                    NSString *currentMergedString = [NSString stringWithFormat:@"%@$$%@", self.issueBankName, self.bankLogoURL];
+                    // 展示出来的银行没有或者展示出来的银行和搜索出来的银行不一致
+                    if (![currentMergedString isEqualToString:mergedString]) {
+                        self.issueBankName = tempBankName;
+                        self.bankLogoURL = tempBankLogoURL;
+                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+                        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    }
+                }
+                
             } else if (realText.length < 12) {
-                self.issueBankName = @"";
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
-                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                
+                if (self.issueBankName.length == 0) {
+                    self.issueBankName = @"";
+                    self.bankLogoURL = @"";
+                } else {
+                    self.issueBankName = @"";
+                    self.bankLogoURL = @"";
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                }
             }
             
             NSString *text = [originText splitByStep:4 replacement:@" "];
@@ -184,15 +209,14 @@
         bankNameLabel.text = self.issueBankName;
         
         NSString *bankURL = gStoreMgr.configStore.systemConfig[@"supportbankurl"];
+        checkButton.hidden = bankURL.length > 0 ? NO : YES;
         [RACObserve(self, issueBankName) subscribeNext:^(NSString *string) {
             if (string.length > 0) {
                 logoImageView.hidden = NO;
                 bankNameLabel.hidden = NO;
-                checkButton.hidden = bankURL.length > 0 ? NO : YES;
             } else {
                 logoImageView.hidden = YES;
                 bankNameLabel.hidden = YES;
-                checkButton.hidden = YES;
                 logoImageView.image = nil;
                 bankNameLabel.text = nil;
             }
@@ -270,6 +294,8 @@
         self.issueBankName = op.issueBank;
         self.cardType = op.cardType;
         self.bankLogoURL = op.bankLogo;
+        NSString *mergedString = [NSString stringWithFormat:@"%@$$%@", op.issueBank, op.bankLogo];
+        [self.cardLogoURLDict setObject:mergedString forKey:cardNumber];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         textField.enabled = YES;
@@ -296,6 +322,16 @@
         _subject = [RACSubject subject];
     }
     return _subject;
+}
+
+#pragma mark - Lazy instantiation
+- (NSMutableDictionary *)cardLogoURLDict
+{
+    if (!_cardLogoURLDict) {
+        _cardLogoURLDict = [[NSMutableDictionary alloc] init];
+    }
+    
+    return _cardLogoURLDict;
 }
 
 @end

@@ -1,11 +1,10 @@
 "use strict";
 
-import BaseStore from '../BaseStore';
 import network from '../Network';
 
-export class MutualInsStore extends BaseStore {
+export default class MutualInsStore {
     fetchMyGroups() {
         return network.postApi({method: '/cooperation/mygroup/v2/get', security: true})
-                .then(rsp => {this.myGroups = rsp})
+                .then(rsp => {this.myGroups = rsp; return rsp;})
     }
 }

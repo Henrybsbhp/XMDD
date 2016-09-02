@@ -13,7 +13,7 @@ import ADView from '../../general/ADView';
 import UI from '../../../constant/UIConstants';
 import {NavBarRightItem} from '../../general/NavigatorView';
 import RefreshControl from '../../general/refresh/RefreshControl';
-
+import MutualInsStore from '../../../model/mutual_ins/MutualInsStore';
 
 export default class MutualInsView extends Component {
     constructor(props) {
@@ -21,19 +21,29 @@ export default class MutualInsView extends Component {
         // 设置导航条
         this.setupNavigator(props);
 
+        // 设置store
+        this.store = new MutualInsStore();
+
         // 设置数据源
-        var ds = new ListView.DataSource({
+        this.ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 != r2,
             sectionHeaderHasChanged: (s1, s2) => s1 != s2,
         })
-        var dataBlob = [{render: this.renderHeaderSection.bind(this)}]
 
         // 初始化状态
         this.state = {
-            dataBlob: dataBlob,
-            dataSource: ds.cloneWithRows(dataBlob),
             forceRerend: false,
+            loading: true,
+            loadedOnce: false,
+            dataSource:this.ds,
         }
+    }
+
+    componentWillMount() {
+        this.setState({loading: true});
+        this.store.fetchMyGroups()
+            .then(this.reloadDatasource.bind(this))
+            .catch(e=>{this.setState({loading: false})});
     }
 
     // 设置导航条
@@ -50,9 +60,28 @@ export default class MutualInsView extends Component {
 
     }
 
+    /// Reload
+    reloadDatasource(rsp) {
+        var dataBlob = [{render: this.renderHeaderSection.bind(this)}];
+        if (rsp.carlist.length > 0) {
+            for (var car of rsp.carlist) {
+                dataBlob.push({render: this.renderCarSection.bind(this), car: car})
+            }
+        }
+        else {
+            dataBlob.push({render: this.renderCouponCell.bind(this)})
+        }
+
+        this.setState({loading: false, loadedOnce: true, dataSource: this.ds.cloneWithRows(dataBlob)});
+    }
+
+    /// render
     render() {
         return (
-            <BlankView style={styles.container} loading={true}>
+            <BlankView style={styles.container}
+                       visible={!this.state.loadedOnce}
+                       text="获取信息失败, 点击重试"
+                       loading={this.state.loading}>
                 <RefreshControl.ListView
                     onRefresh={this._onRefresh.bind(this)}
                     style={styles.bg}
@@ -104,6 +133,47 @@ export default class MutualInsView extends Component {
             </View>
         );
     }
+
+    renderCarSection(row) {
+        var detail = null;
+        if (row.car.tip && row.car.tip.length > 0) {
+            detail = (
+                <View style={styles.carCellDetailContailer}>
+                    <Text style={styles.carCellDetail} numberOfLines={0}>
+                        {row.car.tip}
+                    </Text>
+                </View>
+            );
+        }
+        return (
+            <View style={styles.verticalContainer}>
+                <View style={[styles.horizontalContainer, {marginTop: 19, marginBottom: 12}]}>
+                    <Image source={{uri: row.car.brandlogo}}
+                           defaultSource={UI.Img.DefaultMutInsCarBrand}
+                           style={styles.carCellImage}/>
+                    <Text style={styles.carCellTitle}>{row.car.licensenum}</Text>
+                </View>
+                {detail}
+                <View style={styles.carCellTipContainer}>
+                    <Image source={{url: 'mins_tip_bg1'}}
+                           capInsets={{top: 0, left: 13, bottom: 0, right: 0}}
+                           style={styles.carCellTipBg} />
+                    <Text style={styles.carCellTipTitle}>{row.car.statusdesc}</Text>
+                </View>
+                <View style={styles.line2}/>
+                {this.renderCouponCell(row)}
+                <View style={styles.emptyCell}/>
+            </View>
+        );
+    }
+
+    renderCouponCell(row) {
+        return (
+            <View>
+                <Text>empty!</Text>
+            </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -111,6 +181,7 @@ const styles = StyleSheet.create({
     bg: {flex: 1, backgroundColor: UI.Color.Background},
     ad: {height: Math.ceil(UI.Win.Width/4.15), flex:1},
     line: {backgroundColor: UI.Color.Line, height: 1},
+    line2: {backgroundColor: UI.Color.Line, height: 0.5, marginLeft:17},
 
     bottomContainer: {height: 60, backgroundColor: 'white'},
     bottomContent: {flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'},
@@ -131,4 +202,17 @@ const styles = StyleSheet.create({
         height: 36, justifyContent: 'space-between'
     },
     sectionCellText: {fontSize: 14, color:UI.Color.GrayText, marginLeft: 17},
+
+    horizontalContainer: {backgroundColor: 'white', flexDirection: 'row', alignItems: 'center'},
+    verticalContainer: {backgroundColor: 'white', flexDirection: 'column'},
+
+    emptyCell: {height: 10, backgroundColor: UI.Color.Background},
+
+    carCellImage: {width: 40, height: 40, marginLeft: 17},
+    carCellTitle: {marginLeft: 10, flex: 1},
+    carCellTipContainer: {height: 23, position: 'absolute', right: 0, top: 7, justifyContent: 'center'},
+    carCellTipBg: {position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, resizeMode: 'stretch'},
+    carCellTipTitle: { color: UI.Color.Orange, marginLeft: 23, marginRight: 14},
+    carCellDetailContailer: {justifyContent: 'center', alignItems: 'center'},
+    carCellDetail: {marginHorizontal: 17, marginBottom: 14, color: UI.Color.GrayText, fontSize: 13},
 });
