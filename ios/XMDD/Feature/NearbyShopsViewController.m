@@ -51,7 +51,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self setupNavigationBar];
     [self setupMapView];
     [self setupLocationMe];

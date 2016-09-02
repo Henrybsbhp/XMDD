@@ -16,7 +16,7 @@ const constants = {
     },
     Color: {
         Background: '#F7F7F8',
-        Line: '#EBEBEB',
+        Line: '#E3E3E3',
         DarkText: '#454545',
         GrayText: '#888888',
         Orange: '#FF7428',
