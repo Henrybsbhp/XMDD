@@ -89,7 +89,7 @@
     
     [[[op rac_postRequest]initially:^{
         
-        [gToast showingWithText:@"银联快捷支付中"];
+        [gToast showingWithText:@"银联快捷支付中..."];
         
     }]subscribeNext:^(CheckoutUnioncardQuickpayOp *op) {
         
@@ -103,7 +103,7 @@
         
     } error:^(NSError *error) {
         
-        [gToast showMistake:@"银联快捷支付失败"];
+        [gToast showMistake:error.domain.length == 0 ? @"银联快捷支付失败" : error.domain];
         
     }];
     
