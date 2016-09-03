@@ -1535,31 +1535,41 @@
                                                     <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rHZ-Fy-9qI">
-                                                    <rect key="frame" x="366" y="13" width="120" height="27"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <state key="normal" title="预留手机号码已变更？">
-                                                        <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.7992788462" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="vp0-Ja-69d">
                                                     <rect key="frame" x="15" y="54" width="585" height="1"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="gKA-1O-3be"/>
                                                     </constraints>
                                                 </imageView>
+                                                <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rHZ-Fy-9qI">
+                                                    <rect key="frame" x="366" y="14" width="120" height="27"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <state key="normal" title="预留手机号码已变更？">
+                                                        <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.7992788462" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="BIm-CY-p75" firstAttribute="leading" secondItem="rCG-Jc-hOZ" secondAttribute="leading" constant="15" id="5J9-tb-6Va"/>
                                                 <constraint firstItem="3CU-tN-UYl" firstAttribute="bottom" secondItem="rHZ-Fy-9qI" secondAttribute="bottom" constant="-3.5" id="B5o-MY-gpU"/>
+                                                <constraint firstItem="rHZ-Fy-9qI" firstAttribute="centerY" secondItem="rCG-Jc-hOZ" secondAttribute="centerY" id="CqU-Fr-led"/>
                                                 <constraint firstAttribute="trailing" secondItem="vp0-Ja-69d" secondAttribute="trailing" id="Eb7-3w-xqc"/>
+                                                <constraint firstAttribute="trailing" secondItem="rHZ-Fy-9qI" secondAttribute="trailing" constant="114" identifier="trailingDistance" id="IBK-yG-xyG"/>
                                                 <constraint firstItem="3CU-tN-UYl" firstAttribute="leading" secondItem="rHZ-Fy-9qI" secondAttribute="trailing" id="Ozf-Hw-hYA"/>
                                                 <constraint firstItem="3CU-tN-UYl" firstAttribute="centerY" secondItem="rCG-Jc-hOZ" secondAttribute="centerY" id="YsW-gH-fTt"/>
                                                 <constraint firstItem="vp0-Ja-69d" firstAttribute="leading" secondItem="rCG-Jc-hOZ" secondAttribute="leading" constant="15" id="bfm-be-io8"/>
                                                 <constraint firstAttribute="bottom" secondItem="vp0-Ja-69d" secondAttribute="bottom" id="hIB-dO-gNc"/>
                                                 <constraint firstAttribute="trailing" secondItem="3CU-tN-UYl" secondAttribute="trailing" constant="15" id="hof-9L-YE5"/>
                                                 <constraint firstItem="BIm-CY-p75" firstAttribute="centerY" secondItem="rCG-Jc-hOZ" secondAttribute="centerY" id="iNH-R0-vm9"/>
+                                                <constraint firstItem="rHZ-Fy-9qI" firstAttribute="centerY" secondItem="rCG-Jc-hOZ" secondAttribute="centerY" id="u4I-2f-5LL"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="CqU-Fr-led"/>
+                                                    <exclude reference="B5o-MY-gpU"/>
+                                                    <exclude reference="Ozf-Hw-hYA"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="QRCodeCell" id="j2d-zh-qSa">

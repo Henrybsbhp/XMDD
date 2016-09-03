@@ -166,7 +166,7 @@
         
     } error:^(NSError *error) {
         
-        [gToast showMistake:@"申请代办失败，请点击重试"];
+        [gToast showMistake:error.domain.length == 0 ? @"申请代办失败，请点击重试" : error.domain];
         
     }];
 }
