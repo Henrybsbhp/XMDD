@@ -65,7 +65,7 @@
 #pragma mark - Setup
 - (void)setupNavigation
 {
-    self.navigationItem.title = @"违章查询";
+    self.navigationItem.title = @"违章查缴";
 }
 
 - (void)setupCarStore
