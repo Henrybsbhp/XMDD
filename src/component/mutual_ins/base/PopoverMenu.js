@@ -1,8 +1,9 @@
 "use strict";
 import React, {Component, PropTypes} from 'react';
 import {
-    Modal, Text, View, Image, StyleSheet, TouchableWithoutFeedback, TouchableOpacity, Animated, Easing
+    Text, View, Image, StyleSheet, TouchableWithoutFeedback, TouchableOpacity, Animated, Easing
 } from 'react-native';
+import Modal from 'react-native-modalbox';
 import UI from '../../../constant/UIConstants';
 
 export default class PopoverMenu extends Component {

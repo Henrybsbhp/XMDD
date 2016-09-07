@@ -8,6 +8,7 @@ import {
     ListView,
     TouchableOpacity,
 } from 'react-native';
+import Modal from 'react-native-modalbox';
 import Toast from 'react-native-root-toast';
 import BlankView from '../../general/BlankView';
 import ADView from '../../general/ADView';
@@ -44,6 +45,7 @@ export default class MutualInsView extends Component {
 
     componentWillMount() {
         this._onRefresh();
+        this.menu = this.props.createModal(this._renderMenu());
     }
 
     // 设置导航条
@@ -57,7 +59,8 @@ export default class MutualInsView extends Component {
 
     /// Actions
     showMenu() {
-        this.setState({menuVisible: true})
+        this.menu.open();
+        // this.setState({menuVisible: true})
     }
 
     /// Reload
@@ -110,6 +113,14 @@ export default class MutualInsView extends Component {
                     <PopoverMenu.MenuCell image={{uri: 'mins_phone', width: 18, height: 17}} text="联系客服"/>
                 </PopoverMenu>
             </BlankView>
+        );
+    }
+
+    _renderMenu() {
+        return (
+            <Modal style={{flex: 1, backgroundColor: 'red'}}>
+
+            </Modal>
         );
     }
 
