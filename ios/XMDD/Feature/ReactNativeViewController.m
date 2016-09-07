@@ -113,7 +113,7 @@
 {
 #if REACT_DEV == 1
 //在线运行
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+    NSURL *url = [NSURL URLWithString:@"http://192.168.1.28:8081/index.ios.bundle?platform=ios&dev=true"];
 #else
 //本地运行
     NSURL *url = [[ReactNativeManager sharedManager] latestJSBundleUrl];

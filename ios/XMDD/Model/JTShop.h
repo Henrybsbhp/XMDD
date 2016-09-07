@@ -110,9 +110,10 @@ typedef enum : NSUInteger {
 ///商户服务[JTShopComment]
 @property (nonatomic,strong)NSArray * shopCommentArray;
 ///公报
-@property (nonatomic,strong)NSString *carwashNote;
-@property (nonatomic,strong)NSString *maintenanceNote;
-@property (nonatomic,strong)NSString *beautyNote;
+@property (nonatomic, strong) NSString *note;
+@property (nonatomic, strong) NSString *carwashNote;
+@property (nonatomic, strong) NSString *maintenanceNote;
+@property (nonatomic, strong) NSString *beautyNote;
 
 //是否休假，1:是。0：营业
 @property (nonatomic,strong)NSNumber *isVacation;

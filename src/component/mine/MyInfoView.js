@@ -19,7 +19,7 @@ import DatePicker from '../general/HKDatePicker';
 import HudView from '../general/HudView';
 import network from '../../model/Network';
 import EditMyinfoView from './EditMyInfoView';
-import GeneralStyle from '../../model/Style';
+import GeneralStyle from '../../constant/Style';
 import NavigatorView, {NavBarRightItem} from '../general/NavigatorView';
 import BlankView from '../general/BlankView';
 
