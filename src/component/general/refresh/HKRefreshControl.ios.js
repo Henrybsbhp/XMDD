@@ -23,6 +23,10 @@ module.exports = {
             }
         });
     },
+    beginRefreshing: function (node) {
+        var nodeHandle = React.findNodeHandle(node);
+        HKRefreshControl.beginRefreshing(nodeHandle);
+    },
     endRefreshing: function(node) {
         var nodeHandle = React.findNodeHandle(node);
         HKRefreshControl.endRefreshing(nodeHandle);

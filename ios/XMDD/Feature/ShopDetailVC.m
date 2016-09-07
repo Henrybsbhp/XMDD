@@ -149,19 +149,13 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     self.headerView = [[ShopDetailHeaderView alloc] initWithFrame:CGRectMake(0, -165, ScreenWidth, 165)];
     [self.collectionView addSubview:self.headerView];
     self.headerView.picURLArray = self.shop.picArray;
+    self.headerView.trottingContainerView.hidden = self.shop.note.length == 0;
+    self.headerView.trottingView.text = [self.store stringWithAppendSpace:self.shop.note andWidth:ScreenWidth - 62];
     
     @weakify(self);
     [[self.headerView.tapGesture rac_gestureSignal] subscribeNext:^(id x) {
         @strongify(self);
         [self mobClickWithEventKey:@"header"];
-    }];
-    
-    [[RACObserve(self.store, selectedServiceGroup) distinctUntilChanged] subscribeNext:^(CKList *group) {
-        @strongify(self);
-        ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:group];
-        NSString *note = [self.shop noteForServiceType:type];
-        self.headerView.trottingView.text = [self.store stringWithAppendSpace:note andWidth:ScreenWidth - 62];
-        self.headerView.trottingContainerView.hidden = note.length == 0;
     }];
 }
 
@@ -599,8 +593,10 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 
 - (CKDict *)servicePaymentCell {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"servicePayment", kCKCellID:@"servicePayment"}];
+    dict[@"note"] = [self.shop noteForServiceType:[self.store currentGroupServcieType]];
+
     dict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 46;
+        return [ShopDetailPaymentCell cellHeightWithNote:dict[@"note"]];
     });
 
     @weakify(self);
@@ -609,6 +605,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
         cell.payButton.enabled = [self.shop.isVacation integerValue] == 0;
         [cell.payButton removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
         [cell.payButton addTarget:self action:@selector(actionPayment:) forControlEvents:UIControlEventTouchUpInside];
+        cell.noteLabel.text = data[@"note"];
         
         @weakify(cell);
         [[RACObserve(self.store.selectedServices, forceReload) takeUntilForCell:cell] subscribeNext:^(id x) {
