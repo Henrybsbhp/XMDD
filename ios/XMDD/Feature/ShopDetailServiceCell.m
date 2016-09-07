@@ -45,7 +45,7 @@
     [self.contentView addSubview:_priceLabel];
     
     _descLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _descLabel.font = [UIFont systemFontOfSize:14];
+    _descLabel.font = [UIFont systemFontOfSize:13];
     _descLabel.textColor = kGrayTextColor;
     _descLabel.numberOfLines = 0;
     [self.contentView addSubview:_descLabel];
@@ -88,7 +88,7 @@
     CGSize titleSize = [title labelSizeWithWidth:width-9-30-kPriceLabelMaxWidth-14 font:[UIFont systemFontOfSize:14]];
     CGFloat height = titleSize.height + 6 + 15;
     if (desc.length > 0) {
-        height += 8 + [desc labelSizeWithWidth:width-9-30-14 font:[UIFont systemFontOfSize:14]].height;
+        height += 8 + [desc labelSizeWithWidth:width-9-30-14 font:[UIFont systemFontOfSize:13]].height;
     }
     return ceil(MAX(height, 30));
 }
