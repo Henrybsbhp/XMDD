@@ -164,7 +164,7 @@
 
     } error:^(NSError *error) {
         
-        [gToast showMistake:@"资料上传失败，请点击重试"];
+        [gToast showMistake:error.domain.length == 0 ? @"资料上传失败，请点击重试" : error.domain];
         
     }];
 }

@@ -89,7 +89,7 @@
     
     [[[op rac_postRequest]initially:^{
         
-        [gToast showingWithText:@"银联快捷支付中"];
+        [gToast showingWithText:@"银联快捷支付中..."];
         
     }]subscribeNext:^(CheckoutUnioncardQuickpayOp *op) {
         
@@ -103,7 +103,7 @@
         
     } error:^(NSError *error) {
         
-        [gToast showMistake:@"银联快捷支付失败"];
+        [gToast showMistake:error.domain.length == 0 ? @"银联快捷支付失败" : error.domain];
         
     }];
     
@@ -177,14 +177,14 @@
         {
             imgView.hidden = NO;
             
-            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
+            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints andConstraintKey:@"carNoTrailing"];
             constraint.constant = 40;
         }
         else
         {
             imgView.hidden = YES;
             
-            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints];
+            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints andConstraintKey:@"carNoTrailing"];
             constraint.constant = 15;
         }
         
@@ -261,7 +261,6 @@
         MyBankCard *bankCard = self.bankCardInfo.firstObject;
         
         UIButton *button = [cell viewWithTag:101];
-        button.hidden = bankCard.changephoneurl.length == 0;
         [[[button rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
             @strongify(self)
@@ -277,6 +276,10 @@
         
         UILabel *phoneLabel = [cell viewWithTag:102];
         phoneLabel.text = model.bindPhone;
+        phoneLabel.hidden = model.bindPhone.length == 0;
+        
+        NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints andConstraintKey:@"trailingDistance"];
+        constraint.constant = model.bindPhone.length == 0 ? 15 : 114;
         
     });
     
@@ -329,7 +332,7 @@
             
             UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
             
-            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.constraints];
+            NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints andConstraintKey:@"carNoTrailing"];
             constraint.constant = 15;
             
             UIImageView *imgView = [cell viewWithTag:103];
@@ -511,11 +514,11 @@
 
 #pragma mark - Utility
 
--(NSLayoutConstraint *)findConstraintInConstraintArr:(NSArray *)constraints
+-(NSLayoutConstraint *)findConstraintInConstraintArr:(NSArray *)constraints andConstraintKey:(NSString *)key
 {
     for (NSLayoutConstraint *constraint in constraints)
     {
-        if ([constraint.identifier isEqualToString:@"carNoTrailing"])
+        if ([constraint.identifier isEqualToString:key])
         {
             return constraint;
         }
@@ -593,7 +596,7 @@
         
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
         
-        NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.constraints];
+        NSLayoutConstraint *constraint = [self findConstraintInConstraintArr:cell.contentView.constraints andConstraintKey:@"carNoTrailing"];
         constraint.constant = 40;
         
         UIImageView *imgView = [cell viewWithTag:103];
