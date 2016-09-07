@@ -78,7 +78,7 @@
     
     [_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
-        make.left.equalTo(self.radioButton.mas_right).offset(4);
+        make.left.equalTo(self.radioButton.mas_right);
         make.right.equalTo(self.contentView).offset(-14);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(8);
     }];

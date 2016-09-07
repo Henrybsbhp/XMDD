@@ -40,12 +40,12 @@ export default class BlankView extends Component {
 
     render() {
         var content = null;
-        if (this.props.loading) {
+        if (this.props.visible && this.props.loading) {
             content = (<LoadingView loading={true} style={styles.loadingView}/>);
         }
-        // else  if (this.props.visible) {
-        //     content = this._renderBlankContent();
-        // }
+        else  if (this.props.visible) {
+             content = this._renderBlankContent();
+        }
         else {
             content = this.props.children;
         }

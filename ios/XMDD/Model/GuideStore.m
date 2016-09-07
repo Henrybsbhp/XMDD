@@ -72,7 +72,7 @@
                 self.shouldDisablePopupAd = NO;
             }
             else {
-                self.shouldShowNewbieGuideDot = op.rsp_washcarflag == 1;
+                self.shouldShowNewbieGuideDot = op.rsp_washcarflag != 1;
                 self.shouldShowNewbieGuideAlert = NO;
                 //允许首页弹出广告功能
                 self.shouldDisablePopupAd = NO;
