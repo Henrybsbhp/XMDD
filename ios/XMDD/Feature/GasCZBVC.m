@@ -15,6 +15,7 @@
 #import "NSString+Split.h"
 #import "NSString+RectSize.h"
 
+#import <MZFormSheetController.h>
 #import "HKTableViewCell.h"
 #import "GasReminderCell.h"
 #import "GasPickAmountCell.h"
@@ -204,6 +205,22 @@
         }];
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
+}
+
+- (void)actionShowInvoiceAlert {
+    UIViewController *vc = [UIStoryboard vcWithId:@"GasInvoiceAlertVC" inStoryboard:@"Gas"];
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(270, 236) viewController:vc];
+    sheet.shouldCenterVertically = YES;
+    sheet.transitionStyle = MZFormSheetTransitionStyleBounce;
+    sheet.cornerRadius = 3;
+    sheet.shadowOpacity = 0.1;
+    [sheet presentAnimated:YES completionHandler:nil];
+    
+    UIButton *cancelBtn = [vc.view viewWithTag:1001];
+    //取消
+    [[[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] take:1] subscribeNext:^(id x) {
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
 }
 
 - (void)actionPay
@@ -425,12 +442,26 @@
 - (CKDict *)wantInvoiceItem
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"WantInvoiceCell",@"bill":@NO}];
+    item[@"title"] = [[NSAttributedString alloc] initWithString:@"中石油部分卡不支持开发票"
+                                                     attributes:@{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
+                                                                  NSForegroundColorAttributeName: kOrangeColor}];
+    
     @weakify(self, item);
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
         @strongify(self, item);
         UIButton * invoiceBtn = (UIButton *)[cell searchViewWithTag:101];
         UILabel * tagLb = (UILabel *)[cell searchViewWithTag:103];
+        UIView *tipBtnContainer = [cell viewWithTag:104];
+        UIButton *tipBtn = [cell viewWithTag:1041];
+        
+        tipBtnContainer.hidden = self.curGasCard.cardtype != 2;
+        [tipBtn setAttributedTitle:item[@"title"] forState:UIControlStateNormal];
+        [[[tipBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+             @strongify(self);
+             [self actionShowInvoiceAlert];
+        }];
         
         [[[invoiceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {

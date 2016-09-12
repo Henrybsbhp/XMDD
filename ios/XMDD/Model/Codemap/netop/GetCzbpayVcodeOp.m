@@ -8,7 +8,7 @@
     [params safetySetObject:self.req_cardid forKey:@"cardid"];
     [params safetySetObject:@(self.req_chargeamt) forKey:@"chargeamt"];
     [params safetySetObject:self.req_gid forKey:@"gid"];
-    [params safetySetObject:@(self.req_bill) forKey:@"bill"];
+    [params safetySetObject:@(self.req_bill ? 1 : 0) forKey:@"bill"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

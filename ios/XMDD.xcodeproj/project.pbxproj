@@ -24,6 +24,7 @@
 		181E2EAC1D766ED600ED13A4 /* RCTLoadingViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2EAB1D766ED600ED13A4 /* RCTLoadingViewManager.m */; };
 		181E2EBE1D766FE500ED13A4 /* HKLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2EBD1D766FE500ED13A4 /* HKLoadingView.m */; };
 		181E2ED21D77BBB000ED13A4 /* RCTLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2ED11D77BBB000ED13A4 /* RCTLoadingView.m */; };
+		181E2F2C1D86A47C00ED13A4 /* GasInvoiceAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2F2B1D86A47C00ED13A4 /* GasInvoiceAlertVC.m */; };
 		181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */; };
 		181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D981B15919900D38555 /* CXAlertButtonContainerView.m */; };
 		181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9A1B15919900D38555 /* CXAlertButtonItem.m */; };
@@ -990,6 +991,8 @@
 		181E2EBD1D766FE500ED13A4 /* HKLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKLoadingView.m; sourceTree = "<group>"; };
 		181E2ED01D77BBB000ED13A4 /* RCTLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTLoadingView.h; sourceTree = "<group>"; };
 		181E2ED11D77BBB000ED13A4 /* RCTLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTLoadingView.m; sourceTree = "<group>"; };
+		181E2F2A1D86A47C00ED13A4 /* GasInvoiceAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasInvoiceAlertVC.h; sourceTree = "<group>"; };
+		181E2F2B1D86A47C00ED13A4 /* GasInvoiceAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasInvoiceAlertVC.m; sourceTree = "<group>"; };
 		181F6D951B15919900D38555 /* CXAlertBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertBackgroundWindow.h; sourceTree = "<group>"; };
 		181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertBackgroundWindow.m; sourceTree = "<group>"; };
 		181F6D971B15919900D38555 /* CXAlertButtonContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertButtonContainerView.h; sourceTree = "<group>"; };
@@ -5071,6 +5074,8 @@
 				18649D831D48BB5D00F1CCB0 /* GasVC.m */,
 				18649D861D48BB5D00F1CCB0 /* PayForGasViewController.h */,
 				18649D871D48BB5D00F1CCB0 /* PayForGasViewController.m */,
+				181E2F2A1D86A47C00ED13A4 /* GasInvoiceAlertVC.h */,
+				181E2F2B1D86A47C00ED13A4 /* GasInvoiceAlertVC.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -6420,6 +6425,7 @@
 				18FC01DE1C4E6C6F00FD61BF /* IQKeyboardManager.m in Sources */,
 				1888F4251D48CBCA00C64288 /* ReactNativeManager.m in Sources */,
 				183F57331D4C90860001E26A /* GetGaschargeRecordListOp.m in Sources */,
+				181E2F2C1D86A47C00ED13A4 /* GasInvoiceAlertVC.m in Sources */,
 				186499C41D489A9700F1CCB0 /* GetCouponByTypeNewV2Op.m in Sources */,
 				4E78DDE91D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */,
 				186499F71D489A9700F1CCB0 /* GetUserCouponPkgOp.m in Sources */,

@@ -16,7 +16,7 @@
 ///订单id
 @property (nonatomic,strong) NSNumber* req_orderid;
 ///是否开发票(1:开发票，0:不开)
-@property (nonatomic,assign) int req_bill;
+@property (nonatomic,assign) BOOL req_bill;
 
 ///同盾设备指纹
 @property (nonatomic,copy)NSString * req_blackbox;
