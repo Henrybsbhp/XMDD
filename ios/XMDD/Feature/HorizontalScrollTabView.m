@@ -111,7 +111,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    [self __commonInit];
+        [self __commonInit];
     return self;
 }
 

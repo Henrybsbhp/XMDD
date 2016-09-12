@@ -9,7 +9,7 @@ import {
 import NavigatorView from './component/general/NavigatorView';
 import MyInfoView from './component/mine/MyInfoView';
 import EditMyInfoView from './component/mine/EditMyInfoView';
-import MutualInsView from './component/mutual_ins/base/MutualInsView';
+import MutualInsView from './component/mutual_ins/MutualInsView';
 
 
 const components = {MyInfoView: MyInfoView, EditMyInfoView: EditMyInfoView, MutualInsView: MutualInsView};

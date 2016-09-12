@@ -135,12 +135,12 @@ export class NavBarButtonItem extends Component {
 export default class NavigatorView extends Component {
     constructor(props) {
         super(props);
-        this.state = {modal: null};
+        this.state = {modal: undefined, modalProps:undefined}
     }
 
     render() {
         return (
-            <View style={styles.contaienr}>
+            <View style={styles.container}>
                 <Navigator
                     ref="nav"
                     debugOverlay={false}
@@ -150,7 +150,12 @@ export default class NavigatorView extends Component {
                     onDidFocus={this._onDidFocus.bind(this)}
                     navigationBar={this._renderNavigationBar()}
                 />
-                {this.state.modal}
+                {
+                    this.state.modal && React.cloneElement(this.state.modal, {
+                        ...this.state.modalProps,
+                        ref: 'modal'
+                    })
+                }
             </View>
         );
     }
@@ -175,14 +180,28 @@ export default class NavigatorView extends Component {
     _renderScene(route, navigator) {
         return (
             <View style={styles.scene}>
-                {React.createElement(route.component, {
-                    route, navigator, ...route.passProps,
-                    createModal: (modal) => {
-                        this.setState({modal: modal});
-                        return modal;
-                    }})}
+                {React.createElement(
+                    route.component,
+                    {
+                        route,
+                        navigator,
+                        ...route.passProps,
+                        modal: {
+                            get: this._getModal.bind(this),
+                            render: this._registModal.bind(this),
+                        },
+                    },
+                )}
             </View>
         )
+    }
+
+    _getModal(modal) {
+        return this.refs.modal;
+    }
+
+    _registModal(modal) {
+        this.setState({modal: modal});
     }
 };
 
