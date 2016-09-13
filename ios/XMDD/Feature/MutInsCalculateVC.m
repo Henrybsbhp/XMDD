@@ -214,7 +214,11 @@
             @strongify(self)
             
             [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan3"}];
-            [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan" withProperties:@{@"vcode":self.frameNo ?: @""}];
+            
+            if (self.frameNo.length > 0)
+            {
+                [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan" withProperties:@{@"vcode":self.frameNo ?: @""}];
+            }
             
             if ([self checkFrameNo])
             {

@@ -498,7 +498,11 @@
 #endif
     
     
-    [SensorsAnalyticsSDK sharedInstanceWithServerURL:serverUrlStr andConfigureURL:configureUrlStr andDebugMode:model];    
+    [SensorsAnalyticsSDK sharedInstanceWithServerURL:serverUrlStr andConfigureURL:configureUrlStr andDebugMode:model];
+    SensorAnalyticsInstance.flushBulkSize = 30;
+    SensorAnalyticsInstance.flushBeforeEnterBackground = YES;
+    SensorAnalyticsInstance.flushInterval = 20;
+    
     
     RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
     [userSignal subscribeNext:^(id x) {
