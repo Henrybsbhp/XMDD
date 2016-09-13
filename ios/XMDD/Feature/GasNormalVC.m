@@ -15,7 +15,7 @@
 
 #import <MZFormSheetController.h>
 #import "GasReminderCell.h"
-#import "GasPickAmountCell.h"
+#import "GasPickAmountCell.h"   
 
 #import "GasCardListVC.h"
 #import "GasAddCardVC.h"
@@ -179,19 +179,12 @@
 }
 
 - (void)actionShowInvoiceAlert {
-    UIViewController *vc = [UIStoryboard vcWithId:@"GasInvoiceAlertVC" inStoryboard:@"Gas"];
-    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(270, 236) viewController:vc];
-    sheet.shouldCenterVertically = YES;
-    sheet.transitionStyle = MZFormSheetTransitionStyleBounce;
-    sheet.cornerRadius = 3;
-    sheet.shadowOpacity = 0.1;
-    [sheet presentAnimated:YES completionHandler:nil];
-    
-    UIButton *cancelBtn = [vc.view viewWithTag:1001];
-    //取消
-    [[[cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] take:1] subscribeNext:^(id x) {
-        [sheet dismissAnimated:YES completionHandler:nil];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:kYelloColor clickBlock:^(id alertVC) {
+        [gPhoneHelper makePhone:@"4007111111"];
     }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"由于充值业务更新，中石油卡暂不支持开具发票服务。如有疑问请咨询客服：4007-111-111" ActionItems:@[cancel,confirm]];
+    [alert show];
 }
 
 - (void)actionPay
@@ -395,7 +388,7 @@
 - (CKDict *)wantInvoiceItem
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"WantInvoiceCell",@"bill":@NO}];
-    item[@"title"] = [[NSAttributedString alloc] initWithString:@"中石油部分卡不支持开发票"
+    item[@"title"] = [[NSAttributedString alloc] initWithString:@"中石油不支持开发票"
                                                      attributes:@{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
                                                                   NSForegroundColorAttributeName: kOrangeColor}];
       @weakify(item, self);
