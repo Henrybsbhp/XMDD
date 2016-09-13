@@ -10,7 +10,6 @@
 #import "GetGascardListOp.h"
 #import "GetGaschargeInfoOp.h"
 #import "NSString+Format.h"
-#import "BankStore.h"
 #import "AddGascardOp.h"
 #import "DeleteGascardOp.h"
 
@@ -19,15 +18,12 @@
 @interface GasStore ()
 @property (nonatomic, strong) NSMutableDictionary *timetagDict;
 @property (nonatomic, strong) RACSignal *getGaschargeConfigSignal;
-@property (nonatomic, strong) RACSignal *getCZBChargeConfigSignal;
-@property (nonatomic, strong) BankStore *bankStore;
 @end
 @implementation GasStore
 
 - (void)reloadForUserChanged:(JTUser *)user
 {
     self.gasCards = nil;
-    self.bankStore = nil;
     [[self getAllGasCards] send];
 }
 
@@ -88,21 +84,6 @@
     CKEvent *event = [[self rac_getChargeConfig] eventWithName:@"getChargeConfig"];
     return [self inlineEvent:event forDomain:kDomainChargeConfig];
 }
-
-///更新浙商卡加油信息
-- (CKEvent *)updateCZBCardInfoByCID:(NSNumber *)cid
-{
-    CKEvent *event = [[self rac_updateCZBCardInfoByCID:cid] eventWithName:@"updateCZBCardInfoByCID"];
-    return [self inlineEvent:event forDomain:kDomainUpdateCZBCardInfo];
-}
-
-///获取浙商充值配置信息
-- (CKEvent *)getCZBChargeConfig
-{
-    CKEvent *event = [[self rac_getCZBChargeConfig] eventWithName:@"getCZBChargeConfig"];
-    return [self inlineEvent:event forDomain:kDomainCZBChargeConfig];
-}
-
 
 #pragma mark - Signal
 - (RACSignal *)rac_getAllGasCards
@@ -208,44 +189,6 @@
         card.desc = op.rsp_desc;
         return card;
     }] replayLast];
-    return sig;
-}
-
-
-- (RACSignal *)rac_updateCZBCardInfoByCID:(NSNumber *)cid
-{
-    GetCZBGaschargeInfoOp *op = [GetCZBGaschargeInfoOp operation];
-    op.req_cardid = cid;
-
-    RACSignal *sig = [[[op rac_postRequest] map:^id(GetCZBGaschargeInfoOp *op) {
-
-        BankStore *store = [BankStore fetchExistsStore];
-        MyBankCard *card = [store.bankCards objectForKey:cid];
-        card.gasInfo = op;
-        return card;
-    }] replay];
-    return sig;
-}
-
-
-- (RACSignal *)rac_getCZBChargeConfig
-{
-    if (self.getCZBChargeConfigSignal) {
-        return self.getCZBChargeConfigSignal;
-    }
-    GetCZBCouponDefInfoOp *op = [GetCZBCouponDefInfoOp operation];
-    @weakify(self);
-    RACSignal *sig = [[[[op rac_postRequest] catch:^RACSignal *(NSError *error) {
-        
-        @strongify(self);
-        self.getCZBChargeConfigSignal = nil;
-        return [RACSignal return:nil];
-    }] doNext:^(GetCZBCouponDefInfoOp *op) {
-        
-        @strongify(self);
-        self.czbConfig = op;
-    }] replayLast];
-    self.getCZBChargeConfigSignal = sig;
     return sig;
 }
 
