@@ -7,15 +7,18 @@
 //
 
 #import "LaunchVC.h"
+#import "GradientView.h"
 #import "MainTabBarVC.h"
 
 @interface LaunchVC ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (weak, nonatomic) IBOutlet UIButton *skipBtn;
 @property (nonatomic, strong) UIWindow *nextWindow;
-
 ///是否点击切换到其他页面
 @property (nonatomic)BOOL isClickSwitchToOtherView;
+///是否点击跳过
+@property (nonatomic)BOOL isClickSkip;
 @end
 @implementation LaunchVC
 
@@ -26,12 +29,20 @@
 
 - (void)viewDidLoad
 {
+    
+    @weakify(self)
+    
     [super viewDidLoad];
+    [self setupNextWindow];
+    [self setupSkipBtn];
     gAppDelegate.window.windowLevel = UIWindowLevelStatusBar;
     self.imageView.image = self.image;
     if (self.info.fullscreen) {
         self.bottomView.hidden = YES;
         [self.imageView mas_updateConstraints:^(MASConstraintMaker *make) {
+            
+            @strongify(self)
+            
             make.bottom.equalTo(self.view);
         }];
     }
@@ -42,10 +53,12 @@
         
         ///如果是有广告，并且没有点击，时间停留多一秒
         [self swithToRootViewAfterDelay:self.info.staytime > 0 ? self.info.staytime : 3];
+        [self countDownCircleAfterDelay:self.info.staytime > 0 ? self.info.staytime : 3];
     }
     else
     {
         [self swithToRootViewAfterDelay:self.info.staytime > 0 ? self.info.staytime : 2];
+        [self countDownCircleAfterDelay:self.info.staytime > 0 ? self.info.staytime : 2];
     }
 }
 
@@ -58,8 +71,30 @@
         });
     }
 }
+
+- (void)setupSkipBtn
+{
+    self.skipBtn.layer.cornerRadius = 20;
+    self.skipBtn.layer.masksToBounds = YES;
+}
+
+- (void)setupNextWindow
+{
+    if (!self.nextWindow)
+    {
+        self.nextWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.nextWindow.backgroundColor = [UIColor whiteColor];
+        UIViewController *vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
+        self.nextWindow.rootViewController = vc;
+        [self.nextWindow makeKeyAndVisible];
+    }
+}
+
 - (void)setupClickAction
 {
+    
+    @weakify(self)
+    
     UITapGestureRecognizer * gesture = self.imageView.customObject;
     if (!gesture)
     {
@@ -72,6 +107,8 @@
     
     [[gesture rac_gestureSignal] subscribeNext:^(id x) {
         
+        @strongify(self)
+        
         self.isClickSwitchToOtherView = YES;
         [self swithToRootViewAfterDelay:0.1 url:self.info.url];
     }];
@@ -79,20 +116,22 @@
 
 - (void)swithToRootViewAfterDelay:(NSTimeInterval)delay
 {
+    
+    @weakify(self)
+    
     CKAfter(delay, ^{
         
-        if (self.isClickSwitchToOtherView)
-            return ;
-        
-        self.nextWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        self.nextWindow.backgroundColor = [UIColor whiteColor];
-        UIViewController *vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
-        self.nextWindow.rootViewController = vc;
-        [self.nextWindow makeKeyAndVisible];
+        if (self.isClickSwitchToOtherView || self.isClickSkip)
+        {
+            return;
+        }
         
         [UIView animateWithDuration:0.35 animations:^{
             gAppDelegate.window.alpha = 0;
         } completion:^(BOOL finished) {
+            
+            @strongify(self)
+            
             gAppDelegate.window = self.nextWindow;
         }];
     });
@@ -100,12 +139,9 @@
 
 - (void)swithToRootViewAfterDelay:(NSTimeInterval)delay url:(NSString *) url
 {
+    @weakify(self)
+    
     CKAfter(delay, ^{
-        self.nextWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        self.nextWindow.backgroundColor = [UIColor whiteColor];
-        UIViewController *vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
-        self.nextWindow.rootViewController = vc;
-        [self.nextWindow makeKeyAndVisible];
         
         if (gAppMgr.navModel.curNavCtrl && url.length)
         {
@@ -117,9 +153,54 @@
         [UIView animateWithDuration:0.35 animations:^{
             gAppDelegate.window.alpha = 0;
         } completion:^(BOOL finished) {
+            
+            @strongify(self)
+            
             gAppDelegate.window = self.nextWindow;
         }];
     });
+}
+
+- (void)countDownCircleAfterDelay:(NSTimeInterval)delay
+{
+    
+    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(20, 20) radius:20 startAngle:M_PI_2*3 endAngle:M_PI*2 + M_PI_2*3 clockwise:YES];
+    
+    CAShapeLayer *shapeLayer = [[CAShapeLayer alloc]init];
+    shapeLayer.customTag = 100;
+    shapeLayer.frame = self.skipBtn.bounds;
+    shapeLayer.lineWidth = 3;
+    shapeLayer.fillColor =  [[UIColor clearColor] CGColor];
+    shapeLayer.strokeColor = [HEXCOLOR(@"#18D06A") CGColor];
+    shapeLayer.path = [bezierPath CGPath];
+    [self.skipBtn.layer addSublayer:shapeLayer];
+    
+    CGFloat diffPi = (0.1/delay);
+    
+    [[[RACSignal interval:0.1 onScheduler:[RACScheduler mainThreadScheduler]]take:delay*10]subscribeNext:^(id x) {
+        
+        shapeLayer.strokeEnd -= diffPi;
+        
+    }];
+}
+
+- (IBAction)actionSkip:(id)sender
+{
+    
+    @weakify(self)
+    
+    self.isClickSkip = YES;
+    
+    [UIView animateWithDuration:0.35 animations:^{
+        
+        gAppDelegate.window.alpha = 0;
+        
+    } completion:^(BOOL finished) {
+        
+        @strongify(self)
+        
+        gAppDelegate.window = self.nextWindow;
+    }];
 }
 
 @end
