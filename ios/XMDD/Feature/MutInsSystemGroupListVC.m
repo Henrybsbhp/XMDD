@@ -36,8 +36,6 @@
     [self.groupBeginVM getCooperationGroupList];
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {

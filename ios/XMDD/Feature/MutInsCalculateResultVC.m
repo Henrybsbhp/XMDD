@@ -73,7 +73,6 @@
 
 - (IBAction)actionJoin:(id)sender
 {
-    
     [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo2"}];
     
     MutInsSystemGroupListVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsSystemGroupListVC"];
@@ -82,9 +81,7 @@
 
 - (void)actionBack:(id)sender
 {
-    
     [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo1"}];
-    
     
     if (self.router.userInfo[kOriginRoute])
     {

@@ -8,6 +8,7 @@
 
 #import "UIViewController+Swizzling.h"
 #import "UMLogHelper.h"
+#import "UserBehaviorAnalysisHelper.h"
 
 #define SelfClassName NSStringFromClass([self class])
 
@@ -69,6 +70,7 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
     
     //友盟，aop打点方式
     NSDictionary * dict = [[UMLogHelper getPagesUMLogInfo] objectForKey:className];
+    NSDictionary * userBehaviorDict = [[UserBehaviorAnalysisHelper getPagesUserBehaviorInfo] objectForKey:className];
     if (dict)
     {
         //crashlytics日志信息
@@ -77,6 +79,16 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
         NSString * pageTag = [dict objectForKey:@"pagetag"];
         NSAssert([pageTag isKindOfClass:[NSString class]] && pageTag.length, @"UIViewController+Swizzling : pageTag is not NSString class or length is zero");
         [MobClick beginLogPageView:pageTag];
+    }
+    
+    if (userBehaviorDict)
+    {
+        NSString * pageTag = [userBehaviorDict objectForKey:@"pagetag"];
+        [SensorAnalyticsInstance trackTimer:pageTag];
+        
+        NSString * firstTag = [userBehaviorDict objectForKey:@"firsttag"];
+        NSString * nowStr = [[NSDate date] dateFormatForYYYYMMddHHmmss];
+        [[SensorAnalyticsInstance people] setOnce:firstTag to:nowStr];
     }
 }
 
@@ -88,6 +100,7 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
     
     //友盟，aop打点方式
     NSDictionary * dict = [[UMLogHelper getPagesUMLogInfo] objectForKey:className];
+    NSDictionary * userBehaviorDict = [[UserBehaviorAnalysisHelper getPagesUserBehaviorInfo] objectForKey:className];
     if (dict)
     {
         //crashlytics日志信息
@@ -96,6 +109,12 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
         NSString * pageTag = [dict objectForKey:@"pagetag"];
         NSAssert([pageTag isKindOfClass:[NSString class]] && pageTag.length, @"UIViewController+Swizzling : pageTag is not NSString class or length is zero");
         [MobClick endLogPageView:pageTag];
+    }
+    if (userBehaviorDict)
+    {
+        NSString * pageTag = [userBehaviorDict objectForKey:@"pagetag"];
+        
+        [SensorAnalyticsInstance track:pageTag];
     }
 }
 

@@ -18,6 +18,7 @@
 #import "ReactNativeManager.h"
 #import "GlobalStoreManager.h"
 
+
 #import "DefaultStyleModel.h"
 
 #import "HKLoginModel.h"
@@ -92,6 +93,8 @@
     [self setupAssistive];
     
     [[GlobalStoreManager sharedManager] setupGlobalStores];
+    
+    [self setupSensorsAnalytics];
     
     [self setupReactNative];
     //设置崩溃捕捉(官方建议放在最后面)
@@ -475,6 +478,36 @@
         DDLogDebug(@"OpenUrlQueue,%@",info[@"url"]);
         [gAppMgr.navModel pushToViewControllerByUrl:info[@"url"]];
         return [RACSignal empty];
+    }];
+}
+
+- (void)setupSensorsAnalytics
+{
+    NSString * serverUrlStr = @"http://xiaomadada.cloud.sensorsdata.cn:8006/sa?token=dbab4b9b130802ad";
+    NSString * configureUrlStr = @"http://xiaomadada.cloud.sensorsdata.cn:8006/config/";
+    NSString * trackServerUrlStr = @"";
+
+    SensorsAnalyticsDebugMode model = SensorsAnalyticsDebugAndTrack;
+    
+#ifdef DEBUG
+    
+#else
+#if XMDDEnvironment==2
+    SensorsAnalyticsDebugMode model = SensorsAnalyticsDebugOff;
+#endif
+#endif
+    
+    
+    [SensorsAnalyticsSDK sharedInstanceWithServerURL:serverUrlStr andConfigureURL:configureUrlStr andDebugMode:model];    
+    
+    RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
+    [userSignal subscribeNext:^(id x) {
+        
+        if (x)
+        {
+            JTUser * user = (JTUser *)x;
+            [SensorAnalyticsInstance trackSignUp:user.userID];
+        }
     }];
 }
 

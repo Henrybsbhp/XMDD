@@ -110,20 +110,29 @@
         [gToast showingWithText:@"费用试算中..."];
         
     }]subscribeNext:^(OutlayCalculateWithFrameNumOp *op) {
-        @strongify(self)
         
+        @strongify(self)
+
+        [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_chenggong"
+                        withProperties:@{
+                                         @"vcode":op.frameNo ?: @"",
+                                         @"brandname": op.brandName ?: @"",
+                                         @"frameno":op.carFrameNo ?: @"",
+                                         @"premiumprice":op.premiumPrice ?: @"",
+                                         @"servicefee":op.serviceFee ?: @"",
+                                         @"sharemoney":op.shareMoney ?: @"",
+                                         @"note":op.note ?: @""}];
         [gToast dismiss];
         
         MutInsCalculateResultVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateResultVC"];
         vc.model = op;
         [self.navigationController pushViewController:vc animated:YES];
         
-        
     } error:^(NSError *error) {
         
         NSString *errStr = error.domain;
+        [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_shibai" withProperties:@{@"error":errStr ?: @""}];
         [gToast showMistake:errStr.length == 0 ? @"费用试算失败请重试" : errStr];
-        
     }];
 }
 
@@ -205,10 +214,15 @@
             @strongify(self)
             
             [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan3"}];
+            [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan" withProperties:@{@"vcode":self.frameNo ?: @""}];
             
             if ([self checkFrameNo])
             {
                 [self calculateFrameNo];
+            }
+            else
+            {
+                [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_vmayouwu"];
             }
             
         }];
