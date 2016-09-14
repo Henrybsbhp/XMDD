@@ -942,6 +942,7 @@
         
         // 有车无团「未参团」状态
         if (dict.status == XMGroupFailed) {
+
             [self actionGotoSystemGroupListVC];
             
         } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {

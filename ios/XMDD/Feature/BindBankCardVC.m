@@ -7,7 +7,6 @@
 //
 
 #import "BindBankCardVC.h"
-#import "BankStore.h"
 #import "HKSMSModel.h"
 #import "UIView+Shake.h"
 #import "BindBankcardOp.h"
@@ -187,10 +186,6 @@
             
             [MobClick event:@"rp313_6"];
             [self.navigationController popViewControllerAnimated:YES];
-            BankStore *store = [BankStore fetchOrCreateStore];
-            [[store getAllCZBBankCards] sendAndIgnoreError];
-            MyCarStore *carStore = [MyCarStore fetchExistsStore];
-            [[carStore getAllCars] sendAndIgnoreError];
             [self postCustomNotificationName:kNotifyRefreshMyBankcardList object:nil];
             if (self.finishAction)
             {

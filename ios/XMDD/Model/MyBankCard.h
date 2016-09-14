@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GetCZBGaschargeInfoOp.h"
 
 @interface MyBankCard : NSObject<NSCopying>
 
@@ -42,8 +41,6 @@
 @property (nonatomic, copy) NSString *changephoneurl;
 
 @property (nonatomic, strong) NSArray  *couponIds;
-///加油信息
-@property (nonatomic, strong) GetCZBGaschargeInfoOp *gasInfo;
 
 + (instancetype)bankInfoWithJSONResponse:(NSDictionary *)rsp;
 

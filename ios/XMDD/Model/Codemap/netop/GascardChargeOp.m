@@ -12,7 +12,7 @@
     [params safetySetObject:@(self.req_paychannel) forKey:@"paychannel"];
     [params safetySetObject:self.req_vcode forKey:@"vcode"];
     [params safetySetObject:self.req_orderid forKey:@"orderid"];
-    [params safetySetObject:@(self.req_bill) forKey:@"bill"];
+    [params safetySetObject:@(self.req_bill ? 1 : 0) forKey:@"bill"];
     [params addParam:self.req_blackbox forName:@"blackbox"];
     [params addParam:@(IOSAPPID) forName:@"os"];
     
