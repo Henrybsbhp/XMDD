@@ -10,6 +10,6 @@
 
 @interface HKViewControllerFactory : NSObject
 
-+ (__kindof UIViewController *)mutualInsVC;
++ (__kindof UIViewController *)mutualInsVCWithChannel:(NSString *)channel;
 
 @end

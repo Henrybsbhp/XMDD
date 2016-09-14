@@ -195,7 +195,8 @@
         else {
             if (_adType == AdvertisementHomePageBottom)
             {
-                UIViewController *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
+                MutualInsVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
+                vc.sensorChannel = @"appsydb";
                 [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
             }
             else if (_adType == AdvertisementMutualInsTop)

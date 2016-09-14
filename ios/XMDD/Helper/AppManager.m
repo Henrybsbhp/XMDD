@@ -83,7 +83,7 @@
         HomeItem * item1 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=g" imageName:@"hp_refuel_330" isnew:NO];
         HomeItem * item2 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=sl" imageName:@"hp_carwash_330" isnew:NO];
         HomeItem * item3 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=a" imageName:@"hp_weekcoupon_330" isnew:NO];
-        HomeItem * item4 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=coins" imageName:@"hp_mutualIns_330" isnew:NO];
+        HomeItem * item4 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=coins&channel=appsy" imageName:@"hp_mutualIns_330" isnew:NO];
         HomeItem * item5 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=beautysl" imageName:@"hp_beauty_330" isnew:NO];
         HomeItem * item6 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=mtsl" imageName:@"hp_maintance_330" isnew:NO];
         HomeItem * item7 = [[HomeItem alloc] initWithId:nil titlt:nil picUrl:nil andUrl:@"xmdd://j?t=vio" imageName:@"hp_violation_330" isnew:NO];

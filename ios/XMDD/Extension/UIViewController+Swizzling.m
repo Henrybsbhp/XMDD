@@ -85,10 +85,6 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
     {
         NSString * pageTag = [userBehaviorDict objectForKey:@"pagetag"];
         [SensorAnalyticsInstance trackTimer:pageTag];
-        
-        NSString * firstTag = [userBehaviorDict objectForKey:@"firsttag"];
-        NSString * nowStr = [[NSDate date] dateFormatForYYYYMMddHHmmss];
-        [[SensorAnalyticsInstance people] setOnce:firstTag to:nowStr];
     }
 }
 
@@ -113,11 +109,52 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
     if (userBehaviorDict)
     {
         NSString * pageTag = [userBehaviorDict objectForKey:@"pagetag"];
+        NSString * firstTag = [userBehaviorDict objectForKey:@"firsttag"];
+        BOOL isFirstAppear;
+        if (![self getUProperty:firstTag])
+        {
+            isFirstAppear = YES;
+            NSString * timeStr = [[NSDate date] dateFormatForYYYYMMddHHmmss];
+            [self saveUPropertyWithKey:timeStr withKey:firstTag];
+        }
         
-        [SensorAnalyticsInstance track:pageTag];
+        NSObject * channelObj = [self valueForKey:@"sensorChannel"];
+        NSDictionary * dict = @{@"$is_first_time":@(isFirstAppear),@"channel":channelObj ?: @""};
+        [SensorAnalyticsInstance track:pageTag withProperties:dict];
     }
 }
 
+- (NSMutableDictionary *)userProperty
+{
+    NSMutableDictionary * mutualDict;
+    if (!mutualDict)
+    {
+        NSString * userKey = [NSString stringWithFormat:@"%@_userProperty",gAppMgr.myUser.userID];
+        NSDictionary * dict = [[NSUserDefaults standardUserDefaults] objectForKey:userKey];
+        if (!dict)
+        {
+            dict = [NSDictionary dictionary];
+            [[NSUserDefaults standardUserDefaults] setObject:dict forKey:userKey];
+        }
+        mutualDict = [NSMutableDictionary dictionaryWithDictionary:dict];
+    }
+    return mutualDict;
+}
+
+- (NSObject *)getUProperty:(NSString *)key
+{
+    NSMutableDictionary * dict = [self userProperty];
+    NSObject * obj = [dict objectForKey:key];
+    return obj;
+}
+
+- (void)saveUPropertyWithKey:(NSObject *)obj withKey:(NSString *)key
+{
+    NSString * userKey = [NSString stringWithFormat:@"%@_userProperty",gAppMgr.myUser.userID];
+    NSMutableDictionary * dict = [self userProperty];
+    [dict setObject:obj forKey:key];
+    [[NSUserDefaults standardUserDefaults] setObject:dict forKey:userKey];
+}
 
 
 @end
