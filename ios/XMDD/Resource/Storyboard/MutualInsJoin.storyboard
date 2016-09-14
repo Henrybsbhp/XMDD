@@ -2201,7 +2201,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="85" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="QQj-Vz-uMD" userLabel="组团中">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="466"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.97254901959999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TitleCell" rowHeight="85" id="wGF-dP-sVc">
@@ -2326,50 +2326,14 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L6w-mV-9mR">
-                                <rect key="frame" x="0.0" y="466" width="600" height="70"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WJH-7V-65c">
-                                        <rect key="frame" x="25" y="10" width="550" height="50"/>
-                                        <color key="backgroundColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <state key="normal" title="申请加入">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="actionApply:" destination="nf2-VK-rrJ" eventType="touchUpInside" id="ihO-m5-p7z"/>
-                                        </connections>
-                                    </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="fPz-EC-Mkf">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="Hgo-yK-po4"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="4kR-EO-dNX"/>
-                                    <constraint firstAttribute="trailing" secondItem="WJH-7V-65c" secondAttribute="trailing" constant="25" id="L3C-9F-RDw"/>
-                                    <constraint firstItem="WJH-7V-65c" firstAttribute="top" secondItem="L6w-mV-9mR" secondAttribute="top" constant="10" id="X6W-hT-Mar"/>
-                                    <constraint firstItem="WJH-7V-65c" firstAttribute="leading" secondItem="L6w-mV-9mR" secondAttribute="leading" constant="25" id="YML-s6-gP0"/>
-                                    <constraint firstAttribute="bottom" secondItem="WJH-7V-65c" secondAttribute="bottom" constant="10" id="f6x-ae-cNL"/>
-                                    <constraint firstItem="fPz-EC-Mkf" firstAttribute="leading" secondItem="L6w-mV-9mR" secondAttribute="leading" id="oQG-pa-yOz"/>
-                                    <constraint firstItem="fPz-EC-Mkf" firstAttribute="top" secondItem="L6w-mV-9mR" secondAttribute="top" id="ogf-tb-rLm"/>
-                                    <constraint firstAttribute="trailing" secondItem="fPz-EC-Mkf" secondAttribute="trailing" id="yoO-nF-AVJ"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.97254901959999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="QQj-Vz-uMD" firstAttribute="leading" secondItem="iDG-CM-pRz" secondAttribute="leading" id="3YR-cF-VkS"/>
                             <constraint firstItem="QQj-Vz-uMD" firstAttribute="top" secondItem="llT-ct-9vt" secondAttribute="bottom" id="4j8-IY-rVn"/>
                             <constraint firstItem="6FK-pq-rwm" firstAttribute="top" secondItem="QQj-Vz-uMD" secondAttribute="bottom" id="Med-Aw-UVP"/>
-                            <constraint firstItem="6FK-pq-rwm" firstAttribute="top" secondItem="L6w-mV-9mR" secondAttribute="bottom" id="UJi-cr-Jz0"/>
                             <constraint firstAttribute="trailing" secondItem="QQj-Vz-uMD" secondAttribute="trailing" id="UWi-8Y-XOP"/>
-                            <constraint firstAttribute="trailing" secondItem="L6w-mV-9mR" secondAttribute="trailing" id="YgU-Es-8uY"/>
-                            <constraint firstItem="L6w-mV-9mR" firstAttribute="top" secondItem="QQj-Vz-uMD" secondAttribute="bottom" id="ln4-vc-Adl"/>
-                            <constraint firstItem="L6w-mV-9mR" firstAttribute="leading" secondItem="iDG-CM-pRz" secondAttribute="leading" id="xT3-DR-R7l"/>
+                            <constraint firstItem="6FK-pq-rwm" firstAttribute="top" secondItem="QQj-Vz-uMD" secondAttribute="bottom" id="d1i-Ac-iw5"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -2380,7 +2344,6 @@
                     <navigationItem key="navigationItem" title="互助团" id="kUG-vY-jgY"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="applyBtn" destination="WJH-7V-65c" id="Agt-zH-VZe"/>
                         <outlet property="groupBeginTable" destination="QQj-Vz-uMD" id="KSy-NA-CeH"/>
                     </connections>
                 </viewController>
