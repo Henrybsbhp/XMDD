@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -216,19 +216,19 @@
                                                     </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="● 增票卡充值无法开发票" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x3o-mB-Nu1">
-                                                    <rect key="frame" x="16" y="163" width="572" height="15"/>
+                                                    <rect key="frame" x="16" y="163" width="572" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.98431372549019602" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="● 暂不支持副卡、司机卡的充值" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="maK-sX-Qyf">
-                                                    <rect key="frame" x="16" y="144" width="572" height="15"/>
+                                                    <rect key="frame" x="16" y="145" width="572" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.98431372549999996" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="● 请输入正确的加油卡号，充值成功后将不予退回" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzj-QV-Oqy">
-                                                    <rect key="frame" x="16" y="125" width="572" height="15"/>
+                                                    <rect key="frame" x="16" y="126.5" width="572" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.98431372549999996" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1691,7 +1691,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="浙商银行汽车卡" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KQh-1Z-l3r">
-                                                    <rect key="frame" x="59" y="8" width="512" height="22"/>
+                                                    <rect key="frame" x="59" y="8" width="512" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -2179,16 +2179,45 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请在营业厅圈存后向工作人员索要" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WPK-8N-3c4">
-                                                    <rect key="frame" x="119" y="16" width="180" height="15"/>
+                                                    <rect key="frame" x="119" y="16.5" width="180" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view tag="104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZgH-bi-WyN">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="46"/>
+                                                    <subviews>
+                                                        <button opaque="NO" tag="1041" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LiG-En-uJF">
+                                                            <rect key="frame" x="14" y="7.5" width="572" height="31.5"/>
+                                                            <state key="normal">
+                                                                <attributedString key="attributedTitle">
+                                                                    <fragment content="中石油部分卡不支持开发票">
+                                                                        <attributes>
+                                                                            <color key="NSColor" red="1" green="0.4549019608" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                                            <font key="NSFont" size="14" name="PingFangSC-Regular"/>
+                                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                        </attributes>
+                                                                    </fragment>
+                                                                </attributedString>
+                                                            </state>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="LiG-En-uJF" firstAttribute="centerY" secondItem="ZgH-bi-WyN" secondAttribute="centerY" id="cnf-o1-lC7"/>
+                                                        <constraint firstItem="LiG-En-uJF" firstAttribute="leading" secondItem="ZgH-bi-WyN" secondAttribute="leading" constant="14" id="gwf-RA-y7z"/>
+                                                        <constraint firstAttribute="trailing" secondItem="LiG-En-uJF" secondAttribute="trailing" constant="14" id="u64-9n-XkR"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="zzE-Sg-jUW" firstAttribute="leading" secondItem="hql-lx-UiJ" secondAttribute="leading" constant="5" id="EdB-ai-etq"/>
                                                 <constraint firstItem="WPK-8N-3c4" firstAttribute="leading" secondItem="CKV-dL-JMq" secondAttribute="trailing" constant="4" id="OG2-Ci-Xvv"/>
+                                                <constraint firstAttribute="trailing" secondItem="ZgH-bi-WyN" secondAttribute="trailing" id="Wfe-rG-zbd"/>
+                                                <constraint firstItem="ZgH-bi-WyN" firstAttribute="top" secondItem="hql-lx-UiJ" secondAttribute="top" id="Wya-kH-eyi"/>
                                                 <constraint firstItem="CKV-dL-JMq" firstAttribute="centerY" secondItem="zzE-Sg-jUW" secondAttribute="centerY" id="Z9e-pO-xrk"/>
+                                                <constraint firstAttribute="bottom" secondItem="ZgH-bi-WyN" secondAttribute="bottom" id="e27-Wl-BPh"/>
+                                                <constraint firstItem="ZgH-bi-WyN" firstAttribute="leading" secondItem="hql-lx-UiJ" secondAttribute="leading" id="eQy-45-MBM"/>
                                                 <constraint firstItem="CKV-dL-JMq" firstAttribute="leading" secondItem="zzE-Sg-jUW" secondAttribute="trailing" id="inX-cB-fep"/>
                                                 <constraint firstItem="zzE-Sg-jUW" firstAttribute="centerY" secondItem="hql-lx-UiJ" secondAttribute="centerY" id="u5b-aV-cfk"/>
                                                 <constraint firstItem="WPK-8N-3c4" firstAttribute="centerY" secondItem="CKV-dL-JMq" secondAttribute="centerY" id="wrj-ec-WiD"/>

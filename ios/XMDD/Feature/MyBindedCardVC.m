@@ -14,8 +14,6 @@
 #import "MyBankCard.h"
 #import "JGActionSheet.h"
 #import "BindBankCardVC.h"
-#import "UnbundlingVC.h"
-#import "BankCardDetailVC.h"
 #import "ADViewController.h"
 
 @interface MyBindedCardVC () <UITableViewDelegate, UITableViewDataSource>
@@ -84,21 +82,6 @@
 }
 
 #pragma mark - Actions
-- (void)actionToCheckPrivilege:(MyBankCard *)card
-{
-    BankCardDetailVC *vc = [UIStoryboard vcWithId:@"BankCardDetailVC" inStoryboard:@"Bank"];
-    vc.card = card;
-    vc.originVC = self;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-// 浙商加油卡
-- (void)actionToCZJCard
-{
-    BindBankCardVC *vc = [UIStoryboard vcWithId:@"BindBankCardVC" inStoryboard:@"Bank"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
 // 添加银行卡
 - (void)actionToAddCard
 {
@@ -135,15 +118,6 @@
     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"是否确定解除绑定银行卡" ActionItems:@[confirm, cancel]];
     
     [alert show];
-}
-
-- (void)actionUnbindCZBCard:(MyBankCard *)card
-{
-    UnbundlingVC *vc = [UIStoryboard vcWithId:@"UnbundlingVC" inStoryboard:@"Bank"];
-    vc.originVC = self;
-    vc.cardId = card.tokenID;
-    vc.cardNumber = card.cardNo;
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)actionEdit:(id)sender
@@ -227,13 +201,6 @@
         return 80;
     });
     
-    cardInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        @strongify(self);
-        if (model.cardType == 1) {
-            [self actionToCheckPrivilege:model];
-        }
-    });
-    
     cardInfoCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {
         @strongify(self);
         UIImageView *logoImageView = (UIImageView *)[cell.contentView viewWithTag:1000];
@@ -279,7 +246,7 @@
         @strongify(self);
         [[[addButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
-            [self popUpAddCardActionSheet];
+            [self actionToAddCard];
         }];
     });
     
@@ -317,15 +284,8 @@
     }
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        MyBankCard *model = [self.fetchedData safetyObjectAtIndex:indexPath.row];
-        if (model.cardType == 1)
-        {
-            [self actionUnbindCZBCard:model];
-        }
-        else
-        {
-            [self actionToUnbindTheBankCardWithTokenID:model.tokenID AtIndexPath:indexPath];
-        }
+        MyBankCard *card = [self.fetchedData safetyObjectAtIndex:indexPath.row];
+        [self actionToUnbindTheBankCardWithTokenID:card.tokenID AtIndexPath:indexPath];
     }
 }
 
@@ -409,34 +369,6 @@
     }];
 }
 
-- (void)popUpAddCardActionSheet
-{
-    JGActionSheetSection *opSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"浙商汽车卡", @"绑定银联支付"] buttonStyle:JGActionSheetButtonStyleDefault];
-    JGActionSheetSection *cancelSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"取消"] buttonStyle:JGActionSheetButtonStyleCancel];
-    JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:@[opSection, cancelSection]];
-    sheet.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-    [sheet showInView:self.navigationController.view animated:YES];
-    
-    @weakify(self);
-    [sheet setButtonPressedBlock:^(JGActionSheet *rsheet, NSIndexPath *indexPath) {
-        
-        [rsheet dismissAnimated:YES];
-        
-        if (indexPath.section != 0) {
-            return;
-        }
-        
-        if (indexPath.section == 0 && indexPath.row == 0) {
-            @strongify(self);
-            [self actionToCZJCard];
-            
-        } else if (indexPath.section == 0 && indexPath.row == 1) {
-            @strongify(self);
-            [self actionToAddCard];
-        }
-    }];
-}
-
 #pragma mark - Lazy instantiation
 - (UIButton *)addbutton
 {
@@ -450,7 +382,7 @@
         @weakify(self);
         [[_addbutton rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
             @strongify(self);
-            [self popUpAddCardActionSheet];
+            [self actionToAddCard];
         }];
     }
     return _addbutton;
