@@ -83,8 +83,10 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
     
     if (userBehaviorDict)
     {
+        NSString * durationTag = [userBehaviorDict objectForKey:@"pageduration"];
         NSString * pageTag = [userBehaviorDict objectForKey:@"pagetag"];
-        [SensorAnalyticsInstance trackTimer:pageTag];
+        [SensorAnalyticsInstance trackTimer:durationTag];
+        [SensorAnalyticsInstance track:pageTag];
     }
 }
 
@@ -108,7 +110,7 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
     }
     if (userBehaviorDict)
     {
-        NSString * pageTag = [userBehaviorDict objectForKey:@"pagetag"];
+        NSString * durationTag = [userBehaviorDict objectForKey:@"pageduration"];
         NSString * firstTag = [userBehaviorDict objectForKey:@"firsttag"];
         BOOL isFirstAppear;
         if (![self getUProperty:firstTag])
@@ -120,7 +122,7 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
         
         NSObject * channelObj = [self valueForKey:@"sensorChannel"];
         NSDictionary * dict = @{@"$is_first_time":@(isFirstAppear),@"channel":channelObj ?: @""};
-        [SensorAnalyticsInstance track:pageTag withProperties:dict];
+        [SensorAnalyticsInstance track:durationTag withProperties:dict];
     }
 }
 

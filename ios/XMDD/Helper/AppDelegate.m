@@ -510,7 +510,12 @@
         if (x)
         {
             JTUser * user = (JTUser *)x;
-            [SensorAnalyticsInstance trackSignUp:user.userID];
+            if (![[NSUserDefaults standardUserDefaults] objectForKey:@"k.xmdd.isLaunched"])
+            {
+                [SensorAnalyticsInstance trackSignUp:user.userID];
+                [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:@"k.xmdd.isLaunched"];
+            }
+            [SensorAnalyticsInstance identify:user.userID];
         }
     }];
 }
