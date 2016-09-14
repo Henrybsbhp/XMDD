@@ -481,7 +481,7 @@
         
         carNumberLabel.text = dict[@"licensenum"];
         
-        if (isFastClaimInt == 1 && [self indexOfProgressViewFromFetchedStatus:self.status fastClaimNo:isFastClaimInt] == 3) {
+        if (isFastClaimInt == 1 && (self.status == 2 || self.status == 3)) {
             stamperImageView.hidden = NO;
             
             if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])
@@ -561,7 +561,7 @@
         titleLabel.text = title;
         descriptionLabel.text = content;
         
-        if (isFastClaimInt == 1 && [self indexOfProgressViewFromFetchedStatus:self.status fastClaimNo:isFastClaimInt] == 3) {
+        if (isFastClaimInt == 1 && (self.status == 2 || self.status == 3)) {
             stamperImageView.hidden = NO;
             
             if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])
