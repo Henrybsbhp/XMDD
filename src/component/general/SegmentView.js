@@ -65,6 +65,9 @@ export default class SegmentView extends Component {
                 style={styles.item}
                 onPress={() => {
                     this.setSelectedIndex(key)
+                    if (this.props.onChanged) {
+                        this.props.onChanged(key)
+                    }
                 }}>
                 <Text style={[styles.title, selected ? {color: UI.Color.DefaultTint} : null]}
                       numberOfLines={0}

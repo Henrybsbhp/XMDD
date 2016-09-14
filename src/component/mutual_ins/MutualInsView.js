@@ -17,7 +17,7 @@ import {NavBarRightItem} from '../general/NavigatorView';
 import RefreshControl from '../general/refresh/RefreshControl';
 import MutualInsStore from '../../model/mutual_ins/MutualInsStore';
 import PopoverMenu from './PopoverMenu';
-import GroupDetailView from './MutualInsGroupDetailView';
+import GroupDetailView from './GroupDetailView';
 
 export default class MutualInsView extends Component {
     constructor(props) {
