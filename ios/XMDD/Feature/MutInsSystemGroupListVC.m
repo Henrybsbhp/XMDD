@@ -60,14 +60,6 @@
 
 #pragma mark - Action
 
-- (IBAction)actionApply:(id)sender
-{
-    [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan5"}];
-    GroupIntroductionVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
-    vc.groupType = MutualGroupTypeSystem;
-    [self.router.navigationController pushViewController:vc animated:YES];
-}
-
 -(void)actionBack
 {
     [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan1"}];
