@@ -28,6 +28,7 @@
     self.totalPoolAmt = rspObj[@"totalpoolamt"];
     self.totalClaimCnt = [rspObj[@"totalclaimcnt"] integerValue];
     self.totalClaimAmt = rspObj[@"totalclaimamt"];
+    self.openGroupTips = rspObj[@"opengrouptip"];
     
     return self;
 }
