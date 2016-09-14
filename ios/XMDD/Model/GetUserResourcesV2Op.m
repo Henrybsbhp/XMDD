@@ -22,32 +22,23 @@
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-    if ([rspObj isKindOfClass:[NSDictionary class]])
+    NSArray * coupons = (NSArray *)rspObj[@"coupons"];
+    NSMutableArray * tArray = [[NSMutableArray alloc] init];
+    for (NSDictionary * dict in coupons)
     {
-        NSArray * coupons = (NSArray *)rspObj[@"coupons"];
-        NSMutableArray * tArray = [[NSMutableArray alloc] init];
-        for (NSDictionary * dict in coupons)
-        {
-            HKCoupon * coupon = [HKCoupon couponWithJSONResponse:dict];
-            [tArray addObject:coupon];
-        }
-        NSArray * creditCards = (NSArray *)rspObj[@"bindcards"];
-        self.rsp_coupons = tArray;
-        self.rsp_czBankCreditCard = creditCards;
-        self.rsp_bankIntegral = [rspObj integerParamForName:@"bankcredits"];
-        self.rsp_freewashes = [rspObj integerParamForName:@"freewashes"];
-        
-        self.rsp_neverCarwashFlag = [rspObj boolParamForName:@"neverwashcarflag"];
-        self.rsp_carwashFlag = [rspObj boolParamForName:@"washcarflag"];
-        self.rsp_activityDayFlag = [rspObj boolParamForName:@"activitydayflag"];
-        self.rsp_weeklyCouponGetFlag = [rspObj boolParamForName:@"weeklycouponget"];
-        self.rsp_maxGasCouponAmt = [rspObj intParamForName:@"maxgascouponamt"];
+        HKCoupon * coupon = [HKCoupon couponWithJSONResponse:dict];
+        [tArray addObject:coupon];
     }
-    else
-    {
-        NSString * errorInfo = [NSString stringWithFormat:@"%@ parse error~~",NSStringFromClass([self class])];
-        NSAssert(NO,errorInfo);
-    }
+    self.rsp_coupons = tArray;
+    self.rsp_bankIntegral = [rspObj integerParamForName:@"bankcredits"];
+    self.rsp_freewashes = [rspObj integerParamForName:@"freewashes"];
+    
+    self.rsp_neverCarwashFlag = [rspObj boolParamForName:@"neverwashcarflag"];
+    self.rsp_carwashFlag = [rspObj boolParamForName:@"washcarflag"];
+    self.rsp_activityDayFlag = [rspObj boolParamForName:@"activitydayflag"];
+    self.rsp_weeklyCouponGetFlag = [rspObj boolParamForName:@"weeklycouponget"];
+    self.rsp_maxGasCouponAmt = [rspObj intParamForName:@"maxgascouponamt"];
+    
     return self;
 }
 

@@ -23,38 +23,13 @@
         
         self.abcCarwashesCount = rOp.rsp_freewashes;
         self.abcIntegral = rOp.rsp_bankIntegral;
-        self.validCZBankCreditCard = rOp.rsp_czBankCreditCard;
-        
         // 过滤洗车券可用的
-        NSArray * carwashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
-            
-            if (c.conponType == CouponTypeCarWash)
-            {
-                if (c.valid)
-                {
-                    return YES;
-                }
+        rOp.validCarwashCouponArray = [rOp.rsp_coupons arrayByFilteringOperator:^BOOL (HKCoupon *c) {
+            if (c.conponType == CouponTypeCarWash) {
+                return c.valid;
             }
             return NO;
         }];
-        
-        // 过滤浙商银行卡洗车券可用的
-        NSArray * czBankcarwashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {
-            
-            if (c.conponType == CouponTypeCZBankCarWash)
-            {
-                if (c.valid)
-                {
-                    return YES;
-                }
-            }
-            return NO;
-        }];
-        
-        // 合并洗车券 = 普通洗车券 + 浙商
-        NSMutableArray * carwashArray = [NSMutableArray arrayWithArray:czBankcarwashfilterArray];
-        [carwashArray addObjectsFromArray:carwashfilterArray];
-        rOp.validCarwashCouponArray = [NSArray arrayWithArray:carwashArray];
         
         // 过滤代金券可用的,然后按金额排序
         NSArray * cashfilterArray = [op.rsp_coupons arrayByFilteringOperator:^BOOL(HKCoupon * c) {

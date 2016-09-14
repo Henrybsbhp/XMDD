@@ -45,7 +45,7 @@
     [self.contentView addSubview:_priceLabel];
     
     _descLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _descLabel.font = [UIFont systemFontOfSize:14];
+    _descLabel.font = [UIFont systemFontOfSize:13];
     _descLabel.textColor = kGrayTextColor;
     _descLabel.numberOfLines = 0;
     [self.contentView addSubview:_descLabel];
@@ -78,7 +78,7 @@
     
     [_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
-        make.left.equalTo(self.radioButton.mas_right).offset(4);
+        make.left.equalTo(self.radioButton.mas_right);
         make.right.equalTo(self.contentView).offset(-14);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(8);
     }];

@@ -24,7 +24,7 @@ project_pbxproj_path=$project_path"/XMDD.xcodeproj/project.pbxproj"
 echo "project_pbxproj_path : "$project_pbxproj_path
 # echo $project_pbxproj_path
 
-sh $project_path"/Script/plist_replace.sh" $project_path"/XMDD/Resource/Plist/Info.plist"
+# sh $project_path"/Script/plist_replace.sh" $project_path"/XMDD/Resource/Plist/Info.plist"
 bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/XMDD/Resource/Plist/Info.plist")
 echo $bundleVersion
 

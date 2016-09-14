@@ -115,13 +115,14 @@
     shop.beautyServiceArray = [rsp[@"mrservices"] arrayByMapFilteringOperator:^id(id obj) {
         return [JTShopService shopServiceWithJSONResponse:obj];
     }];
+    shop.note = [rsp stringParamForName:@"note"];
     shop.carwashRate = [rsp doubleParamForName:@"rate"];
     shop.maintenanceRate = [rsp doubleParamForName:@"byrate"];
     shop.beautyRate = [rsp doubleParamForName:@"mrrate"];
     shop.carwashCommentNumber = [rsp integerParamForName:@"ratenumber"];
     shop.maintenanceCommentNumber = [rsp integerParamForName:@"byratenumber"];
     shop.beautyCommentNumber = [rsp integerParamForName:@"mrratenumber"];
-    shop.carwashNote = [rsp stringParamForName:@"note"];
+    shop.carwashNote = [rsp stringParamForName:@"xcnote"];
     shop.maintenanceNote = [rsp stringParamForName:@"bynote"];
     shop.beautyNote = [rsp stringParamForName:@"mrnote"];
 

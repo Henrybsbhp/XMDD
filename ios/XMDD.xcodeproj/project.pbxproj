@@ -23,6 +23,8 @@
 		1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F4A11ACD3B0900BBCC96 /* SYPaginatorViewController.m */; };
 		181E2EAC1D766ED600ED13A4 /* RCTLoadingViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2EAB1D766ED600ED13A4 /* RCTLoadingViewManager.m */; };
 		181E2EBE1D766FE500ED13A4 /* HKLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2EBD1D766FE500ED13A4 /* HKLoadingView.m */; };
+		181E2ED21D77BBB000ED13A4 /* RCTLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2ED11D77BBB000ED13A4 /* RCTLoadingView.m */; };
+		181E2F2C1D86A47C00ED13A4 /* GasInvoiceAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 181E2F2B1D86A47C00ED13A4 /* GasInvoiceAlertVC.m */; };
 		181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */; };
 		181F6DA51B15919900D38555 /* CXAlertButtonContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D981B15919900D38555 /* CXAlertButtonContainerView.m */; };
 		181F6DA61B15919900D38555 /* CXAlertButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D9A1B15919900D38555 /* CXAlertButtonItem.m */; };
@@ -128,9 +130,6 @@
 		183F572A1D4C90860001E26A /* GetCooperationMyCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56C21D4C90860001E26A /* GetCooperationMyCarOp.m */; };
 		183F572B1D4C90860001E26A /* GetCooperationMygroupDetailOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56C41D4C90860001E26A /* GetCooperationMygroupDetailOp.m */; };
 		183F572C1D4C90860001E26A /* GetCoorperationClaimConfigOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56C61D4C90860001E26A /* GetCoorperationClaimConfigOp.m */; };
-		183F572D1D4C90860001E26A /* GetCZBCouponDefInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56C81D4C90860001E26A /* GetCZBCouponDefInfoOp.m */; };
-		183F572E1D4C90860001E26A /* GetCZBGaschargeInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56CA1D4C90860001E26A /* GetCZBGaschargeInfoOp.m */; };
-		183F572F1D4C90860001E26A /* GetCzbpayVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56CC1D4C90860001E26A /* GetCzbpayVcodeOp.m */; };
 		183F57301D4C90860001E26A /* GetGascardListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56CE1D4C90860001E26A /* GetGascardListOp.m */; };
 		183F57311D4C90860001E26A /* GetGaschargeConfigOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56D01D4C90860001E26A /* GetGaschargeConfigOp.m */; };
 		183F57321D4C90860001E26A /* GetGaschargeInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56D21D4C90860001E26A /* GetGaschargeInfoOp.m */; };
@@ -453,7 +452,6 @@
 		18649A151D489A9700F1CCB0 /* UploadLogOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499091D489A9700F1CCB0 /* UploadLogOp.m */; };
 		18649A161D489A9700F1CCB0 /* UserViolationQueryOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864990B1D489A9700F1CCB0 /* UserViolationQueryOp.m */; };
 		18649A171D489A9700F1CCB0 /* AutoInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864990E1D489A9700F1CCB0 /* AutoInfoModel.m */; };
-		18649A191D489A9700F1CCB0 /* BankStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499121D489A9700F1CCB0 /* BankStore.m */; };
 		18649A1A1D489A9700F1CCB0 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499141D489A9700F1CCB0 /* BaseModel.m */; };
 		18649A1B1D489A9700F1CCB0 /* CarIDCodeCheckModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186499161D489A9700F1CCB0 /* CarIDCodeCheckModel.m */; };
 		18649A1E1D489A9700F1CCB0 /* GuideStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864991C1D489A9700F1CCB0 /* GuideStore.m */; };
@@ -522,7 +520,6 @@
 		18649BCB1D48AF8200F1CCB0 /* HKProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BCA1D48AF8200F1CCB0 /* HKProgressView.m */; };
 		18649BE61D48B0E100F1CCB0 /* CarwashFreshmanGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BD31D48B0E100F1CCB0 /* CarwashFreshmanGuideVC.m */; };
 		18649BE71D48B0E100F1CCB0 /* CarWashNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BD51D48B0E100F1CCB0 /* CarWashNavigationViewController.m */; };
-		18649BE91D48B0E100F1CCB0 /* ChooseBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BD91D48B0E100F1CCB0 /* ChooseBankCardVC.m */; };
 		18649BEB1D48B0E100F1CCB0 /* NearbyShopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BDD1D48B0E100F1CCB0 /* NearbyShopsViewController.m */; };
 		18649BEC1D48B0E100F1CCB0 /* PayForWashCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BDF1D48B0E100F1CCB0 /* PayForWashCarVC.m */; };
 		18649BED1D48B0E100F1CCB0 /* PaymentSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BE11D48B0E100F1CCB0 /* PaymentSuccessVC.m */; };
@@ -546,12 +543,9 @@
 		18649C3A1D48B49600F1CCB0 /* MineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C321D48B49600F1CCB0 /* MineVC.m */; };
 		18649C3C1D48B49600F1CCB0 /* MyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C361D48B49600F1CCB0 /* MyInfoViewController.m */; };
 		18649C3F1D48B4B300F1CCB0 /* ReactTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C3E1D48B4B300F1CCB0 /* ReactTestViewController.m */; };
-		18649C4F1D48B4E500F1CCB0 /* BankCardDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C421D48B4E500F1CCB0 /* BankCardDetailVC.m */; };
 		18649C501D48B4E500F1CCB0 /* BindBankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C441D48B4E500F1CCB0 /* BindBankCardVC.m */; };
 		18649C511D48B4E500F1CCB0 /* DetailsAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C461D48B4E500F1CCB0 /* DetailsAlertVC.m */; };
 		18649C521D48B4E500F1CCB0 /* DrawingBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C481D48B4E500F1CCB0 /* DrawingBoardView.m */; };
-		18649C531D48B4E500F1CCB0 /* MyBankVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C4A1D48B4E500F1CCB0 /* MyBankVC.m */; };
-		18649C551D48B4E500F1CCB0 /* UnbundlingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C4E1D48B4E500F1CCB0 /* UnbundlingVC.m */; };
 		18649C631D48B54E00F1CCB0 /* CarWashCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5A1D48B54E00F1CCB0 /* CarWashCouponVModel.m */; };
 		18649C641D48B54E00F1CCB0 /* CouponDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5C1D48B54E00F1CCB0 /* CouponDetailsVC.m */; };
 		18649C651D48B54E00F1CCB0 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5E1D48B54E00F1CCB0 /* MyCouponVC.m */; };
@@ -632,9 +626,7 @@
 		18649D651D48BAB300F1CCB0 /* InsuranceOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D641D48BAB300F1CCB0 /* InsuranceOrderVC.m */; };
 		18649D881D48BB5D00F1CCB0 /* GasAddCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D691D48BB5D00F1CCB0 /* GasAddCardVC.m */; };
 		18649D891D48BB5D00F1CCB0 /* GasCardListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D6B1D48BB5D00F1CCB0 /* GasCardListVC.m */; };
-		18649D8A1D48BB5D00F1CCB0 /* GasCZBVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D6D1D48BB5D00F1CCB0 /* GasCZBVC.m */; };
 		18649D8B1D48BB5D00F1CCB0 /* GasNormalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D6F1D48BB5D00F1CCB0 /* GasNormalVC.m */; };
-		18649D8C1D48BB5D00F1CCB0 /* GasPayForCZBVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D711D48BB5D00F1CCB0 /* GasPayForCZBVC.m */; };
 		18649D8D1D48BB5D00F1CCB0 /* GasPaymentResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D731D48BB5D00F1CCB0 /* GasPaymentResultVC.m */; };
 		18649D8E1D48BB5D00F1CCB0 /* GasPickAmountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D751D48BB5D00F1CCB0 /* GasPickAmountCell.m */; };
 		18649D8F1D48BB5D00F1CCB0 /* GasRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D771D48BB5D00F1CCB0 /* GasRecordVC.m */; };
@@ -853,6 +845,7 @@
 		FAC986A81D587890000FE245 /* ViolationCommissionStateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC986A71D587890000FE245 /* ViolationCommissionStateModel.m */; };
 		FADD81D21D53273900AB844E /* MaintainOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FADD81D11D53273900AB844E /* MaintainOrderViewModel.m */; };
 		FAE1A1811D543AE500574B1C /* ViolationCommissionStateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE1A1801D543AE500574B1C /* ViolationCommissionStateVC.m */; };
+		FDD10986261E4EB0934F8D87 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1428CFB868EB4405A5C804DC /* libRNSVG.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -954,10 +947,18 @@
 			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
 			remoteInfo = ART;
 		};
+		1895C43D1D8901B1002EFD1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3C0E96B10826489DA73979A5 /* RNSVG.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
+			remoteInfo = RNSVG;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		024A61212A7D4DDF9DFA2834 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		1428CFB868EB4405A5C804DC /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		180294D81D61C3C900FC0C05 /* ConfigStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigStore.h; sourceTree = "<group>"; };
 		180294D91D61C3C900FC0C05 /* ConfigStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigStore.m; sourceTree = "<group>"; };
 		180294DB1D61C3F700FC0C05 /* GetSystemConfigInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSystemConfigInfoOp.h; sourceTree = "<group>"; };
@@ -986,6 +987,10 @@
 		181E2EAB1D766ED600ED13A4 /* RCTLoadingViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTLoadingViewManager.m; sourceTree = "<group>"; };
 		181E2EBC1D766FE500ED13A4 /* HKLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKLoadingView.h; sourceTree = "<group>"; };
 		181E2EBD1D766FE500ED13A4 /* HKLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKLoadingView.m; sourceTree = "<group>"; };
+		181E2ED01D77BBB000ED13A4 /* RCTLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTLoadingView.h; sourceTree = "<group>"; };
+		181E2ED11D77BBB000ED13A4 /* RCTLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTLoadingView.m; sourceTree = "<group>"; };
+		181E2F2A1D86A47C00ED13A4 /* GasInvoiceAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasInvoiceAlertVC.h; sourceTree = "<group>"; };
+		181E2F2B1D86A47C00ED13A4 /* GasInvoiceAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasInvoiceAlertVC.m; sourceTree = "<group>"; };
 		181F6D951B15919900D38555 /* CXAlertBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertBackgroundWindow.h; sourceTree = "<group>"; };
 		181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertBackgroundWindow.m; sourceTree = "<group>"; };
 		181F6D971B15919900D38555 /* CXAlertButtonContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertButtonContainerView.h; sourceTree = "<group>"; };
@@ -1201,12 +1206,6 @@
 		183F56C41D4C90860001E26A /* GetCooperationMygroupDetailOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCooperationMygroupDetailOp.m; sourceTree = "<group>"; };
 		183F56C51D4C90860001E26A /* GetCoorperationClaimConfigOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCoorperationClaimConfigOp.h; sourceTree = "<group>"; };
 		183F56C61D4C90860001E26A /* GetCoorperationClaimConfigOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCoorperationClaimConfigOp.m; sourceTree = "<group>"; };
-		183F56C71D4C90860001E26A /* GetCZBCouponDefInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCZBCouponDefInfoOp.h; sourceTree = "<group>"; };
-		183F56C81D4C90860001E26A /* GetCZBCouponDefInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCZBCouponDefInfoOp.m; sourceTree = "<group>"; };
-		183F56C91D4C90860001E26A /* GetCZBGaschargeInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCZBGaschargeInfoOp.h; sourceTree = "<group>"; };
-		183F56CA1D4C90860001E26A /* GetCZBGaschargeInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCZBGaschargeInfoOp.m; sourceTree = "<group>"; };
-		183F56CB1D4C90860001E26A /* GetCzbpayVcodeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCzbpayVcodeOp.h; sourceTree = "<group>"; };
-		183F56CC1D4C90860001E26A /* GetCzbpayVcodeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCzbpayVcodeOp.m; sourceTree = "<group>"; };
 		183F56CD1D4C90860001E26A /* GetGascardListOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGascardListOp.h; sourceTree = "<group>"; };
 		183F56CE1D4C90860001E26A /* GetGascardListOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGascardListOp.m; sourceTree = "<group>"; };
 		183F56CF1D4C90860001E26A /* GetGaschargeConfigOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGaschargeConfigOp.h; sourceTree = "<group>"; };
@@ -1881,8 +1880,6 @@
 		1864990B1D489A9700F1CCB0 /* UserViolationQueryOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViolationQueryOp.m; sourceTree = "<group>"; };
 		1864990D1D489A9700F1CCB0 /* AutoInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoInfoModel.h; sourceTree = "<group>"; };
 		1864990E1D489A9700F1CCB0 /* AutoInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoInfoModel.m; sourceTree = "<group>"; };
-		186499111D489A9700F1CCB0 /* BankStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankStore.h; sourceTree = "<group>"; };
-		186499121D489A9700F1CCB0 /* BankStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankStore.m; sourceTree = "<group>"; };
 		186499131D489A9700F1CCB0 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
 		186499141D489A9700F1CCB0 /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		186499151D489A9700F1CCB0 /* CarIDCodeCheckModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarIDCodeCheckModel.h; sourceTree = "<group>"; };
@@ -2024,8 +2021,6 @@
 		18649BD31D48B0E100F1CCB0 /* CarwashFreshmanGuideVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarwashFreshmanGuideVC.m; sourceTree = "<group>"; };
 		18649BD41D48B0E100F1CCB0 /* CarWashNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarWashNavigationViewController.h; sourceTree = "<group>"; };
 		18649BD51D48B0E100F1CCB0 /* CarWashNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarWashNavigationViewController.m; sourceTree = "<group>"; };
-		18649BD81D48B0E100F1CCB0 /* ChooseBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBankCardVC.h; sourceTree = "<group>"; };
-		18649BD91D48B0E100F1CCB0 /* ChooseBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBankCardVC.m; sourceTree = "<group>"; };
 		18649BDC1D48B0E100F1CCB0 /* NearbyShopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyShopsViewController.h; sourceTree = "<group>"; };
 		18649BDD1D48B0E100F1CCB0 /* NearbyShopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyShopsViewController.m; sourceTree = "<group>"; };
 		18649BDE1D48B0E100F1CCB0 /* PayForWashCarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForWashCarVC.h; sourceTree = "<group>"; };
@@ -2072,18 +2067,12 @@
 		18649C361D48B49600F1CCB0 /* MyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInfoViewController.m; sourceTree = "<group>"; };
 		18649C3D1D48B4B300F1CCB0 /* ReactTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactTestViewController.h; sourceTree = "<group>"; };
 		18649C3E1D48B4B300F1CCB0 /* ReactTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactTestViewController.m; sourceTree = "<group>"; };
-		18649C411D48B4E500F1CCB0 /* BankCardDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardDetailVC.h; sourceTree = "<group>"; };
-		18649C421D48B4E500F1CCB0 /* BankCardDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankCardDetailVC.m; sourceTree = "<group>"; };
 		18649C431D48B4E500F1CCB0 /* BindBankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindBankCardVC.h; sourceTree = "<group>"; };
 		18649C441D48B4E500F1CCB0 /* BindBankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindBankCardVC.m; sourceTree = "<group>"; };
 		18649C451D48B4E500F1CCB0 /* DetailsAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsAlertVC.h; sourceTree = "<group>"; };
 		18649C461D48B4E500F1CCB0 /* DetailsAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsAlertVC.m; sourceTree = "<group>"; };
 		18649C471D48B4E500F1CCB0 /* DrawingBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingBoardView.h; sourceTree = "<group>"; };
 		18649C481D48B4E500F1CCB0 /* DrawingBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingBoardView.m; sourceTree = "<group>"; };
-		18649C491D48B4E500F1CCB0 /* MyBankVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBankVC.h; sourceTree = "<group>"; };
-		18649C4A1D48B4E500F1CCB0 /* MyBankVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBankVC.m; sourceTree = "<group>"; };
-		18649C4D1D48B4E500F1CCB0 /* UnbundlingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnbundlingVC.h; sourceTree = "<group>"; };
-		18649C4E1D48B4E500F1CCB0 /* UnbundlingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnbundlingVC.m; sourceTree = "<group>"; };
 		18649C591D48B54E00F1CCB0 /* CarWashCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarWashCouponVModel.h; sourceTree = "<group>"; };
 		18649C5A1D48B54E00F1CCB0 /* CarWashCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarWashCouponVModel.m; sourceTree = "<group>"; };
 		18649C5B1D48B54E00F1CCB0 /* CouponDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponDetailsVC.h; sourceTree = "<group>"; };
@@ -2243,12 +2232,8 @@
 		18649D691D48BB5D00F1CCB0 /* GasAddCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasAddCardVC.m; sourceTree = "<group>"; };
 		18649D6A1D48BB5D00F1CCB0 /* GasCardListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasCardListVC.h; sourceTree = "<group>"; };
 		18649D6B1D48BB5D00F1CCB0 /* GasCardListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasCardListVC.m; sourceTree = "<group>"; };
-		18649D6C1D48BB5D00F1CCB0 /* GasCZBVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasCZBVC.h; sourceTree = "<group>"; };
-		18649D6D1D48BB5D00F1CCB0 /* GasCZBVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasCZBVC.m; sourceTree = "<group>"; };
 		18649D6E1D48BB5D00F1CCB0 /* GasNormalVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasNormalVC.h; sourceTree = "<group>"; };
 		18649D6F1D48BB5D00F1CCB0 /* GasNormalVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasNormalVC.m; sourceTree = "<group>"; };
-		18649D701D48BB5D00F1CCB0 /* GasPayForCZBVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasPayForCZBVC.h; sourceTree = "<group>"; };
-		18649D711D48BB5D00F1CCB0 /* GasPayForCZBVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasPayForCZBVC.m; sourceTree = "<group>"; };
 		18649D721D48BB5D00F1CCB0 /* GasPaymentResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasPaymentResultVC.h; sourceTree = "<group>"; };
 		18649D731D48BB5D00F1CCB0 /* GasPaymentResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasPaymentResultVC.m; sourceTree = "<group>"; };
 		18649D741D48BB5D00F1CCB0 /* GasPickAmountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasPickAmountCell.h; sourceTree = "<group>"; };
@@ -2499,6 +2484,7 @@
 		2218E7662B054DDBA205E349 /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 		23536359D1156D038554AD75 /* Pods-XMDD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XMDD.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XMDD/Pods-XMDD.debug.xcconfig"; sourceTree = "<group>"; };
 		28FBB925F230AB7BE6AD87FF /* libPods-XMDD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-XMDD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C0E96B10826489DA73979A5 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		3FF6BC86D83245F3AA5579BF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		42A4FF4931374F8E9563443E /* libRCTToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTToast.a; sourceTree = "<group>"; };
 		4E2159A01D6409F5004A81D6 /* UPayVerifyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UPayVerifyVC.h; path = ../Feature/UPayVerifyVC.h; sourceTree = "<group>"; };
@@ -2715,6 +2701,7 @@
 				8A630B170BB849809FD3E324 /* libRCTToast.a in Frameworks */,
 				13AA78669F9046A389977DDE /* libRNImagePicker.a in Frameworks */,
 				530652AFA9D0462F8973E2ED /* libRNVectorIcons.a in Frameworks */,
+				FDD10986261E4EB0934F8D87 /* libRNSVG.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3121,12 +3108,6 @@
 				183F56C41D4C90860001E26A /* GetCooperationMygroupDetailOp.m */,
 				183F56C51D4C90860001E26A /* GetCoorperationClaimConfigOp.h */,
 				183F56C61D4C90860001E26A /* GetCoorperationClaimConfigOp.m */,
-				183F56C71D4C90860001E26A /* GetCZBCouponDefInfoOp.h */,
-				183F56C81D4C90860001E26A /* GetCZBCouponDefInfoOp.m */,
-				183F56C91D4C90860001E26A /* GetCZBGaschargeInfoOp.h */,
-				183F56CA1D4C90860001E26A /* GetCZBGaschargeInfoOp.m */,
-				183F56CB1D4C90860001E26A /* GetCzbpayVcodeOp.h */,
-				183F56CC1D4C90860001E26A /* GetCzbpayVcodeOp.m */,
 				183F56CD1D4C90860001E26A /* GetGascardListOp.h */,
 				183F56CE1D4C90860001E26A /* GetGascardListOp.m */,
 				183F56CF1D4C90860001E26A /* GetGaschargeConfigOp.h */,
@@ -4597,8 +4578,6 @@
 				18649BD31D48B0E100F1CCB0 /* CarwashFreshmanGuideVC.m */,
 				18649BD41D48B0E100F1CCB0 /* CarWashNavigationViewController.h */,
 				18649BD51D48B0E100F1CCB0 /* CarWashNavigationViewController.m */,
-				18649BD81D48B0E100F1CCB0 /* ChooseBankCardVC.h */,
-				18649BD91D48B0E100F1CCB0 /* ChooseBankCardVC.m */,
 				18649BDE1D48B0E100F1CCB0 /* PayForWashCarVC.h */,
 				18649BDF1D48B0E100F1CCB0 /* PayForWashCarVC.m */,
 				18649BE01D48B0E100F1CCB0 /* PaymentSuccessVC.h */,
@@ -4695,16 +4674,10 @@
 		18649C561D48B4EE00F1CCB0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				18649C411D48B4E500F1CCB0 /* BankCardDetailVC.h */,
-				18649C421D48B4E500F1CCB0 /* BankCardDetailVC.m */,
 				18649C431D48B4E500F1CCB0 /* BindBankCardVC.h */,
 				18649C441D48B4E500F1CCB0 /* BindBankCardVC.m */,
 				18649C451D48B4E500F1CCB0 /* DetailsAlertVC.h */,
 				18649C461D48B4E500F1CCB0 /* DetailsAlertVC.m */,
-				18649C491D48B4E500F1CCB0 /* MyBankVC.h */,
-				18649C4A1D48B4E500F1CCB0 /* MyBankVC.m */,
-				18649C4D1D48B4E500F1CCB0 /* UnbundlingVC.h */,
-				18649C4E1D48B4E500F1CCB0 /* UnbundlingVC.m */,
 				FA1459DB1D62A8F700690140 /* AddBankCardVC.h */,
 				FA1459DC1D62A8F700690140 /* AddBankCardVC.m */,
 				FA1459F21D6302BA00690140 /* MyBindedCardVC.h */,
@@ -5049,12 +5022,8 @@
 				18649D691D48BB5D00F1CCB0 /* GasAddCardVC.m */,
 				18649D6A1D48BB5D00F1CCB0 /* GasCardListVC.h */,
 				18649D6B1D48BB5D00F1CCB0 /* GasCardListVC.m */,
-				18649D6C1D48BB5D00F1CCB0 /* GasCZBVC.h */,
-				18649D6D1D48BB5D00F1CCB0 /* GasCZBVC.m */,
 				18649D6E1D48BB5D00F1CCB0 /* GasNormalVC.h */,
 				18649D6F1D48BB5D00F1CCB0 /* GasNormalVC.m */,
-				18649D701D48BB5D00F1CCB0 /* GasPayForCZBVC.h */,
-				18649D711D48BB5D00F1CCB0 /* GasPayForCZBVC.m */,
 				18649D721D48BB5D00F1CCB0 /* GasPaymentResultVC.h */,
 				18649D731D48BB5D00F1CCB0 /* GasPaymentResultVC.m */,
 				18649D761D48BB5D00F1CCB0 /* GasRecordVC.h */,
@@ -5065,6 +5034,8 @@
 				18649D831D48BB5D00F1CCB0 /* GasVC.m */,
 				18649D861D48BB5D00F1CCB0 /* PayForGasViewController.h */,
 				18649D871D48BB5D00F1CCB0 /* PayForGasViewController.m */,
+				181E2F2A1D86A47C00ED13A4 /* GasInvoiceAlertVC.h */,
+				181E2F2B1D86A47C00ED13A4 /* GasInvoiceAlertVC.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -5373,6 +5344,8 @@
 				1836B75B1D5319E90078DB15 /* RCTHKRefreshControl.m */,
 				181E2EAA1D766ED600ED13A4 /* RCTLoadingViewManager.h */,
 				181E2EAB1D766ED600ED13A4 /* RCTLoadingViewManager.m */,
+				181E2ED01D77BBB000ED13A4 /* RCTLoadingView.h */,
+				181E2ED11D77BBB000ED13A4 /* RCTLoadingView.m */,
 			);
 			name = Bridege;
 			sourceTree = "<group>";
@@ -5430,6 +5403,14 @@
 				189371281B0E0D460030FDE1 /* TTTAttributedLabel.m */,
 			);
 			path = TTTAttributedLabel;
+			sourceTree = "<group>";
+		};
+		1895C42D1D8901B1002EFD1E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1895C43E1D8901B1002EFD1E /* libRNSVG.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		189B31111ADB60AD001D7288 /* JGActionSheet */ = {
@@ -5502,8 +5483,6 @@
 			children = (
 				1864990D1D489A9700F1CCB0 /* AutoInfoModel.h */,
 				1864990E1D489A9700F1CCB0 /* AutoInfoModel.m */,
-				186499111D489A9700F1CCB0 /* BankStore.h */,
-				186499121D489A9700F1CCB0 /* BankStore.m */,
 				186499131D489A9700F1CCB0 /* BaseModel.h */,
 				186499141D489A9700F1CCB0 /* BaseModel.m */,
 				186499151D489A9700F1CCB0 /* CarIDCodeCheckModel.h */,
@@ -5893,6 +5872,7 @@
 				18962BCA9B3045B99F67C46C /* RCTToast.xcodeproj */,
 				71AB33C683F54D3BA66FB5F5 /* RNImagePicker.xcodeproj */,
 				E574C35E0C5B4698BA396F43 /* RNVectorIcons.xcodeproj */,
+				3C0E96B10826489DA73979A5 /* RNSVG.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -6022,7 +6002,7 @@
 		1883D8D71ACB99AC002A4D19 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 720;
 				ORGANIZATIONNAME = huika;
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
@@ -6034,7 +6014,7 @@
 								enabled = 0;
 							};
 							com.apple.OMC = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Wallet = {
 								enabled = 0;
@@ -6107,6 +6087,10 @@
 				{
 					ProductGroup = 186495751D4890C400F1CCB0 /* Products */;
 					ProjectRef = 71AB33C683F54D3BA66FB5F5 /* RNImagePicker.xcodeproj */;
+				},
+				{
+					ProductGroup = 1895C42D1D8901B1002EFD1E /* Products */;
+					ProjectRef = 3C0E96B10826489DA73979A5 /* RNSVG.xcodeproj */;
 				},
 				{
 					ProductGroup = 186495861D4890D000F1CCB0 /* Products */;
@@ -6217,6 +6201,13 @@
 			fileType = archive.ar;
 			path = libART.a;
 			remoteRef = 1888F43D1D48DAB700C64288 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1895C43E1D8901B1002EFD1E /* libRNSVG.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSVG.a;
+			remoteRef = 1895C43D1D8901B1002EFD1E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -6372,7 +6363,6 @@
 				18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */,
 				183F570B1D4C90860001E26A /* MutualInsMessage.m in Sources */,
 				18CECC281C30F8890075B7F9 /* JT3DScrollView.m in Sources */,
-				18649D8C1D48BB5D00F1CCB0 /* GasPayForCZBVC.m in Sources */,
 				1836B7B11D54220B0078DB15 /* NSData+JSON.m in Sources */,
 				180294DD1D61C3F700FC0C05 /* GetSystemConfigInfoOp.m in Sources */,
 				18649D621D48BAA800F1CCB0 /* AnimationBoardView.m in Sources */,
@@ -6414,6 +6404,7 @@
 				18FC01DE1C4E6C6F00FD61BF /* IQKeyboardManager.m in Sources */,
 				1888F4251D48CBCA00C64288 /* ReactNativeManager.m in Sources */,
 				183F57331D4C90860001E26A /* GetGaschargeRecordListOp.m in Sources */,
+				181E2F2C1D86A47C00ED13A4 /* GasInvoiceAlertVC.m in Sources */,
 				186499C41D489A9700F1CCB0 /* GetCouponByTypeNewV2Op.m in Sources */,
 				4E78DDE91D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */,
 				186499F71D489A9700F1CCB0 /* GetUserCouponPkgOp.m in Sources */,
@@ -6445,7 +6436,6 @@
 				18648FC21D48558000F1CCB0 /* MD5DataSigner.m in Sources */,
 				18649D8F1D48BB5D00F1CCB0 /* GasRecordVC.m in Sources */,
 				18649C8C1D48B61900F1CCB0 /* EditCarVC.m in Sources */,
-				18649BE91D48B0E100F1CCB0 /* ChooseBankCardVC.m in Sources */,
 				180294E11D62AADD00FC0C05 /* ShopCommentListVC.m in Sources */,
 				186496BB1D489A4200F1CCB0 /* HKCatchErrorModel.m in Sources */,
 				18648FC11D48558000F1CCB0 /* DataVerifier.m in Sources */,
@@ -6472,7 +6462,6 @@
 				18649BBE1D48AEC000F1CCB0 /* MoreSubmodulesVC.m in Sources */,
 				186499981D489A9700F1CCB0 /* AddUserFavoriteOp.m in Sources */,
 				183F57361D4C90860001E26A /* GetInsCarListOp.m in Sources */,
-				18649A191D489A9700F1CCB0 /* BankStore.m in Sources */,
 				183F57231D4C90860001E26A /* GetCooperationGroupConfigOp.m in Sources */,
 				1836B7BD1D54220B0078DB15 /* UIImagePickerController+Expansion.m in Sources */,
 				186499BA1D489A9700F1CCB0 /* GetCalculateBaseInfoOp.m in Sources */,
@@ -6612,7 +6601,6 @@
 				186496D31D489A4200F1CCB0 /* SupportFileManager.m in Sources */,
 				18649C701D48B57300F1CCB0 /* JoinResultViewController.m in Sources */,
 				18649D4B1D48BA3D00F1CCB0 /* InsPayResultVC.m in Sources */,
-				18649D8A1D48BB5D00F1CCB0 /* GasCZBVC.m in Sources */,
 				18649B861D48A93000F1CCB0 /* TopMenuScrollView.m in Sources */,
 				1836B7C31D54220B0078DB15 /* CKEventPromise.m in Sources */,
 				186499B91D489A9700F1CCB0 /* GetBindCZBVcodeOp.m in Sources */,
@@ -6655,7 +6643,6 @@
 				186495D01D4895D200F1CCB0 /* xmdd.xcdatamodeld in Sources */,
 				18649DF61D48BD2300F1CCB0 /* MutualInsStore.m in Sources */,
 				183F57181D4C90860001E26A /* DeleteCooperationGroupOp.m in Sources */,
-				18649C531D48B4E500F1CCB0 /* MyBankVC.m in Sources */,
 				18649E461D48BE0A00F1CCB0 /* MutInsCalculateResultVC.m in Sources */,
 				18649CCD1D48B72D00F1CCB0 /* RescueCouponViewController.m in Sources */,
 				18649D021D48B7C000F1CCB0 /* SuspendedAdVC.m in Sources */,
@@ -6747,7 +6734,6 @@
 				186499871D489A9700F1CCB0 /* HKRescue.m in Sources */,
 				18648FBB1D48558000F1CCB0 /* SBJsonParser.m in Sources */,
 				186499911D489A9700F1CCB0 /* MutualInsAdModel.m in Sources */,
-				18649C4F1D48B4E500F1CCB0 /* BankCardDetailVC.m in Sources */,
 				18649E241D48BD8D00F1CCB0 /* MutualInsScencePhotoVC.m in Sources */,
 				186496D41D489A4200F1CCB0 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
 				1888F41E1D48CB8600C64288 /* ReactNativeOp.m in Sources */,
@@ -6828,6 +6814,7 @@
 				183F57281D4C90860001E26A /* GetCooperationIdlicenseInfoOp.m in Sources */,
 				4E78DDF81D5A1A8E00EC52C7 /* GetViolationCommissionApplyOp.m in Sources */,
 				1844531D1C8EA30F007B895D /* AhaWaterWaveView.m in Sources */,
+				181E2ED21D77BBB000ED13A4 /* RCTLoadingView.m in Sources */,
 				18649C1E1D48B3BB00F1CCB0 /* LoginViewModel.m in Sources */,
 				18649C391D48B49600F1CCB0 /* EditMyInfoViewController.m in Sources */,
 				186496BA1D489A4200F1CCB0 /* DistanceCalcHelper.m in Sources */,
@@ -6917,7 +6904,6 @@
 				18649C3A1D48B49600F1CCB0 /* MineVC.m in Sources */,
 				186499FC1D489A9700F1CCB0 /* GetUserResourcesV2Op.m in Sources */,
 				183F57111D4C90860001E26A /* ApplyCooperationGroupJoinOp.m in Sources */,
-				18649C551D48B4E500F1CCB0 /* UnbundlingVC.m in Sources */,
 				18649CD01D48B72D00F1CCB0 /* RescueHomeViewController.m in Sources */,
 				18649C6F1D48B57300F1CCB0 /* FeedbackVC.m in Sources */,
 				183F57151D4C90860001E26A /* CancelGaschargeOp.m in Sources */,
@@ -6935,7 +6921,6 @@
 				183F571C1D4C90860001E26A /* GascardChargeByStagesOp.m in Sources */,
 				186499CB1D489A9700F1CCB0 /* GetInscouponOp.m in Sources */,
 				1836B7BB1D54220B0078DB15 /* UIColor+ColorWithHexString.m in Sources */,
-				183F572D1D4C90860001E26A /* GetCZBCouponDefInfoOp.m in Sources */,
 				18649B621D48A93000F1CCB0 /* DashLine.m in Sources */,
 				181F6DA71B15919900D38555 /* CXAlertView.m in Sources */,
 				186496BE1D489A4200F1CCB0 /* HKLoadingModel.m in Sources */,
@@ -7083,9 +7068,7 @@
 				186499D11D489A9700F1CCB0 /* GetLaunchInfoOp.m in Sources */,
 				18649E1D1D48BD8D00F1CCB0 /* MutualInsAskForCompensationVC.m in Sources */,
 				18649D3B1D48B9D900F1CCB0 /* DrivingLicenseHistoryView.m in Sources */,
-				183F572F1D4C90860001E26A /* GetCzbpayVcodeOp.m in Sources */,
 				186499D71D489A9700F1CCB0 /* GetPayStatusOp.m in Sources */,
-				183F572E1D4C90860001E26A /* GetCZBGaschargeInfoOp.m in Sources */,
 				1864999C1D489A9700F1CCB0 /* AuthByVcodeOp.m in Sources */,
 				186499DE1D489A9700F1CCB0 /* GetRescueHistoryOp.m in Sources */,
 				186499E71D489A9700F1CCB0 /* GetShopByRangeV2Op.m in Sources */,
@@ -7201,7 +7184,7 @@
 					"COCOAPODS=1",
 					"XMDDENT=0",
 					"XMDDEnvironment=1",
-					"REACT_DEV=0",
+					"REACT_DEV=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7226,6 +7209,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
 				INFOPLIST_FILE = XMDD/Resource/Plist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -7243,6 +7227,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"$(PROJECT_DIR)/XMDD/Vendor/ApplePaySDK/libs",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -7309,7 +7294,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=1",
+					"XMDDEnvironment=2",
 					"REACT_DEV=0",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -7335,6 +7320,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
 				INFOPLIST_FILE = XMDD/Resource/Plist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -7352,6 +7338,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"$(PROJECT_DIR)/XMDD/Vendor/ApplePaySDK/libs",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

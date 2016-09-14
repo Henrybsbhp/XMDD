@@ -8,5 +8,8 @@ export default ReactNative.StyleSheet.create({
         bottom:0,
         right:0,
         flex:1,
-    }
+    },
+    Container: {flex: 1},
+    HorizontalContainer: {flexDirection: 'row', alignItems: 'center'},
+    VerticalContainer: {flexDirection: 'column'},
 });

@@ -7,54 +7,17 @@
 //
 
 #import "RCTLoadingViewManager.h"
-#import <RCTBridge.h>
-#import <RCTUIManager.h>
-#import "HKLoadingView.h"
+#import "RCTLoadingView.h"
 
 @implementation RCTLoadingViewManager
 
 RCT_EXPORT_MODULE()
 
 - (UIView *)view {
-    return [[HKLoadingView alloc] init];
+    return [[RCTLoadingView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
 }
 
-RCT_EXPORT_VIEW_PROPERTY(isAnimating, BOOL);
-RCT_EXPORT_VIEW_PROPERTY(hidden, BOOL);
-
-RCT_EXPORT_METHOD(startGifAnimating:(nonnull NSNumber *)reactTag) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-        HKLoadingView *loadingView = (HKLoadingView *)viewRegistry[reactTag];
-        [loadingView startGifAnimating];
-    }];
-}
-
-RCT_EXPORT_METHOD(startUIAnimating:(nonnull NSNumber *)reactTag) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-        HKLoadingView *loadingView = (HKLoadingView *)viewRegistry[reactTag];
-        [loadingView startUIAnimating];
-    }];
-}
-
-RCT_EXPORT_METHOD(startMONAnimating:(nonnull NSNumber *)reactTag) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-        HKLoadingView *loadingView = (HKLoadingView *)viewRegistry[reactTag];
-        [loadingView startMONAnimating];
-    }];
-}
-
-RCT_EXPORT_METHOD(startTYMAnimating:(nonnull NSNumber *)reactTag) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-        HKLoadingView *loadingView = (HKLoadingView *)viewRegistry[reactTag];
-        [loadingView startTYMAnimating];
-    }];
-}
-
-RCT_EXPORT_METHOD(stopAnimating:(nonnull NSNumber *)reactTag) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-        HKLoadingView *loadingView = (HKLoadingView *)viewRegistry[reactTag];
-        [loadingView stopAnimating];
-    }];
-}
+RCT_EXPORT_VIEW_PROPERTY(animate, BOOL);
+RCT_EXPORT_VIEW_PROPERTY(animationType, NSInteger);
 
 @end
