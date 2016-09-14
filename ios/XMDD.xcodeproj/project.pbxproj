@@ -840,7 +840,6 @@
 		FA65CDA21D51CCC30076ED7D /* MutualOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */; };
 		FA65CDA51D51EF650076ED7D /* GasOrderModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
-		FA941B3F1D13A5AA00F56B96 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA941B3E1D13A5AA00F56B96 /* PassKit.framework */; };
 		FAA240591D505224008AA1EC /* GetGasCardInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */; };
 		FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C41D1246490045531C /* CFNetwork.framework */; };
 		FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C81D12466E0045531C /* SystemConfiguration.framework */; };
@@ -2649,7 +2648,6 @@
 		FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasOrderModelView.m; sourceTree = "<group>"; };
 		FA8496601CBE367700631062 /* SJKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJKeyboardManager.h; sourceTree = "<group>"; };
 		FA8496611CBE367700631062 /* SJKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJKeyboardManager.m; sourceTree = "<group>"; };
-		FA941B3E1D13A5AA00F56B96 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		FAA240571D505224008AA1EC /* GetGasCardInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGasCardInfoOp.h; sourceTree = "<group>"; };
 		FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGasCardInfoOp.m; sourceTree = "<group>"; };
 		FAAD30C41D1246490045531C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -2691,7 +2689,6 @@
 				186496561D48988700F1CCB0 /* libRCTText.a in Frameworks */,
 				186496571D48988700F1CCB0 /* libRCTVibration.a in Frameworks */,
 				186496581D48988700F1CCB0 /* libRCTWebSocket.a in Frameworks */,
-				FA941B3F1D13A5AA00F56B96 /* PassKit.framework in Frameworks */,
 				FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */,
 				18648FBD1D48558000F1CCB0 /* libcrypto.a in Frameworks */,
 				18648FB61D48558000F1CCB0 /* AlipaySDK.framework in Frameworks */,
@@ -5959,7 +5956,6 @@
 		C8447CD201C36C94165168FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FA941B3E1D13A5AA00F56B96 /* PassKit.framework */,
 				FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */,
 				FAAD30C81D12466E0045531C /* SystemConfiguration.framework */,
 				FAAD30C41D1246490045531C /* CFNetwork.framework */,
@@ -6034,6 +6030,9 @@
 						DevelopmentTeam = 7A3B9332PS;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplePay = {
+								enabled = 0;
+							};
 							com.apple.OMC = {
 								enabled = 1;
 							};
@@ -7184,9 +7183,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7A3B9332PS;
@@ -7283,7 +7281,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "47148aa0-2ba7-403f-b5c8-0c21a17ee8bc";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -7295,7 +7293,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -7393,7 +7390,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "47148aa0-2ba7-403f-b5c8-0c21a17ee8bc";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
