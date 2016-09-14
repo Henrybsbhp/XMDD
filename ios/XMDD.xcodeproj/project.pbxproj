@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		02284D120D3D4C8CAB70541C /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C243F5EAA1714F9A9CA63D5B /* Entypo.ttf */; };
 		13AA78669F9046A389977DDE /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2218E7662B054DDBA205E349 /* libRNImagePicker.a */; };
@@ -846,6 +845,7 @@
 		FAC986A81D587890000FE245 /* ViolationCommissionStateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC986A71D587890000FE245 /* ViolationCommissionStateModel.m */; };
 		FADD81D21D53273900AB844E /* MaintainOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FADD81D11D53273900AB844E /* MaintainOrderViewModel.m */; };
 		FAE1A1811D543AE500574B1C /* ViolationCommissionStateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE1A1801D543AE500574B1C /* ViolationCommissionStateVC.m */; };
+		FDD10986261E4EB0934F8D87 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1428CFB868EB4405A5C804DC /* libRNSVG.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -947,10 +947,18 @@
 			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
 			remoteInfo = ART;
 		};
+		1895C43D1D8901B1002EFD1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3C0E96B10826489DA73979A5 /* RNSVG.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
+			remoteInfo = RNSVG;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		024A61212A7D4DDF9DFA2834 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		1428CFB868EB4405A5C804DC /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		180294D81D61C3C900FC0C05 /* ConfigStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigStore.h; sourceTree = "<group>"; };
 		180294D91D61C3C900FC0C05 /* ConfigStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigStore.m; sourceTree = "<group>"; };
 		180294DB1D61C3F700FC0C05 /* GetSystemConfigInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSystemConfigInfoOp.h; sourceTree = "<group>"; };
@@ -2476,6 +2484,7 @@
 		2218E7662B054DDBA205E349 /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 		23536359D1156D038554AD75 /* Pods-XMDD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XMDD.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XMDD/Pods-XMDD.debug.xcconfig"; sourceTree = "<group>"; };
 		28FBB925F230AB7BE6AD87FF /* libPods-XMDD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-XMDD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C0E96B10826489DA73979A5 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		3FF6BC86D83245F3AA5579BF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		42A4FF4931374F8E9563443E /* libRCTToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTToast.a; sourceTree = "<group>"; };
 		4E2159A01D6409F5004A81D6 /* UPayVerifyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UPayVerifyVC.h; path = ../Feature/UPayVerifyVC.h; sourceTree = "<group>"; };
@@ -2694,6 +2703,7 @@
 				8A630B170BB849809FD3E324 /* libRCTToast.a in Frameworks */,
 				13AA78669F9046A389977DDE /* libRNImagePicker.a in Frameworks */,
 				530652AFA9D0462F8973E2ED /* libRNVectorIcons.a in Frameworks */,
+				FDD10986261E4EB0934F8D87 /* libRNSVG.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5397,6 +5407,14 @@
 			path = TTTAttributedLabel;
 			sourceTree = "<group>";
 		};
+		1895C42D1D8901B1002EFD1E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1895C43E1D8901B1002EFD1E /* libRNSVG.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		189B31111ADB60AD001D7288 /* JGActionSheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -5856,6 +5874,7 @@
 				18962BCA9B3045B99F67C46C /* RCTToast.xcodeproj */,
 				71AB33C683F54D3BA66FB5F5 /* RNImagePicker.xcodeproj */,
 				E574C35E0C5B4698BA396F43 /* RNVectorIcons.xcodeproj */,
+				3C0E96B10826489DA73979A5 /* RNSVG.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -5986,7 +6005,7 @@
 		1883D8D71ACB99AC002A4D19 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 720;
 				ORGANIZATIONNAME = huika;
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
@@ -6068,6 +6087,10 @@
 				{
 					ProductGroup = 186495751D4890C400F1CCB0 /* Products */;
 					ProjectRef = 71AB33C683F54D3BA66FB5F5 /* RNImagePicker.xcodeproj */;
+				},
+				{
+					ProductGroup = 1895C42D1D8901B1002EFD1E /* Products */;
+					ProjectRef = 3C0E96B10826489DA73979A5 /* RNSVG.xcodeproj */;
 				},
 				{
 					ProductGroup = 186495861D4890D000F1CCB0 /* Products */;
@@ -6178,6 +6201,13 @@
 			fileType = archive.ar;
 			path = libART.a;
 			remoteRef = 1888F43D1D48DAB700C64288 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1895C43E1D8901B1002EFD1E /* libRNSVG.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSVG.a;
+			remoteRef = 1895C43D1D8901B1002EFD1E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -7180,6 +7210,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
 				INFOPLIST_FILE = XMDD/Resource/Plist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -7197,6 +7228,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"$(PROJECT_DIR)/XMDD/Vendor/ApplePaySDK/libs",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -7290,6 +7322,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
 				INFOPLIST_FILE = XMDD/Resource/Plist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -7307,6 +7340,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"$(PROJECT_DIR)/XMDD/Vendor/ApplePaySDK/libs",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

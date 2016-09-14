@@ -7,12 +7,10 @@ import {
 } from 'react-native';
 
 import NavigatorView from './component/general/NavigatorView';
-import MyInfoView from './component/mine/MyInfoView';
-import EditMyInfoView from './component/mine/EditMyInfoView';
 import MutualInsView from './component/mutual_ins/MutualInsView';
 
 
-const components = {MyInfoView: MyInfoView, EditMyInfoView: EditMyInfoView, MutualInsView: MutualInsView};
+const components = {MutualInsView: MutualInsView};
 
 export default class RootView extends React.Component {
     componentWillMount() {
