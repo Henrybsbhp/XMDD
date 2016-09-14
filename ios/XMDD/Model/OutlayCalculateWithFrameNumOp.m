@@ -16,20 +16,28 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.frameNo forName:@"frameno"];
+    [params addParam:self.carID forName:@"carid"];
+    [params addParam:self.blackBox forName:@"blackbox"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
 - (instancetype)parseResponseObject:(id)rspObj
 {
-    self.brandName = rspObj[@"brandname"];
-    self.carFrameNo = rspObj[@"frameno"];
-    self.premiumPrice = rspObj[@"premiumprice"];
-    self.serviceFee = rspObj[@"servicefee"];
-    self.shareMoney = rspObj[@"sharemoney"];
-    self.note = rspObj[@"note"];
+    self.model = [[PremiumModel alloc]init];
+    self.model.brandName = rspObj[@"brandname"];
+    self.model.carFrameNo = rspObj[@"frameno"];
+    self.model.premiumPrice = rspObj[@"premiumprice"];
+    self.model.serviceFee = rspObj[@"servicefee"];
+    self.model.shareMoney = rspObj[@"sharemoney"];
+    self.model.note = rspObj[@"note"];
     
     return self;
+}
+
+-(NSString *)description
+{
+    return @"根据车架号核算费用.需要签名";
 }
 
 @end

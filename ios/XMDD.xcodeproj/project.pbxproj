@@ -758,6 +758,9 @@
 		18FC01E61C4E6C6F00FD61BF /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18FC01DA1C4E6C6F00FD61BF /* IQKeyboardManager.bundle */; };
 		2E52F24A1C2032BB00D94F68 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		4CEFBEBAA7BE4E58AF8C448E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9411A8DA5E84CBC911B19E1 /* Zocial.ttf */; };
+		4E067BAF1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E067BAE1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.m */; };
+		4E067BC01D890159008578E4 /* MutInsCalculatePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E067BBF1D890159008578E4 /* MutInsCalculatePageVC.m */; };
+		4E067BC31D891D58008578E4 /* PremiumModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E067BC21D891D58008578E4 /* PremiumModel.m */; };
 		4E2159A21D6409F5004A81D6 /* UPayVerifyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */; };
 		4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */; };
 		4E78DDE91D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */; };
@@ -2357,8 +2360,6 @@
 		18649E191D48BD8D00F1CCB0 /* MutualInsScencePhotoVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsScencePhotoVM.m; sourceTree = "<group>"; };
 		18649E2A1D48BE0A00F1CCB0 /* CreateGroupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupVC.h; sourceTree = "<group>"; };
 		18649E2B1D48BE0A00F1CCB0 /* CreateGroupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateGroupVC.m; sourceTree = "<group>"; };
-		18649E2C1D48BE0A00F1CCB0 /* EstimatedPriceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EstimatedPriceVC.h; sourceTree = "<group>"; };
-		18649E2D1D48BE0A00F1CCB0 /* EstimatedPriceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EstimatedPriceVC.m; sourceTree = "<group>"; };
 		18649E2E1D48BE0A00F1CCB0 /* GroupIntroductionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupIntroductionVC.h; sourceTree = "<group>"; };
 		18649E2F1D48BE0A00F1CCB0 /* GroupIntroductionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupIntroductionVC.m; sourceTree = "<group>"; };
 		18649E301D48BE0A00F1CCB0 /* InviteByCodeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteByCodeVC.h; sourceTree = "<group>"; };
@@ -2505,6 +2506,12 @@
 		28FBB925F230AB7BE6AD87FF /* libPods-XMDD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-XMDD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FF6BC86D83245F3AA5579BF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		42A4FF4931374F8E9563443E /* libRCTToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTToast.a; sourceTree = "<group>"; };
+		4E067BAD1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculateCooperationFreePremiumOp.h; sourceTree = "<group>"; };
+		4E067BAE1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculateCooperationFreePremiumOp.m; sourceTree = "<group>"; };
+		4E067BBE1D890159008578E4 /* MutInsCalculatePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutInsCalculatePageVC.h; sourceTree = "<group>"; };
+		4E067BBF1D890159008578E4 /* MutInsCalculatePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutInsCalculatePageVC.m; sourceTree = "<group>"; };
+		4E067BC11D891D58008578E4 /* PremiumModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PremiumModel.h; sourceTree = "<group>"; };
+		4E067BC21D891D58008578E4 /* PremiumModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PremiumModel.m; sourceTree = "<group>"; };
 		4E2159A01D6409F5004A81D6 /* UPayVerifyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UPayVerifyVC.h; path = ../Feature/UPayVerifyVC.h; sourceTree = "<group>"; };
 		4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UPayVerifyVC.m; path = ../Feature/UPayVerifyVC.m; sourceTree = "<group>"; };
 		4E30E6CF1CFD8492000157D4 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
@@ -3666,6 +3673,8 @@
 				180294E71D64148E00FC0C05 /* GetReactNativeConfigOp.m */,
 				4EF8BF641D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.h */,
 				4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */,
+				4E067BAD1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.h */,
+				4E067BAE1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.m */,
 			);
 			name = Netop;
 			sourceTree = "<group>";
@@ -5254,8 +5263,6 @@
 				18649E5A1D48BE4000F1CCB0 /* Modal */,
 				18649E2A1D48BE0A00F1CCB0 /* CreateGroupVC.h */,
 				18649E2B1D48BE0A00F1CCB0 /* CreateGroupVC.m */,
-				18649E2C1D48BE0A00F1CCB0 /* EstimatedPriceVC.h */,
-				18649E2D1D48BE0A00F1CCB0 /* EstimatedPriceVC.m */,
 				18649E2E1D48BE0A00F1CCB0 /* GroupIntroductionVC.h */,
 				18649E2F1D48BE0A00F1CCB0 /* GroupIntroductionVC.m */,
 				18649E301D48BE0A00F1CCB0 /* InviteByCodeVC.h */,
@@ -5284,6 +5291,8 @@
 				18649E531D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m */,
 				18649E541D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.h */,
 				18649E551D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m */,
+				4E067BBE1D890159008578E4 /* MutInsCalculatePageVC.h */,
+				4E067BBF1D890159008578E4 /* MutInsCalculatePageVC.m */,
 			);
 			name = Join;
 			sourceTree = "<group>";
@@ -5295,6 +5304,8 @@
 				18649E5C1D48BE5500F1CCB0 /* InviteAlertVC.m */,
 				18649E5D1D48BE5500F1CCB0 /* InviteCompleteVC.h */,
 				18649E5E1D48BE5500F1CCB0 /* InviteCompleteVC.m */,
+				4E067BC11D891D58008578E4 /* PremiumModel.h */,
+				4E067BC21D891D58008578E4 /* PremiumModel.m */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -6756,6 +6767,7 @@
 				18649C4F1D48B4E500F1CCB0 /* BankCardDetailVC.m in Sources */,
 				18649E241D48BD8D00F1CCB0 /* MutualInsScencePhotoVC.m in Sources */,
 				186496D41D489A4200F1CCB0 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
+				4E067BC31D891D58008578E4 /* PremiumModel.m in Sources */,
 				1888F41E1D48CB8600C64288 /* ReactNativeOp.m in Sources */,
 				18649C711D48B57300F1CCB0 /* JoinUsViewController.m in Sources */,
 				186496C01D489A4200F1CCB0 /* HKPushManager.m in Sources */,
@@ -6809,6 +6821,7 @@
 				4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */,
 				18A2F4B51D6C43A800035679 /* MyCollectionListVC.m in Sources */,
 				18649D5F1D48BA9800F1CCB0 /* InsInputInfoVC.m in Sources */,
+				4E067BC01D890159008578E4 /* MutInsCalculatePageVC.m in Sources */,
 				181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */,
 				186499A91D489A9700F1CCB0 /* DeleteUserFavoriteOp.m in Sources */,
 				186499AE1D489A9700F1CCB0 /* GainUserAwardOp.m in Sources */,
@@ -6852,6 +6865,7 @@
 				1836B7B61D54220B0078DB15 /* NSObject+Runtime.m in Sources */,
 				186496B91D489A4200F1CCB0 /* DefaultStyleModel.m in Sources */,
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
+				4E067BAF1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.m in Sources */,
 				183F573F1D4C90860001E26A /* PayForPremiumOp.m in Sources */,
 				186499721D489A9700F1CCB0 /* AutoSeriesModel.m in Sources */,
 				186499AD1D489A9700F1CCB0 /* GainCouponPkgOp.m in Sources */,

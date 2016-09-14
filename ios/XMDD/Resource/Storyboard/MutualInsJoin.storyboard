@@ -317,7 +317,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BGU-Lu-OH5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1701" y="352"/>
+            <point key="canvasLocation" x="1665" y="196"/>
         </scene>
         <!--完善入团信息-->
         <scene sceneID="oyf-1W-kLf">
@@ -613,7 +613,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ko-l7-fpu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1034" y="1032"/>
+            <point key="canvasLocation" x="993" y="884"/>
         </scene>
         <!--立即组团-->
         <scene sceneID="4U8-gq-cXx">
@@ -2236,19 +2236,28 @@
                                                     <rect key="frame" x="0.0" y="40" width="600" height="40"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="10200" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="  多美女  " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pnX-5t-Mgz">
-                                                            <rect key="frame" x="15" y="12" width="54" height="16"/>
+                                                            <rect key="frame" x="15" y="7.5" width="54" height="25"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="25" id="OJp-Pj-cmj"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="10201" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="  好车主  " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4A8-jJ-Y4m">
-                                                            <rect key="frame" x="84" y="12" width="54" height="16"/>
+                                                            <rect key="frame" x="84" y="7.5" width="54" height="25"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="25" id="SUb-iT-mH7"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="10202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" text="  老司机  " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UrS-64-Q0B">
-                                                            <rect key="frame" x="153" y="12" width="54" height="16"/>
+                                                            <rect key="frame" x="153" y="7.5" width="54" height="25"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="25" id="KYk-wl-rKq"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -2349,7 +2358,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e8t-Yx-d7L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-406" y="365"/>
+            <point key="canvasLocation" x="-394" y="196"/>
         </scene>
         <!--Mut Ins CalculateVC-->
         <scene sceneID="I34-Ef-xS2">
@@ -2706,7 +2715,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fH9-QM-zM3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1024" y="352"/>
+            <point key="canvasLocation" x="325" y="196"/>
         </scene>
         <!--试算结果-->
         <scene sceneID="awT-dS-ASt">
@@ -2894,7 +2903,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nln-5P-74g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1944" y="-399"/>
+            <point key="canvasLocation" x="1648" y="-488"/>
         </scene>
         <!--小马互助-->
         <scene sceneID="tgX-Px-XdC">
@@ -3565,7 +3574,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1xp-8c-Ltd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-673" y="1048"/>
+            <point key="canvasLocation" x="-394" y="884"/>
         </scene>
         <!--Mutual Ins Home AdVC-->
         <scene sceneID="Mp9-QE-QfG">
@@ -3590,10 +3599,10 @@
                                 <rect key="frame" x="0.0" y="540" width="600" height="60"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="rnu-rD-iLh">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="0.0"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="72w-Eu-Ii5">
-                                        <rect key="frame" x="20" y="5" width="560" height="50"/>
+                                        <rect key="frame" x="310" y="5" width="270" height="50"/>
                                         <color key="backgroundColor" red="1" green="0.4549019608" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <state key="normal" title="立即进入">
@@ -3604,21 +3613,48 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
+                                            <action selector="actionJumpToMutualInsVC:" destination="Ld4-22-7gy" eventType="touchUpInside" id="4s3-yM-HAB"/>
                                             <action selector="compensationButtonClicked:" destination="Zv3-HI-o6B" eventType="touchUpInside" id="AmD-9s-nue"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ji-jF-kd6">
+                                        <rect key="frame" x="20" y="5" width="270" height="50"/>
+                                        <color key="backgroundColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="费用试算">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="actionJumpToMutInsCalculateVC:" destination="Ld4-22-7gy" eventType="touchUpInside" id="g6y-FD-L4q"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="72w-Eu-Ii5" firstAttribute="leading" secondItem="5ji-jF-kd6" secondAttribute="trailing" constant="20" id="2Sw-bP-ck6"/>
+                                    <constraint firstItem="5ji-jF-kd6" firstAttribute="top" secondItem="rnu-rD-iLh" secondAttribute="bottom" constant="5" id="4Ar-Re-hjc"/>
                                     <constraint firstItem="rnu-rD-iLh" firstAttribute="leading" secondItem="BAr-dw-1Qp" secondAttribute="leading" id="9Jj-P9-G9C"/>
                                     <constraint firstItem="72w-Eu-Ii5" firstAttribute="leading" secondItem="BAr-dw-1Qp" secondAttribute="leading" constant="20" id="GuG-no-MLk"/>
                                     <constraint firstAttribute="height" constant="60" id="JZD-5D-lFC"/>
+                                    <constraint firstItem="5ji-jF-kd6" firstAttribute="centerY" secondItem="BAr-dw-1Qp" secondAttribute="centerY" id="KBN-BW-HMr"/>
+                                    <constraint firstAttribute="trailing" secondItem="72w-Eu-Ii5" secondAttribute="trailing" constant="20" id="Kcq-1R-biT"/>
+                                    <constraint firstItem="72w-Eu-Ii5" firstAttribute="width" secondItem="5ji-jF-kd6" secondAttribute="width" id="NQ4-us-Bnk"/>
+                                    <constraint firstAttribute="bottom" secondItem="5ji-jF-kd6" secondAttribute="bottom" constant="5" id="T9d-Wx-1Cm"/>
                                     <constraint firstAttribute="trailing" secondItem="rnu-rD-iLh" secondAttribute="trailing" id="aik-wl-CZ0"/>
                                     <constraint firstItem="72w-Eu-Ii5" firstAttribute="centerX" secondItem="BAr-dw-1Qp" secondAttribute="centerX" id="byK-m0-Jha"/>
                                     <constraint firstItem="rnu-rD-iLh" firstAttribute="top" secondItem="BAr-dw-1Qp" secondAttribute="top" id="iAS-PF-ia9"/>
+                                    <constraint firstItem="5ji-jF-kd6" firstAttribute="leading" secondItem="BAr-dw-1Qp" secondAttribute="leading" constant="20" id="ncn-Od-22c"/>
                                     <constraint firstItem="72w-Eu-Ii5" firstAttribute="centerY" secondItem="BAr-dw-1Qp" secondAttribute="centerY" id="w3H-Yp-nOr"/>
                                     <constraint firstItem="72w-Eu-Ii5" firstAttribute="top" secondItem="BAr-dw-1Qp" secondAttribute="top" constant="5" id="xRR-Ga-QbU"/>
+                                    <constraint firstItem="72w-Eu-Ii5" firstAttribute="height" secondItem="5ji-jF-kd6" secondAttribute="height" id="yzU-8d-bqk"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="GuG-no-MLk"/>
+                                        <exclude reference="byK-m0-Jha"/>
+                                        <exclude reference="xRR-Ga-QbU"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -3634,12 +3670,14 @@
                     </view>
                     <connections>
                         <outlet property="bottomView" destination="BAr-dw-1Qp" id="YIV-QZ-jUJ"/>
-                        <outlet property="nextBtn" destination="72w-Eu-Ii5" id="SqJ-RR-70R"/>
+                        <outlet property="calculateBtn" destination="5ji-jF-kd6" id="Aph-vB-MLX"/>
+                        <outlet property="mutualInsBtn" destination="72w-Eu-Ii5" id="vcO-T2-jXX"/>
                         <outlet property="webView" destination="cGa-Fx-4Lf" id="OZp-Td-TF9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sc4-LI-NZ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="325" y="872"/>
         </scene>
         <!--Mutual Ins Story Ad PicVC-->
         <scene sceneID="Xji-5V-qUJ">
@@ -3691,7 +3729,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hWw-d3-jsV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1344.5" y="-365.5"/>
+            <point key="canvasLocation" x="437.5" y="-521.5"/>
         </scene>
         <!--Mutual Ins Story Ad PageVC-->
         <scene sceneID="4D7-Ng-8ki">
@@ -3752,7 +3790,55 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xwl-bb-R0b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="860" y="-432"/>
+            <point key="canvasLocation" x="96" y="-730"/>
+        </scene>
+        <!--费用试算-->
+        <scene sceneID="daT-2G-NPA">
+            <objects>
+                <viewController storyboardIdentifier="MutInsCalculatePageVC" id="pTz-KT-IBi" customClass="MutInsCalculatePageVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HQO-xa-otC"/>
+                        <viewControllerLayoutGuide type="bottom" id="9Hw-Cy-bla"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2Y7-IF-O13">
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Klc-Or-EK5">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="52"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="52" id="K7n-tv-QmH"/>
+                                </constraints>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nR1-88-3dv">
+                                <rect key="frame" x="0.0" y="52" width="600" height="484"/>
+                                <connections>
+                                    <outlet property="delegate" destination="pTz-KT-IBi" id="1YQ-zs-rXt"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nR1-88-3dv" firstAttribute="top" secondItem="Klc-Or-EK5" secondAttribute="bottom" id="0JQ-tv-HIJ"/>
+                            <constraint firstItem="Klc-Or-EK5" firstAttribute="leading" secondItem="2Y7-IF-O13" secondAttribute="leading" id="BWU-uN-Ech"/>
+                            <constraint firstItem="9Hw-Cy-bla" firstAttribute="top" secondItem="nR1-88-3dv" secondAttribute="bottom" id="HyN-aA-Ab0"/>
+                            <constraint firstAttribute="trailing" secondItem="nR1-88-3dv" secondAttribute="trailing" id="IPF-6v-bR3"/>
+                            <constraint firstItem="Klc-Or-EK5" firstAttribute="top" secondItem="HQO-xa-otC" secondAttribute="bottom" id="R3G-dF-1N8"/>
+                            <constraint firstAttribute="trailing" secondItem="Klc-Or-EK5" secondAttribute="trailing" id="Spw-VT-hbU"/>
+                            <constraint firstItem="nR1-88-3dv" firstAttribute="leading" secondItem="2Y7-IF-O13" secondAttribute="leading" id="jnM-xs-KrL"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="费用试算" id="HX8-Xp-THO"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="headView" destination="Klc-Or-EK5" id="93E-qm-7fp"/>
+                        <outlet property="scrollView" destination="nR1-88-3dv" id="cxk-NJ-fVI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l55-wY-R5d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-394" y="-464"/>
         </scene>
     </scenes>
     <resources>
