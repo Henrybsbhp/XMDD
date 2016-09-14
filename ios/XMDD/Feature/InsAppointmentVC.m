@@ -283,8 +283,8 @@
     InsCouponView *couponV = [cell viewWithTag:1001];
     
     couponV.buttonHeight = 30;
-    couponV.buttonTitleColor = HEXCOLOR(@"#20ab2a");
-    couponV.buttonBorderColor = HEXCOLOR(@"#20ab2a");
+    couponV.buttonTitleColor = kDefTintColor;
+    couponV.buttonBorderColor = kDefTintColor;
     couponV.coupons = data.object;
     
     couponV.coupons = [data.object arrayByMapFilteringOperator:^id(NSDictionary *dict) {

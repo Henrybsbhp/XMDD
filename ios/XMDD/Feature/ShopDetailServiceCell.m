@@ -45,7 +45,7 @@
     [self.contentView addSubview:_priceLabel];
     
     _descLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _descLabel.font = [UIFont systemFontOfSize:14];
+    _descLabel.font = [UIFont systemFontOfSize:13];
     _descLabel.textColor = kGrayTextColor;
     _descLabel.numberOfLines = 0;
     [self.contentView addSubview:_descLabel];

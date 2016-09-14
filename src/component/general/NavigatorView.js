@@ -133,23 +133,30 @@ export class NavBarButtonItem extends Component {
 }
 
 export default class NavigatorView extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {modal: undefined, modalProps:undefined}
+    }
 
     render() {
         return (
-            <Navigator
-                ref="nav"
-                debugOverlay={false}
-                style={styles.appContainer}
-                initialRoute={this.props.route}
-                renderScene={this._renderScene}
-                onDidFocus={this._onDidFocus.bind(this)}
-                navigationBar={
-                    <Navigator.NavigationBar
-                        routeMapper={NavigationBarRouteMapper}
-                        style={styles.navBar}
-                    />
+            <View style={styles.container}>
+                <Navigator
+                    ref="nav"
+                    debugOverlay={false}
+                    style={styles.appContainer}
+                    initialRoute={this.props.route}
+                    renderScene={this._renderScene.bind(this)}
+                    onDidFocus={this._onDidFocus.bind(this)}
+                    navigationBar={this._renderNavigationBar()}
+                />
+                {
+                    this.state.modal && React.cloneElement(this.state.modal, {
+                        ...this.state.modalProps,
+                        ref: 'modal'
+                    })
                 }
-            />
+            </View>
         );
     }
 
@@ -160,19 +167,46 @@ export default class NavigatorView extends Component {
         }
     }
 
+    _renderNavigationBar() {
+       return (
+           <Navigator.NavigationBar
+               routeMapper={NavigationBarRouteMapper}
+               style={styles.navBar}
+           />
+       );
+    }
+
+
     _renderScene(route, navigator) {
         return (
             <View style={styles.scene}>
                 {React.createElement(
                     route.component,
-                    {route, navigator, ...route.passProps},
+                    {
+                        route,
+                        navigator,
+                        ...route.passProps,
+                        modal: {
+                            get: this._getModal.bind(this),
+                            render: this._registModal.bind(this),
+                        },
+                    },
                 )}
             </View>
         )
     }
+
+    _getModal(modal) {
+        return this.refs.modal;
+    }
+
+    _registModal(modal) {
+        this.setState({modal: modal});
+    }
 };
 
 const styles = StyleSheet.create({
+    container: {flex: 1},
     messageText: {
         fontSize: 17,
         fontWeight: '500',
@@ -234,9 +268,7 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         marginRight: 0,
     },
-    scene: {
-        flex: 1,
-        marginTop: Navigator.NavigationBar.Styles.General.TotalNavHeight,
-    },
+    scene: {flex: 1, marginTop: Navigator.NavigationBar.Styles.General.TotalNavHeight,},
+    modal: {position: 'absolute', left: 0, right: 0, top: 0, bottom: 0,}
 });
 

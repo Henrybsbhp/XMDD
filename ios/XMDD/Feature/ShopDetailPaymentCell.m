@@ -27,7 +27,7 @@
     self.backgroundColor = [UIColor whiteColor];
     
     _noteLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _noteLabel.font = [UIFont systemFontOfSize:13];
+    _noteLabel.font = [UIFont systemFontOfSize:12];
     _noteLabel.textColor = kGrayTextColor;
     [self.contentView addSubview:_noteLabel];
     

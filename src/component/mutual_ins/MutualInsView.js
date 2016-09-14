@@ -1,3 +1,4 @@
+"use strict";
 import React, {Component} from 'react';
 import {
     View,
@@ -9,13 +10,14 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import Toast from 'react-native-root-toast';
-import BlankView from '../../general/BlankView';
-import ADView from '../../general/ADView';
-import UI from '../../../constant/UIConstants';
-import {NavBarRightItem} from '../../general/NavigatorView';
-import RefreshControl from '../../general/refresh/RefreshControl';
-import MutualInsStore from '../../../model/mutual_ins/MutualInsStore';
+import BlankView from '../general/BlankView';
+import ADView from '../general/ADView';
+import UI from '../../constant/UIConstants';
+import {NavBarRightItem} from '../general/NavigatorView';
+import RefreshControl from '../general/refresh/RefreshControl';
+import MutualInsStore from '../../model/mutual_ins/MutualInsStore';
 import PopoverMenu from './PopoverMenu';
+import GroupDetailView from './GroupDetailView';
 
 export default class MutualInsView extends Component {
     constructor(props) {
@@ -38,12 +40,13 @@ export default class MutualInsView extends Component {
             loading: true,
             loadedOnce: false,
             dataSource:this.ds,
-            menuVisible: false
+            menuOpened: false,
         }
     }
 
     componentWillMount() {
         this._onRefresh();
+        this.props.modal.render(this.renderMenu());
     }
 
     // 设置导航条
@@ -57,7 +60,36 @@ export default class MutualInsView extends Component {
 
     /// Actions
     showMenu() {
-        this.setState({menuVisible: true})
+        this.props.modal.get().open();
+    }
+
+    _onRefresh() {
+        this.setState({loading: true});
+        this.store.fetchMyGroups()
+            .then(this.reloadDatasource.bind(this))
+            .catch(e=>{
+                if (this.state.loadedOnce) {
+                    Toast.show(e.message, {
+                        duration: Toast.durations.LONG,
+                        position: Toast.positions.CENTER,
+                        shadow: false,
+                    });
+                }
+                this.setState({loading: false})});
+    }
+
+    _onCarCellPress(car) {
+    }
+
+    _onBottomCellPress(car) {
+        // 有车有团, 到团详情
+        if (car && car.groupid > 0) {
+            var route = {
+                component: GroupDetailView,
+                title: '团详情',
+            };
+            this.props.navigator.push(route);
+        }
     }
 
     /// Reload
@@ -73,10 +105,12 @@ export default class MutualInsView extends Component {
         }
 
         this.setState({loading: false, loadedOnce: true, dataSource: this.ds.cloneWithRows(dataBlob)});
+        this.props.modal.render(this.renderMenu());
     }
 
     /// render
     render() {
+
         return (
             <BlankView style={styles.container}
                        visible={!this.state.loadedOnce}
@@ -101,35 +135,22 @@ export default class MutualInsView extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <PopoverMenu visible={this.state.menuVisible} onDismiss={this._onMenuDismiss.bind(this)}>
-                    {this.store.myGroups && this.store.myGroups.showplanbtn &&
-                        <PopoverMenu.MenuCell image={{uri: 'mins_person', width: 18, height: 16}} text="内测计划"/>}
-                    {this.store.myGroups && this.store.myGroups.showregistbtn &&
-                        <PopoverMenu.MenuCell image={{uri: 'mec_edit', width: 16, height: 17}} text="内测登记"/>}
-                    <PopoverMenu.MenuCell image={{uri: 'mins_question', width: 19, height: 19}} text="使用帮助"/>
-                    <PopoverMenu.MenuCell image={{uri: 'mins_phone', width: 18, height: 17}} text="联系客服"/>
-                </PopoverMenu>
             </BlankView>
         );
     }
 
-    _onMenuDismiss() {
-        this.state.menuVisible = false;
-    }
-
-    _onRefresh() {
-        this.setState({loading: true});
-        this.store.fetchMyGroups()
-            .then(this.reloadDatasource.bind(this))
-            .catch(e=>{
-                if (this.state.loadedOnce) {
-                    Toast.show(e.message, {
-                        duration: Toast.durations.LONG,
-                        position: Toast.positions.CENTER,
-                        shadow: false,
-                    });
-                }
-                this.setState({loading: false})});
+    //// renderMenu
+    renderMenu() {
+        return (
+            <PopoverMenu>
+                {this.store.myGroups && this.store.myGroups.showplanbtn &&
+                <PopoverMenu.MenuCell image={{uri: 'mins_person', width: 18, height: 16}} text="内测计划"/>}
+                {this.store.myGroups && this.store.myGroups.showregistbtn &&
+                <PopoverMenu.MenuCell image={{uri: 'mec_edit', width: 16, height: 17}} text="内测登记"/>}
+                <PopoverMenu.MenuCell image={{uri: 'mins_question', width: 19, height: 19}} text="使用帮助"/>
+                <PopoverMenu.MenuCell image={{uri: 'mins_phone', width: 18, height: 17}} text="联系客服"/>
+            </PopoverMenu>
+        );
     }
 
     /// renderSection
@@ -178,13 +199,14 @@ export default class MutualInsView extends Component {
                 <View style={styles.carCellTipContainer}>
                     <Image source={{url: 'mins_tip_bg1'}}
                            capInsets={{top: 0, left: 13, bottom: 0, right: 0}}
-                           style={styles.carCellTipBg} />
+                           style={styles.carCellTipBg}/>
                     <Text style={styles.carCellTipTitle}>{row.car.statusdesc}</Text>
                 </View>
                 <View style={styles.line2}/>
                 {this.renderCouponCell(row)}
                 <View style={styles.emptyCell}/>
             </View>
+
         );
     }
 
@@ -208,15 +230,19 @@ export default class MutualInsView extends Component {
         }
 
         return (
-            <View style={styles.verticalContainer}>
-                <View style={[styles.horizontalContainer, {height: 34}]}>
-                    <View style={styles.line3}/>
-                    <Text style={styles.couponCellTip}>加入互助后既享</Text>
-                    <View style={styles.line3}/>
+            <TouchableOpacity onPress={() => {
+                this._onBottomCellPress(row.car)
+            }}>
+                <View style={styles.verticalContainer}>
+                    <View style={[styles.horizontalContainer, {height: 34}]}>
+                        <View style={styles.line3}/>
+                        <Text style={styles.couponCellTip}>加入互助后既享</Text>
+                        <View style={styles.line3}/>
+                    </View>
+                    {items}
+                    <View style={{marginBottom: 10}}/>
                 </View>
-                {items}
-                <View style={{marginBottom: 10}}/>
-            </View>
+            </TouchableOpacity>
         )
     }
 

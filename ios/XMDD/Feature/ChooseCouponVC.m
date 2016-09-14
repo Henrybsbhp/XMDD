@@ -90,7 +90,6 @@
             if (self.type == CouponTypeCZBankCarWash)
             {
                 [payVc setCouponType:self.type];
-                [payVc autoSelectBankCard];
                 [payVc setPaymentChannel:PaymentChannelCZBCreditCard];
                 payVc.selectCarwashCoupouArray = self.selectedCouponArray;
                 [payVc.selectCashCoupouArray removeAllObjects];
