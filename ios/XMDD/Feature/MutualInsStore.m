@@ -50,6 +50,7 @@
             self.totalPoolAmt = op.totalPoolAmt;
             self.totalClaimCnt = op.totalClaimCnt;
             self.totalClaimAmt = op.totalClaimAmt;
+            self.openGroupTips = op.openGroupTips;
         }] replayLast];
         event = [signal eventWithName:@"getSimpleGroups" object:nil];
     }

@@ -23,6 +23,8 @@
 @property (nonatomic, assign) NSInteger totalClaimCnt;
 /// 补偿金额合计（返回参数）
 @property (nonatomic, copy) NSString *totalClaimAmt;
+/// 互助团底部 Tips
+@property (nonatomic, copy) NSString *openGroupTips;
 
 /// 显示内测计划按钮（返回参数）
 @property (nonatomic) BOOL isShowPlanBtn;

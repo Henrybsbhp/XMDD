@@ -29,6 +29,8 @@
 @property (nonatomic, assign) NSInteger totalClaimCnt;
 /// 补偿金额合计
 @property (nonatomic, copy) NSString *totalClaimAmt;
+/// 互助团底部 Tips
+@property (nonatomic, copy) NSString *openGroupTips;
 
 
 

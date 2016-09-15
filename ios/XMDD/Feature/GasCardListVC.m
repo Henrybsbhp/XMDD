@@ -180,7 +180,7 @@
 }
 
 
-- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GasCard *card = [self.gasStore.gasCards objectAtIndex:indexPath.row];
     if ([card.gid isEqual:self.selectedGasCardID]) {

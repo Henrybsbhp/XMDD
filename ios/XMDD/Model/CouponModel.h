@@ -25,8 +25,6 @@
 @property (nonatomic, strong)NSArray * validInsuranceCouponArray;
 /// 所有优惠劵
 @property (nonatomic, strong)NSArray * carwashArray;
-/// 可用浙商银行信用卡
-@property (nonatomic, strong)NSArray * validCZBankCreditCard;
 
 - (RACSignal *)rac_getVaildResource:(ShopServiceType)type andShopId:(NSNumber *)shopid;
 

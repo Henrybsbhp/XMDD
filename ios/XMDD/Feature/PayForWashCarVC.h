@@ -33,7 +33,6 @@
 @property (nonatomic)BOOL needChooseResource;
 
 - (void)tableViewReloadData;
-- (void)autoSelectBankCard;
 ///添加好银行卡后的自动选择优惠劵方法
 - (void)chooseResource;
 - (void)setPaymentChannel:(PaymentChannelType)channel;

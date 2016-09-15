@@ -13,8 +13,9 @@
 #import "GasStore.h"
 #import "NSString+Format.h"
 
+#import <MZFormSheetController.h>
 #import "GasReminderCell.h"
-#import "GasPickAmountCell.h"
+#import "GasPickAmountCell.h"   
 
 #import "GasCardListVC.h"
 #import "GasAddCardVC.h"
@@ -177,6 +178,15 @@
     }
 }
 
+- (void)actionShowInvoiceAlert {
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:kYelloColor clickBlock:^(id alertVC) {
+        [gPhoneHelper makePhone:@"4007111111"];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"由于充值业务更新，中石油卡暂不支持开具发票服务。如有疑问请咨询客服：4007-111-111" ActionItems:@[cancel,confirm]];
+    [alert show];
+}
+
 - (void)actionPay
 {
     [MobClick event:@"rp501_14"];
@@ -209,6 +219,9 @@
 
 
 - (BOOL)needInvoice {
+    if (self.curGasCard.cardtype == 2) {
+        return NO;
+    }
     return [self.datasource[0][@"WantInvoiceCell"][@"bill"] boolValue];
 }
 
@@ -295,7 +308,7 @@
         }
 
         for (int i = 0; i < self.gasStore.chargePackages.count; i++) {
-            
+    
             GasChargePackage *pkg = self.gasStore.chargePackages[i];
             UIButton *bgBtn = [cell.contentView viewWithTag:(i+2001)*10+3];
             [[[bgBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
@@ -375,12 +388,26 @@
 - (CKDict *)wantInvoiceItem
 {
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"WantInvoiceCell",@"bill":@NO}];
-    @weakify(item, self);
+    item[@"title"] = [[NSAttributedString alloc] initWithString:@"中石油不支持开发票"
+                                                     attributes:@{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle),
+                                                                  NSForegroundColorAttributeName: kOrangeColor}];
+      @weakify(item, self);
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
 
         @strongify(item, self);
-        UIButton * invoiceBtn = [cell viewWithTag:101];
-        UILabel * tagLb = [cell viewWithTag:103];
+        UIButton *invoiceBtn = [cell viewWithTag:101];
+        UILabel *tagLb = [cell viewWithTag:103];
+        UIView *tipBtnContainer = [cell viewWithTag:104];
+        UIButton *tipBtn = [cell viewWithTag:1041];
+
+        tipBtnContainer.hidden = self.curGasCard.cardtype != 2;
+        [tipBtn setAttributedTitle:item[@"title"] forState:UIControlStateNormal];
+        [[[tipBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
+         subscribeNext:^(id x) {
+             @strongify(self);
+             [self actionShowInvoiceAlert];
+        }];
+        
         [[[invoiceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              data[@"bill"] = @(![data[@"bill"] boolValue]);

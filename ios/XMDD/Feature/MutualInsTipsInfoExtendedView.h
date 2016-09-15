@@ -18,6 +18,10 @@
 
 @property (nonatomic, copy) NSString *claimSumString;
 
+@property (nonatomic, copy) NSString *bottomTipsString;
+
+@property (nonatomic, copy) void (^bottomButtonClicked)(void);
+
 - (void)showInfo;
 
 @end
