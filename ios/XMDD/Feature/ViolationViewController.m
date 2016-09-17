@@ -19,8 +19,8 @@
 
 
 @property (weak, nonatomic) IBOutlet UIView *headView;
-@property (strong,nonatomic)HKPageSliderView * pageController;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong,nonatomic)HKPageSliderView * pageController;
 @property (nonatomic,strong)NSArray * datasource;
 @property (nonatomic,strong) MyCarStore *carStore;
 
@@ -43,6 +43,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.router.disableInteractivePopGestureRecognizer = YES;
 }
 
@@ -148,8 +149,6 @@
     NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
     self.pageController.hidden = total <= 1;
 }
-
-
 
 - (void)refreshScrollView
 {

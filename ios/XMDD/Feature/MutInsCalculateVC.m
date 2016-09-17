@@ -38,6 +38,7 @@
     [super viewDidLoad];
     
     [self setupNavigation];
+    [self setupFrameNo];
     [self getCalculateBaseInfo];
 }
 
@@ -54,8 +55,14 @@
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
 }
 
+- (void)setupFrameNo
+{
+    self.frameNo = self.car.classno.length == 0 ? @"" : self.car.classno;
+}
+
 #pragma mark - Network
 
+/// 获得估算信息
 -(void)getCalculateBaseInfo
 {
     @weakify(self)
@@ -65,12 +72,14 @@
         @strongify(self)
         
         self.tableView.hidden = YES;
+        [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }]subscribeNext:^(GetCalculateBaseInfoOp *op) {
         @strongify(self)
         
         self.tableView.hidden = NO;
+        
         [self.view stopActivityAnimation];
         
         CKList *list = [CKList list];
@@ -224,6 +233,9 @@
         }];
         
         OETextField *textField = [cell viewWithTag:101];
+        
+        textField.text = self.frameNo;
+        
         [textField setNormalInputAccessoryViewWithDataArr:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"]];
         
         [textField setTextDidChangedBlock:^(CKLimitTextField *textField) {

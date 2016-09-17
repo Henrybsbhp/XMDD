@@ -768,6 +768,7 @@
 		4E78DF6E1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DF6D1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m */; };
 		4E78DFBA1D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */; };
 		4E78E02D1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */; };
+		4EC713421D8D3F1F0047C1D7 /* HKScrollDisplayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC713411D8D3F1F0047C1D7 /* HKScrollDisplayVC.m */; };
 		4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */; };
 		4ED048C81D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */; };
 		4EF8BF661D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */; };
@@ -2527,6 +2528,8 @@
 		4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetViolationCommissionByIdOp.m; sourceTree = "<group>"; };
 		4E78E02B1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayViolationCommissionOrderOp.h; sourceTree = "<group>"; };
 		4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayViolationCommissionOrderOp.m; sourceTree = "<group>"; };
+		4EC713401D8D3F1F0047C1D7 /* HKScrollDisplayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKScrollDisplayVC.h; sourceTree = "<group>"; };
+		4EC713411D8D3F1F0047C1D7 /* HKScrollDisplayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKScrollDisplayVC.m; sourceTree = "<group>"; };
 		4ED048611D643A5500F48A1F /* SendUnioncardSmsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendUnioncardSmsOp.h; sourceTree = "<group>"; };
 		4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendUnioncardSmsOp.m; sourceTree = "<group>"; };
 		4ED048C61D64964600F48A1F /* CheckoutUnioncardQuickpayOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutUnioncardQuickpayOp.h; sourceTree = "<group>"; };
@@ -3237,6 +3240,8 @@
 				18649BC31D48AF2600F1CCB0 /* HKTableViewController.m */,
 				18649BC41D48AF2600F1CCB0 /* HKViewController.h */,
 				18649BC51D48AF2600F1CCB0 /* HKViewController.m */,
+				4EC713401D8D3F1F0047C1D7 /* HKScrollDisplayVC.h */,
+				4EC713411D8D3F1F0047C1D7 /* HKScrollDisplayVC.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -6756,6 +6761,7 @@
 				186496C31D489A4200F1CCB0 /* HKTimer.m in Sources */,
 				18649D4D1D48BA3D00F1CCB0 /* PayForInsuranceVC.m in Sources */,
 				186496B01D489A4200F1CCB0 /* AdvertisementManager.m in Sources */,
+				4EC713421D8D3F1F0047C1D7 /* HKScrollDisplayVC.m in Sources */,
 				18649D541D48BA7500F1CCB0 /* InsCheckFailVC.m in Sources */,
 				186499741D489A9700F1CCB0 /* CouponModel.m in Sources */,
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,

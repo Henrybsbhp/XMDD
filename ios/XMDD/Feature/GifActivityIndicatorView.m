@@ -105,11 +105,10 @@
     
     self.hidden = NO;
     
-    if (![self.subviews containsObject:self.backgroundImgViewOne])
+    if (![self.scrollView.subviews containsObject:self.backgroundImgViewOne])
     {
-        [self.scrollView addSubview:self.backgroundImgViewOne];
-        [self.scrollView addSubview:self.backgroundImgViewTwo];
-        [self.scrollView addSubview:self.backgroundImgViewThree];
+        [self setupBackgroundImgView];
+        [self setupScrollView];
         [self setupImgView];
     }
     
@@ -154,7 +153,8 @@
 -(void)stopAnimating
 {
     self.hidden = YES;
-    [self removeSubviews];
+    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.offsetDisposable dispose];
 }
 
