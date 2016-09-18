@@ -8,12 +8,14 @@
 
 #import "MutualInsHomeAdVC.h"
 #import "MutualInsVC.h"
+#import "MutInsCalculatePageVC.h"
 
 @interface MutualInsHomeAdVC()
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
-@property (weak, nonatomic) IBOutlet UIButton *nextBtn;
+@property (weak, nonatomic) IBOutlet UIButton *calculateBtn;
+@property (weak, nonatomic) IBOutlet UIButton *mutualInsBtn;
 
 @end
 
@@ -48,13 +50,11 @@
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
     self.navigationItem.leftBarButtonItem = back;
     
-    @weakify(self)
-    [[self.nextBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
-        @strongify(self)
-        MutualInsVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
-        [self.navigationController pushViewController:vc animated:YES];
-    }];
+    self.calculateBtn.layer.cornerRadius = 5;
+    self.calculateBtn.layer.masksToBounds = YES;
+    self.mutualInsBtn.layer.cornerRadius = 5;
+    self.mutualInsBtn.layer.masksToBounds = YES;
+    
 }
 
 - (void)actionBack:(id)sender
@@ -92,6 +92,20 @@
     }
     
     DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
+}
+- (IBAction)actionJumpToMutualInsVC:(id)sender
+{
+    MutualInsVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+- (IBAction)actionJumpToMutInsCalculateVC:(id)sender
+{
+    MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
 @end

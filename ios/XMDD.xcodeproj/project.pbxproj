@@ -748,6 +748,9 @@
 		18FC01E61C4E6C6F00FD61BF /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18FC01DA1C4E6C6F00FD61BF /* IQKeyboardManager.bundle */; };
 		2E52F24A1C2032BB00D94F68 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		4CEFBEBAA7BE4E58AF8C448E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9411A8DA5E84CBC911B19E1 /* Zocial.ttf */; };
+		4E067BAF1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E067BAE1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.m */; };
+		4E067BC01D890159008578E4 /* MutInsCalculatePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E067BBF1D890159008578E4 /* MutInsCalculatePageVC.m */; };
+		4E067BC31D891D58008578E4 /* PremiumModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E067BC21D891D58008578E4 /* PremiumModel.m */; };
 		4E2159A21D6409F5004A81D6 /* UPayVerifyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */; };
 		4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */; };
 		4E78DDE91D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */; };
@@ -764,6 +767,7 @@
 		4E78DF6E1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DF6D1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m */; };
 		4E78DFBA1D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */; };
 		4E78E02D1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */; };
+		4EC713421D8D3F1F0047C1D7 /* HKScrollDisplayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC713411D8D3F1F0047C1D7 /* HKScrollDisplayVC.m */; };
 		4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */; };
 		4ED048C81D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */; };
 		4EF8BF661D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */; };
@@ -833,7 +837,6 @@
 		FA65CDA21D51CCC30076ED7D /* MutualOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA11D51CCC30076ED7D /* MutualOrderViewModel.m */; };
 		FA65CDA51D51EF650076ED7D /* GasOrderModelView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */; };
 		FA8496621CBE367700631062 /* SJKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8496611CBE367700631062 /* SJKeyboardManager.m */; };
-		FA941B3F1D13A5AA00F56B96 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA941B3E1D13A5AA00F56B96 /* PassKit.framework */; };
 		FAA240591D505224008AA1EC /* GetGasCardInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */; };
 		FAAD30C51D1246490045531C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C41D1246490045531C /* CFNetwork.framework */; };
 		FAAD30C91D12466E0045531C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAD30C81D12466E0045531C /* SystemConfiguration.framework */; };
@@ -2336,8 +2339,6 @@
 		18649E191D48BD8D00F1CCB0 /* MutualInsScencePhotoVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsScencePhotoVM.m; sourceTree = "<group>"; };
 		18649E2A1D48BE0A00F1CCB0 /* CreateGroupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupVC.h; sourceTree = "<group>"; };
 		18649E2B1D48BE0A00F1CCB0 /* CreateGroupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateGroupVC.m; sourceTree = "<group>"; };
-		18649E2C1D48BE0A00F1CCB0 /* EstimatedPriceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EstimatedPriceVC.h; sourceTree = "<group>"; };
-		18649E2D1D48BE0A00F1CCB0 /* EstimatedPriceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EstimatedPriceVC.m; sourceTree = "<group>"; };
 		18649E2E1D48BE0A00F1CCB0 /* GroupIntroductionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupIntroductionVC.h; sourceTree = "<group>"; };
 		18649E2F1D48BE0A00F1CCB0 /* GroupIntroductionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupIntroductionVC.m; sourceTree = "<group>"; };
 		18649E301D48BE0A00F1CCB0 /* InviteByCodeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteByCodeVC.h; sourceTree = "<group>"; };
@@ -2485,6 +2486,12 @@
 		3C0E96B10826489DA73979A5 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		3FF6BC86D83245F3AA5579BF /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		42A4FF4931374F8E9563443E /* libRCTToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTToast.a; sourceTree = "<group>"; };
+		4E067BAD1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculateCooperationFreePremiumOp.h; sourceTree = "<group>"; };
+		4E067BAE1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculateCooperationFreePremiumOp.m; sourceTree = "<group>"; };
+		4E067BBE1D890159008578E4 /* MutInsCalculatePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutInsCalculatePageVC.h; sourceTree = "<group>"; };
+		4E067BBF1D890159008578E4 /* MutInsCalculatePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutInsCalculatePageVC.m; sourceTree = "<group>"; };
+		4E067BC11D891D58008578E4 /* PremiumModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PremiumModel.h; sourceTree = "<group>"; };
+		4E067BC21D891D58008578E4 /* PremiumModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PremiumModel.m; sourceTree = "<group>"; };
 		4E2159A01D6409F5004A81D6 /* UPayVerifyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UPayVerifyVC.h; path = ../Feature/UPayVerifyVC.h; sourceTree = "<group>"; };
 		4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UPayVerifyVC.m; path = ../Feature/UPayVerifyVC.m; sourceTree = "<group>"; };
 		4E30E6CF1CFD8492000157D4 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
@@ -2518,6 +2525,8 @@
 		4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetViolationCommissionByIdOp.m; sourceTree = "<group>"; };
 		4E78E02B1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayViolationCommissionOrderOp.h; sourceTree = "<group>"; };
 		4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayViolationCommissionOrderOp.m; sourceTree = "<group>"; };
+		4EC713401D8D3F1F0047C1D7 /* HKScrollDisplayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKScrollDisplayVC.h; sourceTree = "<group>"; };
+		4EC713411D8D3F1F0047C1D7 /* HKScrollDisplayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKScrollDisplayVC.m; sourceTree = "<group>"; };
 		4ED048611D643A5500F48A1F /* SendUnioncardSmsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendUnioncardSmsOp.h; sourceTree = "<group>"; };
 		4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendUnioncardSmsOp.m; sourceTree = "<group>"; };
 		4ED048C61D64964600F48A1F /* CheckoutUnioncardQuickpayOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutUnioncardQuickpayOp.h; sourceTree = "<group>"; };
@@ -2636,7 +2645,6 @@
 		FA65CDA41D51EF650076ED7D /* GasOrderModelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasOrderModelView.m; sourceTree = "<group>"; };
 		FA8496601CBE367700631062 /* SJKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJKeyboardManager.h; sourceTree = "<group>"; };
 		FA8496611CBE367700631062 /* SJKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJKeyboardManager.m; sourceTree = "<group>"; };
-		FA941B3E1D13A5AA00F56B96 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		FAA240571D505224008AA1EC /* GetGasCardInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGasCardInfoOp.h; sourceTree = "<group>"; };
 		FAA240581D505224008AA1EC /* GetGasCardInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGasCardInfoOp.m; sourceTree = "<group>"; };
 		FAAD30C41D1246490045531C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -2678,7 +2686,6 @@
 				186496561D48988700F1CCB0 /* libRCTText.a in Frameworks */,
 				186496571D48988700F1CCB0 /* libRCTVibration.a in Frameworks */,
 				186496581D48988700F1CCB0 /* libRCTWebSocket.a in Frameworks */,
-				FA941B3F1D13A5AA00F56B96 /* PassKit.framework in Frameworks */,
 				FAAD30CB1D12467D0045531C /* libz.1.2.5.tbd in Frameworks */,
 				18648FBD1D48558000F1CCB0 /* libcrypto.a in Frameworks */,
 				18648FB61D48558000F1CCB0 /* AlipaySDK.framework in Frameworks */,
@@ -3234,6 +3241,8 @@
 				18649BC31D48AF2600F1CCB0 /* HKTableViewController.m */,
 				18649BC41D48AF2600F1CCB0 /* HKViewController.h */,
 				18649BC51D48AF2600F1CCB0 /* HKViewController.m */,
+				4EC713401D8D3F1F0047C1D7 /* HKScrollDisplayVC.h */,
+				4EC713411D8D3F1F0047C1D7 /* HKScrollDisplayVC.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -3643,6 +3652,8 @@
 				180294E71D64148E00FC0C05 /* GetReactNativeConfigOp.m */,
 				4EF8BF641D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.h */,
 				4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */,
+				4E067BAD1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.h */,
+				4E067BAE1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.m */,
 			);
 			name = Netop;
 			sourceTree = "<group>";
@@ -5222,8 +5233,6 @@
 				18649E5A1D48BE4000F1CCB0 /* Modal */,
 				18649E2A1D48BE0A00F1CCB0 /* CreateGroupVC.h */,
 				18649E2B1D48BE0A00F1CCB0 /* CreateGroupVC.m */,
-				18649E2C1D48BE0A00F1CCB0 /* EstimatedPriceVC.h */,
-				18649E2D1D48BE0A00F1CCB0 /* EstimatedPriceVC.m */,
 				18649E2E1D48BE0A00F1CCB0 /* GroupIntroductionVC.h */,
 				18649E2F1D48BE0A00F1CCB0 /* GroupIntroductionVC.m */,
 				18649E301D48BE0A00F1CCB0 /* InviteByCodeVC.h */,
@@ -5252,6 +5261,8 @@
 				18649E531D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m */,
 				18649E541D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.h */,
 				18649E551D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m */,
+				4E067BBE1D890159008578E4 /* MutInsCalculatePageVC.h */,
+				4E067BBF1D890159008578E4 /* MutInsCalculatePageVC.m */,
 			);
 			name = Join;
 			sourceTree = "<group>";
@@ -5263,6 +5274,8 @@
 				18649E5C1D48BE5500F1CCB0 /* InviteAlertVC.m */,
 				18649E5D1D48BE5500F1CCB0 /* InviteCompleteVC.h */,
 				18649E5E1D48BE5500F1CCB0 /* InviteCompleteVC.m */,
+				4E067BC11D891D58008578E4 /* PremiumModel.h */,
+				4E067BC21D891D58008578E4 /* PremiumModel.m */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -5948,7 +5961,6 @@
 		C8447CD201C36C94165168FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FA941B3E1D13A5AA00F56B96 /* PassKit.framework */,
 				FAAD30CA1D12467D0045531C /* libz.1.2.5.tbd */,
 				FAAD30C81D12466E0045531C /* SystemConfiguration.framework */,
 				FAAD30C41D1246490045531C /* CFNetwork.framework */,
@@ -6023,6 +6035,9 @@
 						DevelopmentTeam = 7A3B9332PS;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplePay = {
+								enabled = 0;
+							};
 							com.apple.OMC = {
 								enabled = 0;
 							};
@@ -6747,6 +6762,7 @@
 				186499911D489A9700F1CCB0 /* MutualInsAdModel.m in Sources */,
 				18649E241D48BD8D00F1CCB0 /* MutualInsScencePhotoVC.m in Sources */,
 				186496D41D489A4200F1CCB0 /* UIView+ComOpenThreadOTScreenshotHelperStatusBarReference.m in Sources */,
+				4E067BC31D891D58008578E4 /* PremiumModel.m in Sources */,
 				1888F41E1D48CB8600C64288 /* ReactNativeOp.m in Sources */,
 				18649C711D48B57300F1CCB0 /* JoinUsViewController.m in Sources */,
 				186496C01D489A4200F1CCB0 /* HKPushManager.m in Sources */,
@@ -6755,6 +6771,7 @@
 				186496C31D489A4200F1CCB0 /* HKTimer.m in Sources */,
 				18649D4D1D48BA3D00F1CCB0 /* PayForInsuranceVC.m in Sources */,
 				186496B01D489A4200F1CCB0 /* AdvertisementManager.m in Sources */,
+				4EC713421D8D3F1F0047C1D7 /* HKScrollDisplayVC.m in Sources */,
 				18649D541D48BA7500F1CCB0 /* InsCheckFailVC.m in Sources */,
 				186499741D489A9700F1CCB0 /* CouponModel.m in Sources */,
 				1816F4A41ACD3B0900BBCC96 /* SYPageView.m in Sources */,
@@ -6800,6 +6817,7 @@
 				4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */,
 				18A2F4B51D6C43A800035679 /* MyCollectionListVC.m in Sources */,
 				18649D5F1D48BA9800F1CCB0 /* InsInputInfoVC.m in Sources */,
+				4E067BC01D890159008578E4 /* MutInsCalculatePageVC.m in Sources */,
 				181F6DAA1B15919900D38555 /* LFGlassView.m in Sources */,
 				186499A91D489A9700F1CCB0 /* DeleteUserFavoriteOp.m in Sources */,
 				186499AE1D489A9700F1CCB0 /* GainUserAwardOp.m in Sources */,
@@ -6843,6 +6861,7 @@
 				1836B7B61D54220B0078DB15 /* NSObject+Runtime.m in Sources */,
 				186496B91D489A4200F1CCB0 /* DefaultStyleModel.m in Sources */,
 				6BBAB8C11ADBC21600EC342F /* GTMBase64.m in Sources */,
+				4E067BAF1D88FEE0008578E4 /* CalculateCooperationFreePremiumOp.m in Sources */,
 				183F573F1D4C90860001E26A /* PayForPremiumOp.m in Sources */,
 				186499721D489A9700F1CCB0 /* AutoSeriesModel.m in Sources */,
 				186499AD1D489A9700F1CCB0 /* GainCouponPkgOp.m in Sources */,
@@ -7177,9 +7196,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7A3B9332PS;
 				ENABLE_BITCODE = NO;
@@ -7277,7 +7296,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d7e85d76-f89f-46fb-9272-82e4e4693f2b";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -7289,8 +7308,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7A3B9332PS;
 				ENABLE_BITCODE = NO;
@@ -7388,7 +7407,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d7e85d76-f89f-46fb-9272-82e4e4693f2b";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
