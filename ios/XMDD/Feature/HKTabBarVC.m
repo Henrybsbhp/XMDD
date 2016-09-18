@@ -213,31 +213,31 @@
     @weakify(self);
     [signal subscribeNext:^(id x) {
         @strongify(self);
-        if (self.guideStore.shouldShowNewbieGuideDot || gAppMgr.myUser.hasNewMsg) {
-            
-            [self reloadAppearMineTabDot];
-        }
-        else {
-            [self.tabBar hideDotWithBadge:self.mineDot];
-        }
+        [self reloadAppearMineTabDot];
     }];
 }
 
 /// tab个数会导致红点错位
 - (void)reloadAppearMineTabDot
 {
-    CGFloat offsetX = 3;
-    CGFloat offsetY = 5;
-    if (!IOSVersionGreaterThanOrEqualTo(@"7.0")) {
-        offsetX = 7;
-        offsetY = 5;
+    if (self.guideStore.shouldShowNewbieGuideDot || gAppMgr.myUser.hasNewMsg) {
+        
+        CGFloat offsetX = 3;
+        CGFloat offsetY = 5;
+        if (!IOSVersionGreaterThanOrEqualTo(@"7.0")) {
+            offsetX = 7;
+            offsetY = 5;
+        }
+        
+        NSInteger count = self.viewControllers.count;
+        NSInteger doubleCount = count * 2;
+        CGFloat x = ceilf(CGRectGetWidth(self.tabBar.frame)/doubleCount*(doubleCount-1) + offsetX);
+        CGFloat y = offsetY;
+        [self.tabBar showDotWithOffset:CGPointMake(x, y) withBadge:self.mineDot];
     }
-    
-    NSInteger count = self.viewControllers.count;
-    NSInteger doubleCount = count * 2;
-    CGFloat x = ceilf(CGRectGetWidth(self.tabBar.frame)/doubleCount*(doubleCount-1) + offsetX);
-    CGFloat y = offsetY;
-    [self.tabBar showDotWithOffset:CGPointMake(x, y) withBadge:self.mineDot];
+    else {
+        [self.tabBar hideDotWithBadge:self.mineDot];
+    }
 }
 
 - (void)reloadAppearMutualPlanDot
