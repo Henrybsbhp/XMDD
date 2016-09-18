@@ -555,6 +555,14 @@
         UIView *containView = (UIView *)[self.view searchViewWithTag:101];
         self.moduleModel.moduleArray = gAppMgr.homePicModel.homeItemArray;
         [self.moduleModel refreshSquareView:containView];
+        
+
+        gAppMgr.huzhuTabFlag = op.huzhuTabFlag;
+        [gAppMgr saveMutualPlanTabAppear:op.huzhuTabFlag];
+            
+        [gAppMgr.tabBarVC reloadTabBarVC];
+        gAppMgr.huzhuTabUrl = op.huzhuTabUrl;
+        gAppMgr.huzhuTabTitle = op.huzhuTabTitle;
     }];
 }
 

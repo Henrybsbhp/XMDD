@@ -509,7 +509,6 @@
 		18649B891D48A93000F1CCB0 /* UIView+DefaultEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B501D48A93000F1CCB0 /* UIView+DefaultEmptyView.m */; };
 		18649B8A1D48A93000F1CCB0 /* UIView+JTLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B521D48A93000F1CCB0 /* UIView+JTLoadingView.m */; };
 		18649B8B1D48A93000F1CCB0 /* UIView+ShowDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B541D48A93000F1CCB0 /* UIView+ShowDot.m */; };
-		18649BA81D48AD0500F1CCB0 /* MainTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BA71D48AD0500F1CCB0 /* MainTabBarVC.m */; };
 		18649BAE1D48ADC600F1CCB0 /* LaunchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BAB1D48ADC600F1CCB0 /* LaunchVC.m */; };
 		18649BB61D48AE9B00F1CCB0 /* HomeNewbieGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BB31D48AE9B00F1CCB0 /* HomeNewbieGuideVC.m */; };
 		18649BB71D48AE9B00F1CCB0 /* HomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BB51D48AE9B00F1CCB0 /* HomePageVC.m */; };
@@ -815,9 +814,11 @@
 		A0783511FA7E4824B97BDF70 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 554B7186BF284F69BDB882E7 /* Foundation.ttf */; };
 		B08D7E402ED9731B677706F2 /* libPods-XMDD.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FBB925F230AB7BE6AD87FF /* libPods-XMDD.a */; };
 		C26489B41AF8A70A00F1E318 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C26489B31AF8A70A00F1E318 /* libiconv.dylib */; };
+		C315F4D91D896FCA00356DE1 /* MutualPlanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C315F4D81D896FCA00356DE1 /* MutualPlanViewController.m */; };
 		C38A1DFE1CC5D1390085BA4C /* (null) in Resources */ = {isa = PBXBuildFile; };
 		C3B129BB1D5B0114008CBE6A /* UPApplePayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B129BA1D5B0114008CBE6A /* UPApplePayHelper.m */; };
 		C3B129D01D5B0370008CBE6A /* libUPAPayPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B129CF1D5B0370008CBE6A /* libUPAPayPlugin.a */; };
+		C3C6E3CF1D8D7666005DD855 /* HKTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C6E3CE1D8D7666005DD855 /* HKTabBarVC.m */; };
 		C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */; };
 		C3D9B81F1CC0DBF000B5D2A7 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81D1CC0DBF000B5D2A7 /* FLAnimatedImageView.m */; };
 		C3DEFD491D54892F006337D5 /* HomePageModuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C3DEFD481D54892F006337D5 /* HomePageModuleModel.m */; };
@@ -2001,12 +2002,8 @@
 		18649B521D48A93000F1CCB0 /* UIView+JTLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+JTLoadingView.m"; sourceTree = "<group>"; };
 		18649B531D48A93000F1CCB0 /* UIView+ShowDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ShowDot.h"; sourceTree = "<group>"; };
 		18649B541D48A93000F1CCB0 /* UIView+ShowDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ShowDot.m"; sourceTree = "<group>"; };
-		18649BA61D48AD0500F1CCB0 /* MainTabBarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTabBarVC.h; sourceTree = "<group>"; };
-		18649BA71D48AD0500F1CCB0 /* MainTabBarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarVC.m; sourceTree = "<group>"; };
 		18649BAA1D48ADC600F1CCB0 /* LaunchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchVC.h; sourceTree = "<group>"; };
 		18649BAB1D48ADC600F1CCB0 /* LaunchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchVC.m; sourceTree = "<group>"; };
-		18649BAC1D48ADC600F1CCB0 /* WelcomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeVC.h; sourceTree = "<group>"; };
-		18649BAD1D48ADC600F1CCB0 /* WelcomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeVC.m; sourceTree = "<group>"; };
 		18649BB21D48AE9B00F1CCB0 /* HomeNewbieGuideVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeNewbieGuideVC.h; sourceTree = "<group>"; };
 		18649BB31D48AE9B00F1CCB0 /* HomeNewbieGuideVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeNewbieGuideVC.m; sourceTree = "<group>"; };
 		18649BB41D48AE9B00F1CCB0 /* HomePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageVC.h; sourceTree = "<group>"; };
@@ -2599,12 +2596,16 @@
 		A7599898B2C44DA08CD81357 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		C243F5EAA1714F9A9CA63D5B /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		C26489B31AF8A70A00F1E318 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		C315F4D71D896FCA00356DE1 /* MutualPlanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualPlanViewController.h; sourceTree = "<group>"; };
+		C315F4D81D896FCA00356DE1 /* MutualPlanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualPlanViewController.m; sourceTree = "<group>"; };
 		C3B129B91D5B0114008CBE6A /* UPApplePayHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPApplePayHelper.h; sourceTree = "<group>"; };
 		C3B129BA1D5B0114008CBE6A /* UPApplePayHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UPApplePayHelper.m; sourceTree = "<group>"; };
 		C3B129CC1D5B0370008CBE6A /* UPAPayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPAPayPlugin.h; sourceTree = "<group>"; };
 		C3B129CD1D5B0370008CBE6A /* UPAPayPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPAPayPluginDelegate.h; sourceTree = "<group>"; };
 		C3B129CF1D5B0370008CBE6A /* libUPAPayPlugin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUPAPayPlugin.a; sourceTree = "<group>"; };
 		C3B129DA1D5B0A3D008CBE6A /* XMDD.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = XMDD.entitlements; sourceTree = "<group>"; };
+		C3C6E3CD1D8D7666005DD855 /* HKTabBarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKTabBarVC.h; sourceTree = "<group>"; };
+		C3C6E3CE1D8D7666005DD855 /* HKTabBarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKTabBarVC.m; sourceTree = "<group>"; };
 		C3D9B81A1CC0DBF000B5D2A7 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = FLAnimatedImage/FLAnimatedImage.h; sourceTree = "<group>"; };
 		C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImage/FLAnimatedImage.m; sourceTree = "<group>"; };
 		C3D9B81C1CC0DBF000B5D2A7 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImage/FLAnimatedImageView.h; sourceTree = "<group>"; };
@@ -3353,8 +3354,8 @@
 		183F57D41D4EE3CC0001E26A /* MainTab */ = {
 			isa = PBXGroup;
 			children = (
-				18649BA61D48AD0500F1CCB0 /* MainTabBarVC.h */,
-				18649BA71D48AD0500F1CCB0 /* MainTabBarVC.m */,
+				C3C6E3CD1D8D7666005DD855 /* HKTabBarVC.h */,
+				C3C6E3CE1D8D7666005DD855 /* HKTabBarVC.m */,
 			);
 			name = MainTab;
 			sourceTree = "<group>";
@@ -3364,8 +3365,6 @@
 			children = (
 				18649BAA1D48ADC600F1CCB0 /* LaunchVC.h */,
 				18649BAB1D48ADC600F1CCB0 /* LaunchVC.m */,
-				18649BAC1D48ADC600F1CCB0 /* WelcomeVC.h */,
-				18649BAD1D48ADC600F1CCB0 /* WelcomeVC.m */,
 			);
 			name = Launch;
 			sourceTree = "<group>";
@@ -4417,6 +4416,7 @@
 		18649AED1D48A93000F1CCB0 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				C315F4D61D896F9F00356DE1 /* MutualPlan */,
 				18649AF21D48A93000F1CCB0 /* General */,
 				18649BA11D48ABFE00F1CCB0 /* Home */,
 				18649BA51D48AC7800F1CCB0 /* Other */,
@@ -5902,6 +5902,15 @@
 			path = TMCache;
 			sourceTree = "<group>";
 		};
+		C315F4D61D896F9F00356DE1 /* MutualPlan */ = {
+			isa = PBXGroup;
+			children = (
+				C315F4D71D896FCA00356DE1 /* MutualPlanViewController.h */,
+				C315F4D81D896FCA00356DE1 /* MutualPlanViewController.m */,
+			);
+			name = MutualPlan;
+			sourceTree = "<group>";
+		};
 		C3B129CA1D5B0370008CBE6A /* ApplePaySDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -6714,6 +6723,7 @@
 				1836B81D1D5466180078DB15 /* ShopDetailPaymentCell.m in Sources */,
 				18649B5D1D48A93000F1CCB0 /* HKNavigationController.m in Sources */,
 				180294E81D64148E00FC0C05 /* GetReactNativeConfigOp.m in Sources */,
+				C315F4D91D896FCA00356DE1 /* MutualPlanViewController.m in Sources */,
 				183F57351D4C90860001E26A /* GetInsBaseCarListOp.m in Sources */,
 				186499B51D489A9700F1CCB0 /* GetAutomobileModelOp.m in Sources */,
 				18649B661D48A93000F1CCB0 /* HKAlertVC.m in Sources */,
@@ -6976,6 +6986,7 @@
 				186496D01D489A4200F1CCB0 /* PhoneHelper.m in Sources */,
 				1816F4A81ACD3B0900BBCC96 /* SYPaginatorViewController.m in Sources */,
 				FA1459FD1D632FA900690140 /* UnbindingBankCardOp.m in Sources */,
+				C3C6E3CF1D8D7666005DD855 /* HKTabBarVC.m in Sources */,
 				185A150E1D5C85810051D9F7 /* SearchShopListBar.m in Sources */,
 				189B31141ADB60AE001D7288 /* JGActionSheet.m in Sources */,
 				18649A0D1D489A9700F1CCB0 /* UnbindBankcardOp.m in Sources */,
@@ -7002,7 +7013,6 @@
 				186499E01D489A9700F1CCB0 /* GetRescueNoLoginOp.m in Sources */,
 				1864998F1D489A9700F1CCB0 /* JTShop.m in Sources */,
 				18649CB51D48B6F100F1CCB0 /* CommissionOrderVC.m in Sources */,
-				18649BA81D48AD0500F1CCB0 /* MainTabBarVC.m in Sources */,
 				18649B881D48A93000F1CCB0 /* UIView+AddBadgeView.m in Sources */,
 				18649B6E1D48A93000F1CCB0 /* HKMapView.m in Sources */,
 				1864998B1D489A9700F1CCB0 /* HKServiceOrder.m in Sources */,
@@ -7186,9 +7196,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7A3B9332PS;
 				ENABLE_BITCODE = NO;
@@ -7286,7 +7296,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d7e85d76-f89f-46fb-9272-82e4e4693f2b";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -7298,7 +7308,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7A3B9332PS;
@@ -7397,7 +7407,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d7e85d76-f89f-46fb-9272-82e4e4693f2b";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;

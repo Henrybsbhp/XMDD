@@ -157,6 +157,16 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:key];
 }
 
+- (BOOL)loadLastMutualPlanTabAppear
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:AppMutualPlanAppear];
+}
+
+- (void)saveMutualPlanTabAppear:(BOOL)flag
+{
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:AppMutualPlanAppear];
+}
+
 
 
 #pragma mark - 升级相关
@@ -178,8 +188,4 @@
     }
 }
 
-- (void)getSwitchConfiguration
-{
-    
-}
 @end
