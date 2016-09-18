@@ -28,7 +28,7 @@
 #import "GroupIntroductionVC.h"
 #import "MutualInsTipsInfoExtendedView.h"
 #import "SJMarqueeLabelView.h"
-
+#import "MutInsCalculatePageVC.h"
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -149,33 +149,32 @@
         return;
     }
     
-        NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
-            return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
-        }];
-        HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 200) items:items];
-        @weakify(self);
-        [popover setDidSelectedBlock:^(NSUInteger index) {
-            @strongify(self);
-            CKDict *dict = self.menuItems[index];
-            CKCellSelectedBlock block = dict[kCKCellSelected];
-            if (block) {
-                block(dict, [NSIndexPath indexPathForRow:index inSection:0]);
-            }
-        }];
-        
-        [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
-                            inView:self.navigationController.view dismissTargetView:self.view animated:YES];
-        self.popoverMenu = popover;
+    NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
+        return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
+    }];
+    HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 200) items:items];
+    @weakify(self);
+    [popover setDidSelectedBlock:^(NSUInteger index) {
+        @strongify(self);
+        CKDict *dict = self.menuItems[index];
+        CKCellSelectedBlock block = dict[kCKCellSelected];
+        if (block) {
+            block(dict, [NSIndexPath indexPathForRow:index inSection:0]);
+        }
+    }];
+    
+    [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
+                        inView:self.navigationController.view dismissTargetView:self.view animated:YES];
+    self.popoverMenu = popover;
 }
 
 - (void)actionGotoCalculateVC
 {
-    MutInsCalculateVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateVC"];
+    MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
     vc.router.userInfo = [[CKDict alloc] init];
     vc.router.userInfo[kOriginRoute] = self.router;
     
     [self.router.navigationController pushViewController:vc animated:YES];
-    
 }
 
 - (void)actionGotoSystemGroupListVC
@@ -480,13 +479,13 @@
     CKList *dataSource = $($([self setupMutualInsTipsCell]));
     
     for (MutualInsCarListModel *dict in self.fetchedDataSource) {
-    
+        
         CKDict *normalStatusCell = [self setupNormalStatusCellWithDict:dict];
         
         CKDict *statusButtonCell = [self setupStatusButtonCellWithDict:dict];
-
+        
         CKDict *groupInfoCell = [self setupGroupInfoCellWithDict:dict];
-
+        
         NSMutableArray *extentedInfoArray = [NSMutableArray new];
         for (NSDictionary *secDict in dict.extendInfo) {
             [extentedInfoArray addObject:[self setupExtendedInfoCellWithDict:secDict sourceDict:dict]];
@@ -496,7 +495,7 @@
             // 团长无车
             [dataSource addObject:$(groupInfoCell, CKJoin(extentedInfoArray)) forKey:nil];
             
-
+            
         } else if (dict.status == XMGroupFailed|| (dict.status == XMInReview && dict.numberCnt.integerValue < 1)) {
             // 未参团 / 入团失败 / 审核中（有车无团）
             [dataSource addObject:$(normalStatusCell, CKJoin([self getCouponInfoWithData:dict.couponList sourceDict:dict])) forKey:nil];
@@ -1121,7 +1120,7 @@
             HKMyCar * car = [[HKMyCar alloc] init];
             car.carId = dict.userCarID;
             car.licencenumber = dict.licenseNum;
-
+            
             [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             
         } else {

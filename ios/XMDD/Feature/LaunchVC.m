@@ -15,10 +15,8 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *skipBtn;
 @property (nonatomic, strong) UIWindow *nextWindow;
-///是否点击切换到其他页面
-@property (nonatomic)BOOL isClickSwitchToOtherView;
-///是否点击跳过
-@property (nonatomic)BOOL isClickSkip;
+
+@property (nonatomic, strong) RACDisposable *signalDisposable;
 @end
 @implementation LaunchVC
 
@@ -52,12 +50,10 @@
         [self setupClickAction];
         
         ///如果是有广告，并且没有点击，时间停留多一秒
-        [self swithToRootViewAfterDelay:self.info.staytime > 0 ? self.info.staytime : 3];
         [self countDownCircleAfterDelay:self.info.staytime > 0 ? self.info.staytime : 3];
     }
     else
     {
-        [self swithToRootViewAfterDelay:self.info.staytime > 0 ? self.info.staytime : 2];
         [self countDownCircleAfterDelay:self.info.staytime > 0 ? self.info.staytime : 2];
     }
 }
@@ -109,32 +105,9 @@
         
         @strongify(self)
         
-        self.isClickSwitchToOtherView = YES;
+        [self.signalDisposable dispose];
         [self swithToRootViewAfterDelay:0.1 url:self.info.url];
     }];
-}
-
-- (void)swithToRootViewAfterDelay:(NSTimeInterval)delay
-{
-    
-    @weakify(self)
-    
-    CKAfter(delay, ^{
-        
-        if (self.isClickSwitchToOtherView || self.isClickSkip)
-        {
-            return;
-        }
-        
-        [UIView animateWithDuration:0.35 animations:^{
-            gAppDelegate.window.alpha = 0;
-        } completion:^(BOOL finished) {
-            
-            @strongify(self)
-            
-            gAppDelegate.window = self.nextWindow;
-        }];
-    });
 }
 
 - (void)swithToRootViewAfterDelay:(NSTimeInterval)delay url:(NSString *) url
@@ -164,6 +137,8 @@
 - (void)countDownCircleAfterDelay:(NSTimeInterval)delay
 {
     
+    @weakify(self)
+    
     UIBezierPath *bezierPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(20, 20) radius:20 startAngle:M_PI_2*3 endAngle:M_PI*2 + M_PI_2*3 clockwise:YES];
     
     CAShapeLayer *shapeLayer = [[CAShapeLayer alloc]init];
@@ -177,9 +152,22 @@
     
     CGFloat diffPi = (0.1/delay);
     
-    [[[RACSignal interval:0.1 onScheduler:[RACScheduler mainThreadScheduler]]take:delay*10]subscribeNext:^(id x) {
+    self.signalDisposable = [[[RACSignal interval:0.1 onScheduler:[RACScheduler mainThreadScheduler]]take:delay*10]subscribeNext:^(id x) {
         
         shapeLayer.strokeEnd -= diffPi;
+        
+    }completed:^{
+        
+        CKAfter(0.3, ^{
+            [UIView animateWithDuration:0.35 animations:^{
+                gAppDelegate.window.alpha = 0;
+            } completion:^(BOOL finished) {
+                
+                @strongify(self)
+                
+                gAppDelegate.window = self.nextWindow;
+            }];
+        });
         
     }];
 }
@@ -189,7 +177,7 @@
     
     @weakify(self)
     
-    self.isClickSkip = YES;
+    [self.signalDisposable dispose];
     
     [UIView animateWithDuration:0.35 animations:^{
         

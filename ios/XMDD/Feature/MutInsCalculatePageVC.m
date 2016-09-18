@@ -1,72 +1,78 @@
 //
-//  IllegalViewController.m
-//  XiaoMa
+//  MutInsCalculatePageVC.m
+//  XMDD
 //
-//  Created by jt on 15/11/23.
-//  Copyright © 2015年 jiangjunchen. All rights reserved.
+//  Created by RockyYe on 16/9/14.
+//  Copyright © 2016年 huika. All rights reserved.
 //
 
-#import "ViolationViewController.h"
-#import "ViolationItemViewController.h"
-#import "ViolationMissionHistoryVC.h"
-#import "MyCarStore.h"
+#import "MutInsCalculatePageVC.h"
 #import "HKPageSliderView.h"
+#import "MutInsCalculateVC.h"
+#import "MyCarStore.h"
 
-#define kAddCarTitle @"添加爱车"
+#define kOtherCarTitle @"其他车辆"
 
-
-@interface ViolationViewController ()<UIScrollViewDelegate,PageSliderDelegate>
-
+@interface MutInsCalculatePageVC () <PageSliderDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *headView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *headViewHeight;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong,nonatomic)HKPageSliderView * pageController;
-@property (nonatomic,strong)NSArray * datasource;
-@property (nonatomic,strong) MyCarStore *carStore;
+@property (strong, nonatomic) MyCarStore *carStore;
+@property (strong, nonatomic) HKMyCar *defaultSelectCar;
+@property (assign, nonatomic) RACDisposable *offsetDisposable;
+@property (strong, nonatomic) HKPageSliderView *pageController;
+@property (strong, nonatomic) NSArray *datasource;
+@property (assign, nonatomic) NSInteger currentIndex;
 
-@property (nonatomic)BOOL isloading;
 
-@property (nonatomic)NSInteger currentIndex;
-
-@property (nonatomic,strong)RACDisposable * offsetDisposable;
-
-/// 用于自动跳转到新添加或默认的爱车页面
-@property (nonatomic,strong)HKMyCar * defaultSelectCar;
 
 @end
 
-@implementation ViolationViewController
+@implementation MutInsCalculatePageVC
 
 - (void)dealloc
 {
-    DebugLog(@"ViolationViewController dealloc");
+    DebugLog(@"MutInsCalculatePageVC dealloc");
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     self.router.disableInteractivePopGestureRecognizer = YES;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
-    [self setupNavigation];
-    
-    // 设置数据源&获取所有爱车
-    [self setupCarStore];
-    [[self.carStore getAllCars] send];
+    [self setupDataSource];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
 
 #pragma mark - Setup
-- (void)setupNavigation
+
+- (void)setupDataSource
 {
-    self.navigationItem.title = @"违章查缴";
+    if (gAppMgr.myUser)
+    {
+        self.headView.hidden = NO;
+        self.headViewHeight.constant = 52;
+        // 设置数据源&获取所有爱车
+        [self setupCarStore];
+        [[self.carStore getAllCars] send];
+        
+    }
+    else
+    {
+        self.headView.hidden = YES;
+        self.headViewHeight.constant = 0;
+        [self setupScrollView];
+    }
 }
 
 - (void)setupCarStore
@@ -93,14 +99,14 @@
     [tArray safetyAddObjectsFromArray:licenceArray];
     if (licenceArray.count < 5)
     {
-        [tArray safetyAddObject:kAddCarTitle];
+        [tArray safetyAddObject:kOtherCarTitle];
     }
     
     self.pageController = nil;
     self.pageController.delegate = nil;
     self.pageController.contentScrollView.delegate = nil;
     [self.offsetDisposable dispose];
-
+    
     
     HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:self.headView.frame andTitleArray:tArray andStyle:HKTabBarStyleCleanMenu atIndex:current];
     self.pageController = pageSliderView;
@@ -108,19 +114,7 @@
     self.pageController.hidden = total <= 1;
     [self.headView removeSubviews];
     
-    if (total <= 1)
-    {
-        [self.headView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            
-            make.height.equalTo(@0);
-        }];
-    }else
-    {
-        [self.headView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            
-            make.height.equalTo(@50);
-        }];
-    }
+    self.headViewHeight.constant = total <= 1 ? 0 : 52;
     
     self.pageController.center = self.headView.center;
     [self.headView addSubview:self.pageController];
@@ -133,28 +127,23 @@
     self.scrollView.delegate = self;
     self.scrollView.backgroundColor = [UIColor clearColor];
     
-    [self observeScrollViewOffset];
+    if (gAppMgr.myUser)
+    {
+        [self observeScrollViewOffset];
+    }
+    else
+    {
+        [self createIllegalWithoutLogin];
+    }
 }
 
 #pragma mark - Utility
-/// 跳转到违章记录VC
-- (void)jumpToMyVoilationMissionHistoryVC
-{
-    ViolationMissionHistoryVC *vc = [UIStoryboard vcWithId:@"ViolationMissionHistoryVC" inStoryboard:@"Violation"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)refreshPageController
-{
-    NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
-    self.pageController.hidden = total <= 1;
-}
 
 - (void)refreshScrollView
 {
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    for (NSInteger i = 0; i < self.datasource.count; i++) {
-        
+    for (NSInteger i = 0; i < self.datasource.count; i++)
+    {
         NSString * obj = [self.datasource safetyObjectAtIndex:i];
         [self createIllegalCardWithCar:obj];
     }
@@ -166,10 +155,12 @@
     
     NSInteger index = NSNotFound;
     
-    if (self.defaultSelectCar) {
+    if (self.defaultSelectCar)
+    {
         index = [self.datasource indexOfObject:self.defaultSelectCar];
     }
-    if (index == NSNotFound) {
+    if (index == NSNotFound)
+    {
         index = 0;
     }
     
@@ -178,7 +169,16 @@
     CKAsyncMainQueue(^{
         [self loadPageIndex:index animated:NO];
     });
-    
+}
+
+- (void)createIllegalWithoutLogin
+{
+    MutInsCalculateVC * itemVc = [UIStoryboard vcWithId:@"MutInsCalculateVC" inStoryboard:@"MutualInsJoin"];
+    [itemVc.view setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    [itemVc didMoveToParentViewController:self];
+    [self addChildViewController:itemVc];
+    [self.view addSubview:itemVc.view];
+    [self.view bringSubviewToFront:itemVc.view];
 }
 
 - (void)createIllegalCardWithCar:(NSObject *)car
@@ -188,8 +188,8 @@
     CGFloat x = self.scrollView.subviews.count * w;
     
     self.scrollView.contentSize = CGSizeMake(x + w, h);
-
-    ViolationItemViewController * itemVc = [violationStoryboard instantiateViewControllerWithIdentifier:@"ViolationItemViewController"];
+    
+    MutInsCalculateVC * itemVc = [UIStoryboard vcWithId:@"MutInsCalculateVC" inStoryboard:@"MutualInsJoin"];
     if ([car isKindOfClass:[HKMyCar class]])
     {
         itemVc.car = (HKMyCar *)car;
@@ -200,8 +200,8 @@
         itemVc.carArray = self.datasource;
     }
     [itemVc.view setFrame:CGRectMake(x, 0, w, h)];
-    [self addChildViewController:itemVc];
     [itemVc didMoveToParentViewController:self];
+    [self addChildViewController:itemVc];
     
     [self.scrollView addSubview:itemVc.view];
 }
@@ -218,6 +218,14 @@
     [self refreshPageController];
 }
 
+/// 设置pageController
+- (void)refreshPageController
+{
+    NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
+    self.pageController.hidden = total <= 1;
+}
+
+/// 获得数据
 - (void)reloadDataWithEvent:(CKEvent *)evt
 {
     CKEvent *event = evt;
@@ -263,15 +271,11 @@
     }];
 }
 
-#pragma mark - UIScrollViewDelegate
+#pragma mark - ScrollViewDelegate
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self.view endEditing:YES];
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
-    
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -283,9 +287,8 @@
     [self.pageController selectAtIndex:index];
 }
 
-
-
 #pragma mark - PageSliderDelegate
+
 - (void)pageClickAtIndex:(NSInteger)index
 {
     self.currentIndex = index;
@@ -303,17 +306,6 @@
     }];
     
     return YES;
-}
-
-#pragma mark Action
-
-- (IBAction)actionJumpToMyVoilationMissionHistoryVC:(id)sender {
-    [self jumpToMyVoilationMissionHistoryVC];
-}
-
-
-- (IBAction)actionJumpToRecord:(id)sender {
-    
 }
 
 

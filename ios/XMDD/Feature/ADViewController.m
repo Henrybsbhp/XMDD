@@ -8,24 +8,26 @@
 
 #import "ADViewController.h"
 #import "NavigationModel.h"
+#import "HKScrollDisplayVC.h"
 #import "MutualInsVC.h"
 
-@interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource>
+@interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource, HKScrollDisplayVCDelegate>
 @property (nonatomic, strong) NavigationModel *navModel;
+@property (strong, nonatomic) HKScrollDisplayVC *sdVC;
 @end
 @implementation ADViewController
 
 + (instancetype)vcWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
                     targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
-                    mobBaseEventDict:(NSDictionary *)dict
+            mobBaseEventDict:(NSDictionary *)dict
 {
     ADViewController *adctrl = [[ADViewController alloc] initWithADType:type boundsWidth:width targetVC:vc mobBaseEvent:event mobBaseEventDict:dict];
     return adctrl;
 }
 
 + (instancetype)vcWithMutualADType:(AdvertisementType)type boundsWidth:(CGFloat)width
-                    targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
-            mobBaseEventDict:(NSDictionary *)dict
+                          targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
+                  mobBaseEventDict:(NSDictionary *)dict
 {
     ADViewController *adctrl = [[ADViewController alloc] initWithMutualADType:type boundsWidth:width targetVC:vc mobBaseEvent:event mobBaseEventDict:dict];
     return adctrl;
@@ -34,6 +36,8 @@
 - (instancetype)initWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
                       targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
 {
+    
+    @weakify(self);
     self = [super init];
     if (self) {
         _targetVC = vc;
@@ -43,33 +47,54 @@
         _navModel = [[NavigationModel alloc] init];
         _navModel.curNavCtrl = _targetVC.navigationController;
         CGFloat height = floor(width*184.0/640);
-        SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-        adView.delegate = self;
-        adView.dataSource = self;
-        adView.pageGapWidth = 0;
-        adView.pageControl.hidden = YES;
-        _adView = adView;
         
-        [adView setCurrentPageIndex:0];
-        @weakify(self);
-        RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
+        if (type == AdvertisementHomePage)
+        {
+            self.sdVC = [[HKScrollDisplayVC alloc] initWithAdLists:self.adList];
+            self.sdVC.delegate = self;
+            [_targetVC addChildViewController:self.sdVC];
+            self.sdVC.view.frame = CGRectMake(0, 0, width, height);
+            self.sdVC.currentPage = 0;
+            _adView = self.sdVC.view;
+            RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
+                
+                @strongify(self);
+                self.sdVC.currentPage ++;
+                
+            }];
+            [[self rac_deallocDisposable] addDisposable:dis];
+        }
+        else
+        {
             
-            @strongify(self);
-            NSInteger index = adView.currentPageIndex + 1;
-            if (index > (int)(self.adList.count)-1) {
-                index = 0;
-            }
-            if (index != adView.currentPageIndex) {
-                [adView setCurrentPageIndex:index animated:YES];
-            }
-        }];
-        [[self rac_deallocDisposable] addDisposable:dis];
+            SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+            adView.delegate = self;
+            adView.dataSource = self;
+            adView.pageGapWidth = 0;
+            adView.pageControl.hidden = YES;
+            _adView = adView;
+            
+            [adView setCurrentPageIndex:0];
+            
+            RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
+                
+                @strongify(self);
+                NSInteger index = adView.currentPageIndex + 1;
+                if (index > (int)(self.adList.count)-1) {
+                    index = 0;
+                }
+                if (index != adView.currentPageIndex) {
+                    [adView setCurrentPageIndex:index animated:YES];
+                }
+            }];
+            [[self rac_deallocDisposable] addDisposable:dis];
+        }
     }
     return self;
 }
 
 - (instancetype)initWithMutualADType:(AdvertisementType)type boundsWidth:(CGFloat)width
-                      targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
+                            targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
 {
     self = [super init];
     if (self) {
@@ -80,6 +105,7 @@
         _navModel = [[NavigationModel alloc] init];
         _navModel.curNavCtrl = _targetVC.navigationController;
         CGFloat height = floor(width/4.15);
+        
         SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
         adView.delegate = self;
         adView.dataSource = self;
@@ -114,9 +140,17 @@
         
         @strongify(self);
         _adList = ads;
-        [self.adView reloadDataRemovingCurrentPage:YES];
-        self.adView.currentPageIndex = 0;
-        self.adView.pageControl.hidden = self.adList.count <= 1;
+        if (self.adType == AdvertisementHomePage)
+        {
+            self.sdVC.adList = ads;
+        }
+        else
+        {
+            [(SYPaginatorView *)self.adView reloadDataRemovingCurrentPage:YES];
+            [(SYPaginatorView *)self.adView setCurrentPageIndex:0];
+            [(SYPaginatorView *)self.adView pageControl].hidden = self.adList.count <= 1;
+        }
+        
         if (completed) {
             completed(self, ads);
         }
@@ -138,7 +172,16 @@
         });
     }];
 }
+
+#pragma mark - HKScrollDisplayVCDelegate
+
+- (void)scrollDisplayViewController:(HKScrollDisplayVC *)scrollDisplayViewController didSelectedIndex:(NSInteger)index
+{
+    [self actionTapWithAdvertisement:[self.adList safetyObjectAtIndex:index]];
+}
+
 #pragma mark - SYPaginatorViewDelegate
+
 - (NSInteger)numberOfPagesForPaginatorView:(SYPaginatorView *)paginatorView
 {
     return self.adList.count > 0 ? self.adList.count : 1;
@@ -176,52 +219,59 @@
     UITapGestureRecognizer *tap = imgV.customObject;
     @weakify(self);
     [[[tap rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-        
-        if (self.mobBaseEventDict)
-        {
-            NSString * key = [self.mobBaseEventDict.allKeys safetyObjectAtIndex:0];
-            NSString * value = [self.mobBaseEventDict objectForKey:key];
-            NSString * valueWithIndex = [NSString stringWithFormat:@"%@_%d", value, (int)pageIndex];
-            [MobClick event:self.mobBaseEvent attributes:@{key:valueWithIndex}];
-        }
-        else if (self.mobBaseEvent.length) {
-            NSString * eventstr = [NSString stringWithFormat:@"%@_%d", self.mobBaseEvent, (int)pageIndex];
-            [MobClick event:eventstr];
-        }
-        @strongify(self);
-        if (ad.adLink.length > 0) {
-            [self.navModel pushToViewControllerByUrl:ad.adLink];
-        }
-        else {
-            if (_adType == AdvertisementHomePageBottom)
-            {
-                UIViewController *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
-                [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
-            }
-            else if (_adType == AdvertisementMutualInsTop)
-            {
-                if ([gAppMgr.navModel.curNavCtrl.topViewController isKindOfClass:[MutualInsVC class]])
-                {
-                    MutualInsVC * vc = (MutualInsVC *)gAppMgr.navModel.curNavCtrl.topViewController;
-                    [vc presentAdPageVC];
-                }
-            }
-            else if (_adType != AdvertisementValuation) {
-                
-                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-                vc.url = ADDEFINEWEB;
-                [self.targetVC.navigationController pushViewController:vc animated:YES];
-            }
-
-            
-        }
+        @strongify(self)
+        [self actionTapWithAdvertisement:ad];
     }];
     
     return pageView;
 }
 
-- (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex
+#pragma mark - Action
+
+-(void)actionTapWithAdvertisement:(HKAdvertisement *)ad
 {
     
+    NSInteger pageIndex = [self.adList indexOfObject:ad];
+    
+    if (self.mobBaseEventDict)
+    {
+        NSString * key = self.mobBaseEventDict.allKeys.firstObject;
+        NSString * value = [self.mobBaseEventDict objectForKey:key];
+        NSString * valueWithIndex = [NSString stringWithFormat:@"%@_%d", value, (int)pageIndex];
+        [MobClick event:self.mobBaseEvent attributes:@{key:valueWithIndex}];
+    }
+    else if (self.mobBaseEvent.length)
+    {
+        NSString * eventstr = [NSString stringWithFormat:@"%@_%d", self.mobBaseEvent, (int)pageIndex];
+        [MobClick event:eventstr];
+    }
+    
+    if (ad.adLink.length > 0)
+    {
+        [self.navModel pushToViewControllerByUrl:ad.adLink];
+    }
+    else
+    {
+        if (_adType == AdvertisementHomePageBottom)
+        {
+            UIViewController *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
+            [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+        }
+        else if (_adType == AdvertisementMutualInsTop)
+        {
+            if ([gAppMgr.navModel.curNavCtrl.topViewController isKindOfClass:[MutualInsVC class]])
+            {
+                MutualInsVC * vc = (MutualInsVC *)gAppMgr.navModel.curNavCtrl.topViewController;
+                [vc presentAdPageVC];
+            }
+        }
+        else if (_adType != AdvertisementValuation)
+        {
+            DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+            vc.url = ADDEFINEWEB;
+            [self.targetVC.navigationController pushViewController:vc animated:YES];
+        }
+    }
 }
+
 @end

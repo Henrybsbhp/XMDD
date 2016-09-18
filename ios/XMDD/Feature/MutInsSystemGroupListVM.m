@@ -316,7 +316,7 @@
 
 -(void)addCornerToTagLabel:(UILabel *)label
 {
-    label.layer.cornerRadius = 8.5;
+    label.layer.cornerRadius = 12;
     label.layer.borderColor = HEXCOLOR(@"#FF7428").CGColor;
     label.layer.borderWidth = 1;
     label.layer.shouldRasterize = YES;

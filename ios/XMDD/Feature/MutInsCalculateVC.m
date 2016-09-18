@@ -10,7 +10,8 @@
 #import "MutInsCalculateResultVC.h"
 #import "GetCalculateBaseInfoOp.h"
 #import "OutlayCalculateWithFrameNumOp.h"
-
+#import "CalculateCooperationFreePremiumOp.h"
+#import "FMDeviceManager.h"
 #import "OETextField.h"
 #import "NSString+RectSize.h"
 
@@ -36,12 +37,9 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"费用试算";
-    
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
-    
+    [self setupNavigation];
+    [self setupFrameNo];
     [self getCalculateBaseInfo];
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,8 +47,22 @@
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark - Setup
+
+- (void)setupNavigation
+{
+    self.navigationItem.title = @"费用试算";
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+}
+
+- (void)setupFrameNo
+{
+    self.frameNo = self.car.classno.length == 0 ? @"" : self.car.classno;
+}
+
 #pragma mark - Network
 
+/// 获得估算信息
 -(void)getCalculateBaseInfo
 {
     @weakify(self)
@@ -60,13 +72,15 @@
         @strongify(self)
         
         self.tableView.hidden = YES;
+        [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
         
     }]subscribeNext:^(GetCalculateBaseInfoOp *op) {
         @strongify(self)
         
-        [self.view stopActivityAnimation];
         self.tableView.hidden = NO;
+        
+        [self.view stopActivityAnimation];
         
         CKList *list = [CKList list];
         [list addObjectsFromArray:@[[self textFieldCellData],[self btnCellData]]];
@@ -97,12 +111,19 @@
     }];
 }
 
--(void)calculateFrameNo
+/// 需要签名
+-(void)calculateFrameNoNeedSecurity
 {
     @weakify(self)
     OutlayCalculateWithFrameNumOp *op = [OutlayCalculateWithFrameNumOp operation];
     
     op.frameNo = self.frameNo;
+    
+    FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
+    NSString *blackBox = manager->getDeviceInfo();
+    
+    op.blackBox = blackBox;
+    
     
     [[[op rac_postRequest]initially:^{
         
@@ -114,7 +135,7 @@
         [gToast dismiss];
         
         MutInsCalculateResultVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateResultVC"];
-        vc.model = op;
+        vc.model = op.model;
         [self.navigationController pushViewController:vc animated:YES];
         
         
@@ -124,6 +145,43 @@
         [gToast showMistake:errStr.length == 0 ? @"费用试算失败请重试" : errStr];
         
     }];
+}
+
+/// 不需要签名
+-(void)calculateFrameNoNotNeedSecurity
+{
+    
+    @weakify(self)
+    
+    CalculateCooperationFreePremiumOp *op = [CalculateCooperationFreePremiumOp operation];
+    
+    op.req_frameno = self.frameNo;
+    
+    FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
+    NSString *blackBox = manager->getDeviceInfo();
+    
+    op.req_blackbox = blackBox;
+    
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"费用试算中..."];
+        
+    }]subscribeNext:^(CalculateCooperationFreePremiumOp *op) {
+        @strongify(self)
+        
+        [gToast dismiss];
+        
+        MutInsCalculateResultVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateResultVC"];
+        vc.model = op.model;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    } error:^(NSError *error) {
+        
+        NSString *errStr = error.domain;
+        [gToast showMistake:errStr.length == 0 ? @"费用试算失败请重试" : errStr];
+        
+    }];
+    
 }
 
 #pragma mark - UITableViewDataSource
@@ -175,6 +233,9 @@
         }];
         
         OETextField *textField = [cell viewWithTag:101];
+        
+        textField.text = self.frameNo;
+        
         [textField setNormalInputAccessoryViewWithDataArr:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"]];
         
         [textField setTextDidChangedBlock:^(CKLimitTextField *textField) {
@@ -207,7 +268,15 @@
             
             if ([self checkFrameNo])
             {
-                [self calculateFrameNo];
+                if (gAppMgr.myUser)
+                {
+                    [self calculateFrameNoNeedSecurity];
+                }
+                else
+                {
+                    [self calculateFrameNoNotNeedSecurity];
+                }
+                
             }
             
         }];
@@ -333,7 +402,6 @@
 }
 
 #pragma mark - Utility
-
 
 - (NSMutableArray *)getCouponInfoWithData:(NSDictionary *)data
 {

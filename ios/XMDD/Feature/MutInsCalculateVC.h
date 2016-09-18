@@ -10,4 +10,10 @@
 
 @interface MutInsCalculateVC : UIViewController
 
+/// 渠道，用于神策统计
+@property (nonatomic, copy) NSString *channel;
+
+@property (nonatomic, strong) HKMyCar *car;
+@property (nonatomic, strong) NSArray *carArray;
+
 @end
