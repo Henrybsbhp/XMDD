@@ -412,6 +412,7 @@
         
         @strongify(self);
         [self.tableView.refreshView endRefreshing];
+        self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
         @weakify(self);
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取信息失败，点击重试" tapBlock:^{
@@ -461,6 +462,7 @@
     } error:^(NSError *error) {
         @strongify(self);
         [self.tableView.refreshView endRefreshing];
+        self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
         @weakify(self);
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取信息失败，点击重试" tapBlock:^{
