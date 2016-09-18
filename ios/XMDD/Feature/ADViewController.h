@@ -13,7 +13,7 @@
 
 @interface ADViewController : NSObject
 
-@property (nonatomic, strong, readonly) SYPaginatorView *adView;
+@property (nonatomic, strong, readonly) UIView *adView;
 @property (nonatomic, assign, readonly) AdvertisementType adType;
 @property (nonatomic, strong, readonly) NSArray *adList;
 @property (nonatomic, strong, readonly) NSString *mobBaseEvent;

@@ -50,7 +50,7 @@
     self.joinBtn.layer.masksToBounds = YES;
     
     self.brandNameLabel.text = [NSString stringWithFormat:@"%@",self.model.brandName];
-    self.frameNoLabel.text = [NSString stringWithFormat:@"%@",self.model.frameNo];
+    self.frameNoLabel.text = [NSString stringWithFormat:@"%@",self.model.carFrameNo];
     self.premiumPriceLabel.text = [NSString stringWithFormat:@"%@",self.model.premiumPrice];
     self.serviceFeeLabel.text = [NSString stringWithFormat:@"%@",self.model.serviceFee];
     self.shareMoneyLabel.text = [NSString stringWithFormat:@"%@",self.model.shareMoney];
