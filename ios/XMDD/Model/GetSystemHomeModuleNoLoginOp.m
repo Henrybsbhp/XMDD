@@ -29,6 +29,9 @@
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
         self.homeModel = [HomePicModel homeWithJSONResponse:rspObj];
+        self.huzhuTabFlag = [((NSDictionary *)rspObj) boolParamForName:@"huzhutabflag"];
+        self.huzhuTabTitle = [((NSDictionary *)rspObj) stringParamForName:@"huzhutabnote"];
+        self.huzhuTabUrl = [((NSDictionary *)rspObj) stringParamForName:@"huzhutaburl"];
     }
     else
     {

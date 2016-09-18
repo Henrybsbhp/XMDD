@@ -37,8 +37,8 @@
 #import "HKAdvertisement.h"
 #import "FMDeviceManager.h"
 
-#import "MainTabBarVC.h"
 #import "LaunchVC.h"
+#import "HKTabBarVC.h"
 
 
 
@@ -116,7 +116,8 @@
     HKLaunchInfo *info = [self.launchMgr fetchLatestLaunchInfo];
     NSString *url = [info croppedPicUrl];
     if (!info || ![gMediaMgr cachedImageExistsForUrl:url]) {
-        vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
+        vc = [[HKTabBarVC alloc] init];
+        gAppMgr.tabBarVC = (HKTabBarVC *)vc;
     }
     else {
         LaunchVC *lvc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Launch"];

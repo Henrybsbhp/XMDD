@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JTImageBadge.h"
 
 @interface UIView (ShowDot)
 
-- (void)showDotWithOffset:(CGPoint)offset;
-- (void)showDotWithOffset:(CGPoint)offset withBoardLine:(BOOL)board;
-- (void)hideDot;
+- (void)showDotWithOffset:(CGPoint)offset withBadge:(JTImageBadge *)badge;
+- (void)showDotWithOffset:(CGPoint)offset withBoardLine:(BOOL)board withBadge:(JTImageBadge *)badge;
+- (void)hideDotWithBadge:(JTImageBadge *)badge;
 
 @end

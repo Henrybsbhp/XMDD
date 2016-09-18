@@ -18,6 +18,9 @@
 @property (nonatomic,copy)NSString * district;
 
 @property (nonatomic,strong)HomePicModel * homeModel;
+@property (nonatomic)BOOL huzhuTabFlag;
+@property (nonatomic,copy)NSString * huzhuTabTitle;
+@property (nonatomic,copy)NSString * huzhuTabUrl;
 //@property (nonatomic,strong)NSArray<HomeItem *>* rsp_modulesArray;
 
 @end
