@@ -3602,19 +3602,21 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Klc-Or-EK5">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Klc-Or-EK5">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="52"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" id="K7n-tv-QmH"/>
+                                    <constraint firstAttribute="height" constant="52" id="K7n-tv-QmH"/>
                                 </constraints>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nR1-88-3dv">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nR1-88-3dv">
+                                <rect key="frame" x="0.0" y="52" width="600" height="484"/>
                                 <connections>
                                     <outlet property="delegate" destination="pTz-KT-IBi" id="1YQ-zs-rXt"/>
                                 </connections>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="nR1-88-3dv" firstAttribute="top" secondItem="Klc-Or-EK5" secondAttribute="bottom" id="0JQ-tv-HIJ"/>
                             <constraint firstItem="Klc-Or-EK5" firstAttribute="leading" secondItem="2Y7-IF-O13" secondAttribute="leading" id="BWU-uN-Ech"/>

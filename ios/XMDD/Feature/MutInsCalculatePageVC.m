@@ -105,7 +105,6 @@
     self.pageController.contentScrollView.delegate = nil;
     [self.offsetDisposable dispose];
     
-    
     HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:self.headView.frame andTitleArray:tArray andStyle:HKTabBarStyleCleanMenu atIndex:current];
     self.pageController = pageSliderView;
     self.pageController.delegate = self;
