@@ -61,7 +61,6 @@
     if (gAppMgr.myUser)
     {
         self.headView.hidden = NO;
-        self.headViewHeight.constant = 52;
         // 设置数据源&获取所有爱车
         [self setupCarStore];
         [[self.carStore getAllCars] send];
@@ -70,7 +69,6 @@
     else
     {
         self.headView.hidden = YES;
-        self.headViewHeight.constant = 0;
         [self setupScrollView];
     }
 }
@@ -114,7 +112,7 @@
     self.pageController.hidden = total <= 1;
     [self.headView removeSubviews];
     
-    self.headViewHeight.constant = total <= 1 ? 0 : 52;
+    self.headViewHeight.constant = total <= 1 ? 0 : 50;
     
     self.pageController.center = self.headView.center;
     [self.headView addSubview:self.pageController];
@@ -243,6 +241,7 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
+        self.headViewHeight.constant = 50;
         HKMyCar *defCar = [self.carStore defalutCar];
         HKMyCar *car;
         if ([event isEqualForName:@"addCar"] && event.object) {

@@ -8,6 +8,7 @@
 
 #import "MutInsCalculateResultVC.h"
 #import "MutualInsVC.h"
+#import "GroupIntroductionVC.h"
 #import "MutInsSystemGroupListVC.h"
 
 @interface MutInsCalculateResultVC ()
@@ -75,8 +76,10 @@
 {
     
     [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo2"}];
-    
-    MutInsSystemGroupListVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsSystemGroupListVC"];
+
+    GroupIntroductionVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
+    vc.groupType = MutualGroupTypeSystem;
+    vc.router.userInfo[kOriginRoute] = self.router;
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
