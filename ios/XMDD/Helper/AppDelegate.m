@@ -117,7 +117,7 @@
     NSString *url = [info croppedPicUrl];
     if (!info || ![gMediaMgr cachedImageExistsForUrl:url]) {
         vc = [[HKTabBarVC alloc] init];
-        gAppMgr.tabBarVC = vc;
+        gAppMgr.tabBarVC = (HKTabBarVC *)vc;
     }
     else {
         LaunchVC *lvc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Launch"];
