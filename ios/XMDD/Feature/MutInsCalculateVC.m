@@ -118,6 +118,7 @@
     OutlayCalculateWithFrameNumOp *op = [OutlayCalculateWithFrameNumOp operation];
     
     op.frameNo = self.frameNo;
+    op.carID = self.car.carId;
     
     FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
     NSString *blackBox = manager->getDeviceInfo();
