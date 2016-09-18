@@ -89,7 +89,7 @@
     }
     
     /// 获取广告信息
-    [self.adModel getSystemPromotion];
+//    [self.adModel getSystemPromotion];
     
 }
 
@@ -368,6 +368,7 @@
     [[signal initially:^{
         
         @strongify(self);
+        [self.view hideDefaultEmptyView];
         if (!self.dataSource.count) {
             // 防止有数据的时候，下拉刷新导致页面会闪一下
             CGFloat reducingY = self.view.frame.size.height * 0.1056;
@@ -430,6 +431,7 @@
     [[[op rac_postRequest] initially:^{
         
         @strongify(self);
+        [self.view hideDefaultEmptyView];
         if (!self.dataSource.count) {
             // 防止有数据的时候，下拉刷新导致页面会闪一下
             CGFloat reducingY = self.view.frame.size.height * 0.1056;
