@@ -8,7 +8,7 @@
 
 #import "LaunchVC.h"
 #import "GradientView.h"
-#import "MainTabBarVC.h"
+#import "HKTabBarVC.h"
 
 @interface LaunchVC ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -84,7 +84,8 @@
     {
         self.nextWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         self.nextWindow.backgroundColor = [UIColor whiteColor];
-        UIViewController *vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
+        HKTabBarVC *vc = [[HKTabBarVC alloc] init];
+        gAppMgr.tabBarVC = vc;
         self.nextWindow.rootViewController = vc;
         [self.nextWindow makeKeyAndVisible];
     }

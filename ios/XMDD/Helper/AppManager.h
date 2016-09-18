@@ -17,11 +17,14 @@
 #import "HKTokenPool.h"
 #import "HKAddressComponent.h"
 #import "HomePicModel.h"
+#import "HKTabBarVC.h"
 
 #define LastLocationTime @"LastLocationTime"
 #define SearchHistory   @"SearchHistory"
 #define AddrComonpent   @"AddrComonpent"
 #define HomePicKey   @"HomePic_3.0.0"
+#define AppMutualPlanAppear @"k.xmdd.appMutualPlanTabAppear"
+#define AppMutualPlanDot @"k.xmdd.appMutualPlanDot"
 
 @interface AppManager : NSObject
 
@@ -49,8 +52,6 @@
 // 是否需要切换到测试环境，用于Debug模式的正式测试环境切换
 @property (nonatomic)BOOL isSwitchToFormalSurrounding;
 
-
-
 ///全局开放缓存，存有上次的 首页广告<HomepageAdvertise>,首页信息等
 @property (nonatomic, strong, readonly) TMCache *globalInfoCache;
 
@@ -69,6 +70,15 @@
 ///是否显示分享按钮的标示
 @property (nonatomic)BOOL canShareFlag;
 
+// 互助tab相关信息
+/// 互助tab是否展示
+@property (nonatomic)BOOL huzhuTabFlag;
+/// 互助tab顶部信息
+@property (nonatomic,copy)NSString * huzhuTabTitle;
+/// 互助tab顶部提示url
+@property (nonatomic,copy)NSString * huzhuTabUrl;
+@property (nonatomic,strong)HKTabBarVC * tabBarVC;
+
 
 + (AppManager *)sharedManager;
 
@@ -82,12 +92,14 @@
 - (NSArray *)getProvinceArray;
 ///版本升级
 - (void)startUpdatingWithURLString:(NSString *)strurl;
-///相关开关设置
-- (void)getSwitchConfiguration;
 ///获取上次首页图片信息
 - (HomePicModel *)loadLastHomePicInfo;
-///获取上次首页图片信息
+///保存上次首页图片信息
 - (BOOL)saveHomePicInfo;
+///获取上次互助计划tab是否展示;
+- (BOOL)loadLastMutualPlanTabAppear;
+///保存上次互助计划tab是否展示
+- (void)saveMutualPlanTabAppear:(BOOL)flag;
 
 ///保存元素已读
 - (void)saveElementReaded:(NSString *)key;
