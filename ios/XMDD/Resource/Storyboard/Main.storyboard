@@ -6,25 +6,6 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--首页-->
-        <scene sceneID="qkA-rT-bTB">
-            <objects>
-                <navigationController title="首页" id="set-AC-AWQ" customClass="HKNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="7" title="首页" image="tab_home_300" selectedImage="tab_home_highlighted_300" id="8po-hQ-M7B">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
-                    </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0W3-aR-tsx">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="o8e-Uo-uaL" kind="relationship" relationship="rootViewController" id="opB-0b-cf3"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XbZ-AY-Msf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-335" y="-419"/>
-        </scene>
         <!--小马达达-->
         <scene sceneID="aj0-x4-oSF">
             <objects>
@@ -34,15 +15,15 @@
                         <viewControllerLayoutGuide type="bottom" id="CDG-9a-uzk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Uq6-8x-8ej">
-                        <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xia-TC-S7z">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pzb-SR-ycQ">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <connections>
                                     <outlet property="delegate" destination="o8e-Uo-uaL" id="deS-T1-9ed"/>
                                 </connections>
@@ -73,7 +54,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" tag="20204" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="4/6" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RdT-KI-Fdn">
-                                                <rect key="frame" x="16" y="10.5" width="29.5" height="21.5"/>
+                                                <rect key="frame" x="16" y="10" width="29.5" height="21.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                 <color key="textColor" red="1" green="0.45490196078431372" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -144,46 +125,6 @@
             </objects>
             <point key="canvasLocation" x="322" y="-419"/>
         </scene>
-        <!--Main Tab BarVC-->
-        <scene sceneID="iJm-GM-vBp">
-            <objects>
-                <tabBarController storyboardIdentifier="MainTabBarVC" id="lE9-IE-ktQ" customClass="MainTabBarVC" sceneMemberID="viewController">
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="hBU-vk-3Vq">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="set-AC-AWQ" kind="relationship" relationship="viewControllers" id="dQE-Oz-jsf"/>
-                        <segue destination="f3u-Cr-th1" kind="relationship" relationship="viewControllers" id="mMu-pu-poe"/>
-                        <segue destination="7ID-hq-fHD" kind="relationship" relationship="viewControllers" id="TGA-uD-5U1"/>
-                        <segue destination="jVi-F5-yF2" kind="relationship" relationship="viewControllers" id="X2B-jb-U69"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ntv-54-iOf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1349" y="251"/>
-        </scene>
-        <!--互助-->
-        <scene sceneID="lfU-Zb-lrd">
-            <objects>
-                <navigationController id="f3u-Cr-th1" customClass="HKNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="互助" image="tab_mutualplan_300" selectedImage="tab_mutualplan_highlighted_300" id="DLw-Mb-sem">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
-                    </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HKX-W7-4f3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="HNx-sa-s5F" kind="relationship" relationship="rootViewController" id="oxQ-ce-RPH"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="whj-vC-TC3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-335" y="278"/>
-        </scene>
         <!--互助-->
         <scene sceneID="G0v-97-dKC">
             <objects>
@@ -193,7 +134,7 @@
                         <viewControllerLayoutGuide type="bottom" id="N7w-8l-OuJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="RuK-AP-wo9">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2NM-J0-nLF">
@@ -238,7 +179,7 @@
                                 </variation>
                             </view>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g7K-YX-aqY">
-                                <rect key="frame" x="0.0" y="99" width="600" height="452"/>
+                                <rect key="frame" x="0.0" y="99" width="600" height="501"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
                         </subviews>
@@ -266,44 +207,6 @@
             </objects>
             <point key="canvasLocation" x="330" y="278"/>
         </scene>
-        <!--发现-->
-        <scene sceneID="Urc-Vj-sfd">
-            <objects>
-                <navigationController title="发现" id="7ID-hq-fHD" customClass="HKNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="13" title="发现" image="tab_discover_300" selectedImage="tab_discover_highlighted_300" id="qPb-o1-i7L">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
-                    </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Exy-y7-wLk">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="wCo-PS-de9" kind="relationship" relationship="rootViewController" id="oji-3z-bfc"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bBg-M3-cna" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-335" y="979"/>
-        </scene>
-        <!--我的-->
-        <scene sceneID="5T8-40-DYw">
-            <objects>
-                <navigationController title="我的" id="jVi-F5-yF2" customClass="HKNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="9" title="我的" image="tab_mine_300" selectedImage="tab_mine_highlighted_300" id="IqA-LB-ujD">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
-                    </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rQG-Rh-2ed">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="EwF-ie-O2J" kind="relationship" relationship="rootViewController" id="70A-yP-LiW"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="a0f-zc-UKK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-335" y="1689"/>
-        </scene>
         <!--MineVC-->
         <scene sceneID="2dn-bn-H8d">
             <objects>
@@ -313,11 +216,11 @@
                         <viewControllerLayoutGuide type="bottom" id="hZW-Eu-m0f"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="n9j-vh-Hgi">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="9Jn-Yp-uab">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="JeO-mS-m7q">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="128"/>
@@ -705,11 +608,11 @@
                         <viewControllerLayoutGuide type="bottom" id="r8b-5u-emk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="SQl-5x-r8a">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView opaque="NO" contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WGb-hA-7ae">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="delegate" destination="wCo-PS-de9" id="dNo-cl-xtz"/>
@@ -750,13 +653,5 @@
         <image name="mutualplan_arrow" width="7" height="13"/>
         <image name="mutualplan_horn" width="16" height="15"/>
         <image name="qing" width="44" height="38"/>
-        <image name="tab_discover_300" width="26" height="26"/>
-        <image name="tab_discover_highlighted_300" width="26" height="26"/>
-        <image name="tab_home_300" width="26" height="26"/>
-        <image name="tab_home_highlighted_300" width="26" height="26"/>
-        <image name="tab_mine_300" width="26" height="26"/>
-        <image name="tab_mine_highlighted_300" width="26" height="26"/>
-        <image name="tab_mutualplan_300" width="23" height="23"/>
-        <image name="tab_mutualplan_highlighted_300" width="23" height="23"/>
     </resources>
 </document>

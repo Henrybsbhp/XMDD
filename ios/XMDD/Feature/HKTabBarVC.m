@@ -89,6 +89,11 @@
     HKNavigationController * navigationVC3 = [[HKNavigationController alloc] initWithRootViewController:listWebVC];
     HKNavigationController * navigationVC4 = [[HKNavigationController alloc] initWithRootViewController:mineVC];
     
+    navigationVC1.edgesForExtendedLayout = UIRectEdgeNone;
+    navigationVC2.edgesForExtendedLayout = UIRectEdgeNone;
+    navigationVC3.edgesForExtendedLayout = UIRectEdgeNone;
+    navigationVC4.edgesForExtendedLayout = UIRectEdgeNone;
+    
     navigationVC1.tabBarItem = tabbarItem1;
     navigationVC2.tabBarItem = tabbarItem2;
     navigationVC3.tabBarItem = tabbarItem3;
