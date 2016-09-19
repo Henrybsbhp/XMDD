@@ -136,6 +136,7 @@
 - (void)configPageControl
 {
     NSInteger index = [self.controllers indexOfObject:self.pageVC.viewControllers.firstObject];
+    _currentPage = index;
     self.pageControl.currentPage = index;
 }
 

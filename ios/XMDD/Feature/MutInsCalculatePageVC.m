@@ -46,6 +46,7 @@
 {
     [super viewDidLoad];
     
+    [self setupNavigation];
     [self setupDataSource];
 }
 
@@ -55,6 +56,11 @@
 }
 
 #pragma mark - Setup
+
+- (void)setupNavigation
+{
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+}
 
 - (void)setupDataSource
 {
@@ -233,6 +239,7 @@
         self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
+        self.headView.alpha = 0;
     }] finally:^{
         
         @strongify(self);
@@ -253,6 +260,7 @@
         self.datasource = [self.carStore.cars allObjects];
         self.defaultSelectCar = car;
         self.currentIndex = [[self.carStore.cars allObjects] indexOfObject:car];
+        self.headView.alpha = 1;
         [self setupPageController];
         [self setupScrollView];
         [self refreshScrollView];
@@ -261,12 +269,20 @@
         @strongify(self);
         [gToast showError:error.domain];
         [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        
+        self.headView.alpha = 0;
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取爱车信息失败，点击重试" tapBlock:^{
             @strongify(self);
             [[self.carStore getAllCars] send];
         }];
     }];
+}
+
+#pragma mark - Action
+
+-(void)actionBack
+{
+    [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan1"}];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - ScrollViewDelegate
