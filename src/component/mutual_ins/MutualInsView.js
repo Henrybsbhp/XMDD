@@ -22,10 +22,9 @@ import GroupDetailView from './GroupDetailView';
 export default class MutualInsView extends Component {
     constructor(props) {
         super(props);
+        console.log('11111111111')
         // 设置导航条
         this.setupNavigator(props);
-
-        // 设置store
         this.store = new MutualInsStore();
 
         // 设置数据源
@@ -47,6 +46,14 @@ export default class MutualInsView extends Component {
     componentWillMount() {
         this._onRefresh();
         this.props.modal.render(this.renderMenu());
+    }
+
+    componentDidMount() {
+        console.log('222222222222');
+    }
+
+    componentWillUnmount() {
+        console.log('33333333333333');
     }
 
     // 设置导航条
@@ -86,6 +93,10 @@ export default class MutualInsView extends Component {
         if (car && car.groupid > 0) {
             var route = {
                 component: GroupDetailView,
+                groupName: car.groupname,
+                groupID: car.groupid,
+                memberID: car.memberid,
+                shouldLogin: true,
                 title: '团详情',
             };
             this.props.navigator.push(route);

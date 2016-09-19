@@ -30,9 +30,13 @@ typedef enum : NSUInteger {
 - (void)showIndicatorTextWith:(NSString *)text clickBlock:(void(^)(UIButton *sender))block;
 - (void)hideIndicatorText;
 
+/// autoResize:YES
 - (void)startActivityAnimation;
+/// autoResize:YES
 - (void)startActivityAnimationWithType:(ActivityIndicatorType)type;
+/// autoResize:NO
 - (void)startActivityAnimationWithType:(ActivityIndicatorType)type atPositon:(CGPoint)position;
+- (void)startActivityAnimationWithType:(ActivityIndicatorType)type atPositon:(CGPoint)position autoResize:(BOOL)autoResize;
 - (void)stopActivityAnimation;
 
 - (BOOL)isActivityAnimating;

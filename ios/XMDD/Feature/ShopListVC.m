@@ -314,7 +314,7 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
     }
 
     self.tableView.hidden = YES;
-    CGPoint pos = CGPointMake(ScreenWidth/2, ScreenHeight/2 - 64 - 44);
+    CGPoint pos = CGPointMake(ScreenWidth/2, ScreenHeight/2 - 64);
     [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:pos];
     return NO;
 }
