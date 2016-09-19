@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GasVC.h"
 #import "GasCard.h"
-#import "GasNormalVC.h"
 #import "AppManager.h"
 #import "CouponModel.h"
 #import "HKCoupon.h"
@@ -18,7 +18,6 @@
 @property (nonatomic,copy)NSString * payTitle;
 @property (nonatomic,copy)NSString * paySubTitle;
 
-@property (nonatomic,strong) GasNormalVC *gasNormalVC;
 /// 充值金额
 @property (nonatomic)NSInteger rechargeAmount;
 
@@ -28,5 +27,6 @@
 @property (nonatomic,strong)NSMutableArray * selectGasCoupouArray;
 
 @property (nonatomic, weak) UIViewController *originVC;
+@property (nonatomic, weak) GasVC *gasVC;
 
 @end

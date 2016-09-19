@@ -207,7 +207,6 @@
         
         PayForGasViewController * vc = [gasStoryboard instantiateViewControllerWithIdentifier:@"PayForGasViewController"];
         vc.originVC = self.targetVC;
-        vc.gasNormalVC = self;
         [self.targetVC.navigationController pushViewController:vc animated:YES];
     }
 }

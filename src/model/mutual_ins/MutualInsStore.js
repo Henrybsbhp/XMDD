@@ -8,3 +8,5 @@ export default class MutualInsStore {
                 .then(rsp => {this.myGroups = rsp; return rsp;})
     }
 }
+
+

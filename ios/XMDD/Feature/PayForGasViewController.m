@@ -88,10 +88,10 @@
 - (void)setupUI
 {
     //分期加油
-    if ([self.gasNormalVC isRechargeForInstalment]) {
-        self.payTitle = [NSString stringWithFormat:@"%@折分期加油", self.gasNormalVC.curChargePkg.discount];
+    if ([self.gasVC isRechargeForInstalment]) {
+        self.payTitle = [NSString stringWithFormat:@"%@折分期加油", self.gasVC.curChargePkg.discount];
         self.paySubTitle = [NSString stringWithFormat:@"分%d个月充，每月充值%d元",
-                            self.gasNormalVC.curChargePkg.month, (int)self.gasNormalVC.rechargeAmount];
+                            self.gasVC.curChargePkg.month, (int)self.gasVC.rechargeAmount];
     }
     else {
         self.payTitle = @"油卡充值";
@@ -118,12 +118,12 @@
     NSDictionary * dict0_0 = @{@"cellname":@"PayTitleCell"};
     
     NSDictionary * dict0_1 = @{@"title":@"充值卡号",@"value":
-                                   [self.gasNormalVC.curGasCard.gascardno splitByStep:4 replacement:@" "] ,
+                                   [self.gasVC.curGasCard.gascardno splitByStep:4 replacement:@" "] ,
                                @"cellname":@"InfoItemCell"};
     
-    int amount = (int)self.gasNormalVC.rechargeAmount;
-    if ([self.gasNormalVC isRechargeForInstalment]) {
-        amount = (int)(amount * self.gasNormalVC.curChargePkg.month);
+    int amount = (int)self.gasVC.rechargeAmount;
+    if ([self.gasVC isRechargeForInstalment]) {
+        amount = (int)(amount * self.gasVC.curChargePkg.month);
     }
     NSDictionary * dict0_2 = @{@"title":@"充值金额",@"value":[NSString stringWithFormat:@"￥ %d",amount],
                                @"cellname":@"InfoItemCell"};
@@ -136,7 +136,7 @@
     NSDictionary * dict1_0 = @{@"cellname":@"CouponHeadCell"};
     
     NSDictionary * dict1_1 = @{@"title":@"加油优惠劵",
-                               @"value":@(self.gasNormalVC.rechargeAmount),
+                               @"value":@(self.gasVC.rechargeAmount),
                                @"array":self.gasCouponArray,
                                @"isSelect":@(self.couponType),
                                @"cellname":@"CouponCell"};
@@ -178,7 +178,7 @@
 - (void)requestGetGasResource
 {
     GetUserResourcesGaschargeOp * op = [GetUserResourcesGaschargeOp operation];
-    op.req_fqjyflag = [self.gasNormalVC isRechargeForInstalment] > 0 ? 1 : 0;
+    op.req_fqjyflag = [self.gasVC isRechargeForInstalment] > 0 ? 1 : 0;
     
     [[[op rac_postRequest] initially:^{
         
@@ -190,7 +190,7 @@
     
         for (HKCoupon * c in self.gasCouponArray)
         {
-            if (c.lowerLimit <= self.gasNormalVC.rechargeAmount)
+            if (c.lowerLimit <= self.gasVC.rechargeAmount)
             {
                 self.selectGasCoupouArray = [NSMutableArray arrayWithObject:c];
                 self.couponType = c.conponType;
@@ -213,7 +213,7 @@
     HKCoupon * coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
     
     NSString *title;
-    NSUInteger rechargeAmount = self.gasNormalVC.rechargeAmount;
+    NSUInteger rechargeAmount = self.gasVC.rechargeAmount;
     CGFloat couponlimit, discount = 0;
     CGFloat systemPercent = 0;
     CGFloat paymoney = (CGFloat)rechargeAmount;
@@ -223,13 +223,13 @@
     systemPercent = store.config ? store.config.rsp_discountrate : 2;
     
     ///分期付款
-    if (self.gasNormalVC.curChargePkg.pkgid) {
-        paymoney = rechargeAmount * self.gasNormalVC.curChargePkg.month;
-        discount = paymoney * (1-[self.gasNormalVC.curChargePkg.discount floatValue]/100.0);
+    if (self.gasVC.curChargePkg.pkgid) {
+        paymoney = rechargeAmount * self.gasVC.curChargePkg.month;
+        discount = paymoney * (1-[self.gasVC.curChargePkg.discount floatValue]/100.0);
     }
     /// 系统额度
-    else if (self.gasNormalVC.curGasCard) {
-        discount = MIN([self.gasNormalVC.curGasCard.couponedmoney integerValue], rechargeAmount * systemPercent / 100.0);
+    else if (self.gasVC.curGasCard) {
+        discount = MIN([self.gasVC.curGasCard.couponedmoney integerValue], rechargeAmount * systemPercent / 100.0);
     }
     else
     {
@@ -270,33 +270,33 @@
     vc.type = CouponTypeGasNormal; /// 加油券类型的用普通代替
     vc.selectedCouponArray = self.selectGasCoupouArray;
     vc.couponArray = self.gasCouponArray;
-    vc.payAmount = self.gasNormalVC.rechargeAmount;
+    vc.payAmount = self.gasVC.rechargeAmount;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Action
 - (IBAction)actionPay:(id)sender
 {
-    GasCard *card = self.gasNormalVC.curGasCard;
+    GasCard *card = self.gasVC.curGasCard;
     GascardChargeOp *op;
     HKCoupon *coupon = [self isGasCouponType:self.couponType] ? [self.selectGasCoupouArray safetyObjectAtIndex:0] : nil;
     //分期支付
-    if ([self.gasNormalVC isRechargeForInstalment]) {
+    if ([self.gasVC isRechargeForInstalment]) {
         GascardChargeByStagesOp *fqop = [GascardChargeByStagesOp operation];
         fqop.req_cardid = card.gid;
-        fqop.req_pkgid = self.gasNormalVC.curChargePkg.pkgid;
-        fqop.req_permonthamt = (int)self.gasNormalVC.rechargeAmount;
+        fqop.req_pkgid = self.gasVC.curChargePkg.pkgid;
+        fqop.req_permonthamt = (int)self.gasVC.rechargeAmount;
         op = fqop;
     }
     else {
         op = [GascardChargeOp operation];
         op.req_gid = card.gid;
-        op.req_amount = (int)self.gasNormalVC.rechargeAmount;
+        op.req_amount = (int)self.gasVC.rechargeAmount;
     }
     self.op = op;
     op.req_gid = card.gid;
     op.req_paychannel = self.paychannel;
-    op.req_bill = [self.gasNormalVC needInvoice];
+    op.req_bill = [self.gasVC needInvoice];
     op.req_cid = coupon.couponId ? coupon.couponId : @0;
     NSString *blackBox = [FMDeviceManager sharedManager]->getDeviceInfo();
     op.req_blackbox = blackBox;
@@ -349,7 +349,7 @@
         } break;
         case PaymentChannelWechat: {
             text = @"订单生成成功,正在跳转到微信平台进行支付";
-            [helper resetForWeChatWithTradeNumber:paidop.rsp_tradeid andPayInfoModel:paidop.rsp_payInfoModel.wechatInfo andTradeType:[self.gasNormalVC isRechargeForInstalment] ? TradeTypeStagingRefuel : TradeTypeRefuel];
+            [helper resetForWeChatWithTradeNumber:paidop.rsp_tradeid andPayInfoModel:paidop.rsp_payInfoModel.wechatInfo andTradeType:[self.gasVC isRechargeForInstalment] ? TradeTypeStagingRefuel : TradeTypeRefuel];
         } break;
         case PaymentChannelUPpay: {
             text = @"订单生成成功,正在跳转到银联平台进行支付";
@@ -424,7 +424,7 @@
 {
     HKCoupon * coupon = [self.selectGasCoupouArray safetyObjectAtIndex:0];
     
-    NSUInteger rechargeAmount = self.gasNormalVC.rechargeAmount;
+    NSUInteger rechargeAmount = self.gasVC.rechargeAmount;
     CGFloat couponlimit, discount = 0;
     CGFloat systemPercent = 0;
     CGFloat paymoney = (CGFloat)rechargeAmount;
@@ -434,13 +434,13 @@
     systemPercent = store.config ? store.config.rsp_discountrate : 2;
     
     ///分期付款
-    if (self.gasNormalVC.curChargePkg.pkgid) {
-        paymoney = rechargeAmount * self.gasNormalVC.curChargePkg.month;
-        discount = paymoney * (1-[self.gasNormalVC.curChargePkg.discount floatValue]/100.0);
+    if (self.gasVC.curChargePkg.pkgid) {
+        paymoney = rechargeAmount * self.gasVC.curChargePkg.month;
+        discount = paymoney * (1-[self.gasVC.curChargePkg.discount floatValue]/100.0);
     }
     /// 系统额度
-    else if (self.gasNormalVC.curGasCard) {
-        discount = MIN([self.gasNormalVC.curGasCard.couponedmoney integerValue], rechargeAmount * systemPercent / 100.0);
+    else if (self.gasVC.curGasCard) {
+        discount = MIN([self.gasVC.curGasCard.couponedmoney integerValue], rechargeAmount * systemPercent / 100.0);
     }
     else
     {
@@ -522,7 +522,7 @@
         [vc setDismissBlock:^(DrawingBoardViewStatus status) {
             @strongify(self);
             //更新信息，充值默认500
-            self.gasNormalVC.normalRechargeAmount = 500;
+            self.gasVC.normalRechargeAmount = 500;
             [[[GasStore fetchExistsStore] updateCardInfoByGID:paidop.req_gid] send];
         }];
         [self.navigationController pushViewController:vc animated:YES];
@@ -676,7 +676,7 @@
     
     titleL.text = self.payTitle;
     addrL.text = self.paySubTitle;
-    logoV.image = [UIImage imageNamed:self.gasNormalVC.curGasCard.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
+    logoV.image = [UIImage imageNamed:self.gasVC.curGasCard.cardtype == 2 ? @"gas_icon_cnpc" : @"gas_icon_snpn"];
 
     return cell;
 }
