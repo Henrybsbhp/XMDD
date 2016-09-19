@@ -37,7 +37,6 @@
 }
 
 #pragma mark - Event
-
 ///获取当前用户所有油卡信息
 - (CKEvent *)getAllGasCards
 {

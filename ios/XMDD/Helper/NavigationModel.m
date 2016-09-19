@@ -232,20 +232,6 @@
             }
             flag = YES;
         }
-        //浙商加油
-        else if ([@"czbgl" equalByCaseInsensitive:name]) {
-            GasVC *vc = (GasVC *)[self viewControllerByIdentify:@"GasVC" withPrecidate:nil];
-            if (vc) {
-                [self.curNavCtrl popToViewController:vc animated:YES];
-                vc.tabViewSelectedIndex = 1;
-            }
-            else {
-                GasVC *vc = [UIStoryboard vcWithId:@"GasVC" inStoryboard:@"Gas"];
-                vc.tabViewSelectedIndex = 1;
-                [self.curNavCtrl pushViewController:vc animated:YES];
-            }
-            flag = YES;
-        }
         ///违章查询
         else if ([@"vio" equalByCaseInsensitive:name])
         {
