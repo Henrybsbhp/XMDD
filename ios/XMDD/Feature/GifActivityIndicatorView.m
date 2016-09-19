@@ -11,15 +11,15 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <RACScheduler.h>
 
+#define kBackgroundImageWidth    647
+
 @interface GifActivityIndicatorView()
 
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIImageView *imgView;
 @property (strong, nonatomic) UIImageView *backgroundImgViewOne;
 @property (strong, nonatomic) UIImageView *backgroundImgViewTwo;
-@property (strong, nonatomic) UIImageView *backgroundImgViewThree;
 @property (strong, nonatomic) NSArray *animationImgs;
-@property (strong, nonatomic) RACDisposable *offsetDisposable;
 
 @end
 
@@ -38,7 +38,6 @@
 
 -(void)dealloc
 {
-    
 }
 
 #pragma mark - setup
@@ -47,20 +46,29 @@
 {
     self.scrollView = [[UIScrollView alloc]init];
     self.scrollView.userInteractionEnabled = NO;
-    
     [self addSubview:self.scrollView];
     
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(gAppMgr.deviceInfo.screenSize.width);
+        make.width.mas_equalTo(ScreenWidth);
         make.height.mas_equalTo(120);
         make.left.mas_equalTo(0);
         make.top.mas_equalTo(0);
     }];
     
-    self.scrollView.contentSize = CGSizeMake(647 * 3, 0);
+    self.scrollView.contentSize = CGSizeMake(kBackgroundImageWidth * 2, 0);
     [self.scrollView addSubview:self.backgroundImgViewOne];
     [self.scrollView addSubview:self.backgroundImgViewTwo];
-    [self.scrollView addSubview:self.backgroundImgViewThree];
+    
+    CGRect bounds = CGRectMake(0, 0, ScreenWidth, 120);
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"bounds"];
+    animation.removedOnCompletion = NO;
+    animation.repeatCount = HUGE_VALF;
+    animation.duration = 2.6;
+    animation.fromValue = [NSValue valueWithCGRect:bounds];
+    bounds.origin.x = kBackgroundImageWidth;
+    animation.toValue = [NSValue valueWithCGRect:bounds];
+    [self.scrollView.layer addAnimation:animation forKey:@"contentOffsetAnimation"];
+    [self pauseLayer:self.scrollView.layer];
 }
 
 -(void)setupImgView
@@ -70,7 +78,6 @@
     self.imgView.contentMode = UIViewContentModeScaleAspectFit;
     self.imgView.animationImages = self.animationImgs;
     self.imgView.animationDuration = 0.3;
-    [self.imgView startAnimating];
     [self addSubview:self.imgView];
     
     [self.imgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -85,82 +92,53 @@
 {
     self.backgroundImgViewOne = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"backgroundImgView"]];
     self.backgroundImgViewOne.contentMode = UIViewContentModeScaleAspectFit;
-    self.backgroundImgViewOne.frame = CGRectMake(0, 0, 647, 100);
+    self.backgroundImgViewOne.frame = CGRectMake(0, 0, kBackgroundImageWidth, 100);
     
     self.backgroundImgViewTwo = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"backgroundImgView"]];
     self.backgroundImgViewTwo.contentMode = UIViewContentModeScaleAspectFit;
-    self.backgroundImgViewTwo.frame = CGRectMake(647, 0, 647, 100);
-    
-    self.backgroundImgViewThree = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"backgroundImgView"]];
-    self.backgroundImgViewThree.contentMode = UIViewContentModeScaleAspectFit;
-    self.backgroundImgViewThree.frame = CGRectMake(647 * 2, 0, 647, 100);
-    
+    self.backgroundImgViewTwo.frame = CGRectMake(647, 0, kBackgroundImageWidth, 100);
 }
 
-#pragma mark - Utility
 
+#pragma mark - Public
 -(void)startAnimating
 {
-    @weakify(self)
-    
     self.hidden = NO;
-    
-    if (![self.scrollView.subviews containsObject:self.backgroundImgViewOne])
-    {
-        [self setupBackgroundImgView];
-        [self setupScrollView];
-        [self setupImgView];
-    }
-    
-    
-    self.offsetDisposable = [[RACSignal interval:0.02 onScheduler:[RACScheduler mainThreadScheduler]]subscribeNext:^(id x) {
-     
-        @strongify(self)
-        
-        CGPoint contentOffset = self.scrollView.contentOffset;
-        
-        
-        if ((NSInteger)self.scrollView.contentOffset.x >= 647 * 2)
-        {
-            [self loadData];
-        }
-        else
-        {
-            contentOffset.x += 5;
-            self.scrollView.contentOffset = contentOffset;
-        }
-        
-    }];
+    [self.imgView startAnimating];
+    [self resumeLayer:self.scrollView.layer];
 }
 
--(void)loadData
-{
-    NSArray *subViews = self.scrollView.subviews;
-    
-    if (subViews.count != 0)
-    {
-        [subViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    }
-    
-    [self.scrollView addSubview:self.backgroundImgViewOne];
-    [self.scrollView addSubview:self.backgroundImgViewTwo];
-    [self.scrollView addSubview:self.backgroundImgViewThree];
-    
-    [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-    
-}
 
 -(void)stopAnimating
 {
     self.hidden = YES;
-    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    [self.offsetDisposable dispose];
+    [self.imgView stopAnimating];
+    [self pauseLayer:self.scrollView.layer];
 }
 
 - (BOOL)isAnimating
 {
     return self.imgView.isAnimating;
+}
+
+
+#pragma mark - Utility
+
+-(void)pauseLayer:(CALayer*)layer
+{
+    CFTimeInterval pausedTime = [layer convertTime:CACurrentMediaTime() fromLayer:nil];
+    layer.speed = 0.0;
+    layer.timeOffset = pausedTime;
+}
+
+-(void)resumeLayer:(CALayer*)layer
+{
+    CFTimeInterval pausedTime = [layer timeOffset];
+    layer.speed = 1.0;
+    layer.timeOffset = 0.0;
+    layer.beginTime = 0.0;
+    CFTimeInterval timeSincePause = [layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
+    layer.beginTime = timeSincePause;
 }
 
 #pragma mark - LazyLoad
@@ -172,7 +150,7 @@
         NSMutableArray *tempImgs = [[NSMutableArray alloc]init];
         NSString *imgStr = nil;
         
-        for (NSInteger i = 1; i < 5; i ++)
+        for (long i = 1; i < 5; i ++)
         {
             imgStr = [NSString stringWithFormat:@"loading_%ld",i];
             UIImage *img = [UIImage imageNamed:imgStr];

@@ -26,6 +26,7 @@
 ///充值套餐(包括普通充值)
 @property (nonatomic, strong) CKQueue *chargePackages;
 
+
 ///获取当前用户所有油卡
 - (CKEvent *)getAllGasCards;
 ///获取当前用户所有油卡(如果上次更新时间已经过期)

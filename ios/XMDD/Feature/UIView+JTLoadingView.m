@@ -110,10 +110,15 @@ static char sActivityIndicatorView;
 - (void)startActivityAnimationWithType:(ActivityIndicatorType)type
 {
     CGPoint position = CGPointMake(self.frame.size.width/2, self.indicatorPoistionY);
-    [self startActivityAnimationWithType:type atPositon:position];
+    [self startActivityAnimationWithType:type atPositon:position autoResize:YES];
 }
 
 - (void)startActivityAnimationWithType:(ActivityIndicatorType)type atPositon:(CGPoint)position
+{
+    [self startActivityAnimationWithType:type atPositon:position autoResize:NO];
+}
+
+- (void)startActivityAnimationWithType:(ActivityIndicatorType)type atPositon:(CGPoint)position autoResize:(BOOL)autoResize
 {
     if (type == MONActivityIndicatorType)
     {
@@ -172,7 +177,12 @@ static char sActivityIndicatorView;
         }
         [(GifActivityIndicatorView *)self.activityIndicatorView startAnimating];
     }
-    self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    if (autoResize) {
+        self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    }
+    else {
+        self.activityIndicatorView.autoresizingMask = UIViewAutoresizingNone;
+    }
     self.activityIndicatorView.center = position;
     [self bringSubviewToFront:self.activityIndicatorView];
 }
