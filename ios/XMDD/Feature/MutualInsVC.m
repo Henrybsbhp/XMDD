@@ -1020,21 +1020,6 @@
             secondImageView.hidden = YES;
             secondTipsLabel.text = @"";
         }
-        
-        // 如果用户机型是 iPhone 6 或以上屏幕大小的设备，更改一下 imageView 和 label 的约束
-        if (gAppMgr.deviceInfo.screenSize.height >= 667) {
-            [firstImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.leading.equalTo(cell).offset(38);
-            }];
-            
-            [firstTipsLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(separator).offset(0);
-            }];
-            
-            [secondImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.leading.equalTo(separator).offset(32);
-            }];
-        }
     });
     
     return tipsCell;
@@ -1084,13 +1069,6 @@
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
         tipsLabel.numberOfLines = 0;
         tipsLabel.text = couponString;
-        
-        // 如果用户机型是 iPhone 6 或以上屏幕大小的设备，更改一下 imageView 的约束
-        if (gAppMgr.deviceInfo.screenSize.height >= 667) {
-            [imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.leading.equalTo(cell).offset(38);
-            }];
-        }
     });
     
     return singleTipsCell;
