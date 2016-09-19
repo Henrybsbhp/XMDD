@@ -11,14 +11,22 @@
 
 @implementation UIView (ShowDot)
 
-- (void)showDotWithOffset:(CGPoint)offset
+- (void)showDotWithOffset:(CGPoint)offset withBadge:(JTImageBadge *)badge
 {
-    [self showDotWithOffset:offset withBoardLine:NO];
+    if (badge.superview != self)
+    {
+        [self addSubview:badge];
+    }
+    [self showDotWithOffset:offset withBoardLine:NO withBadge:badge];
 }
 
-- (void)showDotWithOffset:(CGPoint)offset withBoardLine:(BOOL)board
+- (void)showDotWithOffset:(CGPoint)offset withBoardLine:(BOOL)board withBadge:(JTImageBadge *)badge
 {
-    JTImageBadge *badge = self.badgeView;
+//    JTImageBadge *badge = self.badgeView;
+    if (badge.superview != self)
+    {
+        [self addSubview:badge];
+    }
     badge.frame = CGRectMake(-1, 1, 10, 10);
     badge.backgroundView.image = [UIImage imageNamed:@"cm_dot_300"];
     CGPoint center = CGPointMake(badge.center.x+offset.x, badge.center.y+offset.y);
@@ -32,10 +40,9 @@
     badge.hidden = NO;
 }
 
-- (void)hideDot
+- (void)hideDotWithBadge:(JTImageBadge *)badge
 {
-    
-    self.badgeView.hidden = YES;
+    badge.hidden = YES;
 }
 
 @end

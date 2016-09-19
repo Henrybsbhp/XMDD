@@ -10,4 +10,7 @@
 
 @interface MutInsCalculateVC : UIViewController
 
+@property (nonatomic, strong) HKMyCar *car;
+@property (nonatomic, strong) NSArray *carArray;
+
 @end

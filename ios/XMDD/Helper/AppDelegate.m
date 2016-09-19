@@ -37,8 +37,8 @@
 #import "HKAdvertisement.h"
 #import "FMDeviceManager.h"
 
-#import "MainTabBarVC.h"
 #import "LaunchVC.h"
+#import "HKTabBarVC.h"
 
 
 
@@ -116,7 +116,8 @@
     HKLaunchInfo *info = [self.launchMgr fetchLatestLaunchInfo];
     NSString *url = [info croppedPicUrl];
     if (!info || ![gMediaMgr cachedImageExistsForUrl:url]) {
-        vc = [UIStoryboard vcWithId:@"MainTabBarVC" inStoryboard:@"Main"];
+        vc = [[HKTabBarVC alloc] init];
+        gAppMgr.tabBarVC = (HKTabBarVC *)vc;
     }
     else {
         LaunchVC *lvc = [UIStoryboard vcWithId:@"LaunchVC" inStoryboard:@"Launch"];
@@ -249,6 +250,9 @@
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
     [application registerForRemoteNotifications];
+    
+    /// 检查是否打开推送，并上传到youmeng
+    [self checkNotification];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -261,6 +265,11 @@
     DebugLog(@"didReceiveRemoteNotification :%@",userInfo);
     [MobClick event:@"rp000"];
     [self.pushMgr handleNofitication:userInfo forApplication:application];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    
 }
 
 #pragma mark - QQ
@@ -303,7 +312,7 @@
 - (void)setupCrashlytics
 {
     /// 设置delegate必须在前面，（先关闭）
-//    CrashlyticsKit.delegate = self;
+    CrashlyticsKit.delegate = self;
     
 #ifdef DEBUG
     
@@ -478,6 +487,24 @@
     }];
 }
 
+- (void)checkNotification
+{
+    BOOL isOpen;
+    if (IOSVersionGreaterThanOrEqualTo(@"8.0"))
+    {
+        UIUserNotificationSettings *setting = [[UIApplication sharedApplication] currentUserNotificationSettings];
+        isOpen = setting.types != UIUserNotificationTypeNone;
+    }
+    else
+    {
+        UIRemoteNotificationType type = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+        isOpen = type != UIUserNotificationTypeNone;
+    }
+    
+    
+    [MobClick event:@"tuisongjiance" attributes:@{@"tuisongjiance":isOpen ? @"open" : @"close"}];
+}
+
 #pragma mark - ReactNative
 - (void)setupReactNative {
     [[ReactNativeManager sharedManager] loadDefaultBundle];
@@ -511,7 +538,6 @@
 #pragma mark - JSPatch
 - (void)setupJSPatch
 {
-    return;
     RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
     RACSignal * areaSignal = [[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
         return ac.province.length || ac.city.length || ac.district.length;

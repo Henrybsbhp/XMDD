@@ -25,20 +25,15 @@
 #import "MutualInsAdModel.h"
 #import "MutualInsStoryAdPageVC.h"
 #import "MutualInsGroupDetailVC.h"
+#import "GroupIntroductionVC.h"
 #import "MutualInsTipsInfoExtendedView.h"
 #import "SJMarqueeLabelView.h"
-
+#import "MutInsCalculatePageVC.h"
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) ADViewController *adVC;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
-
-@property (nonatomic, strong) UIView *tipsContainerView;
-@property (nonatomic, strong) UIButton *extButton;
-@property (nonatomic, strong) MutualInsTipsInfoExtendedView *extView;
-@property (nonatomic, assign) NSInteger repeatCnt;
-@property (nonatomic, assign) NSInteger currentLabelMark;
 
 /// 菜单视图
 @property (nonatomic, weak) HKPopoverView *popoverMenu;
@@ -60,6 +55,8 @@
 
 @property (nonatomic, copy) NSArray *totalTipsArray;
 
+@property (nonatomic, copy) NSString *bottomTips;
+
 @end
 
 @implementation MutualInsVC
@@ -73,7 +70,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     [self setupNavigationBar];
     [self setupRefreshView];
@@ -93,7 +89,7 @@
     }
     
     /// 获取广告信息
-    [self.adModel getSystemPromotion];
+//    [self.adModel getSystemPromotion];
     
 }
 
@@ -137,7 +133,9 @@
 - (IBAction)joinButtonClicked:(id)sender
 {
     [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye7"}];
-    [self actionGotoSystemGroupListVC];
+    GroupIntroductionVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
+    vc.groupType = MutualGroupTypeSystem;
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)actionShowOrHideMenu:(id)sender
@@ -150,40 +148,37 @@
         return;
     }
     
-        NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
-            return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
-        }];
-        HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 200) items:items];
-        @weakify(self);
-        [popover setDidSelectedBlock:^(NSUInteger index) {
-            @strongify(self);
-            CKDict *dict = self.menuItems[index];
-            CKCellSelectedBlock block = dict[kCKCellSelected];
-            if (block) {
-                block(dict, [NSIndexPath indexPathForRow:index inSection:0]);
-            }
-        }];
-        
-        [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
-                            inView:self.navigationController.view dismissTargetView:self.view animated:YES];
-        self.popoverMenu = popover;
+    NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
+        return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
+    }];
+    HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 200) items:items];
+    @weakify(self);
+    [popover setDidSelectedBlock:^(NSUInteger index) {
+        @strongify(self);
+        CKDict *dict = self.menuItems[index];
+        CKCellSelectedBlock block = dict[kCKCellSelected];
+        if (block) {
+            block(dict, [NSIndexPath indexPathForRow:index inSection:0]);
+        }
+    }];
+    
+    [popover showAtAnchorPoint:CGPointMake(self.navigationController.view.frame.size.width-33, 60)
+                        inView:self.navigationController.view dismissTargetView:self.view animated:YES];
+    self.popoverMenu = popover;
 }
 
 - (void)actionGotoCalculateVC
 {
-    if ([LoginViewModel loginIfNeededForTargetViewController:self])
-    {
-        MutInsCalculateVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateVC"];
-        vc.router.userInfo = [[CKDict alloc] init];
-        vc.router.userInfo[kOriginRoute] = self.router;
-        
-        [self.router.navigationController pushViewController:vc animated:YES];
-    }
+    MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionGotoSystemGroupListVC
 {
-    MutInsSystemGroupListVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsSystemGroupListVC"];
+    MutInsSystemGroupListVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsSystemGroupListVC"];
     
     vc.router.userInfo = [[CKDict alloc] init];
     vc.router.userInfo[kOriginRoute] = self.router;
@@ -224,113 +219,13 @@
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
-/// 顶部 tipsContainerView 的手势事件
-- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer
-{
-    if (!self.extButton.selected) {
-        self.extButton.selected = YES;
-        self.extView.hidden = NO;
-        CGRect frame = self.extView.frame;
-        frame.size.height= 174;
-        [self.tableView bringSubviewToFront:self.tipsContainerView];
-        [UIView animateWithDuration:0.2 animations:^{
-            self.extView.frame = frame;
-            [self.extView layoutIfNeeded];
-        }];
-    } else {
-        self.extButton.selected = NO;
-        CGRect frame = self.extView.frame;
-        frame.size.height = 0;
-        [UIView animateWithDuration:0.2 animations:^{
-            self.extView.frame = frame;
-            [self.extView layoutIfNeeded];
-        } completion:^(BOOL finished) {
-            self.extView.hidden = YES;
-        }];;
-    }
-}
-
 #pragma mark - Setups
-/// 设置顶部消息 View
-- (void)setupTableViewBannerTipsView
-{
-    NSMutableString *mutualSum = [NSMutableString stringWithFormat:@"%ld", (long)[self.totalTipsArray[1] integerValue]];
-    NSMutableString *compensationSum = [NSMutableString stringWithFormat:@"%ld", (long)[self.totalTipsArray[3] integerValue]];
-    NSMutableString *peoCnt = [NSMutableString stringWithFormat:@"%ld", (long)[self.totalTipsArray[0] integerValue]];
-    NSMutableString *compCnt = [NSMutableString stringWithFormat:@"%ld", (long)[self.totalTipsArray[2] integerValue]];
-    if (mutualSum.length >= 5) {
-        [mutualSum deleteCharactersInRange:NSMakeRange(mutualSum.length - 4, 4)];
-        [mutualSum appendString:@"万"];
-    }
-    
-    if (compensationSum.length >= 5) {
-        [compensationSum deleteCharactersInRange:NSMakeRange(compensationSum.length - 4, 4)];
-        [compensationSum appendString:@"万"];
-    }
-    
-    if (peoCnt.length >= 5) {
-        [peoCnt deleteCharactersInRange:NSMakeRange(compensationSum.length - 4, 4)];
-        [peoCnt appendString:@"万"];
-    }
-    
-    if (compCnt.length >= 5) {
-        [compCnt deleteCharactersInRange:NSMakeRange(compCnt.length - 4, 4)];
-        [compCnt appendString:@"万"];
-    }
-    
-    NSString *string1 = [NSString stringWithFormat:@"参加人数合计%@人", peoCnt];
-    NSString *string2 = [NSString stringWithFormat:@"互助金合计%@元", mutualSum];
-    NSString *string3 = [NSString stringWithFormat:@"补偿次数合计%@次", compCnt];
-    NSString *string4 = [NSString stringWithFormat:@"补偿金额合计%@元", compensationSum];
-    NSArray *stringArray = @[string1, string2, string3, string4];
-    
-    self.tipsContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.tipsContainerView.backgroundColor = kBackgroundColor;
-    
-    self.tipsContainerView.frame = CGRectMake(0, 0, self.view.frame.size.width, 40);
-    self.tipsContainerView.backgroundColor = [UIColor whiteColor];
-    UIImageView *tipsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 5, 80, 39)];
-    tipsImageView.contentMode = UIViewContentModeScaleAspectFit;
-    tipsImageView.image = [UIImage imageNamed:@"mutualIns_tipsBanner"];
-    UIImageView *sepImageView = [[UIImageView alloc] initWithFrame:CGRectMake(110, 8, 1, 24)];
-    sepImageView.image = [UIImage imageNamed:@"Verticalline"];
-    UIImageView *separator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 39, self.view.frame.size.width, 1)];
-    separator.image = [UIImage imageNamed:@"Horizontaline"];
-    SJMarqueeLabelView *marqueeLabelView = [[SJMarqueeLabelView alloc] initWithFrame:CGRectMake(130, 0, self.view.frame.size.width - 170, 40) tipsArray:stringArray];
-    UIButton *extButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 40, 0, 40, 39)];
-    [extButton setImage:[UIImage imageNamed:@"common_grayArrow_down"] forState:UIControlStateNormal];
-    [extButton setImage:[UIImage imageNamed:@"common_grayArrow_up"] forState:UIControlStateSelected];
-    extButton.userInteractionEnabled = NO;
-    self.extButton = extButton;
-    
-    [self.tipsContainerView addSubview:marqueeLabelView];
-    [self.tipsContainerView addSubview:tipsImageView];
-    [self.tipsContainerView addSubview:sepImageView];
-    [self.tipsContainerView addSubview:separator];
-    [self.tipsContainerView addSubview:extButton];
-    self.repeatCnt = 0;
-    
-    UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-    [self.tipsContainerView addGestureRecognizer:singleFingerTap];
-    
-    [marqueeLabelView showScrollingMessageView];
-    
-    [self.tableView addSubview:self.tipsContainerView];
-    self.tableView.tableHeaderView = self.tipsContainerView;
-    self.tableView.tableHeaderView.clipsToBounds = YES;
-}
-
 /// 下拉刷新设置
 - (void)setupRefreshView
 {
     @weakify(self);
     [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
         @strongify(self);
-        
-        CGRect frame = self.extView.frame;
-        frame.size.height = 0;
-        self.extView.frame = frame;
-        self.extView.hidden = YES;
         
         if (!gAppMgr.myUser)
         {
@@ -357,7 +252,8 @@
 
 - (void)setItemList
 {
-    self.menuItems = $([self menuPlanButton],
+    self.menuItems = $([self menuCalculateButton],
+                       [self menuPlanButton],
                        [self menuRegistButton],
                        [self menuHelpButton],
                        [self menuPhoneButton]);
@@ -365,6 +261,18 @@
 
 
 #pragma mark - Menu List
+- (id)menuCalculateButton
+{
+    CKDict *dict = [CKDict dictWith:@{kCKItemKey : @"calculate", @"title" : @"费用试算", @"img" : @"mutualIns_calculateGreen"}];
+    @weakify(self);
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        [self actionGotoCalculateVC];
+    });
+    
+    return dict;
+}
+
 - (id)menuPlanButton
 {
     if (!self.minsStore.rsp_getGroupJoinedInfoOp.isShowPlanBtn) {
@@ -460,6 +368,7 @@
     [[signal initially:^{
         
         @strongify(self);
+        [self.view hideDefaultEmptyView];
         if (!self.dataSource.count) {
             // 防止有数据的时候，下拉刷新导致页面会闪一下
             CGFloat reducingY = self.view.frame.size.height * 0.1056;
@@ -487,14 +396,14 @@
         else
         {
             self.isEmptyGroup = YES;
-            self.dataSource = $($([self setupBannerAdCell], [self setupCalculateCell]));
+            self.dataSource = $($([self setupMutualInsTipsCell]));
             [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:self.minsStore.couponDict sourceDict:nil])) forKey:nil];
             [self.tableView reloadData];
         }
         
         [self setItemList];
         self.totalTipsArray = @[@(self.minsStore.totalMemberCnt), self.minsStore.totalPoolAmt ?: @"", @(self.minsStore.totalClaimCnt), self.minsStore.totalClaimAmt ?: @""];
-        [self setupTableViewBannerTipsView];
+        self.bottomTips = self.minsStore.openGroupTips;
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
         self.tableView.hidden = NO;
@@ -503,6 +412,7 @@
         
         @strongify(self);
         [self.tableView.refreshView endRefreshing];
+        self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
         @weakify(self);
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取信息失败，点击重试" tapBlock:^{
@@ -521,6 +431,7 @@
     [[[op rac_postRequest] initially:^{
         
         @strongify(self);
+        [self.view hideDefaultEmptyView];
         if (!self.dataSource.count) {
             // 防止有数据的时候，下拉刷新导致页面会闪一下
             CGFloat reducingY = self.view.frame.size.height * 0.1056;
@@ -541,8 +452,8 @@
                                @"activitylist" : rop.activityList,
                                };
         self.totalTipsArray = @[@(rop.totalMemberCnt), rop.totalPoolAmt, @(rop.totalClaimCnt), rop.totalClaimAmt];
-        [self setupTableViewBannerTipsView];
-        self.dataSource = $($([self setupBannerAdCell], [self setupCalculateCell]));
+        self.bottomTips = rop.openGroupTips;
+        self.dataSource = $($([self setupMutualInsTipsCell]));
         [self.dataSource addObject:$(CKJoin([self getCouponInfoWithData:dict sourceDict:nil])) forKey:nil];
         [self.tableView reloadData];
         
@@ -552,6 +463,7 @@
     } error:^(NSError *error) {
         @strongify(self);
         [self.tableView.refreshView endRefreshing];
+        self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
         @weakify(self);
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取信息失败，点击重试" tapBlock:^{
@@ -565,16 +477,16 @@
 /// 获取到数据后设置数据源
 - (void)setDataSource
 {
-    CKList *dataSource = $($([self setupBannerAdCell], [self setupCalculateCell]));
+    CKList *dataSource = $($([self setupMutualInsTipsCell]));
     
     for (MutualInsCarListModel *dict in self.fetchedDataSource) {
-    
+        
         CKDict *normalStatusCell = [self setupNormalStatusCellWithDict:dict];
         
         CKDict *statusButtonCell = [self setupStatusButtonCellWithDict:dict];
-
+        
         CKDict *groupInfoCell = [self setupGroupInfoCellWithDict:dict];
-
+        
         NSMutableArray *extentedInfoArray = [NSMutableArray new];
         for (NSDictionary *secDict in dict.extendInfo) {
             [extentedInfoArray addObject:[self setupExtendedInfoCellWithDict:secDict sourceDict:dict]];
@@ -584,7 +496,7 @@
             // 团长无车
             [dataSource addObject:$(groupInfoCell, CKJoin(extentedInfoArray)) forKey:nil];
             
-
+            
         } else if (dict.status == XMGroupFailed|| (dict.status == XMInReview && dict.numberCnt.integerValue < 1)) {
             // 未参团 / 入团失败 / 审核中（有车无团）
             [dataSource addObject:$(normalStatusCell, CKJoin([self getCouponInfoWithData:dict.couponList sourceDict:dict])) forKey:nil];
@@ -608,6 +520,33 @@
 }
 
 #pragma mark - The settings of Cells
+- (CKDict *)setupMutualInsTipsCell
+{
+    CKDict *mutualInsTipsCell = [CKDict dictWith:@{kCKItemKey: @"MutualInsTipsCell", kCKCellID: @"MutualInsTipsCell"}];
+    mutualInsTipsCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 220;
+    });
+    mutualInsTipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UIView *view = [cell.contentView viewWithTag:1001];
+        if (!view) {
+            MutualInsTipsInfoExtendedView *extView = [[MutualInsTipsInfoExtendedView alloc] initWithFrame:CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, 220)];
+            extView.tag = 1001;
+            extView.peopleSumString = [NSString stringWithFormat:@"%ld", (long)[self.totalTipsArray[0] integerValue]];
+            extView.moneySumString = [NSString stringWithFormat:@"%@", self.totalTipsArray[1]];
+            extView.countingString = [NSString stringWithFormat:@"%ld", (long)[self.totalTipsArray[2] integerValue]];
+            extView.claimSumString = [NSString stringWithFormat:@"%@", self.totalTipsArray[3]];
+            extView.bottomTipsString = self.bottomTips;
+            [extView setBottomButtonClicked:^{
+                [self actionGotoSystemGroupListVC];
+            }];
+            [extView showInfo];
+            extView.hidden = NO;
+            [cell.contentView addSubview:extView];
+        }
+    });
+    
+    return mutualInsTipsCell;
+}
 
 - (CKDict *)setupBannerAdCell
 {
@@ -1182,7 +1121,7 @@
             HKMyCar * car = [[HKMyCar alloc] init];
             car.carId = dict.userCarID;
             car.licencenumber = dict.licenseNum;
-
+            
             [self actionGotoUpdateInfoVC:car andMemberId:dict.memberID];
             
         } else {
@@ -1274,8 +1213,6 @@
         label.textColor = HEXCOLOR(@"#888888");
         label.font = [UIFont systemFontOfSize:13];
         [containerView addSubview:label];
-        [self.tableView bringSubviewToFront:self.extView];
-        [self.tableView bringSubviewToFront:self.tipsContainerView];
         
         return containerView;
     }
@@ -1367,7 +1304,7 @@
     }
     
     NSArray *couponList = data[@"couponlist"];
-    if (data.count > 0) {
+    if (couponList.count > 0) {
         NSMutableArray *newArray = [self splitArrayIntoDoubleNewArray:couponList];
         CKDict *couponTitleCell = [self setupTipsTitleCellWithText:@"福利" withDict:dict];
         [tempArray addObject:couponTitleCell];
@@ -1405,87 +1342,6 @@
         _adModel = [[MutualInsAdModel alloc]init];
     }
     return _adModel;
-}
-
-- (void)scrollingMessageViewWithLabelArray:(NSArray *)labelArray andTextArray:(NSArray *)textArray
-{
-    UILabel *label1 = labelArray[0];
-    UILabel *label2 = labelArray[1];
-    
-    @weakify(self);
-    [[RACSignal interval:3 onScheduler:[RACScheduler mainThreadScheduler]]subscribeNext:^(id x) {
-        @strongify(self);
-        if (self.repeatCnt <= textArray.count - 1) {
-            CGRect frame = label1.frame;
-            CGRect frame2 = label2.frame;
-            
-            if (self.currentLabelMark == 2) {
-                frame.origin.y = 40;
-                label1.frame = frame;
-                frame.origin.y = 10;
-                
-                frame2.origin.y = -21;
-                
-                if (self.repeatCnt < textArray.count - 1) {
-                    label1.text = textArray[self.repeatCnt + 1];
-                } else {
-                    label1.text = textArray.firstObject;
-                    self.repeatCnt = 0;
-                }
-                
-                self.currentLabelMark = 1;
-                
-            } else if (self.currentLabelMark == 1) {
-                
-                frame2.origin.y = 40;
-                label2.frame = frame2;
-                frame2.origin.y = 10;
-                
-                frame.origin.y = -21;
-                
-                if (self.repeatCnt < textArray.count - 1) {
-                    label2.text = textArray[self.repeatCnt + 1];
-                } else {
-                    label2.text = textArray.firstObject;
-                    self.repeatCnt = 0;
-                }
-                
-                self.currentLabelMark = 2;
-                
-            } else {
-                
-                frame.origin.y = -21;
-                frame2.origin.y = 10;
-                
-                self.currentLabelMark = 2;
-            }
-            
-            [UIView animateWithDuration:0.5 animations:^{
-                label1.frame = frame;
-                label2.frame = frame2;
-            }];
-        }
-        
-        self.repeatCnt += 1;
-    }];
-}
-
-#pragma mark - Lazy instantiation
-/// 顶部的消息栏和扩展栏
-- (MutualInsTipsInfoExtendedView *)extView
-{
-    if (!_extView) {
-        _extView = [[MutualInsTipsInfoExtendedView alloc] initWithFrame:CGRectMake(0, 41, gAppMgr.deviceInfo.screenSize.width, 0)];
-        _extView.peopleSumString = [NSString stringWithFormat:@"%ld人", (long)[self.totalTipsArray[0] integerValue]];
-        _extView.moneySumString = [NSString stringWithFormat:@"%ld元", (long)[self.totalTipsArray[1] integerValue]];
-        _extView.countingString = [NSString stringWithFormat:@"%ld次", (long)[self.totalTipsArray[2] integerValue]];
-        _extView.claimSumString = [NSString stringWithFormat:@"%ld元", (long)[self.totalTipsArray[3] integerValue]];
-        [_extView showInfo];
-        _extView.hidden = YES;
-        [self.tableView addSubview:_extView];
-    }
-    
-    return _extView;
 }
 
 @end

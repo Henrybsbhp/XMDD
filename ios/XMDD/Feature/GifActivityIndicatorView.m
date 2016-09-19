@@ -108,6 +108,7 @@
     [self resumeLayer:self.scrollView.layer];
 }
 
+
 -(void)stopAnimating
 {
     self.hidden = YES;

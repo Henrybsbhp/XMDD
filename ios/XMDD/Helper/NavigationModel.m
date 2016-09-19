@@ -37,6 +37,7 @@
 #import "ShopListVC.h"
 #import "AppDelegate.h"
 #import "MyBindedCardVC.h"
+#import "MutInsCalculatePageVC.h"
 
 @interface NavigationModel()
 
@@ -406,6 +407,13 @@
                 [vc presentAdPageVC];
             }
             return YES;
+        }
+        else if ([@"coinscalc" equalByCaseInsensitive:name]){
+            
+            MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
+            NSString * channel = params[@"channel"];
+            vc.channel = channel;
+            [self.curNavCtrl pushViewController:vc animated:YES];
         }
         //加入小马互助团
         else if ([@"coins" equalByCaseInsensitive:name]) {

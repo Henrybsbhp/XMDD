@@ -25,8 +25,8 @@ echo "project_pbxproj_path : "$project_pbxproj_path
 # echo $project_pbxproj_path
 
 # sh $project_path"/Script/plist_replace.sh" $project_path"/XMDD/Resource/Plist/Info.plist"
-# bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/XMDD/Resource/Plist/Info.plist")
-# echo $bundleVersion
+bundleVersion=$(/usr/libexec/PlistBuddy -c "print CFBundleVersion" $project_path"/XMDD/Resource/Plist/Info.plist")
+echo $bundleVersion
 
 #删除缓存。以前的终端编译会导致后面的编译失败
 user=$USER

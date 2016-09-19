@@ -204,7 +204,23 @@
 - (void)actionBack:(id)sender
 {
     [MobClick event:@"rutuanyaoqiu" attributes:@{@"rutuanyaoqiu" : @"rutuanyaoqiu1"}];
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.router.userInfo[kOriginRoute])
+    {
+        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
+        [self.router.navigationController popToViewController:vc animated:YES];
+    }
+    else
+    {
+        CKRouter * route = [self.router.navigationController.routerList objectForKey:@"MutualInsVC"];
+        if (route)
+        {
+            [self.router.navigationController popToViewController:route.targetViewController animated:YES];
+        }
+        else
+        {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }
 }
 
 - (IBAction)joinAction:(id)sender {

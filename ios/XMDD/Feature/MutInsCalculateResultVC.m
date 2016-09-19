@@ -8,6 +8,7 @@
 
 #import "MutInsCalculateResultVC.h"
 #import "MutualInsVC.h"
+#import "GroupIntroductionVC.h"
 #import "MutInsSystemGroupListVC.h"
 
 @interface MutInsCalculateResultVC ()
@@ -50,7 +51,7 @@
     self.joinBtn.layer.masksToBounds = YES;
     
     self.brandNameLabel.text = [NSString stringWithFormat:@"%@",self.model.brandName];
-    self.frameNoLabel.text = [NSString stringWithFormat:@"%@",self.model.frameNo];
+    self.frameNoLabel.text = [NSString stringWithFormat:@"%@",self.model.carFrameNo];
     self.premiumPriceLabel.text = [NSString stringWithFormat:@"%@",self.model.premiumPrice];
     self.serviceFeeLabel.text = [NSString stringWithFormat:@"%@",self.model.serviceFee];
     self.shareMoneyLabel.text = [NSString stringWithFormat:@"%@",self.model.shareMoney];
@@ -75,8 +76,10 @@
 {
     
     [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo2"}];
-    
-    MutInsSystemGroupListVC * vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsSystemGroupListVC"];
+
+    GroupIntroductionVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
+    vc.groupType = MutualGroupTypeSystem;
+    vc.router.userInfo[kOriginRoute] = self.router;
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 

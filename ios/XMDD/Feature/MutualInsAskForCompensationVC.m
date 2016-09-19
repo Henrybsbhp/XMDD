@@ -24,12 +24,15 @@
 
 @interface MutualInsAskForCompensationVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, copy) NSString *bankCardDescription;
-@property (nonatomic, strong) CKList *dataSource;
-@property (nonatomic, copy) NSArray *fetchedDataSource;
-
-@property (nonatomic, nonnull,strong)UIImage * stamperImage;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *newbieGuideBarButtonItem;
+
+@property (nonatomic, copy) NSString *bankCardDescription;
+@property (nonatomic, copy) NSArray *fetchedDataSource;
+@property (nonatomic, strong)UIImage * stamperImage;
+@property (assign, nonatomic) NSInteger status;
+
+@property (nonatomic, strong) CKList *dataSource;
+
 
 @end
 
@@ -231,6 +234,7 @@
         
         NSInteger isFastClaimInt = [dict[@"isfastclaim"] integerValue];
         NSInteger status = [dict[@"status"] integerValue];
+        self.status = status;
         NSArray *detailInfoArray = dict[@"detailinfo"];
         
         // 顶部进度条 Cell
@@ -431,9 +435,9 @@
         
         // 通过 isfastclaim 的值决定 progressView.titleArray 的个数
         if (isFastClaimInt == 1) {
-            progressView.titleArray = @[@"补偿定价", @"补偿确认", @"补偿结束"];
+            progressView.titleArray = @[@"上传照片", @"估损确认", @"事故补偿"];
         } else {
-            progressView.titleArray = @[@"补偿定价", @"补偿结束"];
+            progressView.titleArray = @[@"估损确认", @"事故补偿"];
         }
         
         NSInteger index = [self indexOfProgressViewFromFetchedStatus:status fastClaimNo:isFastClaimInt];
@@ -477,7 +481,7 @@
         
         carNumberLabel.text = dict[@"licensenum"];
         
-        if (isFastClaimInt == 1) {
+        if (isFastClaimInt == 1 && (self.status == 2 || self.status == 3)) {
             stamperImageView.hidden = NO;
             
             if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])
@@ -557,7 +561,7 @@
         titleLabel.text = title;
         descriptionLabel.text = content;
         
-        if (isFastClaimInt == 1) {
+        if (isFastClaimInt == 1 && (self.status == 2 || self.status == 3)) {
             stamperImageView.hidden = NO;
             
             if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])
@@ -823,7 +827,7 @@
             
             HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
             alert.topTitle = @"温馨提示";
-            alert.message = @"如出现价格不满意等原因造成不愿意接受补偿，可进行拒绝补偿的操作，拒绝后客服会与您取得联系，并做进一步沟通";
+            alert.message = @"如对快速补偿结果有异议，可进行拒绝补偿操作，拒绝后会有工作人员与您联系";
             alert.imageName = @"mins_bulb";
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
                 [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang9"}];

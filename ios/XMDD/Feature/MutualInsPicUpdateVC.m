@@ -165,7 +165,7 @@
     
     CKDict * cell1_0 = [self setupTitleCell:@"请上传车主身份证照片"];
     CKDict * cell1_1 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
-    CKDict * cell1_2 = [self setupTitleCell:@"请上传车车辆行驶证照片"];
+    CKDict * cell1_2 = [self setupTitleCell:@"请上传车辆行驶证照片"];
     CKDict * cell1_3 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:3 inSection:1]];
 //
     CKDict * cell2_0 = [self setupTitleCell:@"请选择保险公司"];
