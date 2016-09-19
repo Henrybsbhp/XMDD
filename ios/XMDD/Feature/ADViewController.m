@@ -251,10 +251,10 @@
     else {
         if (_adType == AdvertisementHomePageBottom)
         {
-            if (![LoginViewModel loginIfNeededForTargetViewController:gAppMgr.navModel.curNavCtrl])
+            if (![LoginViewModel loginIfNeededForTargetViewController:self.targetVC.navigationController])
             {
                 UIViewController *vc = [UIStoryboard vcWithId:@"NewGainAwardVC" inStoryboard:@"Award"];
-                [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+                [self.targetVC.navigationController pushViewController:vc animated:YES];
             }
         }
         else if (_adType == AdvertisementMutualInsTop)
