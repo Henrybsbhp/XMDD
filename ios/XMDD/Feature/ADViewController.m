@@ -251,9 +251,11 @@
     else {
         if (_adType == AdvertisementHomePageBottom)
         {
-            MutualInsVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
-            vc.sensorChannel = @"appsydb";
-            [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+            if (![LoginViewModel loginIfNeededForTargetViewController:gAppMgr.navModel.curNavCtrl])
+            {
+                UIViewController *vc = [UIStoryboard vcWithId:@"NewGainAwardVC" inStoryboard:@"Award"];
+                [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+            }
         }
         else if (_adType == AdvertisementMutualInsTop)
         {
