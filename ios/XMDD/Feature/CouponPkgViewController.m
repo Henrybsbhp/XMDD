@@ -10,6 +10,7 @@
 #import "GetUserCouponPkgOp.h"
 #import "HKCouponPkg.h"
 #import "GainCouponPkgOp.h"
+#import "MyCouponVC.h"
 
 @interface CouponPkgViewController ()
 
@@ -195,5 +196,14 @@
         return cell;
     }
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 @end
