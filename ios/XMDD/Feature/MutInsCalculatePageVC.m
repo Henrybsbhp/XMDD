@@ -46,6 +46,7 @@
 {
     [super viewDidLoad];
     
+    [self setupNavigation];
     [self setupDataSource];
 }
 
@@ -55,6 +56,12 @@
 }
 
 #pragma mark - Setup
+
+- (void)setupNavigation
+{
+    self.navigationItem.title = @"费用试算";
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+}
 
 - (void)setupDataSource
 {
@@ -267,6 +274,14 @@
             [[self.carStore getAllCars] send];
         }];
     }];
+}
+
+#pragma mark - Action
+
+-(void)actionBack
+{
+    [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan1"}];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - ScrollViewDelegate

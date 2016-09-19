@@ -37,7 +37,6 @@
 {
     [super viewDidLoad];
     
-    [self setupNavigation];
     [self setupFrameNo];
     [self getCalculateBaseInfo];
 }
@@ -48,12 +47,6 @@
 }
 
 #pragma mark - Setup
-
-- (void)setupNavigation
-{
-    self.navigationItem.title = @"费用试算";
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
-}
 
 - (void)setupFrameNo
 {
@@ -573,15 +566,6 @@
         return CGFLOAT_MIN;
     }
 }
-
-#pragma mark - Action
-
--(void)actionBack
-{
-    [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan1"}];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 
 #pragma mark - LazyLoad
 
