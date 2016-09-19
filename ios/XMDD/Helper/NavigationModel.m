@@ -431,7 +431,9 @@
         }
         //加入小马互助团
         else if ([@"coins" equalByCaseInsensitive:name]) {
-            UIViewController *vc = [HKViewControllerFactory mutualInsVC];
+            
+            NSString * channel = params[@"channel"];
+            UIViewController *vc = [HKViewControllerFactory mutualInsVCWithChannel:channel];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         //加入小马互助团系统团

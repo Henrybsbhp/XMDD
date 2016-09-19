@@ -325,6 +325,7 @@
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye13"}];
+        [SensorAnalyticsInstance track:@"event_huzhushouye_shiyongbangzhu"];
         @strongify(self);
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
@@ -1236,7 +1237,7 @@
 
 #pragma mark - Utilities
 
--(void)presentAdPageVC
+- (void)presentAdPageVC
 {
     [MutualInsStoryAdPageVC presentWithModel:self.adModel];
 }

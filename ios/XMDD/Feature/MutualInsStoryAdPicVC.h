@@ -19,4 +19,6 @@
 
 @property (strong, nonatomic) MutualInsAdModel *model;
 
+@property (nonatomic)NSInteger  index;
+
 @end
