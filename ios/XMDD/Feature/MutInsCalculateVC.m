@@ -132,14 +132,16 @@
         vc.model = op.model;
         [self.navigationController pushViewController:vc animated:YES];
         
-        NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithObject:op.frameNo ?: @"" forKey:@"vcode"];
-        [dict setObject:self.car.carId ?: @(0) forKey:@"carid"];
-        if (op.rspDict)
-        {
-            [dict setDictionary:op.rspDict];
-        }
-        [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_chenggong"
-                        withProperties:dict];
+        [SensorAnalyticsInstance
+         track:@"event_feiyongshisuan_lijishisuan_chenggong"
+         withProperties:@{@"carid":self.car.carId ?: @(0),
+                          @"vcode":op.frameNo ?: @"",
+                          @"brandname": op.model.brandName ?: @"",
+                          @"frameno":op.model.carFrameNo ?: @"",
+                          @"premiumprice":op.model.premiumPrice ?: @"",
+                          @"servicefee":op.model.serviceFee ?: @"",
+                          @"sharemoney":op.model.shareMoney ?: @"",
+                          @"note":op.model.note ?: @""}];
         
     } error:^(NSError *error) {
         
@@ -177,13 +179,15 @@
         vc.model = op.model;
         [self.navigationController pushViewController:vc animated:YES];
         
-        NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithObject:op.req_frameno ?: @"" forKey:@"vcode"];
-        if (op.rspDict)
-        {
-            [dict setDictionary:op.rspDict];
-        }
         [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_chenggong"
-                        withProperties:dict];
+                        withProperties:@{@"carid":self.car.carId ?: @(0),
+                                         @"vcode":op.req_frameno ?: @"",
+                                         @"brandname": op.model.brandName ?: @"",
+                                         @"frameno":op.model.carFrameNo ?: @"",
+                                         @"premiumprice":op.model.premiumPrice ?: @"",
+                                         @"servicefee":op.model.serviceFee ?: @"",
+                                         @"sharemoney":op.model.shareMoney ?: @"",
+                                         @"note":op.model.note ?: @""}];
         
     } error:^(NSError *error) {
         
@@ -283,6 +287,7 @@
             
             if ([self checkFrameNo])
             {
+                [self.view endEditing:YES];
                 if (gAppMgr.myUser)
                 {
                     [self calculateFrameNoNeedSecurity];
@@ -291,7 +296,6 @@
                 {
                     [self calculateFrameNoNotNeedSecurity];
                 }
-                
             }
             else
             {

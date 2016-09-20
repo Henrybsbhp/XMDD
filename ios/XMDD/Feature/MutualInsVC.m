@@ -169,10 +169,7 @@
 
 - (void)actionGotoCalculateVC
 {
-    MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
-    vc.router.userInfo = [[CKDict alloc] init];
-    vc.router.userInfo[kOriginRoute] = self.router;
-    
+    MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];    
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 

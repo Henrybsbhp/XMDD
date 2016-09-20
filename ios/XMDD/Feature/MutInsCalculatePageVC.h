@@ -11,6 +11,6 @@
 @interface MutInsCalculatePageVC : UIViewController
 
 /// 渠道，用于神策统计
-@property (nonatomic, copy) NSString *channel;
+@property (nonatomic,copy)NSString * sensorChannel;
 
 @end

@@ -208,7 +208,7 @@
     NSString * defaultImage = @"ad_default_2_5";
     if (self.adType == AdvertisementHomePageBottom)
     {
-        defaultImage = @"hp_bottom_ad_default";
+        defaultImage = @"hp_bottom_ad_default_340";
     }
     else if (self.adType == AdvertisementMutualInsTop)
     {
@@ -251,9 +251,11 @@
     else {
         if (_adType == AdvertisementHomePageBottom)
         {
-            MutualInsVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
-            vc.sensorChannel = @"appsydb";
-            [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+            if (![LoginViewModel loginIfNeededForTargetViewController:self.targetVC.navigationController])
+            {
+                UIViewController *vc = [UIStoryboard vcWithId:@"NewGainAwardVC" inStoryboard:@"Award"];
+                [self.targetVC.navigationController pushViewController:vc animated:YES];
+            }
         }
         else if (_adType == AdvertisementMutualInsTop)
         {

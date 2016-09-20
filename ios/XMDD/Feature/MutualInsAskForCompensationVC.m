@@ -29,10 +29,8 @@
 @property (nonatomic, copy) NSString *bankCardDescription;
 @property (nonatomic, copy) NSArray *fetchedDataSource;
 @property (nonatomic, strong)UIImage * stamperImage;
-@property (assign, nonatomic) NSInteger status;
 
 @property (nonatomic, strong) CKList *dataSource;
-
 
 @end
 
@@ -234,7 +232,6 @@
         
         NSInteger isFastClaimInt = [dict[@"isfastclaim"] integerValue];
         NSInteger status = [dict[@"status"] integerValue];
-        self.status = status;
         NSArray *detailInfoArray = dict[@"detailinfo"];
         
         // 顶部进度条 Cell
@@ -481,7 +478,7 @@
         
         carNumberLabel.text = dict[@"licensenum"];
         
-        if (isFastClaimInt == 1 && (self.status == 2 || self.status == 3)) {
+        if (isFastClaimInt == 1 && status == 3) {
             stamperImageView.hidden = NO;
             
             if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])
@@ -561,7 +558,8 @@
         titleLabel.text = title;
         descriptionLabel.text = content;
         
-        if (isFastClaimInt == 1 && (self.status == 2 || self.status == 3)) {
+        if (isFastClaimInt == 1 && status == 3)
+        {
             stamperImageView.hidden = NO;
             
             if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])

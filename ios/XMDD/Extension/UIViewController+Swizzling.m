@@ -120,7 +120,14 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
             [self saveUPropertyWithKey:timeStr withKey:firstTag];
         }
         
-        NSObject * channelObj = [self valueForKey:@"sensorChannel"];
+        NSObject * channelObj;
+        @try {
+            channelObj = [self valueForKey:@"sensorChannel"];
+        } @catch (NSException *exception) {
+            channelObj = @"";
+        } @finally {
+            
+        }
         NSDictionary * dict = @{@"$is_first_time":@(isFirstAppear),@"channel":channelObj ?: @""};
         [SensorAnalyticsInstance track:durationTag withProperties:dict];
     }
