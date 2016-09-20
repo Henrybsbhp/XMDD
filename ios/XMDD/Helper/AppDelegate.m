@@ -23,6 +23,7 @@
 
 #import "HKLoginModel.h"
 #import "MapHelper.h"
+#import "NSString+MD5.h"
 
 #import "HKLaunchManager.h"
 #import "ShareResponeManager.h"
@@ -538,12 +539,28 @@
         if (x)
         {
             JTUser * user = (JTUser *)x;
+            NSString * userId = user.userID;
+            
+#ifdef DEBUG
+            
+#else
+#if XMDDEnvironment==2
+            
+            NSString * uid = [NSString stringWithFormat:@"%@%@",userId,[userId substringFromIndex:userId.length - 4]];
+            NSString * md5 = [uid md5];
+            userId = md5;
+#endif
+#endif
+            
+            
             if (![[NSUserDefaults standardUserDefaults] objectForKey:@"k.xmdd.isLaunched"])
             {
-                [SensorAnalyticsInstance trackSignUp:user.userID];
+                
+
+                [SensorAnalyticsInstance trackSignUp:userId];
                 [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:@"k.xmdd.isLaunched"];
             }
-            [SensorAnalyticsInstance identify:user.userID];
+            [SensorAnalyticsInstance identify:userId];
         }
     }];
 }
