@@ -76,7 +76,10 @@
         [self.view stopActivityAnimation];
         
         CKList *list = [CKList list];
-        [list addObjectsFromArray:@[[self textFieldCellData],[self btnCellData]]];
+        NSMutableArray * array = [NSMutableArray array];
+        [array safetyAddObject:[self textFieldCellData]];
+        [array safetyAddObject:[self btnCellData]];
+        [list addObjectsFromArray:array];
         NSMutableArray *tempArr = [[NSMutableArray alloc]init];
         [tempArr addObject:list];
         [self.dataSource addObjectsFromArray:tempArr];
@@ -100,7 +103,6 @@
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取费用试算信息失败。请点击重试" tapBlock:^{
             [self getCalculateBaseInfo];
         }];
-        
     }];
 }
 

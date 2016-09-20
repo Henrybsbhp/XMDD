@@ -988,7 +988,7 @@
 {
     if (status <= 0 || status == 4 || (status == 2 && fastClaimNo == 0) || status == 5) {
         return 1;
-    } else if (status == 1 || (fastClaimNo == 0 && status == 3) || (status == 2 && fastClaimNo == 1) || (fastClaimNo == 1 && status == 2)) {
+    } else if (status == 1 || status == 10 || (fastClaimNo == 0 && status == 3) || (status == 2 && fastClaimNo == 1)) {
         return 2;
     } else {
         return 3;

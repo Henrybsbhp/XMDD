@@ -50,12 +50,15 @@
         
         if (type == AdvertisementHomePage)
         {
-            self.sdVC = [[HKScrollDisplayVC alloc] initWithAdLists:self.adList];
+            self.sdVC = [[HKScrollDisplayVC alloc] init];
             self.sdVC.delegate = self;
             [_targetVC addChildViewController:self.sdVC];
             self.sdVC.view.frame = CGRectMake(0, 0, width, height);
             self.sdVC.currentPage = 0;
+            self.sdVC.adType = self.adType;
+            self.sdVC.adList = self.adList;
             _adView = self.sdVC.view;
+        
             RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
                 
                 @strongify(self);
@@ -229,7 +232,7 @@
 
 #pragma mark - Action
 
--(void)actionTapWithAdvertisement:(HKAdvertisement *)ad
+- (void)actionTapWithAdvertisement:(HKAdvertisement *)ad
 {
     NSInteger pageIndex = [self.adList indexOfObject:ad];
     
@@ -251,7 +254,7 @@
     else {
         if (_adType == AdvertisementHomePageBottom)
         {
-            if (![LoginViewModel loginIfNeededForTargetViewController:self.targetVC.navigationController])
+            if ([LoginViewModel loginIfNeededForTargetViewController:self.targetVC])
             {
                 UIViewController *vc = [UIStoryboard vcWithId:@"NewGainAwardVC" inStoryboard:@"Award"];
                 [self.targetVC.navigationController pushViewController:vc animated:YES];
