@@ -124,20 +124,28 @@
         [gToast showingWithText:@"费用试算中..."];
         
     }]subscribeNext:^(OutlayCalculateWithFrameNumOp *op) {
-        @strongify(self)
         
+        @strongify(self)
         [gToast dismiss];
         
         MutInsCalculateResultVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateResultVC"];
         vc.model = op.model;
         [self.navigationController pushViewController:vc animated:YES];
         
+        NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithObject:op.frameNo ?: @"" forKey:@"vcode"];
+        [dict setObject:self.car.carId ?: @(0) forKey:@"carid"];
+        if (op.rspDict)
+        {
+            [dict setDictionary:op.rspDict];
+        }
+        [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_chenggong"
+                        withProperties:dict];
         
     } error:^(NSError *error) {
         
         NSString *errStr = error.domain;
+        [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_shibai" withProperties:@{@"error":errStr ?: @""}];
         [gToast showMistake:errStr.length == 0 ? @"费用试算失败请重试" : errStr];
-        
     }];
 }
 
@@ -168,6 +176,14 @@
         MutInsCalculateResultVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateResultVC"];
         vc.model = op.model;
         [self.navigationController pushViewController:vc animated:YES];
+        
+        NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithObject:op.req_frameno ?: @"" forKey:@"vcode"];
+        if (op.rspDict)
+        {
+            [dict setDictionary:op.rspDict];
+        }
+        [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_chenggong"
+                        withProperties:dict];
         
     } error:^(NSError *error) {
         
@@ -260,6 +276,11 @@
             
             [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan3"}];
             
+            if (self.frameNo.length > 0)
+            {
+                [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan" withProperties:@{@"vcode":self.frameNo ?: @""}];
+            }
+            
             if ([self checkFrameNo])
             {
                 if (gAppMgr.myUser)
@@ -271,6 +292,10 @@
                     [self calculateFrameNoNotNeedSecurity];
                 }
                 
+            }
+            else
+            {
+                [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_vmayouwu"];
             }
             
         }];

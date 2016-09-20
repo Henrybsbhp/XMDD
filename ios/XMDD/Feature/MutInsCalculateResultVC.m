@@ -74,7 +74,6 @@
 
 - (IBAction)actionJoin:(id)sender
 {
-    
     [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo2"}];
 
     GroupIntroductionVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
@@ -85,9 +84,7 @@
 
 - (void)actionBack:(id)sender
 {
-    
     [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo1"}];
-    
     
     if (self.router.userInfo[kOriginRoute])
     {

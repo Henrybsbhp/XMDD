@@ -147,6 +147,7 @@
         [params safetySetObject:@(self.areaInfo.rsp_province.infoId) forKey:@"provinceid"];
         [params safetySetObject:@(self.areaInfo.rsp_city.infoId) forKey:@"cityid"];
         [params safetySetObject:@(self.areaInfo.rsp_district.infoId) forKey:@"areaid"];
+        [params safetySetObject:gNetworkMgr.token ?: @"" forKey:@"token"];
         NSString * discoverUrl = [NavigationModel appendParams:params forUrl:DiscoverUrl];
         self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:discoverUrl]];
         

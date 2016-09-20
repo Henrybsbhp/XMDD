@@ -111,8 +111,9 @@
 
 - (void)actionBack:(id)sender
 {
-    if (self.originVC) {
-        [self.navigationController popToViewController:self.originVC animated:YES];
+    if (self.router.userInfo[kOriginRoute]) {
+        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
+        [self.router.navigationController popToViewController:vc animated:YES];
     }
     else {
         [super actionBack:sender];

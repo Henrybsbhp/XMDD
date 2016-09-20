@@ -219,6 +219,7 @@
     UITapGestureRecognizer *tap = imgV.customObject;
     @weakify(self);
     [[[tap rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+
         @strongify(self)
         [self actionTapWithAdvertisement:ad];
     }];
@@ -230,31 +231,28 @@
 
 -(void)actionTapWithAdvertisement:(HKAdvertisement *)ad
 {
-    
     NSInteger pageIndex = [self.adList indexOfObject:ad];
     
     if (self.mobBaseEventDict)
     {
-        NSString * key = self.mobBaseEventDict.allKeys.firstObject;
+        NSString * key = [self.mobBaseEventDict.allKeys safetyObjectAtIndex:0];
         NSString * value = [self.mobBaseEventDict objectForKey:key];
         NSString * valueWithIndex = [NSString stringWithFormat:@"%@_%d", value, (int)pageIndex];
         [MobClick event:self.mobBaseEvent attributes:@{key:valueWithIndex}];
     }
-    else if (self.mobBaseEvent.length)
-    {
+    else if (self.mobBaseEvent.length) {
         NSString * eventstr = [NSString stringWithFormat:@"%@_%d", self.mobBaseEvent, (int)pageIndex];
         [MobClick event:eventstr];
     }
     
-    if (ad.adLink.length > 0)
-    {
+    if (ad.adLink.length > 0) {
         [self.navModel pushToViewControllerByUrl:ad.adLink];
     }
-    else
-    {
+    else {
         if (_adType == AdvertisementHomePageBottom)
         {
-            UIViewController *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
+            MutualInsVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
+            vc.sensorChannel = @"appsydb";
             [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
         }
         else if (_adType == AdvertisementMutualInsTop)
@@ -265,12 +263,14 @@
                 [vc presentAdPageVC];
             }
         }
-        else if (_adType != AdvertisementValuation)
-        {
+        else if (_adType != AdvertisementValuation) {
+            
             DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
             vc.url = ADDEFINEWEB;
             [self.targetVC.navigationController pushViewController:vc animated:YES];
         }
+        
+        
     }
 }
 

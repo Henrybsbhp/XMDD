@@ -17,7 +17,7 @@
 
 @implementation MutualInsStoryAdPicVC
 
--(void)dealloc
+- (void)dealloc
 {
     
 }
@@ -26,7 +26,22 @@
     [super viewDidLoad];
     
     [self setupImg];
+}
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    NSString * pageName = [NSString stringWithFormat:@"%@_%ld",@"page_huzhugushi",(long)self.index];
+    [SensorAnalyticsInstance trackTimer:pageName];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    NSString * pageName = [NSString stringWithFormat:@"%@_%ld",@"page_huzhugushi",(long)self.index];
+    [SensorAnalyticsInstance track:pageName];
 }
 
 - (void)didReceiveMemoryWarning {

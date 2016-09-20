@@ -7,10 +7,9 @@
 //
 
 #import "JTUser.h"
-#import "Xmdd.h"
-#import "GetUserCarOp.h"
 
 @implementation JTUser
+
 
 @end
 

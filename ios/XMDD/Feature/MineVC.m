@@ -310,8 +310,10 @@
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
         CouponPkgViewController *vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"CouponPkgViewController"];
-        [self.navigationController pushViewController:vc animated:YES];
+        vc.router.userInfo = [[CKDict alloc] init];
+        vc.router.userInfo[kOriginRoute] = self.router;
         
+        [self.router.navigationController pushViewController:vc animated:YES];
     }
 }
 

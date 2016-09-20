@@ -28,8 +28,6 @@
 
 #import "TTTAttributedLabel.h"
 
-#import "MutualInsVC.h"
-
 #define WeatherRefreshTimeInterval 60 * 30
 #define KWeatherLinkRange @"weatherLinkRange"
 #define KWeatherBigFontRange @"weatherBigFontRange"

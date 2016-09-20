@@ -96,33 +96,42 @@
     [[self.nextBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao7"}];
+        [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliao"];
         
         @strongify(self)
         if (!self.curCar.licencenumber)
         {
             if (![self verifiedLicenseNumberFrom:[self.lisenceNumberArea append:self.lisenceNumberSuffix]])
             {
+                [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请输入正确的车牌号码"}];
                 [gToast showMistake:@"请输入正确的车牌号码"];
                 return ;
             }
         }
         if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
         {
+            [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请等待图片上传成功"}];
             [gToast showMistake:@"请等待图片上传成功"];
             return ;
         }
         if (!self.idPictureRecord.url.length)
         {
+            [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请上传身份证照片"}];
+
             [gToast showMistake:@"请上传身份证照片"];
             return ;
         }
         if (!self.drivingLicensePictureRecord.url.length)
         {
+            [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请上传行驶证照片"}];
+
             [gToast showMistake:@"请上传行驶证照片"];
             return ;
         }
         if (!self.insCompany.length)
         {
+            [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请选择现保险公司"}];
+
             [gToast showMistake:@"请选择现保险公司"];
             return ;
         }
@@ -149,7 +158,6 @@
         }
         
         [self requestUpdateImageInfo];
-        
     }];
 }
 
@@ -582,6 +590,9 @@
     }] subscribeNext:^(UpdateCooperationIdlicenseInfoV2Op * op) {
         
         [gToast dismiss];
+        
+        [SensorAnalyticsInstance track:@"event_wanshanziliao_shangchuanchenggong"];
+        
         NSNumber *memberID = [self.memberId integerValue] > 0 ? self.memberId : op.rsp_memberid;
         /// 更新团列表
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
@@ -598,6 +609,8 @@
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
+        
+        [SensorAnalyticsInstance track:@"event_wanshanziliao_shangchuanshibai" withProperties:@{@"error":error.domain ?: @""}];
         [gToast showError:error.domain];
     }];
 }
@@ -745,9 +758,27 @@
          
          record.isUploading = NO;
          imageView.tapGesture.enabled = NO;
+         
+         if (self.currentRecord == self.idPictureRecord)
+         {
+             [SensorAnalyticsInstance track:@"event_wanshanziliao_shenfenzhengshangchuan" withProperties:@{@"success":@"1"}];
+         }
+         else if (self.currentRecord == self.drivingLicensePictureRecord)
+         {
+             [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengshangchuan" withProperties:@{@"success":@"1"}];
+         }
+         
      } error:^(NSError *error) {
          
          record.isUploading = NO;
+         if (self.currentRecord == self.idPictureRecord)
+         {
+             [SensorAnalyticsInstance track:@"event_wanshanziliao_shenfenzhengshangchuan" withProperties:@{@"success":@"0"}];
+         }
+         else if (self.currentRecord == self.drivingLicensePictureRecord)
+         {
+             [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengshangchuan" withProperties:@{@"success":@"0"}];
+         }
      }];
 }
 
@@ -775,6 +806,7 @@
 - (void)actionBack:(id)sender {
     
     [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao1"}];
+    [SensorAnalyticsInstance track:@"event_wanshanziliao_fanhui"];
     
     if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany.length  || self.lastYearInsCompany.length || self.idPictureRecord.url.length || self.drivingLicensePictureRecord.url.length)
     {
@@ -832,6 +864,7 @@
     UIImage *croppedImage = [image compressImageWithPixelSize:CGSizeMake(1024, 1024)];
     self.currentRecord.image = croppedImage;
     UIView * selectView = [self.currentRecord.customArray safetyObjectAtIndex:0];
+
     [self actionUpload:self.currentRecord withImageView:(HKImageView *)selectView];
 }
 

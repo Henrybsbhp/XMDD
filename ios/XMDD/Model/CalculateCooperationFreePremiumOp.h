@@ -18,4 +18,6 @@
 /// 返回信息
 @property (strong, nonatomic) PremiumModel *model;
 
+@property (strong, nonatomic)NSDictionary * rspDict;
+
 @end

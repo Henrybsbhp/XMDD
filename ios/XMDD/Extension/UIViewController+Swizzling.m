@@ -8,6 +8,7 @@
 
 #import "UIViewController+Swizzling.h"
 #import "UMLogHelper.h"
+#import "UserBehaviorAnalysisHelper.h"
 
 #define SelfClassName NSStringFromClass([self class])
 
@@ -69,6 +70,7 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
     
     //友盟，aop打点方式
     NSDictionary * dict = [[UMLogHelper getPagesUMLogInfo] objectForKey:className];
+    NSDictionary * userBehaviorDict = [[UserBehaviorAnalysisHelper getPagesUserBehaviorInfo] objectForKey:className];
     if (dict)
     {
         //crashlytics日志信息
@@ -77,6 +79,14 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
         NSString * pageTag = [dict objectForKey:@"pagetag"];
         NSAssert([pageTag isKindOfClass:[NSString class]] && pageTag.length, @"UIViewController+Swizzling : pageTag is not NSString class or length is zero");
         [MobClick beginLogPageView:pageTag];
+    }
+    
+    if (userBehaviorDict)
+    {
+        NSString * durationTag = [userBehaviorDict objectForKey:@"pageduration"];
+        NSString * pageTag = [userBehaviorDict objectForKey:@"pagetag"];
+        [SensorAnalyticsInstance trackTimer:durationTag];
+        [SensorAnalyticsInstance track:pageTag];
     }
 }
 
@@ -88,6 +98,7 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
     
     //友盟，aop打点方式
     NSDictionary * dict = [[UMLogHelper getPagesUMLogInfo] objectForKey:className];
+    NSDictionary * userBehaviorDict = [[UserBehaviorAnalysisHelper getPagesUserBehaviorInfo] objectForKey:className];
     if (dict)
     {
         //crashlytics日志信息
@@ -97,8 +108,55 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
         NSAssert([pageTag isKindOfClass:[NSString class]] && pageTag.length, @"UIViewController+Swizzling : pageTag is not NSString class or length is zero");
         [MobClick endLogPageView:pageTag];
     }
+    if (userBehaviorDict)
+    {
+        NSString * durationTag = [userBehaviorDict objectForKey:@"pageduration"];
+        NSString * firstTag = [userBehaviorDict objectForKey:@"firsttag"];
+        BOOL isFirstAppear;
+        if (![self getUProperty:firstTag])
+        {
+            isFirstAppear = YES;
+            NSString * timeStr = [[NSDate date] dateFormatForYYYYMMddHHmmss];
+            [self saveUPropertyWithKey:timeStr withKey:firstTag];
+        }
+        
+        NSObject * channelObj = [self valueForKey:@"sensorChannel"];
+        NSDictionary * dict = @{@"$is_first_time":@(isFirstAppear),@"channel":channelObj ?: @""};
+        [SensorAnalyticsInstance track:durationTag withProperties:dict];
+    }
 }
 
+- (NSMutableDictionary *)userProperty
+{
+    NSMutableDictionary * mutualDict;
+    if (!mutualDict)
+    {
+        NSString * userKey = [NSString stringWithFormat:@"%@_userProperty",gAppMgr.myUser.userID];
+        NSDictionary * dict = [[NSUserDefaults standardUserDefaults] objectForKey:userKey];
+        if (!dict)
+        {
+            dict = [NSDictionary dictionary];
+            [[NSUserDefaults standardUserDefaults] setObject:dict forKey:userKey];
+        }
+        mutualDict = [NSMutableDictionary dictionaryWithDictionary:dict];
+    }
+    return mutualDict;
+}
+
+- (NSObject *)getUProperty:(NSString *)key
+{
+    NSMutableDictionary * dict = [self userProperty];
+    NSObject * obj = [dict objectForKey:key];
+    return obj;
+}
+
+- (void)saveUPropertyWithKey:(NSObject *)obj withKey:(NSString *)key
+{
+    NSString * userKey = [NSString stringWithFormat:@"%@_userProperty",gAppMgr.myUser.userID];
+    NSMutableDictionary * dict = [self userProperty];
+    [dict setObject:obj forKey:key];
+    [[NSUserDefaults standardUserDefaults] setObject:dict forKey:userKey];
+}
 
 
 @end

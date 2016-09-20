@@ -4,7 +4,7 @@
 //
 //  Created by jiangjunchen on 15/4/1.
 //  Copyright (c) 2015年 jiangjunchen. All rights reserved.
-// test 
+// test
 
 #import "AppDelegate.h"
 #import "Xmdd.h"
@@ -17,6 +17,7 @@
 #import "RRFPSBar.h"
 #import "ReactNativeManager.h"
 #import "GlobalStoreManager.h"
+
 
 #import "DefaultStyleModel.h"
 
@@ -93,6 +94,8 @@
     
     [[GlobalStoreManager sharedManager] setupGlobalStores];
     
+    [self setupSensorsAnalytics];
+    
     [self setupReactNative];
     //设置崩溃捕捉(官方建议放在最后面)
     [self setupCrashlytics];
@@ -145,7 +148,7 @@
     [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
     // 日志输入颜色控制
     [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor] forFlag:DDLogFlagVerbose];
-
+    
     [[DDTTYLogger sharedInstance] setForegroundColor:kDefTintColor backgroundColor:[UIColor blackColor] forFlag:DDLogFlagDebug];
     
     [[DDTTYLogger sharedInstance] setForegroundColor:kOrangeColor backgroundColor:[UIColor blackColor] forFlag:DDLogFlagInfo];
@@ -196,7 +199,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     
-
+    
     CKAsyncDefaultQueue(^{
         NSDate * lastLocationTime = [NSDate dateWithText:[gAppMgr getInfo:LastLocationTime]];
         NSTimeInterval timeInterval = [lastLocationTime timeIntervalSinceNow];
@@ -317,7 +320,7 @@
 #ifdef DEBUG
     
 #else
-    #if XMDDEnvironment==2
+#if XMDDEnvironment==2
     [Fabric with:@[CrashlyticsKit]];
     
     [[RACObserve(gAppMgr, myUser) distinctUntilChanged] subscribeNext:^(JTUser *user) {
@@ -325,7 +328,7 @@
         NSString * userIdentifier = user ? user.userID : @"";
         [CrashlyticsKit setUserIdentifier:userIdentifier];
     }];
-    #endif
+#endif
 #endif
     
 }
@@ -379,7 +382,7 @@
     if ([gAppMgr.deviceInfo firstAppearAfterVersion:@"2.0" forKey:@"loginInfo"]) {
         [HKLoginModel logout];
     }
-
+    
     NSString * version = gAppMgr.clientInfo.clientVersion;
     NSString * OSVersion = gAppMgr.deviceInfo.osVersion;
     GetSystemVersionOp * op = [GetSystemVersionOp operation];
@@ -505,6 +508,46 @@
     [MobClick event:@"tuisongjiance" attributes:@{@"tuisongjiance":isOpen ? @"open" : @"close"}];
 }
 
+
+- (void)setupSensorsAnalytics
+{
+    NSString * serverUrlStr = @"http://xiaomadada.cloud.sensorsdata.cn:8006/sa?token=dbab4b9b130802ad";
+    NSString * configureUrlStr = @"http://xiaomadada.cloud.sensorsdata.cn:8006/config/";
+    NSString * trackServerUrlStr = @"";
+    
+    SensorsAnalyticsDebugMode model = SensorsAnalyticsDebugAndTrack;
+    
+#ifdef DEBUG
+    
+#else
+#if XMDDEnvironment==2
+    SensorsAnalyticsDebugMode model = SensorsAnalyticsDebugOff;
+#endif
+#endif
+    
+    
+    [SensorsAnalyticsSDK sharedInstanceWithServerURL:serverUrlStr andConfigureURL:configureUrlStr andDebugMode:model];
+    SensorAnalyticsInstance.flushBulkSize = 30;
+    SensorAnalyticsInstance.flushBeforeEnterBackground = YES;
+    SensorAnalyticsInstance.flushInterval = 20;
+    
+    
+    RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
+    [userSignal subscribeNext:^(id x) {
+        
+        if (x)
+        {
+            JTUser * user = (JTUser *)x;
+            if (![[NSUserDefaults standardUserDefaults] objectForKey:@"k.xmdd.isLaunched"])
+            {
+                [SensorAnalyticsInstance trackSignUp:user.userID];
+                [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:@"k.xmdd.isLaunched"];
+            }
+            [SensorAnalyticsInstance identify:user.userID];
+        }
+    }];
+}
+
 #pragma mark - ReactNative
 - (void)setupReactNative {
     [[ReactNativeManager sharedManager] loadDefaultBundle];
@@ -521,7 +564,7 @@
     // SDK具有防调试功能，当使用xcode运行时，请取消此行注释，开启调试模式
     // 否则使用xcode运行会闪退，(但直接在设备上点APP图标可以正常运行)
     // 上线Appstore的版本，请记得删除此行，否则将失去防调试防护功能！
-     [options setValue:@"allowd" forKey:@"allowd"];
+    [options setValue:@"allowd" forKey:@"allowd"];
     
     // 指定对接同盾的测试环境，正式上线时，请删除或者注释掉此行代码，切换到同盾生产环境
 #ifdef DEBUG
