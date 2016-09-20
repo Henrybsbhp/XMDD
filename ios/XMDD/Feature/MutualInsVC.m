@@ -169,7 +169,8 @@
 
 - (void)actionGotoCalculateVC
 {
-    MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];    
+    MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
+    vc.sensorChannel = @"apphzsy";
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 

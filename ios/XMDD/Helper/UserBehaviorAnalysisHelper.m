@@ -18,8 +18,10 @@
         g_pagesUMLogInfo = @{
                              //小马互助
                              @"MutualInsVC":@{@"pagetag":@"page_huzhushouye",@"firsttag":@"huzhushouyefirsttime",@"pageduration":@"page_huzhushouye_duration"},//互助首页
+                             @"MutualInsVC":@{@"pagetag":@"page_huzhushouye",@"firsttag":@"huzhushouyefirsttime",@"pageduration":@"page_huzhushouye_duration"},//互助首页
+                            @"MutualInsVC":@{@"pagetag":@"page_huzhushouye",@"firsttag":@"huzhushouyefirsttime",@"pageduration":@"page_huzhushouye_duration"},//互助首页
                              @"MutualInsStoryAdPicVC":@{@"pagetag":@"page_huzhugushi",@"firsttag":@"huzhugushifirsttime",@"pageduration":@"page_huzhugushi_duration"},//小故事
-                             @"MutInsCalculateVC":@{@"pagetag":@"page_feiyongshisuan",@"firsttag":@"feiyongshisuanfirsttime",@"pageduration":@"page_feiyongshisuan_duration"},//费用试算
+                             @"MutInsCalculatePageVC":@{@"pagetag":@"page_feiyongshisuan",@"firsttag":@"feiyongshisuanfirsttime",@"pageduration":@"page_feiyongshisuan_duration"},//费用试算
                              @"MutInsCalculateResultVC":@{@"pagetag":@"page_shisuanjieguo",@"firsttag":@"shisuanjieguofirsttime",@"pageduration":@"page_shisuanjieguo_duration"},//试算结果
                              
                              @"MutInsSystemGroupListVC":@{@"pagetag":@"page_huzhutuan",@"firsttag":@"huzhutuanfirsttime",@"pageduration":@"page_huzhutuan_duration"},//互助团

@@ -26,13 +26,11 @@
 
 @property (weak, nonatomic) id<HKScrollDisplayVCDelegate> delegate;
 
-- (instancetype)initWithAdLists:(NSArray *)adLists;
-
 @property (strong, nonatomic) NSMutableArray *controllers;
 @property (strong, nonatomic) NSArray *adList;
 @property (strong, nonatomic) UIPageViewController *pageVC;
 @property (strong, nonatomic) UIPageControl *pageControl;
 @property (assign, nonatomic) NSInteger currentPage;
-@property (strong, nonatomic) UITapGestureRecognizer *tap;
+@property (nonatomic, assign) AdvertisementType adType;
 
 @end

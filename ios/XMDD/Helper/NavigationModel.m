@@ -395,21 +395,24 @@
         else if ([@"coinsad" equalByCaseInsensitive:name]) {
             
             MutualInsHomeAdVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsHomeAdVC"];
-            [self.curNavCtrl pushViewController:vc animated:YES];
-            return YES;
-        }
-        else if ([@"coinscalc" equalByCaseInsensitive:name]){
-            
-            MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
             NSString * channel = params[@"channel"];
             vc.sensorChannel = channel;
             [self.curNavCtrl pushViewController:vc animated:YES];
+            return YES;
         }
         //加入小马互助团
         else if ([@"coins" equalByCaseInsensitive:name]) {
             
             NSString * channel = params[@"channel"];
             UIViewController *vc = [HKViewControllerFactory mutualInsVCWithChannel:channel];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        //加入小马费用试算
+        else if ([@"coinscalc" equalByCaseInsensitive:name]) {
+            
+            NSString * channel = params[@"channel"];
+            MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
+            vc.sensorChannel = channel;
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         //加入小马互助团系统团
