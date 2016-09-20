@@ -86,22 +86,6 @@
 {
     [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo1"}];
     
-    if (self.router.userInfo[kOriginRoute])
-    {
-        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
-        [self.router.navigationController popToViewController:vc animated:YES];
-    }
-    else
-    {
-        CKRouter * route = [self.router.navigationController.routerList objectForKey:@"MutualInsVC"];
-        if (route)
-        {
-            [self.router.navigationController popToViewController:route.targetViewController animated:YES];
-        }
-        else
-        {
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        }
-    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

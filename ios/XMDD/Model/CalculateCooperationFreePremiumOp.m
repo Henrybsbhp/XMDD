@@ -30,8 +30,6 @@
     self.model.serviceFee = rspObj[@"servicefee"];
     self.model.shareMoney = rspObj[@"sharemoney"];
     self.model.note = rspObj[@"note"];
-    
-    self.rspDict = rspObj;
     return self;
 }
 
