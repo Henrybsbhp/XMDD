@@ -231,15 +231,14 @@
             op.comment = @"";
         }
         
-        [[[[op rac_postRequest] initially:^{
+        [[[op rac_postRequest] initially:^{
             [gToast showText:@"提交评论中"];
-        }] finally:^{
+        }] subscribeNext:^(GetRescueCommentRescueOp *op) {
+            
             [gToast dismiss];
             [gToast showText:@"评论成功"];
             self.history.commentStatus = HKCommentStatusYes;
             [self alreadyNetwork];
-        }] subscribeNext:^(GetRescueCommentRescueOp *op) {
-            
         } error:^(NSError *error) {
             [gToast showError:@"评论失败, 请尝试重新提交"];
         }] ;
