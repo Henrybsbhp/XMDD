@@ -12,7 +12,9 @@ typedef enum : NSInteger
 {
     UploadFileTypeDrivingLicenseAndOther = 0,
     UploadFileTypeDaDaHelp = 1,// 达达帮忙
-    UploadFileTypeMutualIns = 2
+    UploadFileTypeMutualIns = 2,
+    UploadFileTypeMutualInsId = 21,//小马互助身份证
+    UploadFileTypeMutualInsLicense = 22,//小马互助行驶证
 }UploadFileType;
 
 @interface UploadFileOp : BaseOp
