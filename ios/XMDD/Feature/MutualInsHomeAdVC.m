@@ -28,11 +28,11 @@
     
     NSString * urlStr;
 #if XMDDEnvironment==0
-    urlStr = @"http://dev01.xiaomadada.com/apphtml/huzhujieshao.html ";
+    urlStr = @"http://dev01.xiaomadada.com/apphtml/huzhujieshao-app.html";
 #elif XMDDEnvironment==1
-    urlStr = @"http://dev.xiaomadada.com/apphtml/huzhujieshao.html ";
+    urlStr = @"http://dev.xiaomadada.com/apphtml/huzhujieshao-app.html";
 #else
-    urlStr = @"http://www.xiaomadada.com/apphtml/huzhujieshao.html ";
+    urlStr = @"http://www.xiaomadada.com/apphtml/huzhujieshao-app.html";
 #endif
     
     CKAsyncMainQueue(^{

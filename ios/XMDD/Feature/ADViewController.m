@@ -208,7 +208,7 @@
     NSString * defaultImage = @"ad_default_2_5";
     if (self.adType == AdvertisementHomePageBottom)
     {
-        defaultImage = @"hp_bottom_ad_default";
+        defaultImage = @"hp_bottom_ad_default_340";
     }
     else if (self.adType == AdvertisementMutualInsTop)
     {

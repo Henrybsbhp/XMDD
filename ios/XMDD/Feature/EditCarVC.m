@@ -618,6 +618,13 @@
         if (self.model.finishBlock) {
             self.model.finishBlock(self.curCar);
         }
+        
+        if (self.jsBridgeFinishBlock)
+        {
+            //如果是网页进去，不需要pop，通知给jsbridge进行dismiss
+            self.jsBridgeFinishBlock(self.curCar);
+            return ;
+        }
         if (self.model.originVC) {
             [self.navigationController popToViewController:self.model.originVC animated:YES];
         }
@@ -638,6 +645,12 @@
 - (void)actionCancel:(id)sender
 {
     [MobClick event:@"312_13"];
+    
+    if (self.jsBridgeFinishBlock)
+    {
+        self.jsBridgeFinishBlock(nil);
+        return;
+    }
     
     if (self.isEditingModel && ![self.curCar isDifferentFromAnother:self.originCar]) {
         if (self.model.originVC) {

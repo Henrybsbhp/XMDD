@@ -761,11 +761,11 @@
          
          if (self.currentRecord == self.idPictureRecord)
          {
-             [SensorAnalyticsInstance track:@"event_wanshanziliao_shenfenzhengshangchuan" withProperties:@{@"success":@"1"}];
+             [SensorAnalyticsInstance track:@"event_wanshanziliao_shenfenzhengshangchuan" withProperties:@{@"xmhzresult":@"1"}];
          }
          else if (self.currentRecord == self.drivingLicensePictureRecord)
          {
-             [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengshangchuan" withProperties:@{@"success":@"1"}];
+             [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengshangchuan" withProperties:@{@"xmhzresult":@"1"}];
          }
          
      } error:^(NSError *error) {
@@ -773,11 +773,11 @@
          record.isUploading = NO;
          if (self.currentRecord == self.idPictureRecord)
          {
-             [SensorAnalyticsInstance track:@"event_wanshanziliao_shenfenzhengshangchuan" withProperties:@{@"success":@"0"}];
+             [SensorAnalyticsInstance track:@"event_wanshanziliao_shenfenzhengshangchuan" withProperties:@{@"xmhzresult":@"0"}];
          }
          else if (self.currentRecord == self.drivingLicensePictureRecord)
          {
-             [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengshangchuan" withProperties:@{@"success":@"0"}];
+             [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengshangchuan" withProperties:@{@"xmhzresult":@"0"}];
          }
      }];
 }

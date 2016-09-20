@@ -290,6 +290,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     
     /// 设置登录
     [self.bridge registerOpenView];
+    
+    [self.bridge registerAddCar];
 }
 
 - (void)setupShareItem
@@ -467,9 +469,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     NSString * userAgent = [webview stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
     userAgent = userAgent ?: @"";
     
-    if ([userAgent rangeOfString:@"XMDD"].location == NSNotFound)
+    if ([userAgent rangeOfString:@"XmddApp"].location == NSNotFound)
     {
-        NSString * newUserAgent = [userAgent append:[NSString stringWithFormat:@" %@/%@",@"XMDD",version]];
+        NSString * newUserAgent = [userAgent append:[NSString stringWithFormat:@" XmddApp(%@/%@)",@"XMDD",version]];
         NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
         [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
     }
