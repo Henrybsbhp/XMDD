@@ -118,16 +118,7 @@
     self.view.userInteractionEnabled = YES;
     CKAsyncMainQueue(^{
         CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-        
-        CGFloat sizeHeight = 0;
-        if (gAppMgr.deviceInfo.screenSize.height < 568)
-            sizeHeight = 534; //4s 480
-        else if (gAppMgr.deviceInfo.screenSize.height < 667)
-            sizeHeight = 520; // 5,5s,568
-        else
-            sizeHeight = size.height;
-        
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, sizeHeight);
+        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
         
         [self showNewbieGuideAlertIfNeeded];
     });

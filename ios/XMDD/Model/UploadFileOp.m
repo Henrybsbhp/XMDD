@@ -88,6 +88,7 @@
             dict = [data jsonObject];
             self.rsp_urlArray = dict[@"url"];
             self.rsp_idArray = dict[@"lid"];
+            self.rsp_tip = dict[@"tip"];
         }
         DebugLog(@"%@ Upload file success:%@ \ndata={%@}", kRspPrefix, url, dict);
         return self;
