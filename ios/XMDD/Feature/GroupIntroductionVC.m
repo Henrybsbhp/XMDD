@@ -212,15 +212,7 @@
     }
     else
     {
-        CKRouter * route = [self.router.navigationController.routerList objectForKey:@"MutualInsVC"];
-        if (route)
-        {
-            [self.router.navigationController popToViewController:route.targetViewController animated:YES];
-        }
-        else
-        {
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        }
+        [self.router.navigationController popViewControllerAnimated:YES];
     }
 }
 

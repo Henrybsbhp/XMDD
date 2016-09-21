@@ -51,6 +51,11 @@
 @property (nonatomic,strong)NSString * lisenceNumberArea;
 @property (nonatomic,strong)NSString * lisenceNumberSuffix;
 
+/// 是否是当前页面，选择照片会进去到选择照片页面（场景：图片上传有tip要提示，这个时候已经在下一个选择图片controller）
+@property (nonatomic)BOOL isCurrentPage;
+/// 用户重新展示的弹框信息
+@property (nonatomic,strong)NSString * needReshowInfo;
+
 
 @end
 
@@ -75,6 +80,27 @@
         // 有memeber说明是重新上传的
         [self requesLastIdLicenseInfo];
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSLog(@"viewDidAppear");
+    self.isCurrentPage = YES;
+    
+    if (self.needReshowInfo.length)
+    {
+        [self showPicUpdateTip:self.needReshowInfo];
+        self.needReshowInfo = nil;
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    NSLog(@"viewWillDisappear");
+    [super viewWillDisappear:animated];
+    self.isCurrentPage = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -751,7 +777,7 @@
     
     record.isUploading = YES;
     UploadFileType type = self.currentRecord == self.idPictureRecord ? UploadFileTypeMutualInsId : UploadFileTypeMutualInsLicense;
-    [[imageView rac_setUploadingImage:self.currentRecord.image withImageType:type]
+    [[[imageView rac_setUploadingImage:self.currentRecord.image withImageType:type] delay:0]
      subscribeNext:^(UploadFileOp *op) {
          
          record.url = [op.rsp_urlArray safetyObjectAtIndex:0];
@@ -759,6 +785,18 @@
          
          record.isUploading = NO;
          imageView.tapGesture.enabled = NO;
+         
+         if (op.rsp_tip.length)
+         {
+             if (self.isCurrentPage)
+             {
+                 [self showPicUpdateTip:op.rsp_tip];
+             }
+             else
+             {
+                 self.needReshowInfo = op.rsp_tip;
+             }
+         }
          
          if (self.currentRecord == self.idPictureRecord)
          {
@@ -854,6 +892,21 @@
         return nil;
     }
     return [licenseNumber uppercaseString];
+}
+
+- (void)showPicUpdateTip:(NSString *)tip
+{
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:kGrayTextColor clickBlock:nil];
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
+    ps.alignment = NSTextAlignmentCenter;
+    NSMutableAttributedString * attributeStr = [[NSMutableAttributedString alloc] initWithData:
+                                         [tip dataUsingEncoding:NSUTF8StringEncoding]
+                                     options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                               NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                          documentAttributes:nil error:nil];
+    [attributeStr addAttribute:NSParagraphStyleAttributeName value:ps range:NSMakeRange(0, [attributeStr length])];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" attributedMessage:attributeStr ActionItems:@[cancel]];
+    [alert show];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
