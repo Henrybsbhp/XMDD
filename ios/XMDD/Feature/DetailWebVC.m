@@ -55,6 +55,8 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    
     self.navModel = [[NavigationModel alloc] init];
     
     [self changeUserAgent];
