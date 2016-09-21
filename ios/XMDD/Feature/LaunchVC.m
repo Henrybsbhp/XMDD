@@ -155,7 +155,7 @@
     
     self.signalDisposable = [[[RACSignal interval:0.1 onScheduler:[RACScheduler mainThreadScheduler]]take:delay*10]subscribeNext:^(id x) {
         
-        shapeLayer.strokeEnd -= diffPi;
+        shapeLayer.strokeStart += diffPi;
         
     }completed:^{
         
