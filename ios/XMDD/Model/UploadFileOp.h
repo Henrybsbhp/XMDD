@@ -24,6 +24,8 @@ typedef enum : NSInteger
 @property (nonatomic, strong) NSArray *req_fileDataArray;
 @property (nonatomic, strong) NSArray *rsp_urlArray;
 @property (nonatomic, strong) NSArray *rsp_idArray;
+/// 提示信息
+@property (nonatomic, strong) NSString *rsp_tip;
 
 - (void)setProgress:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))block;
 - (void)setFileArray:(NSArray *)files withGetDataBlock:(NSData*(^)(id))block;
