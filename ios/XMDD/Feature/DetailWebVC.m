@@ -92,7 +92,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self setupUI];
     [self setupProcessView];
     [self setupLeftSingleBtn];
-//    [self changeUserAgent];
     
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;
