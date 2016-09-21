@@ -10,6 +10,9 @@
 
 @interface MutualInsVC : UIViewController
 
--(void)presentAdPageVC;
+/// 渠道，用于神策统计
+@property (nonatomic,copy)NSString * sensorChannel;
+
+- (void)presentAdPageVC;
 
 @end

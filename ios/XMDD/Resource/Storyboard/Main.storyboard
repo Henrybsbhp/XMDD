@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -102,7 +102,6 @@
                             <constraint firstAttribute="trailing" secondItem="7qT-rk-Nj6" secondAttribute="trailing" id="mMr-r3-fcY"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" title="小马达达" id="LNP-uS-6P0">
                         <barButtonItem key="leftBarButtonItem" title="杭州" id="mwN-Zb-TOb">
                             <color key="tintColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>

@@ -204,6 +204,7 @@
 - (void)actionBack:(id)sender
 {
     [MobClick event:@"rutuanyaoqiu" attributes:@{@"rutuanyaoqiu" : @"rutuanyaoqiu1"}];
+    [SensorAnalyticsInstance track:@"event_rutuanyaoqiu_fanhui"];
     if (self.router.userInfo[kOriginRoute])
     {
         UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
@@ -225,6 +226,7 @@
 
 - (IBAction)joinAction:(id)sender {
     [MobClick event:@"rutuanyaoqiu" attributes:@{@"rutuanyaoqiu" : @"rutuanyaoqiu2"}];
+    [SensorAnalyticsInstance track:@"event_rutuanyaoqiu_xiayibu"];
     
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
@@ -292,6 +294,8 @@
 #pragma mark - TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url
 {
+    [SensorAnalyticsInstance track:@"event_rutuanyaoqiu_gongyue"];
+    
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.url = [url absoluteString];
     [self.navigationController pushViewController:vc animated:YES];

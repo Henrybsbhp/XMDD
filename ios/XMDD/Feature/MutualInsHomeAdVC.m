@@ -28,11 +28,11 @@
     
     NSString * urlStr;
 #if XMDDEnvironment==0
-    urlStr = @"http://dev01.xiaomadada.com/apphtml/huzhujieshao.html ";
+    urlStr = @"http://dev01.xiaomadada.com/apphtml/huzhujieshao-app.html";
 #elif XMDDEnvironment==1
-    urlStr = @"http://dev.xiaomadada.com/apphtml/huzhujieshao.html ";
+    urlStr = @"http://dev.xiaomadada.com/apphtml/huzhujieshao-app.html";
 #else
-    urlStr = @"http://www.xiaomadada.com/apphtml/huzhujieshao.html ";
+    urlStr = @"http://www.xiaomadada.com/apphtml/huzhujieshao-app.html";
 #endif
     
     CKAsyncMainQueue(^{
@@ -102,9 +102,7 @@
 - (IBAction)actionJumpToMutInsCalculateVC:(id)sender
 {
     MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
-    vc.router.userInfo = [[CKDict alloc] init];
-    vc.router.userInfo[kOriginRoute] = self.router;
-    
+    vc.sensorChannel = @"apphzxuanchuan";
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 

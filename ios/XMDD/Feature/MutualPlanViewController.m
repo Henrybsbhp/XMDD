@@ -54,6 +54,8 @@
 - (void)awakeFromNib
 {
     self.navModel = [[NavigationModel alloc] init];
+    
+    [self changeUserAgent];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -196,6 +198,7 @@
         [params safetySetObject:@(self.areaInfo.rsp_province.infoId) forKey:@"provinceid"];
         [params safetySetObject:@(self.areaInfo.rsp_city.infoId) forKey:@"cityid"];
         [params safetySetObject:@(self.areaInfo.rsp_district.infoId) forKey:@"areaid"];
+        [params safetySetObject:gNetworkMgr.token ?: @"" forKey:@"token"];
         NSString * mutualPlanUrl = [NavigationModel appendParams:params forUrl:MutualPlanTabUrl];
         self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:mutualPlanUrl]];
         
@@ -205,6 +208,21 @@
         self.webView.scrollView.contentSize = CGSizeMake(self.webView.frame.size.width, self.webView.scrollView.contentSize.height);
         [self.webView loadRequest:self.request];
     }];
+}
+
+- (void)changeUserAgent
+{
+    UIWebView * webview = [[UIWebView alloc] init];
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString * userAgent = [webview stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    userAgent = userAgent ?: @"";
+    
+    if ([userAgent rangeOfString:@"XmddApp"].location == NSNotFound)
+    {
+        NSString * newUserAgent = [userAgent append:[NSString stringWithFormat:@" XmddApp(%@/%@)",@"XMDD",version]];
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+    }
 }
 
 #pragma mark - NJKWebViewProgressDelegate
