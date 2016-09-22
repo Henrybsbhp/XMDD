@@ -692,6 +692,7 @@
 		18649E591D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E551D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m */; };
 		18649E5F1D48BE5500F1CCB0 /* InviteAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E5C1D48BE5500F1CCB0 /* InviteAlertVC.m */; };
 		18649E601D48BE5500F1CCB0 /* InviteCompleteVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E5E1D48BE5500F1CCB0 /* InviteCompleteVC.m */; };
+		186D0DAD1D9258BB00F669F4 /* RCTHKImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186D0DAC1D9258BB00F669F4 /* RCTHKImageView.m */; };
 		1888F3F21D48C02600C64288 /* MutualInsClaimAccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F3F11D48C02600C64288 /* MutualInsClaimAccountVC.m */; };
 		1888F41A1D48CB8600C64288 /* RCTAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F4111D48CB8600C64288 /* RCTAppManager.m */; };
 		1888F41B1D48CB8600C64288 /* RCTLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F4131D48CB8600C64288 /* RCTLoginManager.m */; };
@@ -2372,6 +2373,8 @@
 		18649E5C1D48BE5500F1CCB0 /* InviteAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteAlertVC.m; sourceTree = "<group>"; };
 		18649E5D1D48BE5500F1CCB0 /* InviteCompleteVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteCompleteVC.h; sourceTree = "<group>"; };
 		18649E5E1D48BE5500F1CCB0 /* InviteCompleteVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteCompleteVC.m; sourceTree = "<group>"; };
+		186D0DAB1D9258BB00F669F4 /* RCTHKImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTHKImageView.h; sourceTree = "<group>"; };
+		186D0DAC1D9258BB00F669F4 /* RCTHKImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTHKImageView.m; sourceTree = "<group>"; };
 		1883D8DF1ACB99AC002A4D19 /* XMDD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XMDD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1888F3F01D48C02600C64288 /* MutualInsClaimAccountVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsClaimAccountVC.h; sourceTree = "<group>"; };
 		1888F3F11D48C02600C64288 /* MutualInsClaimAccountVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsClaimAccountVC.m; sourceTree = "<group>"; };
@@ -5367,6 +5370,8 @@
 				181E2EAB1D766ED600ED13A4 /* RCTLoadingViewManager.m */,
 				181E2ED01D77BBB000ED13A4 /* RCTLoadingView.h */,
 				181E2ED11D77BBB000ED13A4 /* RCTLoadingView.m */,
+				186D0DAB1D9258BB00F669F4 /* RCTHKImageView.h */,
+				186D0DAC1D9258BB00F669F4 /* RCTHKImageView.m */,
 			);
 			name = Bridege;
 			sourceTree = "<group>";
@@ -6401,6 +6406,7 @@
 				186499A01D489A9700F1CCB0 /* BindDeviceTokenOp.m in Sources */,
 				18649D881D48BB5D00F1CCB0 /* GasAddCardVC.m in Sources */,
 				18649D211D48B96700F1CCB0 /* InsActivityIndicatorVC.m in Sources */,
+				186D0DAD1D9258BB00F669F4 /* RCTHKImageView.m in Sources */,
 				18649B711D48A93000F1CCB0 /* HKRefreshControl.m in Sources */,
 				18649C921D48B61900F1CCB0 /* PickInsCompaniesVC.m in Sources */,
 				183F572A1D4C90860001E26A /* GetCooperationMyCarOp.m in Sources */,
@@ -7219,7 +7225,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"XMDDENT=0",
-					"XMDDEnvironment=1",
+					"XMDDEnvironment=0",
 					"REACT_DEV=1",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -7246,6 +7252,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/Image/**",
 				);
 				INFOPLIST_FILE = XMDD/Resource/Plist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -7302,7 +7309,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "86d6669a-9d41-413a-a618-335e7e698cc1";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -7357,6 +7364,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/Image/**",
 				);
 				INFOPLIST_FILE = XMDD/Resource/Plist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -7413,7 +7421,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "86d6669a-9d41-413a-a618-335e7e698cc1";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;

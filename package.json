@@ -17,6 +17,7 @@
     "react-native-svg": "^4.3.0",
     "react-native-vector-icons": "2.0.3",
     "react-native-viewpager": "0.2.11",
+    "reflux": "^0.4.1",
     "undefined": "^0.1.0"
   }
 }

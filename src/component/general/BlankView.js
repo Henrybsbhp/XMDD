@@ -9,7 +9,7 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import LoadingView from './LoadingView';
+import LoadingView from './loading/LoadingView';
 
 const empty = () => {};
 export default class BlankView extends Component {
@@ -17,6 +17,7 @@ export default class BlankView extends Component {
     static propTypes = {
         visible: PropTypes.bool,
         loading: PropTypes.bool,
+        loadingOffset: PropTypes.number,
         text: PropTypes.string,
         image: PropTypes.object,
         onPress: PropTypes.func,
@@ -25,6 +26,7 @@ export default class BlankView extends Component {
     static defaultProps = {
         visible: false,
         loading: false,
+        loadingOffset: -50,
         onPress: empty,
         image: {name: 'def_failConnect', width: 152, height: 152},
     }
@@ -41,10 +43,10 @@ export default class BlankView extends Component {
     render() {
         var content = null;
         if (this.props.visible && this.props.loading) {
-            content = (<LoadingView loading={true} style={styles.loadingView}/>);
+            content = this._renderLoadingView()
         }
         else  if (this.props.visible) {
-             content = this._renderBlankContent();
+             content = this._renderBlankContent()
         }
         else {
             content = this.props.children;
@@ -53,6 +55,19 @@ export default class BlankView extends Component {
         return (
             <View {...this.props} style={[this.props.style, styles.container]}>
                 {content}
+            </View>
+        )
+    }
+
+    _renderLoadingView() {
+        return (
+            <View style={{flex:1, flexDirection: 'column', justifyContent: 'center'}}>
+                <View style={styles.loadingContainer}>
+                    <LoadingView loading={true}
+                                 animationType={LoadingView.Animation.GIF}
+                                 offset={this.props.loadingOffset}
+                                 style={styles.container}/>
+                </View>
             </View>
         )
     }
@@ -77,5 +92,6 @@ const styles = StyleSheet.create({
     content: {flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent:'center', top: -64},
     image: {margin: 20},
     text: {fontSize: 17, fontWeight: 'bold', color: '#aaaaaa'},
-    loadingView: {position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}
+    loadingContainer: {flexDirection: 'row', height: 120},
+    loadingView: {flex: 1},
 })
