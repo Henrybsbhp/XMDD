@@ -31,8 +31,8 @@
         self.tableView.dataSource = self;
         self.tableView.showBottomLoadingView = YES;
         self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
-        [self setupInsStore];
         self.loadingModel.isSectionLoadMore = YES;
+        [self setupInsStore];
     }
     return self;
 }
@@ -55,6 +55,7 @@
         }];
         [self.loadingModel autoLoadDataFromSignal:sig];
     }];
+    [[self.insStore getAllInsOrders] send];
 }
 
 #pragma mark - Action
@@ -82,7 +83,6 @@
 
 - (RACSignal *)loadingModel:(HKLoadingModel *)model loadingDataSignalWithType:(HKLoadingTypeMask)type
 {
-    [[[InsuranceStore fetchExistsStore] getAllInsOrders] send];
     return [RACSignal empty];
 }
 
@@ -90,6 +90,17 @@
 {
     [self.tableView reloadData];
 }
+
+- (void)loadingModel:(HKLoadingModel *)model didTappedForBlankPrompting:(NSString *)prompting type:(HKLoadingTypeMask)type
+{
+    [[self.insStore getAllInsOrders] send];
+}
+
+- (void)loadingModel:(HKLoadingModel *)model didTappedForErrorPrompting:(NSString *)prompting type:(HKLoadingTypeMask)type
+{
+    [[self.insStore getAllInsOrders] send];
+}
+
 
 #pragma mark - UITableViewDelegate and UITableViewDatasource
 
