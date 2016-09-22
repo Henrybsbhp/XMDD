@@ -191,7 +191,7 @@
             [self.tableView.refreshView endRefreshing];
             [self.view stopActivityAnimation];
             self.tableView.hidden = YES;
-            [self.view showDefaultEmptyViewWithText:@"请求数据失败，请点击重试" tapBlock:^{
+            [self.view showEmptyViewWithImageName:@"def_noCompensationRecord_imageView" text:@"请求数据失败，请点击重试" centerOffset:-80 tapBlock:^{
                 [self.view hideDefaultEmptyView];
                 [self  fetchAllData];
             }];
