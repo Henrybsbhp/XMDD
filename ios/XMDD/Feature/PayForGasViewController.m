@@ -249,11 +249,19 @@
             discount = discount + coupon.couponAmount;
         }
     }
-    
-    paymoney = paymoney - discount;
 
     if (discount > 0) {
-        title = [NSString stringWithFormat:@"已优惠%@元，您只需支付%@元，现在支付", [NSString formatForRoundPrice:discount],[NSString formatForRoundPrice:paymoney]];
+        if (paymoney > discount)
+        {
+            paymoney = paymoney - discount;
+            title = [NSString stringWithFormat:@"已优惠%@元，您只需支付%@元，现在支付", [NSString formatForRoundPrice:discount],[NSString formatForRoundPrice:paymoney]];
+        }
+        else
+        {
+            
+            title = [NSString stringWithFormat:@"已优惠%@元，您只需支付0.01元，现在支付", [NSString formatForRoundPrice:paymoney - 0.01]];
+        }
+        
     }
     else {
         title = [NSString stringWithFormat:@"您需支付%@元，现在支付",[NSString formatForRoundPrice:paymoney]];

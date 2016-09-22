@@ -36,9 +36,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 @end
 
-
-
-
 @implementation DetailWebVC
 
 - (void)dealloc
@@ -92,7 +89,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
     [self setupUI];
     [self setupProcessView];
     [self setupLeftSingleBtn];
-//    [self changeUserAgent];
     
     [self.webView.scrollView setDecelerationRate:UIScrollViewDecelerationRateNormal];
     self.webView.scalesPageToFit = YES;

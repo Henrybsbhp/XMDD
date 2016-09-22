@@ -108,6 +108,7 @@
         
         if (gAppMgr.huzhuTabUrl.length)
         {
+            [MobClick event:@"huzhu" attributes:@{@"huzhu":@"huzhu_tongzhi"}];
             [self.navModel pushToViewControllerByUrl:gAppMgr.huzhuTabUrl];
         }
     }];

@@ -514,7 +514,6 @@
 {
     NSString * serverUrlStr = @"http://xiaomadada.cloud.sensorsdata.cn:8006/sa?token=dbab4b9b130802ad";
     NSString * configureUrlStr = @"http://xiaomadada.cloud.sensorsdata.cn:8006/config/";
-    NSString * trackServerUrlStr = @"";
     
     SensorsAnalyticsDebugMode model = SensorsAnalyticsDebugAndTrack;
     
@@ -525,7 +524,6 @@
     SensorsAnalyticsDebugMode model = SensorsAnalyticsDebugOff;
 #endif
 #endif
-    
     
     [SensorsAnalyticsSDK sharedInstanceWithServerURL:serverUrlStr andConfigureURL:configureUrlStr andDebugMode:model];
     SensorAnalyticsInstance.flushBulkSize = 30;

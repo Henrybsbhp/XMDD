@@ -12,12 +12,14 @@
 #import "MutualInsRequestJoinGroupVC.h"
 #import "MutualInsPickCarVC.h"
 #import "HKImageAlertVC.h"
+#import "NJKWebViewProgress.h"
+#import "NJKWebViewProgressView.h"
 
 #import "GetCooperationUsercarListOp.h"
 
 #import "JTAttributedLabel.h"
 
-@interface GroupIntroductionVC () <UIWebViewDelegate,TTTAttributedLabelDelegate>
+@interface GroupIntroductionVC () <UIWebViewDelegate,TTTAttributedLabelDelegate,NJKWebViewProgressDelegate>
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
@@ -32,6 +34,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *checkBtn;
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *linsenceLb;
 @property (nonatomic)BOOL linsenceFlag;
+
+@property (nonatomic, strong) NJKWebViewProgress * progressProxy;
+@property (nonatomic, strong) NJKWebViewProgressView *progressView;
 
 
 
@@ -49,10 +54,19 @@
     DebugLog(@"GroupIntroductionVC dealloc");
 }
 
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    [self changeUserAgent];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupUI];
+    [self setupProcessView];
     
     self.webView.delegate = self;
     self.webView.hidden = YES;
@@ -86,6 +100,19 @@
         
         [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
     });
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar addSubview:_progressView];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [_progressView removeFromSuperview];
 }
 
 #pragma mark - SetupUI
@@ -169,11 +196,26 @@
     
 }
 
+- (void)setupProcessView
+{
+    _progressProxy = [[NJKWebViewProgress alloc] init];
+    _progressProxy.webViewProxyDelegate = self;
+    _progressProxy.progressDelegate = self;
+    
+    _webView.delegate = _progressProxy;
+    
+    CGFloat progressBarHeight = 2.f;
+    CGRect navigaitonBarBounds = self.navigationController.navigationBar.bounds;
+    CGRect barFrame = CGRectMake(0, navigaitonBarBounds.size.height - progressBarHeight, navigaitonBarBounds.size.width, progressBarHeight);
+    _progressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
+    _progressView.progress = 0;
+    _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+}
+
 
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    [self.view stopActivityAnimation];
     DebugLog(@"%@ WebViewLoadError:%@\n,error=%@", kErrPrefix, webView.request.URL, error);
     self.webView.scrollView.contentInset = UIEdgeInsetsZero;
     self.webView.scrollView.contentSize = self.webView.frame.size;
@@ -182,7 +224,6 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-    [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     DebugLog(@"%@ WebViewStartLoad:%@", kReqPrefix, webView.request.URL);
 }
 
@@ -292,4 +333,27 @@
     vc.url = [url absoluteString];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+#pragma mark - NJKWebViewProgressDelegate
+-(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
+{
+    [_progressView setProgress:0.5+progress*0.5 animated:YES];
+}
+
+#pragma Utilitly
+- (void)changeUserAgent
+{
+    UIWebView * webview = [[UIWebView alloc] init];
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString * userAgent = [webview stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    userAgent = userAgent ?: @"";
+    
+    if ([userAgent rangeOfString:@"XmddApp"].location == NSNotFound)
+    {
+        NSString * newUserAgent = [userAgent append:[NSString stringWithFormat:@" XmddApp(%@/%@)",@"XMDD",version]];
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+    }
+}
+
 @end

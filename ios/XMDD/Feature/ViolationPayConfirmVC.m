@@ -679,14 +679,20 @@
 - (void)refreshBottomView
 {
     HKCoupon *coupon = self.selectCoupouArray.firstObject;
-    CGFloat totalFee = self.totalFee.doubleValue - coupon.couponAmount;
     
-    NSString *title = nil;
+    CGFloat totalFee;
+    if (self.totalFee.doubleValue > coupon.couponAmount)
+    {
+        totalFee = self.totalFee.doubleValue - coupon.couponAmount;
+    }
+    else
+    {
+        totalFee = 0.01;
+    }
     
-    title = [NSString stringWithFormat:@"您需支付%.2f元，现在支付",totalFee];
+    NSString *title = [NSString stringWithFormat:@"您需支付%.2f元，现在支付",totalFee];
     
     [self.button setTitle:title forState:UIControlStateNormal];
-    
 }
 
 #pragma mark - LazyLoad
