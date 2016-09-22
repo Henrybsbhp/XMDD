@@ -18,6 +18,7 @@
 #import "HKPageSliderView.h"
 #import "ValuationEmptySubView.h"
 #import "ValuationCarSubView.h"
+#import "IQKeyboardManager.h"
 
 
 @interface ValuationHomeVC ()<UIScrollViewDelegate, UITextFieldDelegate,PageSliderDelegate>
@@ -53,7 +54,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setupAdView];
     [self requestLocation];
     [self setupCarStore];
@@ -73,6 +73,18 @@
 {
     [super viewDidDisappear:animated];
     [self.view endEditing:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [IQKeyboardManager sharedManager].disableSpecialCaseForScrollView = NO;
 }
 
 #pragma mark - Setup
