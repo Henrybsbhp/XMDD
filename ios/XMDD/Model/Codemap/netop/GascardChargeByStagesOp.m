@@ -6,7 +6,7 @@
     self.req_method = @"/order/gascard/fqjy/charge";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_cardid forKey:@"cardid"];
-    [params safetySetObject:@(self.req_bill) forKey:@"bill"];
+    [params safetySetObject:@(self.req_bill ? 1 : 0) forKey:@"bill"];
     [params safetySetObject:self.req_pkgid forKey:@"pkgid"];
     [params safetySetObject:@(self.req_permonthamt) forKey:@"permonthamt"];
     [params safetySetObject:@(self.req_paychannel) forKey:@"paychannel"];

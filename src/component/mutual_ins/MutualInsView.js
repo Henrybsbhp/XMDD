@@ -15,17 +15,15 @@ import ADView from '../general/ADView';
 import UI from '../../constant/UIConstants';
 import {NavBarRightItem} from '../general/NavigatorView';
 import RefreshControl from '../general/refresh/RefreshControl';
-import MutualInsStore from '../../model/mutual_ins/MutualInsStore';
 import PopoverMenu from './PopoverMenu';
 import GroupDetailView from './GroupDetailView';
+import Store, {Actions, Domains} from '../../store/MutualInsStore';
 
 export default class MutualInsView extends Component {
     constructor(props) {
         super(props);
-        console.log('11111111111')
         // 设置导航条
         this.setupNavigator(props);
-        this.store = new MutualInsStore();
 
         // 设置数据源
         this.ds = new ListView.DataSource({
@@ -43,17 +41,13 @@ export default class MutualInsView extends Component {
         }
     }
 
-    componentWillMount() {
-        this._onRefresh();
-        this.props.modal.render(this.renderMenu());
-    }
-
     componentDidMount() {
-        console.log('222222222222');
+        this.unsubscribe = Store.listen(this.onStoreChanged.bind(this))
+        Actions.fetchSimpleGroups()
     }
 
     componentWillUnmount() {
-        console.log('33333333333333');
+        this.unsubscribe()
     }
 
     // 设置导航条
@@ -66,23 +60,40 @@ export default class MutualInsView extends Component {
     }
 
     /// Actions
-    showMenu() {
-        this.props.modal.get().open();
+    onStoreChanged(domain, info, error) {
+        if (Domains.SimpleGroups == domain) {
+            var state = {group: info, loading: info.loading}
+            if (!info.loading && !error) {
+                state.loadedOnce = true
+                state.dataSource = this.createDatasource(info.carlist)
+            }
+            this.setState(state)
+
+            if (this.state.loadedOnce && error) {
+                Toast.show(error, {
+                    duration: Toast.durations.LONG,
+                    position: Toast.positions.CENTER,
+                    shadow: false,
+                });
+            }
+        }
     }
 
-    _onRefresh() {
-        this.setState({loading: true});
-        this.store.fetchMyGroups()
-            .then(this.reloadDatasource.bind(this))
-            .catch(e=>{
-                if (this.state.loadedOnce) {
-                    Toast.show(e.message, {
-                        duration: Toast.durations.LONG,
-                        position: Toast.positions.CENTER,
-                        shadow: false,
-                    });
-                }
-                this.setState({loading: false})});
+    createDatasource(cars) {
+        var dataBlob = [{render: this.renderHeaderSection.bind(this)}]
+        if (cars && cars.length > 0) {
+            for (var car of cars) {
+                dataBlob.push({render: this.renderCarSection.bind(this), car: car})
+            }
+        }
+        else {
+            dataBlob.push({render: this.renderCouponCell.bind(this)})
+        }
+        return this.ds.cloneWithRows(dataBlob)
+    }
+
+    showMenu() {
+        this.props.modal.get().open();
     }
 
     _onCarCellPress(car) {
@@ -97,39 +108,23 @@ export default class MutualInsView extends Component {
                 groupID: car.groupid,
                 memberID: car.memberid,
                 shouldLogin: true,
-                title: '团详情',
+                title: car.groupname
             };
             this.props.navigator.push(route);
         }
     }
 
-    /// Reload
-    reloadDatasource(rsp) {
-        var dataBlob = [{render: this.renderHeaderSection.bind(this)}];
-        if (rsp.carlist.length > 0) {
-            for (var car of rsp.carlist) {
-                dataBlob.push({render: this.renderCarSection.bind(this), car: car})
-            }
-        }
-        else {
-            dataBlob.push({render: this.renderCouponCell.bind(this)})
-        }
-
-        this.setState({loading: false, loadedOnce: true, dataSource: this.ds.cloneWithRows(dataBlob)});
-        this.props.modal.render(this.renderMenu());
-    }
-
     /// render
     render() {
-
         return (
             <BlankView style={styles.container}
                        visible={!this.state.loadedOnce}
                        text="获取信息失败, 点击重试"
-                       onPress={this._onRefresh.bind(this)}
-                       loading={this.state.loading}>
+                       onPress={Actions.fetchSimpleGroups}
+                       loading={this.state.loading}
+            >
                 <RefreshControl.ListView
-                    onRefresh={this._onRefresh.bind(this)}
+                    onRefresh={Actions.fetchSimpleGroups}
                     style={styles.bg}
                     refreshing={this.state.loading}
                     dataSource={this.state.dataSource}
@@ -154,9 +149,9 @@ export default class MutualInsView extends Component {
     renderMenu() {
         return (
             <PopoverMenu>
-                {this.store.myGroups && this.store.myGroups.showplanbtn &&
+                {this.state.myGroups && this.state.myGroups.showplanbtn &&
                 <PopoverMenu.MenuCell image={{uri: 'mins_person', width: 18, height: 16}} text="内测计划"/>}
-                {this.store.myGroups && this.store.myGroups.showregistbtn &&
+                {this.state.myGroups && this.state.myGroups.showregistbtn &&
                 <PopoverMenu.MenuCell image={{uri: 'mec_edit', width: 16, height: 17}} text="内测登记"/>}
                 <PopoverMenu.MenuCell image={{uri: 'mins_question', width: 19, height: 19}} text="使用帮助"/>
                 <PopoverMenu.MenuCell image={{uri: 'mins_phone', width: 18, height: 17}} text="联系客服"/>
@@ -198,10 +193,11 @@ export default class MutualInsView extends Component {
                 </View>
             );
         }
+        var logo = row.car.brandlogo  && row.car.brandlogo.length > 0 ? {uri: row.car.brandlogo} : undefined
         return (
             <View style={styles.verticalContainer}>
                 <View style={[styles.horizontalContainer, {marginTop: 19, marginBottom: 12}]}>
-                    <Image source={{uri: row.car.brandlogo}}
+                    <Image source={logo}
                            defaultSource={UI.Img.DefaultMutInsCarBrand}
                            style={styles.carCellImage}/>
                     <Text style={styles.carCellTitle}>{row.car.licensenum}</Text>
