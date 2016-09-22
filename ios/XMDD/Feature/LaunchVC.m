@@ -150,13 +150,13 @@
     shapeLayer.strokeColor = [HEXCOLOR(@"#18D06A") CGColor];
     shapeLayer.path = [bezierPath CGPath];
     [self.skipBtn.layer addSublayer:shapeLayer];
-    shapeLayer.strokeEnd = 0;
+    shapeLayer.strokeEnd = 1;
     
     CGFloat diffPi = (0.1/delay);
     
     self.signalDisposable = [[[RACSignal interval:0.1 onScheduler:[RACScheduler mainThreadScheduler]]take:delay*10]subscribeNext:^(id x) {
         
-        shapeLayer.strokeEnd += diffPi;
+        shapeLayer.strokeStart += diffPi;
         
     }completed:^{
         
