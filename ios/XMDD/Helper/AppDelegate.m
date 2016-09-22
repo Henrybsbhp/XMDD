@@ -535,7 +535,7 @@
     
 #else
 #if XMDDEnvironment==2
-    SensorsAnalyticsDebugMode model = SensorsAnalyticsDebugOff;
+    model = SensorsAnalyticsDebugOff;
 #endif
 #endif
     

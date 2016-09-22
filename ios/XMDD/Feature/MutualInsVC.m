@@ -170,6 +170,8 @@
 {
     MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
     vc.sensorChannel = @"apphzsy";
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
