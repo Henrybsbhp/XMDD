@@ -40,8 +40,8 @@
     
     [self setupDatasource];
     
-    [self setupViewControllers];
-    [self setupTabBar];
+    [self setupTabbar];
+    [self setupTabDot];
     gAppMgr.navModel.curNavCtrl = [self.viewControllers safetyObjectAtIndex:0];
     [self setupGuideStore];
     
@@ -61,7 +61,7 @@
     self.isMutualPlanDot = ![gAppMgr getElementReadStatus:AppMutualPlanDot];
 }
 
-- (void)setupViewControllers
+- (void)setupTabbar
 {
     HomePageVC * homePageVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVC"];
     MutualPlanViewController * mutualPlanVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"MutualPlanViewController"];
@@ -76,7 +76,7 @@
     tabbarItem2.titlePositionAdjustment = UIOffsetMake(0, -3);
     tabbarItem2.tag = 2;
     
-    UITabBarItem * tabbarItem3 = [[UITabBarItem alloc] initWithTitle:@"发现" image:[UIImage imageNamed:@"tab_discover_300"] selectedImage:[UIImage imageNamed:@"tab_discover_highlighted_300"]];
+    UITabBarItem * tabbarItem3 = [[UITabBarItem alloc] initWithTitle:@"活动" image:[UIImage imageNamed:@"tab_discover_300"] selectedImage:[UIImage imageNamed:@"tab_discover_highlighted_300"]];
     tabbarItem3.titlePositionAdjustment = UIOffsetMake(0, -3);
     tabbarItem3.tag = 3;
     
@@ -111,9 +111,10 @@
     }
     
     self.delegate = self;
+    self.tabBar.translucent = NO;
 }
 
-- (void)setupTabBar
+- (void)setupTabDot
 {
     //"我的"
     RACSignal *signal = [[RACObserve(gAppMgr, myUser) distinctUntilChanged] flattenMap:^RACStream *(JTUser *user) {

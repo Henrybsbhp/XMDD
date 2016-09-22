@@ -89,7 +89,6 @@
 
 - (void)setupClickAction
 {
-    
     @weakify(self)
     
     UITapGestureRecognizer * gesture = self.imageView.customObject;
@@ -150,12 +149,13 @@
     shapeLayer.strokeColor = [HEXCOLOR(@"#18D06A") CGColor];
     shapeLayer.path = [bezierPath CGPath];
     [self.skipBtn.layer addSublayer:shapeLayer];
+    shapeLayer.strokeEnd = 1;
     
     CGFloat diffPi = (0.1/delay);
     
     self.signalDisposable = [[[RACSignal interval:0.1 onScheduler:[RACScheduler mainThreadScheduler]]take:delay*10]subscribeNext:^(id x) {
         
-        shapeLayer.strokeEnd -= diffPi;
+        shapeLayer.strokeStart += diffPi;
         
     }completed:^{
         
@@ -175,19 +175,17 @@
 
 - (IBAction)actionSkip:(id)sender
 {
+    [MobClick event:@"shouye" attributes:@{@"shouye":@"shouye_tiaoguo"}];
     
     @weakify(self)
-    
     [self.signalDisposable dispose];
     
     [UIView animateWithDuration:0.35 animations:^{
         
         gAppDelegate.window.alpha = 0;
-        
     } completion:^(BOOL finished) {
         
         @strongify(self)
-        
         gAppDelegate.window = self.nextWindow;
     }];
 }

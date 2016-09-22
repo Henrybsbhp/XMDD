@@ -43,6 +43,8 @@
 - (void)registerLogin;
 
 - (void)registerOpenView;
+///网页调用App加一辆车
+- (void)registerAddCar;
 
 - (UIBarButtonItem *)setSingleMenu:(NSString *)singleBtn;
 

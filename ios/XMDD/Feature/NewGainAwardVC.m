@@ -62,7 +62,8 @@
 - (IBAction)helpAction:(id)sender {
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"每周礼券";
-    vc.url = WeeklyCouponHelpUrl;
+    NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    vc.url = [NSString stringWithFormat:@"%@%@.html",WeeklyCouponHelpUrl,version];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

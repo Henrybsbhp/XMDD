@@ -291,14 +291,15 @@
         NSString * origin = [NSString stringWithFormat:@"原价￥%@",[NSString formatForPrice:self.getGeneralOrderdetailOp.rsp_originprice]];
         originLb.attributedText = [self attributeDeleteLine:origin];
     }
-    originLb.hidden = !self.getGeneralOrderdetailOp.rsp_originprice;
+    originLb.hidden = !self.getGeneralOrderdetailOp.rsp_originprice || !self.getGeneralOrderdetailOp.rsp_couponprice;
     
-    if (self.getGeneralOrderdetailOp.rsp_originprice)
+    if (self.getGeneralOrderdetailOp.rsp_couponprice)
     {
         NSString * couponStr = [NSString stringWithFormat:@"帮你省了%@",[NSString formatForPrice:self.getGeneralOrderdetailOp.rsp_couponprice]];
         couponLb.text = couponStr;
     }
-    couponLb.hidden = !self.getGeneralOrderdetailOp.rsp_originprice;
+
+    couponLb.hidden = !self.getGeneralOrderdetailOp.rsp_couponprice;
     
     feeLb.attributedText = [self priceStringWithPrice:self.getGeneralOrderdetailOp.rsp_fee];
     

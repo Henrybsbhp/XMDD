@@ -187,7 +187,7 @@
         for (NSInteger i = 0; i < self.model.imgCount; i++)
         {
             MutualInsStoryAdPicVC *vc = [UIStoryboard vcWithId:@"MutualInsStoryAdPicVC" inStoryboard:@"MutualInsJoin"];
-            
+            vc.index = i;
             vc.userInteractionEnabled = ( i == self.model.imgCount - 1 );
             
             [tempArr addObject:vc];

@@ -81,7 +81,7 @@ export default class SegmentView extends Component {
 
 const styles = StyleSheet.create({
     container: {flex: 1},
-    bar: {height: 45, flexDirection: 'row', backgroundColor: 'white'},
+    bar: {height: 44, flexDirection: 'row', backgroundColor: 'white'},
     item: {flex: 1, alignItems: 'center', justifyContent: 'center'},
     title: {color: UI.Color.DarkText, fontSize: 16},
     line: {position: 'absolute', bottom:0, height: 2, backgroundColor: UI.Color.DefaultTint}

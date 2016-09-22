@@ -13,19 +13,11 @@
 
 @interface HKScrollDisplayVC ()<UIPageViewControllerDelegate, UIPageViewControllerDataSource>
 
+
 @end
 
 @implementation HKScrollDisplayVC
 
-//传入图片名字数组
-- (instancetype)initWithAdLists:(NSArray *)adLists
-{
-    if (self = [super init])
-    {
-        [self setupControllersWithAds:adLists];
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -40,6 +32,7 @@
     [super didReceiveMemoryWarning];
 }
 
+
 #pragma mark - Setup
 
 -(void)setupPageControl
@@ -52,6 +45,11 @@
         make.bottom.mas_equalTo(10);
     }];
     self.pageControl.userInteractionEnabled = NO;
+    
+    [RACObserve(self, adList) subscribeNext:^(NSArray * adList) {
+        
+        self.pageControl.hidden = adList.count <= 1;
+    }];
 }
 
 -(void)setupPageVC
@@ -64,8 +62,6 @@
     [self.pageVC.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
-    
-    [self.pageVC setViewControllers:@[self.controllers.firstObject] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
 }
 
 -(void)setupControllersWithAds:(NSArray *)adLists
@@ -73,15 +69,23 @@
     @weakify(self)
     [self.controllers removeAllObjects];
     
-    NSInteger count = adLists.count == 0 ? 1 : adLists.count;
-    
-    for (int i = 0; i < count; i ++)
+    for (int i = 0; i < adLists.count; i ++)
     {
         HKAdvertisement * ad = [adLists safetyObjectAtIndex:i];
         UIImageView *imgV = [[UIImageView alloc]
                              initWithFrame:CGRectMake(0, 0, gAppMgr.deviceInfo.screenSize.width, floor(gAppMgr.deviceInfo.screenSize.width*184.0/640))];
         imgV.autoresizingMask = UIViewAutoresizingFlexibleAll;
-        [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:kDefaultImage errorImage:kDefaultImage];
+        
+        NSString * defaultImage = kDefaultImage;
+        if (self.adType == AdvertisementHomePageBottom)
+        {
+            defaultImage = @"hp_bottom_ad_default_340";
+        }
+        else if (self.adType == AdvertisementMutualInsTop)
+        {
+            defaultImage = @"ad_default_mutualIns_top";
+        }
+        [imgV setImageByUrl:ad.adPic withType:ImageURLTypeMedium defImage:defaultImage errorImage:defaultImage];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]init];
         [imgV addGestureRecognizer:tap];
@@ -102,32 +106,37 @@
 
 #pragma mark - Set
 
--(void)setCurrentPage:(NSInteger)currentPage
+- (void)setCurrentPage:(NSInteger)currentPage
 {
     if (_currentPage == currentPage)
     {
         return;
     }
     
-    if (currentPage == self.controllers.count)
-    {
-        currentPage = 0;
-    }
-    
+    currentPage = currentPage >= self.controllers.count ? 0 : currentPage;
     _currentPage = currentPage;
     UIViewController *vc = [self.controllers safetyObjectAtIndex:currentPage];
-    [self.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
-    [self configPageControl];
-    
+    if (vc)
+    {
+        [self.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+        [self configPageControl];
+    }
 }
 
--(void)setAdList:(NSArray *)adList
+- (void)setAdList:(NSArray *)adList
 {
     _adList = adList;
-    [self setupControllersWithAds:adList];
-    [self.pageControl setNumberOfPages:self.controllers.count];
-    [self.pageVC setViewControllers:@[self.controllers.firstObject] direction:0 animated:YES completion:nil];
     
+    NSArray * adArray = adList;
+    if (!adArray.count)
+    {
+        HKAdvertisement * advertisement = [[HKAdvertisement alloc] init];
+        adArray = @[advertisement];
+    }
+
+    [self setupControllersWithAds:adArray];
+    [self.pageControl setNumberOfPages:adArray.count];
+    [self.pageVC setViewControllers:@[self.controllers.firstObject] direction:0 animated:YES completion:nil];
 }
 
 #pragma mark - Utility
@@ -136,6 +145,7 @@
 - (void)configPageControl
 {
     NSInteger index = [self.controllers indexOfObject:self.pageVC.viewControllers.firstObject];
+    _currentPage = index;
     self.pageControl.currentPage = index;
 }
 
@@ -158,22 +168,26 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
 {
-    NSInteger index=[self.controllers indexOfObject:viewController];
-    if (index == 0)
+    if (self.controllers.count < 2)
     {
-        return self.controllers.lastObject;
+        return nil;
     }
-    return [self.controllers safetyObjectAtIndex:index - 1];
+    NSInteger index=[self.controllers indexOfObject:viewController];
+    UIViewController * vc;
+    vc = index == 0 ? self.controllers.lastObject : [self.controllers safetyObjectAtIndex:index - 1];
+    return vc;
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
 {
-    NSInteger index=[self.controllers indexOfObject:viewController];
-    if (index == self.controllers.count -1)
+    if (self.controllers.count < 2)
     {
-        return self.controllers.firstObject;
+        return nil;
     }
-    return [self.controllers safetyObjectAtIndex:index + 1];
+    NSInteger index=[self.controllers indexOfObject:viewController];
+    UIViewController * vc;
+    vc = index == self.controllers.count - 1 ? self.controllers.firstObject : [self.controllers safetyObjectAtIndex:index + 1];
+    return vc;
 }
 
 #pragma mark - LazyLoad

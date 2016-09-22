@@ -151,7 +151,7 @@
     NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
         return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
     }];
-    HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 200) items:items];
+    HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 245) items:items];
     @weakify(self);
     [popover setDidSelectedBlock:^(NSUInteger index) {
         @strongify(self);
@@ -170,9 +170,7 @@
 - (void)actionGotoCalculateVC
 {
     MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
-    vc.router.userInfo = [[CKDict alloc] init];
-    vc.router.userInfo[kOriginRoute] = self.router;
-    
+    vc.sensorChannel = @"apphzsy";
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
@@ -325,6 +323,7 @@
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye13"}];
+        [SensorAnalyticsInstance track:@"event_huzhushouye_shiyongbangzhu"];
         @strongify(self);
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
@@ -1214,7 +1213,7 @@
 
 #pragma mark - Utilities
 
--(void)presentAdPageVC
+- (void)presentAdPageVC
 {
     [MutualInsStoryAdPageVC presentWithModel:self.adModel];
 }

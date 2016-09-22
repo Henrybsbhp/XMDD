@@ -100,13 +100,6 @@
     self.pageController.delegate = nil;
     self.pageController.contentScrollView.delegate = nil;
     [self.offsetDisposable dispose];
-
-    
-    HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:self.headView.frame andTitleArray:tArray andStyle:HKTabBarStyleCleanMenu atIndex:current];
-    self.pageController = pageSliderView;
-    self.pageController.delegate = self;
-    self.pageController.hidden = total <= 1;
-    [self.headView removeSubviews];
     
     if (total <= 1)
     {
@@ -114,16 +107,28 @@
             
             make.height.equalTo(@0);
         }];
-    }else
+    }
+    else
     {
         [self.headView mas_remakeConstraints:^(MASConstraintMaker *make) {
             
             make.height.equalTo(@50);
         }];
     }
+
     
-    self.pageController.center = self.headView.center;
-    [self.headView addSubview:self.pageController];
+    CKAsyncMainQueue(^{
+        
+        HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:self.headView.frame andTitleArray:tArray andStyle:HKTabBarStyleCleanMenu atIndex:current];
+        
+        self.pageController = pageSliderView;
+        self.pageController.delegate = self;
+        self.pageController.hidden = total <= 1;
+        [self.headView removeSubviews];
+        
+        self.pageController.center = self.headView.center;
+        [self.headView addSubview:self.pageController];
+    });
 }
 
 - (void)setupScrollView

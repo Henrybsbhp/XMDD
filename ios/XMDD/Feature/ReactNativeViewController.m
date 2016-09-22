@@ -42,11 +42,14 @@
     [self checkAndUpdatePackage];
 }
 
+- (void)dealloc {
+    [self.rctView removeFromSuperview];
+    self.rctView = nil;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-    [self.rctView removeFromSuperview];
-    self.rctView = nil;
 }
 
 - (void)setupNavigationBar {
@@ -89,8 +92,8 @@
     }] subscribeNext:^(id x) {
         
         @strongify(self);
-        [self loadWithModuleName:@"App" properties:self.properties];
         [self.containerView stopActivityAnimation];
+        [self loadWithModuleName:@"App" properties:self.properties];
     } error:^(NSError *error) {
 
         @strongify(self);
@@ -104,8 +107,8 @@
     } others:^{
         
         @strongify(self);
-        [self loadWithModuleName:@"App" properties:self.properties];
         [self.containerView stopActivityAnimation];
+        [self loadWithModuleName:@"App" properties:self.properties];
     }];
 }
 
@@ -113,6 +116,7 @@
 {
 #if REACT_DEV == 1
 //在线运行
+//    NSURL *url = [NSURL URLWithString:@"http://192.168.1.28:8081/index.ios.bundle?platform=ios&dev=true"];
     NSURL *url = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
 #else
 //本地运行

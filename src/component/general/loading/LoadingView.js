@@ -10,29 +10,21 @@ export default class LoadingView extends Component {
     static propTypes = {
         loading: PropTypes.bool,
         animationType: PropTypes.oneOf([0,1,2,3]),
+        offset: PropTypes.number,
     }
 
     static defaultProps = {
         loading: true,
+        offset: 0,
         animationType: LoadingView.Animation.GIF,
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {forceRerend: false}
-    }
-
-    componentWillReceiveProps(props) {
-        this.setState({forceRerend: !this.state.forceRerend});
-    }
-
     render() {
-        return (<RCTLoadingView animationType={this.props.animationType}
-                                animate={this.props.loading}
-                                style={styles.content} />);
+        return (
+            <RCTLoadingView animationType={this.props.animationType}
+                            animate={this.props.loading}
+                            style={[this.props.style ,{top: this.props.offset}]} />
+        );
     }
 }
 
-const styles = StyleSheet.create({
-    content: {flex: 1}
-});

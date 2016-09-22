@@ -37,7 +37,6 @@
 {
     [super viewDidLoad];
     
-    [self setupNavigation];
     [self setupFrameNo];
     [self getCalculateBaseInfo];
 }
@@ -48,12 +47,6 @@
 }
 
 #pragma mark - Setup
-
-- (void)setupNavigation
-{
-    self.navigationItem.title = @"费用试算";
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
-}
 
 - (void)setupFrameNo
 {
@@ -83,7 +76,10 @@
         [self.view stopActivityAnimation];
         
         CKList *list = [CKList list];
-        [list addObjectsFromArray:@[[self textFieldCellData],[self btnCellData]]];
+        NSMutableArray * array = [NSMutableArray array];
+        [array safetyAddObject:[self textFieldCellData]];
+        [array safetyAddObject:[self btnCellData]];
+        [list addObjectsFromArray:array];
         NSMutableArray *tempArr = [[NSMutableArray alloc]init];
         [tempArr addObject:list];
         [self.dataSource addObjectsFromArray:tempArr];
@@ -107,7 +103,6 @@
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取费用试算信息失败。请点击重试" tapBlock:^{
             [self getCalculateBaseInfo];
         }];
-        
     }];
 }
 
@@ -131,20 +126,30 @@
         [gToast showingWithText:@"费用试算中..."];
         
     }]subscribeNext:^(OutlayCalculateWithFrameNumOp *op) {
-        @strongify(self)
         
+        @strongify(self)
         [gToast dismiss];
         
         MutInsCalculateResultVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateResultVC"];
         vc.model = op.model;
         [self.navigationController pushViewController:vc animated:YES];
         
+        [SensorAnalyticsInstance
+         track:@"event_feiyongshisuan_lijishisuan_chenggong"
+         withProperties:@{@"carid":self.car.carId ?: @(0),
+                          @"vcode":op.frameNo ?: @"",
+                          @"brandname": op.model.brandName ?: @"",
+                          @"frameno":op.model.carFrameNo ?: @"",
+                          @"premiumprice":op.model.premiumPrice ?: @"",
+                          @"servicefee":op.model.serviceFee ?: @"",
+                          @"sharemoney":op.model.shareMoney ?: @"",
+                          @"note":op.model.note ?: @""}];
         
     } error:^(NSError *error) {
         
         NSString *errStr = error.domain;
+        [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_shibai" withProperties:@{@"error":errStr ?: @""}];
         [gToast showMistake:errStr.length == 0 ? @"费用试算失败请重试" : errStr];
-        
     }];
 }
 
@@ -175,6 +180,16 @@
         MutInsCalculateResultVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutInsCalculateResultVC"];
         vc.model = op.model;
         [self.navigationController pushViewController:vc animated:YES];
+        
+        [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_chenggong"
+                        withProperties:@{@"carid":self.car.carId ?: @(0),
+                                         @"vcode":op.req_frameno ?: @"",
+                                         @"brandname": op.model.brandName ?: @"",
+                                         @"frameno":op.model.carFrameNo ?: @"",
+                                         @"premiumprice":op.model.premiumPrice ?: @"",
+                                         @"servicefee":op.model.serviceFee ?: @"",
+                                         @"sharemoney":op.model.shareMoney ?: @"",
+                                         @"note":op.model.note ?: @""}];
         
     } error:^(NSError *error) {
         
@@ -267,8 +282,14 @@
             
             [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan3"}];
             
+            if (self.frameNo.length > 0)
+            {
+                [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan" withProperties:@{@"vcode":self.frameNo ?: @""}];
+            }
+            
             if ([self checkFrameNo])
             {
+                [self.view endEditing:YES];
                 if (gAppMgr.myUser)
                 {
                     [self calculateFrameNoNeedSecurity];
@@ -277,7 +298,10 @@
                 {
                     [self calculateFrameNoNotNeedSecurity];
                 }
-                
+            }
+            else
+            {
+                [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_vmayouwu"];
             }
             
         }];
@@ -573,15 +597,6 @@
         return CGFLOAT_MIN;
     }
 }
-
-#pragma mark - Action
-
--(void)actionBack
-{
-    [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan1"}];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 
 #pragma mark - LazyLoad
 

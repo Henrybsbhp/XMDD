@@ -28,8 +28,6 @@
 
 #import "TTTAttributedLabel.h"
 
-#import "MutualInsVC.h"
-
 #define WeatherRefreshTimeInterval 60 * 30
 #define KWeatherLinkRange @"weatherLinkRange"
 #define KWeatherBigFontRange @"weatherBigFontRange"
@@ -119,28 +117,11 @@
     
     self.view.userInteractionEnabled = YES;
     CKAsyncMainQueue(^{
-        if (IOSVersionGreaterThanOrEqualTo(@"7.0"))
-        {
-            CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
-        }
-        else
-        {
-            ///只会出现在4，4s的机型上
-            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 480);
-        }
+        CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+        self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, ceil(size.height));
+        
         [self showNewbieGuideAlertIfNeeded];
     });
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    // iOS 7 下重新获取 contentSize
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
-        CGSize size = [self.containerView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
-        [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, ceil(size.height))];
-    }
 }
 
 
