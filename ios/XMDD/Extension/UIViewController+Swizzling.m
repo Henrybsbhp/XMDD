@@ -80,8 +80,9 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
         NSAssert([pageTag isKindOfClass:[NSString class]] && pageTag.length, @"UIViewController+Swizzling : pageTag is not NSString class or length is zero");
         [MobClick beginLogPageView:pageTag];
     }
+    BOOL sensorOpenFlag = [gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"];
     
-    if (userBehaviorDict)
+    if (userBehaviorDict && sensorOpenFlag)
     {
         NSString * durationTag = [userBehaviorDict objectForKey:@"pageduration"];
         NSString * pageTag = [userBehaviorDict objectForKey:@"pagetag"];
@@ -108,7 +109,10 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
         NSAssert([pageTag isKindOfClass:[NSString class]] && pageTag.length, @"UIViewController+Swizzling : pageTag is not NSString class or length is zero");
         [MobClick endLogPageView:pageTag];
     }
-    if (userBehaviorDict)
+    
+    BOOL sensorOpenFlag = [gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"];
+    
+    if (userBehaviorDict && sensorOpenFlag)
     {
         NSString * durationTag = [userBehaviorDict objectForKey:@"pageduration"];
         NSString * firstTag = [userBehaviorDict objectForKey:@"firsttag"];

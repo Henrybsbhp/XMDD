@@ -134,6 +134,8 @@
         vc.model = op.model;
         [self.navigationController pushViewController:vc animated:YES];
         
+        if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+        {
         [SensorAnalyticsInstance
          track:@"event_feiyongshisuan_lijishisuan_chenggong"
          withProperties:@{@"carid":self.car.carId ?: @(0),
@@ -144,11 +146,16 @@
                           @"servicefee":op.model.serviceFee ?: @"",
                           @"sharemoney":op.model.shareMoney ?: @"",
                           @"note":op.model.note ?: @""}];
+        }
         
     } error:^(NSError *error) {
         
         NSString *errStr = error.domain;
+        
+        if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+        {
         [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_shibai" withProperties:@{@"error":errStr ?: @""}];
+        }
         [gToast showMistake:errStr.length == 0 ? @"费用试算失败请重试" : errStr];
     }];
 }
@@ -181,6 +188,8 @@
         vc.model = op.model;
         [self.navigationController pushViewController:vc animated:YES];
         
+        if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+        {
         [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_chenggong"
                         withProperties:@{@"carid":self.car.carId ?: @(0),
                                          @"vcode":op.req_frameno ?: @"",
@@ -190,6 +199,7 @@
                                          @"servicefee":op.model.serviceFee ?: @"",
                                          @"sharemoney":op.model.shareMoney ?: @"",
                                          @"note":op.model.note ?: @""}];
+        }
         
     } error:^(NSError *error) {
         
@@ -284,7 +294,10 @@
             
             if (self.frameNo.length > 0)
             {
+                if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+                {
                 [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan" withProperties:@{@"vcode":self.frameNo ?: @""}];
+                }
             }
             
             if ([self checkFrameNo])
@@ -301,7 +314,10 @@
             }
             else
             {
+                if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+                {
                 [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_vmayouwu"];
+                }
             }
             
         }];
