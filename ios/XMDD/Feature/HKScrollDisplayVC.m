@@ -13,6 +13,10 @@
 
 @interface HKScrollDisplayVC ()<UIPageViewControllerDelegate, UIPageViewControllerDataSource>
 
+/// 控制自动滚动
+@property (nonatomic)BOOL canAutoScrolling;
+/// 控制手动滚动
+@property (nonatomic)BOOL canManualScrolling;
 
 @end
 
@@ -22,6 +26,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.canAutoScrolling = YES;
+    self.canManualScrolling = YES;
     
     [self setupPageVC];
     [self setupPageControl];
@@ -105,10 +112,11 @@
 }
 
 #pragma mark - Set
-
+// 自动滚动
 - (void)setCurrentPage:(NSInteger)currentPage
 {
-    if (_currentPage == currentPage)
+    //    NSLog(@"setCurrentPage %ld",(long)currentPage);
+    if (_currentPage == currentPage || self.controllers.count <= 1)
     {
         return;
     }
@@ -116,9 +124,39 @@
     currentPage = currentPage >= self.controllers.count ? 0 : currentPage;
     _currentPage = currentPage;
     UIViewController *vc = [self.controllers safetyObjectAtIndex:currentPage];
-    if (vc)
+    
+    if (vc && self.canAutoScrolling && self.canManualScrolling)
     {
-        [self.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+        __weak HKScrollDisplayVC *blockSafeSelf = self;
+        
+        self.pageVC.view.userInteractionEnabled = NO;
+        self.canManualScrolling = NO;
+        NSLog(@"setCurrentPage beigin");
+        
+        [self.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
+            
+            if(finished)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [blockSafeSelf.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:NULL];
+                });
+                blockSafeSelf.pageVC.view.userInteractionEnabled = YES;
+                blockSafeSelf.canManualScrolling = YES;
+                NSLog(@"finished");
+            }
+            else
+            {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(6.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    blockSafeSelf.pageVC.view.userInteractionEnabled = YES;
+                    blockSafeSelf.canManualScrolling = YES;
+                });
+                
+                NSLog(@"nonono finished");
+            }
+        }];
+        
         [self configPageControl];
     }
 }
@@ -133,7 +171,7 @@
         HKAdvertisement * advertisement = [[HKAdvertisement alloc] init];
         adArray = @[advertisement];
     }
-
+    
     [self setupControllersWithAds:adArray];
     [self.pageControl setNumberOfPages:adArray.count];
     [self.pageVC setViewControllers:@[self.controllers.firstObject] direction:0 animated:YES completion:nil];
@@ -151,6 +189,12 @@
 
 
 #pragma mark - UIPageViewController
+// 手动滚动的回调
+- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers
+{
+    self.canAutoScrolling = NO;
+    NSLog(@"willTransitionToViewControllers");
+}
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
 {
@@ -162,7 +206,14 @@
         {
             [self.delegate scrollDisplayViewController:self currentIndex:index];
         }
+        self.canAutoScrolling = YES;
+//        self.canManualScrolling = YES;
         
+        NSLog(@"didFinishAnimating");
+    }
+    else
+    {
+        NSLog(@"nononono didFinishAnimating");
     }
 }
 

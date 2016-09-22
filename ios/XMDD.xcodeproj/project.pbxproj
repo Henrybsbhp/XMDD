@@ -688,8 +688,6 @@
 		18649E4D1D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E411D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.m */; };
 		18649E561D48BE3100F1CCB0 /* MutualInsPickCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E4F1D48BE3100F1CCB0 /* MutualInsPickCarVC.m */; };
 		18649E571D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E511D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m */; };
-		18649E581D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E531D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m */; };
-		18649E591D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E551D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m */; };
 		18649E5F1D48BE5500F1CCB0 /* InviteAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E5C1D48BE5500F1CCB0 /* InviteAlertVC.m */; };
 		18649E601D48BE5500F1CCB0 /* InviteCompleteVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E5E1D48BE5500F1CCB0 /* InviteCompleteVC.m */; };
 		186D0DAD1D9258BB00F669F4 /* RCTHKImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186D0DAC1D9258BB00F669F4 /* RCTHKImageView.m */; };
@@ -2365,10 +2363,6 @@
 		18649E4F1D48BE3100F1CCB0 /* MutualInsPickCarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPickCarVC.m; sourceTree = "<group>"; };
 		18649E501D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPicUpdateResultVC.h; sourceTree = "<group>"; };
 		18649E511D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPicUpdateResultVC.m; sourceTree = "<group>"; };
-		18649E521D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsStoryAdPageVC.h; sourceTree = "<group>"; };
-		18649E531D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsStoryAdPageVC.m; sourceTree = "<group>"; };
-		18649E541D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsStoryAdPicVC.h; sourceTree = "<group>"; };
-		18649E551D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsStoryAdPicVC.m; sourceTree = "<group>"; };
 		18649E5B1D48BE5500F1CCB0 /* InviteAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteAlertVC.h; sourceTree = "<group>"; };
 		18649E5C1D48BE5500F1CCB0 /* InviteAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteAlertVC.m; sourceTree = "<group>"; };
 		18649E5D1D48BE5500F1CCB0 /* InviteCompleteVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteCompleteVC.h; sourceTree = "<group>"; };
@@ -5265,10 +5259,6 @@
 				18649E4F1D48BE3100F1CCB0 /* MutualInsPickCarVC.m */,
 				18649E501D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.h */,
 				18649E511D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m */,
-				18649E521D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.h */,
-				18649E531D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m */,
-				18649E541D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.h */,
-				18649E551D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m */,
 				4E067BBE1D890159008578E4 /* MutInsCalculatePageVC.h */,
 				4E067BBF1D890159008578E4 /* MutInsCalculatePageVC.m */,
 			);
@@ -6685,7 +6675,6 @@
 				18649D021D48B7C000F1CCB0 /* SuspendedAdVC.m in Sources */,
 				186499821D489A9700F1CCB0 /* HKMessage.m in Sources */,
 				1836B7CB1D54220B0078DB15 /* CKPaths.m in Sources */,
-				18649E581D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m in Sources */,
 				188EF0B41D351A0F000D01D6 /* UILabel+MarkupExtensions.m in Sources */,
 				18649B6F1D48A93000F1CCB0 /* HKMessageAlertVC.m in Sources */,
 				186496D11D489A4200F1CCB0 /* PushManager.m in Sources */,
@@ -6836,7 +6825,6 @@
 				18649DED1D48BCF100F1CCB0 /* MutualInsGroupMyButtonCell.m in Sources */,
 				186499C81D489A9700F1CCB0 /* GetGeneralUnionpayTradenoOp.m in Sources */,
 				18649CA11D48B64E00F1CCB0 /* MyOrderListVC.m in Sources */,
-				18649E591D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m in Sources */,
 				186499951D489A9700F1CCB0 /* RescueApplyOp.m in Sources */,
 				18649B8A1D48A93000F1CCB0 /* UIView+JTLoadingView.m in Sources */,
 				186499E11D489A9700F1CCB0 /* GetRescueOp.m in Sources */,
@@ -7208,9 +7196,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = EN3DUNUW7P;
 				ENABLE_BITCODE = NO;
@@ -7309,7 +7297,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "86d6669a-9d41-413a-a618-335e7e698cc1";
+				PROVISIONING_PROFILE = "094a4399-d41a-4c03-a263-a47c385aeef7";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -7321,8 +7309,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = EN3DUNUW7P;
 				ENABLE_BITCODE = NO;
@@ -7421,7 +7409,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "86d6669a-9d41-413a-a618-335e7e698cc1";
+				PROVISIONING_PROFILE = "094a4399-d41a-4c03-a263-a47c385aeef7";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
