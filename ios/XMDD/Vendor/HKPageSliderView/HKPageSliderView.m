@@ -142,6 +142,7 @@
 
 - (void)setupContent
 {
+    NSLog(@"menuHeight:%f,self.bounds.size.width:%f,self.bounds.size.height:%f",self.styleModel.menuHeight,self.bounds.size.width,self.bounds.size.height);
     self.contentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.styleModel.menuHeight, self.bounds.size.width, self.bounds.size.height - self.styleModel.menuHeight)];
     self.contentScrollView.showsHorizontalScrollIndicator = NO;
     self.contentScrollView.showsVerticalScrollIndicator = NO;

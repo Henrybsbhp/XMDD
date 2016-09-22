@@ -11,6 +11,8 @@
     [params safetySetObject:@(self.req_permonthamt) forKey:@"permonthamt"];
     [params safetySetObject:@(self.req_paychannel) forKey:@"paychannel"];
     [params safetySetObject:self.req_cid forKey:@"cid"];
+    [params safetySetObject:self.req_blackbox forKey:@"blackbox"];
+    [params safetySetObject:@(IOSAPPID) forKey:@"os"];
 
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
