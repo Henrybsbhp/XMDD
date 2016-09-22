@@ -79,7 +79,14 @@
     self.selectCashCoupouArray = [NSMutableArray array];
     if (self.coupon) {
         self.isAutoCouponSelect = YES;
-        [self.selectCashCoupouArray addObject:self.coupon];
+        if (self.coupon.conponType == CouponTypeCarWash)
+        {
+            [self.selectCarwashCoupouArray addObject:self.coupon];
+        }
+        else
+        {
+            [self.selectCashCoupouArray addObject:self.coupon];
+        }
     }
 
     [self setupCouponCell];

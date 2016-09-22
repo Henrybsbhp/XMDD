@@ -50,12 +50,15 @@
         
         if (type == AdvertisementHomePage)
         {
-            self.sdVC = [[HKScrollDisplayVC alloc] initWithAdLists:self.adList];
+            self.sdVC = [[HKScrollDisplayVC alloc] init];
             self.sdVC.delegate = self;
             [_targetVC addChildViewController:self.sdVC];
             self.sdVC.view.frame = CGRectMake(0, 0, width, height);
             self.sdVC.currentPage = 0;
+            self.sdVC.adType = self.adType;
+            self.sdVC.adList = self.adList;
             _adView = self.sdVC.view;
+        
             RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
                 
                 @strongify(self);
@@ -208,7 +211,7 @@
     NSString * defaultImage = @"ad_default_2_5";
     if (self.adType == AdvertisementHomePageBottom)
     {
-        defaultImage = @"hp_bottom_ad_default";
+        defaultImage = @"hp_bottom_ad_default_340";
     }
     else if (self.adType == AdvertisementMutualInsTop)
     {
@@ -219,6 +222,7 @@
     UITapGestureRecognizer *tap = imgV.customObject;
     @weakify(self);
     [[[tap rac_gestureSignal] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+
         @strongify(self)
         [self actionTapWithAdvertisement:ad];
     }];
@@ -228,34 +232,33 @@
 
 #pragma mark - Action
 
--(void)actionTapWithAdvertisement:(HKAdvertisement *)ad
+- (void)actionTapWithAdvertisement:(HKAdvertisement *)ad
 {
-    
     NSInteger pageIndex = [self.adList indexOfObject:ad];
     
     if (self.mobBaseEventDict)
     {
-        NSString * key = self.mobBaseEventDict.allKeys.firstObject;
+        NSString * key = [self.mobBaseEventDict.allKeys safetyObjectAtIndex:0];
         NSString * value = [self.mobBaseEventDict objectForKey:key];
         NSString * valueWithIndex = [NSString stringWithFormat:@"%@_%d", value, (int)pageIndex];
         [MobClick event:self.mobBaseEvent attributes:@{key:valueWithIndex}];
     }
-    else if (self.mobBaseEvent.length)
-    {
+    else if (self.mobBaseEvent.length) {
         NSString * eventstr = [NSString stringWithFormat:@"%@_%d", self.mobBaseEvent, (int)pageIndex];
         [MobClick event:eventstr];
     }
     
-    if (ad.adLink.length > 0)
-    {
+    if (ad.adLink.length > 0) {
         [self.navModel pushToViewControllerByUrl:ad.adLink];
     }
-    else
-    {
+    else {
         if (_adType == AdvertisementHomePageBottom)
         {
-            UIViewController *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
-            [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+            if ([LoginViewModel loginIfNeededForTargetViewController:self.targetVC])
+            {
+                UIViewController *vc = [UIStoryboard vcWithId:@"NewGainAwardVC" inStoryboard:@"Award"];
+                [self.targetVC.navigationController pushViewController:vc animated:YES];
+            }
         }
         else if (_adType == AdvertisementMutualInsTop)
         {
@@ -265,12 +268,14 @@
                 [vc presentAdPageVC];
             }
         }
-        else if (_adType != AdvertisementValuation)
-        {
+        else if (_adType != AdvertisementValuation) {
+            
             DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
             vc.url = ADDEFINEWEB;
             [self.targetVC.navigationController pushViewController:vc animated:YES];
         }
+        
+        
     }
 }
 

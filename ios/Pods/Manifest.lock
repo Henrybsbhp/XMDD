@@ -75,6 +75,7 @@ PODS:
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
+  - SensorsAnalyticsSDK (1.5.1)
   - SFHFKeychainUtils (0.0.1)
   - TMCache (2.1.0)
   - UMengAnalytics (4.0.0)
@@ -96,6 +97,7 @@ DEPENDENCIES:
   - pop (= 1.0.7)
   - ReactiveCocoa (= 2.3.1)
   - SDWebImage (= 3.7.2)
+  - SensorsAnalyticsSDK
   - SFHFKeychainUtils (= 0.0.1)
   - TMCache (= 2.1.0)
   - UMengAnalytics (= 4.0.0)
@@ -119,11 +121,12 @@ SPEC CHECKSUMS:
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   ReactiveCocoa: 3fe9b233ca6db810e86681b5749488564c1179a1
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
+  SensorsAnalyticsSDK: e78e0539f90b25dc62b2e3317bb0d80cf7ea765b
   SFHFKeychainUtils: 9576b411a79a058f4d5381ace6f3242b9a62e664
   TMCache: 95ebcc9b3c7e90fb5fd8fc3036cba3aa781c9bed
   UMengAnalytics: 3bb802b73e815fa9ec4ef384c2fce8de9e1ec62b
   ZipArchive: e25a4373192673e3229ac8d6e9f64a3e5713c966
 
-PODFILE CHECKSUM: 31269e8cdcc517cf91470ee01582c15cdec27cdb
+PODFILE CHECKSUM: e2766f48e353982229f43fbf84a9ba7d3bdfd8a1
 
 COCOAPODS: 1.0.1

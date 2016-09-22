@@ -143,6 +143,8 @@ typedef enum : NSUInteger {
 
 #define XMINSPrefix @"#小马互助"
 
+#define SensorAnalyticsInstance [SensorsAnalyticsSDK sharedInstance]
+
 #define ScreenWidth     [UIScreen mainScreen].bounds.size.width
 //单例别名
 #define gAppDelegate       ((AppDelegate *)[UIApplication sharedApplication].delegate)
@@ -176,7 +178,6 @@ typedef enum : NSUInteger {
 
 
 #define LocationFail 7001
-#define WechatPayFail 7002
 
 //通知定义
 #define kNotifyRefreshMyBankcardList        @"com.huika.xmdd.RefreshMyBankcardList"

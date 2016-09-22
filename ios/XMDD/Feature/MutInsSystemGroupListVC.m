@@ -9,7 +9,6 @@
 #import "MutInsSystemGroupListVC.h"
 #import "MutInsSystemGroupListVM.h"
 #import "GetCooperationGroupOp.h"
-#import "GroupIntroductionVC.h"
 #import "GetCooperationUsercarListOp.h"
 #import "MutualInsPickCarVC.h"
 #import "MutualInsPicUpdateVC.h"
@@ -36,8 +35,6 @@
     [self.groupBeginVM getCooperationGroupList];
     
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {

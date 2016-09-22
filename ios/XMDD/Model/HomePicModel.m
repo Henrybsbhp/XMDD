@@ -28,6 +28,7 @@
 {
     [coder encodeObject:self.homeItemTitle forKey:@"title"];
     [coder encodeObject:self.homeItemPicUrl forKey:@"pic"];
+    [coder encodeObject:self.defaultImageName forKey:@"defaultImg"];
     [coder encodeObject:self.homeItemRedirect forKey:@"url"];
     [coder encodeObject:self.homeItemId forKey:@"itemid"];
     [coder encodeBool:self.isNewFlag forKey:@"newflag"];
@@ -40,6 +41,7 @@
     if (self) {
         self.homeItemTitle = [coder decodeObjectForKey:@"title"];
         self.homeItemPicUrl = [coder decodeObjectForKey:@"pic"];
+        self.defaultImageName = [coder decodeObjectForKey:@"defaultImg"];
         self.homeItemRedirect = [coder decodeObjectForKey:@"url"];
         self.homeItemId = [coder decodeObjectForKey:@"itemid"];
         self.isNewFlag = [coder decodeBoolForKey:@"newflag"];

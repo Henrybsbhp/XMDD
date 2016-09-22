@@ -151,7 +151,7 @@
     NSArray *items = [self.menuItems.allObjects arrayByMappingOperator:^id(CKDict *obj) {
         return [HKPopoverViewItem itemWithTitle:obj[@"title"] imageName:obj[@"img"]];
     }];
-    HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 200) items:items];
+    HKPopoverView *popover = [[HKPopoverView alloc] initWithMaxWithContentSize:CGSizeMake(148, 245) items:items];
     @weakify(self);
     [popover setDidSelectedBlock:^(NSUInteger index) {
         @strongify(self);
@@ -170,9 +170,7 @@
 - (void)actionGotoCalculateVC
 {
     MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
-    vc.router.userInfo = [[CKDict alloc] init];
-    vc.router.userInfo[kOriginRoute] = self.router;
-    
+    vc.sensorChannel = @"apphzsy";
     [self.router.navigationController pushViewController:vc animated:YES];
 }
 
@@ -325,6 +323,7 @@
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye13"}];
+        [SensorAnalyticsInstance track:@"event_huzhushouye_shiyongbangzhu"];
         @strongify(self);
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
@@ -1020,21 +1019,6 @@
             secondImageView.hidden = YES;
             secondTipsLabel.text = @"";
         }
-        
-        // 如果用户机型是 iPhone 6 或以上屏幕大小的设备，更改一下 imageView 和 label 的约束
-        if (gAppMgr.deviceInfo.screenSize.height >= 667) {
-            [firstImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.leading.equalTo(cell).offset(38);
-            }];
-            
-            [firstTipsLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(separator).offset(0);
-            }];
-            
-            [secondImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.leading.equalTo(separator).offset(32);
-            }];
-        }
     });
     
     return tipsCell;
@@ -1084,13 +1068,6 @@
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
         tipsLabel.numberOfLines = 0;
         tipsLabel.text = couponString;
-        
-        // 如果用户机型是 iPhone 6 或以上屏幕大小的设备，更改一下 imageView 的约束
-        if (gAppMgr.deviceInfo.screenSize.height >= 667) {
-            [imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.leading.equalTo(cell).offset(38);
-            }];
-        }
     });
     
     return singleTipsCell;
@@ -1236,7 +1213,7 @@
 
 #pragma mark - Utilities
 
--(void)presentAdPageVC
+- (void)presentAdPageVC
 {
     [MutualInsStoryAdPageVC presentWithModel:self.adModel];
 }

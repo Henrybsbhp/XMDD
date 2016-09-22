@@ -17,6 +17,7 @@
 #import "AwardOtherSheetVC.h"
 #import "HKImageAlertVC.h"
 #import "HKMessageAlertVC.h"
+#import "EditCarVC.h"
 
 typedef NS_ENUM(NSInteger, MenuItemsType) {
     menuItemsTypeShare                  = 1,
@@ -85,7 +86,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         NSString * city = gMapHelper.addrComponent.city.length ? gMapHelper.addrComponent.city :  gMapHelper.addrComponent.province;
         NSString * district = gMapHelper.addrComponent.district;
         if (longitudeStr && latitudeStr) {
-            NSDictionary * dic = @{@"province":province, @"city":city, @"district":district, @"longitude":longitudeStr, @"latitude":latitudeStr};
+            NSDictionary * dic = @{@"province":province?:@"", @"city":city?:@"", @"district":district?:@"", @"longitude":longitudeStr?:@"", @"latitude":latitudeStr?:@""};
             NSString * dicStr = [dic jsonEncodedString];
             
             responseCallback(dicStr);
@@ -255,8 +256,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             NSString * t = btnDict[@"text"];
             NSString * value = btnDict[@"value"];
             HKAlertActionItem *item = [HKAlertActionItem itemWithTitle:t color:kDefTintColor clickBlock:^(id alertVC) {
-                NSDictionary * rDict = @{@"value":value,@"modalId":modalId};
-                [self.myBridge callHandler:@"modalHandler" data:rDict responseCallback:^(id response) {
+                NSDictionary * rDict = @{@"value":value?:@"",@"modalId":modalId?:@""};
+                NSString * dataStr = [rDict jsonEncodedString];
+                [self.myBridge callHandler:@"modalHandler" data:dataStr responseCallback:^(id response) {
                 }];
             }];
             
@@ -320,8 +322,9 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
             @strongify(self)
             NSDictionary * rDict = @{@"token":gNetworkMgr.token ?: @"",
                                      @"phone":gNetworkMgr.bindingMobile ?: @"",
-                                     @"triggerId":triggerId};
-            [self.myBridge callHandler:@"loginHandler" data:rDict responseCallback:^(id response) {
+                                     @"triggerId":triggerId?:@""};
+            NSString * dataStr = [rDict jsonEncodedString];
+            [self.myBridge callHandler:@"loginHandler" data:dataStr responseCallback:^(id response) {
                 
                 
             }];
@@ -340,6 +343,33 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.url = webUrl;
         [self.targetVC.navigationController pushViewController:vc animated:YES];
+        
+        responseCallback(nil);
+    }];
+}
+
+- (void)registerAddCar
+{
+    [self.myBridge registerHandler:@"addCar" handler:^(id data, WVJBResponseCallback responseCallback) {
+        
+        NSDictionary * dic = data;
+        NSString * triggerId = [dic stringParamForName:@"triggerId"];
+        
+        EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
+        HKNavigationController *nvc = [[HKNavigationController alloc] initWithRootViewController:vc];
+        [vc setJsBridgeFinishBlock:^(HKMyCar * car) {
+            
+            NSDictionary * rDict = @{@"carId":car.carId ?: @"",
+                                     @"triggerId":triggerId ?: @""};
+            NSString * dataStr = [rDict jsonEncodedString];
+            [self.myBridge callHandler:@"addCarHandler" data:dataStr responseCallback:^(id response) {
+                
+                
+            }];
+            [nvc dismissViewControllerAnimated:YES completion:nil];
+        }];
+
+        [self.targetVC presentViewController:nvc animated:YES completion:nil];
         
         responseCallback(nil);
     }];

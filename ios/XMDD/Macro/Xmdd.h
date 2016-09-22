@@ -20,6 +20,8 @@
 #import <Masonry.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import <SDWebImageManager.h>
+#import "SensorsAnalyticsSDK.h"
 
 
 //友盟
@@ -40,7 +42,7 @@
 #import "SupportFileManager.h"
 #import "AssistiveManager.h"
 #import "GlobalStoreManager.h"
-#import <SDWebImageManager.h>
+
 
 //基类
 #import "BaseOp.h"

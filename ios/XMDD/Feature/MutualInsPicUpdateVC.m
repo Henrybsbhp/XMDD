@@ -51,6 +51,11 @@
 @property (nonatomic,strong)NSString * lisenceNumberArea;
 @property (nonatomic,strong)NSString * lisenceNumberSuffix;
 
+/// 是否是当前页面，选择照片会进去到选择照片页面（场景：图片上传有tip要提示，这个时候已经在下一个选择图片controller）
+@property (nonatomic)BOOL isCurrentPage;
+/// 用户重新展示的弹框信息
+@property (nonatomic,strong)NSString * needReshowInfo;
+
 
 @end
 
@@ -77,6 +82,27 @@
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSLog(@"viewDidAppear");
+    self.isCurrentPage = YES;
+    
+    if (self.needReshowInfo.length)
+    {
+        [self showPicUpdateTip:self.needReshowInfo];
+        self.needReshowInfo = nil;
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    NSLog(@"viewWillDisappear");
+    [super viewWillDisappear:animated];
+    self.isCurrentPage = NO;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -96,33 +122,42 @@
     [[self.nextBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao7"}];
+        [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliao"];
         
         @strongify(self)
         if (!self.curCar.licencenumber)
         {
             if (![self verifiedLicenseNumberFrom:[self.lisenceNumberArea append:self.lisenceNumberSuffix]])
             {
+                [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请输入正确的车牌号码"}];
                 [gToast showMistake:@"请输入正确的车牌号码"];
                 return ;
             }
         }
         if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
         {
+            [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请等待图片上传成功"}];
             [gToast showMistake:@"请等待图片上传成功"];
             return ;
         }
         if (!self.idPictureRecord.url.length)
         {
+            [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请上传身份证照片"}];
+
             [gToast showMistake:@"请上传身份证照片"];
             return ;
         }
         if (!self.drivingLicensePictureRecord.url.length)
         {
+            [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请上传行驶证照片"}];
+
             [gToast showMistake:@"请上传行驶证照片"];
             return ;
         }
         if (!self.insCompany.length)
         {
+            [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请选择现保险公司"}];
+
             [gToast showMistake:@"请选择现保险公司"];
             return ;
         }
@@ -149,7 +184,6 @@
         }
         
         [self requestUpdateImageInfo];
-        
     }];
 }
 
@@ -582,6 +616,9 @@
     }] subscribeNext:^(UpdateCooperationIdlicenseInfoV2Op * op) {
         
         [gToast dismiss];
+        
+        [SensorAnalyticsInstance track:@"event_wanshanziliao_shangchuanchenggong"];
+        
         NSNumber *memberID = [self.memberId integerValue] > 0 ? self.memberId : op.rsp_memberid;
         /// 更新团列表
         [[[MutualInsStore fetchExistsStore] reloadSimpleGroups] send];
@@ -598,6 +635,8 @@
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
+        
+        [SensorAnalyticsInstance track:@"event_wanshanziliao_shangchuanshibai" withProperties:@{@"error":error.domain ?: @""}];
         [gToast showError:error.domain];
     }];
 }
@@ -737,7 +776,8 @@
 - (void)actionUpload:(PictureRecord *)record withImageView:(HKImageView *)imageView {
     
     record.isUploading = YES;
-    [[imageView rac_setUploadingImage:self.currentRecord.image withImageType:UploadFileTypeMutualIns]
+    UploadFileType type = self.currentRecord == self.idPictureRecord ? UploadFileTypeMutualInsId : UploadFileTypeMutualInsLicense;
+    [[[imageView rac_setUploadingImage:self.currentRecord.image withImageType:type] delay:0]
      subscribeNext:^(UploadFileOp *op) {
          
          record.url = [op.rsp_urlArray safetyObjectAtIndex:0];
@@ -745,9 +785,39 @@
          
          record.isUploading = NO;
          imageView.tapGesture.enabled = NO;
+         
+         if (op.rsp_tip.length)
+         {
+             if (self.isCurrentPage)
+             {
+                 [self showPicUpdateTip:op.rsp_tip];
+             }
+             else
+             {
+                 self.needReshowInfo = op.rsp_tip;
+             }
+         }
+         
+         if (self.currentRecord == self.idPictureRecord)
+         {
+             [SensorAnalyticsInstance track:@"event_wanshanziliao_shenfenzhengshangchuan" withProperties:@{@"xmhzresult":@"1"}];
+         }
+         else if (self.currentRecord == self.drivingLicensePictureRecord)
+         {
+             [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengshangchuan" withProperties:@{@"xmhzresult":@"1"}];
+         }
+         
      } error:^(NSError *error) {
          
          record.isUploading = NO;
+         if (self.currentRecord == self.idPictureRecord)
+         {
+             [SensorAnalyticsInstance track:@"event_wanshanziliao_shenfenzhengshangchuan" withProperties:@{@"xmhzresult":@"0"}];
+         }
+         else if (self.currentRecord == self.drivingLicensePictureRecord)
+         {
+             [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengshangchuan" withProperties:@{@"xmhzresult":@"0"}];
+         }
      }];
 }
 
@@ -775,6 +845,7 @@
 - (void)actionBack:(id)sender {
     
     [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao1"}];
+    [SensorAnalyticsInstance track:@"event_wanshanziliao_fanhui"];
     
     if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany.length  || self.lastYearInsCompany.length || self.idPictureRecord.url.length || self.drivingLicensePictureRecord.url.length)
     {
@@ -823,6 +894,21 @@
     return [licenseNumber uppercaseString];
 }
 
+- (void)showPicUpdateTip:(NSString *)tip
+{
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"知道了" color:kGrayTextColor clickBlock:nil];
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
+    ps.alignment = NSTextAlignmentCenter;
+    NSMutableAttributedString * attributeStr = [[NSMutableAttributedString alloc] initWithData:
+                                         [tip dataUsingEncoding:NSUTF8StringEncoding]
+                                     options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                               NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                          documentAttributes:nil error:nil];
+    [attributeStr addAttribute:NSParagraphStyleAttributeName value:ps range:NSMakeRange(0, [attributeStr length])];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" attributedMessage:attributeStr ActionItems:@[cancel]];
+    [alert show];
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -832,6 +918,7 @@
     UIImage *croppedImage = [image compressImageWithPixelSize:CGSizeMake(1024, 1024)];
     self.currentRecord.image = croppedImage;
     UIView * selectView = [self.currentRecord.customArray safetyObjectAtIndex:0];
+
     [self actionUpload:self.currentRecord withImageView:(HKImageView *)selectView];
 }
 

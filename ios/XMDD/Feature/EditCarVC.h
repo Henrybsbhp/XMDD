@@ -16,4 +16,6 @@
 @property (nonatomic, strong) NSNumber *originCarId;
 @property (nonatomic, strong) MyCarListVModel *model;
 
+@property (nonatomic, copy) void(^jsBridgeFinishBlock)(HKMyCar *curSelectedCar);
+
 @end
