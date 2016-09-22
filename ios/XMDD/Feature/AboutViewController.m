@@ -323,7 +323,8 @@
 {
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"使用帮助";
-    vc.url = AboutViewServiceHelpUrl;
+    NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    vc.url = [NSString stringWithFormat:@"%@%@.html",AboutViewServiceHelpUrl,version];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

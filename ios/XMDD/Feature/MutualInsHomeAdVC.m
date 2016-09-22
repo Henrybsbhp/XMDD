@@ -70,7 +70,7 @@
 }
 
 
-#pragma mark - Utilitly
+#pragma mark - SetupUI
 - (void)setupUI
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
@@ -98,9 +98,27 @@
     _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 }
 
+
+#pragma mark - Action
 - (void)actionBack:(id)sender
 {
+    [MobClick event:@"huzhujieshao" attributes:@{@"huzhujieshao":@"huzhujiesha_fanhui"}];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)actionJumpToMutualInsVC:(id)sender
+{
+    [MobClick event:@"huzhujieshao" attributes:@{@"huzhujieshao":@"huzhujiesha_jiaru"}];
+    MutualInsVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+- (IBAction)actionJumpToMutInsCalculateVC:(id)sender
+{
+    [MobClick event:@"huzhujieshao" attributes:@{@"huzhujieshao":@"huzhujiesha_shisuan"}];
+    MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
+    vc.sensorChannel = @"apphzxuanchuan";
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Utilitly
@@ -132,18 +150,7 @@
     
     DebugLog(@"%@ WebViewFinishLoad:%@", kRspPrefix, webView.request.URL);
 }
-- (IBAction)actionJumpToMutualInsVC:(id)sender
-{
-    MutualInsVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
-    [self.navigationController pushViewController:vc animated:YES];
-    
-}
-- (IBAction)actionJumpToMutInsCalculateVC:(id)sender
-{
-    MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
-    vc.sensorChannel = @"apphzxuanchuan";
-    [self.router.navigationController pushViewController:vc animated:YES];
-}
+
 
 #pragma mark - NJKWebViewProgressDelegate
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress

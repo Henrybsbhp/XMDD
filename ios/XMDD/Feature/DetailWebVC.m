@@ -36,9 +36,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 @end
 
-
-
-
 @implementation DetailWebVC
 
 - (void)dealloc

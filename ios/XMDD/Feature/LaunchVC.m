@@ -89,7 +89,6 @@
 
 - (void)setupClickAction
 {
-    
     @weakify(self)
     
     UITapGestureRecognizer * gesture = self.imageView.customObject;
@@ -176,19 +175,17 @@
 
 - (IBAction)actionSkip:(id)sender
 {
+    [MobClick event:@"shouye" attributes:@{@"shouye":@"shouye_tiaoguo"}];
     
     @weakify(self)
-    
     [self.signalDisposable dispose];
     
     [UIView animateWithDuration:0.35 animations:^{
         
         gAppDelegate.window.alpha = 0;
-        
     } completion:^(BOOL finished) {
         
         @strongify(self)
-        
         gAppDelegate.window = self.nextWindow;
     }];
 }

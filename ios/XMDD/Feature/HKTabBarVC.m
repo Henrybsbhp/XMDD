@@ -76,7 +76,7 @@
     tabbarItem2.titlePositionAdjustment = UIOffsetMake(0, -3);
     tabbarItem2.tag = 2;
     
-    UITabBarItem * tabbarItem3 = [[UITabBarItem alloc] initWithTitle:@"发现" image:[UIImage imageNamed:@"tab_discover_300"] selectedImage:[UIImage imageNamed:@"tab_discover_highlighted_300"]];
+    UITabBarItem * tabbarItem3 = [[UITabBarItem alloc] initWithTitle:@"活动" image:[UIImage imageNamed:@"tab_discover_300"] selectedImage:[UIImage imageNamed:@"tab_discover_highlighted_300"]];
     tabbarItem3.titlePositionAdjustment = UIOffsetMake(0, -3);
     tabbarItem3.tag = 3;
     
