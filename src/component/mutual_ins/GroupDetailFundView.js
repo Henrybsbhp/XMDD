@@ -67,12 +67,16 @@ export default class GroupDetailFundView extends Component {
         return (
             <View style={styles.progressContainer}>
                 <AnimatedProgress value={this.state.progressValue} radius={CircleRadius}>
-                    <View style={styles.percentContainer}>
-                        <Text style={styles.percentText}>{percent}
-                            <Text style={styles.percentSuffix}>%</Text>
-                        </Text>
-
-                    </View>
+                    <Text style={styles.percentText}>
+                        {percent}
+                        <Text style={styles.percentSuffix}>%</Text>
+                    </Text>
+                    <Text style={styles.noteLabel}>互助金剩余</Text>
+                    <Text numberOfLines={1}
+                          style={styles.fundRemainText}>
+                        999999999999.99
+                        {this.props.group.presentpoolamt}
+                    </Text>
                 </AnimatedProgress>
             </View>
         )
@@ -87,7 +91,10 @@ const styles = StyleSheet.create({
     },
     HContainer: {flexDirection: 'row'},
     VContainer: {flexDirection: 'column'},
-    percentContainer: {flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end', backgroundColor: 'red'},
-    percentText: {fontSize: 43, marginLeft: 10, marginRight: 10, color: 'rgb(23, 223, 165)', backgroundColor: 'green'},
+    percentText: {fontSize: 24, color: 'rgb(23, 223, 165)', marginTop: 12, left: 6, textAlign:'center'},
     percentSuffix: {fontSize: 16, color: 'rgb(23, 223, 165)'},
+    noteLabel: {fontSize: 13, textAlign: 'center', color: UI.Color.GrayText, marginTop: 24},
+    fundRemainText: {
+        fontSize: 36, textAlign: 'center', color: UI.Color.DarkText, marginTop: 6,
+    },
 })
