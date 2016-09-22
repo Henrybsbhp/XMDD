@@ -131,33 +131,36 @@
         
         self.pageVC.view.userInteractionEnabled = NO;
         self.canManualScrolling = NO;
+        //        self.canAutoScrolling = NO;
         NSLog(@"setCurrentPage beigin");
         
-        [self.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-            
-            if(finished)
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    [blockSafeSelf.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:NULL];
-                });
-                blockSafeSelf.pageVC.view.userInteractionEnabled = YES;
-                blockSafeSelf.canManualScrolling = YES;
-                NSLog(@"finished");
-            }
-            else
-            {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(6.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
+                
+                if(finished)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        [blockSafeSelf.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:NULL];
+                    });
                     blockSafeSelf.pageVC.view.userInteractionEnabled = YES;
                     blockSafeSelf.canManualScrolling = YES;
-                });
-                
-                NSLog(@"nonono finished");
-            }
-        }];
-        
-        [self configPageControl];
+                    //                blockSafeSelf.canAutoScrolling = YES;
+                    NSLog(@"finished");
+                }
+                else
+                {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(6.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        
+                        blockSafeSelf.pageVC.view.userInteractionEnabled = YES;
+                        blockSafeSelf.canManualScrolling = YES;
+                        //                    blockSafeSelf.canAutoScrolling = YES;
+                    });
+                    NSLog(@"nonono finished");
+                }
+            }];
+            [self configPageControl];
+        });
     }
 }
 
@@ -206,15 +209,15 @@
         {
             [self.delegate scrollDisplayViewController:self currentIndex:index];
         }
-        self.canAutoScrolling = YES;
-//        self.canManualScrolling = YES;
-        
         NSLog(@"didFinishAnimating");
     }
     else
     {
         NSLog(@"nononono didFinishAnimating");
     }
+    
+    self.canAutoScrolling = YES;
+    self.canManualScrolling = YES;
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
