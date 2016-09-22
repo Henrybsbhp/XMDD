@@ -260,14 +260,6 @@
                 [self.targetVC.navigationController pushViewController:vc animated:YES];
             }
         }
-        else if (_adType == AdvertisementMutualInsTop)
-        {
-            if ([gAppMgr.navModel.curNavCtrl.topViewController isKindOfClass:[MutualInsVC class]])
-            {
-                MutualInsVC * vc = (MutualInsVC *)gAppMgr.navModel.curNavCtrl.topViewController;
-                [vc presentAdPageVC];
-            }
-        }
         else if (_adType != AdvertisementValuation) {
             
             DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];

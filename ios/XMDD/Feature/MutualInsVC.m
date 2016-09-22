@@ -23,7 +23,6 @@
 #import "MutualInsPicUpdateVC.h"
 #import "MutualInsOrderInfoVC.h"
 #import "MutualInsAdModel.h"
-#import "MutualInsStoryAdPageVC.h"
 #import "MutualInsGroupDetailVC.h"
 #import "GroupIntroductionVC.h"
 #import "MutualInsTipsInfoExtendedView.h"
@@ -323,7 +322,11 @@
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye13"}];
+        
+        if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+        {
         [SensorAnalyticsInstance track:@"event_huzhushouye_shiyongbangzhu"];
+        }
         @strongify(self);
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
@@ -1213,10 +1216,6 @@
 
 #pragma mark - Utilities
 
-- (void)presentAdPageVC
-{
-    [MutualInsStoryAdPageVC presentWithModel:self.adModel];
-}
 
 
 /// 把一个 Array 分成另一个嵌套 mutableArray，该 mutableArray 里面有各个以 2 个为一组的子 mutableArray，这个方法主要配合显示双 Label 的优惠信息 Cell 使用。
