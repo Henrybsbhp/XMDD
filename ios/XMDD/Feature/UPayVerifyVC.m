@@ -97,9 +97,10 @@
         
         [gToast showSuccess:@"银联快捷支付成功"];
         
+        [self actionDismiss:nil];
+        
         [self.subject sendNext:op];
         [self.subject sendCompleted];
-        [self actionDismiss:nil];
         
     } error:^(NSError *error) {
         
