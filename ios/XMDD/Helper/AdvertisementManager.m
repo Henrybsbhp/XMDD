@@ -16,7 +16,7 @@
 ///每12小时更新广告内容
 #define kUpdateAdTimeInterval     10
 ///每5秒钟滚动广告
-#define kScrollAdTimeInterval       5
+#define kScrollAdTimeInterval       6
 
 @interface AdvertisementManager()
 

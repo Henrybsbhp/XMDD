@@ -122,41 +122,60 @@
     [[self.nextBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao7"}];
+        
+        if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+        {
         [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliao"];
+        }
         
         @strongify(self)
         if (!self.curCar.licencenumber)
         {
             if (![self verifiedLicenseNumberFrom:[self.lisenceNumberArea append:self.lisenceNumberSuffix]])
             {
+                if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+                {
                 [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请输入正确的车牌号码"}];
+                }
                 [gToast showMistake:@"请输入正确的车牌号码"];
                 return ;
             }
         }
         if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
         {
+            if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+            {
             [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请等待图片上传成功"}];
+            }
             [gToast showMistake:@"请等待图片上传成功"];
             return ;
         }
         if (!self.idPictureRecord.url.length)
         {
+            if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+            {
             [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请上传身份证照片"}];
+            }
 
             [gToast showMistake:@"请上传身份证照片"];
             return ;
         }
         if (!self.drivingLicensePictureRecord.url.length)
         {
+            if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+            {
             [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请上传行驶证照片"}];
+            }
 
             [gToast showMistake:@"请上传行驶证照片"];
             return ;
         }
         if (!self.insCompany.length)
         {
+            if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+            {
             [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请选择现保险公司"}];
+            }
 
             [gToast showMistake:@"请选择现保险公司"];
             return ;
@@ -617,7 +636,10 @@
         
         [gToast dismiss];
         
+        if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+        {
         [SensorAnalyticsInstance track:@"event_wanshanziliao_shangchuanchenggong"];
+        }
         
         NSNumber *memberID = [self.memberId integerValue] > 0 ? self.memberId : op.rsp_memberid;
         /// 更新团列表
@@ -635,8 +657,10 @@
         [self.navigationController pushViewController:vc animated:YES];
     } error:^(NSError *error) {
         
-        
+        if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+        {
         [SensorAnalyticsInstance track:@"event_wanshanziliao_shangchuanshibai" withProperties:@{@"error":error.domain ?: @""}];
+        }
         [gToast showError:error.domain];
     }];
 }
@@ -800,11 +824,17 @@
          
          if (self.currentRecord == self.idPictureRecord)
          {
+             if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+             {
              [SensorAnalyticsInstance track:@"event_wanshanziliao_shenfenzhengshangchuan" withProperties:@{@"xmhzresult":@"1"}];
+             }
          }
          else if (self.currentRecord == self.drivingLicensePictureRecord)
          {
+             if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+             {
              [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengshangchuan" withProperties:@{@"xmhzresult":@"1"}];
+             }
          }
          
      } error:^(NSError *error) {
@@ -812,11 +842,17 @@
          record.isUploading = NO;
          if (self.currentRecord == self.idPictureRecord)
          {
+             if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+             {
              [SensorAnalyticsInstance track:@"event_wanshanziliao_shenfenzhengshangchuan" withProperties:@{@"xmhzresult":@"0"}];
+             }
          }
          else if (self.currentRecord == self.drivingLicensePictureRecord)
          {
+             if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+             {
              [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengshangchuan" withProperties:@{@"xmhzresult":@"0"}];
+             }
          }
      }];
 }
@@ -845,7 +881,10 @@
 - (void)actionBack:(id)sender {
     
     [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao1"}];
+    if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+    {
     [SensorAnalyticsInstance track:@"event_wanshanziliao_fanhui"];
+    }
     
     if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany.length  || self.lastYearInsCompany.length || self.idPictureRecord.url.length || self.drivingLicensePictureRecord.url.length)
     {

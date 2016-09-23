@@ -205,9 +205,15 @@
         //如果有成员id，需要返回到团详情（新建一个团详情并插入）
         if ([self.router.userInfo[kMutInsMemberID] integerValue] > 0 &&
             [self.router.userInfo[kMutInsGroupID] integerValue] > 0) {
+            // 插入团详情页
             MutualInsGroupDetailVC *vc = [[MutualInsGroupDetailVC alloc] init];
             vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
             [self.router.navigationController.routerList insertObject:vc.router withKey:vc.router.key atIndex:rootIndex+1];
+            
+            //插入互助首页
+            UIViewController *homevc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
+            [self.router.navigationController.routerList insertObject:homevc.router withKey:homevc.router.key atIndex:rootIndex+1];
+            
             [self.router.navigationController updateViewControllersByRouterList];
             [self.router.navigationController popToViewController:vc animated:YES];
         }

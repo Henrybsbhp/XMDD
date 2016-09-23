@@ -59,7 +59,6 @@
     [self.maintainModel.loadingModel loadDataForTheFirstTime];
     [self.gasModel.loadingModel loadDataForTheFirstTime];
     [self.mutualModel.loadingModel loadDataForTheFirstTime];
-    [self.insuranceModel.loadingModel loadDataForTheFirstTime];
     [self.otherModel.loadingModel loadDataForTheFirstTime];
     
     self.tabView = [[HorizontalScrollTabView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];

@@ -95,7 +95,7 @@
     
     [[GlobalStoreManager sharedManager] setupGlobalStores];
     
-    [self setupSensorsAnalytics];
+    [self setupSensorsAnalyticsSwitch];
     
     [self setupReactNative];
     //设置崩溃捕捉(官方建议放在最后面)
@@ -509,6 +509,20 @@
     [MobClick event:@"tuisongjiance" attributes:@{@"tuisongjiance":isOpen ? @"open" : @"close"}];
 }
 
+- (void)setupSensorsAnalyticsSwitch
+{
+    [[[RACObserve(gStoreMgr.configStore, systemConfig) distinctUntilChanged] filter:^BOOL(id value) {
+        
+        return value ? YES : NO;
+    }] subscribeNext:^(NSDictionary * x) {
+        
+        BOOL sensorAnalyticsFlag = [x boolParamForName:@"shenceflag"];
+        if (sensorAnalyticsFlag)
+        {
+            [self setupSensorsAnalytics];
+        }
+    }];
+}
 
 - (void)setupSensorsAnalytics
 {
@@ -521,7 +535,7 @@
     
 #else
 #if XMDDEnvironment==2
-    SensorsAnalyticsDebugMode model = SensorsAnalyticsDebugOff;
+    model = SensorsAnalyticsDebugOff;
 #endif
 #endif
     

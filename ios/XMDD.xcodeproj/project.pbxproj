@@ -688,10 +688,9 @@
 		18649E4D1D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E411D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.m */; };
 		18649E561D48BE3100F1CCB0 /* MutualInsPickCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E4F1D48BE3100F1CCB0 /* MutualInsPickCarVC.m */; };
 		18649E571D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E511D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m */; };
-		18649E581D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E531D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m */; };
-		18649E591D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E551D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m */; };
 		18649E5F1D48BE5500F1CCB0 /* InviteAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E5C1D48BE5500F1CCB0 /* InviteAlertVC.m */; };
 		18649E601D48BE5500F1CCB0 /* InviteCompleteVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E5E1D48BE5500F1CCB0 /* InviteCompleteVC.m */; };
+		186D0DAD1D9258BB00F669F4 /* RCTHKImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186D0DAC1D9258BB00F669F4 /* RCTHKImageView.m */; };
 		1888F3F21D48C02600C64288 /* MutualInsClaimAccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F3F11D48C02600C64288 /* MutualInsClaimAccountVC.m */; };
 		1888F41A1D48CB8600C64288 /* RCTAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F4111D48CB8600C64288 /* RCTAppManager.m */; };
 		1888F41B1D48CB8600C64288 /* RCTLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F4131D48CB8600C64288 /* RCTLoginManager.m */; };
@@ -2364,14 +2363,12 @@
 		18649E4F1D48BE3100F1CCB0 /* MutualInsPickCarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPickCarVC.m; sourceTree = "<group>"; };
 		18649E501D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPicUpdateResultVC.h; sourceTree = "<group>"; };
 		18649E511D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPicUpdateResultVC.m; sourceTree = "<group>"; };
-		18649E521D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsStoryAdPageVC.h; sourceTree = "<group>"; };
-		18649E531D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsStoryAdPageVC.m; sourceTree = "<group>"; };
-		18649E541D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsStoryAdPicVC.h; sourceTree = "<group>"; };
-		18649E551D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsStoryAdPicVC.m; sourceTree = "<group>"; };
 		18649E5B1D48BE5500F1CCB0 /* InviteAlertVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteAlertVC.h; sourceTree = "<group>"; };
 		18649E5C1D48BE5500F1CCB0 /* InviteAlertVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteAlertVC.m; sourceTree = "<group>"; };
 		18649E5D1D48BE5500F1CCB0 /* InviteCompleteVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteCompleteVC.h; sourceTree = "<group>"; };
 		18649E5E1D48BE5500F1CCB0 /* InviteCompleteVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteCompleteVC.m; sourceTree = "<group>"; };
+		186D0DAB1D9258BB00F669F4 /* RCTHKImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTHKImageView.h; sourceTree = "<group>"; };
+		186D0DAC1D9258BB00F669F4 /* RCTHKImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTHKImageView.m; sourceTree = "<group>"; };
 		1883D8DF1ACB99AC002A4D19 /* XMDD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XMDD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1888F3F01D48C02600C64288 /* MutualInsClaimAccountVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsClaimAccountVC.h; sourceTree = "<group>"; };
 		1888F3F11D48C02600C64288 /* MutualInsClaimAccountVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsClaimAccountVC.m; sourceTree = "<group>"; };
@@ -5262,10 +5259,6 @@
 				18649E4F1D48BE3100F1CCB0 /* MutualInsPickCarVC.m */,
 				18649E501D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.h */,
 				18649E511D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m */,
-				18649E521D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.h */,
-				18649E531D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m */,
-				18649E541D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.h */,
-				18649E551D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m */,
 				4E067BBE1D890159008578E4 /* MutInsCalculatePageVC.h */,
 				4E067BBF1D890159008578E4 /* MutInsCalculatePageVC.m */,
 			);
@@ -5367,6 +5360,8 @@
 				181E2EAB1D766ED600ED13A4 /* RCTLoadingViewManager.m */,
 				181E2ED01D77BBB000ED13A4 /* RCTLoadingView.h */,
 				181E2ED11D77BBB000ED13A4 /* RCTLoadingView.m */,
+				186D0DAB1D9258BB00F669F4 /* RCTHKImageView.h */,
+				186D0DAC1D9258BB00F669F4 /* RCTHKImageView.m */,
 			);
 			name = Bridege;
 			sourceTree = "<group>";
@@ -6037,14 +6032,14 @@
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = EN3DUNUW7P;
+						DevelopmentTeam = 7A3B9332PS;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
 								enabled = 0;
 							};
 							com.apple.OMC = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Wallet = {
 								enabled = 0;
@@ -6401,6 +6396,7 @@
 				186499A01D489A9700F1CCB0 /* BindDeviceTokenOp.m in Sources */,
 				18649D881D48BB5D00F1CCB0 /* GasAddCardVC.m in Sources */,
 				18649D211D48B96700F1CCB0 /* InsActivityIndicatorVC.m in Sources */,
+				186D0DAD1D9258BB00F669F4 /* RCTHKImageView.m in Sources */,
 				18649B711D48A93000F1CCB0 /* HKRefreshControl.m in Sources */,
 				18649C921D48B61900F1CCB0 /* PickInsCompaniesVC.m in Sources */,
 				183F572A1D4C90860001E26A /* GetCooperationMyCarOp.m in Sources */,
@@ -6679,7 +6675,6 @@
 				18649D021D48B7C000F1CCB0 /* SuspendedAdVC.m in Sources */,
 				186499821D489A9700F1CCB0 /* HKMessage.m in Sources */,
 				1836B7CB1D54220B0078DB15 /* CKPaths.m in Sources */,
-				18649E581D48BE3100F1CCB0 /* MutualInsStoryAdPageVC.m in Sources */,
 				188EF0B41D351A0F000D01D6 /* UILabel+MarkupExtensions.m in Sources */,
 				18649B6F1D48A93000F1CCB0 /* HKMessageAlertVC.m in Sources */,
 				186496D11D489A4200F1CCB0 /* PushManager.m in Sources */,
@@ -6830,7 +6825,6 @@
 				18649DED1D48BCF100F1CCB0 /* MutualInsGroupMyButtonCell.m in Sources */,
 				186499C81D489A9700F1CCB0 /* GetGeneralUnionpayTradenoOp.m in Sources */,
 				18649CA11D48B64E00F1CCB0 /* MyOrderListVC.m in Sources */,
-				18649E591D48BE3100F1CCB0 /* MutualInsStoryAdPicVC.m in Sources */,
 				186499951D489A9700F1CCB0 /* RescueApplyOp.m in Sources */,
 				18649B8A1D48A93000F1CCB0 /* UIView+JTLoadingView.m in Sources */,
 				186499E11D489A9700F1CCB0 /* GetRescueOp.m in Sources */,
@@ -7202,9 +7196,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = EN3DUNUW7P;
 				ENABLE_BITCODE = NO;
@@ -7246,6 +7241,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/Image/**",
 				);
 				INFOPLIST_FILE = XMDD/Resource/Plist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -7302,7 +7298,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "f03f5a47-1d3d-4590-b5b8-2aa3564f3d4f";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -7314,8 +7310,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = EN3DUNUW7P;
 				ENABLE_BITCODE = NO;
@@ -7357,6 +7354,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/Image/**",
 				);
 				INFOPLIST_FILE = XMDD/Resource/Plist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -7413,7 +7411,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "f03f5a47-1d3d-4590-b5b8-2aa3564f3d4f";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;

@@ -55,7 +55,7 @@ static char s_viewControllerRouterKey;
 - (instancetype)initWithRootViewController:(UIViewController *)rootViewController
 {
     self = [super initWithRootViewController:rootViewController];
-    if (self) {
+    if (self && self.routerList.count == 0) {
         [self enqueueViewController:rootViewController];
     }
     return self;
@@ -137,9 +137,10 @@ static char s_viewControllerRouterKey;
 }
 
 - (void)updateViewControllersByRouterList {
-    self.viewControllers = [[self.routerList allObjects] arrayByMapFilteringOperator:^id(CKRouter *obj) {
+    NSArray *vcs = [[self.routerList allObjects] arrayByMapFilteringOperator:^id(CKRouter *obj) {
         return obj.targetViewController;
     }];
+    self.viewControllers = vcs;
 }
 
 - (void)updateRouterListByViewControllers {

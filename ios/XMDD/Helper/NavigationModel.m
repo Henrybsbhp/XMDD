@@ -28,7 +28,6 @@
 #import "ParkingShopGasInfoVC.h"
 #import "MutualInsVC.h"
 #import "MutualInsHomeAdVC.h"
-#import "MutualInsStoryAdPageVC.h"
 #import "MutualInsGroupDetailVC.h"
 #import "HKViewControllerFactory.h"
 #import "CarwashShopListVC.h"
