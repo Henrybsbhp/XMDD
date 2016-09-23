@@ -9,6 +9,9 @@
 #import "UIViewController+Swizzling.h"
 #import "UMLogHelper.h"
 #import "UserBehaviorAnalysisHelper.h"
+#import "MutualInsVC.h"
+#import "MutInsCalculatePageVC.h"
+#import "MutualInsHomeAdVC.h"
 
 #define SelfClassName NSStringFromClass([self class])
 
@@ -124,15 +127,21 @@ void swizzleMethod(Class class, SEL originalSelector, SEL swizzledSelector)
             [self saveUPropertyWithKey:timeStr withKey:firstTag];
         }
         
-        NSObject * channelObj;
-        @try {
-            channelObj = [self valueForKey:@"sensorChannel"];
-        } @catch (NSException *exception) {
-            channelObj = @"";
-        } @finally {
-            
+        NSString * channel;
+        
+        if ([self isKindOfClass:[MutualInsVC class]])
+        {
+            channel = ((MutualInsVC *)self).sensorChannel;
         }
-        NSDictionary * dict = @{@"$is_first_time":@(isFirstAppear),@"channel":channelObj ?: @""};
+        else if ([self isKindOfClass:[MutInsCalculatePageVC class]])
+        {
+            channel = ((MutInsCalculatePageVC *)self).sensorChannel;
+        }
+        else if ([self isKindOfClass:[MutualInsHomeAdVC class]])
+        {
+            channel = ((MutualInsHomeAdVC *)self).sensorChannel;
+        }
+        NSDictionary * dict = @{@"$is_first_time":@(isFirstAppear),@"channel":channel ?: @""};
         [SensorAnalyticsInstance track:durationTag withProperties:dict];
     }
 }
