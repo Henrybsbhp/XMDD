@@ -131,7 +131,6 @@
         
         self.pageVC.view.userInteractionEnabled = NO;
         self.canManualScrolling = NO;
-        NSLog(@"setCurrentPage beigin");
         
         [self.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
             
@@ -143,7 +142,6 @@
                 });
                 blockSafeSelf.pageVC.view.userInteractionEnabled = YES;
                 blockSafeSelf.canManualScrolling = YES;
-                NSLog(@"finished");
             }
             else
             {
