@@ -268,6 +268,7 @@
             DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
             vc.fromUnionCardVC = YES;
             vc.tradeno = self.tradeNo;
+            vc.subject = self.subject;
             vc.url = [NSString stringWithFormat:@"%@/%@",bankCard.changephoneurl,self.tradeNo];
             [self.navigationController pushViewController:vc animated:YES];
         }];
