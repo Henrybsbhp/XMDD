@@ -4,6 +4,7 @@ import {View, StyleSheet} from 'react-native';
 import SegmentView from '../general/SegmentView';
 import UI from '../../constant/UIConstants';
 import FundView from './GroupDetailFundView';
+import MemberView from './GroupDetailMembersView';
 import Store, {Actions, Domains} from '../../store/MutualInsStore';
 import BlankView from '../general/BlankView';
 
@@ -45,9 +46,8 @@ export default class MutualInsGroupDetailView extends Component {
                 onPress={() => Actions.fetchGroupBase(this.props.route.groupID, this.props.route.memberID)}
             >
                 {this.renderSegmentView()}
-                {this.state.segmentIndex == 0 && (
-                    <FundView {...this.props} group={this.state.group}/>
-                )}
+                {this.state.segmentIndex == 0 && (<FundView {...this.props} group={this.state.group}/>)}
+                {this.state.segmentIndex == 1 && (<MemberView {...this.props} group={this.state.group}/>)}
             </BlankView>
         );
     }
