@@ -12,6 +12,7 @@ export var Actions = Reflux.createActions([
     "fetchSimpleGroups",
     "fetchGroupBase",
     "fetchGroupFundIfNeeded",
+    "fetchGroupMembersIfNeeded",
 ])
 
 export default Reflux.createStore({
@@ -64,7 +65,6 @@ export default Reflux.createStore({
                 security: false,
                 params: {groupid: groupid},
             }).then(rsp => {
-                rsp.presentpoolpresent = '60'
                 extend(group, {
                     fund: rsp,
                     fundLoading: false,
@@ -75,7 +75,31 @@ export default Reflux.createStore({
                 this.trigger(Domains.GroupDetail, group)
             }).catch(e => {
                 extend(group, {fundLoading: false, fundError: e.message, fundUsable: true})
+                this.trigger(Domains.GroupDetail, group, e.message)
+            })
+        }
+    },
+
+    onFetchGroupMembersIfNeeded(groupid) {
+        var group = this._getDetailGroup(groupid)
+        if (!group.membersUsable && !group.membersLoading) {
+            group.membersLoading = true
+            this.trigger(Domains.GroupDetail, group)
+            net.postApi({
+                method: '/cooperation/groupmember/list/get',
+                security: false,
+                params: {groupid: groupid, lstupdatetime: 0},
+            }).then(rsp => {
+                extend(group, {
+                    members: rsp,
+                    membersLoading: false,
+                    membersError: null,
+                    membersUsable: true,
+                })
                 this.trigger(Domains.GroupDetail, group)
+            }).catch(e => {
+                extend(group, {membersLoading: false, membersError: e.message, membersUsable: true})
+                this.trigger(Domains.GroupDetail, group, e.message)
             })
         }
     },

@@ -115,7 +115,6 @@
 // 自动滚动
 - (void)setCurrentPage:(NSInteger)currentPage
 {
-    //    NSLog(@"setCurrentPage %ld",(long)currentPage);
     if (_currentPage == currentPage || self.controllers.count <= 1)
     {
         return;
@@ -125,37 +124,28 @@
     _currentPage = currentPage;
     UIViewController *vc = [self.controllers safetyObjectAtIndex:currentPage];
     
-    if (vc && self.canAutoScrolling && self.canManualScrolling)
+    if (vc && self.canAutoScrolling)
     {
         __weak HKScrollDisplayVC *blockSafeSelf = self;
         
         self.pageVC.view.userInteractionEnabled = NO;
         self.canManualScrolling = NO;
         
-        [self.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-            
-            if(finished)
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    [blockSafeSelf.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:NULL];
-                });
-                blockSafeSelf.pageVC.view.userInteractionEnabled = YES;
-                blockSafeSelf.canManualScrolling = YES;
-            }
-            else
-            {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(6.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
+                
+                if(finished)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        [blockSafeSelf.pageVC setViewControllers:@[vc] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:NULL];
+                    });
                     blockSafeSelf.pageVC.view.userInteractionEnabled = YES;
                     blockSafeSelf.canManualScrolling = YES;
-                });
-                
-                NSLog(@"nonono finished");
-            }
-        }];
-        
-        [self configPageControl];
+                }
+            }];
+            [self configPageControl];
+        });
     }
 }
 
@@ -204,15 +194,15 @@
         {
             [self.delegate scrollDisplayViewController:self currentIndex:index];
         }
-        self.canAutoScrolling = YES;
-//        self.canManualScrolling = YES;
-        
         NSLog(@"didFinishAnimating");
     }
     else
     {
         NSLog(@"nononono didFinishAnimating");
     }
+    
+    self.canAutoScrolling = YES;
+    self.canManualScrolling = YES;
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
