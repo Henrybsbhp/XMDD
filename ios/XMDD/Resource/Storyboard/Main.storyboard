@@ -599,7 +599,7 @@
             </objects>
             <point key="canvasLocation" x="330" y="1689"/>
         </scene>
-        <!--发现-->
+        <!--活动-->
         <scene sceneID="LZa-3k-w1V">
             <objects>
                 <viewController storyboardIdentifier="ListWebVC" id="wCo-PS-de9" customClass="ListWebVC" sceneMemberID="viewController">
@@ -627,7 +627,7 @@
                             <constraint firstItem="WGb-hA-7ae" firstAttribute="top" secondItem="Drc-D0-b4v" secondAttribute="bottom" id="yDe-5X-Smd"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="发现" id="uAA-fU-0YU"/>
+                    <navigationItem key="navigationItem" title="活动" id="uAA-fU-0YU"/>
                     <connections>
                         <outlet property="webView" destination="WGb-hA-7ae" id="API-MH-bod"/>
                     </connections>

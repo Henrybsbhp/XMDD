@@ -112,6 +112,7 @@
     [[combineSignal initially:^{
         
         CGFloat reducingY = self.view.frame.size.height * 0.1056;
+        [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
         self.tableView.hidden = YES;
     }] subscribeNext:^(id x) {
