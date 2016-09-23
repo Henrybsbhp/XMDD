@@ -223,7 +223,7 @@
         insForceFeelabel.text = [NSString stringWithFormat:@"¥%@", model.forceInfo.forceFee];
         insForceFeeDescLabel.text = @"交强险";
         insStartTimeLabel.text = [NSString stringWithFormat:@"保障开始：%@", model.forceInfo.forceStartDate];
-        insEndTimeLabel.text = [NSString stringWithFormat:@"保障开始：%@", model.forceInfo.forceEndDate];
+        insEndTimeLabel.text = [NSString stringWithFormat:@"保障结束：%@", model.forceInfo.forceEndDate];
         insTaxShipFeeLabel.text = [NSString stringWithFormat:@"¥%@", model.forceInfo.taxShipFee];
         insTaxShipFeeDescLabel.text = @"车船税";
         
