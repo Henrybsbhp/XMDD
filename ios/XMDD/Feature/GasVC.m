@@ -89,10 +89,14 @@
         header.frame = CGRectMake(0, 0, self.view.frame.size.width, height+originHeight);
         [header addSubview:ctrl.adView];
         [ctrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(header);
-            make.right.equalTo(header);
-            make.top.equalTo(header);
-            make.height.mas_equalTo(height);
+            
+            if (header)
+            {
+                make.left.equalTo(header);
+                make.right.equalTo(header);
+                make.top.equalTo(header);
+                make.height.mas_equalTo(height);
+            }
         }];
         self.tableView.tableHeaderView = header;
     }];

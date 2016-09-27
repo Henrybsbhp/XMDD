@@ -17,6 +17,13 @@
 @end
 @implementation ADViewController
 
+- (void)dealloc
+{
+    DebugLog(@"ADViewController Dealloc");
+}
+
+
+
 + (instancetype)vcWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
                     targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
             mobBaseEventDict:(NSDictionary *)dict
