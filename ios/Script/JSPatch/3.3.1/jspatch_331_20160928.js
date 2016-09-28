@@ -1,4 +1,5 @@
 require('JPEngine').addExtensions(['JPMacroSupport'])
+require('CKDict')
 
 defineClass('MyCarStore',{
 

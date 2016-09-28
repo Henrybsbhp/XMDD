@@ -1,7 +1,4 @@
 require('JPEngine').addExtensions(['JPMacroSupport'])
-require('MyCarStore')
-require('ADViewController')
-require('MASConstraintMaker')
 require('CKDict')
 
 defineClass('MyCarStore',{
