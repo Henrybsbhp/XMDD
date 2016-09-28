@@ -432,14 +432,14 @@
         gAppDelegate.openUrlQueue.running = YES;
         [self checkPasteboardModel];
         
-        [gSupportFileMgr setupJSPatch];
+        [self setupJSPatch];
     } error:^(NSError *error) {
         gAppDelegate.pushMgr.notifyQueue.running = YES;
         gAppDelegate.openUrlQueue.running = YES;
         //未登录
         [self checkPasteboardModel];
         
-        [gSupportFileMgr setupJSPatch];
+        [self setupJSPatch];
     }];
 }
 
@@ -619,6 +619,15 @@
     gAppMgr.temperatureAndTip = text;
     gAppMgr.temperaturepic = @"yin";
     gAppMgr.restriction = @"";
+}
+
+// 为了保证该接口只调用一次，在获取用户操作之后3s运行，这个时候如果没有获取到地理位置就不管了
+- (void)setupJSPatch
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [gSupportFileMgr setupJSPatch];
+    });
 }
 
 #pragma mark - Lazy

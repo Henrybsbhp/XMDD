@@ -819,7 +819,6 @@
 		C3B129BB1D5B0114008CBE6A /* UPApplePayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B129BA1D5B0114008CBE6A /* UPApplePayHelper.m */; };
 		C3B129D01D5B0370008CBE6A /* libUPAPayPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B129CF1D5B0370008CBE6A /* libUPAPayPlugin.a */; };
 		C3C6E3CF1D8D7666005DD855 /* HKTabBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C6E3CE1D8D7666005DD855 /* HKTabBarVC.m */; };
-		C3D4E9311D9A456100F544D9 /* jspatch_340_20160927.js in Resources */ = {isa = PBXBuildFile; fileRef = C3D4E9301D9A456100F544D9 /* jspatch_340_20160927.js */; };
 		C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */; };
 		C3D9B81F1CC0DBF000B5D2A7 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81D1CC0DBF000B5D2A7 /* FLAnimatedImageView.m */; };
 		C3DEFD491D54892F006337D5 /* HomePageModuleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C3DEFD481D54892F006337D5 /* HomePageModuleModel.m */; };
@@ -2607,7 +2606,6 @@
 		C3B129DA1D5B0A3D008CBE6A /* XMDD.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = XMDD.entitlements; sourceTree = "<group>"; };
 		C3C6E3CD1D8D7666005DD855 /* HKTabBarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKTabBarVC.h; sourceTree = "<group>"; };
 		C3C6E3CE1D8D7666005DD855 /* HKTabBarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKTabBarVC.m; sourceTree = "<group>"; };
-		C3D4E9301D9A456100F544D9 /* jspatch_340_20160927.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jspatch_340_20160927.js; path = Script/JSPatch/3.4.0/jspatch_340_20160927.js; sourceTree = SOURCE_ROOT; };
 		C3D9B81A1CC0DBF000B5D2A7 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = FLAnimatedImage/FLAnimatedImage.h; sourceTree = "<group>"; };
 		C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImage/FLAnimatedImage.m; sourceTree = "<group>"; };
 		C3D9B81C1CC0DBF000B5D2A7 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImage/FLAnimatedImageView.h; sourceTree = "<group>"; };
@@ -3985,7 +3983,6 @@
 		186495921D4895D200F1CCB0 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				C3D4E9301D9A456100F544D9 /* jspatch_340_20160927.js */,
 				186495931D4895D200F1CCB0 /* 90_0.gpx */,
 				186495A21D4895D200F1CCB0 /* hz.gpx */,
 				186495A31D4895D200F1CCB0 /* main.m */,
@@ -6256,7 +6253,6 @@
 				186495DC1D4895D200F1CCB0 /* sh.gpx in Resources */,
 				6BBFBC421B0D8E57000D3CA3 /* WeiboSDK.bundle in Resources */,
 				1888F4551D4A04E600C64288 /* RCTBundle in Resources */,
-				C3D4E9311D9A456100F544D9 /* jspatch_340_20160927.js in Resources */,
 				186495E61D4895D200F1CCB0 /* About.storyboard in Resources */,
 				18649B801D48A93000F1CCB0 /* MapBottomView.xib in Resources */,
 				186495FA1D4895D200F1CCB0 /* MutualInsJoin.storyboard in Resources */,
