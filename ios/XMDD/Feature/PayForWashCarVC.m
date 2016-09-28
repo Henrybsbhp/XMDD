@@ -215,7 +215,7 @@
             @strongify(self);
             if (!self.defaultCar)
             {
-                self.defaultCar = [self.carStore defalutInfoCompletelyCar];
+                self.defaultCar = [self.carStore defalutCar];
             }
             else
             {

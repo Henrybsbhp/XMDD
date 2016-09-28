@@ -431,11 +431,15 @@
         gAppDelegate.pushMgr.notifyQueue.running = YES;
         gAppDelegate.openUrlQueue.running = YES;
         [self checkPasteboardModel];
+        
+        [gSupportFileMgr setupJSPatch];
     } error:^(NSError *error) {
         gAppDelegate.pushMgr.notifyQueue.running = YES;
         gAppDelegate.openUrlQueue.running = YES;
         //未登录
         [self checkPasteboardModel];
+        
+        [gSupportFileMgr setupJSPatch];
     }];
 }
 

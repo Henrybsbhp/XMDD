@@ -12,8 +12,10 @@
 
 + (SupportFileManager *)sharedManager;
 
-- (RACSignal *)rac_handleSupportFile:(NSString *)strUrl;
+/// 设置jspatch
+- (void)setupJSPatch;
 
+- (RACSignal *)rac_handleSupportFile:(NSString *)strUrl;
 
 - (RACSignal *)rac_downloadSupportFileForUrl:(NSString *)strUrl;
 
