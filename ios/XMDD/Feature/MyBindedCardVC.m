@@ -155,7 +155,7 @@
             [self setDataSourceWithDataArray:rop.rsp_cardArray];
             self.tableView.hidden = NO;
         } else {
-            self.tableView.hidden = YES;
+            self.tableView.hidden = NO;
             [self addBtn];
         }
         
@@ -306,7 +306,14 @@
     //暂停动画并且显示缺省页
     @weakify(self)
     [self.view stopActivityAnimation];
-    [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"暂无银行卡" centerOffset:-100 tapBlock:nil];
+    if (self.advc.adList.count)
+    {
+        [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"暂无银行卡" centerOffset:-40 tapBlock:nil];
+    }
+    else
+    {
+        [self.view showEmptyViewWithImageName:@"def_withoutCard" text:@"暂无银行卡" centerOffset:-100 tapBlock:nil];
+    }
     [self.view addSubview:self.addbutton];
     const CGFloat top = gAppMgr.deviceInfo.screenSize.height / 2 + 30;
     [self.addbutton mas_updateConstraints:^(MASConstraintMaker *make) {

@@ -72,7 +72,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="YpT-uI-WuN">
-                                <rect key="frame" x="0.0" y="20" width="600" height="518"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InfoInputCell" rowHeight="44" id="wAu-5f-0hb" customClass="JTTableViewCell">
@@ -496,7 +496,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HfO-1A-Kld">
-                                <rect key="frame" x="0.0" y="538" width="600" height="62"/>
+                                <rect key="frame" x="0.0" y="600" width="600" height="0.0"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Horizontaline" translatesAutoresizingMaskIntoConstraints="NO" id="TDO-s4-gje">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
@@ -505,7 +505,7 @@
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pLx-Rc-brO">
-                                        <rect key="frame" x="16" y="7" width="568" height="48"/>
+                                        <rect key="frame" x="16" y="7" width="568" height="30"/>
                                         <state key="normal" title="Button"/>
                                     </button>
                                 </subviews>
@@ -516,9 +516,8 @@
                                     <constraint firstItem="pLx-Rc-brO" firstAttribute="centerX" secondItem="HfO-1A-Kld" secondAttribute="centerX" id="TwC-kv-doO"/>
                                     <constraint firstItem="TDO-s4-gje" firstAttribute="leading" secondItem="HfO-1A-Kld" secondAttribute="leading" id="XjT-6h-iQI"/>
                                     <constraint firstItem="pLx-Rc-brO" firstAttribute="leading" secondItem="HfO-1A-Kld" secondAttribute="leading" constant="16" id="Zsl-tQ-gQv"/>
-                                    <constraint firstAttribute="height" constant="62" id="ahY-sz-eyq"/>
+                                    <constraint firstAttribute="height" id="ahY-sz-eyq"/>
                                     <constraint firstAttribute="trailing" secondItem="TDO-s4-gje" secondAttribute="trailing" id="kQx-zW-NU1"/>
-                                    <constraint firstItem="pLx-Rc-brO" firstAttribute="centerY" secondItem="HfO-1A-Kld" secondAttribute="centerY" id="pid-Bx-QFe"/>
                                 </constraints>
                             </view>
                         </subviews>

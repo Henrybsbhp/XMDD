@@ -181,7 +181,6 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers
 {
     self.canAutoScrolling = NO;
-    NSLog(@"willTransitionToViewControllers");
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
@@ -194,15 +193,9 @@
         {
             [self.delegate scrollDisplayViewController:self currentIndex:index];
         }
-        NSLog(@"didFinishAnimating");
-    }
-    else
-    {
-        NSLog(@"nononono didFinishAnimating");
     }
     
     self.canAutoScrolling = YES;
-    self.canManualScrolling = YES;
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
