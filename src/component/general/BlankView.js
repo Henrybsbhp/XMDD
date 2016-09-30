@@ -89,8 +89,8 @@ export default class BlankView extends Component {
 
 const styles = StyleSheet.create({
     container: {flex: 1},
-    content: {flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent:'center', top: -64},
-    image: {margin: 20},
+    content: {flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent:'center'},
+    image: {marginTop: -44, marginBottom: 20},
     text: {fontSize: 17, fontWeight: 'bold', color: '#aaaaaa'},
     loadingContainer: {flexDirection: 'row', height: 120},
     loadingView: {flex: 1},

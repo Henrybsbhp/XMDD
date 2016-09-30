@@ -13,26 +13,26 @@ export default class GroupDetailFundView extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            progressValue: new Animated.Value(this.getProgressValue(props.group)),
+            fund: props.fund,
+            progressValue: new Animated.Value(this.getProgressValue(props.fund)),
         }
     }
 
     componentDidMount() {
-        Actions.fetchGroupFundIfNeeded(this.props.group.groupID)
+        Actions.fetchGroupFundIfNeeded(this.props.route.groupID)
     }
 
     componentWillReceiveProps(props) {
-        var group = props.group
-        if (!group.fundLoading && !group.fundError) {
-            this.setProgressValue(this.getProgressValue(group))
+        var fund = props.fund
+        if (fund && !fund.loading && !fund.error) {
+            this.setProgressValue(this.getProgressValue(fund))
         }
-
     }
 
-    getProgressValue(group) {
+    getProgressValue(fund) {
         var progress = 0
-        if (group && group.fundUsable && group.fundProgress != NaN) {
-            progress = group.fundProgress
+        if (fund.usable && fund.progress && fund.progress != NaN) {
+            progress = fund.progress
         }
         return progress
     }
@@ -48,13 +48,13 @@ export default class GroupDetailFundView extends Component {
 
     //// render
     render() {
-        var group = this.props.group ? this.props.group : {fundLoading: true}
-        var fund = group.fund ? group.fund : {}
+        var fund = this.state.fund
         return (
-            <BlankView loading={!group.fundUsable || group.fundLoading}
+            <BlankView loading={!fund.usable || fund.loading}
                        loadingOffset={-72}
-                       visible={!group.fundUsable || group.fundLoading || Boolean(group.fundError)}
-                       text={group.fundError}
+                       visible={Boolean(!fund.usable || fund.loading || fund.error)}
+                       text={fund.error}
+                       onPress={() => {Actions.fetchGroupFundIfNeeded(this.props.route.groupID, true)}}
             >
                 <View style={styles.container}>
                     {this.renderProgress(fund)}

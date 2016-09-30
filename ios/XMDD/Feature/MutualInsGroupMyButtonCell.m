@@ -40,7 +40,7 @@
         make.left.equalTo(self.contentView).offset(kHorMargin);
         make.right.equalTo(self.contentView).offset(-kHorMargin);
         make.top.equalTo(self.contentView).offset(0);
-        make.size.mas_equalTo(50);
+        make.height.mas_equalTo(50);
     }];
 }
 

@@ -1,6 +1,6 @@
 "use strict";
 import React, {Component, PropTypes} from 'react';
-import {View, StyleSheet, Text, Animated, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, Animated, Easing, TouchableOpacity} from 'react-native';
 import UI from '../../constant/UIConstants';
 
 export default class SegmentView extends Component {
@@ -33,7 +33,7 @@ export default class SegmentView extends Component {
         this.setState({selectedIndex: index, forceRerend: !this.state.forceRerend});
         Animated.timing(
             this.state.translateAnim,
-            {toValue: index, duration: 180}
+            {toValue: index, duration: 200, easing: Easing.inOut(Easing.quad)}
         ).start();
     }
 

@@ -213,7 +213,6 @@ export default class MutualInsView extends Component {
                 {this.renderCouponCell(row)}
                 <View style={styles.emptyCell}/>
             </View>
-
         );
     }
 

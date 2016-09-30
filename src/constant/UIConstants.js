@@ -19,9 +19,17 @@ const constants = {
         Line: '#E3E3E3',
         DarkText: '#454545',
         GrayText: '#888888',
-        Orange: '#FF7428',
         DefaultTint: '#18D06A',
-    }
+        Orange: '#FF7428',
+        Clear: 'rgba(0, 0, 0, 0)',
+    },
+    Style: {
+        Center: {alignItems: 'center', justifyContent: 'center'},
+        HContainer: {flexDirections: 'row'},
+        VContainer: {flexDirections: 'column'},
+        BgImg: {position: 'absolute', top: 0, left: 0, bottom: 0, right: 0},
+        Btn: {flexDirection: 'row', justifyContent: 'center', alignItems: 'center'},
+    },
 };
 
 export default constants;
