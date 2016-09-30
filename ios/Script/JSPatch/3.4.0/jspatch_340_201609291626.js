@@ -110,13 +110,13 @@ defineClass('ViolationItemViewController',{
 
       var height = 63 + size1.height + 16 + size2.height + 14;
       var height2 =  Math.ceil(height)
-      console.log("heightBlock"+height2);
-      return 100;
+      return height2;
     }
 
     item.setObject_forKeyedSubscript(block("CKDict *,UITableViewCell *,NSIndexPath *", prepareBlock),"__preparecell");
     item.setObject_forKeyedSubscript(block("CKDict *,NSIndexPath *", heightBlock),"__getcellheight");
 
+    console.log("return"+require("AppManager").sharedManager().deviceInfo().screenSize().height);
     if (require("AppManager").sharedManager().deviceInfo().screenSize().height > 667)
     {
       return item;

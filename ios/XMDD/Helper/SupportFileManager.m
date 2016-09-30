@@ -42,6 +42,13 @@
 #pragma mark - JSPatch
 - (void)setupJSPatch
 {
+//    [JPEngine startEngine];
+//
+//    NSString *sourcePath = [[NSBundle mainBundle] pathForResource:@"jspatch_340_201609291551" ofType:@"js"];
+//    NSString *script = [NSString stringWithContentsOfFile:sourcePath encoding:NSUTF8StringEncoding error:nil];
+//    [JPEngine evaluateScript:script];
+//    
+//    return;
     RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
     RACSignal * areaSignal = [RACObserve(gMapHelper, addrComponent) distinctUntilChanged];
     
