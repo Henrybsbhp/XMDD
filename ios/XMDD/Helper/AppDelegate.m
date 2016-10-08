@@ -13,7 +13,6 @@
 #import <TencentOpenAPI.framework/Headers/TencentOAuth.h>
 #import "WXApi.h"
 #import "WeiboSDK.h"
-#import <JPEngine.h>
 #import "RRFPSBar.h"
 #import "ReactNativeManager.h"
 #import "GlobalStoreManager.h"
@@ -84,8 +83,6 @@
     [self setupRootView];
     //设置同盾
     [self setFMDeviceManager];
-    
-    [self setupJSPatch];
     
     [self setupOpenUrlQueue];
     
@@ -607,42 +604,7 @@
 }
 
 
-#pragma mark - JSPatch
-- (void)setupJSPatch
-{
-    RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
-    RACSignal * areaSignal = [[RACObserve(gMapHelper, addrComponent) distinctUntilChanged] filter:^BOOL(HKAddressComponent * ac) {
-        return ac.province.length || ac.city.length || ac.district.length;
-    }];
-    
-    RACSignal * combinedSignal = [[userSignal combineLatestWith:areaSignal] take:1];
-    [combinedSignal subscribeNext:^(RACTuple * tuple) {
-        
-        JTUser * u = tuple.first;
-        HKAddressComponent * ac = tuple.second;
-        NSString * version = gAppMgr.clientInfo.clientVersion;
-        
-        GetSystemJSPatchOp * op = [GetSystemJSPatchOp operation];
-        op.phoneNumber = u.userID;
-        op.version = version;
-        op.province = ac.province;
-        op.city = ac.city;
-        op.district = ac.district;
-        
-        [[[op rac_postRequest] flattenMap:^RACStream *(GetSystemJSPatchOp * rop) {
-            
-            NSString * url = rop.rsp_jspatchUrl;
-            return [gSupportFileMgr rac_handleSupportFile:url];
-        }] subscribeNext:^(RACTuple * tuple) {
-            
-            
-            NSString * filePath = tuple.first;
-            [JPEngine startEngine];
-            NSString *script = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-            [JPEngine evaluateScript:script];
-        }];
-    }];
-}
+
 
 ///剪切板设置
 - (void)setupPasteboard

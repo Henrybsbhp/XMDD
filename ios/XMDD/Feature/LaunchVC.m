@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *skipBtn;
 @property (nonatomic, strong) UIWindow *nextWindow;
+@property (nonatomic, assign) BOOL isDismissing;
 
 @property (nonatomic, strong) RACDisposable *signalDisposable;
 @end
@@ -103,7 +104,6 @@
     [[gesture rac_gestureSignal] subscribeNext:^(id x) {
         
         @strongify(self)
-        
         [self.signalDisposable dispose];
         [self swithToRootViewAfterDelay:0.1 url:self.info.url];
     }];
@@ -111,8 +111,11 @@
 
 - (void)swithToRootViewAfterDelay:(NSTimeInterval)delay url:(NSString *) url
 {
+    if (self.isDismissing) {
+        return;
+    }
+    self.isDismissing = YES;
     @weakify(self)
-    
     CKAfter(delay, ^{
         
         if (gAppMgr.navModel.curNavCtrl && url.length)
@@ -136,8 +139,6 @@
 - (void)countDownCircleAfterDelay:(NSTimeInterval)delay
 {
     
-    @weakify(self)
-    
     UIBezierPath *bezierPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(20, 20) radius:20 startAngle:M_PI_2*3 endAngle:M_PI*2 + M_PI_2*3 clockwise:YES];
     
     CAShapeLayer *shapeLayer = [[CAShapeLayer alloc]init];
@@ -155,38 +156,16 @@
     self.signalDisposable = [[[RACSignal interval:0.1 onScheduler:[RACScheduler mainThreadScheduler]]take:delay*10]subscribeNext:^(id x) {
         
         shapeLayer.strokeStart += diffPi;
-        
     }completed:^{
-        
-        CKAfter(0.3, ^{
-            [UIView animateWithDuration:0.35 animations:^{
-                gAppDelegate.window.alpha = 0;
-            } completion:^(BOOL finished) {
-                
-                @strongify(self)
-                
-                gAppDelegate.window = self.nextWindow;
-            }];
-        });
-        
+        [self swithToRootViewAfterDelay:0.1 url:nil];
     }];
 }
 
 - (IBAction)actionSkip:(id)sender
 {
     [MobClick event:@"shouye" attributes:@{@"shouye":@"shouye_tiaoguo"}];
-    
-    @weakify(self)
     [self.signalDisposable dispose];
-    
-    [UIView animateWithDuration:0.35 animations:^{
-        
-        gAppDelegate.window.alpha = 0;
-    } completion:^(BOOL finished) {
-        
-        @strongify(self)
-        gAppDelegate.window = self.nextWindow;
-    }];
+    [self swithToRootViewAfterDelay:0.1 url:self.info.url];
 }
 
 @end

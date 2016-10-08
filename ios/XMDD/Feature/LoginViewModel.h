@@ -21,6 +21,8 @@
 ///判断是否登录，如果未登录直接进入登录流程,登录成功后的操作
 + (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC withLoginSuccessAction:(void (^)(void))successBlock;
 
+/// 强制弹出登录框,用于jsbridge;
++ (BOOL)forceLoginForTargetViewController:(UIViewController *)targetVC originVC:(UIViewController *)originVC withLoginSuccessAction:(void (^)(void))successBlock;
 + (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC originVC:(UIViewController *)originVC withLoginSuccessAction:(void (^)(void))successBlock;
 
 @end
