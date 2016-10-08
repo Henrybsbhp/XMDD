@@ -49,7 +49,6 @@
     if (self.info.url.length)
     {
         [self setupClickAction];
-        
         ///如果是有广告，并且没有点击，时间停留多一秒
         [self countDownCircleAfterDelay:self.info.staytime > 0 ? self.info.staytime : 3];
     }

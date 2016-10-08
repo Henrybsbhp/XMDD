@@ -11,6 +11,7 @@
 
 
 @interface ReactView : UIView
+@property (nonatomic,strong)RCTRootView * rctRootView;
 
 - (void)rct_requestWithUrl:(NSURL *)url andModulName:(NSString *)model;
 - (void)rct_requestWithUrl:(NSURL *)url modulName:(NSString *)model properties:(NSDictionary *)properties;

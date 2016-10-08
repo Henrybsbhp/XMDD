@@ -5,17 +5,24 @@ import SegmentView from '../general/SegmentView';
 import UI from '../../constant/UIConstants';
 import FundView from './GroupDetailFundView';
 import MemberView from './GroupDetailMembersView';
+import MessageView from './GroupDetailMessagesView';
+import MeView from './GroupDetailMeView';
 import Store, {Actions, Domains} from '../../store/MutualInsStore';
+import MyUserStore from '../../store/MyUserStore';
 import BlankView from '../general/BlankView';
+
 
 export default class MutualInsGroupDetailView extends Component {
     constructor(props) {
         super(props);
+        var titles = ['互助金', '成员', '动态']
+        if (MyUserStore.isLogin) {
+            titles.splice(0, 0, '我的')
+        }
         this.state = {
-            group: {},
-            items: ['互助金', '成员', '动态'],
+            group: Store.getOrCreateDetailGroup(props.route.groupID),
+            titles: titles,
             segmentIndex: 0,
-            forceRerend: false,
         };
     }
 
@@ -37,24 +44,29 @@ export default class MutualInsGroupDetailView extends Component {
 
     render() {
         var group = this.state.group
+        var base = group.base
+        var currentTab = this.state.titles[this.state.segmentIndex]
         return (
             <BlankView
                 style={styles.container}
-                visible={group.baseLoading || group.baseError}
-                text={group.baseError}
-                loading={group.baseLoading}
-                onPress={() => Actions.fetchGroupBase(this.props.route.groupID, this.props.route.memberID)}
+                visible={Boolean(base.loading || base.error)}
+                text={base.error}
+                loading={base.loading}
+                onPress={() => {Actions.fetchGroupBase(this.props.route.groupID, this.props.route.memberID)}}
             >
                 {this.renderSegmentView()}
-                {this.state.segmentIndex == 0 && (<FundView {...this.props} group={this.state.group}/>)}
-                {this.state.segmentIndex == 1 && (<MemberView {...this.props} group={this.state.group}/>)}
+                {currentTab === '我的' && <MeView {...this.props} myInfo={group.myInfo}/>}
+                {currentTab === '互助金' && <FundView {...this.props} fund={group.fund}/>}
+                {currentTab === '成员' && <MemberView {...this.props} members={group.members}/>}
+                {currentTab == '动态' && (<MessageView {...this.props} messages={group.messages}/>)}
             </BlankView>
         );
     }
+
     renderSegmentView() {
         return (
             <SegmentView
-                items={this.state.items}
+                items={this.state.titles}
                 selectedIndex={this.state.segmentIndex}
                 onChanged={index => {this.setState({segmentIndex: index})}}
             />

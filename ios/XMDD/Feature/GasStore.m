@@ -149,10 +149,10 @@
         
         GetGaschargeConfigOp *op = [GetGaschargeConfigOp operation];
         @weakify(self);
-        cfgSig = [[[[op rac_postRequest] catch:^RACSignal *(NSError *error) {
+        cfgSig = [[[[op rac_postRequest] doError:^(NSError *error) {
+
             @strongify(self);
             self.getGaschargeConfigSignal = nil;
-            return [RACSignal return:nil];
         }] doNext:^(GetGaschargeConfigOp *rspOp) {
             
             @strongify(self);

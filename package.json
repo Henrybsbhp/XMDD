@@ -12,6 +12,7 @@
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-native": "^0.33",
+    "react-native-htmlview": "git+https://github.com/ckools/react-native-htmlview.git",
     "react-native-image-picker": "0.18.17",
     "react-native-root-toast": "^1.0.3",
     "react-native-svg": "^4.3.0",
