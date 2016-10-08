@@ -178,6 +178,7 @@
         emptyImage.hidden = YES;
         emptyLabel.hidden = YES;
         addCarButton.hidden = YES;
+        [self.emptyContentView hideDefaultEmptyView];
         [self.view hideDefaultEmptyView];
         [self.view startActivityAnimationWithType:GifActivityIndicatorType];
     }] finally:^{
