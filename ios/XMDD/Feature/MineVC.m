@@ -484,7 +484,8 @@
     
     CKDict *setting = [self normalDataWithInfo:@{kCKItemKey:@"setting", @"img":@"Mine_about_imageView", @"title":@"关于", @"evt":@"rp301_8", @"nologin":@YES}];
     setting[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        AboutViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"AboutViewController"];
+        
+        UIViewController *vc = [HKViewControllerFactory aboutUsVC];
         [self.navigationController pushViewController:vc animated:YES];
     });
     self.datasource = $($(top),
