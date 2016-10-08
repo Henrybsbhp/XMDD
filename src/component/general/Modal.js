@@ -2,6 +2,8 @@
 import React, {Component, PropTypes} from 'react';
 import {View, TouchableWithoutFeedback, StyleSheet, Animated} from 'react-native';
 
+var globalID = 1
+
 export default class Modal extends Component {
     static propTypes = {
         isOpen: PropTypes.bool,
@@ -17,6 +19,7 @@ export default class Modal extends Component {
 
     constructor(props) {
         super(props);
+        this.id = globalID++;
         this.state = {isOpen: false, visible: false, fadeAnim: new Animated.Value(0)};
     }
 

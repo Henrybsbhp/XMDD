@@ -25,6 +25,7 @@
     if (self) {
         NSMutableDictionary *props = [NSMutableDictionary dictionaryWithDictionary:properties];
         [props setObject:moduleName forKey:@"component"];
+        [props setObject:@(gAppMgr.myUser ? YES : NO) forKey:@"isLogin"];
         _properties = props;
         _modulName = moduleName;
         self.router.navigationBarHidden = YES;
