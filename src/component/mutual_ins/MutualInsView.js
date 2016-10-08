@@ -62,7 +62,7 @@ export default class MutualInsView extends Component {
     /// Actions
     onStoreChanged(domain, info, error) {
         if (Domains.SimpleGroups == domain) {
-            var state = {group: info, loading: info.loading}
+            var state = {groups: info, loading: info.loading}
             if (!info.loading && !error) {
                 state.loadedOnce = true
                 state.dataSource = this.createDatasource(info.carlist)
@@ -161,25 +161,60 @@ export default class MutualInsView extends Component {
 
     /// renderSection
     renderHeaderSection(row) {
+        var groups = this.state.groups;
         return (
             <View style={{backgroundColor: 'white'}}>
-                <ADView
-                    style={styles.ad}
-                    defaultImage={UI.Img.DefaultADMutIns}
-                />
+                <View style={styles.headerItemsHContainer}>
+                    {this.renderHeaderItem(
+                        {uri: 'mutualIns_people', width: 18, height: 22},
+                        groups.totalmembercnt,
+                        '参加人数'
+                    )}
+                    <View style={styles.lineV}/>
+                    {this.renderHeaderItem(
+                        {uri: 'mutualIns_moneySum', width: 21, height: 21},
+                        groups.totalpoolamt,
+                        '互助金额'
+                    )}
+                </View>
+                <View style={styles.line4}/>
+                <View style={styles.headerItemsHContainer}>
+                    {this.renderHeaderItem(
+                        {uri: 'mutualIns_stack', width: 22, height: 22},
+                        groups.totalclaimcnt,
+                        '补偿次数'
+                    )}
+                    <View style={styles.lineV}/>
+                    {this.renderHeaderItem(
+                        {uri: 'mutualIns_statistics', width: 20, height: 20},
+                        groups.totalclaimamt,
+                        '补偿金额'
+                    )}
+                </View>
                 <View style={styles.line}/>
-                <TouchableOpacity onPress={()=>{}}>
-                    <View style={styles.calculateCell}>
-                        <Image source={{uri: 'mins_calculate'}} style={styles.calculateCellImage}/>
-                        <Text style={styles.calculateCellText}>互助费用试算</Text>
+                <TouchableOpacity style={styles.allGroupsButton}>
+                        <Text style={styles.allGroupsButtonTitle}>
+                            {this.state.groups.opengrouptip}
+                        </Text>
                         <Image source={UI.Img.ArrowRight} style={styles.arrow}/>
-                    </View>
                 </TouchableOpacity>
                 <View style={styles.sectionCell}>
                     <Text style={styles.sectionCellText}>我的互助</Text>
                 </View>
             </View>
         );
+    }
+
+    renderHeaderItem(img, title, desc) {
+        return (
+            <View style={styles.headerItemContainer}>
+                <Image source={img} style={styles.headerItemImage}/>
+                <View>
+                    <Text style={styles.headerItemTitle}>{title}</Text>
+                    <Text style={styles.headerItemDesc}>{desc}</Text>
+                </View>
+            </View>
+        )
     }
 
     renderCarSection(row) {
@@ -310,10 +345,11 @@ export default class MutualInsView extends Component {
 const styles = StyleSheet.create({
     container: {flex: 1},
     bg: {flex: 1, backgroundColor: UI.Color.Background},
-    ad: {height: Math.ceil(UI.Win.Width/4.15), flex:1},
-    line: {backgroundColor: UI.Color.Line, height: 1},
+    line: {backgroundColor: UI.Color.Line, height: 0.5},
     line2: {backgroundColor: UI.Color.Line, height: 0.5, marginLeft:17},
     line3: {backgroundColor: UI.Color.DarkText, height: 1, width: 23, marginHorizontal: 5},
+    line4: {backgroundColor: UI.Color.Line, height: 0.5, marginHorizontal: 15},
+    lineV: {backgroundColor: UI.Color.Line,  width: 0.5, marginVertical: 9},
 
     bottomContainer: {height: 60, backgroundColor: 'white'},
     bottomContent: {flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'},
@@ -322,13 +358,14 @@ const styles = StyleSheet.create({
     bottomRightButton: {backgroundColor: UI.Color.DefaultTint},
     bottomButtonText: {fontSize: 18, color: 'white', textAlign: 'center', alignSelf: 'center'},
 
+    headerItemsHContainer: {...UI.Style.HContainer, height: 86, marginHorizontal: 6},
+    headerItemContainer: {flex: 1, flexDirection: 'row', alignItems: 'center'},
+    headerItemImage: {marginLeft: 24, marginRight: 10},
+    headerItemTitle: {fontSize: 15, color: UI.Color.Orange},
+    headerItemDesc: {fontSize: 14, color: UI.Color.GrayText, marginTop: 8},
     arrow: {marginRight: 14},
-    calculateCell: {
-        height: 48, flexDirection: 'row', backgroundColor: 'white', alignItems: 'center',
-        justifyContent: 'space-between'
-    },
-    calculateCellImage: {width: 16, height: 16, marginLeft: 17},
-    calculateCellText: {fontSize: 16, color: UI.Color.DarkText, marginLeft: 10, flex: 1},
+    allGroupsButton: {...UI.Style.Btn, height: 44,},
+    allGroupsButtonTitle: {fontSize: 16, color: UI.Color.DarkText, marginRight: 3},
     sectionCell: {
         backgroundColor: UI.Color.Background, flexDirection: 'row', alignItems: 'center',
         height: 36, justifyContent: 'space-between'

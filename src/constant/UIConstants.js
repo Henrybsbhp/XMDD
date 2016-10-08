@@ -25,8 +25,8 @@ const constants = {
     },
     Style: {
         Center: {alignItems: 'center', justifyContent: 'center'},
-        HContainer: {flexDirections: 'row'},
-        VContainer: {flexDirections: 'column'},
+        HContainer: {flexDirection: 'row'},
+        VContainer: {flexDirection: 'column'},
         BgImg: {position: 'absolute', top: 0, left: 0, bottom: 0, right: 0},
         Btn: {flexDirection: 'row', justifyContent: 'center', alignItems: 'center'},
     },

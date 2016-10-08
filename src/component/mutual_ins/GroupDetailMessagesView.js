@@ -1,4 +1,4 @@
-"use strict";
+    "use strict";
 import React, {Component, PropTypes} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image, ListView} from 'react-native';
 import UI from '../../constant/UIConstants';

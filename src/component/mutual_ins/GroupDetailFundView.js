@@ -40,7 +40,7 @@ export default class GroupDetailFundView extends Component {
     setProgressValue(value) {
         Animated.timing(
             this.state.progressValue,
-            {toValue: value, duration: 600, easing: Easing.inOut(Easing.quad)},
+            {toValue: value, duration: 700, delay: 150, easing: Easing.inOut(Easing.quad)},
         ).start(() => {
             this.state.progressValue.setValue(value)
         });
