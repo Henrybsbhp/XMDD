@@ -46,6 +46,25 @@
     return [LoginViewModel loginIfNeededForTargetViewController:targetVC originVC:nil withLoginSuccessAction:successBlock];
 }
 
++ (BOOL)forceLoginForTargetViewController:(UIViewController *)targetVC originVC:(UIViewController *)originVC withLoginSuccessAction:(void (^)(void))successBlock
+{
+    VcodeLoginVC *vc = [UIStoryboard vcWithId:@"VcodeLoginVC" inStoryboard:@"Login"];
+    if (successBlock)
+    {
+        vc.loginSuccessAction = successBlock;
+    }
+    if ([targetVC isKindOfClass:[HKNavigationController class]]) {
+        vc.model.originVC = originVC;
+        [(HKNavigationController *)targetVC pushViewController:vc animated:YES];
+    }
+    else {
+        HKNavigationController *nvc = [[HKNavigationController alloc] initWithRootViewController:vc];
+        [targetVC presentViewController:nvc animated:YES completion:nil];
+    }
+    gAppDelegate.loginVC = vc;
+    return NO;
+}
+
 + (BOOL)loginIfNeededForTargetViewController:(UIViewController *)targetVC originVC:(UIViewController *)originVC withLoginSuccessAction:(void (^)(void))successBlock
 {
     if (gAppMgr.myUser) {

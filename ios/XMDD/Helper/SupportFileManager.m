@@ -8,6 +8,8 @@
 
 #import "SupportFileManager.h"
 #import "RACAFNetworking.h"
+#import "GetSystemJSPatchOp.h"
+#import <JPEngine.h>
 
 @interface SupportFileManager ()
 
@@ -35,6 +37,48 @@
         _fileManager = [[AFHTTPRequestOperationManager alloc] init];
     }
     return self;
+}
+
+#pragma mark - JSPatch
+- (void)setupJSPatch
+{
+//    [JPEngine startEngine];
+//
+//    NSString *sourcePath = [[NSBundle mainBundle] pathForResource:@"jspatch_340_201609291551" ofType:@"js"];
+//    NSString *script = [NSString stringWithContentsOfFile:sourcePath encoding:NSUTF8StringEncoding error:nil];
+//    [JPEngine evaluateScript:script];
+//    
+//    return;
+    RACSignal * userSignal = [RACObserve(gAppMgr, myUser) distinctUntilChanged];
+    RACSignal * areaSignal = [RACObserve(gMapHelper, addrComponent) distinctUntilChanged];
+    
+    RACSignal * combinedSignal = [[userSignal combineLatestWith:areaSignal] take:1];
+    [combinedSignal subscribeNext:^(RACTuple * tuple) {
+        
+        JTUser * u = tuple.first;
+        HKAddressComponent * ac = tuple.second;
+        NSString * version = gAppMgr.clientInfo.clientVersion;
+        
+        GetSystemJSPatchOp * op = [GetSystemJSPatchOp operation];
+        op.phoneNumber = u.userID;
+        op.version = version;
+        op.province = ac.province;
+        op.city = ac.city;
+        op.district = ac.district;
+        
+        [[[op rac_postRequest] flattenMap:^RACStream *(GetSystemJSPatchOp * rop) {
+            
+            NSString * url = rop.rsp_jspatchUrl;
+            return [self rac_handleSupportFile:url];
+        }] subscribeNext:^(RACTuple * tuple) {
+            
+            
+            NSString * filePath = tuple.first;
+            [JPEngine startEngine];
+            NSString *script = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+            [JPEngine evaluateScript:script];
+        }];
+    }];
 }
 
 - (RACSignal *)rac_handleSupportFile:(NSString *)strUrl

@@ -102,11 +102,21 @@
             [gToast showingWithText:@"正在解绑中..."];
         }] subscribeNext:^(id x) {
             [gToast showSuccess:@"解绑成功"];
-            [self.datasource[indexPath.section] removeObjectAtIndex:indexPath.row];
-            [self.fetchedData removeObjectAtIndex:indexPath.row];
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            if (self.fetchedData.count <= 1)
+            {
+                [self.datasource removeAllObjects];
+                [self.fetchedData removeAllObjects];
+                [self.tableView reloadData];
+            }
+            else
+            {
+                [self.datasource[indexPath.section] removeObjectAtIndex:indexPath.row];
+                [self.fetchedData removeObjectAtIndex:indexPath.row];
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+
             if (self.fetchedData.count < 1) {
-                self.tableView.hidden = YES;
+                self.tableView.hidden = NO;
                 [self addBtn];
                 self.fetchedData = nil;
             }

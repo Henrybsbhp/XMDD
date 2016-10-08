@@ -505,20 +505,33 @@
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pLx-Rc-brO">
-                                        <rect key="frame" x="16" y="7" width="568" height="30"/>
+                                        <rect key="frame" x="16" y="-15" width="568" height="30"/>
                                         <state key="normal" title="Button"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="pLx-Rc-brO" firstAttribute="centerY" secondItem="HfO-1A-Kld" secondAttribute="centerY" id="5vF-Rf-V6r"/>
                                     <constraint firstItem="pLx-Rc-brO" firstAttribute="top" secondItem="HfO-1A-Kld" secondAttribute="top" constant="7" id="CX4-B3-0im"/>
                                     <constraint firstItem="TDO-s4-gje" firstAttribute="top" secondItem="HfO-1A-Kld" secondAttribute="top" id="LGi-em-Q6f"/>
                                     <constraint firstItem="pLx-Rc-brO" firstAttribute="centerX" secondItem="HfO-1A-Kld" secondAttribute="centerX" id="TwC-kv-doO"/>
                                     <constraint firstItem="TDO-s4-gje" firstAttribute="leading" secondItem="HfO-1A-Kld" secondAttribute="leading" id="XjT-6h-iQI"/>
                                     <constraint firstItem="pLx-Rc-brO" firstAttribute="leading" secondItem="HfO-1A-Kld" secondAttribute="leading" constant="16" id="Zsl-tQ-gQv"/>
                                     <constraint firstAttribute="height" id="ahY-sz-eyq"/>
+                                    <constraint firstItem="pLx-Rc-brO" firstAttribute="height" secondItem="HfO-1A-Kld" secondAttribute="height" constant="-14" id="dhT-pc-hx7"/>
                                     <constraint firstAttribute="trailing" secondItem="TDO-s4-gje" secondAttribute="trailing" id="kQx-zW-NU1"/>
+                                    <constraint firstItem="pLx-Rc-brO" firstAttribute="centerY" secondItem="HfO-1A-Kld" secondAttribute="centerY" id="olb-Dn-XNN"/>
+                                    <constraint firstItem="pLx-Rc-brO" firstAttribute="top" secondItem="HfO-1A-Kld" secondAttribute="top" constant="7" id="qIJ-SX-TGb"/>
+                                    <constraint firstItem="pLx-Rc-brO" firstAttribute="bottom" secondItem="HfO-1A-Kld" secondAttribute="bottom" constant="-7" id="r4K-mb-Op6"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="CX4-B3-0im"/>
+                                        <exclude reference="olb-Dn-XNN"/>
+                                        <exclude reference="qIJ-SX-TGb"/>
+                                        <exclude reference="r4K-mb-Op6"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

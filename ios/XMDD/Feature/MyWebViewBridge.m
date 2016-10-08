@@ -317,7 +317,7 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         NSString * triggerId = [dic stringParamForName:@"triggerId"];
         
         @weakify(self);
-        [LoginViewModel loginIfNeededForTargetViewController:self.targetVC withLoginSuccessAction:^{
+        [LoginViewModel forceLoginForTargetViewController:self.targetVC originVC:nil withLoginSuccessAction:^{
             
             @strongify(self)
             NSDictionary * rDict = @{@"token":gNetworkMgr.token ?: @"",
