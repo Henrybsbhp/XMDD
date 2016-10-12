@@ -352,7 +352,10 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     vc.shop = self.shop;
     vc.coupon = self.coupon;
     vc.originVC = self;
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    vc.router.userInfo = [[CKDict alloc] init];
+    vc.router.userInfo[kOriginRoute] = self.router;
+    [self.router.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionGotoCommentListVC {
