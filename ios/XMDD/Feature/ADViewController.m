@@ -30,13 +30,6 @@
     return adctrl;
 }
 
-+ (instancetype)vcWithMutualADType:(AdvertisementType)type boundsWidth:(CGFloat)width
-                          targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
-                  mobBaseEventDict:(NSDictionary *)dict
-{
-    ADViewController *adctrl = [[ADViewController alloc] initWithMutualADType:type boundsWidth:width targetVC:vc mobBaseEvent:event mobBaseEventDict:dict];
-    return adctrl;
-}
 
 - (instancetype)initWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
                       targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
@@ -79,43 +72,6 @@
     return self;
 }
 
-- (instancetype)initWithMutualADType:(AdvertisementType)type boundsWidth:(CGFloat)width
-                            targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
-{
-    self = [super init];
-    if (self) {
-        _targetVC = vc;
-        _adType = type;
-        _mobBaseEvent = event;
-        _mobBaseEventDict = dict;
-        _navModel = [[NavigationModel alloc] init];
-        _navModel.curNavCtrl = _targetVC.navigationController;
-        CGFloat height = floor(width/4.15);
-        
-        SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-        adView.delegate = self;
-        adView.dataSource = self;
-        adView.pageGapWidth = 0;
-        adView.pageControl.hidden = YES;
-        _adView = adView;
-        
-        [adView setCurrentPageIndex:0];
-        @weakify(self);
-        RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
-            
-            @strongify(self);
-            NSInteger index = adView.currentPageIndex + 1;
-            if (index > (int)(self.adList.count)-1) {
-                index = 0;
-            }
-            if (index != adView.currentPageIndex) {
-                [adView setCurrentPageIndex:index animated:YES];
-            }
-        }];
-        [[self rac_deallocDisposable] addDisposable:dis];
-    }
-    return self;
-}
 
 #pragma mark - Reload
 - (void)reloadDataWithForce:(BOOL)force completed:(void(^)(ADViewController *ctrl, NSArray *ads))completed
@@ -125,10 +81,24 @@
     [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
         
         @strongify(self);
-        _adList = ads;
+        
+        /// 为了制造循环滚动的效果，数据结构为：d【abcd】a，如果个数为一个的话，则忽略按照原始样子
+        if (ads.count > 1)
+        {
+            NSMutableArray * tempArray = [NSMutableArray array];
+            [tempArray safetyAddObject:[ads lastObject]];
+            [tempArray safetyAddObjectsFromArray:ads];
+            [tempArray safetyAddObject:[ads firstObject]];
+            _adList = [NSArray arrayWithArray:tempArray];
+        }
+        else
+        {
+            _adList = ads;
+        }
+        
         [(SYPaginatorView *)self.adView reloadDataRemovingCurrentPage:YES];
-        [(SYPaginatorView *)self.adView setCurrentPageIndex:0];
-        [(SYPaginatorView *)self.adView pageControl].hidden = self.adList.count <= 1;
+        [(SYPaginatorView *)self.adView setCurrentPageIndex:ads.count > 1 ? 1 : 0];
+        [(SYPaginatorView *)self.adView pageControl].hidden = ads.count <= 1;
         
         if (completed) {
             completed(self, ads);

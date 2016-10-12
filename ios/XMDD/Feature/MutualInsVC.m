@@ -552,36 +552,6 @@
     return mutualInsTipsCell;
 }
 
-- (CKDict *)setupBannerAdCell
-{
-    @weakify(self);
-    CKDict *bannerAdCell = [CKDict dictWith:@{kCKItemKey: @"bannerAdCell", kCKCellID: @"BannerAdCell"}];
-    bannerAdCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        @strongify(self);
-        self.adVC = [ADViewController vcWithMutualADType:AdvertisementMutualInsTop boundsWidth:self.view.frame.size.width targetVC:self mobBaseEvent:@"huzhushouye" mobBaseEventDict:@{@"huzhushouye" : @"huzhushouye3"}];
-        CGFloat height = floor(self.adVC.adView.frame.size.height);
-        return height;
-    });
-    
-    bannerAdCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        @strongify(self);
-        if (!cell.contentView.tag) {
-            [cell.contentView addSubview:self.adVC.adView];
-            cell.contentView.tag = 1001;
-            [self.adVC.adView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(cell.contentView);
-                make.right.equalTo(cell.contentView);
-                make.top.equalTo(cell.contentView);
-                make.height.mas_equalTo(cell.frame.size.height);
-            }];
-        }
-        
-        [self.adVC reloadDataWithForce:YES completed:nil];
-    });
-    
-    return bannerAdCell;
-}
-
 ///设置「互助费用试算」Cell
 - (CKDict *)setupCalculateCell
 {
