@@ -8,12 +8,10 @@
 
 #import "ADViewController.h"
 #import "NavigationModel.h"
-#import "HKScrollDisplayVC.h"
 #import "MutualInsVC.h"
 
-@interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource, HKScrollDisplayVCDelegate>
+@interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource>
 @property (nonatomic, strong) NavigationModel *navModel;
-@property (strong, nonatomic) HKScrollDisplayVC *sdVC;
 @end
 @implementation ADViewController
 
@@ -55,50 +53,28 @@
         _navModel.curNavCtrl = _targetVC.navigationController;
         CGFloat height = floor(width*184.0/640);
         
-        if (type == AdvertisementHomePage)
-        {
-            self.sdVC = [[HKScrollDisplayVC alloc] init];
-            self.sdVC.delegate = self;
-            [_targetVC addChildViewController:self.sdVC];
-            self.sdVC.view.frame = CGRectMake(0, 0, width, height);
-            self.sdVC.currentPage = 0;
-            self.sdVC.adType = self.adType;
-            self.sdVC.adList = self.adList;
-            _adView = self.sdVC.view;
         
-            RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
-                
-                @strongify(self);
-                self.sdVC.currentPage ++;
-                
-            }];
-            [[self rac_deallocDisposable] addDisposable:dis];
-        }
-        else
-        {
+        SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+        adView.delegate = self;
+        adView.dataSource = self;
+        adView.pageGapWidth = 0;
+        adView.pageControl.hidden = YES;
+        _adView = adView;
+        
+        [adView setCurrentPageIndex:0];
+        
+        RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
             
-            SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-            adView.delegate = self;
-            adView.dataSource = self;
-            adView.pageGapWidth = 0;
-            adView.pageControl.hidden = YES;
-            _adView = adView;
-            
-            [adView setCurrentPageIndex:0];
-            
-            RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
-                
-                @strongify(self);
-                NSInteger index = adView.currentPageIndex + 1;
-                if (index > (int)(self.adList.count)-1) {
-                    index = 0;
-                }
-                if (index != adView.currentPageIndex) {
-                    [adView setCurrentPageIndex:index animated:YES];
-                }
-            }];
-            [[self rac_deallocDisposable] addDisposable:dis];
-        }
+            @strongify(self);
+            NSInteger index = adView.currentPageIndex + 1;
+            if (index > (int)(self.adList.count)-1) {
+                index = 0;
+            }
+            if (index != adView.currentPageIndex) {
+                [adView setCurrentPageIndex:index animated:YES];
+            }
+        }];
+        [[self rac_deallocDisposable] addDisposable:dis];
     }
     return self;
 }
@@ -150,16 +126,9 @@
         
         @strongify(self);
         _adList = ads;
-        if (self.adType == AdvertisementHomePage)
-        {
-            self.sdVC.adList = ads;
-        }
-        else
-        {
-            [(SYPaginatorView *)self.adView reloadDataRemovingCurrentPage:YES];
-            [(SYPaginatorView *)self.adView setCurrentPageIndex:0];
-            [(SYPaginatorView *)self.adView pageControl].hidden = self.adList.count <= 1;
-        }
+        [(SYPaginatorView *)self.adView reloadDataRemovingCurrentPage:YES];
+        [(SYPaginatorView *)self.adView setCurrentPageIndex:0];
+        [(SYPaginatorView *)self.adView pageControl].hidden = self.adList.count <= 1;
         
         if (completed) {
             completed(self, ads);
@@ -181,13 +150,6 @@
             }
         });
     }];
-}
-
-#pragma mark - HKScrollDisplayVCDelegate
-
-- (void)scrollDisplayViewController:(HKScrollDisplayVC *)scrollDisplayViewController didSelectedIndex:(NSInteger)index
-{
-    [self actionTapWithAdvertisement:[self.adList safetyObjectAtIndex:index]];
 }
 
 #pragma mark - SYPaginatorViewDelegate
