@@ -165,7 +165,7 @@
 {
     [MobClick event:@"shouye" attributes:@{@"shouye":@"shouye_tiaoguo"}];
     [self.signalDisposable dispose];
-    [self swithToRootViewAfterDelay:0.1 url:self.info.url];
+    [self swithToRootViewAfterDelay:0.1 url:nil];
 }
 
 @end
