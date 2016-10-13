@@ -33,6 +33,7 @@
     
     [super viewDidLoad];
     [self setupSkipBtn];
+    [self setupNextWindow];
     gAppDelegate.window.windowLevel = UIWindowLevelStatusBar;
     self.imageView.image = self.image;
     if (self.info.fullscreen) {
@@ -82,7 +83,6 @@
         HKTabBarVC *vc = [[HKTabBarVC alloc] init];
         gAppMgr.tabBarVC = vc;
         self.nextWindow.rootViewController = vc;
-        [self.nextWindow makeKeyAndVisible];
     }
 }
 
@@ -110,14 +110,15 @@
 
 - (void)swithToRootViewAfterDelay:(NSTimeInterval)delay url:(NSString *) url
 {
-    [self setupNextWindow];
     if (self.isDismissing) {
         return;
     }
+    
     self.isDismissing = YES;
     @weakify(self)
     CKAfter(delay, ^{
         
+        [self.nextWindow makeKeyAndVisible];
         if (gAppMgr.navModel.curNavCtrl && url.length)
         {
             //  使用队列模式
@@ -130,7 +131,6 @@
         } completion:^(BOOL finished) {
             
             @strongify(self)
-            
             gAppDelegate.window = self.nextWindow;
         }];
     });
@@ -157,6 +157,7 @@
         
         shapeLayer.strokeStart += diffPi;
     }completed:^{
+        
         [self swithToRootViewAfterDelay:0.1 url:nil];
     }];
 }
