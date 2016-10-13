@@ -94,7 +94,7 @@
         [self actionGotoViolationDelegateMissionVC];
     }];
     
-    self.bottomViewConstraint.constant = 64;
+    self.bottomViewConstraint.constant = 0;
 }
 
 

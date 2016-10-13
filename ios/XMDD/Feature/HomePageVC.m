@@ -345,7 +345,7 @@
         
         NSString * restriction = gAppMgr.restriction;
         CGSize restrictionSize = [restriction labelSizeWithWidth:9999 font:[UIFont systemFontOfSize:18]];
-        CGFloat maxLayoutWidth = ScreenWidth - 8 - 44 - 8 - 8 -16 - restrictionSize.width - 14;
+        CGFloat maxLayoutWidth = ScreenWidth - 8 - 44 - 8  -16 - restrictionSize.width - 14;
         label.preferredMaxLayoutWidth = maxLayoutWidth;
         
         /// 需要的size
@@ -369,7 +369,7 @@
                 NSString * temperatureTip = [[[[oriTip
                                                stringByReplacingOccurrencesOfString:temperature withString:@""]
                                               stringByReplacingOccurrencesOfString:@"   " withString:@" "]
-                                             stringByReplacingOccurrencesOfString:@"\r\n" withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                                             stringByReplacingOccurrencesOfString:@"\r\n" withString:@" "] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
                 
                 NSString * tip = [[temperature append:@"   "] append:temperatureTip];
                 NSRange bigFontRange = NSMakeRange(0, temperature.length);
