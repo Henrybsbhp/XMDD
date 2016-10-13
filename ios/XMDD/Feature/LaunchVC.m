@@ -32,7 +32,6 @@
     @weakify(self)
     
     [super viewDidLoad];
-    [self setupNextWindow];
     [self setupSkipBtn];
     gAppDelegate.window.windowLevel = UIWindowLevelStatusBar;
     self.imageView.image = self.image;
@@ -111,6 +110,7 @@
 
 - (void)swithToRootViewAfterDelay:(NSTimeInterval)delay url:(NSString *) url
 {
+    [self setupNextWindow];
     if (self.isDismissing) {
         return;
     }
