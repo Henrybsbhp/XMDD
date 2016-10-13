@@ -360,7 +360,7 @@
             NSRange blankRange = [gAppMgr.temperatureAndTip rangeOfString:@"   "];
             NSRange enterRange = [gAppMgr.temperatureAndTip rangeOfString:@"\n"];
             NSRange enterRange2 = [gAppMgr.temperatureAndTip rangeOfString:@"\r\n"];
-            if (blankRange.location != NSNotFound && (enterRange.location != NSNotFound || enterRange2.location))
+            if (blankRange.location != NSNotFound && (enterRange.location != NSNotFound || enterRange2.location != NSNotFound))
             {
                 NSString * oriTip = gAppMgr.temperatureAndTip;
                 /// 天气
