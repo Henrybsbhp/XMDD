@@ -9,6 +9,7 @@
 #import "MutualInsPicUpdateResultVC.h"
 #import "NSString+RectSize.h"
 #import "MutualInsGroupDetailVC.h"
+#import "MutualInsHomeAdVC.h"
 
 #define KUpdateSuccessSubTitle @"我们会尽快审核，审核通过且成功支付后，将获得如下权益"
 
@@ -197,7 +198,20 @@
     
     if (self.router.userInfo[kOriginRoute]) {
         UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
-        [self.router.navigationController popToViewController:vc animated:YES];
+        
+        if ([vc isKindOfClass:[MutualInsHomeAdVC class]])
+        {
+            //如果返回是小马互助长页，则插入一个小马互助首页
+            NSInteger rootIndex = [self.router.navigationController.routerList indexOfObjectForKey:@"MutualInsHomeAdVC"];
+            UIViewController *homevc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
+            [self.router.navigationController.routerList insertObject:homevc.router withKey:homevc.router.key atIndex:rootIndex+1];
+            [self.router.navigationController updateViewControllersByRouterList];
+            [self.router.navigationController popToViewController:homevc animated:YES];
+        }
+        else
+        {
+            [self.router.navigationController popToViewController:vc animated:YES];
+        }
     }
     else {
         NSInteger rootIndex = [self.router.navigationController.routerList indexOfObjectForKey:@"MutualInsVC"];

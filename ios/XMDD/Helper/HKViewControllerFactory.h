@@ -10,6 +10,10 @@
 
 @interface HKViewControllerFactory : NSObject
 
+///关于页面
++ (__kindof UIViewController *)aboutUsVC;
+
+///小马互助
 + (__kindof UIViewController *)mutualInsVCWithChannel:(NSString *)channel;
 
 @end

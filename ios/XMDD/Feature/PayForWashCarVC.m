@@ -16,6 +16,7 @@
 #import "HKCoupon.h"
 #import "HKMyCar.h"
 #import "MyCarStore.h"
+#import "GuideStore.h"
 #import "PaymentHelper.h"
 #import "UPApplePayHelper.h"
 
@@ -30,8 +31,8 @@
 #import "SystemFastrateGetOp.h"
 #import "CheckoutServiceOrderV4Op.h"
 #import "OrderPaidSuccessOp.h"
-
 #import "GainUserAwardOp.h"
+
 #import "FMDeviceManager.h"
 
 @interface PayForWashCarVC ()<UITableViewDataSource, UITableViewDelegate>
@@ -1166,6 +1167,12 @@
     order.gasCouponAmount = self.checkoutServiceOrderV4Op.rsp_gasCouponAmount;
     vc.order = order;
     [self.navigationController pushViewController:vc animated:YES];
+    
+    if (self.service.shopServiceType == ShopServiceCarWash)
+    {
+        GuideStore * guideStore = [GuideStore fetchOrCreateStore];
+        [guideStore setNewbieGuideAppeared];
+    }
 }
 
 - (NSAttributedString *)priceStringWithOldPrice:(NSNumber *)price1 curPrice:(NSNumber *)price2
