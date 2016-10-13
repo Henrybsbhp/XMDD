@@ -359,16 +359,17 @@
             NSLog(@"%@ %@",NSStringFromCGSize(size),NSStringFromCGSize(size2));
             NSRange blankRange = [gAppMgr.temperatureAndTip rangeOfString:@"   "];
             NSRange enterRange = [gAppMgr.temperatureAndTip rangeOfString:@"\n"];
-            if (blankRange.location != NSNotFound && enterRange.location != NSNotFound)
+            NSRange enterRange2 = [gAppMgr.temperatureAndTip rangeOfString:@"\r\n"];
+            if (blankRange.location != NSNotFound && (enterRange.location != NSNotFound || enterRange2.location))
             {
                 NSString * oriTip = gAppMgr.temperatureAndTip;
                 /// 天气
                 NSString * temperature = [oriTip substringWithRange:NSMakeRange(0, blankRange.location)];
                 /// 去除空格，换行的天气标签
-                NSString * temperatureTip = [[[oriTip
+                NSString * temperatureTip = [[[[oriTip
                                                stringByReplacingOccurrencesOfString:temperature withString:@""]
                                               stringByReplacingOccurrencesOfString:@"   " withString:@" "]
-                                             stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                                             stringByReplacingOccurrencesOfString:@"\r\n" withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                 
                 NSString * tip = [[temperature append:@"   "] append:temperatureTip];
                 NSRange bigFontRange = NSMakeRange(0, temperature.length);
