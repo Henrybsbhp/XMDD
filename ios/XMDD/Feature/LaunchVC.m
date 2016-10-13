@@ -32,7 +32,6 @@
     @weakify(self)
     
     [super viewDidLoad];
-    [self setupNextWindow];
     [self setupSkipBtn];
     gAppDelegate.window.windowLevel = UIWindowLevelStatusBar;
     self.imageView.image = self.image;
@@ -72,19 +71,6 @@
 {
     self.skipBtn.layer.cornerRadius = 20;
     self.skipBtn.layer.masksToBounds = YES;
-}
-
-- (void)setupNextWindow
-{
-    if (!self.nextWindow)
-    {
-        self.nextWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        self.nextWindow.backgroundColor = [UIColor whiteColor];
-        HKTabBarVC *vc = [[HKTabBarVC alloc] init];
-        gAppMgr.tabBarVC = vc;
-        self.nextWindow.rootViewController = vc;
-        [self.nextWindow makeKeyAndVisible];
-    }
 }
 
 - (void)setupClickAction
@@ -166,6 +152,20 @@
     [MobClick event:@"shouye" attributes:@{@"shouye":@"shouye_tiaoguo"}];
     [self.signalDisposable dispose];
     [self swithToRootViewAfterDelay:0.1 url:nil];
+}
+
+-(UIWindow *)nextWindow
+{
+    if (!_nextWindow)
+    {
+        _nextWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        _nextWindow.backgroundColor = [UIColor whiteColor];
+        HKTabBarVC *vc = [[HKTabBarVC alloc] init];
+        gAppMgr.tabBarVC = vc;
+        _nextWindow.rootViewController = vc;
+        [_nextWindow makeKeyAndVisible];
+    }
+    return _nextWindow;
 }
 
 @end
