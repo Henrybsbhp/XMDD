@@ -280,7 +280,7 @@
     
     TTTAttributedLabel * tempLb = (TTTAttributedLabel *)[self.weatherView searchViewWithTag:20202];
     tempLb.numberOfLines = 2;
-    tempLb.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width;
+//    tempLb.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width;
     tempLb.delegate = self;
     UILabel * restrictionLb = (UILabel *)[self.weatherView searchViewWithTag:20204];
     UIView *rightContainerV = (UIView *)[self.weatherView searchViewWithTag:20200];
@@ -339,6 +339,44 @@
     [label setActiveLinkAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:10],
                                      NSForegroundColorAttributeName: kGrayTextColor}];
     [label addLinkToURL:[NSURL URLWithString:@""] withRange:linkRange];
+    
+
+    CKAsyncMainQueue(^{
+        
+        NSString * restriction = gAppMgr.restriction;
+        CGSize restrictionSize = [restriction labelSizeWithWidth:9999 font:[UIFont systemFontOfSize:18]];
+        CGFloat maxLayoutWidth = ScreenWidth - 8 - 44 - 8 - 8 -16 - restrictionSize.width - 14;
+        label.preferredMaxLayoutWidth = maxLayoutWidth;
+        
+        /// 需要的size
+        CGSize size =  [TTTAttributedLabel sizeThatFitsAttributedString:attstr withConstraints:CGSizeMake(maxLayoutWidth, 9999) limitedToNumberOfLines:10];
+        /// UI的size
+        CGSize size2 =  [TTTAttributedLabel sizeThatFitsAttributedString:attstr withConstraints:CGSizeMake(maxLayoutWidth, 9999) limitedToNumberOfLines:2];
+        
+        /// 如果需要的size大于屏幕中展示的，则去除换行和空格；
+        if (size.height > size2.height)
+        {
+            NSLog(@"%@ %@",NSStringFromCGSize(size),NSStringFromCGSize(size2));
+            NSRange blankRange = [gAppMgr.temperatureAndTip rangeOfString:@"   "];
+            NSRange enterRange = [gAppMgr.temperatureAndTip rangeOfString:@"\n"];
+            if (blankRange.location != NSNotFound && enterRange.location != NSNotFound)
+            {
+                NSString * oriTip = gAppMgr.temperatureAndTip;
+                /// 天气
+                NSString * temperature = [oriTip substringWithRange:NSMakeRange(0, blankRange.location)];
+                /// 去除空格，换行的天气标签
+                NSString * temperatureTip = [[[oriTip
+                                               stringByReplacingOccurrencesOfString:temperature withString:@""]
+                                              stringByReplacingOccurrencesOfString:@"   " withString:@" "]
+                                             stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                
+                NSString * tip = [[temperature append:@"   "] append:temperatureTip];
+                NSRange bigFontRange = NSMakeRange(0, temperature.length);
+                [tip.customInfo safetySetObject:[NSValue valueWithRange:bigFontRange] forKey:KWeatherBigFontRange];
+                gAppMgr.temperatureAndTip = tip;
+            }
+        }
+    });
 }
 
 #pragma mark - TTTAttributedLabelDelegate
