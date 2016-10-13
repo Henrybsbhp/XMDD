@@ -659,7 +659,7 @@
         
         if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
         {
-        [SensorAnalyticsInstance track:@"event_wanshanziliao_shangchuanshibai" withProperties:@{@"error":error.domain ?: @""}];
+            [SensorAnalyticsInstance track:@"event_wanshanziliao_shangchuanshibai" withProperties:@{@"error":error.domain ?: @""}];
         }
         [gToast showError:error.domain];
     }];
