@@ -47,10 +47,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    CKAsyncMainQueue(^{
-        
-        [self setupUI];
-    });
+    [self setupUI];
+    
     if (self.car)
     {
         [self getLocalViolationInfoAndCityInfo];
