@@ -409,8 +409,6 @@
         return;
     }
     
-    NSLog(@"_setCurrentPageIndex : %ld ，target:%ld",(long)_currentPageIndex,targetPage);
-    
     if (scroll && _delegate && [_delegate respondsToSelector:@selector(paginatorViewDidBeginPaging:)]) {
         [_delegate paginatorViewDidBeginPaging:self];
     }
