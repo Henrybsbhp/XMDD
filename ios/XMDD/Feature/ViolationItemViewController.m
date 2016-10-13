@@ -47,10 +47,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    CKAsyncMainQueue(^{
-        
-        [self setupUI];
-    });
+    [self setupUI];
+    
     if (self.car)
     {
         [self getLocalViolationInfoAndCityInfo];
@@ -96,7 +94,7 @@
         [self actionGotoViolationDelegateMissionVC];
     }];
     
-    self.bottomViewConstraint.constant = 0;
+    self.bottomViewConstraint.constant = 64;
 }
 
 
