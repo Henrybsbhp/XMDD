@@ -292,6 +292,7 @@
 #pragma mark - Action
 - (void)queryAction
 {
+    [MobClick event:@"weizhangshouye" attributes:@{@"chaxun" : @"chaxun"}];
     if (!self.violationModel.cityInfo.isViolationAvailable)
     {
         [gToast showError:@"该城市暂不支持违章查询"];
@@ -537,7 +538,7 @@
     
     cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
-        [MobClick event:@"rp901_1"];
+        [MobClick event:@"weizhangshouye" attributes:@{@"tianjiaaiche" : @"tianjiaaiche"}];
         EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
         [self.navigationController pushViewController:vc animated:YES];
     });
@@ -596,10 +597,10 @@
         @weakify(self)
         [[[queryBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             if (!self.violationModel.queryDate) {
-                [MobClick event:@"rp901_2"];
+                [MobClick event:@"weizhangshouye" attributes:@{@"chaxun" : @"1"}];
             }
             else {
-                [MobClick event:@"rp901_6"];
+                [MobClick event:@"weizhangshouye" attributes:@{@"chaxun" : @"0"}];
             }
             @strongify(self)
             if (!self.isQuerying)
@@ -608,6 +609,7 @@
             }
             else
             {
+                [MobClick event:@"weizhangshouye" attributes:@{@"chaxun" : @"chaxunzhongdianji"}];
                 [gToast showText:@"小马达达正在努力查询中\n请别着急"];
             }
         }];

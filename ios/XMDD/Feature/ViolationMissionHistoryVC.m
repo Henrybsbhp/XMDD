@@ -234,7 +234,7 @@
             
             @strongify(self)
             
-            [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"wodedaiban7"}];
+            [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"xuanzhong"}];
             
             [self configRadioBtnWithIndexPath:indexPath];
             
@@ -274,9 +274,7 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.reuseIdentifier isEqualToString:@"MissionCell"])
     {
-        
-        [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"wodedaiban3"}];
-        
+        [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"dianjixiangqing"}];
         NSInteger index = indexPath.row - self.tips.count;
         NSDictionary *dic = self.dataSource[index];
         ViolationCommissionStateVC *vc = [UIStoryboard vcWithId:@"ViolationCommissionStateVC" inStoryboard:@"Violation"];
@@ -285,9 +283,7 @@
     }
     else
     {
-        
-        [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"wodedaiban6"}];
-        
+        [MobClick event:@"wodedaiban" attributes:@{@"dingbu" : @"tishi"}];
         NSDictionary *dic = self.tips[indexPath.row];
         ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Violation"];
         vc.usercarID = (NSNumber *)dic[@"usercarid"];
@@ -423,15 +419,14 @@
 
 - (IBAction)actionJumpToGuideVC:(id)sender
 {
-    [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"wodedaiban2"}];
-    
+    [MobClick event:@"wodedaiban" attributes:@{@"navi" : @"fuwushuoming"}];
     [self.navigationController pushViewController:self.webVC animated:YES];
 }
 
 - (IBAction)actionCommit:(id)sender
 {
     
-    [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"wodedaiban8"}];
+    [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"zhifu"}];
     
     NSDictionary *dic = self.dataSource[self.indexPath.row];
     ViolationPayConfirmVC *vc = [UIStoryboard vcWithId:@"ViolationPayConfirmVC" inStoryboard:@"Violation"];
@@ -442,8 +437,7 @@
 - (void)actionBack
 {
     
-    [MobClick event:@"wodedaiban" attributes:@{@"wodedaiban" : @"wodedaiban1"}];
-    
+    [MobClick event:@"wodedaiban" attributes:@{@"navi" : @"back"}];
     if (self.router.userInfo[kOriginRoute])
     {
         UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];

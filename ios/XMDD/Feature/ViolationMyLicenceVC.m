@@ -211,11 +211,11 @@
     
     if (indexPath.row == 1)
     {
-        [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao2"}];
+        [MobClick event:@"wodezhengjianzhao" attributes:@{@"wodezhengjianzhao" : @"zhengben"}];
     }
     else if(indexPath.row == 3)
     {
-        [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao3"}];
+        [MobClick event:@"wodezhengjianzhao" attributes:@{@"wodezhengjianzhao" : @"fuben"}];
     }
     
     CKDict *data = self.dataSource[indexPath.row];
@@ -453,8 +453,7 @@
             }
             else
             {
-                [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao4"}];
-                
+                [MobClick event:@"wodezhengjianzhao" attributes:@{@"wodezhengjianzhao" : @"tijiao"}];
                 [self updateViolationCommissionCarinfo];
             }
             
@@ -506,7 +505,7 @@
 
 - (void)actionBack
 {
-    [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao1"}];
+    [MobClick event:@"wodezhengjianzhao" attributes:@{@"navi" : @"back"}];
     
     [self.navigationController popViewControllerAnimated:YES];
 }

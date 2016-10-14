@@ -354,15 +354,13 @@
 
 - (void)actionBack
 {
-    [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban1"}];
-    
+    [MobClick event:@"weizhangdaiban" attributes:@{@"navi" : @"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)actionJumpToGuideVC:(id)sender
 {
-    
-    [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban6"}];
+    [MobClick event:@"weizhangdaiban" attributes:@{@"navi" : @"fuwushuoming"}];
     [self.navigationController pushViewController:self.webVC animated:YES];
 }
 
@@ -371,8 +369,7 @@
 
     @weakify(self)
     
-    [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban7"}];
-    
+    [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"tijiao"}];
     if (self.tip.length == 0)
     {
         
@@ -380,6 +377,7 @@
     }
     else
     {
+        [MobClick event:@"weizhangdaiban" attributes:@{@"ziliaobuwanshan" : @"chuxian"}];
         HKAlertActionItem *jumpToLicenceVC = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#18D06A") clickBlock:^(id alertVC) {
             
             @strongify(self)
@@ -399,7 +397,7 @@
             [self.navigationController pushViewController:vc animated:YES];
         }];
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#454545") clickBlock:^(id alertVC) {
-            [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"weizhangdaiban8"}];
+            [MobClick event:@"weizhangdaiban" attributes:@{@"ziliaobuwanshan" : @"quxiao"}];
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您的爱车的证件信息不完整，完善爱车的证件信息后即可申请代办。" ActionItems:@[cancel, jumpToLicenceVC]];
         [alert show];
