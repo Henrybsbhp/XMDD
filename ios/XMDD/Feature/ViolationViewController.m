@@ -315,6 +315,7 @@
 
 -(void)actionBack:(id)sender
 {
+    [super actionBack:sender];
     [MobClick event:@"weizhangshouye" attributes:@{@"navi" : @"back"}];
 }
 
