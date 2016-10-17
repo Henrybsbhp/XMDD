@@ -76,7 +76,7 @@
 {
     CKAsyncMainQueue(^{
         self.advc  =[ADViewController vcWithADType:AdvertisementBankCardBinding boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp314_1" mobBaseEventDict:nil];
+                                          targetVC:self mobBaseEvent:@"wodeyinhangka" mobBaseKey:@"yinhangkaguanggao"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }

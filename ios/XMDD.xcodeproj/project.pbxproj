@@ -685,7 +685,6 @@
 		18649E4A1D48BE0A00F1CCB0 /* MutualInsGroupInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E3B1D48BE0A00F1CCB0 /* MutualInsGroupInfoVC.m */; };
 		18649E4B1D48BE0A00F1CCB0 /* MutualInsPicUpdateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E3D1D48BE0A00F1CCB0 /* MutualInsPicUpdateVC.m */; };
 		18649E4C1D48BE0A00F1CCB0 /* MutualInsRequestJoinGroupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E3F1D48BE0A00F1CCB0 /* MutualInsRequestJoinGroupVC.m */; };
-		18649E4D1D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E411D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.m */; };
 		18649E561D48BE3100F1CCB0 /* MutualInsPickCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E4F1D48BE3100F1CCB0 /* MutualInsPickCarVC.m */; };
 		18649E571D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E511D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.m */; };
 		18649E5F1D48BE5500F1CCB0 /* InviteAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E5C1D48BE5500F1CCB0 /* InviteAlertVC.m */; };
@@ -1373,7 +1372,6 @@
 		18F31A671D9B722000D9A0A9 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844532A1C8FEE81007B895D /* UIImage+RoundedCorner.m */; };
 		18F31A681D9B722000D9A0A9 /* PickCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C831D48B61900F1CCB0 /* PickCarVC.m */; };
 		18F31A691D9B722000D9A0A9 /* PayCooperationContractOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56EA1D4C90860001E26A /* PayCooperationContractOrderOp.m */; };
-		18F31A6A1D9B722000D9A0A9 /* MutualInsSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E411D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.m */; };
 		18F31A6B1D9B722000D9A0A9 /* NewGainAwardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CBD1D48B70A00F1CCB0 /* NewGainAwardVC.m */; };
 		18F31A6C1D9B722000D9A0A9 /* PictureRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498061D489A9600F1CCB0 /* PictureRecord.m */; };
 		18F31A6D1D9B722000D9A0A9 /* PrebindingBankCardOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459F01D62EC8200690140 /* PrebindingBankCardOp.m */; };
@@ -3199,8 +3197,6 @@
 		18649E3D1D48BE0A00F1CCB0 /* MutualInsPicUpdateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPicUpdateVC.m; sourceTree = "<group>"; };
 		18649E3E1D48BE0A00F1CCB0 /* MutualInsRequestJoinGroupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsRequestJoinGroupVC.h; sourceTree = "<group>"; };
 		18649E3F1D48BE0A00F1CCB0 /* MutualInsRequestJoinGroupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsRequestJoinGroupVC.m; sourceTree = "<group>"; };
-		18649E401D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsSuspendedAdVC.h; sourceTree = "<group>"; };
-		18649E411D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsSuspendedAdVC.m; sourceTree = "<group>"; };
 		18649E4E1D48BE3100F1CCB0 /* MutualInsPickCarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPickCarVC.h; sourceTree = "<group>"; };
 		18649E4F1D48BE3100F1CCB0 /* MutualInsPickCarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPickCarVC.m; sourceTree = "<group>"; };
 		18649E501D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPicUpdateResultVC.h; sourceTree = "<group>"; };
@@ -6139,8 +6135,6 @@
 				18649E3D1D48BE0A00F1CCB0 /* MutualInsPicUpdateVC.m */,
 				18649E3E1D48BE0A00F1CCB0 /* MutualInsRequestJoinGroupVC.h */,
 				18649E3F1D48BE0A00F1CCB0 /* MutualInsRequestJoinGroupVC.m */,
-				18649E401D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.h */,
-				18649E411D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.m */,
 				18649E4E1D48BE3100F1CCB0 /* MutualInsPickCarVC.h */,
 				18649E4F1D48BE3100F1CCB0 /* MutualInsPickCarVC.m */,
 				18649E501D48BE3100F1CCB0 /* MutualInsPicUpdateResultVC.h */,
@@ -8021,7 +8015,6 @@
 				1844532D1C8FEE81007B895D /* UIImage+RoundedCorner.m in Sources */,
 				18649C8F1D48B61900F1CCB0 /* PickCarVC.m in Sources */,
 				183F573E1D4C90860001E26A /* PayCooperationContractOrderOp.m in Sources */,
-				18649E4D1D48BE0A00F1CCB0 /* MutualInsSuspendedAdVC.m in Sources */,
 				18649CC01D48B70A00F1CCB0 /* NewGainAwardVC.m in Sources */,
 				186499941D489A9700F1CCB0 /* PictureRecord.m in Sources */,
 				FA1459F11D62EC8200690140 /* PrebindingBankCardOp.m in Sources */,
@@ -8774,7 +8767,6 @@
 				18F31A671D9B722000D9A0A9 /* UIImage+RoundedCorner.m in Sources */,
 				18F31A681D9B722000D9A0A9 /* PickCarVC.m in Sources */,
 				18F31A691D9B722000D9A0A9 /* PayCooperationContractOrderOp.m in Sources */,
-				18F31A6A1D9B722000D9A0A9 /* MutualInsSuspendedAdVC.m in Sources */,
 				18F31A6B1D9B722000D9A0A9 /* NewGainAwardVC.m in Sources */,
 				18F31A6C1D9B722000D9A0A9 /* PictureRecord.m in Sources */,
 				18F31A6D1D9B722000D9A0A9 /* PrebindingBankCardOp.m in Sources */,
@@ -8970,9 +8962,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = EN3DUNUW7P;
 				ENABLE_BITCODE = NO;
@@ -9071,7 +9063,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "094a4399-d41a-4c03-a263-a47c385aeef7";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -9084,8 +9076,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = EN3DUNUW7P;
 				ENABLE_BITCODE = NO;
@@ -9184,7 +9176,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "f03f5a47-1d3d-4590-b5b8-2aa3564f3d4f";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;

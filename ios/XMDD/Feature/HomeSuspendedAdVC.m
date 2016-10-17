@@ -35,7 +35,7 @@
     containerView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:containerView];
     
-    self.adCtrl = [SuspendedAdVC adVCWithBoundsWidth:self.targetVC.view.frame.size.width * 0.84 targetVC:self.targetVC mobBaseEvent:@"rp101_17"];
+    self.adCtrl = [SuspendedAdVC adVCWithBoundsWidth:self.targetVC.view.frame.size.width * 0.84 targetVC:self.targetVC mobBaseEvent:@"xiaomashouye" mobBaseKey:@"shouyetanchuguanggao"];
     self.adCtrl.clickDelegate = self;
     
     self.adCtrl.adList = self.adListArr;
@@ -103,7 +103,7 @@
 
 - (void)actionClose:(id)sender
 {
-    [MobClick event:@"rp101_17_x"];
+    [MobClick event:@"xiaomashouye" attributes:@{@"shouyetanchuguanggao":@"guanbi"}];
     self.closeView.hidden = YES;
     int space;
     if ([UIScreen mainScreen].bounds.size.height == 480) {

@@ -127,7 +127,7 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
         return;
     }
     _adVC = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:ScreenWidth
-                                  targetVC:self mobBaseEvent:@"rp102_6" mobBaseEventDict:nil];
+                                  targetVC:self mobBaseEvent:@"xicheshouye" mobBaseKey:@"shanghuguanggao"];
 }
 
 #pragma mark - Action 

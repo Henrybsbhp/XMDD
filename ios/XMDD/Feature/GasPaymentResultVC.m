@@ -39,7 +39,7 @@
 #pragma mark - Action
 - (IBAction)actionShare:(id)sender
 {
-    [MobClick event:@"rp506_1"];
+    [MobClick event:@"jiayouzhifujieguo" attributes:@{@"fenxiang":@"fenxiang"}];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneGas;
     [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
@@ -71,6 +71,7 @@
 
 - (void)actionBack:(id)sender
 {
+    [MobClick event:@"jiayouzhifujieguo" attributes:@{@"navi":@"back"}];
     if (self.originVC) {
         [self.navigationController popToViewController:self.originVC animated:YES];
     }
