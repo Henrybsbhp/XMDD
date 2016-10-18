@@ -164,7 +164,7 @@
          
         @strongify(self);
          if (unpaid) {
-             [MobClick event:@"wodexiaoxi" attributes:@{@"baoxian" : @"maile"}];
+             [MobClick event:@"wodedingdan" attributes:@{@"baoxian" : @"maile"}];
              PayForInsuranceVC * vc = [insuranceStoryboard instantiateViewControllerWithIdentifier:@"PayForInsuranceVC"];
              vc.insOrder = order;
              vc.insModel = [[InsuranceVM alloc] init];
@@ -172,7 +172,7 @@
              [self.targetVC.navigationController pushViewController:vc animated:YES];
          }
          else {
-             [MobClick event:@"wodexiaoxi" attributes:@{@"baoxian" : @"dianjikefu"}];
+             [MobClick event:@"wodedingdan" attributes:@{@"baoxian" : @"dianjikefu"}];
              [self actionMakeCall:x];
          }
     }];
@@ -186,7 +186,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"wodexiaoxi" attributes:@{@"baoxian" : @"dianjidingdan"}];
+    [MobClick event:@"wodedingdan" attributes:@{@"baoxian" : @"dianjidingdan"}];
     HKInsuranceOrder * order = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     InsuranceOrderVC *vc = [UIStoryboard vcWithId:@"InsuranceOrderVC" inStoryboard:@"Insurance"];
     vc.order = order;

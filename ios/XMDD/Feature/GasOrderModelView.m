@@ -187,7 +187,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"wodexiaoxi" attributes:@{@"jiayou" : @"dianjidingdan"}];
+    [MobClick event:@"wodedingdan" attributes:@{@"jiayou" : @"dianjidingdan"}];
     CKDict *item = self.dataSource[indexPath.section][indexPath.row];
     if (item[kCKCellSelected]) {
         ((CKCellSelectedBlock)item[kCKCellSelected])(item, indexPath);

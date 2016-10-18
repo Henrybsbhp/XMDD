@@ -157,13 +157,13 @@
 
 - (IBAction)actionGetMore:(id)sender
 {
-    [MobClick event:@"wodexiaoxi" attributes:@{@"navi" : @"shiyongbangzhu"}];
+    [MobClick event:@"wodeyouhuiquan" attributes:@{@"navi" : @"shiyongbangzhu"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.url = kGetMoreCouponUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)getMoreAction:(id)sender {
-    [MobClick event:@"wodexiaoxi" attributes:@{@"navi" : @"huoquyouhuiquan"}];
+    [MobClick event:@"wodeyouhuiquan" attributes:@{@"navi" : @"huoquyouhuiquan"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.url = ADDEFINEWEB;
     [self.navigationController pushViewController:vc animated:YES];
