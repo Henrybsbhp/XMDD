@@ -29,6 +29,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.router.disableInteractivePopGestureRecognizer = YES;
 }
 
@@ -68,7 +69,7 @@
     /**
      *  分享事件
      */
-    [MobClick event:@"rp605_2"];
+    [MobClick event:@"ershouchetijiaochenggong" attributes:@{@"ershouchetijiaochenggong" : @"fenxiang"}];
     [self shareApp];
 }
 
@@ -97,6 +98,12 @@
     } error:^(NSError *error) {
         [gToast showError:@"分享信息拉取失败，请重试"];
     }];
+}
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"ershouchetijiaochenggong" attributes:@{@"navi" : @"back"}];
 }
 
 @end

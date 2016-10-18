@@ -142,7 +142,7 @@
 
             [[[reviewButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 
-                [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan8"}];
+                [MobClick event:@"xichedingdanxiangqing" attributes:@{@"xichedingdanxiangqing" : @"pingjia"}];
                 @strongify(self);
                 [self actionCommentForOrder:order];
             }];

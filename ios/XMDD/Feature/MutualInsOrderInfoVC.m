@@ -180,8 +180,7 @@
 #pragma mark - Utilitly
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0001"}];
-    
+    [MobClick event:@"xichedingdanxiangqing" attributes:@{@"navi":@"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -228,7 +227,7 @@
 - (void)actionShare
 {
     
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0020"}];
+    [MobClick event:@"xichedingdanxiangqing" attributes:@{@"xichedingdanxiangqing":@"fenxiang"}];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneShowXmddIns;
     

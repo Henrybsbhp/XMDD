@@ -84,7 +84,7 @@
         @strongify(self);
         if (index == 0) {
             
-            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan2"}];
+            [MobClick event:@"wodedingdan" attributes:@{@"dingbu" : @"yanghu"}];
             self.maintainTableView.hidden = NO;
             self.carwashTableView.hidden = YES;
             self.gasTableView.hidden = YES;
@@ -93,8 +93,7 @@
             self.otherTableView.hidden = YES;
             
         } else if (index == 1) {
-            
-            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan3"}];
+            [MobClick event:@"wodedingdan" attributes:@{@"dingbu" : @"jiayou"}];
             self.gasTableView.hidden = NO;
             self.maintainTableView.hidden = YES;
             self.mutualTableView.hidden = YES;
@@ -103,8 +102,7 @@
             self.otherTableView.hidden = YES;
             
         } else if (index == 2) {
-            
-            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan4"}];
+            [MobClick event:@"wodedingdan" attributes:@{@"dingbu" : @"huzhu"}];
             self.mutualTableView.hidden = NO;
             self.maintainTableView.hidden = YES;
             self.carwashTableView.hidden = YES;
@@ -113,8 +111,7 @@
             self.gasTableView.hidden = YES;
             
         } else if (index == 3) {
-            
-            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan5"}];
+            [MobClick event:@"wodedingdan" attributes:@{@"dingbu" : @"baoxian"}];
             self.carwashTableView.hidden = YES;
             self.gasTableView.hidden = YES;
             self.mutualTableView.hidden = YES;
@@ -123,8 +120,7 @@
             self.otherTableView.hidden = YES;
             
         } else {
-            
-            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan6"}];
+            [MobClick event:@"wodedingdan" attributes:@{@"dingbu" : @"qita"}];
             self.maintainTableView.hidden = YES;
             self.carwashTableView.hidden = YES;
             self.mutualTableView.hidden = YES;
@@ -151,8 +147,13 @@
 
 - (void)dealloc
 {
-    [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan1"}];
     DebugLog(@"MyOrderListVC dealloc");
+}
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"wodedingdan" attributes:@{@"navi" : @"back"}];
 }
 
 @end

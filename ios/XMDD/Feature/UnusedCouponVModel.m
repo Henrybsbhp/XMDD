@@ -52,7 +52,7 @@
 
 - (void)shareAction:(NSNumber *)cid
 {
-    [MobClick event:@"rp304_3"];
+    [MobClick event:@"youhuiquanxiangqing" attributes:@{@"youhuiquanxiangqing" : @"fenxiang"}];
     
     [self requestShareCoupon:cid];
 }

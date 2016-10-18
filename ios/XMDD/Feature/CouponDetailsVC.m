@@ -33,6 +33,7 @@
 @implementation CouponDetailsVC
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.router.navigationBarHidden = YES;
 }
 
@@ -158,6 +159,7 @@
 
 - (void)actionGotoUse
 {
+    [MobClick event:@"youhuiquanxiangqing" attributes:@{@"youhuiquanxiangqing" : @"qushiyong"}];
     if (self.oldType == CouponTypeCarWash || self.oldType == CouponTypeCash || self.oldType == CouponTypeCZBankCarWash)
     {
         CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
@@ -447,6 +449,7 @@
 
 - (IBAction)backAction:(id)sender
 {
+    [MobClick event:@"youhuiquanxiangqing" attributes:@{@"navi" : @"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

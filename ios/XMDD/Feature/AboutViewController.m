@@ -306,13 +306,14 @@
 #pragma mark - Utilitly
 - (void)rateOurApp
 {
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"qianwangpingjia"}];
     NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/cn/app/xiao-ma-da-da-xi-che-zhi-yao1fen/id991665445&mt=8"];
     [[UIApplication sharedApplication] openURL: [NSURL URLWithString:url]];
 }
 
 - (void)serviceAgreement
 {
-    [MobClick event:@"rp322_1"];
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"yonghuxieyi"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"服务协议";
     vc.url = kServiceLicenseUrl;
@@ -321,6 +322,7 @@
 
 - (void)gotoInstructions
 {
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"shiyongbangzhu"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"使用帮助";
     NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
@@ -330,7 +332,7 @@
 
 - (void) shareApp
 {
-    [MobClick event:@"rp110_1"];
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"fenxiang"}];
     [gToast showingWithText:@"分享信息拉取中..."];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneInsurance;
@@ -360,13 +362,13 @@
 
 - (void)callCustomerService
 {
-    [MobClick event:@"rp322_3"];
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"kefu"}];
     [gPhoneHelper makePhone:@"4007111111" andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
 }
 
 - (void)gotoFeedback
 {
-    [MobClick event:@"rp322-2"];
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"yijianfankui"}];
     FeedbackVC *vc = [UIStoryboard vcWithId:@"FeedbackVC" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -408,9 +410,15 @@
     /**
      *  商户加盟点击事件
      */
-    [MobClick event:@"rp322_4"];
+    [MobClick event:@"wodeguanyu" attributes:@{@"navi" : @"shanghujiameng"}];
     JoinUsViewController * vc = [UIStoryboard vcWithId:@"JoinUsViewController" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"wodeguanyu" attributes:@{@"navi" : @"back"}];
 }
 
 

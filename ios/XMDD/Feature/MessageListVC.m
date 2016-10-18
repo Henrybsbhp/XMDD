@@ -146,7 +146,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp324_1"];
+    [MobClick event:@"wodexiaoxi" attributes:@{@"wodexiaoxi" : @"dianjixiaoxi"}];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     HKMessage *msg = [self.loadingModel.datasource safetyObjectAtIndex:indexPath.section];
     if (msg.url.length > 0) {
@@ -173,6 +173,14 @@
 //        [str appendAttributedString:str2];
 //    }
     return str;
+}
+
+#pragma mark - Action
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"wodexiaoxi" attributes:@{@"navi" : @"back"}];
 }
 
 @end

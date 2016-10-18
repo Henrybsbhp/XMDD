@@ -127,6 +127,7 @@
     
     mutualCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        [MobClick event:@"wodexiaoxi" attributes:@{@"huzhu" : @"dianjidingdan"}];
         [self actionGoToMutualInsOrderInfoVCWithModel:model];
     });
     
@@ -172,6 +173,7 @@
     
     mutualCompletedCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        [MobClick event:@"wodexiaoxi" attributes:@{@"huzhu" : @"dianjijiaoqiangxian"}];
         [self actionGoToMutualInsOrderInfoVCWithModel:model];
     });
     
