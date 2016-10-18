@@ -256,7 +256,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp304_5"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         [MobClick event:@"wodeyouhuiquan" attributes:@{@"wodeyouhuiquan" : @"dianjiyouhuiquan"}];

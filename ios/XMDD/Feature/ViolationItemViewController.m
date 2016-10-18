@@ -507,7 +507,6 @@
         }
         
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            [MobClick event:@"rp901_4"];
         }];
         
         [field setTextDidChangedBlock:^(CKLimitTextField *field) {

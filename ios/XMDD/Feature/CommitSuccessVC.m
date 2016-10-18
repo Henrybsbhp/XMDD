@@ -54,7 +54,6 @@
     /**
      *  返回估值首页事件
      */
-    [MobClick event:@"rp605_1"];
     NSArray *viewControllers = self.navigationController.viewControllers;
     [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
 }
@@ -89,7 +88,6 @@
         [sheet presentAnimated:YES completionHandler:nil];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110_7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{

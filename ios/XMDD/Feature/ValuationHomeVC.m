@@ -347,7 +347,6 @@
             [self.sliderView.contentScrollView addSubview:emptySubVC.view];
             @weakify(self);
             [emptySubVC setAddCarClickBlock:^{
-                [MobClick event:@"rp601_3"];
                 @strongify(self);
                 if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                     self.carIndex = self.dataSource.count;

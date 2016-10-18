@@ -259,7 +259,6 @@
     } copy];
     [cell1_3 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp312_4"];
         [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"xuanzepinpai"}];
         [self.view endEditing:YES];
         if (!(self.curCar.editMask & HKCarEditableEditCarModel)) {
@@ -706,7 +705,6 @@
 
 - (IBAction)actionDelete:(id)sender
 {
-    [MobClick event:@"rp312_11"];
     [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"shanchuaiche"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:kOrangeColor clickBlock:^(id alertVC) {
