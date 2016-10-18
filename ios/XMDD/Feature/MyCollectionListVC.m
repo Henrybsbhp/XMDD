@@ -194,7 +194,7 @@
 }
 
 - (void)actionDelete:(id)sender {
-    [MobClick event:@"wodeshoucang" attributes:@{@"navi" : @"shanchu"}];
+    [MobClick event:@"wodeshoucang" attributes:@{@"bianji" : @"shanchu"}];
     if (self.selectedCollections.count == 0) {
         [gToast showError:@"请选择一家商户进行删除"];
         return;
