@@ -691,13 +691,13 @@
         [self.view endEditing:YES];
         
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃添加" color:kGrayTextColor clickBlock:^(id alertVC) {
-            [MobClick event:@"tianjiaaiche" attributes:@{@"bianjidianquxiao" : @"fangqi"}];
+            [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiadianquxiao" : @"fangqi"}];
             CKAfter(0.1, ^{
                 [self.navigationController popViewControllerAnimated:YES];
             });
         }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续添加" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-            [MobClick event:@"tianjiaaiche" attributes:@{@"bianjidianquxiao" : @"jixu"}];
+            [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiadianquxiao" : @"jixu"}];
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您未保存行驶证，需填写相关必填项并点击“保存”后方能添加爱车。" ActionItems:@[cancel,confirm]];
         [alert show];
