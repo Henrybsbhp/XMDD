@@ -121,7 +121,6 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
 
 - (void)actionRefresh:(id)sender {
     [self requestShopList];
-    [self reloadADList];
 }
 
 - (void)actionSearch:(id)sender {
@@ -199,18 +198,6 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
     }];
 }
 
-- (void)reloadADList {
-    @weakify(self);
-    [self.adVC reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
-        @strongify(self);
-        if (ads.count > 0) {
-            self.tableView.tableHeaderView = ctrl.adView;
-        }
-        else {
-            self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, CGFLOAT_MIN)];
-        }
-    }];
-}
 
 #pragma mark - Request
 - (void)requestShopList {

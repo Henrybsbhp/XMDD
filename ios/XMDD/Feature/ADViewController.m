@@ -49,6 +49,7 @@
         
         
         SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+        adView.isInfinite = YES;
         adView.delegate = self;
         adView.dataSource = self;
         adView.pageGapWidth = 0;
