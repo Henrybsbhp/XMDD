@@ -45,12 +45,16 @@
 @property (nonatomic)BOOL isAutoRegionChanging;
 @property (nonatomic) BOOL isFirstLoad;
 
+@property (nonatomic, copy)NSString * mobClickEvent;
+
 @end
 
 @implementation NearbyShopsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setupUmengEvent];
 
     [self setupNavigationBar];
     [self setupMapView];
@@ -75,6 +79,7 @@
         CLLocationCoordinate2D coordinate = mapView.centerCoordinate;
         if ([DistanceCalcHelper getDistanceLatA:coordinate.latitude lngA:coordinate.longitude latB:self.lastRequestCorrdinate.latitude lngB:self.lastRequestCorrdinate.longitude] > RequestDistance)
         {
+            [MobClick event:self.mobClickEvent attributes:@{@"ditu":@"huoquxinxi"}];
             if (self.searchType.integerValue == 1 || self.searchType.integerValue == 2 || self.searchType.integerValue == 3) {
                 [self requestNearbyPlace:mapView.centerCoordinate andRange:2];
             } else {
@@ -88,12 +93,22 @@
 {
     [super viewWillAppear:animated];
     self.mapView.delegate = self;
+    
+    if (self.mobClickEvent.length)
+    {
+        [MobClick beginLogPageView:self.mobClickEvent];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     self.mapView.delegate = nil;
+    
+    if (self.mobClickEvent.length)
+    {
+        [MobClick endLogPageView:self.mobClickEvent];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,6 +122,27 @@
 }
 
 #pragma mark - UI
+
+- (void)setupUmengEvent
+{
+    if (self.searchType.integerValue == 1)
+    {
+        self.mobClickEvent = @"fujintingchechang";
+    }
+    else if (self.searchType.integerValue == 2)
+    {
+        self.mobClickEvent = @"fujin4s";
+    }
+    else if (self.searchType.integerValue == 3)
+    {
+        self.mobClickEvent = @"fujinjiayouzhan";
+    }
+    else
+    {
+        self.mobClickEvent = @"ditumoshi";
+    }
+}
+
 - (void)setupNavigationBar
 {
     if (self.searchType.integerValue == 1) {
@@ -119,7 +155,7 @@
         self.navigationItem.title = @"附近门店";
     }
     
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(returnAction)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
 }
 
 - (void)setupMapView
@@ -161,7 +197,7 @@
     @weakify(self)
     [[self.locationMeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp104_6"];
+        [MobClick event:self.mobClickEvent attributes:@{@"dibu":@"dingweiwo"}];
         @strongify(self)
         [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
     }];
@@ -170,8 +206,9 @@
 
 #pragma mark - Action
 
-- (void)returnAction
+- (void)actionBack
 {
+    [MobClick event:self.mobClickEvent attributes:@{@"navi":@"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -368,7 +405,7 @@
 
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view
 {
-    [MobClick event:@"rp104_1"];
+    [MobClick event:self.mobClickEvent attributes:@{@"dibu":@"xuanzhong"}];
     if ([view.annotation isKindOfClass:[MAPointAnnotation class]])
     {
         MAPointAnnotation * annotation = (MAPointAnnotation *)view.annotation;
@@ -398,11 +435,20 @@
 {
     if (!self.isAutoRegionChanging)
     {
-        //包括放大操作
-        [MobClick event:@"rp104_7"];
         [self.requestSignal sendNext:mapView];
     }
     self.isAutoRegionChanging = NO;
+}
+
+
+- (void)mapView:(MAMapView *)mapView mapDidMoveByUser:(BOOL)wasUserAction
+{
+    [MobClick event:self.mobClickEvent attributes:@{@"ditu":@"yidong"}];
+}
+
+- (void)mapView:(MAMapView *)mapView mapDidZoomByUser:(BOOL)wasUserAction
+{
+    [MobClick event:self.mobClickEvent attributes:@{@"ditu":@"suofang"}];
 }
 
 #pragma mark - SYPaginatorViewDelegate
@@ -487,7 +533,7 @@
     
     @weakify(self)
     [[[mapBottomV2View.callButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
-        [MobClick event:@"rp104_4"];
+        [MobClick event:self.mobClickEvent attributes:@{@"dibu":@"dianhua"}];
         
         @strongify(self)
         UIActionSheet *callSheet = [[UIActionSheet alloc] initWithTitle:@"请选择需要拨打的电话" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:nil, nil];
@@ -510,7 +556,7 @@
     [[[mapBottomV2View.navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
         @strongify(self);
-        [MobClick event:@"rp104_5"];
+        [MobClick event:self.mobClickEvent attributes:@{@"dibu":@"dianhua"}];
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
     
@@ -569,7 +615,7 @@
     [[[mapBottomNavigationView.navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
         @strongify(self);
-        [MobClick event:@"rp104_5"];
+        [MobClick event:self.mobClickEvent attributes:@{@"dibu":@"daohang"}];
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
     
@@ -634,7 +680,7 @@
     [[[mapBottomView.detailBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
 
         @strongify(self)
-        [MobClick event:@"rp104_2"];
+        [MobClick event:self.mobClickEvent attributes:@{@"dibu":@"dianpu"}];
         ShopDetailVC *vc = [[ShopDetailVC alloc] init];
         vc.serviceType = self.serviceType;
         vc.shop = shop;
@@ -643,7 +689,7 @@
     
     [[[mapBottomView.phoneBtm rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         @strongify(self)
-        [MobClick event:@"rp104_4"];
+        [MobClick event:self.mobClickEvent attributes:@{@"dibu":@"dianhua"}];
         if (shop.shopPhone.length == 0)
         {
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
@@ -669,7 +715,7 @@
     
     [[[mapBottomView.collectBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp104_3"];
+        [MobClick event:self.mobClickEvent attributes:@{@"dibu":@"shoucang"}];
         @strongify(self)
         if ([LoginViewModel loginIfNeededForTargetViewController:self])
         {
@@ -724,7 +770,7 @@
     [[[mapBottomView.navigationBtn rac_signalForControlEvents:UIControlEventTouchUpInside]  takeUntil:[pageView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [MobClick event:@"rp104_5"];
+        [MobClick event:self.mobClickEvent attributes:@{@"dibu":@"daohang"}];
         [gPhoneHelper navigationRedirectThirdMap:shop andUserLocation:self.userCoordinate andView:self.view];
     }];
     
@@ -733,7 +779,7 @@
 
 - (void)paginatorView:(SYPaginatorView *)paginatorView didScrollToPageAtIndex:(NSInteger)pageIndex
 {
-    [MobClick event:@"rp104_8"];
+    [MobClick event:self.mobClickEvent attributes:@{@"dibu":@"yidongshanghu"}];
     self.bottomIndex = pageIndex;
     self.isAutoRegionChanging = YES;
     [self highlightMapViewWithIndex:pageIndex];
