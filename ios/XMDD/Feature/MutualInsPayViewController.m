@@ -84,7 +84,7 @@
     @weakify(self)
     [[self.payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0015"}];
+        [MobClick event:@"hzzhifuqueren" attributes:@{@"zhifu":@"zhifu"}];
         
         @strongify(self)
         [self actionPay:nil];
@@ -152,7 +152,7 @@
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0008"}];
+    [MobClick event:@"hzzhifuqueren" attributes:@{@"navi":@"back"}];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -494,7 +494,7 @@
     HKCellData * data = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
     if ([data equalByCellID:@"ActiveCell" tag:nil])
     {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0010"}];
+        [MobClick event:@"hzzhifuqueren" attributes:@{@"youhui":@"huodong"}];
         
         MutualInsActivityVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsActivityVC"];
         vc.dataArr = self.contract.couponlist;
@@ -504,21 +504,25 @@
     {
         if (data.customTag == PaymentChannelAlipay)
         {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0011"}];
+            [MobClick event:@"hzzhifuqueren" attributes:@{@"zhifufangshi":@"alipay"}];
         }
         else if (data.customTag == PaymentChannelWechat)
         {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0012"}];
+            [MobClick event:@"hzzhifuqueren" attributes:@{@"zhifufangshi":@"wechat"}];
         }
         else if (data.customTag == PaymentChannelUPpay)
         {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0013"}];
+            [MobClick event:@"hzzhifuqueren" attributes:@{@"zhifufangshi":@"uppay"}];
+        }
+        else if (data.customTag == PaymentChannelApplePay)
+        {
+            [MobClick event:@"hzzhifuqueren" attributes:@{@"zhifufangshi" : @"applepay"}];
         }
         self.payOp.req_paychannel = data.customTag;
     }
     else if ([data equalByCellID:@"CouponCell" tag:nil])
     {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0009"}];
+        [MobClick event:@"hzzhifuqueren" attributes:@{@"youhui":@"youhuiquan"}];
         
         ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
         vc.type = CouponTypeXMHZ;
@@ -641,8 +645,6 @@
     @weakify(checkB);
     [[[checkB rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
      subscribeNext:^(id x) {
-         
-         [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0014"}];
          
          @strongify(checkB);
          BOOL checked = ![data.customInfo[@"check"] boolValue];

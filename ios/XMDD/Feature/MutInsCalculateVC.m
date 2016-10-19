@@ -290,7 +290,7 @@
         [[calculateBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
             @strongify(self)
             
-            [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan3"}];
+            [MobClick event:@"hzfeiyongshisuan" attributes:@{@"hzfeiyongshisuan":@"lijishisuan"}];
             
             if (self.frameNo.length > 0)
             {
@@ -529,8 +529,8 @@
 
 -(void)showLicenseTips
 {
-    
-    [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan2"}];
+
+    [MobClick event:@"hzfeiyongshisuan" attributes:@{@"cheliangshibiehao":@"lvsebiaoshi"}];
     
     CGSize size = CGSizeMake(300, 200);
     UIViewController *vc = [[UIViewController alloc] init];

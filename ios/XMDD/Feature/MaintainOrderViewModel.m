@@ -100,7 +100,6 @@
         
         gasCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
             @strongify(self);
-            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan7"}];
             CarwashOrderDetailVC *vc = [UIStoryboard vcWithId:@"CarwashOrderDetailVC" inStoryboard:@"Mine"];
             vc.order = order;
             vc.originVC = self.targetVC;

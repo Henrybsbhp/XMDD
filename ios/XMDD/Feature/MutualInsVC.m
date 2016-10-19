@@ -141,7 +141,6 @@
 {
     [MobClick event:@"huzhushouye" attributes:@{@"navi" : @"caidan"}];
     
-    
     if (self.popoverMenu.isActivated) {
         [self.popoverMenu dismissWithAnimated:YES];
         return;
@@ -266,6 +265,7 @@
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        [MobClick event:@"huzhushouye" attributes:@{@"caidan" : @"feiyongshisuan"}];
         [self actionGotoCalculateVC];
     });
     
@@ -541,6 +541,7 @@
             extView.claimSumString = [NSString stringWithFormat:@"%@", self.totalTipsArray[3]];
             extView.bottomTipsString = self.bottomTips;
             [extView setBottomButtonClicked:^{
+                [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"xitongtuan"}];
                 [self actionGotoSystemGroupListVC];
             }];
             [extView showInfo];
@@ -562,8 +563,6 @@
     });
     
     calculateCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye4"}];
-        
         @strongify(self)
         [self actionGotoCalculateVC];
     });
@@ -673,12 +672,8 @@
             
         } else if (dict.status == XMWaitingForPay) {
             // 进入「订单详情」页面
-            
-            [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye10"}];
             @strongify(self);
-            
             [self actionGotoPayVC:dict.contractID];
-            
         } else {
             [MobClick event:@"huzhushouye" attributes:@{@"wodehuzhu" : @"wanshanziliao"}];
             // 进入「完善资料」页面
@@ -729,7 +724,6 @@
             [bottomButton setTitle:@"重新上传资料" forState:UIControlStateNormal];
             @weakify(self);
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye11"}];
                 @strongify(self);
                 
                 HKMyCar * car = [[HKMyCar alloc] init];
@@ -754,7 +748,6 @@
             [bottomButton setTitle:@"完善资料" forState:UIControlStateNormal];
             @weakify(self);
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye9"}];
                 @strongify(self);
                 
                 HKMyCar * car;
@@ -822,7 +815,6 @@
     extendedInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         // 进入团详情页面
         @strongify(self);
-        [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye10"}];
         [self actionGotoGroupDetailVC:data[@"dict"]];
     });
     
@@ -850,7 +842,6 @@
     });
     
     tipsHeaderCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye5"}];
         @strongify(self);
         
         // 有车无团「未参团」状态
@@ -895,6 +886,7 @@
     
     tipsTitleCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        [MobClick event:@"huzhushouye" attributes:@{@"wodehuzhu" : @"fuli"}];
         // 有车无团「未参团」状态
         if (dict.status == XMGroupFailed) {
             

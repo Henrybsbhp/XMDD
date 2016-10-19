@@ -67,16 +67,6 @@
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)topViewSingleTap:(UIGestureRecognizer *)recognizer
-{
-    [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan11"}];
-}
-
-- (void)bottomViewSingleTap:(UIGestureRecognizer *)recognizer
-{
-    [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan12"}];
-}
-
 #pragma mark - HKLoadingModelDelegate
 
 -(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
@@ -231,13 +221,11 @@
         
         [[[topButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
-            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan11"}];
             [self actionGoToMutualInsOrderInfoVCWithModel:model];
         }];
         
         [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
-            [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan12"}];
             [self actionGoToMutualInsOrderInfoVCWithModel:model];
         }];
     });
