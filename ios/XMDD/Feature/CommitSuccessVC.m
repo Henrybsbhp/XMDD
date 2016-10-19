@@ -54,6 +54,7 @@
     /**
      *  返回估值首页事件
      */
+    [MobClick event:@"ershouchetijiaochenggong" attributes:@{@"navi" : @"back"}];
     NSArray *viewControllers = self.navigationController.viewControllers;
     [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
 }
@@ -96,12 +97,6 @@
     } error:^(NSError *error) {
         [gToast showError:@"分享信息拉取失败，请重试"];
     }];
-}
-
--(void)actionBack:(id)sender
-{
-    [super actionBack:sender];
-    [MobClick event:@"ershouchetijiaochenggong" attributes:@{@"navi" : @"back"}];
 }
 
 @end
