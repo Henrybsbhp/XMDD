@@ -281,7 +281,7 @@
 
 -(void)actionBack
 {
-    [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan1"}];
+    [MobClick event:@"hzfeiyongshisuan" attributes:@{@"navi":@"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

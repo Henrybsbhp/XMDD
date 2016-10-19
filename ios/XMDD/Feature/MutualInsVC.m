@@ -113,13 +113,13 @@
 #pragma mark - Actions
 - (void)actionBack
 {
-    [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye1"}];
+    [MobClick event:@"huzhushouye" attributes:@{@"navi" : @"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)compensationButtonClicked:(id)sender
 {
-    [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye6"}];
+    [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"woyaobuchang"}];
     
     if ([LoginViewModel loginIfNeededForTargetViewController:self])
     {
@@ -131,7 +131,7 @@
 
 - (IBAction)joinButtonClicked:(id)sender
 {
-    [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye7"}];
+    [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"jiaruhuzhu"}];
     GroupIntroductionVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
     vc.groupType = MutualGroupTypeSystem;
     [self.router.navigationController pushViewController:vc animated:YES];
@@ -139,7 +139,7 @@
 
 - (IBAction)actionShowOrHideMenu:(id)sender
 {
-    [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye2"}];
+    [MobClick event:@"huzhushouye" attributes:@{@"navi" : @"caidan"}];
     
     
     if (self.popoverMenu.isActivated) {
@@ -323,7 +323,7 @@
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"help",@"title":@"使用帮助",@"img":@"mins_question"}];
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye13"}];
+        [MobClick event:@"huzhushouye" attributes:@{@"caidan" : @"bangzhu"}];
         
         if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
         {
@@ -352,7 +352,7 @@
 {
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"phone",@"title":@"联系客服",@"img":@"mins_phone"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye14"}];
+        [MobClick event:@"huzhushouye" attributes:@{@"caidan" : @"kefu"}];
         
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
@@ -591,7 +591,7 @@
     });
     
     normalStatusCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye8"}];
+        [MobClick event:@"huzhushouye" attributes:@{@"wodehuzhu" : @"dianjicheliang"}];
         @strongify(self);
         
         // 有车无团「未参团」状态
@@ -662,7 +662,7 @@
     
     statusWithButtonCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         if (dict.status == XMReviewFailed) {
-            [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye11"}];
+            [MobClick event:@"huzhushouye" attributes:@{@"wodehuzhu" : @"chongxinshangchuan"}];
             // 进入「重新上传资料」页面
             @strongify(self);
             
@@ -680,7 +680,7 @@
             [self actionGotoPayVC:dict.contractID];
             
         } else {
-            [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye9"}];
+            [MobClick event:@"huzhushouye" attributes:@{@"wodehuzhu" : @"wanshanziliao"}];
             // 进入「完善资料」页面
             
             @strongify(self);
@@ -743,7 +743,7 @@
             [bottomButton setTitle:@"前去支付" forState:UIControlStateNormal];
             @weakify(self);
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-                [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye12"}];
+                [MobClick event:@"huzhushouye" attributes:@{@"wodehuzhu" : @"qianquzhifu"}];
                 @strongify(self);
                 
                 [self actionGotoPayVC:dict.contractID];
@@ -785,7 +785,7 @@
     groupInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         // 进入团详情页面
         @strongify(self);
-        [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"huzhushouye10"}];
+        [MobClick event:@"huzhushouye" attributes:@{@"wodehuzhu" : @"jinrutuanxiangqing"}];
         [self actionGotoGroupDetailVC:data[@"dict"]];
     });
     
