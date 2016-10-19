@@ -281,6 +281,7 @@
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        [MobClick event:@"huzhushouye" attributes:@{@"caidan" : @"zizhutuan"}];
         GroupIntroductionVC * vc = [UIStoryboard vcWithId:@"GroupIntroductionVC" inStoryboard:@"MutualInsJoin"];
         vc.groupType = MutualGroupTypeSelf;
         
@@ -301,6 +302,7 @@
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        [MobClick event:@"huzhushouye" attributes:@{@"caidan" : @"zizhutuanshenqing"}];
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self;
         NSString * urlStr;
