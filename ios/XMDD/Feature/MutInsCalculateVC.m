@@ -136,16 +136,16 @@
         
         if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
         {
-        [SensorAnalyticsInstance
-         track:@"event_feiyongshisuan_lijishisuan_chenggong"
-         withProperties:@{@"carid":self.car.carId ?: @(0),
-                          @"vcode":op.frameNo ?: @"",
-                          @"brandname": op.model.brandName ?: @"",
-                          @"frameno":op.model.carFrameNo ?: @"",
-                          @"premiumprice":op.model.premiumPrice ?: @"",
-                          @"servicefee":op.model.serviceFee ?: @"",
-                          @"sharemoney":op.model.shareMoney ?: @"",
-                          @"note":op.model.note ?: @""}];
+            [SensorAnalyticsInstance
+             track:@"event_feiyongshisuan_lijishisuan_chenggong"
+             withProperties:@{@"carid":self.car.carId ?: @(0),
+                              @"vcode":op.frameNo ?: @"",
+                              @"brandname": op.model.brandName ?: @"",
+                              @"frameno":op.model.carFrameNo ?: @"",
+                              @"premiumprice":op.model.premiumPrice ?: @"",
+                              @"servicefee":op.model.serviceFee ?: @"",
+                              @"sharemoney":op.model.shareMoney ?: @"",
+                              @"note":op.model.note ?: @""}];
         }
         
     } error:^(NSError *error) {
@@ -154,7 +154,7 @@
         
         if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
         {
-        [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_shibai" withProperties:@{@"error":errStr ?: @""}];
+            [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_shibai" withProperties:@{@"error":errStr ?: @""}];
         }
         [gToast showMistake:errStr.length == 0 ? @"费用试算失败请重试" : errStr];
     }];
@@ -190,15 +190,15 @@
         
         if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
         {
-        [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_chenggong"
-                        withProperties:@{@"carid":self.car.carId ?: @(0),
-                                         @"vcode":op.req_frameno ?: @"",
-                                         @"brandname": op.model.brandName ?: @"",
-                                         @"frameno":op.model.carFrameNo ?: @"",
-                                         @"premiumprice":op.model.premiumPrice ?: @"",
-                                         @"servicefee":op.model.serviceFee ?: @"",
-                                         @"sharemoney":op.model.shareMoney ?: @"",
-                                         @"note":op.model.note ?: @""}];
+            [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_chenggong"
+                            withProperties:@{@"carid":self.car.carId ?: @(0),
+                                             @"vcode":op.req_frameno ?: @"",
+                                             @"brandname": op.model.brandName ?: @"",
+                                             @"frameno":op.model.carFrameNo ?: @"",
+                                             @"premiumprice":op.model.premiumPrice ?: @"",
+                                             @"servicefee":op.model.serviceFee ?: @"",
+                                             @"sharemoney":op.model.shareMoney ?: @"",
+                                             @"note":op.model.note ?: @""}];
         }
         
     } error:^(NSError *error) {
@@ -296,7 +296,7 @@
             {
                 if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
                 {
-                [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan" withProperties:@{@"vcode":self.frameNo ?: @""}];
+                    [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan" withProperties:@{@"vcode":self.frameNo ?: @""}];
                 }
             }
             
@@ -316,7 +316,7 @@
             {
                 if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
                 {
-                [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_vmayouwu"];
+                    [SensorAnalyticsInstance track:@"event_feiyongshisuan_lijishisuan_vmayouwu"];
                 }
             }
             
@@ -529,7 +529,7 @@
 
 -(void)showLicenseTips
 {
-
+    
     [MobClick event:@"hzfeiyongshisuan" attributes:@{@"cheliangshibiehao":@"lvsebiaoshi"}];
     
     CGSize size = CGSizeMake(300, 200);
