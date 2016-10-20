@@ -3,23 +3,13 @@ import React, {Component, PropTypes} from 'react';
 import {
     Text, View, Image, StyleSheet, TouchableOpacity
 } from 'react-native';
-import Modal from '../general/Modal';
-import UI from '../../constant/UIConstants';
+import ModalView from '../ModalView';
+import UI from '../../../constant/UIConstants';
 
-export default class PopoverMenu extends Modal {
-
-    open() {
-        this.refs.m.open();
-    }
-
-    close() {
-        this.refs.m.close();
-    }
-
+export default class PopoverMenu extends ModalView {
     render() {
-        var props = this.props ? this.props : undefined;
         return (
-            <Modal ref="m" {...props}>
+            <ModalView {...this.props} aboveStatusBar={false} fgCloseAnimation="none" >
                 <View style={styles.menuContainer}>
                     <Image
                         source={{uri: 'mins_pop_bg'}}
@@ -31,7 +21,7 @@ export default class PopoverMenu extends Modal {
                         {this.props.children}
                     </View>
                 </View>
-            </Modal>
+            </ModalView>
         );
     }
 }

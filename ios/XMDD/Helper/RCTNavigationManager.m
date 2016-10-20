@@ -9,6 +9,11 @@
 #import "RCTNavigationManager.h"
 #import "NavigationModel.h"
 #import "ReactNativeViewController.h"
+#import "CollectionChooseVC.h"
+#import "PickInsCompaniesVC.h"
+#import "ImagePickerVC.h"
+#import <RCTConvert.h>
+#import <RCTImageSource.h>
 
 @implementation RCTNavigationManager
 
@@ -53,6 +58,49 @@ RCT_EXPORT_METHOD(setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated) {
         else {
             [gAppMgr.navModel.curNavCtrl setNavigationBarHidden:hidden animated:animated];
         }
+    });
+}
+
+#pragma mark - ViewController
+RCT_EXPORT_METHOD(presentPlateNumberProvincePicker:(RCTResponseSenderBlock)callback) {
+    CKAsyncMainQueue(^{
+        CollectionChooseVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"CollectionChooseVC"];
+        HKNavigationController *nav = [[HKNavigationController alloc] initWithRootViewController:vc];
+        vc.datasource = gAppMgr.getProvinceArray;
+        [vc setSelectAction:^(NSDictionary *dict) {
+            callback(@[dict]);
+        }];
+        [gAppMgr.navModel.curNavCtrl presentViewController:nav animated:YES completion:nil];
+    });
+}
+
+RCT_EXPORT_METHOD(pushInsuanceCompanyPicker:(RCTResponseSenderBlock)callback) {
+    CKAsyncMainQueue(^{
+        PickInsCompaniesVC *vc = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
+        [vc setPickedBlock:^(NSString *name) {
+            callback(@[name]);
+        }];
+        [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
+    });
+}
+
+RCT_EXPORT_METHOD(presentImagePicker:(UIImage *)exampleImage callback:(RCTResponseSenderBlock)callback) {
+    CKAsyncMainQueue(^{
+        ImagePickerVC * vc = [[ImagePickerVC alloc] init];
+        vc.exampleImage = exampleImage;
+        vc.targetVC = gAppMgr.navModel.curNavCtrl;
+        vc.shouldCompressImage = NO;
+        [vc setCompletedBlock:^(NSDictionary *info) {
+            NSURL *url = info[UIImagePickerControllerReferenceURL];
+            if (url) {
+                UIImage *image = info[UIImagePickerControllerOriginalImage];
+                callback(@[@{@"uri": url.absoluteString,
+                             @"width": @(image.size.width),
+                             @"height": @(image.size.height),
+                             @"scale": @(image.scale)}]);
+            }
+        }];
+        [vc show];
     });
 }
 

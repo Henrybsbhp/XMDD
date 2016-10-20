@@ -21,6 +21,9 @@ const constants = {
             PaidForAll: 101,              // 全部人支付成功
             PeopleNumberUment: 101,       // 审核通过未达5人，继续邀请好友(团长特有)
         },
+    },
+    Link: {
+        Phone: 'tel://4007111111'
     }
 };
 

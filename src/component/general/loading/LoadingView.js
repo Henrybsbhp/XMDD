@@ -3,7 +3,6 @@ import {requireNativeComponent, StyleSheet} from 'react-native';
 
 const RCTLoadingView = requireNativeComponent('RCTLoadingView', LoadingView);
 
-
 export default class LoadingView extends Component {
     static Animation = { TYM: 0, MON: 1, UI: 2, GIF: 3 }
 

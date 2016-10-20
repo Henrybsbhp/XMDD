@@ -10,6 +10,7 @@
 #import "ReactNativeManager.h"
 #import "UIView+JTLoadingView.h"
 #import "UIView+DefaultEmptyView.h"
+#import <RCTBundleURLProvider.h>
 
 @interface ReactNativeViewController ()
 @property (nonatomic, assign) BOOL navigationBarHidden;
@@ -115,16 +116,11 @@
 
 - (void)loadWithModuleName:(NSString *)moduleName properties:(NSDictionary *)properties
 {
-#if REACT_DEV == 1
-//在线运行
-//    NSURL *url = [NSURL URLWithString:@"http://192.168.1.28:8081/index.ios.bundle?platform=ios&dev=true"];
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
-#else
-//本地运行
+    self.view.window.rootViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
     NSURL *url = [[ReactNativeManager sharedManager] latestJSBundleUrl];
-#endif
     [self.rctView rct_requestWithUrl:url modulName:moduleName properties:properties];
 }
+
 
 
 @end

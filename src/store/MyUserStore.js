@@ -12,6 +12,13 @@ const Domains = {
 
 const MyUserStore = Reflux.createStore({
     isLogin: false,
+    loginIfNeeded(callback) {
+        if (this.isLogin) {
+            return YES
+        }
+        LoginManager.loginIfNeeded(callback)
+        return NO
+    },
 })
 
 var subscription = EventEmitter.addListener("login", (isLogin) => {

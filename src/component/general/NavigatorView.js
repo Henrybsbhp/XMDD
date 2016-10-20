@@ -150,12 +150,6 @@ export default class NavigatorView extends Component {
                     onDidFocus={this._onDidFocus.bind(this)}
                     navigationBar={this._renderNavigationBar()}
                 />
-                {
-                    this.state.modal && React.cloneElement(this.state.modal, {
-                        ...this.state.modalProps,
-                        ref: 'modal'
-                    })
-                }
             </View>
         );
     }
@@ -186,22 +180,10 @@ export default class NavigatorView extends Component {
                         route,
                         navigator,
                         ...route.passProps,
-                        modal: {
-                            get: this._getModal.bind(this),
-                            render: this._registModal.bind(this),
-                        },
                     },
                 )}
             </View>
         )
-    }
-
-    _getModal(modal) {
-        return this.refs.modal;
-    }
-
-    _registModal(modal) {
-        this.setState({modal: modal});
     }
 };
 
@@ -269,6 +251,5 @@ const styles = StyleSheet.create({
         marginRight: 0,
     },
     scene: {flex: 1, marginTop: Navigator.NavigationBar.Styles.General.TotalNavHeight,},
-    modal: {position: 'absolute', left: 0, right: 0, top: 0, bottom: 0,}
 });
 
