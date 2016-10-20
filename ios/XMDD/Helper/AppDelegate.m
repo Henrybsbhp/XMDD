@@ -240,7 +240,7 @@
     }
     else if ([url.absoluteString hasPrefix:@"xmdd://"])
     {
-        [MobClick event:@"rp000"];
+        [MobClick event:@"tuisongjinqu"];
         NSString * urlStr = url.absoluteString;
         NSDictionary * dict = @{@"url":urlStr};
         [self.openUrlQueue addObject:dict forKey:nil];

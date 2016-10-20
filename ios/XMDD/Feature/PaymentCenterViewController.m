@@ -72,6 +72,8 @@
     @weakify(self)
     [[self.payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"zhifuzhongxin" attributes:@{@"zhifu":@"zhifu"}];
+        
         GetGeneralActivityLefttimeOp * lefttimeOp = [[GetGeneralActivityLefttimeOp alloc] init];
         lefttimeOp.tradeType = self.tradeType;
         lefttimeOp.tradeNo = self.tradeNo;
@@ -108,6 +110,8 @@
 
 
 - (void)actionBack:(id)sender {
+    
+    [MobClick event:@"zhifuzhongxin" attributes:@{@"navi":@"back"}];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -253,19 +257,19 @@
         
         if (paychannel == PaymentChannelUPpay)
         {
-            [MobClick event:@"tongyongzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren6"}];
+            [MobClick event:@"zhifuzhongxin" attributes:@{@"zhifufangshi":@"uppay"}];
         }
         else if (paychannel == PaymentChannelApplePay)
         {
-            [MobClick event:@"tongyongzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren7"}];
+            [MobClick event:@"zhifuzhongxin" attributes:@{@"zhifufangshi":@"applepay"}];
         }
         else if (paychannel == PaymentChannelAlipay)
         {
-            [MobClick event:@"tongyongzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren8"}];
+            [MobClick event:@"zhifuzhongxin" attributes:@{@"zhifufangshi":@"alipay"}];
         }
         else
         {
-            [MobClick event:@"tongyongzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren9"}];
+           [MobClick event:@"zhifuzhongxin" attributes:@{@"zhifufangshi":@"wechat"}];
         }
     }
 }
