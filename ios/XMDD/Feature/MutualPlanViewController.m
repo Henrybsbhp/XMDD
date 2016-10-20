@@ -19,7 +19,7 @@
 #if XMDDEnvironment==0
     #define MutualPlanTabUrl @"http://dev01.xiaomadada.com/paaweb/general/huzhuload"
 #elif XMDDEnvironment==1
-    #define MutualPlanTabUrl @"http://dev.xiaomadada.com/paaweb/general/huzhuload"
+    #define MutualPlanTabUrl @"https://dev.xiaomadada.com/paaweb/general/huzhuload"
 #else
     #define MutualPlanTabUrl @"https://www.xiaomadada.com/paaweb/general/huzhuload"
 #endif

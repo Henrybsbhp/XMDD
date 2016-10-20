@@ -25,9 +25,6 @@
                     targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
                     mobBaseEventDict:(NSDictionary *)dict;
 
-+ (instancetype)vcWithMutualADType:(AdvertisementType)type boundsWidth:(CGFloat)width
-                          targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
-                  mobBaseEventDict:(NSDictionary *)dict;
 
 ///reload
 - (void)reloadDataWithForce:(BOOL)force completed:(void(^)(ADViewController *ctrl, NSArray *ads))completed;

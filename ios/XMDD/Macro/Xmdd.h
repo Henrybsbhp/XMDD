@@ -44,10 +44,12 @@
 #import "GlobalStoreManager.h"
 
 
+
 //基类
 #import "BaseOp.h"
 #import "HKViewController.h"
 #import "HKImageAlertVC.h"
+#import "HKViewControllerFactory.h"
 
 //常用vc&View
 #import "HKNavigationController.h"

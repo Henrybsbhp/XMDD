@@ -8,12 +8,10 @@
 
 #import "ADViewController.h"
 #import "NavigationModel.h"
-#import "HKScrollDisplayVC.h"
 #import "MutualInsVC.h"
 
-@interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource, HKScrollDisplayVCDelegate>
+@interface ADViewController ()<SYPaginatorViewDelegate, SYPaginatorViewDataSource>
 @property (nonatomic, strong) NavigationModel *navModel;
-@property (strong, nonatomic) HKScrollDisplayVC *sdVC;
 @end
 @implementation ADViewController
 
@@ -32,13 +30,6 @@
     return adctrl;
 }
 
-+ (instancetype)vcWithMutualADType:(AdvertisementType)type boundsWidth:(CGFloat)width
-                          targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
-                  mobBaseEventDict:(NSDictionary *)dict
-{
-    ADViewController *adctrl = [[ADViewController alloc] initWithMutualADType:type boundsWidth:width targetVC:vc mobBaseEvent:event mobBaseEventDict:dict];
-    return adctrl;
-}
 
 - (instancetype)initWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
                       targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
@@ -55,66 +46,6 @@
         _navModel.curNavCtrl = _targetVC.navigationController;
         CGFloat height = floor(width*184.0/640);
         
-        if (type == AdvertisementHomePage)
-        {
-            self.sdVC = [[HKScrollDisplayVC alloc] init];
-            self.sdVC.delegate = self;
-            [_targetVC addChildViewController:self.sdVC];
-            self.sdVC.view.frame = CGRectMake(0, 0, width, height);
-            self.sdVC.currentPage = 0;
-            self.sdVC.adType = self.adType;
-            self.sdVC.adList = self.adList;
-            _adView = self.sdVC.view;
-        
-            RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
-                
-                @strongify(self);
-                self.sdVC.currentPage ++;
-                
-            }];
-            [[self rac_deallocDisposable] addDisposable:dis];
-        }
-        else
-        {
-            
-            SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-            adView.delegate = self;
-            adView.dataSource = self;
-            adView.pageGapWidth = 0;
-            adView.pageControl.hidden = YES;
-            _adView = adView;
-            
-            [adView setCurrentPageIndex:0];
-            
-            RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
-                
-                @strongify(self);
-                NSInteger index = adView.currentPageIndex + 1;
-                if (index > (int)(self.adList.count)-1) {
-                    index = 0;
-                }
-                if (index != adView.currentPageIndex) {
-                    [adView setCurrentPageIndex:index animated:YES];
-                }
-            }];
-            [[self rac_deallocDisposable] addDisposable:dis];
-        }
-    }
-    return self;
-}
-
-- (instancetype)initWithMutualADType:(AdvertisementType)type boundsWidth:(CGFloat)width
-                            targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
-{
-    self = [super init];
-    if (self) {
-        _targetVC = vc;
-        _adType = type;
-        _mobBaseEvent = event;
-        _mobBaseEventDict = dict;
-        _navModel = [[NavigationModel alloc] init];
-        _navModel.curNavCtrl = _targetVC.navigationController;
-        CGFloat height = floor(width/4.15);
         
         SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
         adView.delegate = self;
@@ -124,7 +55,7 @@
         _adView = adView;
         
         [adView setCurrentPageIndex:0];
-        @weakify(self);
+        
         RACDisposable *dis = [[gAdMgr rac_scrollTimerSignal] subscribeNext:^(id x) {
             
             @strongify(self);
@@ -141,6 +72,7 @@
     return self;
 }
 
+
 #pragma mark - Reload
 - (void)reloadDataWithForce:(BOOL)force completed:(void(^)(ADViewController *ctrl, NSArray *ads))completed
 {
@@ -149,17 +81,24 @@
     [[signal deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSArray *ads) {
         
         @strongify(self);
-        _adList = ads;
-        if (self.adType == AdvertisementHomePage)
+        
+        /// 为了制造循环滚动的效果，数据结构为：d【abcd】a，如果个数为一个的话，则忽略按照原始样子
+        if (ads.count > 1)
         {
-            self.sdVC.adList = ads;
+            NSMutableArray * tempArray = [NSMutableArray array];
+            [tempArray safetyAddObject:[ads lastObject]];
+            [tempArray safetyAddObjectsFromArray:ads];
+            [tempArray safetyAddObject:[ads firstObject]];
+            _adList = [NSArray arrayWithArray:tempArray];
         }
         else
         {
-            [(SYPaginatorView *)self.adView reloadDataRemovingCurrentPage:YES];
-            [(SYPaginatorView *)self.adView setCurrentPageIndex:0];
-            [(SYPaginatorView *)self.adView pageControl].hidden = self.adList.count <= 1;
+            _adList = ads;
         }
+        
+        [(SYPaginatorView *)self.adView reloadDataRemovingCurrentPage:YES];
+        [(SYPaginatorView *)self.adView setCurrentPageIndex:ads.count > 1 ? 1 : 0];
+        [(SYPaginatorView *)self.adView pageControl].hidden = ads.count <= 1;
         
         if (completed) {
             completed(self, ads);
@@ -181,13 +120,6 @@
             }
         });
     }];
-}
-
-#pragma mark - HKScrollDisplayVCDelegate
-
-- (void)scrollDisplayViewController:(HKScrollDisplayVC *)scrollDisplayViewController didSelectedIndex:(NSInteger)index
-{
-    [self actionTapWithAdvertisement:[self.adList safetyObjectAtIndex:index]];
 }
 
 #pragma mark - SYPaginatorViewDelegate
