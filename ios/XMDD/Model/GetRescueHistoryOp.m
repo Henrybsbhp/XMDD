@@ -29,16 +29,12 @@
                 history.applyTime = dic[@"applytime"];
                 history.serviceName = dic[@"servicename"];
                 history.licenceNumber = dic[@"licencenumber"];
-                history.applyId = dic[@"applyid"];
                 history.rescueStatus = [dic integerParamForName:@"rescuestatus"];
                 history.commentStatus = [dic integerParamForName:@"commentstatus"];
+                history.applyId = dic[@"applyid"];
                 history.type = [dic integerParamForName:@"type"];
-                
-                if (history.type == HKRescueAnnual) {
-                    history.appointTime = dic[@"appointtime"];
-                }else {
-                    history.appointTime = nil;
-                }
+                history.appointTime = dic[@"appointtime"];
+                history.pay = dic[@"pay"];
                 [rArray safetyAddObject:history];
             }
         }

@@ -387,7 +387,7 @@
         }
         //救援
         else if ([@"rescue" equalByCaseInsensitive:name]) {
-            UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
+            UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeV2VC"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         //加入小马互助长条广告

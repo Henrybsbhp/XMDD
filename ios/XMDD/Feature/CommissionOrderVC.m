@@ -19,6 +19,9 @@
 #import "UIView+JTLoadingView.h"
 #import "HKTableViewCell.h"
 #import "DetailWebVC.h"
+
+#import "CommissionRecordVC.h"
+
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
 @interface CommissionOrderVC ()
@@ -151,12 +154,15 @@
 }
 
 - (void)commissionHistory {
-    [MobClick event:@"rp801_1"];
-    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        RescueHistoryViewController *vc  =[rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHistoryViewController"];
-        vc.type = 2;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+//    [MobClick event:@"rp801_1"];
+//    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+//        RescueHistoryViewController *vc  =[rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHistoryViewController"];
+//        vc.type = 2;
+//        [self.navigationController pushViewController:vc animated:YES];
+//    }
+    
+    CommissionRecordVC *vc = [UIStoryboard vcWithId:@"CommissionRecordVC" inStoryboard:@"Commission"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
@@ -244,7 +250,7 @@
         self.historyBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _historyBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         _historyBtn.frame = CGRectMake(0, 0, 60, 44);
-        [_historyBtn setTitle:@"协办记录" forState:UIControlStateNormal];
+        [_historyBtn setTitle:@"协办历史" forState:UIControlStateNormal];
         [_historyBtn addTarget:self action:@selector(commissionHistory) forControlEvents:UIControlEventTouchUpInside];
     }
     return _historyBtn;
