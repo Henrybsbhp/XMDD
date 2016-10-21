@@ -17,6 +17,9 @@
 
 @interface GasAddCardVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (weak, nonatomic) IBOutlet UIButton *sureButton;
+
 ///中石化
 @property (nonatomic, strong) GasCard *snpnCard;
 ///中石油
@@ -60,6 +63,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupNavigationBar];
+    [self setupUI];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,10 +77,22 @@
     self.navigationItem.leftBarButtonItem = back;
 }
 
+- (void)setupUI
+{
+    @weakify(self)
+    [[self.sureButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        
+        @strongify(self)
+         [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka"}];
+        
+        [self actionAddCard:nil];
+    }];
+}
+
 #pragma mark - Action
 - (void)actionBack
 {
-    [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka1"}];
+    [MobClick event:@"tianjiayouka" attributes:@{@"navi" : @"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -98,13 +114,6 @@
         }
     }
     
-    
-    if (sender.tag == 1001) {
-        [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka2"}];
-    }
-    else {
-        [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka3"}];
-    }
     self.curCard = sender.tag == 1001 ? self.snpnCard : self.cnpcCard;
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:0];
@@ -112,19 +121,21 @@
     [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (IBAction)actionAddCard:(id)sender
+- (void)actionAddCard:(id)sender
 {
-    [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka4"}];
-    
     [self.view endEditing:NO];
     
     if (self.curCard.gascardno.length != [self.curCard maxCardNumberLength]) {
+        
         [self shakeTextFieldCellAtRow:1];
+        
+        [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"youkayouwu"}];
         return;
     }
     
     if (self.isLoading) {
         
+        [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"youkawuxingming"}];
         [gToast showingWithText:nil];
         
         @weakify(self);
@@ -151,10 +162,12 @@
                 alertMessage = [[NSMutableAttributedString alloc] initWithString:@"请核对如下信息并确认\n" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:kGrayTextColor, NSParagraphStyleAttributeName: ps}];
                 NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"油卡持卡人姓名：%@\n加油卡号\n%@", self.snpnUsername, splitedCardNumber] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16], NSForegroundColorAttributeName:HEXCOLOR(@"#000000"), NSParagraphStyleAttributeName: ps}];
                 [alertMessage appendAttributedString:nameString];
+                [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"youkayouxingming"}];
             } else {
                 alertMessage = [[NSMutableAttributedString alloc] initWithString:@"请核对如下信息并确认\n" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:kGrayTextColor, NSParagraphStyleAttributeName: ps}];
                 NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"油卡卡号\n%@", splitedCardNumber] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16], NSForegroundColorAttributeName:HEXCOLOR(@"#000000"), NSParagraphStyleAttributeName: ps}];
                 [alertMessage appendAttributedString:nameString];
+                [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"youkawuxingming"}];
             }
         } else {
             NSString *splitedCardNumber = [self.curCard.gascardno splitByStep:4 replacement:@" "];
@@ -162,24 +175,22 @@
                 alertMessage = [[NSMutableAttributedString alloc] initWithString:@"请核对如下信息并确认\n" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:kGrayTextColor, NSParagraphStyleAttributeName: ps}];
                 NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"油卡持卡人姓名：%@\n加油卡号\n%@", self.cnpcUsername, splitedCardNumber] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16], NSForegroundColorAttributeName:HEXCOLOR(@"#000000"), NSParagraphStyleAttributeName: ps}];
                 [alertMessage appendAttributedString:nameString];
+                [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"youkayouxingming"}];
             } else {
                 alertMessage = [[NSMutableAttributedString alloc] initWithString:@"请核对如下信息并确认\n" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:kGrayTextColor, NSParagraphStyleAttributeName: ps}];
                 NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"油卡卡号\n%@", splitedCardNumber] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16], NSForegroundColorAttributeName:HEXCOLOR(@"#000000"), NSParagraphStyleAttributeName: ps}];
                 [alertMessage appendAttributedString:nameString];
+                [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"youkawuxingming"}];
             }
         }
         
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"返回" color:kGrayTextColor clickBlock:^(id alertVC) {
-            [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka5"}];
+            [MobClick event:@"tianjiayouka" attributes:@{@"tijiaotankuang" : @"quxiao"}];
         }];
         
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认无误" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
-            [MobClick event:@"tianjiayouka" attributes:@{@"tianjiayouka" : @"tianjiayouka6"}];
-            
-            //    if (![self.curCard.gascardno isEqual:self.curCard.customObject]) {
-            //        [self shakeTextFieldCellAtRow:2];
-            //        return;
-            //    }
+
+            [MobClick event:@"tianjiayouka" attributes:@{@"tijiaotankuang" : @"querenwuwu"}];
             
             GasStore *store = [GasStore fetchOrCreateStore];
             
@@ -283,14 +294,6 @@
         } else {
             field.text = [card.customObject splitByStep:4 replacement:@" "];
         }
-        [field setDidBeginEditingBlock:^(CKLimitTextField *textField) {
-            if (indexPath.row == 1) {
-                [MobClick event:@"rp504_3"];
-            } else {
-                [MobClick event:@"rp504_4"];
-            }
-            
-        }];
         
         [field setTextChangingBlock:^(CKLimitTextField *textField, NSString *replacement) {
             NSInteger cursor = [textField offsetFromPosition:textField.beginningOfDocument toPosition:textField.curCursorPosition];

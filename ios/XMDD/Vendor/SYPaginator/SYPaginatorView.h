@@ -47,6 +47,8 @@ typedef enum {
 @property (nonatomic, assign) CGRect swipeableRect;
 @property (nonatomic, assign) SYPageViewPaginationDirection paginationDirection;
 
+@property (nonatomic)BOOL isInfinite;
+
 - (void)reloadData;
 - (void)reloadDataRemovingCurrentPage:(BOOL)removeCurrentPage;
 - (void)setCurrentPageIndex:(NSInteger)targetPage animated:(BOOL)animated;

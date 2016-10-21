@@ -24,15 +24,16 @@
 
 + (instancetype)vcWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
                     targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
-            mobBaseEventDict:(NSDictionary *)dict
+                    mobBaseKey:(NSString *)mobKey
 {
-    ADViewController *adctrl = [[ADViewController alloc] initWithADType:type boundsWidth:width targetVC:vc mobBaseEvent:event mobBaseEventDict:dict];
+    ADViewController *adctrl = [[ADViewController alloc] initWithADType:type boundsWidth:width targetVC:vc mobBaseEvent:event mobBaseKey:mobKey];
     return adctrl;
 }
 
 
 - (instancetype)initWithADType:(AdvertisementType)type boundsWidth:(CGFloat)width
-                      targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event mobBaseEventDict:(NSDictionary *)dict
+                      targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
+                    mobBaseKey:(NSString *)mobKey
 {
     
     @weakify(self);
@@ -41,13 +42,14 @@
         _targetVC = vc;
         _adType = type;
         _mobBaseEvent = event;
-        _mobBaseEventDict = dict;
+        _mobBaseKey = mobKey;
         _navModel = [[NavigationModel alloc] init];
         _navModel.curNavCtrl = _targetVC.navigationController;
         CGFloat height = floor(width*184.0/640);
         
         
         SYPaginatorView *adView = [[SYPaginatorView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+        adView.isInfinite = YES;
         adView.delegate = self;
         adView.dataSource = self;
         adView.pageGapWidth = 0;
@@ -175,16 +177,13 @@
 {
     NSInteger pageIndex = [self.adList indexOfObject:ad];
     
-    if (self.mobBaseEventDict)
-    {
-        NSString * key = [self.mobBaseEventDict.allKeys safetyObjectAtIndex:0];
-        NSString * value = [self.mobBaseEventDict objectForKey:key];
-        NSString * valueWithIndex = [NSString stringWithFormat:@"%@_%d", value, (int)pageIndex];
-        [MobClick event:self.mobBaseEvent attributes:@{key:valueWithIndex}];
+    if (self.mobBaseEvent.length && self.mobBaseKey.length) {
+        NSString * eventstr = [NSString stringWithFormat:@"guanggao_%d", (int)pageIndex];
+        [MobClick event:self.mobBaseEvent attributes:@{self.mobBaseKey:eventstr}];
     }
-    else if (self.mobBaseEvent.length) {
-        NSString * eventstr = [NSString stringWithFormat:@"%@_%d", self.mobBaseEvent, (int)pageIndex];
-        [MobClick event:eventstr];
+    else
+    {
+        DebugLog(@"这个页面的广告页面mobBaseEvent,mobBaseKey为空,请务必补充");
     }
     
     if (ad.adLink.length > 0) {

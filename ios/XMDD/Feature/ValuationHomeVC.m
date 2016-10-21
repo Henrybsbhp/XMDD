@@ -95,7 +95,7 @@
          *  点击广告事件（只需传入底层事件，具体点了哪个广告在底层实现）
          */
         self.advc  =[ADViewController vcWithADType:AdvertisementValuation boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp601_5" mobBaseEventDict:nil];
+                                          targetVC:self mobBaseEvent:@"aicheguzhi" mobBaseKey:@"guzhiguanggao"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -332,7 +332,9 @@
             @weakify(contentVC);
             @weakify(self);
             [contentVC setContentDidChangeBlock:^() {
-                [MobClick event:@"aicheguzhi" attributes:@{@"dingbu" : @"dianjiaiche_x"}];
+                
+                NSString * mobClickValue = [NSString stringWithFormat:@"dianjiaiche_%ld",i];
+                [MobClick event:@"aicheguzhi" attributes:@{@"dingbu" : mobClickValue}];
                 @strongify(contentVC);
                 @strongify(self);
                 self.selectCar = contentVC.car;
@@ -348,6 +350,8 @@
             @weakify(self);
             [emptySubVC setAddCarClickBlock:^{
                 @strongify(self);
+                
+                [MobClick event:@"aicheguzhi" attributes:@{@"tianjiaaiche" : @"tianjiaaiche"}];
                 if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                     self.carIndex = self.dataSource.count;
                     EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];

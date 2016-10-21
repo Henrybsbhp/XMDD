@@ -76,7 +76,7 @@
 {
     CKAsyncMainQueue(^{
         self.advc  =[ADViewController vcWithADType:AdvertisementBankCardBinding boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp314_1" mobBaseEventDict:nil];
+                                          targetVC:self mobBaseEvent:@"wodeyinhangka" mobBaseKey:@"yinhangkaguanggao"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -245,6 +245,13 @@
         
         checkButton.hidden = model.cardType == 1 ? NO : YES;
         checkButton.enabled = NO;
+    });
+    
+    cardInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        // 进入团详情页面
+        @strongify(self);
+        
+        [MobClick event:@"wodeyinhangka" attributes:@{@"wodeyinhangka" : @"dianjiyinhangka"}];
     });
     
     return cardInfoCell;

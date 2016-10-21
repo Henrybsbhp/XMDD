@@ -94,9 +94,6 @@
     [[self.addressBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         @strongify(self);
-        
-        [MobClick event:@"hzdingdan" attributes:@{@"dibu":@"fenxiang"}];
-        
         [self actionJumpToFinishAddressVC];
     }];
 }
@@ -198,6 +195,7 @@
     }
     else
     {
+        [MobClick event:@"hzdingdan" attributes:@{@"dibu":@"fenxiang"}];
         [self actionShare];
     }
 }
@@ -239,13 +237,16 @@
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneShowXmddIns;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        vc.mobBaseValue = @"hzdingdan";
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
         [sheet presentAnimated:YES completionHandler:nil];
+        [MobClick event:@"fenxiangyemian" attributes:@{@"chuxian":@"hzdingdan"}];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
+            [MobClick event:@"fenxiangyemian" attributes:@{@"quxiao":@"hzdingdan"}];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
@@ -667,6 +668,8 @@
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
+        
+        [MobClick event:@"hzdingdan" attributes:@{@"huzhudingdan":@"jiaoqiangxiankaiguan"}];
         self.isInsProxy = !self.isInsProxy;
         [self setupDateSource];
         [self.tableView reloadData];

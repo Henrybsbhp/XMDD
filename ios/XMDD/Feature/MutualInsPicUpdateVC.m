@@ -860,7 +860,6 @@
 
 - (void)back
 {
-    [MobClick event:@"hzwanshanziliao" attributes:@{@"navi":@"back"}];
     if (self.groupId)
     {
         CKRouter * router = self.router.userInfo[kOriginRoute];
@@ -882,6 +881,9 @@
 
 - (void)actionBack:(id)sender {
     
+    
+    [MobClick event:@"hzwanshanziliao" attributes:@{@"navi":@"back"}];
+
     if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
     {
     [SensorAnalyticsInstance track:@"event_wanshanziliao_fanhui"];

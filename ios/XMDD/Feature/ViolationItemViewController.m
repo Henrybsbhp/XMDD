@@ -91,6 +91,7 @@
     [[self.bottomBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         @strongify(self)
+        [MobClick event:@"weizhangshouye" attributes:@{@"daiban":@"daiban"}];
         [self actionGotoViolationDelegateMissionVC];
     }];
     
@@ -506,9 +507,6 @@
             }];
         }
         
-        [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        }];
-        
         [field setTextDidChangedBlock:^(CKLimitTextField *field) {
             
             field.text = [field.text uppercaseString];
@@ -715,7 +713,12 @@
         {
             handleIcon.image = [UIImage imageNamed:@"unhandle_icon_300"];
         }
-        
+    });
+    
+    cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+
+        NSString * mobClickValue = [NSString stringWithFormat:@"dianji_%ld",indexPath.row];
+        [MobClick event:@"weizhangshouye" attributes:@{@"weizhangxinxin":mobClickValue}];
     });
     
     return cell;
