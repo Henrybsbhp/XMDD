@@ -333,7 +333,7 @@
             @weakify(self);
             [contentVC setContentDidChangeBlock:^() {
                 
-                NSString * mobClickValue = [NSString stringWithFormat:@"dianjiaiche_%ld",i];
+                NSString * mobClickValue = [NSString stringWithFormat:@"dianjiaiche_%d",i];
                 [MobClick event:@"aicheguzhi" attributes:@{@"dingbu" : mobClickValue}];
                 @strongify(contentVC);
                 @strongify(self);

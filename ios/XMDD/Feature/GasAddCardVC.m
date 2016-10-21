@@ -45,6 +45,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     self.snpnCard = [[GasCard alloc] init];
     self.snpnCard.cardtype = 1;
     self.cnpcCard = [[GasCard alloc] init];

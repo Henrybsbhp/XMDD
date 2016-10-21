@@ -18,6 +18,8 @@
 @implementation JoinResultViewController
 
 - (void)awakeFromNib {
+    
+    [super awakeFromNib];
     self.router.disableInteractivePopGestureRecognizer = YES;
 }
 

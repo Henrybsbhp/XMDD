@@ -974,7 +974,6 @@
     tipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         UIImageView *firstImageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UIImageView *secondImageView = (UIImageView *)[cell.contentView viewWithTag:103];
-        UIView *separator = (UIView *)[cell.contentView viewWithTag:106];
         UILabel *firstTipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
         UILabel *secondTipsLabel = (UILabel *)[cell.contentView viewWithTag:104];
         NSString *firstString = couponList[0];
@@ -1036,7 +1035,6 @@
     });
     
     singleTipsCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:100];
         UILabel *tipsLabel = (UILabel *)[cell.contentView viewWithTag:101];
         tipsLabel.numberOfLines = 0;
         tipsLabel.text = couponString;

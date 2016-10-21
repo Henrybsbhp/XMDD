@@ -30,6 +30,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     self.navModel = [[NavigationModel alloc] init];
 }
 

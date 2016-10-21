@@ -40,6 +40,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     _model = [[MyCarListVModel alloc] init];
 }
 
