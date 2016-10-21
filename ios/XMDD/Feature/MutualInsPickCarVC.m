@@ -85,7 +85,7 @@
             
             @strongify(self)
             
-            [MobClick event:@"xuanzecheliang" attributes:@{@"xuanzecheliang" : @"xuanzecheliang2"}];
+            [MobClick event:@"hzxuanzecheliang" attributes:@{@"xuanzecheliang" : @"xuanzecheliang_x"}];
             
             HKMyCar * car = [[HKMyCar alloc] init];
             car.carId = carId;
@@ -109,7 +109,7 @@
     
     addCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
-        [MobClick event:@"xuanzecheliang" attributes:@{@"xuanzecheliang" : @"xuanzecheliang3"}];
+        [MobClick event:@"hzxuanzecheliang" attributes:@{@"xuanzecheliang" : @"qita"}];
         
         @strongify(self)
         if (self.finishPickCar)
@@ -127,7 +127,7 @@
 #pragma mark - Utilitly
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"xuanzecheliang" attributes:@{@"xuanzecheliang" : @"xuanzecheliang1"}];
+    [MobClick event:@"hzxuanzecheliang" attributes:@{@"navi" : @"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

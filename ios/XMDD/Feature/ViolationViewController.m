@@ -303,6 +303,7 @@
     self.offsetDisposable = [[RACObserve(self.scrollView,contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * value) {
         
         @strongify(self)
+        [MobClick event:@"weizhangshouye" attributes:@{@"dingbu" : @"aiche_x"}];
         CGPoint p = [value CGPointValue];
         [self.pageController slideOffsetX:p.x andTotleW:self.scrollView.contentSize.width andPageW:gAppMgr.deviceInfo.screenSize.width];
     }];
@@ -312,7 +313,15 @@
 
 #pragma mark Action
 
-- (IBAction)actionJumpToMyVoilationMissionHistoryVC:(id)sender {
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"weizhangshouye" attributes:@{@"navi" : @"back"}];
+}
+
+- (IBAction)actionJumpToMyVoilationMissionHistoryVC:(id)sender
+{
+    [MobClick event:@"weizhangshouye" attributes:@{@"navi" : @"wodedaiban"}];
     [self jumpToMyVoilationMissionHistoryVC];
 }
 

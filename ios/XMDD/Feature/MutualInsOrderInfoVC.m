@@ -95,7 +95,7 @@
         
         @strongify(self);
         
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0020"}];
+        [MobClick event:@"hzdingdan" attributes:@{@"dibu":@"fenxiang"}];
         
         [self actionJumpToFinishAddressVC];
     }];
@@ -180,8 +180,7 @@
 #pragma mark - Utilitly
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0001"}];
-    
+    [MobClick event:@"hzdingdan" attributes:@{@"navi":@"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -189,7 +188,7 @@
 {
     if (self.contract.status == 1)
     {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0004"}];
+        [MobClick event:@"hzdingdan" attributes:@{@"dibu":@"zhifu"}];
         
         MutualInsPayViewController * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayViewController"];
         vc.contract = self.contract;
@@ -205,7 +204,7 @@
 
 - (void)actionJumpToFinishAddressVC
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0005"}];
+    [MobClick event:@"hzdingdan" attributes:@{@"dibu":@"wanshandizhi"}];
     
     MutualInsPayResultVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayResultVC"];
     vc.contract = self.contract;
@@ -215,7 +214,7 @@
 
 - (void)actionCallService:(id)sender {
     
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0007"}];
+    [MobClick event:@"hzdingdan" attributes:@{@"navi":@"kefu"}];
     
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
@@ -228,7 +227,6 @@
 - (void)actionShare
 {
     
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0020"}];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneShowXmddIns;
     
@@ -516,7 +514,7 @@
     
     if ([cellId isEqualToString:@"SwitchCell"])
     {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0002"}];
+        [MobClick event:@"hzdingdan" attributes:@{@"huzhudingdan":@"jiaoqiangxiankaiguan"}];
         self.isInsProxy = !self.isInsProxy;
         [self setupDateSource];
         [self.tableView reloadData];
@@ -669,7 +667,6 @@
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0002"}];
         self.isInsProxy = !self.isInsProxy;
         [self setupDateSource];
         [self.tableView reloadData];

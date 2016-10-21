@@ -102,7 +102,7 @@
         self.carwashline.hidden = !selected;
         self.carwashTableView.hidden = !selected;
         if (selected) {
-            [MobClick event:@"rp304_1"];
+            [MobClick event:@"wodeyouhuiquan" attributes:@{@"dingbu" : @"xiche"}];
         }
     }];
     
@@ -113,7 +113,7 @@
         self.gasLine.hidden = !selected;
         self.gasTableView.hidden = !selected;
         if (selected) {
-            [MobClick event:@"rp304_1"];
+            [MobClick event:@"wodeyouhuiquan" attributes:@{@"dingbu" : @"jiayou"}];
         }
     }];
     
@@ -124,7 +124,7 @@
         self.insuranceline.hidden = !selected;
         self.insuranceTableView.hidden = !selected;
         if (selected) {
-            [MobClick event:@"rp304_2"];
+            [MobClick event:@"wodeyouhuiquan" attributes:@{@"dingbu" : @"baoxian"}];
         }
     }];
     
@@ -135,7 +135,7 @@
         self.othersline.hidden = !selected;
         self.othersTableView.hidden = !selected;
         if (selected) {
-            [MobClick event:@"rp304_3"];
+            [MobClick event:@"wodeyouhuiquan" attributes:@{@"dingbu" : @"qita"}];
         }
     }];
     
@@ -143,6 +143,13 @@
 
 
 #pragma mark - Action
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"wodeyouhuiquan" attributes:@{@"navi" : @"back"}];
+}
+
 - (IBAction)actionTabBar:(id)sender
 {
     [self.segHelper selectItem:sender];
@@ -150,12 +157,13 @@
 
 - (IBAction)actionGetMore:(id)sender
 {
+    [MobClick event:@"wodeyouhuiquan" attributes:@{@"navi" : @"shiyongbangzhu"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.url = kGetMoreCouponUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)getMoreAction:(id)sender {
-    [MobClick event:@"rp304_6"];
+    [MobClick event:@"wodeyouhuiquan" attributes:@{@"navi" : @"huoquyouhuiquan"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.url = ADDEFINEWEB;
     [self.navigationController pushViewController:vc animated:YES];

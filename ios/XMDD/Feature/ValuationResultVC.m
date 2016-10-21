@@ -42,7 +42,7 @@
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp602_1"];
+    [MobClick event:@"aicheguzhijieguo" attributes:@{@"navi" : @"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -157,7 +157,7 @@
                 /**
                  *  查看更多事件
                  */
-                [MobClick event:@"rp602_2"];
+                [MobClick event:@"aicheguzhijieguo" attributes:@{@"aicheguzhijieguo" : @"chakangengduo"}];
                 @strongify(self);
                 DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
                 vc.url = self.evaluateOp.rsp_url;
@@ -238,7 +238,7 @@
 }
 
 - (void)shareAction {
-    [MobClick event:@"rp602_3"];
+    [MobClick event:@"aicheguzhijieguo" attributes:@{@"aicheguzhijieguo" : @"fenxiang"}];
     [gToast showingWithText:@"分享信息拉取中..."];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneValuation;
@@ -262,7 +262,6 @@
         }
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110_7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
@@ -275,7 +274,7 @@
 }
 
 - (void)carSallAction {
-    [MobClick event:@"rp602_4"];
+    [MobClick event:@"aicheguzhijieguo" attributes:@{@"aicheguzhijieguo" : @"yijianmaiche"}];
     GetCityInfoByNameOp * op = [GetCityInfoByNameOp operation];
     op.province = self.provinceName;
     op.city = self.cityName;

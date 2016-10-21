@@ -66,6 +66,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     _model = [[MyCarListVModel alloc] init];
     self.router.navigationBarHidden = YES;
     self.router.disableInteractivePopGestureRecognizer = YES;
@@ -362,7 +363,7 @@
         HKPageSliderView *pageSliderView = [[HKPageSliderView alloc] initWithFrame:view.bounds andTitleArray:carNumArray andStyle:HKTabBarStyleUnderCorner atIndex:[self.datasource indexOfObject:self.model.currentCar]];
         pageSliderView.contentScrollView.delegate = self;
         pageSliderView.delegate = self;
-        self.tapGesture =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goToEditCar)];
+        self.tapGesture =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(actionGotoEditCar)];
         [pageSliderView.contentScrollView addGestureRecognizer:self.tapGesture];
         
         if (view.subviews.count != 0) {
@@ -433,7 +434,7 @@
     }];
     
     [[[valuationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
-        [MobClick event:@"rp309_4"];
+        [MobClick event:@"wodeaiche" attributes:@{@"wodeaiche" : @"aicheguzhi"}];
         @strongify(self);
         ValuationHomeVC *vc = [UIStoryboard vcWithId:@"ValuationHomeVC" inStoryboard:@"Valuation"];
         vc.carIndex = self.sliderView.currentIndex;
@@ -445,7 +446,15 @@
 
 #pragma mark - Action
 
+- (void)actionGotoEditCar
+{
+    [MobClick event:@"wodeaiche" attributes:@{@"wodeaiche" : @"dianjiaiche"}];
+    [self goToEditCar];
+}
+
 - (IBAction)editAction:(id)sender {
+    
+    [MobClick event:@"wodeaiche" attributes:@{@"navi" : @"caidan"}];
     AddCloseAnimationButton * closeButton = sender;
     BOOL closing = closeButton.closing;
     [closeButton setClosing:!closing WithAnimation:YES];
@@ -466,14 +475,17 @@
         [popover setDidSelectedBlock:^(NSUInteger index) {
             @strongify(self);
             if (self.datasource.count >= 5) {
+                [MobClick event:@"wodeaiche" attributes:@{@"caidan" : @"bianjiaiche"}];
                 [self goToEditCar];
             }
             else {
                 if (index == 0) {
+                    [MobClick event:@"wodeaiche" attributes:@{@"caidan" : @"tianjiaaiche"}];
                     EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                     [self.navigationController pushViewController:vc animated:YES];
                 }
                 else {
+                    [MobClick event:@"wodeaiche" attributes:@{@"caidan" : @"bianjiaiche"}];
                     [self goToEditCar];
                 }
             }
@@ -490,8 +502,9 @@
 
 - (IBAction)backAction:(id)sender {
     //如果爱车信息不完整
+    [MobClick event:@"wodeaiche" attributes:@{@"navi" : @"back"}];
     if (self.model.allowAutoChangeSelectedCar && self.model.selectedCar && ![self.model.selectedCar isCarInfoCompleted]) {
-        
+        [MobClick event:@"wodeaiche" attributes:@{@"tishiwanshanxinxi" : @"tishiwanshanxinxi"}];
         HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
         alert.topTitle = @"温馨提示";
         alert.imageName = @"mins_bulb";
@@ -508,7 +521,7 @@
         }];
         HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             @strongify(self);
-            [MobClick event:@"rp104_9"];
+            [MobClick event:@"wodeaiche" attributes:@{@"tishiwanshanxinxi" : @"quwasnhan"}];
             EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
             vc.originCar = self.model.selectedCar;
             vc.model = self.model;
@@ -532,6 +545,7 @@
 
 - (void)uploadDrivingLicenceWithCar:(HKMyCar *)car
 {
+    [MobClick event:@"wodeaiche" attributes:@{@"wodeaiche" : @"aicherenzheng"}];
     [self.model showImagePickerWithTargetVC:self];
     [self.model setImagePickerBlock:^(RACSignal *signal) {
         [[[signal initially:^{
@@ -559,8 +573,6 @@
 }
 
 #pragma mark - UIScrollViewDelegate
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//}
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {

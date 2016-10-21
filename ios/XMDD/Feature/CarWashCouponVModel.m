@@ -164,6 +164,7 @@
         [btn setTitleEdgeInsets:titleInsets];
         
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[footView rac_signalForSelector:@selector(prepareForReuse)]] subscribeNext:^(id x) {
+            [MobClick event:@"wodeyouhuiquan" attributes:@{@"wodeyouhuiquan" : @"zhankai"}];
             self.spreadFlag = !self.spreadFlag;
             if (self.spreadFlag) {
                 [btn setImage:[UIImage imageNamed:@"coupon_pullup"] forState:UIControlStateNormal];
@@ -255,9 +256,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp304_5"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
+        [MobClick event:@"wodeyouhuiquan" attributes:@{@"wodeyouhuiquan" : @"dianjiyouhuiquan"}];
         CouponDetailsVC *vc = [UIStoryboard vcWithId:@"CouponDetailsVC" inStoryboard:@"Mine"];
         HKCoupon *hkcoupon = [[self.loadingModel.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
         vc.couponId = hkcoupon.couponId;

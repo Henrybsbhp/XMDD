@@ -85,6 +85,7 @@
 // 添加银行卡
 - (void)actionToAddCard
 {
+    [MobClick event:@"wodeyinhangka" attributes:@{@"wodeyinhangka" : @"tianjia"}];
     AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"Bank"];
     vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
     vc.router.userInfo[kOriginRoute]= self.router;
@@ -93,6 +94,7 @@
 
 - (void)actionToUnbindTheBankCardWithTokenID:(NSString *)tokenID AtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"wodeyinhangka" attributes:@{@"wodeyinhangka" : @"shanchu"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"否" color:kDefTintColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"是" color:kGrayTextColor clickBlock:^(id alertVC) {
         UnbindingBankCardOp *op = [UnbindingBankCardOp operation];
@@ -132,6 +134,7 @@
 
 - (IBAction)actionEdit:(id)sender
 {
+    [MobClick event:@"wodeyinhangka" attributes:@{@"navi" : @"bianji"}];
     if (!self.isEditing) {
         [self.tableView setEditing:YES animated:YES];
         self.isEditing = YES;
@@ -139,6 +142,12 @@
         [self.tableView setEditing:NO animated:YES];
         self.isEditing = NO;
     }
+}
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"wodeyinhangka" attributes:@{@"navi" : @"back"}];
 }
 
 #pragma mark - Fetch data
@@ -207,7 +216,6 @@
             CGFloat height = size.height + 86;
             return MAX(height, 101);
         }
-        
         return 80;
     });
     
@@ -387,6 +395,7 @@
 }
 
 #pragma mark - Lazy instantiation
+
 - (UIButton *)addbutton
 {
     if (!_addbutton)

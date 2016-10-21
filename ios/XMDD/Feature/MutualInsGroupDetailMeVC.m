@@ -83,10 +83,10 @@
 /// 完善资料
 - (void)actionFillInfo {
     if (self.viewModel.myInfo.rsp_status == 1 || self.viewModel.myInfo.rsp_status == 0) {
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing7"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"hztuanxiangqing_wo":@"wanshanziliao"}];
     }
     else if (self.viewModel.myInfo.rsp_status == 20) {
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing8"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"hztuanxiangqing_wo":@"chongxinshangchuan"}];
     }
     
     
@@ -142,7 +142,7 @@
 
 /// 我的协议
 - (void)actionAgreement {
-    [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing9"}];
+    [MobClick event:@"hztuanxiangqiang" attributes:@{@"hztuanxiangqing_wo":@"chakanxieyi"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"我的协议";
     vc.url = self.viewModel.myInfo.rsp_contracturl;

@@ -74,7 +74,7 @@
 
 - (IBAction)actionJoin:(id)sender
 {
-    [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo2"}];
+    [MobClick event:@"hzshisuanjieguo" attributes:@{@"jiaruhuzhu":@"jiaruhuzhu"}];
 
     GroupIntroductionVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
     vc.groupType = MutualGroupTypeSystem;
@@ -84,7 +84,7 @@
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo1"}];
+    [MobClick event:@"hzshisuanjieguo" attributes:@{@"navi":@"back"}];
     
     [self.navigationController popViewControllerAnimated:YES];
 }

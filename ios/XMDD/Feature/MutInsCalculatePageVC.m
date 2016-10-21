@@ -281,7 +281,7 @@
 
 -(void)actionBack
 {
-    [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan1"}];
+    [MobClick event:@"hzfeiyongshisuan" attributes:@{@"navi":@"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -315,6 +315,7 @@
     self.offsetDisposable = [[RACObserve(self.scrollView,contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * value) {
         
         @strongify(self)
+        [MobClick event:@"hzfeiyongshisuan" attributes:@{@"cheliang":@"qita"}];
         CGPoint p = [value CGPointValue];
         [self.pageController slideOffsetX:p.x andTotleW:self.scrollView.contentSize.width andPageW:gAppMgr.deviceInfo.screenSize.width];
     }];

@@ -163,7 +163,7 @@
     });
     
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing10"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"hztuanxiangqing_chengyuan":@"dianjichengyuan"}];
     });
     
     item[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, MutualInsGroupMemberCell *cell, NSIndexPath *indexPath) {
