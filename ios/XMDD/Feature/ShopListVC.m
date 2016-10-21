@@ -25,9 +25,10 @@ const NSString *kCarMaintenanceShopListVCID = @"$CarMaintenanceShopListVCID";
 const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
 
 @interface ShopListVC ()
-@property (nonatomic, strong) ADViewController *adVC;
 @property (nonatomic, strong) HKLoadingHelper *loadingHelper;
 @property (nonatomic, strong) ShopListStore *store;
+
+@property (nonatomic, copy)NSString * mobClickEvent;
 @end
 
 @implementation ShopListVC
@@ -44,50 +45,35 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
     self.store = [[ShopListStore alloc] initWithServiceType:self.serviceType];
     [self setupNavigationBar];
     [self setupTableView];
-    [self setupADView];
     [self actionRefresh:nil];
+    
+    if (self.serviceType == ShopServiceCarMaintenance)
+    {
+        self.mobClickEvent = @"baoyangshouye";
+    }
+    else if (self.serviceType == ShopServiceCarBeauty)
+    {
+        self.mobClickEvent = @"meirongshouye";
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    if (self.serviceType == ShopServiceCarMaintenance)
+    if (self.mobClickEvent.length)
     {
-        [MobClick beginLogPageView:@"xiaobaoyang"];
-    }
-    else if (self.serviceType == ShopServiceCarBeauty)
-    {
-        [MobClick beginLogPageView:@"meirong"];
-    }
-    else if (self.serviceType == ShopServiceCarwashWithHeart)
-    {
-        [MobClick beginLogPageView:@"jingxi"];
-    }
-    else
-    {
-        [MobClick beginLogPageView:@"puxi"];
+        [MobClick beginLogPageView:self.mobClickEvent];
     }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if (self.serviceType == ShopServiceCarMaintenance)
+    
+    if (self.mobClickEvent.length)
     {
-        [MobClick endLogPageView:@"xiaobaoyang"];
-    }
-    else if (self.serviceType == ShopServiceCarBeauty)
-    {
-        [MobClick endLogPageView:@"meirong"];
-    }
-    else if (self.serviceType == ShopServiceCarwashWithHeart)
-    {
-        [MobClick endLogPageView:@"jingxi"];
-    }
-    else
-    {
-        [MobClick endLogPageView:@"puxi"];
+        [MobClick endLogPageView:self.mobClickEvent];
     }
 }
 
@@ -122,27 +108,26 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
     [_tableView registerClass:[ShopListActionCell class] forCellReuseIdentifier:@"action"];
 }
 
-- (void)setupADView {
-    if (self.serviceType == ShopServiceCarMaintenance || self.serviceType == ShopServiceCarBeauty) {
-        return;
-    }
-    _adVC = [ADViewController vcWithADType:AdvertisementCarWash boundsWidth:ScreenWidth
-                                  targetVC:self mobBaseEvent:@"rp102_6" mobBaseEventDict:nil];
-}
 
 #pragma mark - Action 
 - (void)actionBack:(id)sender {
     [super actionBack:sender];
-    [self mobClickForEventSuffix:@"1"];
+    
+    if (self.mobClickEvent.length)
+    {
+        [MobClick event:self.mobClickEvent attributes:@{@"navi":@"back"}];
+    }
 }
 
 - (void)actionRefresh:(id)sender {
     [self requestShopList];
-    [self reloadADList];
 }
 
 - (void)actionSearch:(id)sender {
-    [self mobClickForEventSuffix:@"2"];
+    if (self.mobClickEvent.length)
+    {
+        [MobClick event:self.mobClickEvent attributes:@{@"navi":@"sousuo"}];
+    }
     SearchShopListVC *vc = [[SearchShopListVC alloc] init];
     if (self.serviceType == ShopServiceCarWash || self.serviceType == ShopServiceCarwashWithHeart) {
         vc.serviceType = ShopServiceAllCarWash;
@@ -154,8 +139,9 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
 }
 
 - (void)actionMap:(id)sender {
-    if (![self mobClickForEventSuffix:@"3"]) {
-        [MobClick event:@"rp102_1"];
+    if (self.mobClickEvent.length)
+    {
+        [MobClick event:self.mobClickEvent attributes:@{@"navi":@"ditu"}];
     }
     NearbyShopsViewController * vc = [carWashStoryboard instantiateViewControllerWithIdentifier:@"NearbyShopsViewController"];
     if (self.serviceType == ShopServiceCarWash || self.serviceType == ShopServiceCarwashWithHeart) {
@@ -176,7 +162,7 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
 }
 
 - (void)actionMakeCallWithPhoneNumber:(NSString *)phone {
-    [MobClick event:@"rp102_5"];
+
     if (phone.length == 0) {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb"
@@ -190,19 +176,12 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
 }
 
 - (void)actionNavigationWithShop:(JTShop *)shop {
-    [MobClick event:@"rp102_4"];
+
     [gPhoneHelper navigationRedirectThirdMap:shop
                              andUserLocation:self.store.coordinate
                                      andView:self.navigationController.view];
 }
 
-- (void)onServiceNameLabelTapped:(UITapGestureRecognizer *)tap {
-    [self mobClickForEventSuffix:@"5"];
-}
-
-- (void)onServicePriceLabelTapped:(UITapGestureRecognizer *)tap {
-    [self mobClickForEventSuffix:@"6"];
-}
 
 #pragma mark - Datasource
 - (void)reloadDatasource {
@@ -219,18 +198,6 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
     }];
 }
 
-- (void)reloadADList {
-    @weakify(self);
-    [self.adVC reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
-        @strongify(self);
-        if (ads.count > 0) {
-            self.tableView.tableHeaderView = ctrl.adView;
-        }
-        else {
-            self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, CGFLOAT_MIN)];
-        }
-    }];
-}
 
 #pragma mark - Request
 - (void)requestShopList {
@@ -417,7 +384,10 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [self mobClickForEventSuffix:@"4"];
+        if (self.mobClickEvent.length)
+        {
+            [MobClick event:self.mobClickEvent attributes:@{@"shanghu":@"xinxi"}];
+        }
         [self actionGotoShopDetailWithShop:data[@"shop"]];
     });
     return dict;
@@ -451,8 +421,6 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
         @strongify(self);
         cell.serviceLabel.text = dict[@"service"];
         [cell.priceLabel setMarkup:dict[@"price"]];
-        [cell.serviceLabelTapGesture addTarget:self action:@selector(onServiceNameLabelTapped:)];
-        [cell.priceLabelTapGesture addTarget:self action:@selector(onServicePriceLabelTapped:)];
         [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 14, 0, 14)];
     });
     
@@ -462,6 +430,11 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
     
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        
+        if (self.mobClickEvent.length)
+        {
+            [MobClick event:self.mobClickEvent attributes:@{@"fuwu":@"fuwu"}];
+        }
         [self actionGotoShopDetailWithShop:data[@"shop"]];
     });
 
@@ -477,14 +450,21 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
         @strongify(self);
         [[[cell.navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
-            [self mobClickForEventSuffix:@"7"];
+            if (self.mobClickEvent.length)
+            {
+                [MobClick event:self.mobClickEvent attributes:@{@"shanghu":@"daohang"}];
+            }
             [self actionNavigationWithShop:data[@"shop"]];
         }];
         
         [[[cell.phoneButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
-            [self mobClickForEventSuffix:@"8"];
             JTShop *shop = data[@"shop"];
+            
+            if (self.mobClickEvent.length)
+            {
+                [MobClick event:self.mobClickEvent attributes:@{@"shanghu":@"dianhua"}];
+            }
             [self actionMakeCallWithPhoneNumber:shop.shopPhone];
         }];
     });
@@ -513,19 +493,5 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
     return 10;
 }
 
-#pragma mark - UMeng
-- (BOOL)mobClickForEventSuffix:(NSString *)suffix {
-    BOOL result = YES;
-    if ([kCarMaintenanceShopListVCID isEqual:self.router.key]) {
-        [MobClick event:@"xiaobaoyang" attributes:@{@"xiaobaoyang":[NSString stringWithFormat:@"xiaobaoyang%@", suffix]}];
-    }
-    else if ([kCarBeautyShopListVCID isEqual:self.router.key]) {
-        [MobClick event:@"meirong" attributes:@{@"meirong":[NSString stringWithFormat:@"meirong%@", suffix]}];
-    }
-    else {
-        result = NO;
-    }
-    return result;
-}
 
 @end

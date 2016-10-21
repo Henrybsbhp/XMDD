@@ -24,7 +24,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self setupNavigationBar];
     [self setupGasStore];
     [self.tableView.refreshView addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
     [self reloadDataIfNeeded];
@@ -57,10 +58,21 @@
     }];
 }
 
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
+- (void)actionBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    [MobClick event:@"xuanzeyouka" attributes:@{@"navi":@"back"}];
+}
+
 #pragma mark - relaodData
 - (void)deleteWithSignal:(RACSignal *)signal
 {
-    [MobClick event:@"rp505_2"];
     @weakify(self);
     [[signal initially:^{
         
@@ -83,6 +95,8 @@
         self.navigationItem.leftBarButtonItem.enabled = YES;
         [gToast showError:error.domain inView:self.view];
     }];
+    
+    [MobClick event:@"xuanzeyouka" attributes:@{@"xuanzeyouka":@"shanchuyouka"}];
 }
 - (void)reloadWithSignal:(RACSignal *)signal
 {
@@ -131,19 +145,21 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     //点击添加
     if (indexPath.row >= self.gasStore.gasCards.count) {
-        [MobClick event:@"rp505_4"];
         GasAddCardVC *vc = [UIStoryboard vcWithId:@"GasAddCardVC" inStoryboard:@"Gas"];
         [self.navigationController pushViewController:vc animated:YES];
+        
+        [MobClick event:@"xuanzeyouka" attributes:@{@"xuanzeyouka":@"tianjiayouka"}];
     }
-    //选择银行卡
+    //选择油卡
     else {
-        [MobClick event:@"rp505_3"];
         GasCard *card = [self.gasStore.gasCards objectAtIndex:indexPath.row];
         if (card && self.selectedBlock) {
             self.selectedBlock(card);
         }
         self.selectedGasCardID = card.gid;
         [self.navigationController popViewControllerAnimated:YES];
+        
+        [MobClick event:@"xuanzeyouka" attributes:@{@"xuanzeyouka":@"xuanzeyouka"}];
     }
 }
 

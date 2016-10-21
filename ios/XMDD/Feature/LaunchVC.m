@@ -103,6 +103,8 @@
     [[gesture rac_gestureSignal] subscribeNext:^(id x) {
         
         @strongify(self)
+        [MobClick event:@"qidongye" attributes:@{@"qidongye":@"dianji"}];
+        
         [self.signalDisposable dispose];
         [self swithToRootViewAfterDelay:0.1 url:self.info.url];
     }];
@@ -164,7 +166,7 @@
 
 - (IBAction)actionSkip:(id)sender
 {
-    [MobClick event:@"shouye" attributes:@{@"shouye":@"shouye_tiaoguo"}];
+    [MobClick event:@"qidongye" attributes:@{@"qidongye":@"tiaoguo"}];
     [self.signalDisposable dispose];
     [self swithToRootViewAfterDelay:0.1 url:nil];
 }

@@ -59,7 +59,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     self.store = [ShopDetailStore fetchOrCreateStoreByShopID:self.shop.shopID];
     [self.store resetDataWithShop:self.shop withSelectedServiceType:self.serviceType];
     
-    [self setupAllMobEvents];
+//    [self setupAllMobEvents];
     [self setupCollectionView];
     [self setupNavitationBar];
     [self setupHeaderView];
@@ -127,13 +127,14 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     // 点击返回
     [self.customNavBar setActionDidBack:^{
         @strongify(self);
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"navi":@"back"}];
         [self actionBack:nil];
     }];
     
     // 点击 收藏/取消收藏
     [self.customNavBar setActionDidCollect:^{
         @strongify(self);
-        [self mobClickWithEventKey:@"collect"];
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"navi":@"shoucang"}];
         if (self.customNavBar.isCollected) {
             [self actionUncollect:nil];
         }
@@ -155,7 +156,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     @weakify(self);
     [[self.headerView.tapGesture rac_gestureSignal] subscribeNext:^(id x) {
         @strongify(self);
-        [self mobClickWithEventKey:@"header"];
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"shanghuxinxi":@"tupian"}];
     }];
 }
 
@@ -243,7 +244,6 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 #pragma mark - Action
 - (void)actionBack:(id)sender {
     [super actionBack:sender];
-    [self mobClickWithEventKey:@"back"];
 }
 /// 收藏
 - (void)actionCollect:(id)sender {
@@ -273,7 +273,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 
 /// 跳转到地图页面
 - (void)actionGotoMapVC {
-    [self mobClickWithEventKey:@"map"];
+    
     CarWashNavigationViewController * vc = [[CarWashNavigationViewController alloc] init];
     vc.shop = self.shop;
     vc.favorite = self.customNavBar.isCollected;
@@ -282,7 +282,6 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 
 /// 拨打商户电话
 - (void)actionMakeCall {
-    [self mobClickWithEventKey:@"phone"];
     if (self.shop.shopPhone.length == 0) {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:kDefTintColor clickBlock:nil];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb"
@@ -318,20 +317,43 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
             
         }];
     }
-    [self mobClickWithEventKey:[NSString stringWithFormat:@"segment-%ld-%ld", oldType, newType]];
+    
+    if (newType == ShopServiceCarBeauty)
+    {
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"fuwuleixing":@"leixing_meirong"}];
+    }
+    else if (newType == ShopServiceCarMaintenance)
+    {
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"fuwuleixing":@"leixing_baoyang"}];
+    }
+    else
+    {
+         [MobClick event:@"shanghuxiangqing" attributes:@{@"fuwuleixing":@"leixing_xiche"}];
+    }
 }
 
 - (void)actionSelectServiceCell:(CKDict *)cell {
     JTShopService *oldService = [self.store currentSelectedService];
     JTShopService *newService = cell[@"service"];
 
-//  友盟点击事件
+////  友盟点击事件
     NSInteger serviceIndex = [self.store.selectedServiceGroup indexOfObjectForKey:newService.key];
+    NSString * mobValue = [NSString stringWithFormat:@"fuwu_%ld",serviceIndex];
     ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
-    NSString *strtag = [self.mobEventTags objectForKey:[NSString stringWithFormat:@"service-%ld", type]];
-    if (serviceIndex != NSNotFound && strtag) {
-        [self mobClickWithEventTag:[strtag integerValue] + serviceIndex];
+    
+    if (type == ShopServiceCarBeauty)
+    {
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"meirongfuwu":mobValue}];
     }
+    else if (type == ShopServiceCarMaintenance)
+    {
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"baoyangfuwu":mobValue}];
+    }
+    else
+    {
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"xichefuwu":mobValue}];
+    }
+
 
     CKDict *oldCell = self.datasource[@"serviceSection"][oldService.key];
     [self.store selectService:newService];
@@ -343,10 +365,10 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 
 - (void)actionPayment:(id)sender {
 
+    [MobClick event:@"shanghuxiangqing" attributes:@{@"zhifu":@"zhifu"}];
     if (![LoginViewModel loginIfNeededForTargetViewController:self])
         return;
-    ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
-    [self mobClickWithEventKey:[NSString stringWithFormat:@"pay-%ld", type]];
+
     PayForWashCarVC *vc = [UIStoryboard vcWithId:@"PayForWashCarVC" inStoryboard:@"Carwash"];
     vc.service = [self.store currentSelectedService];
     vc.shop = self.shop;
@@ -367,7 +389,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 }
 
 - (void)actionCloseServiceItems {
-    [self mobClickWithEventKey:@"close-servcies"];
+    [MobClick event:@"shanghuxiangqing" attributes:@{@"fuwuliebiao":@"shouqi"}];
     CKList *serviceSection = self.datasource[@"serviceSection"];
     NSInteger section = [self.datasource indexOfObjectForKey:@"serviceSection"];
     NSMutableArray *indexPaths = [NSMutableArray array];
@@ -382,7 +404,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 }
 
 - (void)actionOpenServiceItems {
-    [self mobClickWithEventKey:@"open-services"];
+    [MobClick event:@"shanghuxiangqing" attributes:@{@"fuwuliebiao":@"zhankai"}];
     CKList *serviceSection = self.datasource[@"serviceSection"];
     NSInteger section = [self.datasource indexOfObjectForKey:@"serviceSection"];
     NSMutableArray *indexPaths = [NSMutableArray array];
@@ -422,6 +444,12 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     dict[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 65;
     });
+    
+    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"shanghuxinxi":@"xinxi"}];
+    });
     return dict;
 }
 
@@ -441,6 +469,8 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"shanghuxinxi":@"dizhi"}];
         [self actionGotoMapVC];
     });
     return dict;
@@ -462,6 +492,8 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"shanghuxinxi":@"dianhua"}];
         [self actionMakeCall];
     });
     return dict;
@@ -646,8 +678,8 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
-        [self mobClickWithEventKey:[NSString stringWithFormat:@"all-comments-%ld", type]];
+        
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"pingjia":@"quanbu"}];
         if ([[self.store currentCommentList] count] > 0) {
             [self actionGotoCommentListVC];
         }
@@ -719,8 +751,10 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        ShopServiceType type = [ShopDetailStore serviceTypeForServiceGroup:self.store.selectedServiceGroup];
-        [self mobClickWithEventKey:[NSString stringWithFormat:@"comment-%ld", type]];
+        [MobClick event:@"shanghuxiangqing" attributes:@{@"pingjia":@"dange"}];
+        if ([[self.store currentCommentList] count] > 0) {
+            [self actionGotoCommentListVC];
+        }
     });
     
     return dict;
@@ -797,29 +831,29 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
 }
 
 #pragma mark - UMeng
-- (void)setupAllMobEvents {
-    self.mobEventTags = @{@"back": @"1", @"collect": @"2", @"header": @"3", @"map": @"4",
-                          @"phone": @"5", @"open-services": @"9", @"close-services": @"13",
-                          @"segment-0-0": @"14", @"segment-0-4": @"15", @"segment-0-3": @"16",
-                          @"segment-3-0": @"6", @"segment-3-4": @"7", @"segment-3-3": @"8",
-                          @"segment-4-0": @"20", @"segment-4-4": @"21", @"segment-4-3": @"22",
-                          @"pay-0": @"17", @"pay-3": @"10", @"pay-4": @"23",
-                          @"all-comments-0": @"18", @"all-comments-3": @"11", @"all-comments-4": @"24",
-                          @"comment-0": @"19", @"comment-3": @"12", @"comment-4": @"25",
-                          @"service-0": @"101", @"service-3": @"301", @"service-4": @"201",
-                       };
-}
-
-- (void)mobClickWithEventKey:(NSString *)key {
-    NSString *strtag = self.mobEventTags[key];
-    if (strtag) {
-        [self mobClickWithEventTag:[strtag integerValue]];
-    }
-}
-
-- (void)mobClickWithEventTag:(NSInteger)tag {
-    NSString *value = [NSString stringWithFormat:@"shangjiaxiangqing%ld", tag];
-    [MobClick event:@"shangjiaxiangqing" attributes:@{@"shangjiaxiangqing": value}];
-}
+//- (void)setupAllMobEvents {
+//    self.mobEventTags = @{@"back": @"1", @"collect": @"2", @"header": @"3", @"map": @"4",
+//                          @"phone": @"5", @"open-services": @"9", @"close-services": @"13",
+//                          @"segment-0-0": @"14", @"segment-0-4": @"15", @"segment-0-3": @"16",
+//                          @"segment-3-0": @"6", @"segment-3-4": @"7", @"segment-3-3": @"8",
+//                          @"segment-4-0": @"20", @"segment-4-4": @"21", @"segment-4-3": @"22",
+//                          @"pay-0": @"17", @"pay-3": @"10", @"pay-4": @"23",
+//                          @"all-comments-0": @"18", @"all-comments-3": @"11", @"all-comments-4": @"24",
+//                          @"comment-0": @"19", @"comment-3": @"12", @"comment-4": @"25",
+//                          @"service-0": @"101", @"service-3": @"301", @"service-4": @"201",
+//                       };
+//}
+//
+//- (void)mobClickWithEventKey:(NSString *)key {
+//    NSString *strtag = self.mobEventTags[key];
+//    if (strtag) {
+//        [self mobClickWithEventTag:[strtag integerValue]];
+//    }
+//}
+//
+//- (void)mobClickWithEventTag:(NSInteger)tag {
+//    NSString *value = [NSString stringWithFormat:@"shangjiaxiangqing%ld", tag];
+//    [MobClick event:@"shangjiaxiangqing" attributes:@{@"shangjiaxiangqing": value}];
+//}
 
 @end

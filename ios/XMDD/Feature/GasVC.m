@@ -75,7 +75,7 @@
 - (void)setupADView {
     if (!self.adctrl) {
         self.adctrl = [ADViewController vcWithADType:AdvertisementGas boundsWidth:self.view.bounds.size.width
-                                            targetVC:self mobBaseEvent:@"rp501_1" mobBaseEventDict:nil];
+                                            targetVC:self mobBaseEvent:@"jiayoushouye" mobBaseKey:@"jiayouguanggao"];
     }
     @weakify(self);
     [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
@@ -297,7 +297,8 @@
 
 #pragma mark - Action
 - (IBAction)actionGotoRechargeRecords:(id)sender {
-    [MobClick event:@"rp501_16"];
+    [MobClick event:@"jiayoushouye" attributes:@{@"navi":@"jiayoujilu"}];
+    
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         GasRecordVC *vc = [UIStoryboard vcWithId:@"GasRecordVC" inStoryboard:@"Gas"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -305,7 +306,7 @@
 }
 
 - (IBAction)actionStartPay:(id)sender {
-    [MobClick event:@"rp501_14"];
+    [MobClick event:@"jiayoushouye" attributes:@{@"zhifu":@"zhifu"}];
     if (![LoginViewModel loginIfNeededForTargetViewController:self]) {
         return;
     }
@@ -329,7 +330,6 @@
 
 - (IBAction)actionAgreement:(id)sender
 {
-    [MobClick event:@"rp501_12"];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"油卡充值服务协议";
     vc.url = kGasLicenseUrl;
@@ -339,6 +339,8 @@
 
 - (void)actionBack:(id)sender
 {
+    [MobClick event:@"jiayoushouye" attributes:@{@"navi":@"back"}];
+    
     NSArray * viewcontrollers = self.navigationController.viewControllers;
     UIViewController * vc = [viewcontrollers safetyObjectAtIndex:viewcontrollers.count - 2];
     if ([vc isKindOfClass:[PaymentSuccessVC class]]) {
@@ -354,6 +356,8 @@
 }
 
 - (void)actionAddGasCard {
+    [MobClick event:@"jiayoushouye" attributes:@{@"youka":@"tianjiayouka"}];
+    
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         GasAddCardVC *vc = [UIStoryboard vcWithId:@"GasAddCardVC" inStoryboard:@"Gas"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -361,6 +365,8 @@
 }
 
 - (void)actionPickGasCard {
+    [MobClick event:@"jiayoushouye" attributes:@{@"youka":@"dianjiyouka"}];
+    
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         GasCardListVC *vc = [UIStoryboard vcWithId:@"GasCardListVC" inStoryboard:@"Gas"];
         vc.selectedGasCardID = self.curGasCard.gid;
@@ -430,7 +436,7 @@
     
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp501_15"];
+        
         [self actionPickGasCard];
     });
     return item;
@@ -446,7 +452,7 @@
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp501_4"];
+        
         [self actionAddGasCard];
     });
     return item;
@@ -499,6 +505,18 @@
                  @strongify(self);
                  self.curChargePkg = pkg;
                  [self refreshViews];
+                 
+                 NSString * umentValue;
+                 if (pkg.month == 1){
+                     umentValue = @"kuaisudaozhang";
+                 }
+                 else if (pkg.month == 7){
+                     umentValue = @"bannian";
+                 }
+                 else{
+                     umentValue = @"yinian";
+                 }
+                 [MobClick event:@"jiayoushouye" attributes:@{@"daozhang":umentValue}];
              }];
         }
     });
@@ -535,7 +553,7 @@
         [[[cell.stepper.leftButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              @strongify(cell, self);
-             [MobClick event:@"rp501_5"];
+             [MobClick event:@"jiayoushouye" attributes:@{@"jine":@"jian"}];
              float oldValue = self.rechargeAmount;
              float value = [self decrementRechargeAmountWithValue:oldValue];
              cell.stepper.titleLabel.text = [self stepperTitleWithValue:[self fitRechargeAmountWithValue:value]];
@@ -547,7 +565,8 @@
         [[[cell.stepper.rightButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              @strongify(cell, self);
-             [MobClick event:@"rp501_7"];
+             
+             [MobClick event:@"jiayoushouye" attributes:@{@"jine":@"jia"}];
              float oldValue = self.rechargeAmount;
              float value = [self incrementRechargeAmountWithValue:oldValue];
              cell.stepper.titleLabel.text = [self stepperTitleWithValue:[self fitRechargeAmountWithValue:value]];
@@ -591,6 +610,8 @@
         
         [[[invoiceBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
+             
+             [MobClick event:@"jiayoushouye" attributes:@{@"kaifapiao":@"kaifapiao"}];
              data[@"bill"] = @(![data[@"bill"] boolValue]);
              data.forceReload = !data.forceReload;
          }];
@@ -659,7 +680,6 @@
         [[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              @strongify(item, self);
-             [MobClick event:@"rp501_13"];
              item[@"agree"] = @(![item[@"agree"] boolValue]);
              item.forceReload = !item.forceReload;
              [self refreshBottomButton];
@@ -679,7 +699,6 @@
 
 #pragma mark - RTLabelDelegate
 - (void)rtLabel:(id)rtLabel didSelectLinkWithURL:(NSURL *)url {
-    [MobClick event:@"rp501_8"];
     [gAppMgr.navModel pushToViewControllerByUrl:[url absoluteString]];
 }
 

@@ -95,7 +95,7 @@
          *  点击广告事件（只需传入底层事件，具体点了哪个广告在底层实现）
          */
         self.advc  =[ADViewController vcWithADType:AdvertisementValuation boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp601_5" mobBaseEventDict:nil];
+                                          targetVC:self mobBaseEvent:@"aicheguzhi" mobBaseKey:@"guzhiguanggao"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }

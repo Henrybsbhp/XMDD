@@ -166,9 +166,15 @@
     [self _resetScrollViewContentSize];
     
     NSInteger numberOfPages = [self numberOfPages];
-    //	_pageControl.numberOfPages = numberOfPages;
     //循环滚动pagecontroller减去2
-    _pageControl.numberOfPages = numberOfPages > 2 ? numberOfPages - 2 : numberOfPages;
+    if (self.isInfinite)
+    {
+        _pageControl.numberOfPages = numberOfPages > 2 ? numberOfPages - 2 : numberOfPages;
+    }
+    else
+    {
+        _pageControl.numberOfPages = numberOfPages;
+    }
     
     // Remove views
     NSMutableArray *keysToRemove = [[NSMutableArray alloc] init];
@@ -424,18 +430,25 @@
         _currentPageIndex = targetPage;
         //		_pageControl.currentPage = (NSInteger)targetPage;
         
-        NSInteger numberOfPageControl = [self numberOfPages] > 2 ? [self numberOfPages] - 2: [self numberOfPages];
-        if (targetPage > numberOfPageControl)
+        if (self.isInfinite)
         {
-            _pageControl.currentPage = 0;
-        }
-        else if (targetPage == 0)
-        {
-            _pageControl.currentPage = numberOfPageControl - 1;
+            NSInteger numberOfPageControl = [self numberOfPages] > 2 ? [self numberOfPages] - 2: [self numberOfPages];
+            if (targetPage > numberOfPageControl)
+            {
+                _pageControl.currentPage = 0;
+            }
+            else if (targetPage == 0)
+            {
+                _pageControl.currentPage = numberOfPageControl - 1;
+            }
+            else
+            {
+                _pageControl.currentPage = targetPage - 1;
+            }
         }
         else
         {
-            _pageControl.currentPage = targetPage - 1;
+            _pageControl.currentPage = (NSInteger)targetPage;
         }
         
         
@@ -518,6 +531,8 @@
 
 - (void)scrollVisibleToCorrectView
 {
+    if (!self.isInfinite)
+        return;
     // 有循环滚动需要重新设置位置
     if ([self numberOfPages] > 2)
     {

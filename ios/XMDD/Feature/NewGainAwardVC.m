@@ -45,10 +45,20 @@
 
 @implementation NewGainAwardVC
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+-(void)dealloc
+{
+    DebugLog(@"NewGainAwardVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self requestOperation];
+    [self setupNavigationBar];
 }
 
 
@@ -59,7 +69,21 @@
     self.otherActionFlag = YES;
 }
 
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
+- (void)actionBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    [MobClick event:@"meizhouliquan" attributes:@{@"navi":@"back"}];
+}
+
 - (IBAction)helpAction:(id)sender {
+    
+    [MobClick event:@"meizhouliquan" attributes:@{@"navi":@"shiyongbangzhu"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"每周礼券";
     NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
@@ -129,7 +153,7 @@
             self.tipLabel.text = [NSString stringWithFormat:@"已有%ld人领取", (long)op.rsp_total];
             [[self.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
-                [MobClick event:@"rp402_6"];
+                [MobClick event:@"meizhouliquan" attributes:@{@"meizhouliquan":@"lijixiche"}];
                 @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
@@ -142,12 +166,13 @@
             }];
             [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
-                [MobClick event:@"rp402_2"];
                 @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
                 }
                 else {
+                    
+                    [MobClick event:@"meizhouliquan" attributes:@{@"meizhouliquan":@"fenxiang"}];
                     self.otherActionFlag = YES;
                     [self shareAction];
                 }
@@ -178,7 +203,7 @@
         
         self.hyscratchView.completion = ^(id userInfo) {
             @strongify(self);
-            [MobClick event:@"rp402_7"];
+            [MobClick event:@"meizhouliquan" attributes:@{@"meizhouliquan":@"guakailiquan"}];
             [self gainAwardWithLocation];
         };
         [self.scratchView addSubview:self.hyscratchView];
@@ -247,12 +272,14 @@
         @weakify(self);
         [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
             @strongify(self);
+            [MobClick event:@"meizhouliquan" attributes:@{@"lingquhoutankuang":@"fenxiang"}];
             [self shareAction];
         }];
     }];
     
     [[sheetVC.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"meizhouliquan" attributes:@{@"lingquhoutankuang":@"quxiao"}];
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
 }
@@ -269,13 +296,16 @@
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneGain;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        vc.mobBaseValue = @"meizhouliquan";
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
+        
+        [MobClick event:@"fenxiangyemian" attributes:@{@"chuxian":@"meizhouliquan"}];
         [sheet presentAnimated:YES completionHandler:nil];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110_7"];
+            [MobClick event:@"fenxiangyemian" attributes:@{@"quxiao":@"meizhouliquan"}];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
@@ -343,7 +373,6 @@
         /**
          *  去洗车点击事件
          */
-        [MobClick event:@"rp402_3"];
         @strongify(self);
         [resultSheet dismissAnimated:YES completionHandler:nil];
         CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
@@ -368,13 +397,6 @@
     }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
 
--(void)dealloc
-{
-    DebugLog(@"NewGainAwardVC dealloc");
-}
 
 @end
