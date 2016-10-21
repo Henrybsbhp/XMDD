@@ -343,6 +343,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // @yzc 下架商户不能点击
     if (indexPath.section == 0 && indexPath.row == 0 )
     {
         ShopDetailVC *vc = [[ShopDetailVC alloc] init];
@@ -357,10 +358,13 @@
 - (UITableViewCell *)shopCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
+    UIImageView *undercarriageImgView = [cell.contentView viewWithTag:1000];
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
     
+//    @YZC 等待接口
+//    undercarriageImgView.hidden = NO;
     addrL.numberOfLines = 0;
     addrL.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 120;
     

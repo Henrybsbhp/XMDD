@@ -59,6 +59,7 @@
                         [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证副本",self.carNum]],
                         [self photoCellDataWithSampleImg:[UIImage imageNamed:@"illegal_licenceReavel"]],
                         [self blankCellData],
+                        
                         [self btnCellData]
                         );
 }
@@ -241,6 +242,26 @@
 }
 
 #pragma mark - Cell
+
+- (CKDict *)identifierCellData
+{
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"IdentifierCell"}];
+    
+    
+    //cell行高
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 38;
+    });
+    //cell准备重绘
+    
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        
+    });
+    
+    return data;
+}
 
 - (CKDict *)noticeCellDataWithNotice:(NSString *)notice
 {

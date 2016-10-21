@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet CKLimitTextField *nameField;
 @property (weak, nonatomic) IBOutlet UIButton *ensureButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end

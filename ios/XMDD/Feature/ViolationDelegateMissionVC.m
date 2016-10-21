@@ -13,6 +13,8 @@
 #import "GetViolationCommissionOp.h"
 #import "ApplyViolationCommissionOp.h"
 #import "NSString+RectSize.h"
+#import "InsInputNameVC.h"
+#import "UIView+Shake.h"
 
 @interface ViolationDelegateMissionVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
@@ -43,7 +45,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)dealloc
@@ -368,13 +369,55 @@
 {
 
     @weakify(self)
-    
     [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"tijiao"}];
+    // 不需要补全信息
     if (self.tip.length == 0)
     {
-        
         [self applyViolationCommission];
     }
+    // 需要补全身证号
+    else if (/* DISABLES CODE */ (YES))
+    {
+        [self.view endEditing:YES];
+        InsInputNameVC *vc = [UIStoryboard vcWithId:@"InsInputNameVC" inStoryboard:@"Insurance"];
+        vc.nameField.textLimit = 20;
+        vc.titleLabel.text = @"请输入车主身份证号码";
+        vc.nameField.placeholder = @"因业务需要，需提供身份证号码";
+//        [vc.nameField setDidBeginEditingBlock:^(CKLimitTextField *field) {
+//            field.placeholder = nil;
+//        }];
+//        [vc.nameField setDidEndEditingBlock:^(CKLimitTextField *field) {
+//            field.placeholder = @"因业务需要，需提供身份证号码";
+//        }];
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(270, 160) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        //取消
+        [[[vc.cancelButton rac_signalForControlEvents:UIControlEventTouchUpInside] take:1] subscribeNext:^(id x) {
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        //确定
+        @weakify(vc, self);
+        [[vc.ensureButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            @strongify(vc, self);
+            if (vc.nameField.text.length == 18)
+            {
+                [vc.nameField endEditing:YES];
+                [sheet dismissAnimated:YES completionHandler:nil];
+                
+                // 消除警告。回头删
+                [self class];
+                
+                //@YZC 等待接口。获取身份证后
+            }
+            else
+            {
+                [vc.nameField shake];
+            }
+        }];
+    }
+    // 需要补全照片
     else
     {
         [MobClick event:@"weizhangdaiban" attributes:@{@"ziliaobuwanshan" : @"chuxian"}];
