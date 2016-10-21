@@ -286,6 +286,9 @@
     self.currentIndex = index;
     [self refreshPageController];
     [self.pageController selectAtIndex:index];
+    
+    NSString * mobClickValue = [NSString stringWithFormat:@"aiche_%ld",index];
+    [MobClick event:@"weizhangshouye" attributes:@{@"dingbu" : mobClickValue}];
 }
 
 
@@ -295,6 +298,9 @@
 {
     self.currentIndex = index;
     [self loadPageIndex:index animated:YES];
+    
+    NSString * mobClickValue = [NSString stringWithFormat:@"aiche_%ld",index];
+    [MobClick event:@"weizhangshouye" attributes:@{@"dingbu" : mobClickValue}];
 }
 
 - (BOOL)observeScrollViewOffset
@@ -303,7 +309,6 @@
     self.offsetDisposable = [[RACObserve(self.scrollView,contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * value) {
         
         @strongify(self)
-        [MobClick event:@"weizhangshouye" attributes:@{@"dingbu" : @"aiche_x"}];
         CGPoint p = [value CGPointValue];
         [self.pageController slideOffsetX:p.x andTotleW:self.scrollView.contentSize.width andPageW:gAppMgr.deviceInfo.screenSize.width];
     }];

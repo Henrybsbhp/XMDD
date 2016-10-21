@@ -16,7 +16,6 @@
 #import "ShopListTitleCell.h"
 #import "ShopListServiceCell.h"
 #import "ShopListActionCell.h"
-#import "ADViewController.h"
 #import "SearchShopListVC.h"
 #import "ShopDetailVC.h"
 #import "NearbyShopsViewController.h"
@@ -418,7 +417,7 @@ const NSString *kCarBeautyShopListVCID = @"$CarBeautyShopListVCID";
 
     @weakify(self);
     dict[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, ShopListServiceCell *cell, NSIndexPath *indexPath) {
-        @strongify(self);
+        
         cell.serviceLabel.text = dict[@"service"];
         [cell.priceLabel setMarkup:dict[@"price"]];
         [cell addOrUpdateBorderLineWithAlignment:CKLineAlignmentHorizontalBottom insets:UIEdgeInsetsMake(0, 14, 0, 14)];

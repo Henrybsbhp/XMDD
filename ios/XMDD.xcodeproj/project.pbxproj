@@ -548,7 +548,6 @@
 		18649C631D48B54E00F1CCB0 /* CarWashCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5A1D48B54E00F1CCB0 /* CarWashCouponVModel.m */; };
 		18649C641D48B54E00F1CCB0 /* CouponDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5C1D48B54E00F1CCB0 /* CouponDetailsVC.m */; };
 		18649C651D48B54E00F1CCB0 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5E1D48B54E00F1CCB0 /* MyCouponVC.m */; };
-		18649C661D48B54E00F1CCB0 /* UnusedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C601D48B54E00F1CCB0 /* UnusedCouponVModel.m */; };
 		18649C671D48B54E00F1CCB0 /* UsedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C621D48B54E00F1CCB0 /* UsedCouponVModel.m */; };
 		18649C6F1D48B57300F1CCB0 /* FeedbackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C6A1D48B57300F1CCB0 /* FeedbackVC.m */; };
 		18649C701D48B57300F1CCB0 /* JoinResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C6C1D48B57300F1CCB0 /* JoinResultViewController.m */; };
@@ -868,7 +867,6 @@
 		18F3186E1D9B722000D9A0A9 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648F4E1D48558000F1CCB0 /* SBJSON.m */; };
 		18F3186F1D9B722000D9A0A9 /* PayViolationCommissionOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */; };
 		18F318701D9B722000D9A0A9 /* GetRescueDetailOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498991D489A9600F1CCB0 /* GetRescueDetailOp.m */; };
-		18F318711D9B722000D9A0A9 /* UnusedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C601D48B54E00F1CCB0 /* UnusedCouponVModel.m */; };
 		18F318721D9B722000D9A0A9 /* GetOtherOrderListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498891D489A9600F1CCB0 /* GetOtherOrderListOp.m */; };
 		18F318731D9B722000D9A0A9 /* GetGascardListOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56CE1D4C90860001E26A /* GetGascardListOp.m */; };
 		18F318741D9B722000D9A0A9 /* OETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B451D48A93000F1CCB0 /* OETextField.m */; };
@@ -2920,8 +2918,6 @@
 		18649C5C1D48B54E00F1CCB0 /* CouponDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponDetailsVC.m; sourceTree = "<group>"; };
 		18649C5D1D48B54E00F1CCB0 /* MyCouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCouponVC.h; sourceTree = "<group>"; };
 		18649C5E1D48B54E00F1CCB0 /* MyCouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCouponVC.m; sourceTree = "<group>"; };
-		18649C5F1D48B54E00F1CCB0 /* UnusedCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnusedCouponVModel.h; sourceTree = "<group>"; };
-		18649C601D48B54E00F1CCB0 /* UnusedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnusedCouponVModel.m; sourceTree = "<group>"; };
 		18649C611D48B54E00F1CCB0 /* UsedCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsedCouponVModel.h; sourceTree = "<group>"; };
 		18649C621D48B54E00F1CCB0 /* UsedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsedCouponVModel.m; sourceTree = "<group>"; };
 		18649C691D48B57300F1CCB0 /* FeedbackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackVC.h; sourceTree = "<group>"; };
@@ -5604,8 +5600,6 @@
 				18649C5C1D48B54E00F1CCB0 /* CouponDetailsVC.m */,
 				18649C5D1D48B54E00F1CCB0 /* MyCouponVC.h */,
 				18649C5E1D48B54E00F1CCB0 /* MyCouponVC.m */,
-				18649C5F1D48B54E00F1CCB0 /* UnusedCouponVModel.h */,
-				18649C601D48B54E00F1CCB0 /* UnusedCouponVModel.m */,
 				18649C611D48B54E00F1CCB0 /* UsedCouponVModel.h */,
 				18649C621D48B54E00F1CCB0 /* UsedCouponVModel.m */,
 			);
@@ -7511,7 +7505,6 @@
 				18648FB91D48558000F1CCB0 /* SBJSON.m in Sources */,
 				4E78E02D1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m in Sources */,
 				186499DD1D489A9700F1CCB0 /* GetRescueDetailOp.m in Sources */,
-				18649C661D48B54E00F1CCB0 /* UnusedCouponVModel.m in Sources */,
 				186499D51D489A9700F1CCB0 /* GetOtherOrderListOp.m in Sources */,
 				183F57301D4C90860001E26A /* GetGascardListOp.m in Sources */,
 				18649B831D48A93000F1CCB0 /* OETextField.m in Sources */,
@@ -8263,7 +8256,6 @@
 				18F3186E1D9B722000D9A0A9 /* SBJSON.m in Sources */,
 				18F3186F1D9B722000D9A0A9 /* PayViolationCommissionOrderOp.m in Sources */,
 				18F318701D9B722000D9A0A9 /* GetRescueDetailOp.m in Sources */,
-				18F318711D9B722000D9A0A9 /* UnusedCouponVModel.m in Sources */,
 				18F318721D9B722000D9A0A9 /* GetOtherOrderListOp.m in Sources */,
 				18F318731D9B722000D9A0A9 /* GetGascardListOp.m in Sources */,
 				18F318741D9B722000D9A0A9 /* OETextField.m in Sources */,

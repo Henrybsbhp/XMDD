@@ -85,7 +85,8 @@
             
             @strongify(self)
             
-            [MobClick event:@"hzxuanzecheliang" attributes:@{@"xuanzecheliang" : @"xuanzecheliang_x"}];
+            NSString * mobClickValue = [NSString stringWithFormat:@"xuanzecheliang_%ld",indexPath.row];
+            [MobClick event:@"hzxuanzecheliang" attributes:@{@"xuanzecheliang" : mobClickValue}];
             
             HKMyCar * car = [[HKMyCar alloc] init];
             car.carId = carId;

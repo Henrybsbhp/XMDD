@@ -97,8 +97,16 @@
         
         gasCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
             @strongify(self);
+            
+            
             if ([order.tradeType isEqualToString:@"FQJY"]) {
+                
+                [MobClick event:@"wodedingdan" attributes:@{@"jiayou" : @"dianjidingdan_fenqi"}];
                 [self actionJumpToDetailVCWithModel:order];
+            }
+            else
+            {
+                [MobClick event:@"wodedingdan" attributes:@{@"jiayou" : @"dianjidingdan_putong"}];
             }
         });
         
