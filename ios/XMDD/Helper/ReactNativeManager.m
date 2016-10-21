@@ -195,12 +195,20 @@
 
 - (RACSignal *)rac_checkPackageVersion
 {
+
     GetReactNativePackageOp *op = [GetReactNativePackageOp operation];
     op.req_projectname = self.latestPackageConfig.projectName;
     op.req_rctversion = self.latestPackageConfig.bundleVersion;
     op.req_timetag = self.latestPackageConfig.timetag;
     op.req_buildtype = self.latestPackageConfig.buildType;
     op.req_appversion = gAppMgr.deviceInfo.appVersion;
+#if XMDDEnvironment == 0
+    op.req_buildtype = @"dev";
+#elif XMDDEnvironment == 1
+    op.req_buildtype = @"alpha";
+#else
+    op.req_buildtype = @"release";
+#endif
     
     return [[op rac_postRequest] catch:^RACSignal *(NSError *error) {
         

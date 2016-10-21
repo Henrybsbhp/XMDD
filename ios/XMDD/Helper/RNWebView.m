@@ -30,7 +30,7 @@
         CGRect barFrame = CGRectMake(0, 0, frame.size.width, 2);
         _progressView = [[NJKWebViewProgressView alloc] initWithFrame:barFrame];
         _progressView.progress = 0;
-        _progressView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
+        _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self addSubview:_progressView];
     }
     return self;

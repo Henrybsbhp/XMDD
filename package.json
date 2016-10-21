@@ -11,13 +11,13 @@
     "moment": "2.14.1",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
-    "react-native": "git+ssh://git@rm.xiaomadada.com:7999/xmdd_rct/react-native.git#c6cc9d1",
+    "react-native": "git+ssh://git@rm.xiaomadada.com:7999/xmdd_rct/react-native.git#c39222a",
     "react-native-htmlview": "git+https://github.com/ckools/react-native-htmlview.git",
     "react-native-image-picker": "0.18.17",
     "react-native-root-toast": "^1.0.3",
     "react-native-svg": "^4.3.0",
     "react-native-vector-icons": "2.0.3",
-    "react-native-viewpager": "0.2.11",
+    "react-native-viewpager": "git+https://github.com/ckools/react-native-viewpager.git",
     "reflux": "^0.4.1",
     "undefined": "^0.1.0"
   }
