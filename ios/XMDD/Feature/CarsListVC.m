@@ -504,7 +504,7 @@
     //如果爱车信息不完整
     [MobClick event:@"wodeaiche" attributes:@{@"navi" : @"back"}];
     if (self.model.allowAutoChangeSelectedCar && self.model.selectedCar && ![self.model.selectedCar isCarInfoCompleted]) {
-        [MobClick event:@"wodeaiche" attributes:@{@"tishiwanshanxinxi" : @"tishiwanshanxinxi"}];
+        
         HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
         alert.topTitle = @"温馨提示";
         alert.imageName = @"mins_bulb";
@@ -512,6 +512,8 @@
         @weakify(self);
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:kGrayTextColor clickBlock:^(id alertVC) {
             @strongify(self);
+            
+            [MobClick event:@"wodeaiche" attributes:@{@"tishiwanshanxinxi" : @"fangqi"}];
             if (self.model.originVC) {
                 [self.navigationController popToViewController:self.model.originVC animated:YES];
             }

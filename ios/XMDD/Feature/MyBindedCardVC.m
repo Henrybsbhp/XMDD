@@ -247,6 +247,13 @@
         checkButton.enabled = NO;
     });
     
+    cardInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        // 进入团详情页面
+        @strongify(self);
+        
+        [MobClick event:@"wodeyinhangka" attributes:@{@"wodeyinhangka" : @"dianjiyinhangka"}];
+    });
+    
     return cardInfoCell;
 }
 

@@ -251,17 +251,21 @@
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
         NSMutableDictionary * otherDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:self.evaluateOp.rsp_sharecode, @"shareCode", nil];
         vc.otherInfo = otherDic;
+        vc.mobBaseValue = @"aicheguzhijieguo";
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
         if (!self.isPresenting) {
             self.isPresenting = YES;
+            [MobClick event:@"fenxiangyemian" attributes:@{@"chuxian":@"aicheguzhijieguo"}];
             [sheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
                 self.isPresenting = NO;
             }];
         }
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [MobClick event:@"fenxiangyemian" attributes:@{@"quxiao":@"aicheguzhijieguo"}];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{

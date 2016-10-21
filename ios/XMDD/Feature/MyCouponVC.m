@@ -12,7 +12,6 @@
 #import "ShareUserCouponOp.h"
 #import "NSDate+DateForText.h"
 #import "CarWashCouponVModel.h"
-#import "UnusedCouponVModel.h"
 
 @interface MyCouponVC ()
 

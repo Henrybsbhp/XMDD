@@ -155,7 +155,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     
     @weakify(self);
     [[self.headerView.tapGesture rac_gestureSignal] subscribeNext:^(id x) {
-        @strongify(self);
+
         [MobClick event:@"shanghuxiangqing" attributes:@{@"shanghuxinxi":@"tupian"}];
     }];
 }

@@ -31,7 +31,6 @@
 
 @interface MutualInsVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) ADViewController *adVC;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 
 /// 菜单视图
@@ -728,6 +727,7 @@
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
                 
+                 [MobClick event:@"huzhushouye" attributes:@{@"wodehuzhu" : @"chongxinshangchuan"}];
                 HKMyCar * car = [[HKMyCar alloc] init];
                 car.carId = dict.userCarID;
                 car.licencenumber = dict.licenseNum;
@@ -752,6 +752,7 @@
             [[[bottomButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
                 
+                [MobClick event:@"huzhushouye" attributes:@{@"wodehuzhu" : @"wanshanziliao"}];
                 HKMyCar * car;
                 if (dict.userCarID && dict.licenseNum)
                 {
@@ -817,6 +818,8 @@
     extendedInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         // 进入团详情页面
         @strongify(self);
+        
+        [MobClick event:@"huzhushouye" attributes:@{@"wodehuzhu" : @"jinrutuanxiangqing"}];
         [self actionGotoGroupDetailVC:data[@"dict"]];
     });
     

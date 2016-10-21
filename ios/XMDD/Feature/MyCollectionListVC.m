@@ -227,7 +227,7 @@
 }
 
 - (void)actionGotoShopDetail:(JTShop *)shop {
-    [MobClick event:@"wodeshoucang" attributes:@{@"shanghu" : @"xinxi"}];
+    
     ShopDetailVC *vc = [[ShopDetailVC alloc] init];
     vc.shop = shop;
     [self.navigationController pushViewController:vc animated:YES];
@@ -320,6 +320,8 @@
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         if (!self.isEditing) {
+            
+            [MobClick event:@"wodeshoucang" attributes:@{@"shanghu" : @"xinxi"}];
             [self actionGotoShopDetail:data[@"shop"]];
         }
     });
@@ -363,6 +365,8 @@
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        
+        [MobClick event:@"wodeshoucang" attributes:@{@"shanghu" : @"fuwu"}];
         [self actionGotoShopDetail:data[@"shop"]];
     });
     
