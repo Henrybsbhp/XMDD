@@ -40,9 +40,6 @@
 
 @interface NavigationModel()
 
-/// 应用内推送的弹框是否展示
-@property (nonatomic)BOOL isForgroundNotificationAlert;
-
 @end
 
 @implementation NavigationModel
@@ -489,43 +486,41 @@
     return flag;
 }
 
-- (void)handleForgroundNotification:(NSString *)url
+- (void)handleForgroundNotification:(NSDictionary *)info
 {
-    if (self.isForgroundNotificationAlert)
-        return ;
+    NSDictionary * alertDict = info[@"alert"];
+    NSString * urlStr = info[@"url"];
     
-    NSString * message;
-    //是内部跳转链接(以xmdd://开头)
-    if ([url hasPrefix:@"xmdd://"])
-    {
-        
-        NSDictionary *params = [self getActionParamsFromUrl:url];
-        NSString *name = params[@"t"];
-        
-        if ([@"coinso" equalByCaseInsensitive:name]) {
-            
-            if (!gAppMgr.myUser) {
-                return;
-            }
-            
-            message = @"恭喜您的爱车通过互助审核并且报价成功，是否点击查看详情";
-        }
-    }
+    if (!alertDict || ![alertDict isKindOfClass:[NSDictionary class]])
+        return;
+    
+    NSString * message = alertDict[@"info"];
+    NSString * cancelStr = alertDict[@"cancel"];
+    NSString * sureStr = alertDict[@"sure"];
+    
     
     if (message.length)
     {
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
-        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:cancelStr color:kGrayTextColor clickBlock:^(id alertVC) {
             
-            self.isForgroundNotificationAlert = NO;
-            [MobClick event:@"rp001"];
-            if ([number integerValue] == 1)
-            {
-                [self pushToViewControllerByUrl:url];
-            }
         }];
-        [av show];
-        self.isForgroundNotificationAlert = YES;
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:sureStr color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            
+            [MobClick event:@"yingyongneiruisongdianji"];
+            [self pushToViewControllerByUrl:urlStr];
+        }];
+        
+        NSMutableArray * itemArray = [NSMutableArray array];
+        if (cancelStr.length)
+        {
+            [itemArray safetyAddObject:cancel];
+        }
+        if (sureStr.length)
+        {
+            [itemArray safetyAddObject:confirm];
+        }
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:message ActionItems:itemArray];
+        [alert show];
     }
 }
 
