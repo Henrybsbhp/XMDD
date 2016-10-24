@@ -77,7 +77,8 @@ typedef enum : NSUInteger {
     AdvertisementGasSuccess = 41,
     AdvertisementMutualInsSuccess = 42,
     AdvertisementInsSuccess = 43,
-    AdvertisementBeautyMaintenanceSuccess = 44,
+    AdvertisementMaintenanceSuccess = 44,
+    AdvertisementBeautySuccess = 45,
 } AdvertisementType;
 
 ///分享页面类型

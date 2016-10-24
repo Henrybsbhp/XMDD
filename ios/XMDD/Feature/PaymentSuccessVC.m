@@ -271,11 +271,15 @@
 - (void)setupADViewInContainer:(UIView *)container
 {
     AdvertisementType adType = AdvertisementCarwashSuccess;
-    if (self.order.serviceType == ShopServiceCarMaintenance ||
-        self.order.serviceType == ShopServiceCarBeauty)
+    if (self.order.serviceType == ShopServiceCarMaintenance)
     {
-        adType = AdvertisementBeautyMaintenanceSuccess;
+        adType = AdvertisementMaintenanceSuccess;
     }
+    else if (self.order.serviceType == ShopServiceCarBeauty)
+    {
+        adType = AdvertisementBeautySuccess;
+    }
+    
     self.adctrl = [ADViewController vcWithADType:adType
                                      boundsWidth:self.view.frame.size.width
                                         targetVC:self mobBaseEvent:self.mobClickEvent
