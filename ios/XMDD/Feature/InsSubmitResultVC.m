@@ -16,12 +16,23 @@
 #import "SocialShareViewController.h"
 #import "ShareResponeManager.h"
 
+#import "ADViewController.h"
+
+
 @interface InsSubmitResultVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *datasource;
+
+@property (nonatomic,strong) UIView *headerView;
+@property (nonatomic,strong) ADViewController * adctrl;
 @end
 
 @implementation InsSubmitResultVC
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 - (void)dealloc
 {
@@ -32,13 +43,48 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self setupTableView];
+    [self setupADView];
     [self reloadData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+#pragma mark - Setup
+- (void)setupTableView {
+    self.tableView.contentInset = UIEdgeInsetsZero;
+    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, CGFLOAT_MIN)];
+    self.headerView.backgroundColor = [UIColor whiteColor];
+    self.tableView.tableHeaderView = self.headerView;
+}
+
+- (void)setupADView {
+    if (!self.adctrl) {
+        self.adctrl = [ADViewController vcWithADType:AdvertisementInsSuccess boundsWidth:self.view.bounds.size.width
+                                            targetVC:self mobBaseEvent:@"baoxiantijiaochenggong" mobBaseKey:@"guanggao"];
+    }
+    @weakify(self);
+    [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
+        @strongify(self);
+        UIView *header = self.headerView;
+        if (ads.count == 0 || [self.headerView.subviews containsObject:ctrl.adView]) {
+            return;
+        }
+        CGFloat height = 75;
+        header.frame = CGRectMake(0, 0, self.view.frame.size.width, height);
+        [header addSubview:ctrl.adView];
+        [ctrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            if (header)
+            {
+                make.left.equalTo(header);
+                make.right.equalTo(header);
+                make.top.equalTo(header);
+                make.height.mas_equalTo(height);
+            }
+        }];
+        self.tableView.tableHeaderView = header;
+    }];
 }
 
 

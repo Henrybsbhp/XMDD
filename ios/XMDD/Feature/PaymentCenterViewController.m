@@ -336,7 +336,7 @@
     titleLb.text = dict[@"title"];
     
     PaymentChannelType paychannel = [dict[@"paymentType"] integerValue];
-    recommendLB.hidden = paychannel != PaymentChannelAlipay;
+    recommendLB.hidden = paychannel != PaymentChannelUPpay;
     [recommendLB makeCornerRadius:3.0f];
     
     [[RACObserve(self, paychannel) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
