@@ -21,8 +21,9 @@
 
 - (void)navigationRedirectThirdMap:(JTShop *)shop andUserLocation:(CLLocationCoordinate2D)userCoordinate andView:(UIView *)view;
 
-
+/// 有提示的打电话
 - (void)makePhone:(NSString *)phoneNumber andInfo:(NSString *)info;
+/// 直接打电话
 - (void)makePhone:(NSString *)phoneNumber;
 
 ///检查拍照是否被授权

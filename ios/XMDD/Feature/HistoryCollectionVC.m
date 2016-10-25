@@ -217,7 +217,7 @@
 #pragma  mark setupUI
 
 
--(void)edit:(UIBarButtonItem *)sender
+- (void)edit:(UIBarButtonItem *)sender
 {
     /**
      *  编辑事件
@@ -239,7 +239,7 @@
     [self reloadData];
 }
 
--(void)reloadData
+- (void)reloadData
 {
     if (self.dataArr.count == 0)
     {
@@ -272,9 +272,9 @@
     {
         UIBarButtonItem * rightBtn = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
         
-        //        [rightBtn setTitleTextAttributes:@{
-        //                                           NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
-        //                                           } forState:UIControlStateNormal];
+        [rightBtn setTitleTextAttributes:@{
+                                                   NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
+                                                   } forState:UIControlStateNormal];
         [self.navigationItem setRightBarButtonItem:rightBtn animated:YES]; //防抖动
     }
 }

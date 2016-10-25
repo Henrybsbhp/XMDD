@@ -226,6 +226,12 @@
     //setup navigationBar
     UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(actionCancel:)];
     UIBarButtonItem *finish = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(actionFinish:)];
+    [cancel setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                    } forState:UIControlStateNormal];
+    [finish setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                    } forState:UIControlStateNormal];
     [self.navigationItem setLeftBarButtonItem:cancel];
     [self.navigationItem setRightBarButtonItem:finish];
 }
