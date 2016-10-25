@@ -29,7 +29,7 @@
     self.loadingModel = [[HKLoadingModel alloc] initWithTargetView:self.tableView delegate:self];
     [self.loadingModel loadDataForTheFirstTime];
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
-    btn.titleLabel.font = [UIFont systemFontOfSize:14];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:14];
     btn.frame = CGRectMake(0, 0, 60, 44);
     [btn setTitle:@"省钱攻略" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(rescueHistory) forControlEvents:UIControlEventTouchUpInside];

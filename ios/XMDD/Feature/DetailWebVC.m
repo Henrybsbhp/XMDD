@@ -226,17 +226,21 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 {
     if (self.tradeno.length != 0)
     {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"支付完成"
-                                                                                  style:UIBarButtonItemStylePlain
-                                                                                 target:self
-                                                                                 action:@selector(requestUnionPayResult)];
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"支付完成" style:UIBarButtonItemStylePlain
+                                                                 target:self action:@selector(requestUnionPayResult)];
+        [right setTitleTextAttributes:@{
+                                        NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                        } forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = right;
     }
     else if (self.tradeno.length == 0)
     {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭"
-                                                                                  style:UIBarButtonItemStylePlain
-                                                                                 target:self
-                                                                                 action:@selector(notifyMyBankVCRefresh)];
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain
+                                                                 target:self action:@selector(notifyMyBankVCRefresh)];
+        [right setTitleTextAttributes:@{
+                                        NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                        } forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = right;
     }
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""

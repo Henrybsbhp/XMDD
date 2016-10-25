@@ -17,6 +17,7 @@
     [params addParam:self.req_province forName:@"province"];
     [params addParam:self.req_city forName:@"city"];
     [params addParam:self.req_district forName:@"district"];
+    [params addParam:self.req_blackbox forName:@"blackbox"];
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 

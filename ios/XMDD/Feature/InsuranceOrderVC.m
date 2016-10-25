@@ -158,11 +158,17 @@
     if (status == InsuranceOrderStatusUnpaid) {
         UIBarButtonItem *cancel = [UIBarButtonItem barButtonItemWithTitle:@"取消订单" target:self
                                                                    action:@selector(actionCancelOrder:)];
+        [cancel setTitleTextAttributes:@{
+                                        NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                        } forState:UIControlStateNormal];
         self.navigationItem.rightBarButtonItem = cancel;
     }
     else {
         UIBarButtonItem *call = [UIBarButtonItem barButtonItemWithTitle:@"联系客服" target:self
                                                                  action:@selector(actionMakeCall:)];
+        [call setTitleTextAttributes:@{
+                                        NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                        } forState:UIControlStateNormal];
 
         self.navigationItem.rightBarButtonItem = call;
     }

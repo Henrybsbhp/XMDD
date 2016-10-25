@@ -40,12 +40,12 @@
 
 + (instancetype)barButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)action
 {
-    UIFont *font = [UIFont systemFontOfSize:15];
+    UIFont *font = [UIFont boldSystemFontOfSize:14];
     CGSize textSize = [title labelSizeWithWidth:110 font:font];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     [button setTitleColor:kDefTintColor forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:15];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:14];
     [button setTitle:title forState:UIControlStateNormal];
     button.frame = CGRectMake(0, 0, ceil(textSize.width + 8), 30);
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];

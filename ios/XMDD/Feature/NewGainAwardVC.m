@@ -21,6 +21,8 @@
 #import "GuideStore.h"
 #import "HKAddressComponent.h"
 
+#import "FMDeviceManager.h"
+
 @interface NewGainAwardVC ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *widthConstraint;
@@ -41,6 +43,8 @@
 @property (assign, nonatomic) BOOL isScratched;
 @property (assign, nonatomic) BOOL otherActionFlag;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraint;
+
 @end
 
 @implementation NewGainAwardVC
@@ -57,8 +61,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self requestOperation];
     [self setupNavigationBar];
+    [self checkUserAwardOperation];
 }
 
 
@@ -92,7 +96,7 @@
 }
 
 
-- (void)requestOperation
+- (void)checkUserAwardOperation
 {
     self.coverView.hidden = NO;
     self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
@@ -124,6 +128,7 @@
         
         if (op.rsp_leftday > 0) {
             self.amount.text = [NSString stringWithFormat:@"%ld", (long)op.rsp_amount];
+        
             if ([UIScreen mainScreen].bounds.size.height == 480) {
                 self.amount.font = [UIFont systemFontOfSize:42];
             }
@@ -185,7 +190,7 @@
         
         [self.coverView showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取礼券信息失败，请点击重试" tapBlock:^{
             @strongify(self)
-            [self requestOperation];
+            [self checkUserAwardOperation];
         }];
     }];
 }
@@ -230,6 +235,11 @@
     op.req_province = gMapHelper.addrComponent.province;
     op.req_city = gMapHelper.addrComponent.city;
     op.req_district = gMapHelper.addrComponent.district;
+    
+    FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
+    NSString *blackBox = manager->getDeviceInfo();
+    op.req_blackbox = blackBox;
+    
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         
@@ -257,7 +267,34 @@
         
     } error:^(NSError *error) {
         
-        [gToast showError:error.domain];
+        
+        if (error.code == 615301)
+        {
+            [gToast dismiss];
+            
+            self.isScratched = YES;
+            self.amountTypeLabel.text = @"此设备已领取过每周礼券,无法再次领取";
+            self.amountTypeLabel.font = [UIFont systemFontOfSize:18];
+            self.amountTypeLabel.numberOfLines = 2;
+            [self.amountTypeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+                
+                make.centerX.equalTo(self.scratchView);
+                make.centerY.equalTo(self.scratchView);
+                make.left.equalTo(self.scratchView).offset(20);
+            }];
+
+            self.rmbLabel.text = @"";
+            self.tipLabel.text = @"";
+            [UIView animateWithDuration:0.5
+                             animations:^{
+                                 self.hyscratchView.alpha = 0;
+                             }];
+
+        }
+        else
+        {
+            [gToast showError:error.domain];
+        }
     }];
 }
 
