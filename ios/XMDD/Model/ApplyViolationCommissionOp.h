@@ -13,6 +13,7 @@
 @property (strong, nonatomic) NSNumber *req_usercarid;
 @property (strong, nonatomic) NSString *req_licencenumber;
 @property (strong, nonatomic) NSString *req_dates; //多条记录同时申请，@分隔
+@property (strong, nonatomic) NSString *req_idno;
 
 @property (copy, nonatomic) NSString *rsp_tip;
 

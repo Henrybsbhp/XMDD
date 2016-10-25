@@ -19,6 +19,11 @@
     return  [[op rac_postRequest] flattenMap:^RACStream *(GetCityInfoByLicenseNumberOp * rop) {
         
         self.cityInfo = op.rsp_violationCityInfo;
+        self.text = op.rsp_text;
+        self.link = op.rsp_link;
+        /// 判断是否需要显示消息
+        self.showIssue = [self.type isEqualToNumber:op.rsp_type] ? self.showIssue : YES;
+        self.type = op.rsp_type;
         /// 如果有车架号没有才取服务器接口
         self.classno = self.classno.length ? self.classno : op.rsp_carframenumber;
         self.engineno = self.engineno.length ? self.engineno : op.rsp_enginenumber;
@@ -42,6 +47,7 @@
         self.violationTotalmoney = rop.rsp_violationTotalmoney;
         self.violationArray = rop.rsp_violationArray;
         self.violationAvailableTip = rop.rsp_violationAvailableTip;
+        self.violationNeedIdNo = rop.rsp_idno.integerValue == 1 ? YES : NO;
         self.queryDate = [NSDate date];
         
         [self saveViolationModel];
@@ -67,6 +73,9 @@
         self.violationArray = model.violationArray;
         self.violationAvailableTip = model.violationAvailableTip;
         self.queryDate = model.queryDate;
+        self.type = model.type;
+        self.showIssue = model.showIssue;
+        
         
         CKAsyncMainQueue(^{
             
@@ -103,6 +112,9 @@
         self.violationArray = [aDecoder decodeObjectForKey:@"violationArray"];
         self.queryDate = [aDecoder decodeObjectForKey:@"queryDate"];
         self.violationAvailableTip = [aDecoder decodeObjectForKey:@"violationAvailableTip"];
+        self.showIssue = [(NSNumber *)[aDecoder decodeObjectForKey:@"showIssue"] boolValue];
+        self.type = [aDecoder decodeObjectForKey:@"type"];
+        self.violationNeedIdNo = [(NSNumber *)[aDecoder decodeObjectForKey:@"violationNeedIdNo"] boolValue];
     }
     
     return  self;
@@ -121,6 +133,10 @@
     [aCoder encodeObject:self.violationArray forKey:@"violationArray"];
     [aCoder encodeObject:self.queryDate forKey:@"queryDate"];
     [aCoder encodeObject:self.violationAvailableTip forKey:@"violationAvailableTip"];
+    [aCoder encodeObject:@(self.showIssue) forKey:@"showIssue"];
+    [aCoder encodeObject:self.type forKey:@"type"];
+    [aCoder encodeObject:@(self.violationNeedIdNo) forKey:@"violationNeedIdNo"];
+    
 }
 
 

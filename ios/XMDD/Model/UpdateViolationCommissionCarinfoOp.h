@@ -20,4 +20,6 @@
 
 @property (strong, nonatomic) NSString *req_licencenumber;
 
+@property (strong, nonatomic) NSString *req_idno;
+
 @end
