@@ -37,6 +37,8 @@
 #import "AppDelegate.h"
 #import "MyBindedCardVC.h"
 #import "MutInsCalculatePageVC.h"
+#import "CommissionPaymentStatusVC.h"
+#import "RescuePaymentStatusVC.h"
 
 @interface NavigationModel()
 
@@ -384,19 +386,37 @@
         }
         //协办详情
         else if ([@"astorder" equalByCaseInsensitive:name]) {
-            UIViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
-            [self.curNavCtrl pushViewController:vc animated:YES];
+            
+            // 通过有无 value / id 来判断进入协办详情 / 协办列表的页面
+            if (value.length > 0) {
+                CommissionPaymentStatusVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionPaymentStatusVC"];
+                vc.vcType = 1;
+                vc.applyID = @(value.integerValue);
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            } else {
+                UIViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionRecordVC"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
         }
 
         //救援
         else if ([@"rescue" equalByCaseInsensitive:name]) {
-            UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
+            UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeV2VC"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         //救援详情
         else if ([@"rescueorder" equalByCaseInsensitive:name]) {
-            UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
-            [self.curNavCtrl pushViewController:vc animated:YES];
+            
+            // 通过有无 value / id 来判断进入救援详情 / 救援列表的页面
+            if (value.length > 0) {
+                RescuePaymentStatusVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"RescuePaymentStatusVC"];
+                vc.vcType = 1;
+                vc.applyID = @(value.integerValue);
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            } else {
+                UIViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeV2VC"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
         }
         //加入小马互助长条广告
         else if ([@"coinsad" equalByCaseInsensitive:name]) {

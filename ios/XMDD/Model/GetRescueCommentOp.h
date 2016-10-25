@@ -19,4 +19,19 @@
  */
 @property (nonatomic, strong) NSNumber    *   type;
 @property (nonatomic, strong) NSMutableArray * rescueDetailArray;
+
+/// 评价记录 ID
+@property (nonatomic, assign) NSInteger commentID;
+
+/// 反应速度
+@property (nonatomic, assign) NSInteger responseSpeed;
+
+/// 到达速度
+@property (nonatomic, assign) NSInteger arriveSpeed;
+
+/// 服务态度
+@property (nonatomic, assign) NSInteger serviceAttitude;
+
+/// 评价内容
+@property (nonatomic, copy) NSString *comment;
 @end
