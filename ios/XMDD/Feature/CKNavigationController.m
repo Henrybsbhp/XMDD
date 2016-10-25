@@ -41,6 +41,7 @@ static char s_viewControllerRouterKey;
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     [self resetForViewControllers:self.viewControllers];
 }
 

@@ -47,7 +47,7 @@
 {
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"订单详情";
-    vc.url = [OrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%ld&tradetype=%@",gNetworkMgr.token ,(long)model.orderID, model.tradeType]];
+    vc.url = [kOrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%ld&tradetype=%@",gNetworkMgr.token ,(long)model.orderID, model.tradeType]];
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 

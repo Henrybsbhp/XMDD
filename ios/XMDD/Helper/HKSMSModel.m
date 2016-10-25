@@ -10,7 +10,6 @@
 #import "GetTokenOp.h"
 #import "SendUnioncardSmsOp.h"
 #import "GetBindCZBVcodeOp.h"
-#import "GetUnbindBankcardVcodeOp.h"
 
 ///短信30秒冷却时间
 #define kMaxVcodeInterval        30
@@ -43,16 +42,6 @@ static NSTimeInterval s_coolingTimeForUPay = 0;
         }
     }] doNext:^(id x) {
         s_coolingTimeForBindCZB = [[NSDate date] timeIntervalSince1970];
-    }] deliverOn:[RACScheduler mainThreadScheduler]];
-}
-
-///获取解绑浙商银行卡的短信验证码
-- (RACSignal *)rac_getUnbindCZBVcode
-{
-    GetUnbindBankcardVcodeOp *op = [GetUnbindBankcardVcodeOp operation];
-    RACSignal *signal = [op rac_postRequest];
-    return [[signal doNext:^(id x) {
-        s_coolingTimeForUnbindCZB = [[NSDate date] timeIntervalSince1970];
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 

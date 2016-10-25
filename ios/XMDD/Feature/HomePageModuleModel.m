@@ -208,7 +208,7 @@
 {
     
     if (self.mobBaseEvent.length && self.mobBaseKey.length) {
-        NSString * eventstr = [NSString stringWithFormat:@"fun_%d", i];
+        NSString * eventstr = [NSString stringWithFormat:@"fun_%ld", (long)i];
         [MobClick event:self.mobBaseEvent attributes:@{self.mobBaseKey:eventstr}];
     }
     else
