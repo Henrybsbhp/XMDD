@@ -282,7 +282,7 @@
                 ratingView.ratingValue = self.commentOp.responseSpeed;
             }else if (indexPath.row == 2){
                 ratingView.ratingValue  = self.commentOp.arriveSpeed;
-            }else if (indexPath.row == 2){
+            }else if (indexPath.row == 3){
                 ratingView.ratingValue = self.commentOp.serviceAttitude;
             }
             ratingView.userInteractionEnabled = NO;

@@ -265,7 +265,7 @@
                 self.commentStar1 = number;
             }else if (indexPath.row == 2){
                 self.commentStar2  = number;
-            }else if (indexPath.row == 2){
+            }else if (indexPath.row == 3){
                 self.commentStar3 = number;
             }
         }];
@@ -283,7 +283,7 @@
                 ratingView.ratingValue = self.commentOp.responseSpeed;
             }else if (indexPath.row == 2){
                 ratingView.ratingValue  = self.commentOp.arriveSpeed;
-            }else if (indexPath.row == 2){
+            }else if (indexPath.row == 3){
                 ratingView.ratingValue = self.commentOp.serviceAttitude;
             }
             ratingView.userInteractionEnabled = NO;

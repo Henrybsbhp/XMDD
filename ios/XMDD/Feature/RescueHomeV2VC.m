@@ -48,23 +48,20 @@
 }
 
 #pragma mark - Actions
-// 定位按钮点击事件
+/// 定位按钮点击事件
 - (IBAction)actionLocateMyLocation:(id)sender
 {
     [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
 }
 
-// 我的救援点击事件
+/// 我的救援点击事件
 - (IBAction)actionMyRescue:(id)sender
 {
-//    RescuePaymentStatusVC *vc = [UIStoryboard vcWithId:@"RescuePaymentStatusVC" inStoryboard:@"Rescue"];
-//    [self.navigationController pushViewController:vc animated:YES];
-    
     RescueRecordVC *vc = [UIStoryboard vcWithId:@"RescueRecordVC" inStoryboard:@"Rescue"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-// 一键救援点击事件
+/// 一键救援点击事件
 - (IBAction)actionRescue:(id)sender
 {
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
@@ -76,7 +73,7 @@
 }
 
 #pragma mark - Initial Setup
-// 设置中心坐标图案
+/// 设置中心坐标图案
 - (void)setupCenterCoordinateImage
 {
     UIImageView *coordinateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 27, 40)];
@@ -90,7 +87,7 @@
     }];
 }
 
-// 设置 mapView
+/// 设置 mapView
 - (void)setupMapView
 {
     self.mapView.delegate = self;
@@ -100,7 +97,7 @@
     [self.mapView bringSubviewToFront:self.addressView];
 }
 
-// 设置反地理编码的代理和请求
+/// 设置反地理编码的代理和请求
 - (void)setupAddressSearch
 {
     self.addressSearch = [[AMapSearchAPI alloc] init];
@@ -128,7 +125,7 @@
 }
 
 #pragma mark - AMapSearchDelegate
-// 反地理编码用到的回调代理
+/// 反地理编码用到的回调代理
 - (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response
 {
     DebugLog(@"address title: %@", response.regeocode.formattedAddress);

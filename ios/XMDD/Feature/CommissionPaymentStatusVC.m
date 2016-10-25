@@ -41,6 +41,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    /// tableView 的 contentInset 的 top 属性设置为 -34，不然在 Grouped 风格的 tableView 下会出现顶端留白。
+    self.tableView.contentInset = UIEdgeInsetsMake(-34, 0, 0, 0);
+    
     // 救援调度 / 救援中
     if (self.vcType == HKCommissionPaidAlready || self.vcType == HKCommissionCompleted) {
         self.bottomView.hidden = YES;
