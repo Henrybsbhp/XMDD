@@ -130,6 +130,13 @@
         self.isLoading = NO;
         [self.view stopActivityAnimation];
         [self.tableView.refreshView endRefreshing];
+        
+        if (rop.rsp_applysecueArray.count >= PageAmount) {
+            self.isRemain = YES;
+        } else {
+            self.isRemain = NO;
+        }
+        
         if (rop.rsp_applysecueArray.count > 0) {
             self.datasource = [self dataSourceWithResponsedArray:rop.rsp_applysecueArray];
             self.tableView.hidden = NO;

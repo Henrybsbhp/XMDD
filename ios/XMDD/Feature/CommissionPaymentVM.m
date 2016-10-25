@@ -13,6 +13,8 @@
 #import "PaymentHelper.h"
 #import "UPApplePayHelper.h"
 #import "CommissionPaymentStatusVC.h"
+#import "HKTableTextCell.h"
+#import "JTTableViewCell.h"
 
 @interface CommissionPaymentVM () <UITableViewDelegate, UITableViewDataSource>
 
@@ -81,11 +83,13 @@
         [paymenCellList addObject:[self setupPaymentPlatformCell] forKey:nil];
     }
     
+    NSString *appointDate = self.commissionDetailOp.rsp_appointTime == 0 ? @"" : [[NSDate dateWithUTS:@(self.commissionDetailOp.rsp_appointTime)] dateFormatForYYMMdd2];
+    
     self.dataSource = $($([self setupTitleCell],
-                          [self setupPaymentInfoCellWithArray:@[@"申请服务", @"拖车服务"] isHighlighted:NO],
-                          [self setupPaymentInfoCellWithArray:@[@"项目价格", @"￥300.00"] isHighlighted:YES],
-                          [self setupPaymentInfoCellWithArray:@[@"我的车辆", @"浙AJC625"] isHighlighted:NO],
-                          [self setupPaymentInfoCellWithArray:@[@"预约时间", @"2016.07.21"] isHighlighted:NO],
+                          [self setupPaymentInfoCellWithArray:@[@"申请服务", self.commissionDetailOp.rsp_serviceName] isHighlighted:NO],
+                          [self setupPaymentInfoCellWithArray:@[@"项目价格", [NSString stringWithFormat:@"￥%.2f", self.commissionDetailOp.rsp_pay]] isHighlighted:YES],
+                          [self setupPaymentInfoCellWithArray:@[@"我的车辆", self.commissionDetailOp.rsp_licenseNumber] isHighlighted:NO],
+                          [self setupPaymentInfoCellWithArray:@[@"预约时间", appointDate] isHighlighted:NO],
                           [self setupBlankCell]),
                         paymenCellList);
     
@@ -249,7 +253,7 @@
     paymentTitleCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 40;
     });
-    paymentTitleCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+    paymentTitleCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, JTTableViewCell *cell, NSIndexPath *indexPath) {
         
     });
     
@@ -273,7 +277,7 @@
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
     });
     
-    paymentPlatformCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+    paymentPlatformCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, HKTableViewCell *cell, NSIndexPath *indexPath) {
         @strongify(self);
         UIImageView *iconImgView = (UIImageView *)[cell.contentView viewWithTag:1001];
         UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:1002];
