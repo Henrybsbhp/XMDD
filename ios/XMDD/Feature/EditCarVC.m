@@ -107,10 +107,18 @@
 
 - (void)setupNavigationBar
 {
+    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain
+                                                             target:self action:@selector(actionCancel:)];
+    [left setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                    } forState:UIControlStateNormal];
+
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain
                                                              target:self action:@selector(actionSave:)];
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain
-                                                            target:self action:@selector(actionCancel:)];
+    [right setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                    } forState:UIControlStateNormal];
+
     self.navigationItem.leftBarButtonItem = left;
     [self.navigationItem setRightBarButtonItem:right animated:YES];//防抖动
 }

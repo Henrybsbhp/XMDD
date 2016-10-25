@@ -73,12 +73,12 @@ typedef enum : NSUInteger {
     AdvertisementMutualInsHome = 17,
     AdvertisementTypeActivities = 20,
     AdvertisementTypeLeaunch = 30,
-    AdvertisementCarwashSuccess = 40,
-    AdvertisementGasSuccess = 41,
-    AdvertisementMutualInsSuccess = 42,
-    AdvertisementInsSuccess = 43,
-    AdvertisementMaintenanceSuccess = 44,
-    AdvertisementBeautySuccess = 45,
+    AdvertisementCarwashSuccess = 50,
+    AdvertisementGasSuccess = 51,
+    AdvertisementMutualInsSuccess = 52,
+    AdvertisementInsSuccess = 53,
+    AdvertisementMaintenanceSuccess = 54,
+    AdvertisementBeautySuccess = 55,
 } AdvertisementType;
 
 ///分享页面类型
