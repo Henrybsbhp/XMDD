@@ -105,6 +105,7 @@
     shop.closeHour = rsp[@"closehour"];
     shop.txnumber = [rsp integerParamForName:@"txnumber"];
     shop.isVacation = [rsp numberParamForName:@"isvacation"];
+    shop.isDelete = [rsp numberParamForName:@"isdelete"];
     shop.allowABC = [rsp boolParamForName:@"abcbanksupport"];
     shop.shopServiceArray = [rsp[@"services"] arrayByMapFilteringOperator:^id(id obj) {
         return [JTShopService shopServiceWithJSONResponse:obj];

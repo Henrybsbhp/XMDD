@@ -13,6 +13,8 @@
 #import "GetViolationCommissionOp.h"
 #import "ApplyViolationCommissionOp.h"
 #import "NSString+RectSize.h"
+#import "ViolationInputNameVC.h"
+#import "UIView+Shake.h"
 
 @interface ViolationDelegateMissionVC ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
@@ -26,6 +28,7 @@
 @property (strong, nonatomic) NSMutableArray *carArr;
 @property (strong, nonatomic) NSString *tip;
 @property (strong, nonatomic) NSString *dates;
+@property (strong, nonatomic) NSString *idno;
 
 @end
 
@@ -43,7 +46,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)dealloc
@@ -117,6 +119,7 @@
             
             self.dataSource = op.rsp_lists;
             self.tip = op.rsp_tip;
+            
             [self.tableView reloadData];
         }
         
@@ -139,12 +142,18 @@
 
 - (void)applyViolationCommission
 {
+    if (self.violationNeedIdNo && self.idno.length < 18)
+    {
+        [gToast showMistake:@"身份证号码位数不符合要求"];
+        return;
+    }
     @weakify(self)
     ApplyViolationCommissionOp *op = [ApplyViolationCommissionOp operation];
     
     op.req_usercarid = self.userCarID;
     op.req_licencenumber = self.licenceNumber;
     op.req_dates = self.dates;
+    op.req_idno = self.idno;
     
     [[[op rac_postRequest]initially:^{
         
@@ -352,10 +361,68 @@
 
 #pragma mark - Action
 
-- (void)actionBack
+- (void)acitonJumpToViolationMyLicenceVC
 {
-    [MobClick event:@"weizhangdaiban" attributes:@{@"navi" : @"back"}];
-    [self.navigationController popViewControllerAnimated:YES];
+    @weakify(self)
+    HKAlertActionItem *jumpToLicenceVC = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#FF7428") clickBlock:^(id alertVC) {
+        
+        @strongify(self)
+        
+        [MobClick event:@"weizhangdaiban" attributes:@{@"buwanshantankuang" : @"weizhangdaiban9"}];
+        
+        ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Violation"];
+        vc.usercarID = self.userCarID;
+        vc.carNum = self.licenceNumber;
+        [vc setCommitSuccessBlock:^{
+            
+            @strongify(self)
+            
+            [self getViolationCommission];
+            
+        }];
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#454545") clickBlock:^(id alertVC) {
+        [MobClick event:@"weizhangdaiban" attributes:@{@"buwanshantankuang" : @"quxiao"}];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您的爱车的证件信息不完整，完善爱车的证件信息后即可申请代办。" ActionItems:@[cancel, jumpToLicenceVC]];
+    [alert show];
+}
+
+- (void)acitonPresentViolationInputNameVC
+{
+    [self.view endEditing:YES];
+    ViolationInputNameVC *vc = [UIStoryboard vcWithId:@"ViolationInputNameVC" inStoryboard:@"Violation"];
+    MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(270, 180) viewController:vc];
+    sheet.shouldCenterVertically = YES;
+    [sheet presentAnimated:YES completionHandler:nil];
+    
+    //取消
+    [[[vc.cancelButton rac_signalForControlEvents:UIControlEventTouchUpInside] take:1] subscribeNext:^(id x) {
+        [sheet dismissAnimated:YES completionHandler:nil];
+    }];
+    //确定
+    @weakify(vc, self);
+    [[vc.ensureButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(vc, self);
+        if (vc.nameField.text.length == 18)
+        {
+            [vc.nameField endEditing:YES];
+            self.idno = vc.nameField.text;
+            [sheet dismissAnimated:YES completionHandler:nil];
+            [self class];
+        }
+        else
+        {
+            [vc.nameField shake];
+        }
+    }];
+}
+
+- (IBAction)actionConfirmReading:(id)sender
+{
+    self.confirmReadBtn.selected = !self.confirmReadBtn.isSelected;
+    [self configCommitBtn];
 }
 
 - (IBAction)actionJumpToGuideVC:(id)sender
@@ -366,51 +433,29 @@
 
 - (IBAction)actionCommit:(id)sender
 {
-
-    @weakify(self)
-    
     [MobClick event:@"weizhangdaiban" attributes:@{@"weizhangdaiban" : @"tijiao"}];
-    if (self.tip.length == 0)
+    // 不需要补全信息
+    if (self.tip.length == 0 && !self.violationNeedIdNo)
     {
-        
         [self applyViolationCommission];
     }
+    // 需要补全身证号
+    else if (self.tip.length == 0 && self.violationNeedIdNo)
+    {
+        [self acitonPresentViolationInputNameVC];
+    }
+    // 需要补全照片，是否需要填写身份证由 ViolationMyLicenceVC 判断
     else
     {
-        HKAlertActionItem *jumpToLicenceVC = [HKAlertActionItem itemWithTitle:@"立即完善" color:HEXCOLOR(@"#18D06A") clickBlock:^(id alertVC) {
-            
-            @strongify(self)
-            
-            [MobClick event:@"weizhangdaiban" attributes:@{@"buwanshantankuang" : @"weizhangdaiban9"}];
-            
-            ViolationMyLicenceVC *vc = [UIStoryboard vcWithId:@"ViolationMyLicenceVC" inStoryboard:@"Violation"];
-            vc.usercarID = self.userCarID;
-            vc.carNum = self.licenceNumber;
-            [vc setCommitSuccessBlock:^{
-                
-                @strongify(self)
-                
-                [self getViolationCommission];
-                
-            }];
-            [self.navigationController pushViewController:vc animated:YES];
-        }];
-        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:HEXCOLOR(@"#454545") clickBlock:^(id alertVC) {
-            [MobClick event:@"weizhangdaiban" attributes:@{@"buwanshantankuang" : @"quxiao"}];
-        }];
-        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您的爱车的证件信息不完整，完善爱车的证件信息后即可申请代办。" ActionItems:@[cancel, jumpToLicenceVC]];
-        [alert show];
+        [self acitonJumpToViolationMyLicenceVC];
     }
-    
-    
 }
 
-- (IBAction)actionConfirmReading:(id)sender
+- (void)actionBack
 {
-    self.confirmReadBtn.selected = !self.confirmReadBtn.isSelected;
-    [self configCommitBtn];
+    [MobClick event:@"weizhangdaiban" attributes:@{@"navi" : @"back"}];
+    [self.navigationController popViewControllerAnimated:YES];
 }
-
 
 #pragma mark - Lazyload
 

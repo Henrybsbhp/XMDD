@@ -115,6 +115,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *maintenanceNote;
 @property (nonatomic, strong) NSString *beautyNote;
 
+/// 是否下架。1正常2：已下架3：冻结
+@property (strong, nonatomic) NSNumber *isDelete;
 //是否休假，1:是。0：营业
 @property (nonatomic,strong)NSNumber *isVacation;
 

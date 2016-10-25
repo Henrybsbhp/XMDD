@@ -11,6 +11,7 @@
 #import "PictureRecord.h"
 #import "HKImageView.h"
 #import "JGActionSheet.h"
+#import "CKLimitTextField.h"
 #import "GetViolationCommissionCarinfoOp.h"
 #import "UpdateViolationCommissionCarinfoOp.h"
 
@@ -27,6 +28,8 @@
 @property (strong, nonatomic) NSString *originURL;
 @property (strong, nonatomic) NSString *duplicateURL;
 @property (strong, nonatomic) NSNumber *carID;
+@property (strong, nonatomic) NSString *idNo;
+@property (assign, nonatomic) BOOL idnoflag;
 
 @end
 
@@ -54,12 +57,17 @@
 - (void)setupDataSource
 {
     self.dataSource = $(
-                        [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证正本",self.carNum]],
-                        [self photoCellDataWithSampleImg:[UIImage imageNamed:@"illegal_original"]],
-                        [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证副本",self.carNum]],
-                        [self photoCellDataWithSampleImg:[UIImage imageNamed:@"illegal_licenceReavel"]],
-                        [self blankCellData],
-                        [self btnCellData]
+                        $(
+                          [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证正本",self.carNum]],
+                          [self photoCellDataWithSampleImg:[UIImage imageNamed:@"illegal_original"]],
+                          [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证副本",self.carNum]],
+                          [self photoCellDataWithSampleImg:[UIImage imageNamed:@"illegal_licenceReavel"]],
+                          [self blankCellData]
+                          ),
+                        $(
+                          self.idnoflag ? [self identifierCellData] : CKNULL,
+                          [self btnCellData]
+                          )
                         );
 }
 
@@ -118,6 +126,7 @@
         self.originURL = op.rsp_licenseurl;
         self.duplicateURL = op.rsp_licensecopyurl;
         self.carID = op.rsp_carid;
+        self.idnoflag = op.rsp_idnoflag;
         [self.tableView reloadData];
         [self getfailedOriginImg];
         [self getfailedDuplicateImg];
@@ -139,13 +148,18 @@
 
 - (void)updateViolationCommissionCarinfo
 {
+    if (self.idnoflag &&self.idNo.length < 18)
+    {
+        [gToast showMistake:@"身份证号码位数不符合要求"];
+        return;
+    }
     UpdateViolationCommissionCarinfoOp *op = [UpdateViolationCommissionCarinfoOp operation];
-    
     op.req_carid = self.carID;
     op.req_licenseurl = self.originRcd.url.length == 0 ? self.originURL : self.originRcd.url;
     op.req_licensecopyurl = self.duplicateRcd.url.length == 0 ? self.duplicateURL : self.duplicateRcd.url;
     op.req_usercarid = self.usercarID;
     op.req_licencenumber = self.carNum;
+    op.req_idno = self.idNo;
     
     [[[op rac_postRequest]initially:^{
         
@@ -161,7 +175,7 @@
         }
         
         [self.navigationController popViewControllerAnimated:YES];
-
+        
     } error:^(NSError *error) {
         
         [gToast showMistake:error.domain.length == 0 ? @"资料上传失败，请点击重试" : error.domain];
@@ -173,17 +187,17 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataSource.count;
+    return [self.dataSource[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CKDict *data = self.dataSource[indexPath.row];
+    CKDict *data = self.dataSource[indexPath.section][indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data[kCKCellID]];
     CKCellPrepareBlock block = data[kCKCellPrepare];
     if (block)
@@ -218,7 +232,7 @@
         [MobClick event:@"wodezhengjianzhao" attributes:@{@"wodezhengjianzhao" : @"fuben"}];
     }
     
-    CKDict *data = self.dataSource[indexPath.row];
+    CKDict *data = self.dataSource[indexPath.section][indexPath.row];
     CKCellSelectedBlock block = data[kCKCellSelected];
     if (block)
     {
@@ -228,7 +242,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CKDict *data = self.dataSource[indexPath.row];
+    CKDict *data = self.dataSource[indexPath.section][indexPath.row];
     CKCellGetHeightBlock block = data[kCKCellGetHeight];
     if (block)
     {
@@ -241,6 +255,36 @@
 }
 
 #pragma mark - Cell
+
+- (CKDict *)identifierCellData
+{
+    @weakify(self)
+    
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"IdentifierCell"}];
+    
+    //cell行高
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 48;
+    });
+    //cell准备重绘
+    
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        @strongify(self)
+        CKLimitTextField *textField = [cell viewWithTag:100];
+        textField.textLimit = 18;
+        
+        [[[textField rac_textSignal]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+            
+            @strongify(self)
+            self.idNo = textField.text;
+        }];
+        
+    });
+    
+    return data;
+}
 
 - (CKDict *)noticeCellDataWithNotice:(NSString *)notice
 {
@@ -427,13 +471,13 @@
     //cell行高
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
-        return 80;
+        return 90;
         
     });
     //cell准备重绘
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-    
+        
         UIButton *btn = [cell viewWithTag:100];
         btn.layer.cornerRadius = 5;
         btn.layer.masksToBounds = YES;
@@ -510,8 +554,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - Utility
-
 - (void)actionUpload:(PictureRecord *)record withImageView:(HKImageView *)imageView
 {
     record.isUploading = YES;
@@ -526,6 +568,7 @@
      }];
 }
 
+#pragma mark - Utility
 
 - (void)pickImageWithIndex:(NSIndexPath *)indexPath
 {

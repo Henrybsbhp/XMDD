@@ -18,5 +18,11 @@
 @property (nonatomic,copy)NSString * rsp_carframenumber;
 /// 发动机号
 @property (nonatomic,copy)NSString * rsp_enginenumber;
+/// 提示文案
+@property (strong, nonatomic) NSString *rsp_text;
+/// 链接地址
+@property (strong, nonatomic) NSString *rsp_link;
+/// 消息类型
+@property (strong, nonatomic) NSNumber *rsp_type;
 
 @end

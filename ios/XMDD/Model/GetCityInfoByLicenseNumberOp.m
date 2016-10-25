@@ -30,6 +30,9 @@
         
         self.rsp_carframenumber = rspObj[@"carframenumber"];
         self.rsp_enginenumber = rspObj[@"enginenumber"];
+        self.rsp_link = rspObj[@"link"];
+        self.rsp_text = rspObj[@"text"];
+        self.rsp_type = rspObj[@"type"];
     }
     else
     {

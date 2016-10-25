@@ -343,7 +343,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && indexPath.row == 0 )
+    if (indexPath.section == 0 && indexPath.row == 0 && self.order.shop.isDelete.integerValue == 1)
     {
         ShopDetailVC *vc = [[ShopDetailVC alloc] init];
         vc.shop = self.order.shop;
@@ -357,6 +357,7 @@
 - (UITableViewCell *)shopCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
+    UIImageView *undercarriageImgView = [cell.contentView viewWithTag:1000];
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
@@ -366,6 +367,7 @@
     
     JTShop *shop = self.order.shop;
     
+    undercarriageImgView.hidden = shop.isDelete.integerValue == 1;
     [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     titleL.text = shop.shopName;
     addrL.text = shop.shopAddress;

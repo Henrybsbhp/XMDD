@@ -18,4 +18,6 @@
 
 @property (strong, nonatomic) NSNumber *rsp_carid;
 
+@property (assign, nonatomic) BOOL rsp_idnoflag;
+
 @end
