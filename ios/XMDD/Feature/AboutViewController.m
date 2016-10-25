@@ -30,6 +30,18 @@ typedef void(^MyBlock)(void);
 
 @implementation AboutViewController
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    DebugLog(@"AboutViewController dealloc");
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -47,21 +59,6 @@ typedef void(^MyBlock)(void);
     [self setupDatasource];
     [self.tableView reloadData];
 }
-
-
-- (void)dealloc
-{
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
-    DebugLog(@"AboutViewController dealloc");
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-
-}
-
-
 
 - (void)setupDatasource
 {

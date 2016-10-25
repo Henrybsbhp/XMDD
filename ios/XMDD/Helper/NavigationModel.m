@@ -382,8 +382,19 @@
             UIViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
+        //协办详情
+        else if ([@"astorder" equalByCaseInsensitive:name]) {
+            UIViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+
         //救援
         else if ([@"rescue" equalByCaseInsensitive:name]) {
+            UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        //救援详情
+        else if ([@"rescueorder" equalByCaseInsensitive:name]) {
             UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
