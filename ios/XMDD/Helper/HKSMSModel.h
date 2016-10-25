@@ -29,7 +29,6 @@ typedef enum : NSInteger
 @property (nonatomic, strong) UITextField *phoneField;
 
 - (RACSignal *)rac_getBindCZBVcodeWithCardno:(NSString *)cardno phone:(NSString *)phone;
-- (RACSignal *)rac_getUnbindCZBVcode;
 - (RACSignal *)rac_getUnionCardVcodeWithTokenID:(NSString *)tokenID andTradeNo:(NSString *)tradeNO;
 
 

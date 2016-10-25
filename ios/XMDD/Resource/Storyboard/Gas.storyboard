@@ -207,14 +207,12 @@
                                                     <color key="textColor" red="0.98431372549019602" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="● 暂不支持副卡、司机卡的充值" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="maK-sX-Qyf">
-                                                    <frame key="frameInset" minX="16" minY="145" width="572" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="● 暂不支持副卡、司机卡的充值" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="maK-sX-Qyf">
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.98431372549999996" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="● 请输入正确的加油卡号，充值成功后将不予退回" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzj-QV-Oqy">
-                                                    <frame key="frameInset" minX="16" minY="127" width="572" height="14"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="● 请输入正确的加油卡号，充值成功后将不予退回" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzj-QV-Oqy">
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.98431372549999996" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -816,13 +814,13 @@
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
+                                                            <exclude reference="Dww-et-1qh"/>
+                                                            <exclude reference="PKj-sB-Pia"/>
+                                                            <exclude reference="tEJ-S4-NsS"/>
                                                             <exclude reference="LOn-de-h7u"/>
                                                             <exclude reference="LuW-Lj-eUV"/>
                                                             <exclude reference="ckQ-FI-QYa"/>
                                                             <exclude reference="dbG-9B-MdJ"/>
-                                                            <exclude reference="Dww-et-1qh"/>
-                                                            <exclude reference="PKj-sB-Pia"/>
-                                                            <exclude reference="tEJ-S4-NsS"/>
                                                         </mask>
                                                     </variation>
                                                 </view>
@@ -856,14 +854,14 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="xfZ-S6-tjv"/>
-                                                    <exclude reference="xW3-Vg-0dx"/>
                                                     <exclude reference="0dK-OA-FYA"/>
                                                     <exclude reference="TrB-m2-lYa"/>
                                                     <exclude reference="fyX-Kt-nWo"/>
+                                                    <exclude reference="JXL-d1-qbg"/>
+                                                    <exclude reference="xfZ-S6-tjv"/>
+                                                    <exclude reference="xW3-Vg-0dx"/>
                                                     <exclude reference="7JF-0R-DeH"/>
                                                     <exclude reference="okF-en-fSi"/>
-                                                    <exclude reference="JXL-d1-qbg"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -878,8 +876,8 @@
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="CwR-Jn-ubL"/>
                                                 <exclude reference="42U-U6-wCK"/>
+                                                <exclude reference="CwR-Jn-ubL"/>
                                                 <exclude reference="fyq-XQ-ztn"/>
                                             </mask>
                                         </variation>
@@ -1864,7 +1862,7 @@
                     <navigationItem key="navigationItem" title="优惠加油" id="5fI-av-pqh">
                         <barButtonItem key="rightBarButtonItem" title=" " style="done" id="gIb-Qc-hw4">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0OP-Kb-bYZ">
-                                <rect key="frame" x="516" y="7" width="64" height="30"/>
+                                <rect key="frame" x="295" y="7" width="64" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" red="0.12549019610000001" green="0.6705882353" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="加油记录">

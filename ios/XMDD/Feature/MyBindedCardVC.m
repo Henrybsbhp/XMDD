@@ -13,7 +13,6 @@
 #import "UnbindingBankCardOp.h"
 #import "MyBankCard.h"
 #import "JGActionSheet.h"
-#import "BindBankCardVC.h"
 #import "ADViewController.h"
 
 @interface MyBindedCardVC () <UITableViewDelegate, UITableViewDataSource>

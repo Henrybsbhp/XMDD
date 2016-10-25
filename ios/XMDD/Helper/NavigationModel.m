@@ -322,7 +322,7 @@
             
             NSNumber *orderid = value.length > 0 ? @([value integerValue]) : nil;
             NSString *type = params[@"tp"];
-            NSString *urlStr = [OrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%@&tradetype=%@",gNetworkMgr.token ,orderid, type]];
+            NSString *urlStr = [kOrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%@&tradetype=%@",gNetworkMgr.token ,orderid, type]];
             
             UIViewController *vc = [self viewControllerByIdentify:@"DetailWebVC" withPrecidate:^BOOL(UIViewController *curvc) {
                 DetailWebVC *vc = (DetailWebVC *)curvc;

@@ -513,9 +513,6 @@
     //分期加油
     if ([paidop isKindOfClass:[GascardChargeByStagesOp class]]) {
         NSString *url = kGasOrderPaidUrl;
-#if DEBUG
-        url = kDevGasOrderPaidUrl;
-#endif
         NSString *status = paidop.rsp_code == 0 ? @"S" : @"F";
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self.originVC;

@@ -151,7 +151,7 @@
         [params safetySetObject:@(self.areaInfo.rsp_city.infoId) forKey:@"cityid"];
         [params safetySetObject:@(self.areaInfo.rsp_district.infoId) forKey:@"areaid"];
         [params safetySetObject:gNetworkMgr.token ?: @"" forKey:@"token"];
-        NSString * discoverUrl = [NavigationModel appendParams:params forUrl:DiscoverUrl];
+        NSString * discoverUrl = [NavigationModel appendParams:params forUrl:kDiscoverUrl];
         self.request = [NSURLRequest requestWithURL:[NSURL URLWithString:discoverUrl]];
         
         //reload方法在第一次读取失败的时候会reload失败,所以重新调用loadRequest
@@ -183,7 +183,7 @@
 {
     NSString *url = request.URL.absoluteString;
     //屏蔽非法页面
-    if (![url hasPrefix:DiscoverUrl] && ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"])) {
+    if (![url hasPrefix:kDiscoverUrl] && ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"])) {
         [self.navModel pushToViewControllerByUrl:url];
         return NO;
     }

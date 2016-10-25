@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HKTableViewController.h"
 
-@interface AboutViewController : HKViewController
+@interface AboutViewController : HKTableViewController
 
 @end
