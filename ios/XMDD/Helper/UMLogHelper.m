@@ -59,7 +59,6 @@
                              @"CarsListVC":@{@"pagetag":@"rp309"},//我的爱车
                              @"EditCarVC":@{@"pagetag":@"rp312"},//编辑我的爱车
                              @"MyBindedCardVC":@{@"pagetag":@"rp314"},//我的银行卡
-                             @"BindBankCardVC":@{@"pagetag":@"rp313"},//绑定银行卡
                              @"CardDetailVC":@{@"pagetag":@"rp315"},//银行卡详情
                              @"MyCollectionListVC":@{@"pagetag":@"rp316"},//我的收藏
                              @"MyOrderListVC":@{@"pagetag":@"rp318"},//我的订单列表

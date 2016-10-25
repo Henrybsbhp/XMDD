@@ -13,7 +13,6 @@
 #import "UnbindingBankCardOp.h"
 #import "MyBankCard.h"
 #import "JGActionSheet.h"
-#import "BindBankCardVC.h"
 #import "ADViewController.h"
 
 @interface MyBindedCardVC () <UITableViewDelegate, UITableViewDataSource>
@@ -248,9 +247,7 @@
     });
     
     cardInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        // 进入团详情页面
-        @strongify(self);
-        
+
         [MobClick event:@"wodeyinhangka" attributes:@{@"wodeyinhangka" : @"dianjiyinhangka"}];
     });
     

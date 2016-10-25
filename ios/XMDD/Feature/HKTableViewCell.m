@@ -16,7 +16,8 @@
 @implementation HKTableViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    
+    [super awakeFromNib];
     _customSeparatorInset = UIEdgeInsetsMake(0, 12, 0, 0);
 }
 

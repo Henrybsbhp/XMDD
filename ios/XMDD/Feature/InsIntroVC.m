@@ -12,6 +12,7 @@
 @implementation InsIntroVC
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.url = kInsuranceIntroUrl;
 }
 

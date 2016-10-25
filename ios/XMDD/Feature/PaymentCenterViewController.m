@@ -153,7 +153,7 @@
         if ([lastVc isKindOfClass:[DetailWebVC class]])
         {
             NSString * url = [NSString stringWithFormat:@"%@?token=%@&tradeno=%@&tradetype=%@&status=%@",
-                              PayCenterNotifyUrl,gNetworkMgr.token,self.tradeNo,self.tradeType,@"S"];
+                              kPayCenterNotifyUrl,gNetworkMgr.token,self.tradeNo,self.tradeType,@"S"];
             DetailWebVC * detailWebVc = (DetailWebVC *)lastVc;
             [detailWebVc requestUrl:url];
         }
@@ -336,7 +336,7 @@
     titleLb.text = dict[@"title"];
     
     PaymentChannelType paychannel = [dict[@"paymentType"] integerValue];
-    recommendLB.hidden = paychannel != PaymentChannelAlipay;
+    recommendLB.hidden = paychannel != PaymentChannelUPpay;
     [recommendLB makeCornerRadius:3.0f];
     
     [[RACObserve(self, paychannel) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {

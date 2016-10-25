@@ -153,7 +153,6 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     self.headerView.trottingContainerView.hidden = self.shop.note.length == 0;
     self.headerView.trottingView.text = [self.store stringWithAppendSpace:self.shop.note andWidth:ScreenWidth - 62];
     
-    @weakify(self);
     [[self.headerView.tapGesture rac_gestureSignal] subscribeNext:^(id x) {
 
         [MobClick event:@"shanghuxiangqing" attributes:@{@"shanghuxinxi":@"tupian"}];
@@ -446,8 +445,7 @@ typedef void (^PrepareCollectionCellBlock)(CKDict *item, NSIndexPath *indexPath,
     });
     
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        @strongify(self);
-        
+    
         [MobClick event:@"shanghuxiangqing" attributes:@{@"shanghuxinxi":@"xinxi"}];
     });
     return dict;

@@ -36,6 +36,7 @@
 @implementation InsuranceOrderVC
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     if (!self.insModel) {
         self.insModel = [[InsuranceVM alloc] init];
         self.insModel.originVC = self;
