@@ -9,6 +9,10 @@
 #import "CommissionPaymentVM.h"
 #import "UPApplePayHelper.h"
 #import "NSString+RectSize.h"
+#import "RequestForRescueCommissionOrderOp.h"
+#import "PaymentHelper.h"
+#import "UPApplePayHelper.h"
+#import "CommissionPaymentStatusVC.h"
 
 @interface CommissionPaymentVM () <UITableViewDelegate, UITableViewDataSource>
 
@@ -17,6 +21,8 @@
 
 /// 支付数据源
 @property (nonatomic, copy) NSArray *paymentArray;
+
+@property (nonatomic, strong) RequestForRescueCommissionOrderOp *requestForRescueCommissionOrderOp;
 
 @end
 
@@ -44,8 +50,46 @@
 
 - (void)initialSetup
 {
+    self.requestForRescueCommissionOrderOp = [[RequestForRescueCommissionOrderOp alloc] init];
+    self.requestForRescueCommissionOrderOp.req_payChannel = PaymentChannelUPpay;
+    
     [self setupPaymentArray];
-    self.dataSource = $($([self setupTitleCell], [self setupPaymentInfoCellWithArray:@[@"申请服务", @"拖车服务"] isHighlighted:NO], [self setupPaymentInfoCellWithArray:@[@"项目价格", @"￥300.00"] isHighlighted:YES],  [self setupPaymentInfoCellWithArray:@[@"我的车辆", @"浙AJC625"] isHighlighted:NO], [self setupPaymentInfoCellWithArray:@[@"预约时间", @"2016.07.21"] isHighlighted:NO], [self setupBlankCell]), $([self setupPaymentTitleCell], [self setupPaymentPlatformCell], [self setupPaymentPlatformCell], [self setupPaymentPlatformCell]));
+    
+    [self.confirmButton setTitle:[NSString stringWithFormat:@"您只需支付%.2f元，现在支付", self.commissionDetailOp.rsp_pay] forState:UIControlStateNormal];
+    
+    @weakify(self);
+    [[self.confirmButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self requestForCheckout];
+    }];
+    
+    // 设置支付 Cell 的显示
+    CKList *paymenCellList = $([self setupPaymentTitleCell]);
+    for (int x = 0; x < 4; x++) {
+        if (x == 1) {
+            if (![UPApplePayHelper isApplePayAvailable]) {
+                continue;
+            }
+        }
+        
+        if (x == 3) {
+            if (![gPhoneHelper exsitWechat]) {
+                continue;
+            }
+        }
+        
+        [paymenCellList addObject:[self setupPaymentPlatformCell] forKey:nil];
+    }
+    
+    self.dataSource = $($([self setupTitleCell],
+                          [self setupPaymentInfoCellWithArray:@[@"申请服务", @"拖车服务"] isHighlighted:NO],
+                          [self setupPaymentInfoCellWithArray:@[@"项目价格", @"￥300.00"] isHighlighted:YES],
+                          [self setupPaymentInfoCellWithArray:@[@"我的车辆", @"浙AJC625"] isHighlighted:NO],
+                          [self setupPaymentInfoCellWithArray:@[@"预约时间", @"2016.07.21"] isHighlighted:NO],
+                          [self setupBlankCell]),
+                        paymenCellList);
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark = Initial Setup
@@ -79,6 +123,71 @@
     }
     
     self.paymentArray = [NSArray arrayWithArray:array];
+}
+
+#pragma mark - Network Requests
+/// 支付请求
+- (void)requestForCheckout
+{
+    @weakify(self);
+    self.requestForRescueCommissionOrderOp.req_applyID = self.applyID;
+    self.requestForRescueCommissionOrderOp.req_payAmount = @(self.commissionDetailOp.rsp_pay);
+    self.requestForRescueCommissionOrderOp.req_serviceName = self.commissionDetailOp.rsp_serviceName;
+    self.requestForRescueCommissionOrderOp.req_licenseNumber = self.commissionDetailOp.rsp_licenseNumber;
+    [[[self.requestForRescueCommissionOrderOp rac_postRequest] initially:^{
+        [gToast showingWithText:@"订单生成中..."];
+    }] subscribeNext:^(RequestForRescueCommissionOrderOp *rop) {
+        @strongify(self);
+        [gToast dismiss];
+        [self callPaymentHelperWithPayOp:rop];
+        
+    } error:^(NSError *error) {
+        [gToast showError:error.domain];
+    }];
+}
+
+#pragma mark - 调用第三方支付
+- (BOOL)callPaymentHelperWithPayOp:(RequestForRescueCommissionOrderOp *)paidop {
+    
+    PaymentHelper *helper = [[PaymentHelper alloc] init];
+    
+    switch (paidop.req_payChannel) {
+        case PaymentChannelAlipay: {
+            
+            [helper resetForAlipayWithTradeNumber:paidop.rsp_tradeID  alipayInfo:paidop.rsp_payInfoModel.alipayInfo];
+        } break;
+        case PaymentChannelWechat: {
+            
+            [helper resetForWeChatWithTradeNumber:paidop.rsp_tradeID andPayInfoModel:paidop.rsp_payInfoModel.wechatInfo andTradeType:TradeTypeCarwash];
+        } break;
+        case PaymentChannelUPpay: {
+            
+            [helper resetForUPPayWithTradeNumber:paidop.rsp_tradeID andPayInfoModel:paidop.rsp_payInfoModel andTotalFee:self.commissionDetailOp.rsp_pay targetVC:self.targetVC];
+        } break;
+        case PaymentChannelApplePay:{
+            
+            [helper resetForUPApplePayWithTradeNumber:paidop.rsp_tradeID targetVC:self.targetVC];
+        } break;
+        default:
+            return NO;
+    }
+    
+    @weakify(self);
+    [[helper rac_startPay] subscribeNext:^(id x) {
+        @strongify(self);
+        // 支付成功
+        [self postCustomNotificationName:kNotifyCommissionRecordVC object:nil];
+        [self gotoPaymentSuccessVC];
+    }];
+    return YES;
+}
+
+-(void)gotoPaymentSuccessVC
+{
+    CommissionPaymentStatusVC *vc = [UIStoryboard vcWithId:@"CommissionPaymentStatusVC" inStoryboard:@"Commission"];
+    vc.vcType = 2;
+    vc.applyID = self.applyID;
+    [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - The settings of the UITableViewCell
@@ -155,6 +264,15 @@
     paymentPlatformCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 50;
     });
+    
+    paymentPlatformCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        NSDictionary *paymentDict = [self.paymentArray safetyObjectAtIndex:indexPath.row - 1];
+        PaymentChannelType payChannel = [paymentDict integerParamForName:@"payment"];
+        self.requestForRescueCommissionOrderOp.req_payChannel = payChannel;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+    });
+    
     paymentPlatformCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         @strongify(self);
         UIImageView *iconImgView = (UIImageView *)[cell.contentView viewWithTag:1001];
@@ -172,6 +290,7 @@
         iconImgView.image = [UIImage imageNamed:paymentDict[@"icon"]];
         titleLabel.text = paymentDict[@"title"];
         recommendedLabel.hidden = ![paymentDict boolParamForName:@"recommend"];
+        selMarkImgView.hidden = self.requestForRescueCommissionOrderOp.req_payChannel != paychannel;
         uppayIconImgView.hidden = ![paymentDict boolParamForName:@"uppayrecommend"];
         titleLabel.textColor = kDarkTextColor;
     });

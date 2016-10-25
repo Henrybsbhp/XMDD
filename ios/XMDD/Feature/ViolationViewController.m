@@ -286,6 +286,9 @@
     self.currentIndex = index;
     [self refreshPageController];
     [self.pageController selectAtIndex:index];
+    
+    NSString * mobClickValue = [NSString stringWithFormat:@"aiche_%ld",index];
+    [MobClick event:@"weizhangshouye" attributes:@{@"dingbu" : mobClickValue}];
 }
 
 
@@ -295,6 +298,9 @@
 {
     self.currentIndex = index;
     [self loadPageIndex:index animated:YES];
+    
+    NSString * mobClickValue = [NSString stringWithFormat:@"aiche_%ld",index];
+    [MobClick event:@"weizhangshouye" attributes:@{@"dingbu" : mobClickValue}];
 }
 
 - (BOOL)observeScrollViewOffset
@@ -312,7 +318,15 @@
 
 #pragma mark Action
 
-- (IBAction)actionJumpToMyVoilationMissionHistoryVC:(id)sender {
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"weizhangshouye" attributes:@{@"navi" : @"back"}];
+}
+
+- (IBAction)actionJumpToMyVoilationMissionHistoryVC:(id)sender
+{
+    [MobClick event:@"weizhangshouye" attributes:@{@"navi" : @"wodedaiban"}];
     [self jumpToMyVoilationMissionHistoryVC];
 }
 

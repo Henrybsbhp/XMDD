@@ -8,6 +8,7 @@
 
 #import "CommissionPaymentSuccessVM.h"
 #import "NSString+RectSize.h"
+#import "CommissionRecordVC.h"
 
 @interface CommissionPaymentSuccessVM () <UITableViewDelegate, UITableViewDataSource>
 
@@ -40,7 +41,27 @@
 
 - (void)initialSetup
 {
-    self.dataSource = $($([self setupTopTipsCellWithText:@"支付成功，请耐心等待救援"], [self setupTitleCell], [self setupPaymentInfoCellWithArray:@[@"申请服务", @"拖车服务"] isHighlighted:NO], [self setupPaymentInfoCellWithArray:@[@"项目价格", @"￥300.00"] isHighlighted:YES],  [self setupPaymentInfoCellWithArray:@[@"我的车辆", @"浙AJC625"] isHighlighted:NO], [self setupPaymentInfoCellWithArray:@[@"预约时间", @"2016.07.21"] isHighlighted:NO], [self setupBlankCell], [self setupTipsCell], [self setupSendCommentCell]));
+    [self setupNavigationBar];
+    
+    NSString *appointDate = self.commissionDetailOp.rsp_appointTime == 0 ? @"" : [[NSDate dateWithUTS:@(self.commissionDetailOp.rsp_appointTime)] dateFormatForYYMMdd2];
+    self.dataSource = $($([self setupTopTipsCellWithText:@"支付成功，请耐心等待救援"],
+                          [self setupTitleCell],
+                          [self setupPaymentInfoCellWithArray:@[@"申请服务", self.commissionDetailOp.rsp_serviceName] isHighlighted:NO],
+                          [self setupPaymentInfoCellWithArray:@[@"项目价格", [NSString stringWithFormat:@"￥%.2f", self.commissionDetailOp.rsp_pay]] isHighlighted:YES],
+                          [self setupPaymentInfoCellWithArray:@[@"我的车辆", self.commissionDetailOp.rsp_licenseNumber] isHighlighted:NO],
+                          [self setupPaymentInfoCellWithArray:@[@"预约时间", appointDate] isHighlighted:NO],
+                          [self setupBlankCell],
+                          [self setupTipsCell],
+                          [self setupSendCommentCell]));
+    
+    [self.tableView reloadData];
+}
+
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.targetVC.navigationItem.leftBarButtonItem = back;
+    [self.targetVC.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - Actions
@@ -52,6 +73,15 @@
     }];
     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"客服电话：4007-111-111" ActionItems:@[cancel, confirm]];
     [alert show];
+}
+
+- (void)actionBack
+{
+    for (UIViewController *vc in self.targetVC.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[CommissionRecordVC class]]) {
+            [self.targetVC.router.navigationController popToViewController:vc animated:YES];
+        }
+    }
 }
 
 #pragma mark - The settings of the UITableViewCell

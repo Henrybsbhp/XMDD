@@ -53,6 +53,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.model = [MyCarListVModel new];
 }
 
@@ -258,7 +259,7 @@
     } copy];
     [cell1_3 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp312_4"];
+        [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"xuanzepinpai"}];
         [self.view endEditing:YES];
         if (!(self.curCar.editMask & HKCarEditableEditCarModel)) {
             return ;
@@ -290,7 +291,7 @@
     } copy];
     [cell1_4 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp312_5"];
+        [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"xuanzechexing"}];
         [self.view endEditing:YES];
         if (!(self.curCar.editMask & HKCarEditableEditCarModel)) {
             return ;
@@ -336,7 +337,7 @@
     }];
     [cell1_2 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp312_3"];
+        [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"bianjigoucheshijian"}];
         [self.view endEditing:YES];
         self.datePicker.maximumDate = [NSDate date];
         NSDate *selectedDate = self.curCar.purchasedate ? self.curCar.purchasedate : [NSDate date];
@@ -354,8 +355,7 @@
     cell2_1.object = RACObserve(self.curCar, cityName);
     [cell2_1 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         
-        [MobClick event:@"rp312_18"];
-        
+        [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"bianjixingshichengshi"}];
         @strongify(self);
         [self.view endEditing:YES];
         
@@ -389,7 +389,7 @@
             /**
              *  车架号码点击事件
              */
-            [MobClick event:@"rp312_19"];
+            [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"bianjichejiahaoma"}];
         }];
         
         [field setTextDidChangedBlock:^(CKLimitTextField *rFiled) {
@@ -430,7 +430,7 @@
             /**
              *  发动机号
              */
-            [MobClick event:@"rp312_20"];
+            [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"bianjifadongjihao"}];
         }];
         
         [field setTextDidChangedBlock:^(CKLimitTextField *rFiled) {
@@ -458,7 +458,7 @@
         field.clearsOnBeginEditing = YES;
         field.textLimit = 12;
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            [MobClick event:@"rp312_6"];
+            [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"bianjizhengchejiage"}];
         }];
         
         [field setTextDidChangedBlock:^(CKLimitTextField *rFiled) {
@@ -485,7 +485,7 @@
         field.textLimit = 12;
         //        field.regexpPattern = @"[1-9]\\d*|^0(?=$|0+$)";
         [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            [MobClick event:@"rp312_7"];
+            [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"bianjixingshilicheng"}];
         }];
         
         [field setTextDidChangedBlock:^(CKLimitTextField *rFiled) {
@@ -509,7 +509,7 @@
     }];
     [cell2_6 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp312_8"];
+        [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"bianjinianjiandaoqiri"}];
         [self.view endEditing:YES];
         self.datePicker.maximumDate = nil;
         NSDate *date = self.curCar.insexipiredate ? self.curCar.insexipiredate : [NSDate date];
@@ -527,7 +527,7 @@
     cell2_7.object = RACObserve(self.curCar, inscomp);
     [cell2_7 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp312_9"];
+        [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"xuanzebaoxiangongsi"}];
         [self.view endEditing:YES];
         PickInsCompaniesVC *vc = [UIStoryboard vcWithId:@"PickInsCompaniesVC" inStoryboard:@"Car"];
         [vc setPickedBlock:^(NSString *name) {
@@ -541,8 +541,8 @@
     [cell2_8 setSelectedBlock:^(UITableView *tableView, NSIndexPath *indexPath) {
         @strongify(self);
         
+        [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"zhankai"}];
         [self.view endEditing:YES];
-        
         UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
         UIImageView * flexImageView = (UIImageView *)[cell searchViewWithTag:101];
         self.isMoreInfoExpand = !self.isMoreInfoExpand;
@@ -588,7 +588,7 @@
 #pragma mark - Action
 - (void)actionSave:(id)sender
 {
-    [MobClick event:@"rp312_12"];
+    [MobClick event:@"tianjiaaiche" attributes:@{@"navi" : @"baocun"}];
     for (NSInteger section = 0; section < self.datasource.count; section++) {
         NSArray *group = self.datasource[section];
         for (NSInteger row = 0; row < group.count; row++) {
@@ -674,13 +674,13 @@
         [self.view endEditing:YES];
         
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"算了" color:kGrayTextColor clickBlock:^(id alertVC) {
-            [MobClick event:@"rp312_14"];
+            [MobClick event:@"tianjiaaiche" attributes:@{@"bianjidianquxiao" : @"suanle"}];
             CKAfter(0.1, ^{
                 [self.navigationController popViewControllerAnimated:YES];
             });
         }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"保存" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-            [MobClick event:@"rp312_15"];
+            [MobClick event:@"tianjiaaiche" attributes:@{@"bianjidianquxiao" : @"baocun"}];
             [self actionSave:nil];
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您未保存信息，是否现在保存？" ActionItems:@[cancel,confirm]];
@@ -690,13 +690,13 @@
         [self.view endEditing:YES];
         
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃添加" color:kGrayTextColor clickBlock:^(id alertVC) {
-            [MobClick event:@"rp312_16"];
+            [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiadianquxiao" : @"fangqi"}];
             CKAfter(0.1, ^{
                 [self.navigationController popViewControllerAnimated:YES];
             });
         }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续添加" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-            [MobClick event:@"rp312_17"];
+            [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiadianquxiao" : @"jixu"}];
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb" Message:@"您未保存行驶证，需填写相关必填项并点击“保存”后方能添加爱车。" ActionItems:@[cancel,confirm]];
         [alert show];
@@ -705,8 +705,7 @@
 
 - (IBAction)actionDelete:(id)sender
 {
-    [MobClick event:@"rp312_11"];
-    
+    [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"shanchuaiche"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:kOrangeColor clickBlock:^(id alertVC) {
         
@@ -735,7 +734,7 @@
 
 - (IBAction)actionUpload:(id)sender
 {
-    [MobClick event:@"rp312_1"];
+    [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"yijianshangchuan"}];
     [self.model showImagePickerWithTargetVC:self];
     @weakify(self);
     [self.model setImagePickerBlock:^(RACSignal *signal) {
@@ -753,6 +752,12 @@
             [gToast showError:error.domain];
         }];
     }];
+}
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"tianjiaaiche" attributes:@{@"navi" : @"back"}];
 }
 
 #pragma mark - UITableViewDelegate
@@ -871,6 +876,7 @@
      subscribeNext:^(id x) {
          
          @strongify(self);
+         [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"chepaidiyu"}];
          CollectionChooseVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"CollectionChooseVC"];
          HKNavigationController *nav = [[HKNavigationController alloc] initWithRootViewController:vc];
          vc.datasource = gAppMgr.getProvinceArray;
@@ -889,6 +895,7 @@
     field.text = self.curCar.licenceSuffix;
     
     [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
+        [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"bianjichepai"}];
         field.placeholder = nil;
     }];
     
@@ -901,12 +908,6 @@
         NSString *newtext = [field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
         field.text = [newtext uppercaseString];
         self.curCar.licenceSuffix = field.text;
-        
-//        if (field.text.length == 6 && !self.curCar.detailModel)
-//        {
-////            [self showPickAutomobileBrandVC];
-//            [field endEditing:YES];
-//        }
         
     }];
 }
@@ -975,7 +976,7 @@
     @weakify(self);
     [[switchV rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(UISwitch *sw) {
         @strongify(self);
-        [MobClick event:@"rp312_10"];
+        [MobClick event:@"tianjiaaiche" attributes:@{@"tianjiaaiche" : @"morencheliang"}];
         BOOL on = sw.on;
         self.curCar.isDefault = on;
     }];

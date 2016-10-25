@@ -256,7 +256,7 @@
     
     data[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"rp301_11"];
+        [MobClick event:@"wodeshouye" attributes:@{@"wodeshouye":@"lingyuanxiche"}];
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.url = kNewbieGuideUrl;
         [self.navigationController pushViewController:vc animated:YES];
@@ -269,23 +269,19 @@
 #pragma mark - Action
 - (void)actionPushToMyInfo:(UITapGestureRecognizer *)tap
 {
+    [MobClick event:@"wodeshouye" attributes:@{@"wodeshouye":@"xiaoxi"}];
     if([LoginViewModel loginIfNeededForTargetViewController:self])
     {
-        [MobClick event:@"rp301_9"];
         MyInfoViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"MyInfoViewController"];
 //        ReactNativeViewController *vc = [[ReactNativeViewController alloc] initWithModuleName:@"MyInfoView"
 //                                                                                   properties:@{@"title":@"个人信息"}];
         [self.navigationController pushViewController:vc animated:YES];
     }
-    else
-    {
-        [MobClick event:@"rp301_1"];
-    }
 }
 
 -(void)actionPushToTickets
 {
-    [MobClick event:@"rp301_2"];
+    [MobClick event:@"wodeshouye" attributes:@{@"wodeshouye":@"wodeshouye"}];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
         MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
@@ -296,7 +292,7 @@
 
 - (void)actionPushToMessages
 {
-    [MobClick event:@"rp301_3"];
+    [MobClick event:@"wodeshouye" attributes:@{@"wodeshouye":@"xiaoxi"}];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         MessageListVC *vc = [UIStoryboard vcWithId:@"MessageListVC" inStoryboard:@"Message"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -305,7 +301,7 @@
 
 - (void)actionPushToCouponPkgViewController
 {
-    [MobClick event:@"rp301_6"];
+    [MobClick event:@"wodeshouye" attributes:@{@"wodeshouye":@"libao"}];
     
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         
@@ -364,7 +360,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     CKDict *data = self.datasource[indexPath.section][indexPath.row];
     if (data[@"evt"]) {
-        [MobClick event:data[@"evt"]];
+        [MobClick event:@"wodeshouye" attributes:@{@"wodeshouye":data[@"evt"]}];
     }
     CKCellSelectedBlock block = data[kCKCellSelected];
     if (block) {
@@ -454,27 +450,27 @@
     
     CKDict *top = [self topData];
     
-    CKDict *car = [self normalDataWithInfo:@{kCKItemKey:@"car", @"img":@"Mine_myCar_imageView", @"title":@"爱车", @"evt":@"rp301_4",@"isContainLicense":@(YES)}];
+    CKDict *car = [self normalDataWithInfo:@{kCKItemKey:@"car", @"img":@"Mine_myCar_imageView", @"title":@"爱车", @"evt":@"aiche",@"isContainLicense":@(YES)}];
     car[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         CarsListVC *vc = [UIStoryboard vcWithId:@"CarsListVC" inStoryboard:@"Car"];
         vc.model.allowAutoChangeSelectedCar = YES;
         [self.navigationController pushViewController:vc animated:YES];
     });
     
-    CKDict *bank = [self normalDataWithInfo:@{kCKItemKey:@"bank", @"img":@"Mine_bankCard_imageView", @"title":@"银行卡", @"evt":@"rp301_10"}];
+    CKDict *bank = [self normalDataWithInfo:@{kCKItemKey:@"bank", @"img":@"Mine_bankCard_imageView", @"title":@"银行卡", @"evt":@"yinhangka"}];
     bank[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         MyBindedCardVC *vc = [UIStoryboard vcWithId:@"MyBindedCardVC" inStoryboard:@"Bank"];
         [self.navigationController pushViewController:vc animated:YES];
     });
     
-    CKDict *order = [self normalDataWithInfo:@{kCKItemKey:@"order", @"img":@"Mine_order_imageView", @"title":@"订单", @"evt":@"rp301_5"}];
+    CKDict *order = [self normalDataWithInfo:@{kCKItemKey:@"order", @"img":@"Mine_order_imageView", @"title":@"订单", @"evt":@"dingdan"}];
     order[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         MyOrderListVC *vc = [UIStoryboard vcWithId:@"MyOrderListVC" inStoryboard:@"Mine"];
         [self.navigationController pushViewController:vc animated:YES];
     });
     
     
-    CKDict *collect = [self normalDataWithInfo:@{kCKItemKey:@"collect", @"img":@"Mine_collectStar_imageView", @"title":@"收藏", @"evt":@"rp301_7"}];
+    CKDict *collect = [self normalDataWithInfo:@{kCKItemKey:@"collect", @"img":@"Mine_collectStar_imageView", @"title":@"收藏", @"evt":@"shoucang"}];
     collect[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         MyCollectionListVC *vc = [[MyCollectionListVC alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
@@ -482,7 +478,7 @@
     
     CKDict *active = [self activeData];
     
-    CKDict *setting = [self normalDataWithInfo:@{kCKItemKey:@"setting", @"img":@"Mine_about_imageView", @"title":@"关于", @"evt":@"rp301_8", @"nologin":@YES}];
+    CKDict *setting = [self normalDataWithInfo:@{kCKItemKey:@"setting", @"img":@"Mine_about_imageView", @"title":@"关于", @"evt":@"guanyu", @"nologin":@YES}];
     setting[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         AboutViewController * vc = [mineStoryboard instantiateViewControllerWithIdentifier:@"AboutViewController"];

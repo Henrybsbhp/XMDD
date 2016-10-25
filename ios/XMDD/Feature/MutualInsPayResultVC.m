@@ -361,7 +361,7 @@
 #pragma mark Action
 - (IBAction)commitAction:(id)sender {
     
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0017"}];
+    [MobClick event:@"hzwanshandizhi" attributes:@{@"hzwanshandizhi":@"tijiao"}];
     
     if (![self.contactname trimmeSpacesInFontAndEnd].length)
     {
@@ -423,11 +423,11 @@
         av.imageName = @"mins_ok";
         av.message = @"联系人信息已提交，请等待工作人员为您服务";
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确认" color:kDefTintColor clickBlock:^(id alertVC) {
-            [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0018"}];
+            [MobClick event:@"hzwanshandizhi" attributes:@{@"tijiao":@"queren"}];
             [self actionPop];
         }];
         HKAlertActionItem *share = [HKAlertActionItem itemWithTitle:@"晒单炫耀" color:kOrangeColor clickBlock:^(id alertVC) {
-                [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0019"}];
+                [MobClick event:@"hzwanshandizhi" attributes:@{@"tijiao":@"fenxiang"}];
             [self actionShare];
         }];
         av.actionItems = @[cancel,share];
@@ -442,7 +442,7 @@
 
 - (void)actionBack
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0016"}];
+    [MobClick event:@"hzwanshandizhi" attributes:@{@"navi":@"back"}];
     
     [self.view endEditing:YES];
     
@@ -451,7 +451,7 @@
     alert.imageName = @"mins_bulb";
     alert.message = @"您未提交联系人信息，为保证协议的正常送达，请先完善信息。是否继续完善信息？";
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"执意退出" color:kGrayTextColor clickBlock:^(id alertVC) {
-        
+        [MobClick event:@"hzwanshandizhi" attributes:@{@"fanhui":@"zhiyituichu"}];
         [self actionPop];
     }];
     HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"继续完善" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
@@ -473,13 +473,16 @@
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneShowXmddIns;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        vc.mobBaseValue = @"hzwanshandizhi";
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
         [sheet presentAnimated:YES completionHandler:nil];
+        [MobClick event:@"fenxiangyemian" attributes:@{@"chuxian":@"hzwanshandizhi"}];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
+            [MobClick event:@"fenxiangyemian" attributes:@{@"quxiao":@"hzwanshandizhi"}];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{

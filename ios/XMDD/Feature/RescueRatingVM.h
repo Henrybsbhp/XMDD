@@ -13,6 +13,8 @@
 
 @property (nonatomic, assign) NSInteger vcType;
 
+@property (nonatomic, assign) NSInteger commentStatus;
+
 @property (nonatomic, strong) GetRescueOrCommissionDetailOp *rescueDetialOp;
 
 /// 记录 ID，请求数据的输入参数

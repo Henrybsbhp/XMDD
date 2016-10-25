@@ -85,7 +85,13 @@
     
     [[_wechatBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110_3"];
+        if (self.mobBaseValue.length){
+            [MobClick event:@"fenxiangyemian" attributes:@{@"weixinhaoyou":self.mobBaseValue}];
+        }
+        else
+        {
+            DebugLog(@"分享页面的mobBaseValue为空，请补齐");
+        }
         
         if ([self catchLocalShareScene]) {
             [self shareWechat];
@@ -97,7 +103,13 @@
     
     [[_timelineBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110_4"];
+        if (self.mobBaseValue.length){
+            [MobClick event:@"fenxiangyemian" attributes:@{@"pengyouquan":self.mobBaseValue}];
+        }
+        else
+        {
+            DebugLog(@"分享页面的mobBaseValue为空，请补齐");
+        }
         
         if ([self catchLocalShareScene]) {
             [self shareTimeline];
@@ -109,7 +121,13 @@
     
     [[_weiboBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110_5"];
+        if (self.mobBaseValue.length){
+            [MobClick event:@"fenxiangyemian" attributes:@{@"weibo":self.mobBaseValue}];
+        }
+        else
+        {
+            DebugLog(@"分享页面的mobBaseValue为空，请补齐");
+        }
         
         if ([self catchLocalShareScene]) {
             [self shareWeibo];
@@ -121,7 +139,13 @@
     
     [[_qqBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110_6"];
+        if (self.mobBaseValue.length){
+            [MobClick event:@"fenxiangyemian" attributes:@{@"qq":self.mobBaseValue}];
+        }
+        else
+        {
+            DebugLog(@"分享页面的mobBaseValue为空，请补齐");
+        }
         
         if ([self catchLocalShareScene]) {
             [self shareQQ];

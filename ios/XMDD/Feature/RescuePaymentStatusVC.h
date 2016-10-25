@@ -19,6 +19,9 @@ typedef enum : NSInteger
 
 @interface RescuePaymentStatusVC : UIViewController
 
+/// 是否已评论，1: 已评论， 2: 未评论
+@property (nonatomic, assign) NSInteger commentStatus;
+
 /// VC 的类型，1: 救援支付， 2: 救援调度， 3: 救援中， 4: 救援完成评价
 @property (nonatomic, assign) NSInteger vcType;
 

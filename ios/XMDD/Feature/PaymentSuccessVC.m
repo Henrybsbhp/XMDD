@@ -31,7 +31,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *recommendBtn;
 @property (weak, nonatomic) IBOutlet JTRatingView *ratingView;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
-@property (nonatomic, assign) BOOL isTextViewEdit;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UILabel *commentLb;
 @property (weak, nonatomic) IBOutlet UIImageView *shopImageView;
@@ -59,9 +58,16 @@
 @property (nonatomic, strong) GuideStore *guideStore;
 
 @property (nonatomic,strong)NSArray * currentArray;
+
+@property (nonatomic, copy)NSString * mobClickEvent;
 @end
 
 @implementation PaymentSuccessVC
+
+- (void)didReceiveMemoryWarning {
+    
+    [super didReceiveMemoryWarning];
+}
 
 - (void)dealloc
 {
@@ -74,7 +80,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
+    [self setupUmengEvent];
     [self setupStaticInfo];
     [self setupGuideStore];
 
@@ -103,128 +110,46 @@
     [self requestCommentlist];
 }
 
-- (void)didReceiveMemoryWarning {
-    
-    [super didReceiveMemoryWarning];
-}
 
 
-- (void)actionBack:(id)sender
+- (void)viewWillAppear:(BOOL)animated
 {
-    if (self.router.userInfo[kOriginRoute]) {
-        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
-        [self.router.navigationController popToViewController:vc animated:YES];
-    }
-    else {
-        [super actionBack:sender];
-    }
-}
-- (IBAction)shareAction:(id)sender {
+    [super viewWillAppear:animated];
     
-    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
-    op.pagePosition = ShareSceneCarwash;
-    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
-        
-        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
-        vc.sceneType = ShareSceneCarwash;    //页面位置
-        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
-        
-        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
-        sheet.shouldCenterVertically = YES;
-        [sheet presentAnimated:YES completionHandler:nil];
-        
-        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110_7"];
-            [sheet dismissAnimated:YES completionHandler:nil];
-        }];
-        [vc setClickAction:^{
-            [sheet dismissAnimated:YES completionHandler:nil];
-        }];
-        
-    } error:^(NSError *error) {
-        [gToast showError:@"分享信息拉取失败，请重试"];
-    }];
-}
-- (IBAction)commentAction:(id)sender {
-    [MobClick event:@"rp110_12"];
-    
-    SubmitCommentOp * op = [SubmitCommentOp operation];
-    NSString * withoutSpace= [self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSArray * selected = [self.currentRateTemplate arrayByFilteringOperator:^BOOL(NSString * obj) {
-        
-        return obj.customTag;
-    }];
-    NSMutableArray * array = [NSMutableArray array];
-    for (NSDictionary * dict in selected)
+    if (self.mobClickEvent.length)
     {
-        NSString * sid = [NSString stringWithFormat:@"%@",dict[@"id"]];
-        [array addObject:sid];
+        [MobClick beginLogPageView:self.mobClickEvent];
     }
-    NSString * ids = [array componentsJoinedByString:@","];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
     
-    op.req_orderid = self.order.orderid;
-    op.req_rating = round(self.ratingView.ratingValue);
-    op.req_comment = withoutSpace;
-    op.req_ids = ids;
-    [[[op rac_postRequest] initially:^{
-        
-        [gToast showingWithText:@"提交中…"];
-    }] subscribeNext:^(SubmitCommentOp *rspOp) {
-        
-        [gToast showSuccess:@"评价成功!"];
-        [[ShopDetailStore fetchExistsStoreByShopID:self.order.shop.shopID] fetchAllCommentGroups];
-        self.subLabel.text = @"评价成功!";
-        self.currentRateTemplate = selected;
-        [self setupUI:Commented];
-        self.order.ratetime = [NSDate date];
-        self.order.comment = rspOp.req_comment;
-        self.order.rating = rspOp.req_rating;
-        self.order.ratetime = [NSDate date];
-        self.collectionView.userInteractionEnabled = NO;
-        self.ratingView.userInteractionEnabled = NO;
-
-        if (self.commentSuccess)
-        {
-            [self commentSuccess];
-        }
-    } error:^(NSError *error) {
-        [gToast showError:error.domain];
-        
-        [self setupUI:CommentError];
-        self.collectionView.userInteractionEnabled = YES;
-        self.ratingView.userInteractionEnabled = YES;
-    }];
-}
-
-
-- (void)setupRateView
-{
-    @weakify(self)
-    [[self.ratingView rac_subject] subscribeNext:^(NSNumber * number) {
-        
-        @strongify(self)
-        NSInteger i = [number integerValue] - 1;
-        self.currentRateTemplate = [self.currentArray safetyObjectAtIndex:i];
-        [self changeCollectionHeight];
-        [self.collectionView reloadData];
-        
-        [self setupUI:Commenting];
-    }];
-}
-
-- (void)setupTextView
-{
-    self.textView.delegate = self;
-    self.isTextViewEdit = NO; //输入框获取焦点的代理方法会执行两次
-}
-
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
-    if (!self.isTextViewEdit) {
-        [MobClick event:@"rp110_11"];
-        self.isTextViewEdit = !self.isTextViewEdit;
+    if (self.mobClickEvent.length)
+    {
+        [MobClick endLogPageView:self.mobClickEvent];
     }
 }
+
+
+#pragma mark - Setup
+- (void)setupUmengEvent
+{
+    if (self.order.serviceType == ShopServiceCarMaintenance)
+    {
+        self.mobClickEvent = @"baoyangzhichenggong";
+    }
+    else if (self.order.serviceType == ShopServiceCarBeauty)
+    {
+        self.mobClickEvent = @"meirongzhichenggong";
+    }
+    else
+    {
+        self.mobClickEvent = @"xichezhifuchenggong";
+    }
+}
+
 
 - (void)setupUI:(CommentStatus)status
 {
@@ -234,7 +159,7 @@
     height = MAX(height, gAppMgr.deviceInfo.screenSize.height);
     CGSize scrollViewSize = CGSizeMake(gAppMgr.deviceInfo.screenSize.width, height);
     self.scrollView.contentSize = scrollViewSize;
-
+    
     switch (status) {
         case BeforeComment:
         {
@@ -312,11 +237,127 @@
     @weakify(self)
     [[self.gasCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"rp110_13"];
         @strongify(self)
         [self jumpToGas];
     }];
 }
+
+- (void)setupTextView
+{
+    self.textView.delegate = self;
+}
+
+- (void)setupRateView
+{
+    @weakify(self)
+    [[self.ratingView rac_subject] subscribeNext:^(NSNumber * number) {
+        
+        @strongify(self)
+        NSInteger i = [number integerValue] - 1;
+        self.currentRateTemplate = [self.currentArray safetyObjectAtIndex:i];
+        [self changeCollectionHeight];
+        [self.collectionView reloadData];
+        
+        [self setupUI:Commenting];
+    }];
+}
+
+
+#pragma mark - Action
+- (void)actionBack:(id)sender
+{
+    [MobClick event:self.mobClickEvent attributes:@{@"navi":@"back"}];
+    if (self.router.userInfo[kOriginRoute]) {
+        UIViewController *vc = [self.router.userInfo[kOriginRoute] targetViewController];
+        [self.router.navigationController popToViewController:vc animated:YES];
+    }
+    else {
+        [super actionBack:sender];
+    }
+}
+
+- (IBAction)shareAction:(id)sender {
+    
+    [MobClick event:self.mobClickEvent attributes:@{@"xichezhifuchenggong":@"fenxiang"}];
+    GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
+    op.pagePosition = ShareSceneCarwash;
+    [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
+        
+        SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
+        vc.sceneType = ShareSceneCarwash;    //页面位置
+        vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        vc.mobBaseValue = self.mobClickEvent;
+        
+        MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
+        sheet.shouldCenterVertically = YES;
+        [sheet presentAnimated:YES completionHandler:nil];
+        
+        [MobClick event:@"fenxiangyemian" attributes:@{@"chuxian":self.mobClickEvent}];
+        
+        [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+            
+            [MobClick event:@"fenxiangyemian" attributes:@{@"quxiao":self.mobClickEvent}];
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        [vc setClickAction:^{
+            [sheet dismissAnimated:YES completionHandler:nil];
+        }];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"分享信息拉取失败，请重试"];
+    }];
+}
+- (IBAction)commentAction:(id)sender {
+    [MobClick event:self.mobClickEvent attributes:@{@"xichezhifuchenggong":@"pinglun"}];
+    
+    SubmitCommentOp * op = [SubmitCommentOp operation];
+    NSString * withoutSpace= [self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSArray * selected = [self.currentRateTemplate arrayByFilteringOperator:^BOOL(NSString * obj) {
+        
+        return obj.customTag;
+    }];
+    NSMutableArray * array = [NSMutableArray array];
+    for (NSDictionary * dict in selected)
+    {
+        NSString * sid = [NSString stringWithFormat:@"%@",dict[@"id"]];
+        [array addObject:sid];
+    }
+    NSString * ids = [array componentsJoinedByString:@","];
+    
+    op.req_orderid = self.order.orderid;
+    op.req_rating = round(self.ratingView.ratingValue);
+    op.req_comment = withoutSpace;
+    op.req_ids = ids;
+    [[[op rac_postRequest] initially:^{
+        
+        [gToast showingWithText:@"提交中…"];
+    }] subscribeNext:^(SubmitCommentOp *rspOp) {
+        
+        [gToast showSuccess:@"评价成功!"];
+        [[ShopDetailStore fetchExistsStoreByShopID:self.order.shop.shopID] fetchAllCommentGroups];
+        self.subLabel.text = @"评价成功!";
+        self.currentRateTemplate = selected;
+        [self setupUI:Commented];
+        self.order.ratetime = [NSDate date];
+        self.order.comment = rspOp.req_comment;
+        self.order.rating = rspOp.req_rating;
+        self.order.ratetime = [NSDate date];
+        self.collectionView.userInteractionEnabled = NO;
+        self.ratingView.userInteractionEnabled = NO;
+
+        if (self.commentSuccess)
+        {
+            [self commentSuccess];
+        }
+    } error:^(NSError *error) {
+        [gToast showError:error.domain];
+        
+        [self setupUI:CommentError];
+        self.collectionView.userInteractionEnabled = YES;
+        self.ratingView.userInteractionEnabled = YES;
+    }];
+}
+
 
 #pragma mark - collectionView
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -388,7 +429,6 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp110_10"];
     NSDictionary * d = [self.currentRateTemplate safetyObjectAtIndex:indexPath.section * 2 + indexPath.row];
 //    NSString * s = d[[d.allKeys safetyObjectAtIndex:0]];
     d.customTag =  !d.customTag;
@@ -484,6 +524,7 @@
 
 - (void)popToHomePage
 {
+    [MobClick event:self.mobClickEvent attributes:@{@"navi":@"shouye"}];
     [self.tabBarController setSelectedIndex:0];
     UIViewController * firstTabVC = [self.tabBarController.viewControllers safetyObjectAtIndex:0];
     [self.tabBarController.delegate tabBarController:self.tabBarController didSelectViewController:firstTabVC];

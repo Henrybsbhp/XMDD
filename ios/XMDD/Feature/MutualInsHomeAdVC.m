@@ -102,20 +102,20 @@
 #pragma mark - Action
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"huzhujieshao" attributes:@{@"huzhujieshao":@"huzhujiesha_fanhui"}];
+    [MobClick event:@"hzjieshao" attributes:@{@"navi":@"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)actionJumpToMutualInsVC:(id)sender
 {
-    [MobClick event:@"huzhujieshao" attributes:@{@"huzhujieshao":@"huzhujiesha_jiaru"}];
+    [MobClick event:@"hzjieshao" attributes:@{@"dibu":@"jiaru"}];
     MutualInsVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsVC"];
     [self.navigationController pushViewController:vc animated:YES];
     
 }
 - (IBAction)actionJumpToMutInsCalculateVC:(id)sender
 {
-    [MobClick event:@"huzhujieshao" attributes:@{@"huzhujieshao":@"huzhujiesha_shisuan"}];
+    [MobClick event:@"hzjieshao" attributes:@{@"dibu":@"feiyongshisuan"}];
     MutInsCalculatePageVC *vc = [UIStoryboard vcWithId:@"MutInsCalculatePageVC" inStoryboard:@"MutualInsJoin"];
     vc.sensorChannel = @"apphzxuanchuan";
     vc.router.userInfo = [[CKDict alloc] init];

@@ -53,6 +53,11 @@
         self.bottomButton.enabled = NO;
     }
     
+    if (self.vcType == RescueVCTypePay) {
+        // 网络请求载入的时候先隐藏底部按钮，等网络请求加载完再显示
+        self.bottomView.hidden = YES;
+    }
+    
     [self requestForRescueDetailData];
 }
 
@@ -95,12 +100,23 @@
             self.rescueRatingVM.vcType = self.vcType;
             self.rescueRatingVM.rescueDetialOp = rop;
             self.rescueRatingVM.applyID = self.applyID;
+            self.rescueRatingVM.commentStatus = self.commentStatus;
             [self.rescueRatingVM initialSetup];
+        }
+        
+        if (self.vcType == RescueVCTypePay) {
+            self.bottomView.hidden = NO;
+            self.rescuePaymentVM.vcType = self.vcType;
+            self.rescuePaymentVM.rescueDetialOp = rop;
+            self.rescuePaymentVM.applyID = self.applyID;
+            self.rescuePaymentVM.confirmButton = self.bottomButton;
+            [self.rescuePaymentVM initialSetup];
         }
         
     } error:^(NSError *error) {
         @strongify(self);
         [self.view stopActivityAnimation];
+        self.bottomView.hidden = YES;
         [self.view showImageEmptyViewWithImageName:@"def_withoutAssistHistory" text:@"暂无救援记录" tapBlock:^{
             @strongify(self);
             [self requestForRescueDetailData];

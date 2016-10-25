@@ -121,7 +121,7 @@
     @weakify(self);
     [[self.nextBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao7"}];
+        [MobClick event:@"hzwanshanziliao" attributes:@{@"hzwanshanziliao":@"tijiaoziliao"}];
         
         if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
         {
@@ -266,6 +266,7 @@
          subscribeNext:^(id x) {
              
              @strongify(self);
+             [MobClick event:@"hzwanshanziliao" attributes:@{@"chepai":@"diyu"}];
              CollectionChooseVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"CollectionChooseVC"];
              HKNavigationController *nav = [[HKNavigationController alloc] initWithRootViewController:vc];
              vc.datasource = gAppMgr.getProvinceArray;
@@ -408,11 +409,11 @@
         @strongify(self)
         if (indexPath.row == 1)
         {
-            [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao2"}];
+            [MobClick event:@"hzwanshanziliao" attributes:@{@"zhaopian":@"shenfenzheng"}];
         }
         else
         {
-            [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao3"}];
+            [MobClick event:@"hzwanshanziliao" attributes:@{@"zhaopian":@"xingshizheng"}];
         }
         self.currentRecord = indexPath.row == 1 ? self.idPictureRecord : self.drivingLicensePictureRecord;
         [self pickImageWithIndex:indexPath];
@@ -456,11 +457,11 @@
         
         if (indexPath.row == 1)
         {
-            [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao4"}];
+            [MobClick event:@"hzwanshanziliao" attributes:@{@"baoxiangongsi":@"benniandu"}];
         }
         else
         {
-            [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao5"}];
+            [MobClick event:@"hzwanshanziliao" attributes:@{@"baoxiangongsi":@"shangniandu"}];
         }
         @strongify(self)
         @weakify(self)
@@ -499,7 +500,7 @@
         [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              
-             [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao6"}];
+             [MobClick event:@"hzwanshanziliao" attributes:@{@"jiangqiangxian":@"jiangqiangxian"}];
              self.isNeedBuyStrongInsurance = !self.isNeedBuyStrongInsurance;
          }];
         
@@ -880,7 +881,9 @@
 
 - (void)actionBack:(id)sender {
     
-    [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao1"}];
+    
+    [MobClick event:@"hzwanshanziliao" attributes:@{@"navi":@"back"}];
+
     if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
     {
     [SensorAnalyticsInstance track:@"event_wanshanziliao_fanhui"];

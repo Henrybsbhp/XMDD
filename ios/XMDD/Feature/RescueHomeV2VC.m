@@ -163,12 +163,8 @@
 {
     NSMutableString *formattedAddress = [NSMutableString stringWithString:response.regeocode.formattedAddress];
     
-    if (response.regeocode.addressComponent.streetNumber.street > 0) {
-        [formattedAddress appendString:[NSString stringWithFormat:@"（%@", response.regeocode.addressComponent.streetNumber.street]];
-    }
-    
-    if (response.regeocode.addressComponent.streetNumber.number > 0) {
-        [formattedAddress appendString:[NSString stringWithFormat:@"%@）", response.regeocode.addressComponent.streetNumber.number]];
+    if (response.regeocode.addressComponent.streetNumber.street.length > 0  && response.regeocode.addressComponent.streetNumber.number.length > 0) {
+        [formattedAddress appendString:[NSString stringWithFormat:@"（%@%@）", response.regeocode.addressComponent.streetNumber.street, response.regeocode.addressComponent.streetNumber.number]];
     }
     
     return [NSString stringWithString:formattedAddress];

@@ -9,12 +9,19 @@
 #import "CommissionRecordVC.h"
 #import "GetRescueHistoryOp.h"
 #import "HKRescueHistory.h"
+#import "CommissionPaymentStatusVC.h"
+#import "RescueCancelHostcarOp.h"
+#import "GetRescueOrCommissionDetailOp.h"
+#import "RescueConfirmFinishOp.h"
 
 @interface CommissionRecordVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 @property (nonatomic, assign) NSUInteger applyTime;
 @property (nonatomic, assign) BOOL isLoading;
 @property (nonatomic, assign) BOOL isRemain;
+
+@property (nonatomic, strong) NSIndexPath *req_indexPath;
+@property (nonatomic, strong) NSNumber *req_applyID;
 
 @end
 
@@ -34,19 +41,81 @@
     
     [self requestForRescueData];
     
-    @weakify(self)
+    @weakify(self);
     [[self.tableView.refreshView rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
-        @strongify(self)
+        @strongify(self);
         self.isRemain = YES;
         if (!self.isLoading) {
             [self requestForRescueData];
         }
+    }];
+    
+    // 监听页面需不需要更新
+    [self listenNotificationByName:kNotifyCommissionRecordVC withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        @strongify(self);
+        [self requestForSpecificDataWithApplyID:self.req_applyID atIndexPath:self.req_indexPath];
     }];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Actions
+/// 进入已支付 / 待支付页面
+- (void)actionGoToPaidAlreadyVCWithHistoryRecord:(HKRescueHistory *)historyRecord
+{
+    CommissionPaymentStatusVC *vc = [UIStoryboard vcWithId:@"CommissionPaymentStatusVC" inStoryboard:@"Commission"];
+    vc.vcType = historyRecord.rescueStatus;
+    vc.applyID = historyRecord.applyId;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+/// 进入评价 / 已评价页面
+- (void)actionGoToRatingVCWithHistoryRecord:(HKRescueHistory *)historyRecord
+{
+    CommissionPaymentStatusVC *vc = [UIStoryboard vcWithId:@"CommissionPaymentStatusVC" inStoryboard:@"Commission"];
+    vc.vcType = historyRecord.rescueStatus;
+    vc.applyID = historyRecord.applyId;
+    vc.commentStatus = historyRecord.commentStatus;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+/// 取消协办
+- (void)actionCancelCommissionWithHistoryRecord:(HKRescueHistory *)historyRecord
+{
+    RescueCancelHostcarOp *op = [RescueCancelHostcarOp operation];
+    op.applyId = historyRecord.applyId;
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        [gToast showingWithText:@"正在取消中..."];
+    }] subscribeNext:^(RescueCancelHostcarOp *rop) {
+        @strongify(self);
+        [gToast showSuccess:@"取消成功"];
+        [self requestForSpecificDataWithApplyID:self.req_applyID atIndexPath:self.req_indexPath];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"取消失败，请重试"];
+    }];
+}
+
+/// 确认完成
+- (void)actionConfirmFinishWithHistoryRecord:(HKRescueHistory *)historyRecord
+{
+    RescueConfirmFinishOp *op = [RescueConfirmFinishOp operation];
+    op.req_applyID = historyRecord.applyId;
+    [[[op rac_postRequest] initially:^{
+        [gToast showingWithText:@"正在确认中..."];
+        
+    }] subscribeNext:^(RescueConfirmFinishOp *rop) {
+        [gToast showSuccess:@"确认完成"];
+        [self requestForSpecificDataWithApplyID:self.req_applyID atIndexPath:self.req_indexPath];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"确认失败，请重试"];
+        
+    }];
 }
 
 #pragma mark - Obtain data
@@ -85,7 +154,7 @@
             [self.tableView reloadData];
         } else {
             self.tableView.hidden = YES;
-            [self.view showImageEmptyViewWithImageName:@"def_withoutAssistHistory" text:@"暂无救援记录" tapBlock:^{
+            [self.view showImageEmptyViewWithImageName:@"def_withoutAssistHistory" text:@"暂无代办记录" tapBlock:^{
                 @strongify(self);
                 [self requestForRescueData];
             }];
@@ -166,6 +235,42 @@
     }];
 }
 
+// 请求单行数据
+- (void)requestForSpecificDataWithApplyID:(NSNumber *)applyID atIndexPath:(NSIndexPath *)indexPath
+{
+    GetRescueOrCommissionDetailOp *op = [GetRescueOrCommissionDetailOp operation];
+    op.rsq_applyID = applyID;
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        [gToast showingWithText:@"更新数据中..."];
+    }] subscribeNext:^(GetRescueOrCommissionDetailOp *rop) {
+        @strongify(self);
+        [gToast dismiss];
+        HKRescueHistory *record = [[HKRescueHistory alloc] init];
+        record.type = rop.rsp_type;
+        record.commentStatus = rop.rsp_commentStatus;
+        record.rescueStatus = rop.rsp_rescueStatus;
+        record.applyTime = @(rop.rsp_applyTime);
+        record.serviceName = rop.rsp_serviceName;
+        record.licenceNumber = rop.rsp_licenseNumber;
+        record.applyId = @(rop.rsp_applyID);
+        record.type = rop.rsp_type;
+        record.appointTime = @(rop.rsp_appointTime);
+        record.pay = @(rop.rsp_pay);
+        
+        CKDict *replaceData = [self setupRecordCellWithHistoryRecord:record];
+        CKList *replaceList = $(replaceData);
+        
+        [self.datasource replaceObject:replaceList withKey:nil atIndex:indexPath.section];
+        
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"数据请求失败"];
+    }];
+}
+
+/// 把获取到的数据整合为一个 CKList
 - (CKList *)dataSourceWithResponsedArray:(NSArray *)responsedArray
 {
     // 获取最后一次得到的时间戳
@@ -190,7 +295,22 @@
         return 170;
     });
     
+    recordCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        if (historyRecord.rescueStatus == HKCommissionPaidAlready || historyRecord.rescueStatus == HKCommissionWaitForPay) {
+            [self actionGoToPaidAlreadyVCWithHistoryRecord:historyRecord];
+        }
+        
+        if (historyRecord.rescueStatus == HKCommissionCompleted) {
+            [self actionGoToRatingVCWithHistoryRecord:historyRecord];
+        }
+        
+        self.req_indexPath = indexPath;
+        self.req_applyID = historyRecord.applyId;
+    });
+    
     recordCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
         UILabel *timeLabel = (UILabel *)[cell.contentView searchViewWithTag:1001];
         UILabel *statusLabel = (UILabel *)[cell.contentView searchViewWithTag:1002];
         UILabel *carNumLabel = (UILabel *)[cell.contentView searchViewWithTag:1004];
@@ -202,37 +322,64 @@
         UIColor *rightButtonColor;
         timeLabel.text = [[NSDate dateWithUTS:historyRecord.applyTime] dateFormatForYYYYMMddHHmm2];
         
-        executeButton.layer.borderColor = HEXCOLOR(@"#FF7428").CGColor;
-        executeButton.layer.borderWidth = 0.5;
-        executeButton.layer.cornerRadius = 3;
-        executeButton.layer.masksToBounds = YES;
-        [executeButton setTitle:@"确认完成" forState:UIControlStateNormal];
-        [executeButton setTitleColor:HEXCOLOR(@"#FF7428") forState:UIControlStateNormal];
-        
         cancelButton.layer.borderColor = HEXCOLOR(@"#888888").CGColor;
         cancelButton.layer.borderWidth = 0.5;
         cancelButton.layer.cornerRadius = 3;
         cancelButton.layer.masksToBounds = YES;
         [cancelButton setTitle:@"取消订单" forState:UIControlStateNormal];
         [cancelButton setTitleColor:HEXCOLOR(@"#888888") forState:UIControlStateNormal];
+        cancelButton.hidden = YES;
         
+        // 待支付
         if (historyRecord.rescueStatus == HKCommissionWaitForPay) {
-            // 待支付
             statusLabel.text = @"待支付";
             rightButtonColor = HEXCOLOR(@"#FF7428");
             executeButton.hidden = NO;
             [executeButton setTitle:@"待支付" forState:UIControlStateNormal];
             cancelButton.hidden = NO;
             
-        } else if (historyRecord.rescueStatus == HKCommissionPaidAlready) {
-            // 已支付
+            // 取消订单事件
+            @weakify(self);
+            [[[cancelButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                @strongify(self);
+                [self actionCancelCommissionWithHistoryRecord:historyRecord];
+                self.req_indexPath = indexPath;
+                self.req_applyID = historyRecord.applyId;
+            }];
+            
+            [[[executeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                @strongify(self);
+                [self actionGoToPaidAlreadyVCWithHistoryRecord:historyRecord];
+            }];
+            
+        }
+        
+        // 已支付
+        if (historyRecord.rescueStatus == HKCommissionPaidAlready) {
             statusLabel.text = @"已支付";
             rightButtonColor = HEXCOLOR(@"#FF7428");
             executeButton.hidden = NO;
             [executeButton setTitle:@"确认完成" forState:UIControlStateNormal];
+            @weakify(self);
+            [[[executeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                @strongify(self);
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+                @weakify(self);
+                HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
+                    @strongify(self);
+                    [self actionConfirmFinishWithHistoryRecord:historyRecord];
+                }];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请务必在完成协办服务后再确认服务已完成" ActionItems:@[cancel, confirm]];
+                [alert show];
+                
+                self.req_indexPath = indexPath;
+                self.req_applyID = historyRecord.applyId;
+            }];
             
-        } else if (historyRecord.rescueStatus == HKCommissionCompleted) {
-            // 已完成
+        }
+        
+        // 已完成
+        if (historyRecord.rescueStatus == HKCommissionCompleted) {
             statusLabel.text = @"已完成";
             executeButton.hidden = NO;
             
@@ -244,11 +391,27 @@
                 [executeButton setTitle:@"已评价" forState:UIControlStateNormal];
             }
             
-        } else if (historyRecord.rescueStatus == HKCommissionCanceled) {
-            // 已取消
+            @weakify(self);
+            [[[executeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                @strongify(self);
+                [self actionGoToRatingVCWithHistoryRecord:historyRecord];
+                self.req_indexPath = indexPath;
+                self.req_applyID = historyRecord.applyId;
+            }];
+            
+        }
+        
+        // 已取消
+        if (historyRecord.rescueStatus == HKCommissionCanceled) {
             statusLabel.text = @"已取消";
             executeButton.hidden = YES;
         }
+        
+        executeButton.layer.borderColor = rightButtonColor.CGColor;
+        executeButton.layer.borderWidth = 0.5;
+        executeButton.layer.cornerRadius = 3;
+        [executeButton setTitleColor:rightButtonColor forState:UIControlStateNormal];
+        executeButton.layer.masksToBounds = YES;
         
         carNumLabel.text = historyRecord.licenceNumber;
         preorderTimeLabel.text = [NSString stringWithFormat:@"预约时间：%@", historyRecord.appointTime.integerValue == 0 ? @"" : [[NSDate dateWithUTS:historyRecord.appointTime] dateFormatForYYMMdd2]];

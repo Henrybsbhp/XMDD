@@ -156,13 +156,13 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 
 #pragma mark - Action
 - (void)actionBack:(id)sender {
+    [MobClick event:@"hztuanxiangqiang" attributes:@{@"navi":@"back"}];
     [super actionBack:sender];
-    [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing1"}];
 }
 
 
 - (void)actionShowOrHideMenu:(id)sender {
-    [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing2"}];
+    [MobClick event:@"hztuanxiangqiang" attributes:@{@"navi":@"caidan"}];
     
     if (self.popoverMenu.isActivated) {
         [self.popoverMenu dismissWithAnimated:YES];
@@ -228,7 +228,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing16"}];
+       [MobClick event:@"hztuanxiangqiang" attributes:@{@"caidan":@"buchang"}];
         MutualInsClaimsHistoryVC *vc = [UIStoryboard vcWithId:@"MutualInsClaimsHistoryVC" inStoryboard:@"MutualInsClaims"];
         [vc setValue:self.router.userInfo[kMutInsGroupID] forKey:@"gid"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -245,7 +245,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing13"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"caidan":@"yaoqing"}];
         UIViewController * vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
         [vc setValue:self.viewModel.baseInfo.req_groupid forKey:@"groupId"];
         [self.navigationController pushViewController:vc animated:YES];
@@ -263,7 +263,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing18"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"caidan":@"tuichu"}];
         
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确定" color:kDefTintColor clickBlock:^(id alertVC) {
@@ -279,7 +279,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Call",@"title":@"联系客服",@"img":@"mins_phone"}];
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing14"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"caidan":@"kefu"}];
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             [gPhoneHelper makePhone:@"4007111111"];
@@ -300,7 +300,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing12"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"caidan":@"dingdan"}];
         UIViewController *vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsOrderInfoVC"];
         [vc setValue:self.viewModel.baseInfo.rsp_contractid forKey:@"contractId"];
         vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
@@ -320,7 +320,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing17"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"caidan":@"shantuan"}];
         HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
         alert.topTitle = @"温馨提示";
         alert.imageName = @"mins_bulb";
@@ -346,7 +346,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing15"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"caidan":@"shiyongbangzhu"}];
         UIViewController *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         [vc setValue:self forKey:@"originVC"];
         [vc setValue:MutualInsGroupDetailHelpUrl forKey:@"url"];
@@ -391,7 +391,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing3"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"dingbu":@"wo"}];
         [self.viewModel fetchMyInfoForce:NO];
 
     });
@@ -405,7 +405,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing4"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"dingbu":@"huzhujin"}];
         NSString *key = data[kCKItemKey];
         [self.viewModel fetchFundInfoForce:NO];
         //保存时间戳
@@ -421,7 +421,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing5"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"dingbu":@"chengyuan"}];
         [self.viewModel fetchMembersInfoForce:NO];
     });
     return item;
@@ -434,7 +434,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     @weakify(self);
     item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        [MobClick event:@"tuanxiangqing" attributes:@{@"tuanxiangqing":@"tuanxiangqing6"}];
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"dingbu":@"dongtai"}];
         NSString *key = data[kCKItemKey];
         [self.viewModel fetchMessagesInfoForce:NO];
         //保存时间戳

@@ -39,7 +39,7 @@
 #pragma mark - Action
 - (IBAction)actionShare:(id)sender
 {
-    [MobClick event:@"rp506_1"];
+    [MobClick event:@"jiayouzhifujieguo" attributes:@{@"fenxiang":@"fenxiang"}];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneGas;
     [[op rac_postRequest] subscribeNext:^(GetShareButtonOpV2 * op) {
@@ -51,13 +51,15 @@
         NSMutableDictionary * otherDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:paidStr, @"gasCharge", chargeStr, @"spareCharge", nil];
         vc.otherInfo = otherDic;
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        vc.mobBaseValue = @"jiayouzhifujieguo";
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
         [sheet presentAnimated:YES completionHandler:nil];
+        [MobClick event:@"fenxiangyemian" attributes:@{@"chuxian":@"jiayouzhifujieguo"}];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110_7"];
+            [MobClick event:@"fenxiangyemian" attributes:@{@"chuxian":@"jiayouzhifujieguo"}];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
@@ -71,6 +73,7 @@
 
 - (void)actionBack:(id)sender
 {
+    [MobClick event:@"jiayouzhifujieguo" attributes:@{@"navi":@"back"}];
     if (self.originVC) {
         [self.navigationController popToViewController:self.originVC animated:YES];
     }

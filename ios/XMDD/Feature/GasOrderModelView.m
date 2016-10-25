@@ -97,13 +97,16 @@
         
         gasCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
             @strongify(self);
-            if (order.cardType == 1) {
-                [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan10"}];
-            } else {
-                [MobClick event:@"dingdan" attributes:@{@"dingdan" : @"dingdan9"}];
-            }
+            
+            
             if ([order.tradeType isEqualToString:@"FQJY"]) {
+                
+                [MobClick event:@"wodedingdan" attributes:@{@"jiayou" : @"dianjidingdan_fenqi"}];
                 [self actionJumpToDetailVCWithModel:order];
+            }
+            else
+            {
+                [MobClick event:@"wodedingdan" attributes:@{@"jiayou" : @"dianjidingdan_putong"}];
             }
         });
         
@@ -187,6 +190,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"wodedingdan" attributes:@{@"jiayou" : @"dianjidingdan"}];
     CKDict *item = self.dataSource[indexPath.section][indexPath.row];
     if (item[kCKCellSelected]) {
         ((CKCellSelectedBlock)item[kCKCellSelected])(item, indexPath);

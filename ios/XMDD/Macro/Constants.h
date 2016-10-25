@@ -189,6 +189,11 @@ typedef enum : NSUInteger {
 /// 违章放弃代办通知
 #define kNotifyCommissionAbandoned          @"com.huika.xmdd.commissionAbandoned"
 
+// 需要更新救援列表
+#define kNotifyRescueRecordVC               @"com.huika.xmdd.rescueRecordVC"
+// 需要更新协办列表
+#define kNotifyCommissionRecordVC           @"com.huika.xmdd.commissionRecordVC"
+
 //key定义
 #define kOriginVC       @"originVC"
 #define kNextVC         @"nextVC"

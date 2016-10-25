@@ -29,6 +29,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.router.disableInteractivePopGestureRecognizer = YES;
 }
 
@@ -53,7 +54,7 @@
     /**
      *  返回估值首页事件
      */
-    [MobClick event:@"rp605_1"];
+    [MobClick event:@"ershouchetijiaochenggong" attributes:@{@"navi" : @"back"}];
     NSArray *viewControllers = self.navigationController.viewControllers;
     [self.navigationController popToViewController:[viewControllers safetyObjectAtIndex:1] animated:YES];
 }
@@ -68,7 +69,7 @@
     /**
      *  分享事件
      */
-    [MobClick event:@"rp605_2"];
+    [MobClick event:@"ershouchetijiaochenggong" attributes:@{@"ershouchetijiaochenggong" : @"fenxiang"}];
     [self shareApp];
 }
 
@@ -82,13 +83,16 @@
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneAppCarSell;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        vc.mobBaseValue = @"ershouchetijiaochenggong";
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
         [sheet presentAnimated:YES completionHandler:nil];
+        [MobClick event:@"fenxiangyemian" attributes:@{@"chuxian":@"ershouchetijiaochenggong"}];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110_7"];
+            
+            [MobClick event:@"fenxiangyemian" attributes:@{@"quxiao":@"ershouchetijiaochenggong"}];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{

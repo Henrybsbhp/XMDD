@@ -18,7 +18,6 @@
 /// 点击分享按钮
 @property (strong, nonatomic)void(^clickAction)(void);
 
-
 @property (weak, nonatomic) IBOutlet UIButton *wechatBtn;
 @property (weak, nonatomic) IBOutlet UIButton *timelineBtn;
 @property (weak, nonatomic) IBOutlet UIButton *weiboBtn;
@@ -34,5 +33,7 @@
 @property (nonatomic,copy)NSString * urlStr;
 @property (nonatomic,strong)UIImage * image;
 @property (nonatomic,strong)UIImage * webimage;
+
+@property (nonatomic, copy) NSString *mobBaseValue;
 
 @end

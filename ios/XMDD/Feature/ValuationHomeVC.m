@@ -95,7 +95,7 @@
          *  点击广告事件（只需传入底层事件，具体点了哪个广告在底层实现）
          */
         self.advc  =[ADViewController vcWithADType:AdvertisementValuation boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp601_5" mobBaseEventDict:nil];
+                                          targetVC:self mobBaseEvent:@"aicheguzhi" mobBaseKey:@"guzhiguanggao"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -277,7 +277,7 @@
         emptySubVC.view.frame = view.bounds;
         [view addSubview:emptySubVC.view];
         [emptySubVC setAddCarClickBlock:^{
-            [MobClick event:@"rp601_3"];
+            [MobClick event:@"aicheguzhi" attributes:@{@"tianjiaaiche" : @"tianjiaaiche"}];
             @strongify(self);
             if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                 self.carIndex = self.dataSource.count;
@@ -332,7 +332,9 @@
             @weakify(contentVC);
             @weakify(self);
             [contentVC setContentDidChangeBlock:^() {
-                [MobClick event:@"rp601_7"];
+                
+                NSString * mobClickValue = [NSString stringWithFormat:@"dianjiaiche_%ld",i];
+                [MobClick event:@"aicheguzhi" attributes:@{@"dingbu" : mobClickValue}];
                 @strongify(contentVC);
                 @strongify(self);
                 self.selectCar = contentVC.car;
@@ -347,8 +349,9 @@
             [self.sliderView.contentScrollView addSubview:emptySubVC.view];
             @weakify(self);
             [emptySubVC setAddCarClickBlock:^{
-                [MobClick event:@"rp601_3"];
                 @strongify(self);
+                
+                [MobClick event:@"aicheguzhi" attributes:@{@"tianjiaaiche" : @"tianjiaaiche"}];
                 if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
                     self.carIndex = self.dataSource.count;
                     EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
@@ -386,7 +389,7 @@
         /**
          *  定位事件
          */
-        [MobClick event:@"rp601_2"];
+        [MobClick event:@"aicheguzhi" attributes:@{@"dingbu" : @"dingwei"}];
         AreaTablePickerVC * vc = [AreaTablePickerVC initPickerAreaVCWithType:PickerVCTypeProvinceAndCity fromVC:self];
         @weakify(self);
         [vc setSelectCompleteAction:^(HKAreaInfoModel * provinceModel, HKAreaInfoModel * cityModel, HKAreaInfoModel * districtModel) {
@@ -432,7 +435,7 @@
 #pragma mark - Utility
 
 - (void)evaluationAction {
-    [MobClick event:@"rp601_4"];
+    [MobClick event:@"aicheguzhi" attributes:@{@"guzhi" : @"guzhi"}];
     [self.view endEditing:YES];
     
     if (![self.selectCar isKindOfClass:[HKMyCar class]]) {
@@ -491,7 +494,7 @@
 
 
 - (IBAction)goToHistoryVC:(id)sender {
-    [MobClick event:@"rp601_1"];
+    [MobClick event:@"aicheguzhi" attributes:@{@"navi" : @"guzhijilu"}];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         HistoryCollectionVC *historyVC=[UIStoryboard vcWithId:@"HistoryCollectionVC" inStoryboard:@"Valuation"];
         [self.navigationController pushViewController:historyVC animated:YES];
@@ -521,8 +524,15 @@
         CGPoint p = [value CGPointValue];
         [self.sliderView slideOffsetX:p.x andTotleW:self.sliderView.contentScrollView.contentSize.width andPageW:gAppMgr.deviceInfo.screenSize.width];
     }];
-    
     return YES;
+}
+
+#pragma mark - Action
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"aicheguzhi" attributes:@{@"navi" : @"back"}];
 }
 
 @end

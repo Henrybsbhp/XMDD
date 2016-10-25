@@ -7,8 +7,18 @@
 //
 
 #import "GeneralTableViewVM.h"
+#import "GetRescueOrCommissionDetailOp.h"
 
 @interface CommissionPaymentSuccessVM : GeneralTableViewVM
+
+@property (nonatomic, assign) NSInteger vcType;
+
+@property (nonatomic, strong) GetRescueOrCommissionDetailOp *commissionDetailOp;
+
+/// 记录 ID，请求数据的输入参数
+@property (nonatomic, strong) NSNumber *applyID;
+
+@property (nonatomic, strong) UIButton *confirmButton;
 
 - (instancetype)initWithTableView:(UITableView *)tableView andTargetVC:(UIViewController *)targetVC;
 

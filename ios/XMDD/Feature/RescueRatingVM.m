@@ -12,11 +12,14 @@
 #import "JTRatingView.h"
 #import "RescueRecordVC.h"
 #import "GetRescueCommentRescueOp.h"
+#import "GetRescueCommentOp.h"
 
 @interface RescueRatingVM () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, weak) UIViewController *targetVC;
+
+@property (nonatomic, strong) GetRescueCommentOp *commentOp;
 
 @property (nonatomic, strong) NSNumber *commentStar1;
 @property (nonatomic, strong) NSNumber *commentStar2;
@@ -44,7 +47,38 @@
 - (void)initialSetup
 {
     [self setupNavigationBar];
-    self.dataSource = $($([self setupProgressViewCellWithIndex:self.rescueDetialOp.rsp_rescueStatus], [self setupPaymentInfoCellWithArray:@[@"申请服务", self.rescueDetialOp.rsp_serviceName] isHighlighted:NO], [self setupPaymentInfoCellWithArray:@[@"项目价格", [NSString stringWithFormat:@"￥%.2f", self.rescueDetialOp.rsp_pay]] isHighlighted:YES],  [self setupPaymentInfoCellWithArray:@[@"我的车辆", self.rescueDetialOp.rsp_licenseNumber] isHighlighted:NO], [self setupBlankCell]), $([self setupRatingTitleCell], [self setupRescueRatingCell], [self setupRescueRatingCell], [self setupRescueRatingCell], [self setupTextCommentCell]), $([self setupSendCommentCell]));
+    if (self.commentStatus == 1) {
+        [self requestForRescueDetailData];
+    } else {
+        [self setDataSource];
+    }
+}
+
+- (void)setDataSource
+{
+    if (self.commentStatus == 1) {
+        self.dataSource = $($([self setupProgressViewCellWithIndex:self.rescueDetialOp.rsp_rescueStatus],
+                              [self setupPaymentInfoCellWithArray:@[@"申请服务", self.rescueDetialOp.rsp_serviceName] isHighlighted:NO],
+                              [self setupPaymentInfoCellWithArray:@[@"项目价格", [NSString stringWithFormat:@"￥%.2f", self.rescueDetialOp.rsp_pay]] isHighlighted:YES],
+                              [self setupPaymentInfoCellWithArray:@[@"我的车辆", self.rescueDetialOp.rsp_licenseNumber] isHighlighted:NO], [self setupBlankCell]),
+                            $([self setupRatingTitleCell],
+                              [self setupRescueRatingCell],
+                              [self setupRescueRatingCell],
+                              [self setupRescueRatingCell],
+                              [self setupCommentDisplayCellWithText:self.commentOp.comment]));
+    } else {
+        self.dataSource = $($([self setupProgressViewCellWithIndex:self.rescueDetialOp.rsp_rescueStatus],
+                              [self setupPaymentInfoCellWithArray:@[@"申请服务", self.rescueDetialOp.rsp_serviceName] isHighlighted:NO],
+                              [self setupPaymentInfoCellWithArray:@[@"项目价格", [NSString stringWithFormat:@"￥%.2f", self.rescueDetialOp.rsp_pay]] isHighlighted:YES],
+                              [self setupPaymentInfoCellWithArray:@[@"我的车辆", self.rescueDetialOp.rsp_licenseNumber] isHighlighted:NO],
+                              [self setupBlankCell]),
+                            $([self setupRatingTitleCell],
+                              [self setupRescueRatingCell],
+                              [self setupRescueRatingCell],
+                              [self setupRescueRatingCell],
+                              [self setupTextCommentCell]),
+                            $([self setupSendCommentCell]));
+    }
     
     [self.tableView reloadData];
 }
@@ -60,40 +94,35 @@
 /// 发表评论
 - (void)actionSendComment
 {
-//    GetRescueCommentRescueOp *op = [GetRescueCommentRescueOp operation];
-//    if ([self.commentStar1 integerValue]> 0 && [self.commentStar2 integerValue] > 0 && [self.commentStar3 integerValue] > 0) {
-//        op.applyId = self.applyID;
-//        op.responseSpeed = self.commentStar1;
-//        op.arriveSpeed = self.commentStar2;
-//        op.serviceAttitude = self.commentStar3;
-//        op.rescueType = @(1);
-//        
-//        if (self.commentsTV.text != nil) {
-//            op.comment = self.commentsTV.text;
-//        }else {
-//            op.comment = @"";
-//        }
-//        
-//        [[[op rac_postRequest] initially:^{
-//            [gToast showText:@"提交评论中"];
-//        }] subscribeNext:^(GetRescueCommentRescueOp *op) {
-//            
-//            [gToast dismiss];
-//            [gToast showText:@"评论成功"];
-//            self.history.commentStatus = HKCommentStatusYes;
-//            [self alreadyNetwork];
-//        } error:^(NSError *error) {
-//            [gToast showError:@"评论失败, 请尝试重新提交"];
-//        }] ;
-//        
-//    }else {
-//        [gToast showText:@"请给所有评分项给个星吧!"];
-//    }
-    
-    for (UIViewController *vc in self.targetVC.navigationController.viewControllers) {
-        if ([vc isKindOfClass:[RescueRecordVC class]]) {
-            [self.targetVC.router.navigationController popToViewController:vc animated:YES];
+    GetRescueCommentRescueOp *op = [GetRescueCommentRescueOp operation];
+    if ([self.commentStar1 integerValue] > 0 && [self.commentStar2 integerValue] > 0 && [self.commentStar3 integerValue] > 0) {
+        op.applyId = self.applyID;
+        op.responseSpeed = self.commentStar1;
+        op.arriveSpeed = self.commentStar2;
+        op.serviceAttitude = self.commentStar3;
+        op.rescueType = @(1);
+        
+        if (self.commentText.length > 0) {
+            op.comment = self.commentText;
+        }else {
+            op.comment = @"";
         }
+        @weakify(self);
+        [[[op rac_postRequest] initially:^{
+            [gToast showText:@"提交评论中"];
+        }] subscribeNext:^(GetRescueCommentRescueOp *op) {
+            @strongify(self);
+            [gToast dismiss];
+            [gToast showText:@"评论成功"];
+            self.commentStatus = 1;
+            [self postCustomNotificationName:kNotifyRescueRecordVC object:nil];
+            [self requestForRescueDetailData];
+        } error:^(NSError *error) {
+            [gToast showError:@"评论失败, 请尝试重新提交"];
+        }] ;
+        
+    }else {
+        [gToast showText:@"请给所有评分项给个星吧!"];
     }
 }
 
@@ -104,6 +133,37 @@
             [self.targetVC.router.navigationController popToViewController:vc animated:YES];
         }
     }
+}
+
+#pragma mark - Obtain data
+- (void)requestForRescueDetailData
+{
+    GetRescueCommentOp *op = [GetRescueCommentOp operation];
+    op.applyId = self.applyID;
+    op.type = @(1);
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        @strongify(self);
+        // 防止有数据的时候，下拉刷新导致页面会闪一下
+        CGFloat reducingY = self.targetVC.view.frame.size.height * 0.1056;
+        [self.targetVC.view hideDefaultEmptyView];
+        [self.targetVC.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.targetVC.view.center.x, self.targetVC.view.center.y - reducingY)];
+        self.tableView.hidden = YES;
+    }] subscribeNext:^(GetRescueCommentOp *rop) {
+        @strongify(self);
+        [self.targetVC.view stopActivityAnimation];
+        self.tableView.hidden = NO;
+        self.commentOp = rop;
+        [self setDataSource];
+        
+    } error:^(NSError *error) {
+        @strongify(self);
+        [self.targetVC.view stopActivityAnimation];
+        [self.targetVC.view showImageEmptyViewWithImageName:@"def_withoutAssistHistory" text:@"暂无救援记录" tapBlock:^{
+            @strongify(self);
+            [self requestForRescueDetailData];
+        }];
+    }];
 }
 
 #pragma mark - The settings of the UITableViewCell
@@ -165,12 +225,18 @@
 - (CKDict *)setupRatingTitleCell
 {
     CKDict *ratingTitleCell = [CKDict dictWith:@{kCKItemKey: @"RatingTitleCell", kCKCellID: @"RatingTitleCell"}];
+    
+    @weakify(self);
     ratingTitleCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 40;
     });
     
-    ratingTitleCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UIView *cell, NSIndexPath *indexPath) {
-        
+    ratingTitleCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self);
+        UILabel *titleLabel = (UILabel *)[cell.contentView searchViewWithTag:1010];
+        if (self.commentStatus == 1) {
+            titleLabel.text = @"您已经评价";
+        }
     });
     
     return ratingTitleCell;
@@ -206,10 +272,21 @@
         
         if (indexPath.row == 1) {
             titleLabel.text = @"客服反应速度：";
-        }else if (indexPath.row == 2){
+        }else if (indexPath.row == 2) {
             titleLabel.text = @"救援到达速度：";
-        }else if (indexPath.row == 3){
+        }else if (indexPath.row == 3) {
             titleLabel.text = @"救援服务态度：";
+        }
+        
+        if (self.commentStatus == 1) {
+            if (indexPath.row == 1) {
+                ratingView.ratingValue = self.commentOp.responseSpeed;
+            }else if (indexPath.row == 2){
+                ratingView.ratingValue  = self.commentOp.arriveSpeed;
+            }else if (indexPath.row == 2){
+                ratingView.ratingValue = self.commentOp.serviceAttitude;
+            }
+            ratingView.userInteractionEnabled = NO;
         }
     });
     
@@ -246,12 +323,15 @@
             [commentTextView addSubview:containerView];
         }
         
+        @weakify(self);
         [[commentTextView rac_textSignal] subscribeNext:^(id x) {
+            @strongify(self);
             if (commentTextView.text.length < 1) {
                 containerView.hidden = NO;
             } else {
                 containerView.hidden = YES;
             }
+            self.commentText = commentTextView.text;
         }];
     });
     
@@ -280,6 +360,28 @@
     });
     
     return sendCommentCell;
+}
+
+/// 已发表文字评论 Cell
+- (CKDict *)setupCommentDisplayCellWithText:(NSString *)textString
+{
+    CKDict *commentDisplayCell = [CKDict dictWith:@{kCKItemKey: @"CommentDisplayCell", kCKCellID: @"CommentDisplayCell"}];
+    
+    commentDisplayCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        CGSize labelSize = [textString labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 34 font:[UIFont systemFontOfSize:13]];
+        if (textString.length > 0) {
+            return labelSize.height + 10;
+        }
+        
+        return 10;
+    });
+    
+    commentDisplayCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        UILabel *commentLabel = (UILabel *)[cell.contentView searchViewWithTag:1001];
+        commentLabel.text = textString.length > 0 ? textString : @"";
+    });
+    
+    return commentDisplayCell;
 }
 
 #pragma mark - UITableViewDelagate

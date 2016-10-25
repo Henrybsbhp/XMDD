@@ -10,12 +10,17 @@
 #import "GetRescueHistoryOp.h"
 #import "HKRescueHistory.h"
 #import "RescuePaymentStatusVC.h"
+#import "RescueConfirmFinishOp.h"
+#import "GetRescueOrCommissionDetailOp.h"
 
 @interface RescueRecordVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 @property (nonatomic, assign) NSUInteger applyTime;
 @property (nonatomic, assign) BOOL isLoading;
 @property (nonatomic, assign) BOOL isRemain;
+
+@property (nonatomic, strong) NSIndexPath *req_indexPath;
+@property (nonatomic, strong) NSNumber *req_applyID;
 
 @end
 
@@ -44,11 +49,55 @@
             [self requestForRescueData];
         }
     }];
+    
+    // 监听页面需不需要更新
+    [self listenNotificationByName:kNotifyRescueRecordVC withNotifyBlock:^(NSNotification *note, id weakSelf) {
+        @strongify(self);
+        [self requestForSpecificDataWithApplyID:self.req_applyID atIndexPath:self.req_indexPath];
+    }];
 }
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Actions
+// 进入救援调度 / 救援中页面 / 支付页面
+- (void)actionGoToRescuingVCWithHistoryRecord:(HKRescueHistory *)historyRecord
+{
+    RescuePaymentStatusVC *vc = [UIStoryboard vcWithId:@"RescuePaymentStatusVC" inStoryboard:@"Rescue"];
+    vc.vcType = historyRecord.rescueStatus;
+    vc.applyID = historyRecord.applyId;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+/// 进入评价 / 已评价页面
+- (void)actionGoToRatingVCWithHistoryRecord:(HKRescueHistory *)historyRecord
+{
+    RescuePaymentStatusVC *vc = [UIStoryboard vcWithId:@"RescuePaymentStatusVC" inStoryboard:@"Rescue"];
+    vc.vcType = historyRecord.rescueStatus;
+    vc.applyID = historyRecord.applyId;
+    vc.commentStatus = historyRecord.commentStatus;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+/// 确认完成事件
+- (void)actionConfirmToFinishWithHistoryRecord:(HKRescueHistory *)historyRecord
+{
+    RescueConfirmFinishOp *op = [RescueConfirmFinishOp operation];
+    op.req_applyID = historyRecord.applyId;
+    [[[op rac_postRequest] initially:^{
+        [gToast showingWithText:@"正在确认中..."];
+        
+    }] subscribeNext:^(RescueConfirmFinishOp *rop) {
+        [gToast showSuccess:@"确认完成"];
+        [self requestForSpecificDataWithApplyID:self.req_applyID atIndexPath:self.req_indexPath];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"确认失败，请重试"];
+        
+    }];
 }
 
 #pragma mark - Obtain data
@@ -168,6 +217,42 @@
     }];
 }
 
+// 请求单行数据
+- (void)requestForSpecificDataWithApplyID:(NSNumber *)applyID atIndexPath:(NSIndexPath *)indexPath
+{
+    GetRescueOrCommissionDetailOp *op = [GetRescueOrCommissionDetailOp operation];
+    op.rsq_applyID = applyID;
+    @weakify(self);
+    [[[op rac_postRequest] initially:^{
+        [gToast showingWithText:@"更新数据中..."];
+    }] subscribeNext:^(GetRescueOrCommissionDetailOp *rop) {
+        @strongify(self);
+        [gToast dismiss];
+        HKRescueHistory *record = [[HKRescueHistory alloc] init];
+        record.type = rop.rsp_type;
+        record.commentStatus = rop.rsp_commentStatus;
+        record.rescueStatus = rop.rsp_rescueStatus;
+        record.applyTime = @(rop.rsp_applyTime);
+        record.serviceName = rop.rsp_serviceName;
+        record.licenceNumber = rop.rsp_licenseNumber;
+        record.applyId = @(rop.rsp_applyID);
+        record.type = rop.rsp_type;
+        record.appointTime = @(rop.rsp_appointTime);
+        record.pay = @(rop.rsp_pay);
+        
+        CKDict *replaceData = [self setupRecordCellWithHistoryRecord:record];
+        CKList *replaceList = $(replaceData);
+        
+        [self.datasource replaceObject:replaceList withKey:nil atIndex:indexPath.section];
+        
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
+        
+    } error:^(NSError *error) {
+        [gToast showError:@"数据请求失败"];
+    }];
+}
+
+/// 把获取到的数据整合为一个 CKList
 - (CKList *)dataSourceWithResponsedArray:(NSArray *)responsedArray
 {
     // 获取最后一次得到的时间戳
@@ -194,16 +279,20 @@
     
     recordCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
-        if (historyRecord.rescueStatus == HKRescueStatusRescueControl || historyRecord.rescueStatus == HKRescueStatusRescuing) {
-            RescuePaymentStatusVC *vc = [UIStoryboard vcWithId:@"RescuePaymentStatusVC" inStoryboard:@"Rescue"];
-            vc.vcType = historyRecord.rescueStatus;
-            vc.applyID = historyRecord.applyId;
-            [self.navigationController pushViewController:vc animated:YES];
+        if (historyRecord.rescueStatus == HKRescueStatusRescueControl || historyRecord.rescueStatus == HKRescueStatusRescuing || historyRecord.rescueStatus == HKRescueStatusRequest) {
+            [self actionGoToRescuingVCWithHistoryRecord:historyRecord];
         }
+        
+        // 救援完成
+        if (historyRecord.rescueStatus == HKRescueStatusCompleted) {
+            [self actionGoToRatingVCWithHistoryRecord:historyRecord];
+        }
+        self.req_indexPath = indexPath;
+        self.req_applyID = historyRecord.applyId;
     });
     
     recordCell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        
+        @strongify(self);
         UILabel *timeLabel = (UILabel *)[cell.contentView searchViewWithTag:1001];
         UILabel *statusLabel = (UILabel *)[cell.contentView searchViewWithTag:1002];
         UIImageView *typeImageView = (UIImageView *)[cell.contentView searchViewWithTag:1003];
@@ -215,27 +304,53 @@
         UIColor *buttonColor;
         timeLabel.text = [[NSDate dateWithUTS:historyRecord.applyTime] dateFormatForYYYYMMddHHmm2];
         
+        // 申请救援
         if (historyRecord.rescueStatus == HKRescueStatusRequest) {
-            // 申请救援
             statusLabel.text = @"申请救援";
             buttonColor = HEXCOLOR(@"#FF7428");
             executeButton.hidden = NO;
             [executeButton setTitle:@"去支付" forState:UIControlStateNormal];
+            @weakify(self);
+            [[[executeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                @strongify(self);
+                [self actionGoToRescuingVCWithHistoryRecord:historyRecord];
+            }];
             
-        } else if (historyRecord.rescueStatus == HKRescueStatusRescueControl) {
-            // 救援调度
+        }
+        
+        // 救援调度
+        if (historyRecord.rescueStatus == HKRescueStatusRescueControl) {
             statusLabel.text = @"救援调度";
             executeButton.hidden = YES;
             
-        } else if (historyRecord.rescueStatus == HKRescueStatusRescuing) {
-            // 救援中
+        }
+        
+        // 救援中
+        if (historyRecord.rescueStatus == HKRescueStatusRescuing) {
             statusLabel.text = @"救援中";
             buttonColor = HEXCOLOR(@"#FF7428");
             executeButton.hidden = NO;
             [executeButton setTitle:@"确认完成" forState:UIControlStateNormal];
             
-        } else if (historyRecord.rescueStatus == HKRescueStatusCompleted) {
-            // 救援完成
+            @weakify(self);
+            [[[executeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                @strongify(self);
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+                @weakify(self);
+                HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
+                    @strongify(self);
+                    [self actionConfirmToFinishWithHistoryRecord:historyRecord];
+                }];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请务必在完成专业救援服务后再确认服务已完成" ActionItems:@[cancel, confirm]];
+                [alert show];
+                self.req_indexPath = indexPath;
+                self.req_applyID = historyRecord.applyId;
+            }];
+            
+        }
+        
+        // 救援完成
+        if (historyRecord.rescueStatus == HKRescueStatusCompleted) {
             statusLabel.text = @"救援完成";
             executeButton.hidden = NO;
             
@@ -247,13 +362,24 @@
                 [executeButton setTitle:@"已评价" forState:UIControlStateNormal];
             }
             
-        } else if (historyRecord.rescueStatus == HKRescueStatusCanceled) {
-            // 已取消
+            @weakify(self);
+            [[[executeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                @strongify(self);
+                [self actionGoToRatingVCWithHistoryRecord:historyRecord];
+                self.req_indexPath = indexPath;
+                self.req_applyID = historyRecord.applyId;
+            }];
+            
+        }
+        
+        // 已取消
+        if (historyRecord.rescueStatus == HKRescueStatusCanceled) {
             statusLabel.text = @"已取消";
             executeButton.hidden = YES;
             
         }
         
+        // 服务类型
         if (historyRecord.type == HKRescueTrailer) {
             // 拖车服务
             typeImageView.image = [UIImage imageNamed:@"rescue_car_pull"];

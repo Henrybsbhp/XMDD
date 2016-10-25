@@ -45,13 +45,6 @@
     DebugLog(@"CouponPkgViewController dealloc");
 }
 
-- (IBAction)helpAction:(id)sender {
-    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-    vc.title = @"关于礼包";
-    vc.url = kAboutCouponPkgUrl;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
 #pragma mark - SetupUI
 - (void)setupUI
 {
@@ -63,6 +56,7 @@
     @weakify(self)
     [[self.receiveBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"wodelibao" attributes:@{@"wodelibao" : @"lingqu"}];
         @strongify(self)
         if (self.pkgCodeTxtFeild.text.length)
         {
@@ -199,9 +193,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"wodelibao" attributes:@{@"wodelibao" : @"dianjilibao"}];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
     MyCouponVC *vc = [UIStoryboard vcWithId:@"MyCouponVC" inStoryboard:@"Mine"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - Action
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"wodelibao" attributes:@{@"navi" : @"back"}];
+}
+
+- (IBAction)helpAction:(id)sender {
+    
+    [MobClick event:@"wodelibao" attributes:@{@"navi" : @"shiyongbangzhu"}];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.title = @"关于礼包";
+    vc.url = kAboutCouponPkgUrl;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -11,6 +11,7 @@
 #import "NSString+RectSize.h"
 #import "HKProgressView.h"
 #import "RescueConfirmFinishOp.h"
+#import "RescueRecordVC.h"
 
 @interface RescuingStatusVM () <UITableViewDelegate, UITableViewDataSource>
 
@@ -44,10 +45,23 @@
 #pragma mark - Initial setup
 - (void)initialSetup
 {
+    [self setupNavigationBar];
+    
     if (self.vcType == RescueVCTypeControl) {
-        self.dataSource = $($([self setupTopTipsCellWithText:@"支付成功，请耐心等待救援"], [self setupProgressViewCellWithIndex:self.rescueDetialOp.rsp_rescueStatus], [self setupPaymentInfoCellWithArray:@[@"申请服务", self.rescueDetialOp.rsp_serviceName] isHighlighted:NO], [self setupPaymentInfoCellWithArray:@[@"项目价格", [NSString stringWithFormat:@"￥%.2f", self.rescueDetialOp.rsp_pay]] isHighlighted:YES],  [self setupPaymentInfoCellWithArray:@[@"我的车辆", self.rescueDetialOp.rsp_licenseNumber] isHighlighted:NO], [self setupBlankCell], [self setupContactServiceCell]));
+        self.dataSource = $($([self setupTopTipsCellWithText:@"支付成功，请耐心等待救援"],
+                              [self setupProgressViewCellWithIndex:self.rescueDetialOp.rsp_rescueStatus],
+                              [self setupPaymentInfoCellWithArray:@[@"申请服务", self.rescueDetialOp.rsp_serviceName] isHighlighted:NO],
+                              [self setupPaymentInfoCellWithArray:@[@"项目价格", [NSString stringWithFormat:@"￥%.2f", self.rescueDetialOp.rsp_pay]] isHighlighted:YES],
+                              [self setupPaymentInfoCellWithArray:@[@"我的车辆", self.rescueDetialOp.rsp_licenseNumber] isHighlighted:NO],
+                              [self setupBlankCell],
+                              [self setupContactServiceCell]));
     } else {
-        self.dataSource = $($([self setupTopTipsCellWithText:@"救援人员已出发，请保持手机畅通"], [self setupProgressViewCellWithIndex:self.vcType], [self setupPaymentInfoCellWithArray:@[@"申请服务", self.rescueDetialOp.rsp_serviceName] isHighlighted:NO], [self setupPaymentInfoCellWithArray:@[@"项目价格", [NSString stringWithFormat:@"￥%.2f", self.rescueDetialOp.rsp_pay]] isHighlighted:YES],  [self setupPaymentInfoCellWithArray:@[@"我的车辆", self.rescueDetialOp.rsp_licenseNumber] isHighlighted:NO], [self setupBlankCell]));
+        self.dataSource = $($([self setupTopTipsCellWithText:@"救援人员已出发，请保持手机畅通"],
+                              [self setupProgressViewCellWithIndex:self.vcType],
+                              [self setupPaymentInfoCellWithArray:@[@"申请服务", self.rescueDetialOp.rsp_serviceName] isHighlighted:NO],
+                              [self setupPaymentInfoCellWithArray:@[@"项目价格", [NSString stringWithFormat:@"￥%.2f", self.rescueDetialOp.rsp_pay]] isHighlighted:YES],
+                              [self setupPaymentInfoCellWithArray:@[@"我的车辆", self.rescueDetialOp.rsp_licenseNumber] isHighlighted:NO],
+                              [self setupBlankCell]));
         
         self.confirmButton.enabled = YES;
         
@@ -64,6 +78,13 @@
     }
     
     [self.tableView reloadData];
+}
+
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.targetVC.navigationItem.leftBarButtonItem = back;
+    [self.targetVC.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - Actions
@@ -90,11 +111,21 @@
         vc.vcType = RescueVCTypeRating;
         vc.applyID = self.applyID;
         [self.targetVC.navigationController pushViewController:vc animated:YES];
+        [self postCustomNotificationName:kNotifyRescueRecordVC object:nil];
         
     } error:^(NSError *error) {
         [gToast showError:@"确认失败，请重试"];
         
     }];
+}
+
+- (void)actionBack
+{
+    for (UIViewController *vc in self.targetVC.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[RescueRecordVC class]]) {
+            [self.targetVC.router.navigationController popToViewController:vc animated:YES];
+        }
+    }
 }
 
 #pragma mark - The settings of the UITableViewCell
