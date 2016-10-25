@@ -9,7 +9,7 @@
 #import "BaseOp.h"
 
 @interface GetRescueHistoryOp : BaseOp
-@property (nonatomic, assign) long long  applytime;
+@property (nonatomic, assign) NSUInteger applytime;
 @property (nonatomic, assign) NSInteger  type;
 @property (nonatomic, strong) NSArray *rsp_applysecueArray;
 @end

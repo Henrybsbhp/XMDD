@@ -24,12 +24,19 @@
         
         self.rescueDetailArray = [@[] mutableCopy];
         NSDictionary *dic = rspObj[@"rescuecomment"];
-        if (dic != nil) {
-            [self.rescueDetailArray safetyAddObject:dic[@"responsespeed"]];
-            [self.rescueDetailArray safetyAddObject:dic[@"arrivespeed"]];
-            [self.rescueDetailArray safetyAddObject:dic[@"serviceattitude"]];
-            [self.rescueDetailArray safetyAddObject:dic[@"comment"]];
-        }
+//        if (dic != nil) {
+//            [self.rescueDetailArray safetyAddObject:dic[@"commentid"]];
+//            [self.rescueDetailArray safetyAddObject:dic[@"responsespeed"]];
+//            [self.rescueDetailArray safetyAddObject:dic[@"arrivespeed"]];
+//            [self.rescueDetailArray safetyAddObject:dic[@"serviceattitude"]];
+//            [self.rescueDetailArray safetyAddObject:dic[@"comment"]];
+//        }
+        
+        self.commentID = [dic integerParamForName:@"commentid"];
+        self.responseSpeed = [dic integerParamForName:@"responsespeed"];
+        self.arriveSpeed = [dic integerParamForName:@"arrivespeed"];
+        self.serviceAttitude = [dic integerParamForName:@"serviceattitude"];
+        self.comment = [dic stringParamForName:@"comment"];
     }
     else
     {
