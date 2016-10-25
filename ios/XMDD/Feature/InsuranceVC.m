@@ -302,14 +302,6 @@
 {
     [self.view endEditing:YES];
     InsInputNameVC *vc = [UIStoryboard vcWithId:@"InsInputNameVC" inStoryboard:@"Insurance"];
-    vc.nameField.textLimit = 20;
-    vc.titleLabel.text = @"请输入姓名";
-    [vc.nameField setDidBeginEditingBlock:^(CKLimitTextField *field) {
-        field.placeholder = nil;
-    }];
-    [vc.nameField setDidEndEditingBlock:^(CKLimitTextField *field) {
-        field.placeholder = @"请输入姓名";
-    }];
     MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(270, 160) viewController:vc];
     sheet.shouldCenterVertically = YES;
     [sheet presentAnimated:YES completionHandler:nil];
@@ -337,6 +329,7 @@
         {
             [vc.nameField shake];
         }
+        
     }];
 }
 

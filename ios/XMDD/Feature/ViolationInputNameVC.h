@@ -1,16 +1,14 @@
 //
-//  InsInputNameVC.h
-//  XiaoMa
+//  ViolationInputNameVC.h
+//  XMDD
 //
-//  Created by jiangjunchen on 15/12/8.
-//  Copyright © 2015年 jiangjunchen. All rights reserved.
+//  Created by RockyYe on 2016/10/21.
+//  Copyright © 2016年 huika. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "CKLimitTextField.h"
 
-@interface InsInputNameVC : HKViewController
-
+@interface ViolationInputNameVC : UIViewController
 @property (weak, nonatomic) IBOutlet CKLimitTextField *nameField;
 @property (weak, nonatomic) IBOutlet UIButton *ensureButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;

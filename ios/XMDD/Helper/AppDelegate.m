@@ -273,6 +273,20 @@
     
 }
 
+-(BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
+{
+    // 当 userActivity 是 NSUserActivityTypeBrowsingWeb 类型, 则意味着它是由Universal Links进来的
+    if ([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb])
+    {
+        NSURL *webpageURL = userActivity.webpageURL;
+        // 拼接成短链接形式。方便使用 naviModel 逻辑
+        NSString *query = [NSString stringWithFormat:@"xmdd://j?%@",webpageURL.query];
+        NSDictionary *userInfo = @{@"url":query};
+        [self.pushMgr handleNofitication:userInfo forApplication:application];
+    }
+    return YES;
+}
+
 #pragma mark - QQ
 - (void)tencentDidLogin
 {

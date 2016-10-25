@@ -1591,6 +1591,8 @@
 		4E067BC31D891D58008578E4 /* PremiumModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E067BC21D891D58008578E4 /* PremiumModel.m */; };
 		4E2159A21D6409F5004A81D6 /* UPayVerifyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2159A11D6409F5004A81D6 /* UPayVerifyVC.m */; };
 		4E30E6D21CFD8492000157D4 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */; };
+		4E3EDD621DBDE45F004C0493 /* MutualInsGroupNoticeItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3EDD611DBDE45F004C0493 /* MutualInsGroupNoticeItemCell.m */; };
+		4E4D6D211DBA137A00ADB961 /* MutualInsGroupDetailNoticeBoardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6D201DBA137A00ADB961 /* MutualInsGroupDetailNoticeBoardVC.m */; };
 		4E78DDE91D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */; };
 		4E78DDEA1D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE21D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.m */; };
 		4E78DDEB1D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE41D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m */; };
@@ -1607,6 +1609,7 @@
 		4E78E02D1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */; };
 		4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */; };
 		4ED048C81D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */; };
+		4EF0CA391DBA0A080036C024 /* ViolationInputNameVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF0CA381DBA0A080036C024 /* ViolationInputNameVC.m */; };
 		4EF8BF661D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */; };
 		505E5FCA1BD7356B00857819 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 505E5FC41BD7356A00857819 /* WebViewJavascriptBridge.js.txt */; };
 		505E5FCB1BD7356B00857819 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC51BD7356A00857819 /* WebViewJavascriptBridge.m */; };
@@ -3330,6 +3333,10 @@
 		4E30E6CF1CFD8492000157D4 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
 		4E30E6D01CFD8492000157D4 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
 		4E30E6D11CFD8492000157D4 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
+		4E3EDD601DBDE45F004C0493 /* MutualInsGroupNoticeItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGroupNoticeItemCell.h; sourceTree = "<group>"; };
+		4E3EDD611DBDE45F004C0493 /* MutualInsGroupNoticeItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGroupNoticeItemCell.m; sourceTree = "<group>"; };
+		4E4D6D1F1DBA137A00ADB961 /* MutualInsGroupDetailNoticeBoardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsGroupDetailNoticeBoardVC.h; sourceTree = "<group>"; };
+		4E4D6D201DBA137A00ADB961 /* MutualInsGroupDetailNoticeBoardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsGroupDetailNoticeBoardVC.m; sourceTree = "<group>"; };
 		4E78DDDF1D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateCommitSuccessVC.h; sourceTree = "<group>"; };
 		4E78DDE01D5A1A3A00EC52C7 /* ViolationDelegateCommitSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationDelegateCommitSuccessVC.m; sourceTree = "<group>"; };
 		4E78DDE11D5A1A3A00EC52C7 /* ViolationDelegateMissionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationDelegateMissionVC.h; sourceTree = "<group>"; };
@@ -3362,6 +3369,8 @@
 		4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendUnioncardSmsOp.m; sourceTree = "<group>"; };
 		4ED048C61D64964600F48A1F /* CheckoutUnioncardQuickpayOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutUnioncardQuickpayOp.h; sourceTree = "<group>"; };
 		4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutUnioncardQuickpayOp.m; sourceTree = "<group>"; };
+		4EF0CA371DBA0A080036C024 /* ViolationInputNameVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationInputNameVC.h; sourceTree = "<group>"; };
+		4EF0CA381DBA0A080036C024 /* ViolationInputNameVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationInputNameVC.m; sourceTree = "<group>"; };
 		4EF8BF641D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckGeneralTradenoStatusOp.h; sourceTree = "<group>"; };
 		4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckGeneralTradenoStatusOp.m; sourceTree = "<group>"; };
 		505E5FC31BD7356A00857819 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
@@ -5706,6 +5715,8 @@
 				18649CA71D48B6D200F1CCB0 /* ViolationViewController.m */,
 				FAE1A17F1D543AE500574B1C /* ViolationCommissionStateVC.h */,
 				FAE1A1801D543AE500574B1C /* ViolationCommissionStateVC.m */,
+				4EF0CA371DBA0A080036C024 /* ViolationInputNameVC.h */,
+				4EF0CA381DBA0A080036C024 /* ViolationInputNameVC.m */,
 			);
 			name = Violation;
 			sourceTree = "<group>";
@@ -5998,6 +6009,8 @@
 				18649DE21D48BCF100F1CCB0 /* MutualInsGroupMySimpleHeaderCell.m */,
 				18649DE31D48BCF100F1CCB0 /* MutualInsGrouponMsgCell.h */,
 				18649DE41D48BCF100F1CCB0 /* MutualInsGrouponMsgCell.m */,
+				4E3EDD601DBDE45F004C0493 /* MutualInsGroupNoticeItemCell.h */,
+				4E3EDD611DBDE45F004C0493 /* MutualInsGroupNoticeItemCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -6017,6 +6030,8 @@
 				18649DBC1D48BCB700F1CCB0 /* MutualInsGroupDetailMeVC.m */,
 				18649DBD1D48BCB700F1CCB0 /* MutualInsGroupDetailVC.h */,
 				18649DBE1D48BCB700F1CCB0 /* MutualInsGroupDetailVC.m */,
+				4E4D6D1F1DBA137A00ADB961 /* MutualInsGroupDetailNoticeBoardVC.h */,
+				4E4D6D201DBA137A00ADB961 /* MutualInsGroupDetailNoticeBoardVC.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -6925,6 +6940,7 @@
 				TargetAttributes = {
 					1883D8DE1ACB99AC002A4D19 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 7A3B9332PS;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
@@ -6934,7 +6950,7 @@
 								enabled = 1;
 							};
 							com.apple.SafariKeychain = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Wallet = {
 								enabled = 0;
@@ -7483,6 +7499,7 @@
 				18649BB71D48AE9B00F1CCB0 /* HomePageVC.m in Sources */,
 				FAE1A1811D543AE500574B1C /* ViolationCommissionStateVC.m in Sources */,
 				18649D331D48B9A600F1CCB0 /* InsuranceInfoSubmitingVC.m in Sources */,
+				4E3EDD621DBDE45F004C0493 /* MutualInsGroupNoticeItemCell.m in Sources */,
 				18649A061D489A9700F1CCB0 /* RescueCancelHostcarOp.m in Sources */,
 				186499F81D489A9700F1CCB0 /* GetUserCouponV2Op.m in Sources */,
 				183F57121D4C90860001E26A /* ApplyCooperationGroupOp.m in Sources */,
@@ -7548,6 +7565,7 @@
 				1888F41D1D48CB8600C64288 /* RCTNetworkManager.m in Sources */,
 				186499761D489A9700F1CCB0 /* HKAddressComponent.m in Sources */,
 				18649A141D489A9700F1CCB0 /* UploadFileOp.m in Sources */,
+				4E4D6D211DBA137A00ADB961 /* MutualInsGroupDetailNoticeBoardVC.m in Sources */,
 				186496CE1D489A4200F1CCB0 /* PasteboardModel.m in Sources */,
 				186499ED1D489A9700F1CCB0 /* GetSystemJSPatchOp.m in Sources */,
 				18649B6C1D48A93000F1CCB0 /* HKImageView.m in Sources */,
@@ -7645,6 +7663,7 @@
 				18649E1E1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m in Sources */,
 				183F57261D4C90860001E26A /* GetCooperationGroupMyInfoOp.m in Sources */,
 				18649C111D48B35000F1CCB0 /* ValuationCarSubView.m in Sources */,
+				4EF0CA391DBA0A080036C024 /* ViolationInputNameVC.m in Sources */,
 				18649CCC1D48B72D00F1CCB0 /* RescueCommentsVC.m in Sources */,
 				186496CD1D489A4200F1CCB0 /* NetworkManager.m in Sources */,
 				186499971D489A9700F1CCB0 /* AddCarOp.m in Sources */,
@@ -8965,7 +8984,7 @@
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7A3B9332PS;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -9062,8 +9081,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "abb88805-5143-4184-94ac-ba155f380c48";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "2a9e1720-bcc7-443e-be53-b3207e0c66dc";
+				PROVISIONING_PROFILE_SPECIFIER = Development_Provisioning_xmdd;
 			};
 			name = Debug;
 		};

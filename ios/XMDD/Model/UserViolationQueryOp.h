@@ -28,7 +28,6 @@
 
 ///失败原因
 @property (nonatomic,copy)NSString * rsp_reason;
-
 ///违章记录数
 @property (nonatomic)NSInteger rsp_violationCount;
 ///总扣分数
@@ -39,5 +38,6 @@
 @property (nonatomic,strong)NSArray * rsp_violationArray;
 ///可代办条数
 @property (nonatomic,copy)NSString * rsp_violationAvailableTip;
-
+///是否需要身份证号码 为1时需要输入身份证号码
+@property (nonatomic,copy)NSNumber * rsp_idno;
 @end

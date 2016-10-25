@@ -20,7 +20,10 @@
     [params addParam:self.req_licensecopyurl forName:@"licensecopyurl"];
     [params addParam:self.req_licencenumber forName:@"licencenumber"];
     [params addParam:self.req_usercarid forName:@"usercarid"];
-    
+    if (self.req_idno.length)
+    {
+        [params addParam:self.req_idno forName:@"idno"];
+    }
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 

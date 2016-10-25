@@ -343,8 +343,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // @yzc 下架商户不能点击
-    if (indexPath.section == 0 && indexPath.row == 0 )
+    if (indexPath.section == 0 && indexPath.row == 0 && self.order.shop.isDelete.integerValue == 1)
     {
         ShopDetailVC *vc = [[ShopDetailVC alloc] init];
         vc.shop = self.order.shop;
@@ -363,13 +362,12 @@
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
     
-//    @YZC 等待接口
-//    undercarriageImgView.hidden = NO;
     addrL.numberOfLines = 0;
     addrL.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 120;
     
     JTShop *shop = self.order.shop;
     
+    undercarriageImgView.hidden = shop.isDelete.integerValue == 1;
     [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     titleL.text = shop.shopName;
     addrL.text = shop.shopAddress;

@@ -12,6 +12,7 @@
 #import "GetCooperationGroupSharemoneyOp.h"
 #import "GetCooperationGroupMembersOp.h"
 #import "GetCooperationGroupMessageListOp.h"
+#import "GetCooperationClaimsListV2Op.h"
 
 ///分页数量
 extern NSInteger const kFetchPageAmount;
@@ -25,9 +26,11 @@ extern NSInteger const kFetchPageAmount;
 @property (nonatomic, strong) RACSignal *reloadMyInfoSignal;
 @property (nonatomic, strong) RACSignal *reloadFundInfoSignal;
 @property (nonatomic, strong) RACSignal *reloadMembersInfoSignal;
+@property (nonatomic, strong) RACSignal *reloadNoticeInfoSignal;
 @property (nonatomic, strong) RACSignal *reloadMessagesInfoSignal;
 
 @property (nonatomic, strong) RACSignal *loadMoreMessagesInfoSignal;
+@property (nonatomic, strong) RACSignal *loadMoreNoticeInfoSignal;
 @property (nonatomic, strong) RACSignal *loadMoreMembersInfoSignal;
 
 @property (nonatomic, strong) GetCooperationGroupConfigOp *baseInfo;
@@ -35,6 +38,7 @@ extern NSInteger const kFetchPageAmount;
 @property (nonatomic, strong) GetCooperationGroupSharemoneyOp *fundInfo;
 @property (nonatomic, strong) GetCooperationGroupMembersOp *membersInfo;
 @property (nonatomic, strong) GetCooperationGroupMessageListOp *messagesInfo;
+@property (nonatomic, strong) GetCooperationClaimsListV2Op *noticeInfo;
 
 + (instancetype)fetchForGroupID:(NSNumber *)groupID memberID:(NSNumber *)memberID;
 + (instancetype)fetchOrCreateForGroupID:(NSNumber *)groupID memberID:(NSNumber *)memberID;
@@ -44,6 +48,7 @@ extern NSInteger const kFetchPageAmount;
 - (void)fetchFundInfoForce:(BOOL)force;
 - (void)fetchMembersInfoForce:(BOOL)force;
 - (void)fetchMessagesInfoForce:(BOOL)force;
+- (void)fetchNoticeInfoForce:(BOOL)force;
 
 - (void)fetchMoreMessagesInfo;
 - (void)fetchMoreMembersInfo;

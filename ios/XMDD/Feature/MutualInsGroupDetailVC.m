@@ -368,7 +368,9 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 
 #pragma mark - TabBar
 - (void)reloadTabBar {
-    self.tabItems = $([self tabItemMe], [self tabItemFund], [self tabItemMembers], [self tabItemMessages]);
+    self.tabItems = $([self tabItemMe], [self tabItemFund],
+                      [self tabItemMembers], [self tabItemMessages],
+                      [self tabItemNoticeBoard]);
     NSInteger selectedIndex = 0;
     
     self.tabBar.items = [[self.tabItems allObjects] arrayByMappingOperator:^id(CKDict *dict) {
@@ -426,6 +428,23 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
     });
     return item;
     
+}
+
+- (id)tabItemNoticeBoard {
+    
+    if (self.viewModel.baseInfo.rsp_showselfflag == 0 || [self.router.userInfo[kIgnoreBaseInfo] boolValue]) {
+        return CKNULL;
+    }
+    CKDict *item = [CKDict dictWith:@{kCKItemKey:@"notice", @"title": @"公示", @"class": @"MutualInsGroupDetailNoticeBoardVC"}];
+    @weakify(self);
+    item[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        @strongify(self);
+        // 提前加上友盟
+        [MobClick event:@"hztuanxiangqiang" attributes:@{@"dingbu":@"gongshi"}];
+        [self.viewModel fetchNoticeInfoForce:NO];
+        
+    });
+    return item;
 }
 
 - (CKDict *)tabItemMessages {
