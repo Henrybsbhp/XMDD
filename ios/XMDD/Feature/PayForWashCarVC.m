@@ -267,10 +267,13 @@
 {
     if (self.shop.shopPhone.length)
     {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"咨询商户"
-                                                                                  style:UIBarButtonItemStylePlain
-                                                                                 target:self
-                                                                                 action:@selector(actionCallShop)];
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"咨询商户" style:UIBarButtonItemStylePlain
+                                                                 target:self action:@selector(actionCallShop)];
+        [right setTitleTextAttributes:@{
+                                        NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                        } forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = right;
+
     }
     
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];

@@ -686,7 +686,6 @@
 		18649E5F1D48BE5500F1CCB0 /* InviteAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E5C1D48BE5500F1CCB0 /* InviteAlertVC.m */; };
 		18649E601D48BE5500F1CCB0 /* InviteCompleteVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E5E1D48BE5500F1CCB0 /* InviteCompleteVC.m */; };
 		186D0DAD1D9258BB00F669F4 /* RCTHKImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186D0DAC1D9258BB00F669F4 /* RCTHKImageView.m */; };
-		1888F3F21D48C02600C64288 /* MutualInsClaimAccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F3F11D48C02600C64288 /* MutualInsClaimAccountVC.m */; };
 		1888F41A1D48CB8600C64288 /* RCTAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F4111D48CB8600C64288 /* RCTAppManager.m */; };
 		1888F41B1D48CB8600C64288 /* RCTLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F4131D48CB8600C64288 /* RCTLoginManager.m */; };
 		1888F41C1D48CB8600C64288 /* RCTNavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F4151D48CB8600C64288 /* RCTNavigationManager.m */; };
@@ -1337,7 +1336,6 @@
 		18F31A4C1D9B722000D9A0A9 /* GetGaschargeInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56D21D4C90860001E26A /* GetGaschargeInfoOp.m */; };
 		18F31A4D1D9B722000D9A0A9 /* InsAppointmentSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D2C1D48B9A600F1CCB0 /* InsAppointmentSuccessVC.m */; };
 		18F31A4E1D9B722000D9A0A9 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D17F761B53B21E00F66F04 /* MBProgressHUD.m */; };
-		18F31A4F1D9B722000D9A0A9 /* MutualInsClaimAccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F3F11D48C02600C64288 /* MutualInsClaimAccountVC.m */; };
 		18F31A501D9B722000D9A0A9 /* ViolationMissionHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDE41D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m */; };
 		18F31A511D9B722000D9A0A9 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 505E5FC71BD7356A00857819 /* WebViewJavascriptBridgeBase.m */; };
 		18F31A521D9B722000D9A0A9 /* HKCoupon.m in Sources */ = {isa = PBXBuildFile; fileRef = 186497D41D489A9600F1CCB0 /* HKCoupon.m */; };
@@ -3196,8 +3194,6 @@
 		186D0DAB1D9258BB00F669F4 /* RCTHKImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTHKImageView.h; sourceTree = "<group>"; };
 		186D0DAC1D9258BB00F669F4 /* RCTHKImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTHKImageView.m; sourceTree = "<group>"; };
 		1883D8DF1ACB99AC002A4D19 /* XMDD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XMDD.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1888F3F01D48C02600C64288 /* MutualInsClaimAccountVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsClaimAccountVC.h; sourceTree = "<group>"; };
-		1888F3F11D48C02600C64288 /* MutualInsClaimAccountVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsClaimAccountVC.m; sourceTree = "<group>"; };
 		1888F4101D48CB8600C64288 /* RCTAppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTAppManager.h; sourceTree = "<group>"; };
 		1888F4111D48CB8600C64288 /* RCTAppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTAppManager.m; sourceTree = "<group>"; };
 		1888F4121D48CB8600C64288 /* RCTLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTLoginManager.h; sourceTree = "<group>"; };
@@ -6068,8 +6064,6 @@
 		18649E261D48BD9100F1CCB0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				1888F3F01D48C02600C64288 /* MutualInsClaimAccountVC.h */,
-				1888F3F11D48C02600C64288 /* MutualInsClaimAccountVC.m */,
 				18649E021D48BD8D00F1CCB0 /* MutualInsAcceptCompensationVC.h */,
 				18649E031D48BD8D00F1CCB0 /* MutualInsAcceptCompensationVC.m */,
 				18649E041D48BD8D00F1CCB0 /* MutualInsActivityVC.h */,
@@ -7986,7 +7980,6 @@
 				183F57321D4C90860001E26A /* GetGaschargeInfoOp.m in Sources */,
 				18649D311D48B9A600F1CCB0 /* InsAppointmentSuccessVC.m in Sources */,
 				18D17F771B53B21E00F66F04 /* MBProgressHUD.m in Sources */,
-				1888F3F21D48C02600C64288 /* MutualInsClaimAccountVC.m in Sources */,
 				4E78DDEB1D5A1A3A00EC52C7 /* ViolationMissionHistoryVC.m in Sources */,
 				505E5FCC1BD7356B00857819 /* WebViewJavascriptBridgeBase.m in Sources */,
 				1864997B1D489A9700F1CCB0 /* HKCoupon.m in Sources */,
@@ -8734,7 +8727,6 @@
 				18F31A4C1D9B722000D9A0A9 /* GetGaschargeInfoOp.m in Sources */,
 				18F31A4D1D9B722000D9A0A9 /* InsAppointmentSuccessVC.m in Sources */,
 				18F31A4E1D9B722000D9A0A9 /* MBProgressHUD.m in Sources */,
-				18F31A4F1D9B722000D9A0A9 /* MutualInsClaimAccountVC.m in Sources */,
 				18F31A501D9B722000D9A0A9 /* ViolationMissionHistoryVC.m in Sources */,
 				18F31A511D9B722000D9A0A9 /* WebViewJavascriptBridgeBase.m in Sources */,
 				18F31A521D9B722000D9A0A9 /* HKCoupon.m in Sources */,

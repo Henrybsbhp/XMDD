@@ -10,9 +10,10 @@
 
 @interface GainUserAwardOp : BaseOp
 
-@property (nonatomic, copy) NSString *req_province;
-@property (nonatomic, copy) NSString *req_city;
-@property (nonatomic, copy) NSString *req_district;
+@property (nonatomic, copy)NSString *req_province;
+@property (nonatomic, copy)NSString *req_city;
+@property (nonatomic, copy)NSString *req_district;
+@property (nonatomic, copy)NSString *req_blackbox;
 
 ///礼券金额
 @property (nonatomic)NSInteger rsp_amount;
