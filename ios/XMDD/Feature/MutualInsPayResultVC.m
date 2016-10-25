@@ -14,6 +14,7 @@
 #import "GetShareButtonOpV2.h"
 #import "SocialShareViewController.h"
 #import "ShareResponeManager.h"
+#import "ADViewController.h"
 
 @interface MutualInsPayResultVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
@@ -31,6 +32,9 @@
 
 @property (nonatomic, strong) CKList *datasource;
 
+@property (nonatomic,strong) UIView *headerView;
+@property (nonatomic,strong) ADViewController * adctrl;
+
 @end
 
 @implementation MutualInsPayResultVC
@@ -44,6 +48,8 @@
     [super viewDidLoad];
     
     [self setupNavigationBar];
+    [self setupTableView];
+    [self setupADView];
     
     self.contactname = self.contract.insurancedname;
     self.contactphone = gAppMgr.myUser.userID;
@@ -71,6 +77,44 @@
         self.navigationItem.title = @"支付结果";
     }
 }
+
+#pragma mark - Setup
+- (void)setupTableView {
+    self.tableView.contentInset = UIEdgeInsetsZero;
+    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, CGFLOAT_MIN)];
+    self.headerView.backgroundColor = [UIColor whiteColor];
+    self.tableView.tableHeaderView = self.headerView;
+}
+
+- (void)setupADView {
+    if (!self.adctrl) {
+        self.adctrl = [ADViewController vcWithADType:AdvertisementMutualInsSuccess boundsWidth:self.view.bounds.size.width
+                                            targetVC:self mobBaseEvent:@"hzwanshandizhi" mobBaseKey:@"guanggao"];
+    }
+    @weakify(self);
+    [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
+        @strongify(self);
+        UIView *header = self.headerView;
+        if (ads.count == 0 || [self.headerView.subviews containsObject:ctrl.adView]) {
+            return;
+        }
+        CGFloat height = 75;
+        header.frame = CGRectMake(0, 0, self.view.frame.size.width, height);
+        [header addSubview:ctrl.adView];
+        [ctrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            if (header)
+            {
+                make.left.equalTo(header);
+                make.right.equalTo(header);
+                make.top.equalTo(header);
+                make.height.mas_equalTo(height);
+            }
+        }];
+        self.tableView.tableHeaderView = header;
+    }];
+}
+
 
 - (void)setupDatasource
 {

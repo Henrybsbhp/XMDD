@@ -19,6 +19,7 @@
 @implementation PickAutomobileBrandVC
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     self.autoModel = [AutoInfoModel new];
 }
 

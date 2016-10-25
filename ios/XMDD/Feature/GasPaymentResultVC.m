@@ -14,6 +14,16 @@
 #import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
 
+#import "ADViewController.h"
+
+@interface GasPaymentResultVC()
+
+@property (nonatomic,strong) UIView *headerView;
+
+@property (nonatomic,strong) ADViewController * adctrl;
+
+@end
+
 @implementation GasPaymentResultVC
 
 - (void)dealloc
@@ -28,8 +38,47 @@
     if (!self.detailText) {
         self.detailText = @"您充值的金额将在1个工作日内到账，到账后可以前往加油站圈存使用。勾选“我要开发票”的用户可在圈存时向加油站工作人员索取发票。";
     }
+    
+    [self setupTableView];
+    [self setupADView];
 }
 
+#pragma mark - Setup
+- (void)setupTableView {
+    self.tableView.contentInset = UIEdgeInsetsZero;
+    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, CGFLOAT_MIN)];
+    self.headerView.backgroundColor = [UIColor whiteColor];
+    self.tableView.tableHeaderView = self.headerView;
+}
+
+- (void)setupADView {
+    if (!self.adctrl) {
+        self.adctrl = [ADViewController vcWithADType:AdvertisementGasSuccess boundsWidth:self.view.bounds.size.width
+                                            targetVC:self mobBaseEvent:@"jiayouzhifujieguo" mobBaseKey:@"guanggao"];
+    }
+    @weakify(self);
+    [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
+        @strongify(self);
+        UIView *header = self.headerView;
+        if (ads.count == 0 || [self.headerView.subviews containsObject:ctrl.adView]) {
+            return;
+        }
+        CGFloat height = 75;
+        header.frame = CGRectMake(0, 0, self.view.frame.size.width, height);
+        [header addSubview:ctrl.adView];
+        [ctrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            if (header)
+            {
+                make.left.equalTo(header);
+                make.right.equalTo(header);
+                make.top.equalTo(header);
+                make.height.mas_equalTo(height);
+            }
+        }];
+        self.tableView.tableHeaderView = header;
+    }];
+}
 #pragma mark - ReloadData
 - (void)reloadData {
     

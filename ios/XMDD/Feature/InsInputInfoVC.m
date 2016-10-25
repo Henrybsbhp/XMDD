@@ -38,6 +38,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     if (!self.insModel) {
         self.insModel = [[InsuranceVM alloc] init];
     }

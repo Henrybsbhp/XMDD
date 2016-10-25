@@ -21,9 +21,12 @@
 #import "GuideStore.h"
 #import "ShopDetailStore.h"
 #import "PayForWashCarVC.h"
+#import "ADViewController.h"
 
 
 @interface PaymentSuccessVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UITextViewDelegate>
+
+@property (nonatomic, strong) ADViewController *adctrl;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UILabel *subLabel;
@@ -45,6 +48,7 @@
 
 
 @property (nonatomic,strong)NSArray * currentRateTemplate;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewTopConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewConstraint;
@@ -75,6 +79,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.router.disableInteractivePopGestureRecognizer = YES;
 }
 
@@ -83,6 +88,7 @@
     
     [self setupUmengEvent];
     [self setupStaticInfo];
+    [self setupADViewInContainer:self.view];
     [self setupGuideStore];
 
     CKAsyncMainQueue(^{
@@ -259,6 +265,45 @@
         [self.collectionView reloadData];
         
         [self setupUI:Commenting];
+    }];
+}
+
+- (void)setupADViewInContainer:(UIView *)container
+{
+    AdvertisementType adType = AdvertisementCarwashSuccess;
+    if (self.order.serviceType == ShopServiceCarMaintenance)
+    {
+        adType = AdvertisementMaintenanceSuccess;
+    }
+    else if (self.order.serviceType == ShopServiceCarBeauty)
+    {
+        adType = AdvertisementBeautySuccess;
+    }
+    
+    self.adctrl = [ADViewController vcWithADType:adType
+                                     boundsWidth:self.view.frame.size.width
+                                        targetVC:self mobBaseEvent:self.mobClickEvent
+                                      mobBaseKey:@"guanggao"];
+    
+    @weakify(self);
+    [self.adctrl reloadDataWithForce:NO completed:^(ADViewController *ctrl, NSArray *ads) {
+        @strongify(self);
+        if (ads.count == 0 || [container.subviews containsObject:ctrl.adView]) {
+            return;
+        }
+        CGFloat height = 75;
+        [container addSubview:ctrl.adView];
+        [ctrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            if (container)
+            {
+                make.left.equalTo(container);
+                make.right.equalTo(container);
+                make.top.equalTo(container);
+                make.height.mas_equalTo(height);
+            }
+        }];
+        self.scrollViewTopConstraint.constant = ads.count ? 75 : 0;
     }];
 }
 

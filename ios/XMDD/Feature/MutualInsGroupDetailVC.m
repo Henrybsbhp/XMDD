@@ -349,7 +349,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
         [MobClick event:@"hztuanxiangqiang" attributes:@{@"caidan":@"shiyongbangzhu"}];
         UIViewController *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         [vc setValue:self forKey:@"originVC"];
-        [vc setValue:MutualInsGroupDetailHelpUrl forKey:@"url"];
+        [vc setValue:kMutualInsGroupDetailHelpUrl forKey:@"url"];
         [self.navigationController pushViewController:vc animated:YES];
     });
     return dict;
