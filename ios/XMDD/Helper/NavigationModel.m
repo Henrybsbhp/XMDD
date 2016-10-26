@@ -409,12 +409,12 @@
             
             // 通过有无 value / id 来判断进入救援详情 / 救援列表的页面
             if (value.length > 0) {
-                RescuePaymentStatusVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"RescuePaymentStatusVC"];
+                RescuePaymentStatusVC *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescuePaymentStatusVC"];
                 vc.vcType = 1;
                 vc.applyID = @(value.integerValue);
                 [self.curNavCtrl pushViewController:vc animated:YES];
             } else {
-                UIViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeV2VC"];
+                UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeV2VC"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
         }
