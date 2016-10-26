@@ -519,11 +519,20 @@
 
 - (void)handleForgroundNotification:(NSDictionary *)info
 {
-    NSDictionary * alertDict = info[@"alert"];
+    NSString * alertStr = info[@"alert"];
     NSString * urlStr = info[@"url"];
     
-    if (!alertDict || ![alertDict isKindOfClass:[NSDictionary class]])
+    if (!alertStr || ![alertStr isKindOfClass:[NSString class]])
         return;
+    
+    NSData *alertData = [alertStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSError * parseError;
+    NSDictionary * alertDict = [NSJSONSerialization JSONObjectWithData:alertData options:0 error:&parseError];
+    
+    if (parseError || !alertDict)
+    {
+        return;
+    }
     
     NSString * message = alertDict[@"info"];
     NSString * cancelStr = alertDict[@"cancel"];
