@@ -192,7 +192,7 @@
         self.historyBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _historyBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         _historyBtn.frame = CGRectMake(0, 0, 60, 44);
-        [_historyBtn setTitle:@"协办历史" forState:UIControlStateNormal];
+        [_historyBtn setTitle:@"我的协办" forState:UIControlStateNormal];
         [_historyBtn addTarget:self action:@selector(commissionHistory) forControlEvents:UIControlEventTouchUpInside];
     }
     return _historyBtn;
