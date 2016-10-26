@@ -361,6 +361,7 @@
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
+    UIImageView *arrowView = (UIImageView *)[cell.contentView viewWithTag:1004];
     
     addrL.numberOfLines = 0;
     addrL.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 120;
@@ -368,6 +369,7 @@
     JTShop *shop = self.order.shop;
     
     undercarriageImgView.hidden = shop.isDelete.integerValue == 1;
+    arrowView.hidden = shop.isDelete.integerValue != 1;
     [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     titleL.text = shop.shopName;
     addrL.text = shop.shopAddress;
