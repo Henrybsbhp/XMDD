@@ -6,6 +6,7 @@
 	<array>
 		<string>applinks:devulink.xiaomadada.com</string>
 		<string>applinks:ulink.xiaomadada.com</string>
+		<string>applinks:dev.xiaomadada.com</string>
 	</array>
 	<key>com.apple.developer.in-app-payments</key>
 	<array>
