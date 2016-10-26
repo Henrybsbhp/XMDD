@@ -59,9 +59,9 @@
     self.dataSource = $(
                         $(
                           [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证正本",self.carNum]],
-                          [self photoCellDataWithSampleImg:[UIImage imageNamed:@"illegal_original"]],
+                          [self photoCellDataWithSampleImg:[UIImage imageNamed:@"ins_pic2"]],
                           [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证副本",self.carNum]],
-                          [self photoCellDataWithSampleImg:[UIImage imageNamed:@"illegal_licenceReavel"]],
+                          [self photoCellDataWithSampleImg:[UIImage imageNamed:@"ins_pic3"]],
                           [self blankCellData]
                           ),
                         $(

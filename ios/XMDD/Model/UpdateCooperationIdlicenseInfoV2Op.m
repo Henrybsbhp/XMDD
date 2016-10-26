@@ -16,6 +16,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params safetySetObject:self.req_idurl forKey:@"idurl"];
     [params safetySetObject:self.req_licenseurl forKey:@"licenseurl"];
+    [params safetySetObject:self.req_licensecopyurl forKey:@"licensecopyurl"];
     [params safetySetObject:self.req_firstinscomp forKey:@"firstinscomp"];
     [params safetySetObject:self.req_secinscomp forKey:@"secinscomp"];
     [params safetySetObject:self.req_memberid ?: @(0) forKey:@"memberid"];

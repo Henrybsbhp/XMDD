@@ -19,5 +19,12 @@
 ///商业险到期日(系统设置的最小值)
 @property (nonatomic,strong) NSDate* rsp_mininsenddate;
 
+/// 车牌号
+@property (nonatomic,copy)NSString * rsp_licensenumber;
+/// 是否代买交强险
+@property (nonatomic)BOOL rsp_isbuyforceins;
+/// 行驶证副本
+@property (nonatomic,copy)NSString * rsp_licensecopyurl;
+
 
 @end
