@@ -302,5 +302,17 @@
     return _mineDot;
 }
 
+#pragma mark - UIResponser
 
+#ifdef DEBUG
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    gAssistiveMgr.isShowAssistiveView = !gAssistiveMgr.isShowAssistiveView;
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+#endif
 @end

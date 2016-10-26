@@ -642,11 +642,4 @@
     [gAssistiveMgr setupFPSObserver];
 }
 
-#pragma mark - UIResponser
-- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
-{
-#ifdef DEBUG
-    gAssistiveMgr.isShowAssistiveView = !gAssistiveMgr.isShowAssistiveView;
-#endif
-}
 @end
