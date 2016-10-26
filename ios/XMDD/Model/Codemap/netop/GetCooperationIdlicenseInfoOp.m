@@ -15,10 +15,15 @@
     NSDictionary *dict = rspObj;
     self.rsp_licenseurl = dict[@"licenseurl"];
     self.rsp_idnourl = dict[@"idnourl"];
+    self.rsp_licensecopyurl = dict[@"licensecopyurl"];
     self.rsp_lstinscomp = dict[@"lstinscomp"];
     self.rsp_secinscomp = dict[@"secinscomp"];
     self.rsp_insenddate = [NSDate dateWithD10Text:dict[@"insenddate"]];
 	self.rsp_mininsenddate = [NSDate dateWithD10Text:dict[@"mininsenddate"]];
+    self.rsp_licensenumber = dict[@"licensenumber"];
+    self.rsp_isbuyforceins = [dict boolParamForName:@"isbuyforceins"];
+    self.rsp_licensecopyurl = dict[@"licensecopyurl"];
+    
     return self;
 }
 
