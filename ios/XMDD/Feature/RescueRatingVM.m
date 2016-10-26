@@ -131,8 +131,11 @@
     for (UIViewController *vc in self.targetVC.navigationController.viewControllers) {
         if ([vc isKindOfClass:[RescueRecordVC class]]) {
             [self.targetVC.router.navigationController popToViewController:vc animated:YES];
+            return;
         }
     }
+    
+    [self.targetVC.router.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Obtain data
