@@ -15,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet MAMapView *mapView;
 @property (nonatomic, strong) AMapSearchAPI *addressSearch;
 
+/// 是否第一次进入救援地图页面，如果是第一次，则放弃第一次请求得到的位置文本信息详情，因为第一次请求一直会是默认的北京。
+@property (nonatomic) BOOL isFirstLoad;
 @property (nonatomic, strong) AMapReGeocodeSearchRequest *reqGEO;
 
 @property (weak, nonatomic) IBOutlet UIView *addressView;
@@ -35,6 +37,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.isFirstLoad = YES;
     
     self.needUpdateLocation = YES;
     [self setupMapView];
@@ -119,6 +123,7 @@
 {
     DebugLog(@"coordinate is: %f ---- %f", mapView.centerCoordinate.latitude, mapView.centerCoordinate.longitude);
     // 获取移动位置的坐标并做反地理编码
+    self.addressLabel.text = @"定位中...";
     self.reqGEO.location = [AMapGeoPoint locationWithLatitude:mapView.centerCoordinate.latitude longitude:mapView.centerCoordinate.longitude];
     self.reqGEO.requireExtension = YES;
     [self.addressSearch AMapReGoecodeSearch:self.reqGEO];
@@ -128,6 +133,11 @@
 /// 反地理编码用到的回调代理
 - (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response
 {
+    if (self.isFirstLoad) {
+        self.isFirstLoad = NO;
+        return;
+    }
+    
     DebugLog(@"address title: %@", response.regeocode.formattedAddress);
     // 获取到格式化后的地址并赋值
     [self setAddressLabelText:[self stringByAppendingAddressStringWithSearchResponse:response]];
