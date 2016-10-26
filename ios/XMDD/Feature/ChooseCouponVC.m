@@ -133,7 +133,7 @@
         {
             HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
             self.type = c.conponType;
-            if (self.type == CouponTypeInsurance)
+            if (self.type == CouponTypeInsurance || self.type == CouponTypeInsuranceDiscount)
             {
                 [payVc setSelectInsuranceCoupouArray:self.selectedCouponArray];
             }

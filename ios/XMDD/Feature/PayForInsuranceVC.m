@@ -396,9 +396,9 @@
         UILabel *dateLb = (UILabel *)[cell.contentView viewWithTag:103];
         
         @strongify(self)
-        nameLb.text = @"保险代金券";
+        nameLb.text = @"保险优惠券";
         
-        if (self.couponType == CouponTypeInsurance)
+        if (self.couponType == CouponTypeInsurance || self.couponType == CouponTypeInsuranceDiscount)
         {
             couponLb.hidden = NO;
             dateLb.hidden = NO;
@@ -832,7 +832,7 @@
             if (coupon.couponAmount < self.insOrder.totoalpay)
             {
                 [self.selectInsuranceCoupouArray addObject:coupon];
-                self.couponType = CouponTypeInsurance;
+                self.couponType = coupon.conponType;
                 self.isSelectActivity = NO;
                 break;
             }
@@ -853,10 +853,10 @@
 - (void)refreshPriceLb
 {
     CGFloat amount = self.insOrder.totoalpay;
-    if (self.couponType == CouponTypeInsurance)
+    if (self.couponType == CouponTypeInsurance || self.couponType == CouponTypeInsuranceDiscount)
     {
         HKCoupon * coupon = [self.selectInsuranceCoupouArray safetyObjectAtIndex:0];
-        amount = amount - coupon.couponAmount;
+        amount = amount * coupon.couponPercent / 100 - coupon.couponAmount;
     }
     else if (self.isSelectActivity == YES)
     {
@@ -885,7 +885,7 @@
     
     nameLb.text = @"保险代金券";
     
-    if (self.couponType == CouponTypeInsurance)
+    if (self.couponType == CouponTypeInsurance || self.couponType == CouponTypeInsuranceDiscount)
     {
         couponLb.hidden = NO;
         dateLb.hidden = NO;
