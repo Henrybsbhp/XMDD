@@ -349,7 +349,17 @@
             @weakify(self);
             [[[cancelButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
-                [self actionCancelCommissionWithHistoryRecord:historyRecord];
+                
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+                @weakify(self);
+                HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
+                    @strongify(self);
+                    [self actionCancelCommissionWithHistoryRecord:historyRecord];
+                }];
+                
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"确定要取消本次协助吗" ActionItems:@[cancel, confirm]];
+                [alert show];
+                
                 self.req_indexPath = indexPath;
                 self.req_applyID = historyRecord.applyId;
             }];
