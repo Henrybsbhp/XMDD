@@ -37,6 +37,19 @@
     [self.nameField setDidEndEditingBlock:^(CKLimitTextField *field) {
         field.placeholder = @"因业务需要，需提供身份证号码";
     }];
+    
+    [self.nameField setTextChangingBlock:^(CKLimitTextField *textField, NSString *x) {
+        NSScanner* scan = [NSScanner scannerWithString:x];
+        int val;
+        if (![scan scanInt:&val] && ![x isEqualToString:@"x"] && ![x isEqualToString:@"X"])
+        {
+            textField.text = [textField.text stringByReplacingOccurrencesOfString:x withString:@""];
+        }
+        else
+        {
+            textField.text = [textField.text uppercaseString];
+        }
+    }];
 }
 
 @end
