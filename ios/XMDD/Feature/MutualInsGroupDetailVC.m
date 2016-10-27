@@ -432,7 +432,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 
 - (id)tabItemNoticeBoard {
     
-    if (self.viewModel.baseInfo.rsp_showselfflag == 0 || [self.router.userInfo[kIgnoreBaseInfo] boolValue]) {
+    if (self.viewModel.baseInfo.rsp_showpublicityflag == 0 || [self.router.userInfo[kIgnoreBaseInfo] boolValue]) {
         return CKNULL;
     }
     CKDict *item = [CKDict dictWith:@{kCKItemKey:@"notice", @"title": @"公示", @"class": @"MutualInsGroupDetailNoticeBoardVC"}];

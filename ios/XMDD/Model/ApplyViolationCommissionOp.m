@@ -30,6 +30,7 @@
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
         self.rsp_tip = [rspObj stringParamForName:@"tip"];
+        self.rsp_successmsg = [rspObj stringParamForName:@"successmsg"];
     }
     return self;
 }

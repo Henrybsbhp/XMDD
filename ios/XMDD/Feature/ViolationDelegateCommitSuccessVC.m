@@ -11,6 +11,7 @@
 
 @interface ViolationDelegateCommitSuccessVC ()
 @property (weak, nonatomic) IBOutlet UIButton *myCommisionBtn;
+@property (weak, nonatomic) IBOutlet UILabel *successTipLabel;
 
 @end
 
@@ -32,6 +33,7 @@
 
 -(void)setupUI
 {
+    self.successTipLabel.text = [self.successMsg stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
     self.myCommisionBtn.layer.cornerRadius = 5;
     self.myCommisionBtn.layer.masksToBounds = YES;
 }
