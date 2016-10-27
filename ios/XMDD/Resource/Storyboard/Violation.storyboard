@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -1954,29 +1954,19 @@
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6zO-ql-mqP">
-                                <frame key="frameInset" width="600" height="360"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6zO-ql-mqP">
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="illegal_commitSuccess" translatesAutoresizingMaskIntoConstraints="NO" id="dpE-lh-0ZD">
-                                        <frame key="frameInset" minX="30" minY="35" width="540" height="160"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="illegal_commitSuccess" translatesAutoresizingMaskIntoConstraints="NO" id="dpE-lh-0ZD">
                                         <constraints>
                                             <constraint firstAttribute="height" constant="160" id="0NW-fL-wKX"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="申请成功，请保持手机畅通" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1T-7f-ijl">
-                                        <frame key="frameInset" minX="216" minY="215" width="168" height="17"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我们将进一步核实违章内容与罚款信息，并为您生成支付订单" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kP0-0Y-GJn">
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="客服将很快与您取得联系" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kP0-0Y-GJn">
-                                        <frame key="frameInset" minX="223" minY="237" width="154" height="17"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.27058823529999998" green="0.27058823529999998" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P7h-Vb-NpI">
-                                        <frame key="frameInset" minX="20" minY="289" width="560" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P7h-Vb-NpI">
                                         <color key="backgroundColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="wTk-Zx-jE6"/>
@@ -1991,17 +1981,17 @@
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstItem="kP0-0Y-GJn" firstAttribute="leading" secondItem="6zO-ql-mqP" secondAttribute="leading" constant="30" id="8EE-Av-zsy"/>
+                                    <constraint firstAttribute="trailing" secondItem="kP0-0Y-GJn" secondAttribute="trailing" constant="30" id="FuX-xp-FJJ"/>
                                     <constraint firstItem="dpE-lh-0ZD" firstAttribute="centerY" secondItem="6zO-ql-mqP" secondAttribute="centerY" id="K96-10-EiQ"/>
-                                    <constraint firstItem="j1T-7f-ijl" firstAttribute="centerX" secondItem="6zO-ql-mqP" secondAttribute="centerX" id="MEk-MA-0dz"/>
                                     <constraint firstItem="P7h-Vb-NpI" firstAttribute="leading" secondItem="6zO-ql-mqP" secondAttribute="leading" constant="20" id="Or0-aU-pri"/>
                                     <constraint firstAttribute="height" constant="360" id="S4D-iS-w3X"/>
                                     <constraint firstItem="dpE-lh-0ZD" firstAttribute="top" secondItem="6zO-ql-mqP" secondAttribute="top" constant="35" id="ape-hF-Ozp"/>
                                     <constraint firstItem="P7h-Vb-NpI" firstAttribute="top" secondItem="kP0-0Y-GJn" secondAttribute="bottom" constant="35" id="bXO-kF-fGy"/>
                                     <constraint firstItem="dpE-lh-0ZD" firstAttribute="leading" secondItem="6zO-ql-mqP" secondAttribute="leading" constant="30" id="eal-Mf-DfR"/>
-                                    <constraint firstItem="j1T-7f-ijl" firstAttribute="top" secondItem="dpE-lh-0ZD" secondAttribute="bottom" constant="20" id="goJ-ae-vGc"/>
                                     <constraint firstItem="kP0-0Y-GJn" firstAttribute="centerX" secondItem="6zO-ql-mqP" secondAttribute="centerX" id="iP6-wb-2rE"/>
+                                    <constraint firstItem="kP0-0Y-GJn" firstAttribute="top" secondItem="dpE-lh-0ZD" secondAttribute="bottom" constant="35" id="q5P-ZN-5bM"/>
                                     <constraint firstAttribute="trailing" secondItem="dpE-lh-0ZD" secondAttribute="trailing" constant="30" id="qNL-9q-7L6"/>
-                                    <constraint firstItem="kP0-0Y-GJn" firstAttribute="top" secondItem="j1T-7f-ijl" secondAttribute="bottom" constant="5" id="uF2-6c-FzP"/>
                                     <constraint firstItem="dpE-lh-0ZD" firstAttribute="centerX" secondItem="6zO-ql-mqP" secondAttribute="centerX" id="v0L-8k-EcX"/>
                                     <constraint firstAttribute="trailing" secondItem="P7h-Vb-NpI" secondAttribute="trailing" constant="20" id="xRh-xG-mte"/>
                                 </constraints>
@@ -2024,11 +2014,12 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="myCommisionBtn" destination="P7h-Vb-NpI" id="C2c-aN-gWK"/>
+                        <outlet property="successTipLabel" destination="kP0-0Y-GJn" id="le0-8u-ed5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pJh-yG-Rrb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2274" y="311"/>
+            <point key="canvasLocation" x="2272.8000000000002" y="310.79460269865069"/>
         </scene>
         <!--代办状态-->
         <scene sceneID="Szt-4G-d5q">

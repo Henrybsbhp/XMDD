@@ -11,6 +11,7 @@
 
 @interface ViolationDelegateCommitSuccessVC ()
 @property (weak, nonatomic) IBOutlet UIButton *myCommisionBtn;
+@property (weak, nonatomic) IBOutlet UILabel *successTipLabel;
 
 @end
 
