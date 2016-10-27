@@ -391,6 +391,7 @@
             if (value.length > 0) {
                 CommissionPaymentStatusVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionPaymentStatusVC"];
                 vc.vcType = 1;
+                vc.isEnterFromHomePage = YES;
                 vc.applyID = @(value.integerValue);
                 [self.curNavCtrl pushViewController:vc animated:YES];
             } else {
@@ -411,6 +412,7 @@
             if (value.length > 0) {
                 RescuePaymentStatusVC *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescuePaymentStatusVC"];
                 vc.vcType = 1;
+                vc.isEnterFromHomePage = YES;
                 vc.applyID = @(value.integerValue);
                 [self.curNavCtrl pushViewController:vc animated:YES];
             } else {

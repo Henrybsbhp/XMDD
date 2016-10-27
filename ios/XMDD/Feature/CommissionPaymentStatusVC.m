@@ -114,6 +114,7 @@
         if (self.vcType == HKCommissionWaitForPay) {
             self.bottomView.hidden = NO;
             self.commissionPaymentVM.vcType = self.vcType;
+            self.commissionPaymentVM.isEnterFromHomePage = self.isEnterFromHomePage;
             self.commissionPaymentVM.commissionDetailOp = rop;
             self.commissionPaymentVM.applyID = self.applyID;
             self.commissionPaymentVM.confirmButton = self.bottomButton;

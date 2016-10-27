@@ -55,6 +55,8 @@
     self.requestForRescueCommissionOrderOp = [[RequestForRescueCommissionOrderOp alloc] init];
     self.requestForRescueCommissionOrderOp.req_payChannel = PaymentChannelUPpay;
     
+    [self setupNavigationBar];
+    
     [self setupPaymentArray];
     
     [self.confirmButton setTitle:[NSString stringWithFormat:@"您只需支付%.2f元，现在支付", self.commissionDetailOp.rsp_pay] forState:UIControlStateNormal];
@@ -62,6 +64,7 @@
     @weakify(self);
     [[self.confirmButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
+        [MobClick event:@"xiebanzhuangtai" attributes:@{@"zhifufangshi" : @"zhifu"}];
         [self requestForCheckout];
     }];
     
@@ -129,6 +132,20 @@
     self.paymentArray = [NSArray arrayWithArray:array];
 }
 
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.targetVC.navigationItem.leftBarButtonItem = back;
+    [self.targetVC.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
+}
+
+#pragma mark - Actions
+- (void)actionBack
+{
+    [MobClick event:@"xiebanzhuangtai" attributes:@{@"navi" : @"fanhui"}];
+    [self.targetVC.router.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Network Requests
 /// 支付请求
 - (void)requestForCheckout
@@ -190,6 +207,7 @@
 {
     CommissionPaymentStatusVC *vc = [UIStoryboard vcWithId:@"CommissionPaymentStatusVC" inStoryboard:@"Commission"];
     vc.vcType = 2;
+    vc.isEnterFromHomePage = self.isEnterFromHomePage;
     vc.applyID = self.applyID;
     [self.targetVC.navigationController pushViewController:vc animated:YES];
 }
@@ -273,6 +291,25 @@
         @strongify(self);
         NSDictionary *paymentDict = [self.paymentArray safetyObjectAtIndex:indexPath.row - 1];
         PaymentChannelType payChannel = [paymentDict integerParamForName:@"payment"];
+        
+        if (payChannel == PaymentChannelUPpay) {
+            
+            [MobClick event:@"xiebanzhuangtai" attributes:@{@"zhifufangshi" : @"uppay"}];
+            
+        } else if (payChannel == PaymentChannelApplePay) {
+            
+            [MobClick event:@"xiebanzhuangtai" attributes:@{@"zhifufangshi" : @"applepay"}];
+            
+        } else if (payChannel == PaymentChannelAlipay) {
+            
+            [MobClick event:@"xiebanzhuangtai" attributes:@{@"zhifufangshi" : @"alipay"}];
+            
+        } else {
+            
+            [MobClick event:@"xiebanzhuangtai" attributes:@{@"zhifufangshi" : @"wechat"}];
+            
+        }
+        
         self.requestForRescueCommissionOrderOp.req_payChannel = payChannel;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
     });

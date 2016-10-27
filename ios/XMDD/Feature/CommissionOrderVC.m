@@ -47,14 +47,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupNavigationBar];
     [self actionNetwork];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
 }
 
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+    [self.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
+}
 
 #pragma mark - Action
 - (IBAction)actionCommissionClick:(UIButton *)sender {
-    [MobClick event:@"rp801_2"];
+    [MobClick event:@"nianjianxieban" attributes:@{@"woyaoxieban" : @"woyaoxieban"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
@@ -95,6 +102,12 @@
     
 }
 
+- (void)actionBack
+{
+    [MobClick event:@"nianjianxieban" attributes:@{@"navi" : @"back"}];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)commissionHistory {
 //    [MobClick event:@"rp801_1"];
 //    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
@@ -103,6 +116,7 @@
 //        [self.navigationController pushViewController:vc animated:YES];
 //    }
     
+    [MobClick event:@"nianjianxieban" attributes:@{@"navi" : @"xiebanlishi"}];
     CommissionRecordVC *vc = [UIStoryboard vcWithId:@"CommissionRecordVC" inStoryboard:@"Commission"];
     [self.navigationController pushViewController:vc animated:YES];
 }

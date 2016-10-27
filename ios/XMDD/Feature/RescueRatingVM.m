@@ -14,7 +14,7 @@
 #import "GetRescueCommentRescueOp.h"
 #import "GetRescueCommentOp.h"
 
-@interface RescueRatingVM () <UITableViewDelegate, UITableViewDataSource>
+@interface RescueRatingVM () <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, weak) UIViewController *targetVC;
@@ -128,6 +128,8 @@
 
 - (void)actionBack
 {
+    [MobClick event:@"jiuyuanzhuangtai" attributes:@{@"navi" : @"back"}];
+    
     for (UIViewController *vc in self.targetVC.navigationController.viewControllers) {
         if ([vc isKindOfClass:[RescueRecordVC class]]) {
             [self.targetVC.router.navigationController popToViewController:vc animated:YES];
@@ -313,6 +315,7 @@
         commentTextView.layer.cornerRadius = 3;
         commentTextView.layer.masksToBounds = YES;
         commentTextView.textContainerInset = UIEdgeInsetsMake(10, 7, 7, 7);
+        commentTextView.delegate = self;
         
         if (!containerView) {
             containerView = [[UIView alloc] initWithFrame:CGRectMake(10, 7, commentTextView.frame.size.width - 17, 21)];
@@ -327,7 +330,7 @@
         }
         
         @weakify(self);
-        [[commentTextView rac_textSignal] subscribeNext:^(id x) {
+        [[[commentTextView rac_textSignal] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
             if (commentTextView.text.length < 1) {
                 containerView.hidden = NO;
@@ -358,6 +361,7 @@
         @weakify(self);
         [[[sendButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
+            [MobClick event:@"jiuyuanzhuangtai" attributes:@{@"jiuyuanwancheng" : @"fabiaopinglun"}];
             [self actionSendComment];
         }];
     });
@@ -385,6 +389,12 @@
     });
     
     return commentDisplayCell;
+}
+
+#pragma mark - UITextViewDelegate
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [MobClick event:@"jiuyuanzhuangtai" attributes:@{@"jiuyuanwancheng" : @"pinglunjiju"}];
 }
 
 #pragma mark - UITableViewDelagate

@@ -67,6 +67,7 @@
 #pragma mark - Actions
 - (void)actionContactService
 {
+    [MobClick event:@"xiebanzhuangtai" attributes:@{@"zhifuwancheng" : @"lianxikefu"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
@@ -77,6 +78,13 @@
 
 - (void)actionBack
 {
+    [MobClick event:@"xiebanzhuangtai" attributes:@{@"navi" : @"fanhui"}];
+    
+    if (self.isEnterFromHomePage == YES) {
+        [self.targetVC.router.navigationController popToRootViewControllerAnimated:YES];
+        return;
+    }
+    
     for (UIViewController *vc in self.targetVC.navigationController.viewControllers) {
         if ([vc isKindOfClass:[CommissionRecordVC class]]) {
             [self.targetVC.router.navigationController popToViewController:vc animated:YES];

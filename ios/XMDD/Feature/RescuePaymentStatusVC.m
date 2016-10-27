@@ -112,6 +112,7 @@
         if (self.vcType == RescueVCTypePay) {
             self.bottomView.hidden = NO;
             self.rescuePaymentVM.vcType = self.vcType;
+            self.rescuePaymentVM.isEnterFromHomePage = self.isEnterFromHomePage;
             self.rescuePaymentVM.rescueDetialOp = rop;
             self.rescuePaymentVM.applyID = self.applyID;
             self.rescuePaymentVM.confirmButton = self.bottomButton;
@@ -132,6 +133,8 @@
 #pragma mark - Actions
 - (IBAction)actionCallService:(id)sender
 {
+    [MobClick event:@"jiuyuanzhuangtai" attributes:@{@"navi" : @"lianxikefu"}];
+    
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
