@@ -19,4 +19,7 @@
 /// 记录 ID，请求数据的输入参数
 @property (nonatomic, strong) NSNumber *applyID;
 
+/// 判断是否从推送主页面进入
+@property (nonatomic) BOOL isEnterFromHomePage;
+
 @end
