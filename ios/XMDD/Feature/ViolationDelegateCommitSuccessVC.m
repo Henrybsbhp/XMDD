@@ -33,6 +33,7 @@
 
 -(void)setupUI
 {
+    self.successTipLabel.text = [self.successMsg stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
     self.myCommisionBtn.layer.cornerRadius = 5;
     self.myCommisionBtn.layer.masksToBounds = YES;
 }
