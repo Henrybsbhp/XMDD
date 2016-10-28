@@ -37,6 +37,8 @@
 {
     [super viewDidLoad];
     
+    [self setupNavigationBar];
+    
     self.isRemain = YES;
     
     [self requestForRescueData];
@@ -60,6 +62,13 @@
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+    [self.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - Actions
@@ -92,12 +101,23 @@
         
     }] subscribeNext:^(RescueConfirmFinishOp *rop) {
         [gToast showSuccess:@"确认完成"];
-        [self requestForSpecificDataWithApplyID:self.req_applyID atIndexPath:self.req_indexPath];
+        RescuePaymentStatusVC *vc = [UIStoryboard vcWithId:@"RescuePaymentStatusVC" inStoryboard:@"Rescue"];
+        vc.vcType = HKRescueStatusCompleted;
+        vc.applyID = historyRecord.applyId;
+        vc.commentStatus = 0;
+        [self.router.navigationController pushViewController:vc animated:YES];
+        [self postCustomNotificationName:kNotifyRescueRecordVC object:nil];
         
     } error:^(NSError *error) {
         [gToast showError:@"确认失败，请重试"];
         
     }];
+}
+
+- (void)actionBack
+{
+    [MobClick event:@"wodejiuyuan" attributes:@{@"navi" : @"back"}];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Obtain data
@@ -190,7 +210,7 @@
             
             // 获取最后一次得到的时间戳
             HKRescueHistory *record = rop.rsp_applysecueArray.lastObject;
-            self.applyTime = (long long)record.applyTime;
+            self.applyTime = record.applyTime.integerValue;
             
             if (rop.rsp_applysecueArray.count >= PageAmount) {
                 self.isRemain = YES;
@@ -286,6 +306,9 @@
     
     recordCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        
+        [MobClick event:@"wodejiuyuan" attributes:@{@"chakanxiangqing" : @"chakanxiangqing"}];
+        
         if (historyRecord.rescueStatus == HKRescueStatusRescueControl || historyRecord.rescueStatus == HKRescueStatusRescuing || historyRecord.rescueStatus == HKRescueStatusRequest) {
             [self actionGoToRescuingVCWithHistoryRecord:historyRecord];
         }
@@ -320,6 +343,7 @@
             @weakify(self);
             [[[executeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
+                [MobClick event:@"wodejiuyuan" attributes:@{@"quzhifu" : @"quzhifu"}];
                 [self actionGoToRescuingVCWithHistoryRecord:historyRecord];
             }];
             
@@ -341,11 +365,17 @@
             
             @weakify(self);
             [[[executeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+                
+                [MobClick event:@"wodejiuyuan" attributes:@{@"querenwancheng" : @"querenwancheng"}];
+                
                 @strongify(self);
-                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
+                    [MobClick event:@"wodejiuyuan" attributes:@{@"tanchuang_querenwancheng" : @"tanchuang_quxiao"}];
+                }];
                 @weakify(self);
                 HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
                     @strongify(self);
+                    [MobClick event:@"wodejiuyuan" attributes:@{@"tanchuang_querenwancheng" : @"tanchuang_queren"}];
                     [self actionConfirmToFinishWithHistoryRecord:historyRecord];
                 }];
                 HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请务必在完成专业救援服务后再确认服务已完成" ActionItems:@[cancel, confirm]];
@@ -375,6 +405,13 @@
                 [self actionGoToRatingVCWithHistoryRecord:historyRecord];
                 self.req_indexPath = indexPath;
                 self.req_applyID = historyRecord.applyId;
+                
+                if (historyRecord.commentStatus == HKCommentStatusNo) {
+                    [MobClick event:@"wodejiuyuan" attributes:@{@"qupingjia" : @"qupingjia"}];
+                } else {
+                    [MobClick event:@"wodejiuyuan" attributes:@{@"yipingjia" : @"yipingjia"}];
+                }
+                
             }];
             
         }

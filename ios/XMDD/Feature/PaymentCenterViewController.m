@@ -453,15 +453,6 @@
                 [tArray safetyAddObject:dict];
             }
         }
-        else if ([paychannelStr isEqualToString:@"7"])
-        {
-            NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:
-                                          @{@"paymentType":@(PaymentChannelCZBCreditCard),
-                                            @"title":@"浙商支付",
-                                            @"subTitle":@"推荐浙商信用卡用户使用",
-                                            @"logo":@"cw_creditcard"}];
-            [tArray safetyInsertObject:dict atIndex:0];
-        }
         else if ([paychannelStr isEqualToString:@"82"])
         {
             NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:

@@ -37,6 +37,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupNavigationBar];
+    
     self.isRemain = YES;
     
     [self requestForRescueData];
@@ -60,6 +62,13 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+    [self.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - Actions
@@ -110,12 +119,23 @@
         
     }] subscribeNext:^(RescueConfirmFinishOp *rop) {
         [gToast showSuccess:@"确认完成"];
-        [self requestForSpecificDataWithApplyID:self.req_applyID atIndexPath:self.req_indexPath];
+        CommissionPaymentStatusVC *vc = [UIStoryboard vcWithId:@"CommissionPaymentStatusVC" inStoryboard:@"Commission"];
+        vc.vcType = HKCommissionCompleted;
+        vc.applyID = historyRecord.applyId;
+        vc.commentStatus = 0;
+        [self.router.navigationController pushViewController:vc animated:YES];
+        [self postCustomNotificationName:kNotifyCommissionRecordVC object:nil];
         
     } error:^(NSError *error) {
         [gToast showError:@"确认失败，请重试"];
         
     }];
+}
+
+- (void)actionBack
+{
+    [MobClick event:@"wodexieban" attributes:@{@"navi" : @"back"}];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Obtain data
@@ -208,7 +228,7 @@
             
             // 获取最后一次得到的时间戳
             HKRescueHistory *record = rop.rsp_applysecueArray.lastObject;
-            self.applyTime = (long long)record.applyTime;
+            self.applyTime = record.applyTime.integerValue;
             
             if (rop.rsp_applysecueArray.count >= PageAmount) {
                 self.isRemain = YES;
@@ -304,6 +324,9 @@
     
     recordCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        
+        [MobClick event:@"wodexieban" attributes:@{@"chakanxiangqing" : @"chakanxiangqing"}];
+        
         if (historyRecord.rescueStatus == HKCommissionPaidAlready || historyRecord.rescueStatus == HKCommissionWaitForPay) {
             [self actionGoToPaidAlreadyVCWithHistoryRecord:historyRecord];
         }
@@ -350,10 +373,16 @@
             [[[cancelButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
                 
-                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+                [MobClick event:@"wodexieban" attributes:@{@"quxiaodingdan" : @"quxiaodingdan"}];
+                
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
+                    [MobClick event:@"wodexieban" attributes:@{@"tanchuang_quxiaodingdan" : @"tanchuang_quxiao"}];
+                }];
+                
                 @weakify(self);
                 HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
                     @strongify(self);
+                    [MobClick event:@"wodexieban" attributes:@{@"tanchuang_quxiaodingdan" : @"tanchuang_queren"}];
                     [self actionCancelCommissionWithHistoryRecord:historyRecord];
                 }];
                 
@@ -366,6 +395,7 @@
             
             [[[executeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
+                [MobClick event:@"wodexieban" attributes:@{@"quzhifu" : @"quzhifu"}];
                 [self actionGoToPaidAlreadyVCWithHistoryRecord:historyRecord];
             }];
             
@@ -380,10 +410,17 @@
             @weakify(self);
             [[[executeButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
-                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+                
+                [MobClick event:@"wodexieban" attributes:@{@"querenwancheng" : @"querenwancheng"}];
+                
+                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
+                    [MobClick event:@"wodexieban" attributes:@{@"tanchuang_querenwancheng" : @"tanchuang_quxiao"}];
+                }];
+                
                 @weakify(self);
                 HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
                     @strongify(self);
+                    [MobClick event:@"wodexieban" attributes:@{@"tanchuang_querenwancheng" : @"tanchuang_queren"}];
                     [self actionConfirmFinishWithHistoryRecord:historyRecord];
                 }];
                 HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请务必在完成协办服务后再确认服务已完成" ActionItems:@[cancel, confirm]];
@@ -414,6 +451,13 @@
                 [self actionGoToRatingVCWithHistoryRecord:historyRecord];
                 self.req_indexPath = indexPath;
                 self.req_applyID = historyRecord.applyId;
+                
+                if (historyRecord.commentStatus == HKCommentStatusNo) {
+                    [MobClick event:@"wodexieban" attributes:@{@"qupingjia" : @"qupingjia"}];
+                } else {
+                    [MobClick event:@"wodexieban" attributes:@{@"yipingjia" : @"yipingjia"}];
+                }
+                
             }];
             
         }

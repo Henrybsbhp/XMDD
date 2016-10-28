@@ -41,6 +41,7 @@
     self.isFirstLoad = YES;
     
     self.needUpdateLocation = YES;
+    [self setupNavigationBar];
     [self setupMapView];
     [self setupAddressSearch];
     [self setupCenterCoordinateImage];
@@ -55,12 +56,14 @@
 /// 定位按钮点击事件
 - (IBAction)actionLocateMyLocation:(id)sender
 {
-    [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
+    [MobClick event:@"zhuanyejiuyuan" attributes:@{@"zhuanyejiuyuan" : @"dingwei"}];
+    [self.mapView setCenterCoordinate:self.userCoordinate animated:YES];
 }
 
 /// 我的救援点击事件
 - (IBAction)actionMyRescue:(id)sender
 {
+    [MobClick event:@"zhuanyejiuyuan" attributes:@{@"navi" : @"wodejiuyuan"}];
     RescueRecordVC *vc = [UIStoryboard vcWithId:@"RescueRecordVC" inStoryboard:@"Rescue"];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -68,12 +71,19 @@
 /// 一键救援点击事件
 - (IBAction)actionRescue:(id)sender
 {
+    [MobClick event:@"zhuanyejiuyuan" attributes:@{@"zhuanyejiuyuan" : @"yijianjiuyuan"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
         [gPhoneHelper makePhone:@"4007111111"];
     }];
     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"救援电话：4007-111-111" ActionItems:@[cancel, confirm]];
     [alert show];
+}
+
+- (void)actionBack
+{
+    [MobClick event:@"zhuanyejiuyuan" attributes:@{@"navi" : @"back"}];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Initial Setup
@@ -98,6 +108,7 @@
     self.mapView.showsUserLocation = YES;
     self.mapView.showsCompass = NO;
     self.mapView.showsScale = NO;
+    self.mapView.centerCoordinate = gMapHelper.coordinate;
     [self.mapView bringSubviewToFront:self.addressView];
 }
 
@@ -109,12 +120,19 @@
     self.reqGEO = [[AMapReGeocodeSearchRequest alloc] init];
 }
 
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+    [self.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
+}
+
 #pragma mark - MAMapViewDelegate
 - (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
     self.userCoordinate = userLocation.coordinate;
     if (self.needUpdateLocation) {
-        [self setCenter:self.userCoordinate];
+        [self setCenter:userLocation.coordinate];
         self.needUpdateLocation = NO;
     }
 }
@@ -124,9 +142,40 @@
     DebugLog(@"coordinate is: %f ---- %f", mapView.centerCoordinate.latitude, mapView.centerCoordinate.longitude);
     // 获取移动位置的坐标并做反地理编码
     self.addressLabel.text = @"定位中...";
+    
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+        
+        if (self.isFirstLoad) {
+            self.isFirstLoad = NO;
+            
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+                
+                if (IOSVersionGreaterThanOrEqualTo(@"8.0")){
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                }
+                
+                [self.router.navigationController popViewControllerAnimated:YES];
+            }];
+            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您没有开启定位权限,请前往设置打开" ActionItems:@[cancel]];
+            [alert show];
+            
+        }
+            
+        [self setAddressLabelText:@"定位失败，请检查定位权限是否开启并请重新定位"];
+        
+        return;
+    }
+    
     self.reqGEO.location = [AMapGeoPoint locationWithLatitude:mapView.centerCoordinate.latitude longitude:mapView.centerCoordinate.longitude];
     self.reqGEO.requireExtension = YES;
     [self.addressSearch AMapReGoecodeSearch:self.reqGEO];
+}
+
+- (void)mapView:(MAMapView *)mapView didFailToLocateUserWithError:(NSError *)error
+{
+    if (error) {
+        [self setAddressLabelText:@"定位失败，请检查定位权限是否开启并请重新定位"];
+    }
 }
 
 #pragma mark - AMapSearchDelegate
@@ -139,14 +188,19 @@
     }
     
     DebugLog(@"address title: %@", response.regeocode.formattedAddress);
-    // 获取到格式化后的地址并赋值
-    [self setAddressLabelText:[self stringByAppendingAddressStringWithSearchResponse:response]];
+    
+    if ([self stringByAppendingAddressStringWithSearchResponse:response].length == 0) {
+        [self setAddressLabelText:@"救援位置信息获取失败"];
+    } else {
+        // 获取到格式化后的地址并赋值
+        NSString *addressString = [NSString stringWithFormat:@"救援位置：%@", [self stringByAppendingAddressStringWithSearchResponse:response]];
+        [self setAddressLabelText:addressString];
+    }
 }
 
 - (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error
 {
-    [gToast showMistake:@"位置获取失败"];
-    [self setAddressLabelText:@"救援位置获取失败"];
+    [self setAddressLabelText:@"救援位置信息获取失败"];
 }
 
 #pragma mark - tools
@@ -158,7 +212,7 @@
 
 - (void)setAddressLabelText:(NSString *)addressString
 {
-    self.addressLabel.text = [NSString stringWithFormat:@"救援位置：%@", addressString];
+    self.addressLabel.text = addressString;
     CGSize labelSize = [self.addressLabel.text labelSizeWithWidth:gAppMgr.deviceInfo.screenSize.width - 67 font:[UIFont systemFontOfSize:14]];
     CGFloat height = MAX(40, labelSize.height + 20);
     [self.addressView mas_remakeConstraints:^(MASConstraintMaker *make) {

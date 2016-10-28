@@ -66,10 +66,16 @@
         self.confirmButton.enabled = YES;
         
         [[self.confirmButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+            
+            [MobClick event:@"jiuyuanzhuangtai" attributes:@{@"jiuyuanzhong" : @"querenjiuyuanwancheng"}];
+            
+            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
+                [MobClick event:@"jiuyuanzhuangtai" attributes:@{@"jiuyuanzhong" : @"tanchuang_quxiao"}];
+            }];
             @weakify(self);
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
                 @strongify(self);
+                [MobClick event:@"jiuyuanzhuangtai" attributes:@{@"jiuyuanzhong" : @"tanchuang_queren"}];
                 [self actionConfirmFinish];
             }];
             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请务必在完成专业救援服务后再确认服务已完成" ActionItems:@[cancel, confirm]];
@@ -121,6 +127,13 @@
 
 - (void)actionBack
 {
+    [MobClick event:@"jiuyuanzhuangtai" attributes:@{@"navi" : @"back"}];
+    
+    if (self.isEnterFromHomePage == YES) {
+        [self.targetVC.router.navigationController popToRootViewControllerAnimated:YES];
+        return;
+    }
+    
     for (UIViewController *vc in self.targetVC.navigationController.viewControllers) {
         if ([vc isKindOfClass:[RescueRecordVC class]]) {
             [self.targetVC.router.navigationController popToViewController:vc animated:YES];
@@ -218,6 +231,7 @@
         @weakify(self);
         [[[callButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
+            [MobClick event:@"jiuyuanzhuangtai" attributes:@{@"jiuyuandiaodu" : @"lianxikefu"}];
             [self actionCallService];
         }];
     });

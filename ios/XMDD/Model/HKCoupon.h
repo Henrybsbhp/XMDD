@@ -17,7 +17,7 @@ typedef enum : NSUInteger {
     CouponTypeInsurance,//保险代金券
     CouponTypeInsuranceDiscount = 41,//保险折扣券
     CouponTypeRescue,//免费道路救援
-    CouponTypeCZBankCarWash = 7,// 浙商小马达达洗车券
+    CouponTypeCZBankCarWash = 7,// 浙商小马达达洗车券（废弃）
     CouponTypeWithHeartCarwash = 8,// 精洗券
     CouponTypeGasNormal = 201,// 加油普通券
     CouponTypeGasReduceWithThreshold = 202,// 加油满减券券

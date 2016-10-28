@@ -20,6 +20,9 @@
 
 @property (nonatomic, strong) UIButton *confirmButton;
 
+/// 判断是否从推送主页面进入
+@property (nonatomic) BOOL isEnterFromHomePage;
+
 - (instancetype)initWithTableView:(UITableView *)tableView andTargetVC:(UIViewController *)targetVC;
 
 - (void)initialSetup;

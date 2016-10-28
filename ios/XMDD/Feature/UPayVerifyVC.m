@@ -587,7 +587,6 @@
 /// 获取验证码
 - (void)getUnionSmsWithTokenID:(NSString *)tokenID
 {
-    // 测试
     RACSignal *sig = [self.smsModel rac_getUnionCardVcodeWithTokenID:tokenID andTradeNo:self.tradeNo];
     // 60s等待时间
     [[self.smsModel rac_startGetLongIntervalVcodeWithFetchVcodeSignal:sig andPhone:gAppMgr.myUser.userID] subscribeError:^(NSError *error) {

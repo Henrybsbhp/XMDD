@@ -366,7 +366,6 @@
 		186499B51D489A9700F1CCB0 /* GetAutomobileModelOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498491D489A9600F1CCB0 /* GetAutomobileModelOp.m */; };
 		186499B61D489A9700F1CCB0 /* GetAutomobileModelV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864984B1D489A9600F1CCB0 /* GetAutomobileModelV2Op.m */; };
 		186499B71D489A9700F1CCB0 /* GetAutomobileSeriesV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864984D1D489A9600F1CCB0 /* GetAutomobileSeriesV2Op.m */; };
-		186499B91D489A9700F1CCB0 /* GetBindCZBVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498511D489A9600F1CCB0 /* GetBindCZBVcodeOp.m */; };
 		186499BA1D489A9700F1CCB0 /* GetCalculateBaseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498531D489A9600F1CCB0 /* GetCalculateBaseInfoOp.m */; };
 		186499BB1D489A9700F1CCB0 /* GetCarwashOrderListV3Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498551D489A9600F1CCB0 /* GetCarwashOrderListV3Op.m */; };
 		186499BC1D489A9700F1CCB0 /* GetCarwashOrderV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498571D489A9600F1CCB0 /* GetCarwashOrderV2Op.m */; };
@@ -994,7 +993,6 @@
 		18F318F41D9B722000D9A0A9 /* InsPayResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D441D48BA3D00F1CCB0 /* InsPayResultVC.m */; };
 		18F318F51D9B722000D9A0A9 /* TopMenuScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B4A1D48A93000F1CCB0 /* TopMenuScrollView.m */; };
 		18F318F61D9B722000D9A0A9 /* CKEventPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7951D54220B0078DB15 /* CKEventPromise.m */; };
-		18F318F71D9B722000D9A0A9 /* GetBindCZBVcodeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498511D489A9600F1CCB0 /* GetBindCZBVcodeOp.m */; };
 		18F318F81D9B722000D9A0A9 /* CheckGeneralTradenoStatusOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8BF651D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m */; };
 		18F318F91D9B722000D9A0A9 /* AuthByPwdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498151D489A9600F1CCB0 /* AuthByPwdOp.m */; };
 		18F318FA1D9B722000D9A0A9 /* MutualInsChooseCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E0B1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m */; };
@@ -2562,8 +2560,6 @@
 		1864984B1D489A9600F1CCB0 /* GetAutomobileModelV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetAutomobileModelV2Op.m; sourceTree = "<group>"; };
 		1864984C1D489A9600F1CCB0 /* GetAutomobileSeriesV2Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetAutomobileSeriesV2Op.h; sourceTree = "<group>"; };
 		1864984D1D489A9600F1CCB0 /* GetAutomobileSeriesV2Op.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetAutomobileSeriesV2Op.m; sourceTree = "<group>"; };
-		186498501D489A9600F1CCB0 /* GetBindCZBVcodeOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetBindCZBVcodeOp.h; sourceTree = "<group>"; };
-		186498511D489A9600F1CCB0 /* GetBindCZBVcodeOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetBindCZBVcodeOp.m; sourceTree = "<group>"; };
 		186498521D489A9600F1CCB0 /* GetCalculateBaseInfoOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCalculateBaseInfoOp.h; sourceTree = "<group>"; };
 		186498531D489A9600F1CCB0 /* GetCalculateBaseInfoOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCalculateBaseInfoOp.m; sourceTree = "<group>"; };
 		186498541D489A9600F1CCB0 /* GetCarwashOrderListV3Op.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCarwashOrderListV3Op.h; sourceTree = "<group>"; };
@@ -4347,8 +4343,6 @@
 				1864984B1D489A9600F1CCB0 /* GetAutomobileModelV2Op.m */,
 				1864984C1D489A9600F1CCB0 /* GetAutomobileSeriesV2Op.h */,
 				1864984D1D489A9600F1CCB0 /* GetAutomobileSeriesV2Op.m */,
-				186498501D489A9600F1CCB0 /* GetBindCZBVcodeOp.h */,
-				186498511D489A9600F1CCB0 /* GetBindCZBVcodeOp.m */,
 				186498521D489A9600F1CCB0 /* GetCalculateBaseInfoOp.h */,
 				186498531D489A9600F1CCB0 /* GetCalculateBaseInfoOp.m */,
 				186498541D489A9600F1CCB0 /* GetCarwashOrderListV3Op.h */,
@@ -7735,7 +7729,6 @@
 				18649D4B1D48BA3D00F1CCB0 /* InsPayResultVC.m in Sources */,
 				18649B861D48A93000F1CCB0 /* TopMenuScrollView.m in Sources */,
 				1836B7C31D54220B0078DB15 /* CKEventPromise.m in Sources */,
-				186499B91D489A9700F1CCB0 /* GetBindCZBVcodeOp.m in Sources */,
 				4EF8BF661D6AAE2700E91A02 /* CheckGeneralTradenoStatusOp.m in Sources */,
 				1864999B1D489A9700F1CCB0 /* AuthByPwdOp.m in Sources */,
 				18649E1E1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m in Sources */,
@@ -8494,7 +8487,6 @@
 				18F318F41D9B722000D9A0A9 /* InsPayResultVC.m in Sources */,
 				18F318F51D9B722000D9A0A9 /* TopMenuScrollView.m in Sources */,
 				18F318F61D9B722000D9A0A9 /* CKEventPromise.m in Sources */,
-				18F318F71D9B722000D9A0A9 /* GetBindCZBVcodeOp.m in Sources */,
 				18F318F81D9B722000D9A0A9 /* CheckGeneralTradenoStatusOp.m in Sources */,
 				18F318F91D9B722000D9A0A9 /* AuthByPwdOp.m in Sources */,
 				18F318FA1D9B722000D9A0A9 /* MutualInsChooseCarVC.m in Sources */,
@@ -8989,10 +8981,10 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Xing He (JX857D4Q48)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xing He (JX857D4Q48)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7A3B9332PS;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -9034,10 +9026,10 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Xing He (JX857D4Q48)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xing He (JX857D4Q48)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7A3B9332PS;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -9063,9 +9055,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 7A3B9332PS;
 				ENABLE_BITCODE = NO;
@@ -9164,8 +9156,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "abb88805-5143-4184-94ac-ba155f380c48";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "75e6ab2d-6a0b-4c37-9db7-90fce3b0b823";
+				PROVISIONING_PROFILE_SPECIFIER = Distribution_Provisioning_xmdd;
 			};
 			name = Debug;
 		};
@@ -9177,8 +9169,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
@@ -9277,8 +9269,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "abb88805-5143-4184-94ac-ba155f380c48";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "75e6ab2d-6a0b-4c37-9db7-90fce3b0b823";
+				PROVISIONING_PROFILE_SPECIFIER = Distribution_Provisioning_xmdd;
 			};
 			name = Release;
 		};
