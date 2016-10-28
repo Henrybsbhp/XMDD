@@ -27,7 +27,7 @@
 @implementation MyCollectionListVC
 
 - (void)dealloc {
-    DebugFormat(@"MyCollectionListVC dealloc");
+    DebugLog(@"MyCollectionListVC dealloc");
 }
 
 - (void)viewDidLoad {
