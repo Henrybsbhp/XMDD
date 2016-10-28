@@ -94,7 +94,6 @@
     [self.num setDidBeginEditingBlock:^(CKLimitTextField *field) {
         
          @strongify(self);
-        [MobClick event:@"rp002_1"];
         if ([self isIphone4OrLess]) {
             
         } else if (self.view.frame.origin.y >= 0) {
@@ -145,7 +144,6 @@
     [self.code setDidBeginEditingBlock:^(CKLimitTextField *field) {
         
         @strongify(self);
-        [MobClick event:@"rp002_3"];
         if  (self.view.frame.origin.y >= 0) {
             [self setViewMovedUp:YES];
         }
@@ -205,7 +203,6 @@
 
 - (IBAction)actionGetVCode:(id)sender
 {
-    [MobClick event:@"rp002_2"];
     if ([self sharkCellIfErrorAtIndex:1]) {
         return;
     }
@@ -225,7 +222,6 @@
 
 - (IBAction)actionCheck:(id)sender
 {
-    [MobClick event:@"rp002_4"];
     self.checkBox.selected = !self.checkBox.selected;
     self.bottomBtn.enabled = self.checkBox.selected;
     if (self.bottomBtn.enabled == NO) {
@@ -237,7 +233,6 @@
 
 - (IBAction)actionAgreement:(id)sender
 {
-    [MobClick event:@"rp002_5"];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"服务协议";
     vc.url = kServiceLicenseUrl;
@@ -246,7 +241,6 @@
 
 - (IBAction)actionLogin:(id)sender
 {
-    [MobClick event:@"rp002_6"];
     if (![self.num.text isPhoneNumber]) {
         [self shakeCellAtIndex:1];
         return;

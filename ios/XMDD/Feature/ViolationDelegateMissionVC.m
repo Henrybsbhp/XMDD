@@ -171,6 +171,7 @@
         }
         
         ViolationDelegateCommitSuccessVC *vc = [UIStoryboard vcWithId:@"ViolationDelegateCommitSuccessVC" inStoryboard:@"Violation"];
+        vc.successMsg = op.rsp_successmsg;
         [self.navigationController pushViewController:vc animated:YES];
         
     } error:^(NSError *error) {
@@ -353,7 +354,7 @@
     for (NSDictionary *dic in self.carArr)
     {
         [tempArr addObject:dic[@"date"]];
-        total = total + [(NSString *)dic[@"money"] integerValue] + [(NSString *)dic[@"servicefee"] integerValue];
+        total = total + [(NSString *)dic[@"servicefee"] integerValue];
     }
     self.dates = [tempArr componentsJoinedByString:@"@"];
     return total;

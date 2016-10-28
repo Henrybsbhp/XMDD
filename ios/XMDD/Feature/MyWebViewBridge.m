@@ -456,7 +456,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
 
 - (void)loginIfNeededShare
 {
-    [MobClick event:@"rp203_1"];
     if (self.isNeedLogin == YES) {
         if ([LoginViewModel loginIfNeededForTargetViewController:self.targetVC]) {
             [self shareAction];
@@ -497,7 +496,6 @@ typedef NS_ENUM(NSInteger, MenuItemsType) {
         [sheet presentAnimated:YES completionHandler:nil];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110_7"];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{

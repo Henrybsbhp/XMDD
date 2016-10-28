@@ -16,6 +16,7 @@
 @property (strong, nonatomic) NSString *req_idno;
 
 @property (copy, nonatomic) NSString *rsp_tip;
+@property (strong, nonatomic) NSString *rsp_successmsg;
 
 
 @end

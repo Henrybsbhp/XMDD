@@ -26,6 +26,7 @@
     self.rsp_ifgroupowner = [dict[@"ifgroupowner"] intValue];
     self.rsp_isdelete = [dict[@"isdelete"] intValue];
     self.rsp_showselfflag = [dict[@"showselfflag"] intValue];
+    self.rsp_showpublicityflag = [dict[@"showpublicityflag"] intValue];
 	
     return self;
 }

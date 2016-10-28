@@ -22,7 +22,14 @@
         self.text = op.rsp_text;
         self.link = op.rsp_link;
         /// 判断是否需要显示消息
-        self.showIssue = [self.type isEqualToNumber:op.rsp_type] ? self.showIssue : YES;
+        if (op.rsp_type)
+        {
+            self.showIssue = [self.type isEqualToNumber:op.rsp_type] ? self.showIssue : YES;
+        }
+        else
+        {
+            self.showIssue = NO;
+        }
         self.type = op.rsp_type;
         /// 如果有车架号没有才取服务器接口
         self.classno = self.classno.length ? self.classno : op.rsp_carframenumber;

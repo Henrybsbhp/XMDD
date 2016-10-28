@@ -127,6 +127,7 @@
         self.duplicateURL = op.rsp_licensecopyurl;
         self.carID = op.rsp_carid;
         self.idnoflag = op.rsp_idnoflag;
+        [self setupDataSource];
         [self.tableView reloadData];
         [self getfailedOriginImg];
         [self getfailedDuplicateImg];
@@ -271,15 +272,28 @@
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
-        @strongify(self)
-        CKLimitTextField *textField = [cell viewWithTag:100];
-        textField.textLimit = 18;
+        CKLimitTextField *idTextField = [cell viewWithTag:100];
+        idTextField.textLimit = 18;
         
-        [[[textField rac_textSignal]takeUntil:[cell rac_prepareForReuseSignal]]subscribeNext:^(id x) {
+        [idTextField setTextChangingBlock:^(CKLimitTextField *textField, NSString *x) {
+            NSScanner* scan = [NSScanner scannerWithString:x];
+            int val;
+            if (![scan scanInt:&val] && ![x isEqualToString:@"x"] && ![x isEqualToString:@"X"])
+            {
+                textField.text = [textField.text stringByReplacingOccurrencesOfString:x withString:@""];
+            }
+            else
+            {
+                textField.text = [textField.text uppercaseString];
+            }
+        }];
+        
+        [idTextField setDidEndEditingBlock:^(CKLimitTextField *textField) {
             
             @strongify(self)
             self.idNo = textField.text;
         }];
+        
         
     });
     

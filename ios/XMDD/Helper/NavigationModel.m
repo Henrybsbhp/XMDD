@@ -545,10 +545,11 @@
     {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:cancelStr color:kGrayTextColor clickBlock:^(id alertVC) {
             
+            [MobClick event:@"tuisongtanchuang" attributes:@{@"tuisongtanchuang":@"quxiao"}];
         }];
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:sureStr color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             
-            [MobClick event:@"yingyongneiruisongdianji"];
+            [MobClick event:@"tuisongtanchuang" attributes:@{@"tuisongtanchuang":@"quzhifu"}];
             [self pushToViewControllerByUrl:urlStr];
         }];
         

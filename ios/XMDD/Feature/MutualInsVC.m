@@ -110,6 +110,14 @@
 }
 
 #pragma mark - Actions
+
+- (void)actionGoToGroupIntroductionVC
+{
+    GroupIntroductionVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
+    vc.groupType = MutualGroupTypeSystem;
+    [self.router.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)actionBack
 {
     [MobClick event:@"huzhushouye" attributes:@{@"navi" : @"back"}];
@@ -131,9 +139,7 @@
 - (IBAction)joinButtonClicked:(id)sender
 {
     [MobClick event:@"huzhushouye" attributes:@{@"huzhushouye" : @"jiaruhuzhu"}];
-    GroupIntroductionVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
-    vc.groupType = MutualGroupTypeSystem;
-    [self.router.navigationController pushViewController:vc animated:YES];
+    [self actionGoToGroupIntroductionVC];
 }
 
 - (IBAction)actionShowOrHideMenu:(id)sender
@@ -597,7 +603,7 @@
         // 有车无团「未参团」状态
         if (dict.status == XMGroupFailed) {
             
-            [self actionGotoSystemGroupListVC];
+            [self actionGoToGroupIntroductionVC];
         } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
@@ -852,8 +858,7 @@
         // 有车无团「未参团」状态
         if (dict.status == XMGroupFailed) {
 
-            [self actionGotoSystemGroupListVC];
-            
+            [self actionGoToGroupIntroductionVC];
         } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
@@ -869,7 +874,7 @@
         } else {
             
             // 无车无团「未参团」状态
-            [self actionGotoSystemGroupListVC];
+            [self actionGoToGroupIntroductionVC];
         }
     });
     
@@ -895,7 +900,7 @@
         // 有车无团「未参团」状态
         if (dict.status == XMGroupFailed) {
             
-            [self actionGotoSystemGroupListVC];
+            [self actionGoToGroupIntroductionVC];
         } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
@@ -911,7 +916,7 @@
         } else {
             
             // 无车无团「未参团」状态
-            [self actionGotoSystemGroupListVC];
+            [self actionGoToGroupIntroductionVC];
         }
     });
     
@@ -950,7 +955,7 @@
         // 有车无团「未参团」状态
         if (dict.status == XMGroupFailed) {
             
-            [self actionGotoSystemGroupListVC];
+            [self actionGoToGroupIntroductionVC];
             
         } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
@@ -967,7 +972,7 @@
         } else {
             
             // 无车无团「未参团」状态
-            [self actionGotoSystemGroupListVC];
+            [self actionGoToGroupIntroductionVC];
         }
     });
     
@@ -1014,7 +1019,7 @@
         // 有车无团「未参团」状态
         if (dict.status == XMGroupFailed) {
             
-            [self actionGotoSystemGroupListVC];
+            [self actionGoToGroupIntroductionVC];
         } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
@@ -1030,7 +1035,7 @@
         } else {
             
             // 无车无团「未参团」状态
-            [self actionGotoSystemGroupListVC];
+            [self actionGoToGroupIntroductionVC];
         }
     });
     
@@ -1057,7 +1062,7 @@
         // 有车无团「未参团」状态
         if (dict.status == XMGroupFailed) {
             
-            [self actionGotoSystemGroupListVC];
+            [self actionGoToGroupIntroductionVC];
         } else if (dict.status == XMInReview && dict.numberCnt.integerValue < 1) {
             // 有车无团「审核中」状态
             [gToast showText:@"车辆审核中，请耐心等待审核结果"];
@@ -1074,7 +1079,7 @@
         } else {
             
             // 无车无团「未参团」状态
-            [self actionGotoSystemGroupListVC];
+            [self actionGoToGroupIntroductionVC];
         }
     });
     
