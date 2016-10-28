@@ -121,7 +121,6 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row == 2) {
-        [MobClick event:@"rp601_8"];
         self.datePicker.maximumDate = [NSDate date];
         NSDate *selectedDate = self.car.purchasedate ? self.car.purchasedate : [NSDate date];
 
@@ -143,9 +142,6 @@
 }
 
 #pragma mark - UITextFieldDelegate
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
-    [MobClick event:@"rp601_6"];
-}
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     if (textField.text.length > 7) {
         textField.text = @"";

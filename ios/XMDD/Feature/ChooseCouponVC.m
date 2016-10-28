@@ -257,7 +257,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp109_1"];
     HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.section];
     if (self.type == CouponTypeCarWash)
     {
