@@ -18,18 +18,17 @@
     static dispatch_once_t onceToken;
     static NSDictionary *g_pagesUMLogInfo;
     dispatch_once(&onceToken, ^{
-        g_pagesUMLogInfo = @{@"VcodeLoginVC":@{@"pagetag":@"rp002"},//短信验证码登录
+        g_pagesUMLogInfo = @{@"VcodeLoginVC":@{@"pagetag":@"duanxindenglu"},//短信验证码登录
                              
                              //洗车
-                             @"HomePageVC":@{@"pagetag":@"rp101"},//首页
-                             @"CarwashShopListVC":@{@"pagetag":@"rp102"},//一键洗车
-                             @"SearchShopListVC":@{@"pagetag":@"rp103"},//一键洗车搜索
-                             @"CarWashNavigationViewController":@{@"pagetag":@"rp104"},//店铺导航
-                             @"NearbyShopsViewController":@{@"pagetag":@"rp104"},//附近店铺
+                             @"HomePageVC":@{@"pagetag":@"xiaomashouye"},//首页
                              @"ShopDetailVC":@{@"pagetag":@"shangjiaxiangqing"},// 商户详情
-                             @"PayForWashCarVC":@{@"pagetag":@"rp1018"},// 洗车支付
-                             @"ChooseCarwashTicketVC":@{@"pagetag":@"rp109"},//优惠劵选择
-                             @"PaymentSuccessVC":@{@"pagetag":@"rp110"},//支付成功
+                             @"CarwashShopListVC":@{@"pagetag":@"rp102"},//一键洗车
+                             @"CarWashNavigationViewController":@{@"pagetag":@"rp104"},//店铺导航
+                             //@"PayForWashCarVC":@{@"pagetag":@"rp1018"},// 洗车支付
+                             //@"PaymentSuccessVC":@{@"pagetag":@"rp110"},//支付成功
+                             //@"SearchShopListVC":@{@"pagetag":@"rp103"},//一键洗车搜索
+                             //@"NearbyShopsViewController":@{@"pagetag":@"rp104"},//附近店铺
                              
                              //保险
                              @"InsuranceVC":@{@"pagetag":@"rp1000"},//保险服务
@@ -39,7 +38,7 @@
                              @"InsCheckFailVC":@{@"pagetag":@"rp1004"},//核保结果-失败
                              @"InsCheckResultsVC":@{@"pagetag":@"rp1004"},//核保结果-成功
                              @"InsBuyVC":@{@"pagetag":@"rp1005"},//保险在线购买
-                             @"PayForInsuranceVC":@{@"pagetag":@"rp1006"},//保单支付
+                             @"PayForInsuranceVC":@{@"pagetag":@"baoxianzhifuqueren"},//保单支付
                              @"InsPayResultVC":@{@"pagetag":@"rp1007"},//保单支付成功
                              @"InsSubmitResultVC":@{@"pagetag":@"rp1009"},//提交结果
                              @"InsAppointmentVC":@{@"pagetag":@"rp1010"},//保险预约购买
@@ -52,45 +51,42 @@
                              @"DetailWebVC":@{@"pagetag":@"rp203"},//发现详情
                              
                              //我的
-                             @"MineVC":@{@"pagetag":@"rp301"},//我的
+                             @"MineVC":@{@"pagetag":@"wodeshouye"},//我的
                              @"MyInfoViewController":@{@"pagetag":@"rp302"},//我的资料
-                             @"MyCouponVC":@{@"pagetag":@"rp304"},//我的优惠劵
+                             @"MyCouponVC":@{@"pagetag":@"wodeyouhuiquan"},//我的优惠劵
                              @"EditMyInfoViewController":@{@"pagetag":@"rp305"},//我的资料编辑
-                             @"CarsListVC":@{@"pagetag":@"rp309"},//我的爱车
-                             @"EditCarVC":@{@"pagetag":@"rp312"},//编辑我的爱车
-                             @"MyBindedCardVC":@{@"pagetag":@"rp314"},//我的银行卡
-                             @"CardDetailVC":@{@"pagetag":@"rp315"},//银行卡详情
-                             @"MyCollectionListVC":@{@"pagetag":@"rp316"},//我的收藏
-                             @"MyOrderListVC":@{@"pagetag":@"rp318"},//我的订单列表
+                             @"CarsListVC":@{@"pagetag":@"wodeaiche"},//我的爱车
+                             @"EditCarVC":@{@"pagetag":@"tianjiaaiche"},//编辑我的爱车
+                             @"MyBindedCardVC":@{@"pagetag":@"wodeyinhangka"},//我的银行卡
+                             @"MyCollectionListVC":@{@"pagetag":@"wodeshoucang"},//我的收藏
+                             @"MyOrderListVC":@{@"pagetag":@"wodedingdan"},//我的订单列表
                              @"CarwashOrderDetailVC":@{@"pagetag":@"rp320"},//洗车订单
-                             @"AboutViewController":@{@"pagetag":@"rp322"},//关于我们
+                             @"AboutViewController":@{@"pagetag":@"wodeguanyu"},//关于我们
                              @"FeedbackVC":@{@"pagetag":@"rp323"},//意见反馈
-                             @"MessageListVC":@{@"pagetag":@"rp324"},//消息列表
-                             @"UnbundlingVC":@{@"pagetag":@"rp329"},//解绑（银行卡）
+                             @"MessageListVC":@{@"pagetag":@"wodexiaoxi"},//消息列表
                              @"JoinUsViewController":@{@"pagetag":@"rp333"},//加盟热线
                              @"JoinResultViewController":@{@"pagetag":@"rp101"},//加盟结果
                              
                              // 每周礼券
-                             @"NewGainAwardVC":@{@"pagetag":@"rp402"},//每周礼券
+                             @"NewGainAwardVC":@{@"pagetag":@"meizhouliquan"},//每周礼券
                              
                              //加油
-                             @"GasVC":@{@"pagetag":@"rp501"},//加油首页
+                             @"GasVC":@{@"pagetag":@"jiayoushouye"},//加油首页
                              @"GasAddCardVC":@{@"pagetag":@"tianjiayouka"},//油卡添加
-                             @"GasCardListVC":@{@"pagetag":@"rp505"},//油卡列表
-                             @"GasPaymentResultVC":@{@"pagetag":@"rp506"},//油卡充值支付结果
-                             @"GasPayForCZBVC":@{@"pagetag":@"rp507"},//浙商支付
-                             @"PayForGasViewController":@{@"pagetag":@"rp508"},//油卡充值支付
+                             @"GasCardListVC":@{@"pagetag":@"xuanzeyouka"},//油卡列表
+                             @"GasPaymentResultVC":@{@"pagetag":@"jiayouzhifujieguo"},//油卡充值支付结果
+                             @"PayForGasViewController":@{@"pagetag":@"jiayouzhifuqueren"},//油卡充值支付
                              @"GasRecordVC":@{@"pagetag":@"jiayoujilu"},//加油记录
                              
                              // 估值
-                             @"ValuationHomeVC":@{@"pagetag":@"rp601"},//二手车估值
-                             @"ValuationResultVC":@{@"pagetag":@"rp602"},//二手车估值结果
-                             @"HistoryCollectionVC":@{@"pagetag":@"rp603"},//历史估值列表
-                             @"SecondCarValuationVC":@{@"pagetag":@"rp604"},//估值车提交平台
-                             @"CommitSuccessVC":@{@"pagetag":@"rp605"},//提交平台成功
+                             @"ValuationHomeVC":@{@"pagetag":@"aicheguzhi"},//二手车估值
+                             @"ValuationResultVC":@{@"pagetag":@"aicheguzhijieguo"},//二手车估值结果
+                             @"HistoryCollectionVC":@{@"pagetag":@"guzhijilu"},//历史估值列表
+                             @"SecondCarValuationVC":@{@"pagetag":@"ershouchejiaoyi"},//估值车提交平台
+                             @"CommitSuccessVC":@{@"pagetag":@"ershouchetijiaochenggong"},//提交平台成功
                              
                              //救援
-                             @"RescueHomeViewController":@{@"pagetag":@"rp701"},//救援首页
+                             @"RescueHomeViewController":@{@"pagetag":@"zhuanyejiuyuan"},//救援首页
                              @"RescueDetailsVC":@{@"pagetag":@"rp702"},//救援详情
                              @"RescueCommentsVC":@{@"pagetag":@"rp706"},//救援评价
                              @"RescueCouponViewController":@{@"pagetag":@"rp708"},//救援优惠劵
@@ -101,7 +97,7 @@
                              @"CommissionSuccessVC":@{@"pagetag":@"rp803"},//代办预约成功
                              
                              //违章查询
-                             @"ViolationItemViewController":@{@"pagetag":@"rp901"},//违章查询
+                             @"ViolationItemViewController":@{@"pagetag":@"weizhangshouye"},//违章查询
                              @"ViolationMissionHistoryVC" : @{@"pagetag":@"wodedaiban"}, // 我的代办
                              @"ViolationDelegateMissionVC" : @{@"pagetag":@"weizhangdaiban"}, // 违章代办
                              @"ViolationDelegateCommitSuccessVC" : @{@"pagetag":@"shenqingchenggong"}, // 申请成功
