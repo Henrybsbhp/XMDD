@@ -544,7 +544,6 @@
 		18649C631D48B54E00F1CCB0 /* CarWashCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5A1D48B54E00F1CCB0 /* CarWashCouponVModel.m */; };
 		18649C641D48B54E00F1CCB0 /* CouponDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5C1D48B54E00F1CCB0 /* CouponDetailsVC.m */; };
 		18649C651D48B54E00F1CCB0 /* MyCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C5E1D48B54E00F1CCB0 /* MyCouponVC.m */; };
-		18649C671D48B54E00F1CCB0 /* UsedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C621D48B54E00F1CCB0 /* UsedCouponVModel.m */; };
 		18649C6F1D48B57300F1CCB0 /* FeedbackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C6A1D48B57300F1CCB0 /* FeedbackVC.m */; };
 		18649C701D48B57300F1CCB0 /* JoinResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C6C1D48B57300F1CCB0 /* JoinResultViewController.m */; };
 		18649C711D48B57300F1CCB0 /* JoinUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C6E1D48B57300F1CCB0 /* JoinUsViewController.m */; };
@@ -620,14 +619,12 @@
 		18649D651D48BAB300F1CCB0 /* InsuranceOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D641D48BAB300F1CCB0 /* InsuranceOrderVC.m */; };
 		18649D881D48BB5D00F1CCB0 /* GasAddCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D691D48BB5D00F1CCB0 /* GasAddCardVC.m */; };
 		18649D891D48BB5D00F1CCB0 /* GasCardListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D6B1D48BB5D00F1CCB0 /* GasCardListVC.m */; };
-		18649D8B1D48BB5D00F1CCB0 /* GasNormalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D6F1D48BB5D00F1CCB0 /* GasNormalVC.m */; };
 		18649D8D1D48BB5D00F1CCB0 /* GasPaymentResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D731D48BB5D00F1CCB0 /* GasPaymentResultVC.m */; };
 		18649D8E1D48BB5D00F1CCB0 /* GasPickAmountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D751D48BB5D00F1CCB0 /* GasPickAmountCell.m */; };
 		18649D8F1D48BB5D00F1CCB0 /* GasRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D771D48BB5D00F1CCB0 /* GasRecordVC.m */; };
 		18649D901D48BB5D00F1CCB0 /* GasReminderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D791D48BB5D00F1CCB0 /* GasReminderCell.m */; };
 		18649D911D48BB5D00F1CCB0 /* GasStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D7B1D48BB5D00F1CCB0 /* GasStepper.m */; };
 		18649D921D48BB5D00F1CCB0 /* GasStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D7D1D48BB5D00F1CCB0 /* GasStore.m */; };
-		18649D931D48BB5D00F1CCB0 /* GasSubVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D7F1D48BB5D00F1CCB0 /* GasSubVC.m */; };
 		18649D941D48BB5D00F1CCB0 /* GasTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D811D48BB5D00F1CCB0 /* GasTabView.m */; };
 		18649D951D48BB5D00F1CCB0 /* GasVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D831D48BB5D00F1CCB0 /* GasVC.m */; };
 		18649D961D48BB5D00F1CCB0 /* HorizontalScrollTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D851D48BB5D00F1CCB0 /* HorizontalScrollTabView.m */; };
@@ -1102,7 +1099,6 @@
 		18F319621D9B722000D9A0A9 /* GasReminderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D791D48BB5D00F1CCB0 /* GasReminderCell.m */; };
 		18F319631D9B722000D9A0A9 /* ShareResponeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186496A31D489A4200F1CCB0 /* ShareResponeManager.m */; };
 		18F319641D9B722000D9A0A9 /* ApplyViolationCommissionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDEE1D5A1A8E00EC52C7 /* ApplyViolationCommissionOp.m */; };
-		18F319651D9B722000D9A0A9 /* UsedCouponVModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C621D48B54E00F1CCB0 /* UsedCouponVModel.m */; };
 		18F319661D9B722000D9A0A9 /* NSDate+DateForText.m in Sources */ = {isa = PBXBuildFile; fileRef = 186496E31D489A5800F1CCB0 /* NSDate+DateForText.m */; };
 		18F319671D9B722000D9A0A9 /* UpdateCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498FB1D489A9700F1CCB0 /* UpdateCarOp.m */; };
 		18F319681D9B722000D9A0A9 /* HomeSuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649BBA1D48AEC000F1CCB0 /* HomeSuspendedAdVC.m */; };
@@ -1265,7 +1261,6 @@
 		18F31A071D9B722000D9A0A9 /* HKStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864991E1D489A9700F1CCB0 /* HKStore.m */; };
 		18F31A081D9B722000D9A0A9 /* ViolationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864980A1D489A9600F1CCB0 /* ViolationModel.m */; };
 		18F31A091D9B722000D9A0A9 /* DeleteCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864982D1D489A9600F1CCB0 /* DeleteCarOp.m */; };
-		18F31A0A1D9B722000D9A0A9 /* GasNormalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D6F1D48BB5D00F1CCB0 /* GasNormalVC.m */; };
 		18F31A0B1D9B722000D9A0A9 /* ReactNativeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F42E1D48CC6C00C64288 /* ReactNativeViewController.m */; };
 		18F31A0C1D9B722000D9A0A9 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D9B81B1CC0DBF000B5D2A7 /* FLAnimatedImage.m */; };
 		18F31A0D1D9B722000D9A0A9 /* SocialShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CF11D48B7C000F1CCB0 /* SocialShareViewController.m */; };
@@ -1421,7 +1416,6 @@
 		18F31AA51D9B722000D9A0A9 /* ADViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CD81D48B7C000F1CCB0 /* ADViewController.m */; };
 		18F31AA61D9B722000D9A0A9 /* RCTHKRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B75B1D5319E90078DB15 /* RCTHKRefreshControl.m */; };
 		18F31AA71D9B722000D9A0A9 /* GetCooperationMygroupDetailOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56C41D4C90860001E26A /* GetCooperationMygroupDetailOp.m */; };
-		18F31AA81D9B722000D9A0A9 /* GasSubVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D7F1D48BB5D00F1CCB0 /* GasSubVC.m */; };
 		18F31AA91D9B722000D9A0A9 /* InsSubmitResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D461D48BA3D00F1CCB0 /* InsSubmitResultVC.m */; };
 		18F31AAA1D9B722000D9A0A9 /* SRMonthPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 189DD3FF1B10722700BA0A7F /* SRMonthPicker.m */; settings = {COMPILER_FLAGS = "-Wno-shorten-64-to-32"; }; };
 		18F31AAB1D9B722000D9A0A9 /* MaintainOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FADD81D11D53273900AB844E /* MaintainOrderViewModel.m */; };
@@ -2919,8 +2913,6 @@
 		18649C5C1D48B54E00F1CCB0 /* CouponDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponDetailsVC.m; sourceTree = "<group>"; };
 		18649C5D1D48B54E00F1CCB0 /* MyCouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCouponVC.h; sourceTree = "<group>"; };
 		18649C5E1D48B54E00F1CCB0 /* MyCouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCouponVC.m; sourceTree = "<group>"; };
-		18649C611D48B54E00F1CCB0 /* UsedCouponVModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsedCouponVModel.h; sourceTree = "<group>"; };
-		18649C621D48B54E00F1CCB0 /* UsedCouponVModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsedCouponVModel.m; sourceTree = "<group>"; };
 		18649C691D48B57300F1CCB0 /* FeedbackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackVC.h; sourceTree = "<group>"; };
 		18649C6A1D48B57300F1CCB0 /* FeedbackVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackVC.m; sourceTree = "<group>"; };
 		18649C6B1D48B57300F1CCB0 /* JoinResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoinResultViewController.h; sourceTree = "<group>"; };
@@ -3070,8 +3062,6 @@
 		18649D691D48BB5D00F1CCB0 /* GasAddCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasAddCardVC.m; sourceTree = "<group>"; };
 		18649D6A1D48BB5D00F1CCB0 /* GasCardListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasCardListVC.h; sourceTree = "<group>"; };
 		18649D6B1D48BB5D00F1CCB0 /* GasCardListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasCardListVC.m; sourceTree = "<group>"; };
-		18649D6E1D48BB5D00F1CCB0 /* GasNormalVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasNormalVC.h; sourceTree = "<group>"; };
-		18649D6F1D48BB5D00F1CCB0 /* GasNormalVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasNormalVC.m; sourceTree = "<group>"; };
 		18649D721D48BB5D00F1CCB0 /* GasPaymentResultVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasPaymentResultVC.h; sourceTree = "<group>"; };
 		18649D731D48BB5D00F1CCB0 /* GasPaymentResultVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasPaymentResultVC.m; sourceTree = "<group>"; };
 		18649D741D48BB5D00F1CCB0 /* GasPickAmountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasPickAmountCell.h; sourceTree = "<group>"; };
@@ -3084,8 +3074,6 @@
 		18649D7B1D48BB5D00F1CCB0 /* GasStepper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasStepper.m; sourceTree = "<group>"; };
 		18649D7C1D48BB5D00F1CCB0 /* GasStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasStore.h; sourceTree = "<group>"; };
 		18649D7D1D48BB5D00F1CCB0 /* GasStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasStore.m; sourceTree = "<group>"; };
-		18649D7E1D48BB5D00F1CCB0 /* GasSubVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasSubVC.h; sourceTree = "<group>"; };
-		18649D7F1D48BB5D00F1CCB0 /* GasSubVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasSubVC.m; sourceTree = "<group>"; };
 		18649D801D48BB5D00F1CCB0 /* GasTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasTabView.h; sourceTree = "<group>"; };
 		18649D811D48BB5D00F1CCB0 /* GasTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GasTabView.m; sourceTree = "<group>"; };
 		18649D821D48BB5D00F1CCB0 /* GasVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasVC.h; sourceTree = "<group>"; };
@@ -5635,8 +5623,6 @@
 				18649C5C1D48B54E00F1CCB0 /* CouponDetailsVC.m */,
 				18649C5D1D48B54E00F1CCB0 /* MyCouponVC.h */,
 				18649C5E1D48B54E00F1CCB0 /* MyCouponVC.m */,
-				18649C611D48B54E00F1CCB0 /* UsedCouponVModel.h */,
-				18649C621D48B54E00F1CCB0 /* UsedCouponVModel.m */,
 			);
 			name = Coupon;
 			sourceTree = "<group>";
@@ -5963,14 +5949,10 @@
 				18649D691D48BB5D00F1CCB0 /* GasAddCardVC.m */,
 				18649D6A1D48BB5D00F1CCB0 /* GasCardListVC.h */,
 				18649D6B1D48BB5D00F1CCB0 /* GasCardListVC.m */,
-				18649D6E1D48BB5D00F1CCB0 /* GasNormalVC.h */,
-				18649D6F1D48BB5D00F1CCB0 /* GasNormalVC.m */,
 				18649D721D48BB5D00F1CCB0 /* GasPaymentResultVC.h */,
 				18649D731D48BB5D00F1CCB0 /* GasPaymentResultVC.m */,
 				18649D761D48BB5D00F1CCB0 /* GasRecordVC.h */,
 				18649D771D48BB5D00F1CCB0 /* GasRecordVC.m */,
-				18649D7E1D48BB5D00F1CCB0 /* GasSubVC.h */,
-				18649D7F1D48BB5D00F1CCB0 /* GasSubVC.m */,
 				18649D821D48BB5D00F1CCB0 /* GasVC.h */,
 				18649D831D48BB5D00F1CCB0 /* GasVC.m */,
 				18649D861D48BB5D00F1CCB0 /* PayForGasViewController.h */,
@@ -7843,7 +7825,6 @@
 				18649D901D48BB5D00F1CCB0 /* GasReminderCell.m in Sources */,
 				186496D21D489A4200F1CCB0 /* ShareResponeManager.m in Sources */,
 				4E78DDF71D5A1A8E00EC52C7 /* ApplyViolationCommissionOp.m in Sources */,
-				18649C671D48B54E00F1CCB0 /* UsedCouponVModel.m in Sources */,
 				1864970F1D489A5800F1CCB0 /* NSDate+DateForText.m in Sources */,
 				18649A0E1D489A9700F1CCB0 /* UpdateCarOp.m in Sources */,
 				FA45628C1DB863A800D02B8B /* CommissionPaymentSuccessVM.m in Sources */,
@@ -8009,7 +7990,6 @@
 				186499961D489A9700F1CCB0 /* ViolationModel.m in Sources */,
 				186499A71D489A9700F1CCB0 /* DeleteCarOp.m in Sources */,
 				FA45629E1DB86C8D00D02B8B /* CommissionRatingVM.m in Sources */,
-				18649D8B1D48BB5D00F1CCB0 /* GasNormalVC.m in Sources */,
 				1888F42F1D48CC6C00C64288 /* ReactNativeViewController.m in Sources */,
 				C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */,
 				18649D011D48B7C000F1CCB0 /* SocialShareViewController.m in Sources */,
@@ -8167,7 +8147,6 @@
 				18649CF41D48B7C000F1CCB0 /* ADViewController.m in Sources */,
 				1836B75C1D5319E90078DB15 /* RCTHKRefreshControl.m in Sources */,
 				183F572B1D4C90860001E26A /* GetCooperationMygroupDetailOp.m in Sources */,
-				18649D931D48BB5D00F1CCB0 /* GasSubVC.m in Sources */,
 				18649D4C1D48BA3D00F1CCB0 /* InsSubmitResultVC.m in Sources */,
 				189DD4001B10722700BA0A7F /* SRMonthPicker.m in Sources */,
 				FADD81D21D53273900AB844E /* MaintainOrderViewModel.m in Sources */,
@@ -8596,7 +8575,6 @@
 				18F319621D9B722000D9A0A9 /* GasReminderCell.m in Sources */,
 				18F319631D9B722000D9A0A9 /* ShareResponeManager.m in Sources */,
 				18F319641D9B722000D9A0A9 /* ApplyViolationCommissionOp.m in Sources */,
-				18F319651D9B722000D9A0A9 /* UsedCouponVModel.m in Sources */,
 				18F319661D9B722000D9A0A9 /* NSDate+DateForText.m in Sources */,
 				18F319671D9B722000D9A0A9 /* UpdateCarOp.m in Sources */,
 				18F319681D9B722000D9A0A9 /* HomeSuspendedAdVC.m in Sources */,
@@ -8759,7 +8737,6 @@
 				18F31A071D9B722000D9A0A9 /* HKStore.m in Sources */,
 				18F31A081D9B722000D9A0A9 /* ViolationModel.m in Sources */,
 				18F31A091D9B722000D9A0A9 /* DeleteCarOp.m in Sources */,
-				18F31A0A1D9B722000D9A0A9 /* GasNormalVC.m in Sources */,
 				18F31A0B1D9B722000D9A0A9 /* ReactNativeViewController.m in Sources */,
 				18F31A0C1D9B722000D9A0A9 /* FLAnimatedImage.m in Sources */,
 				18F31A0D1D9B722000D9A0A9 /* SocialShareViewController.m in Sources */,
@@ -8915,7 +8892,6 @@
 				18F31AA51D9B722000D9A0A9 /* ADViewController.m in Sources */,
 				18F31AA61D9B722000D9A0A9 /* RCTHKRefreshControl.m in Sources */,
 				18F31AA71D9B722000D9A0A9 /* GetCooperationMygroupDetailOp.m in Sources */,
-				18F31AA81D9B722000D9A0A9 /* GasSubVC.m in Sources */,
 				18F31AA91D9B722000D9A0A9 /* InsSubmitResultVC.m in Sources */,
 				18F31AAA1D9B722000D9A0A9 /* SRMonthPicker.m in Sources */,
 				18F31AAB1D9B722000D9A0A9 /* MaintainOrderViewModel.m in Sources */,

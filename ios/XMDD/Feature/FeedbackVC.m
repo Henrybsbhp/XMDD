@@ -61,13 +61,9 @@
 }
 
 
--(void)textViewDidBeginEditing:(UITextView *)textView
-{
-    [MobClick event:@"rp323_1"];
-}
 
 - (IBAction)actionFeedback:(id)sender {
-    [MobClick event:@"rp323_2"];
+    
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         FeedbackOp *op = [FeedbackOp new];
         op.req_contactinfo = self.contactField.text.length ? self.contactField.text : gAppMgr.myUser.userID;
