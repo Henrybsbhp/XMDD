@@ -27,7 +27,7 @@
 @implementation MyCollectionListVC
 
 - (void)dealloc {
-    
+    DebugLog(@"MyCollectionListVC dealloc");
 }
 
 - (void)viewDidLoad {
@@ -39,6 +39,9 @@
     [self setupSignals];
     [self reloadDatasource];
     [self refreshNavigationBar];
+    
+    // 3.5版本有店铺下架，强行拉一边
+    [self actionRefresh:nil];
 }
 
 - (void)didReceiveMemoryWarning {

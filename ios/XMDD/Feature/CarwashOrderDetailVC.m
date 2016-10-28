@@ -181,8 +181,6 @@
  */
 - (void)actionComment
 {
-    [MobClick event:@"rp320_1"];
-    
     PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
     vc.order = self.order;
     vc.originVC = self.originVC;
@@ -194,7 +192,6 @@
 
 - (void)actionShare
 {
-    //    [MobClick event:@"rp320_1"]; @fq
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneCarwash;
     
@@ -350,7 +347,6 @@
         vc.serviceType = self.order.serviceType;
         [self.navigationController pushViewController:vc animated:YES];
     }
-    [MobClick event:@"rp320_2"];
 }
 
 #pragma mark - Cell

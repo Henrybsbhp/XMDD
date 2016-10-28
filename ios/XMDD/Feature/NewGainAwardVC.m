@@ -423,12 +423,9 @@
          */
         if(otherVC.sheetType == AwardSheetTypeSuccess)
         {
-            [MobClick event:@"rp402_4"];
-            
         }
         else if(otherVC.sheetType == AwardSheetTypeCancel)
         {
-            [MobClick event:@"rp402_5"];
         }
         [resultSheet dismissAnimated:YES completionHandler:nil];
     }];

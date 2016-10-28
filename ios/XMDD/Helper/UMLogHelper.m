@@ -23,8 +23,7 @@
                              //洗车
                              @"HomePageVC":@{@"pagetag":@"xiaomashouye"},//首页
                              @"ShopDetailVC":@{@"pagetag":@"shangjiaxiangqing"},// 商户详情
-                             @"CarwashShopListVC":@{@"pagetag":@"rp102"},//一键洗车
-                             @"CarWashNavigationViewController":@{@"pagetag":@"rp104"},//店铺导航
+                             @"CarwashShopListVC":@{@"pagetag":@"xicheshouye"},//一键洗车
                              //@"PayForWashCarVC":@{@"pagetag":@"rp1018"},// 洗车支付
                              //@"PaymentSuccessVC":@{@"pagetag":@"rp110"},//支付成功
                              //@"SearchShopListVC":@{@"pagetag":@"rp103"},//一键洗车搜索
@@ -47,8 +46,8 @@
                              @"InsInputDateVC":@{@"pagetag":@"rp1013"},//保险选择起保日期
                              
                              //发现
-                             @"ListWebVC":@{@"pagetag":@"rp202"},//发现列表
-                             @"DetailWebVC":@{@"pagetag":@"rp203"},//发现详情
+                             @"ListWebVC":@{@"pagetag":@"faxian"},//发现列表
+                             @"DetailWebVC":@{@"pagetag":@"huodongxiangqing"},//发现详情
                              
                              //我的
                              @"MineVC":@{@"pagetag":@"wodeshouye"},//我的
@@ -89,7 +88,6 @@
                              @"RescueHomeViewController":@{@"pagetag":@"zhuanyejiuyuan"},//救援首页
                              @"RescueDetailsVC":@{@"pagetag":@"rp702"},//救援详情
                              @"RescueCommentsVC":@{@"pagetag":@"rp706"},//救援评价
-                             @"RescueCouponViewController":@{@"pagetag":@"rp708"},//救援优惠劵
                              
                              // 协办
                              @"CommissionOrderVC":@{@"pagetag":@"rp801"},//代办首页
