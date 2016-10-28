@@ -25,6 +25,7 @@
 {
     self.rsp_lists = rspObj[@"lists"];
     self.rsp_tip = rspObj[@"tip"];
+    self.rsp_idnoflag = [rspObj[@"idnoflag"] integerValue] == 1;
     return self;
 }
 

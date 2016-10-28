@@ -54,7 +54,6 @@
         self.violationTotalmoney = rop.rsp_violationTotalmoney;
         self.violationArray = rop.rsp_violationArray;
         self.violationAvailableTip = rop.rsp_violationAvailableTip;
-        self.violationNeedIdNo = rop.rsp_idno.integerValue == 1 ? YES : NO;
         self.queryDate = [NSDate date];
         
         [self saveViolationModel];
@@ -121,7 +120,6 @@
         self.violationAvailableTip = [aDecoder decodeObjectForKey:@"violationAvailableTip"];
         self.showIssue = [(NSNumber *)[aDecoder decodeObjectForKey:@"showIssue"] boolValue];
         self.type = [aDecoder decodeObjectForKey:@"type"];
-        self.violationNeedIdNo = [(NSNumber *)[aDecoder decodeObjectForKey:@"violationNeedIdNo"] boolValue];
     }
     
     return  self;
@@ -142,7 +140,6 @@
     [aCoder encodeObject:self.violationAvailableTip forKey:@"violationAvailableTip"];
     [aCoder encodeObject:@(self.showIssue) forKey:@"showIssue"];
     [aCoder encodeObject:self.type forKey:@"type"];
-    [aCoder encodeObject:@(self.violationNeedIdNo) forKey:@"violationNeedIdNo"];
     
 }
 

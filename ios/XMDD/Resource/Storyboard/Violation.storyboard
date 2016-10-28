@@ -1020,7 +1020,7 @@
                                                 <textField opaque="NO" clipsSubviews="YES" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入车主身份证号码" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Med-31-XWQ" customClass="CKLimitTextField">
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -2438,9 +2438,6 @@
                                     <constraint firstAttribute="width" constant="40" id="cnF-Ed-CY0"/>
                                 </constraints>
                                 <state key="normal" image="ins_close"/>
-                                <connections>
-                                    <action selector="actionCancel:" destination="HuH-ao-4JR" eventType="touchUpInside" id="Qmw-5p-qAN"/>
-                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ins_bg_border_gray" translatesAutoresizingMaskIntoConstraints="NO" id="NGv-KH-LXX">
                                 <userDefinedRuntimeAttributes>
@@ -2454,7 +2451,7 @@
                                     <constraint firstAttribute="width" constant="230" id="HHb-Wv-Y9e"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#BW_0.5#BC_RGB(224,224,224)"/>
                                 </userDefinedRuntimeAttributes>
@@ -2477,9 +2474,6 @@
                                         <exclude reference="SZe-Dt-YoQ"/>
                                     </mask>
                                 </variation>
-                                <connections>
-                                    <action selector="actionEnsure:" destination="HuH-ao-4JR" eventType="touchUpInside" id="PpC-Ht-UGg"/>
-                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XO7-Ji-MBj" customClass="CKLine">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

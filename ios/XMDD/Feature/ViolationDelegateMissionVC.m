@@ -23,7 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *confirmReadBtn;
 @property (strong, nonatomic) DetailWebVC *webVC;
 
-
+/// 是否需要身份证号码 为1时需要输入身份证号码
+@property (assign, nonatomic) BOOL violationNeedIdNo;
 @property (strong, nonatomic) NSArray *dataSource;
 @property (strong, nonatomic) NSMutableArray *carArr;
 @property (strong, nonatomic) NSString *tip;
@@ -114,6 +115,7 @@
         }
         else
         {
+            self.violationNeedIdNo = op.rsp_idnoflag;
             self.bottomView.hidden = NO;
             self.tableView.hidden = NO;
             
@@ -411,7 +413,7 @@
             [vc.nameField endEditing:YES];
             self.idno = vc.nameField.text;
             [sheet dismissAnimated:YES completionHandler:nil];
-            [self class];
+            [self applyViolationCommission];
         }
         else
         {
