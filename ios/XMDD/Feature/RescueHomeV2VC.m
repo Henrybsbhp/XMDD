@@ -58,6 +58,10 @@
 {
     [MobClick event:@"zhuanyejiuyuan" attributes:@{@"zhuanyejiuyuan" : @"dingwei"}];
     [self.mapView setCenterCoordinate:self.userCoordinate animated:YES];
+    self.addressLabel.text = @"定位中...";
+    self.reqGEO.location = [AMapGeoPoint locationWithLatitude:self.userCoordinate.latitude longitude:self.userCoordinate.longitude];
+    self.reqGEO.requireExtension = YES;
+    [self.addressSearch AMapReGoecodeSearch:self.reqGEO];
 }
 
 /// 我的救援点击事件
@@ -66,7 +70,7 @@
     [MobClick event:@"zhuanyejiuyuan" attributes:@{@"navi" : @"wodejiuyuan"}];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
         RescueRecordVC *vc = [UIStoryboard vcWithId:@"RescueRecordVC" inStoryboard:@"Rescue"];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self.router.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -126,7 +130,6 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.navigationItem.leftBarButtonItem = back;
-    [self.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - MAMapViewDelegate
