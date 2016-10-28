@@ -9055,9 +9055,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 7A3B9332PS;
 				ENABLE_BITCODE = NO;
@@ -9156,8 +9156,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "75e6ab2d-6a0b-4c37-9db7-90fce3b0b823";
-				PROVISIONING_PROFILE_SPECIFIER = Distribution_Provisioning_xmdd;
+				PROVISIONING_PROFILE = "abb88805-5143-4184-94ac-ba155f380c48";
+				PROVISIONING_PROFILE_SPECIFIER = Development_Provisioning_xmdd;
 			};
 			name = Debug;
 		};
@@ -9269,8 +9269,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huika.xmdd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "75e6ab2d-6a0b-4c37-9db7-90fce3b0b823";
-				PROVISIONING_PROFILE_SPECIFIER = Distribution_Provisioning_xmdd;
+				PROVISIONING_PROFILE = "abb88805-5143-4184-94ac-ba155f380c48";
+				PROVISIONING_PROFILE_SPECIFIER = Development_Provisioning_xmdd;
 			};
 			name = Release;
 		};
