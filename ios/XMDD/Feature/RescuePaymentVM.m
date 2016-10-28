@@ -14,6 +14,7 @@
 #import "RequestForRescueCommissionOrderOp.h"
 #import "PaymentHelper.h"
 #import "UPApplePayHelper.h"
+#import "OrderPaidSuccessOp.h"
 
 @interface RescuePaymentVM () <UITableViewDelegate, UITableViewDataSource>
 
@@ -192,6 +193,13 @@
     @weakify(self);
     [[helper rac_startPay] subscribeNext:^(id x) {
         @strongify(self);
+        OrderPaidSuccessOp *op = [OrderPaidSuccessOp operation];
+        op.req_notifytype = 8;
+        op.req_tradeno = paidop.rsp_tradeID;
+        [[op rac_postRequest] subscribeNext:^(id x) {
+            DebugLog(@"已通知服务器支付成功!");
+        }];
+        
         // 支付成功
         [self postCustomNotificationName:kNotifyRescueRecordVC object:nil];
         [self gotoPaymentSuccessVC];
