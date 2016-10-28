@@ -184,7 +184,7 @@
         HKProgressView *progressView = (HKProgressView *)[cell.contentView viewWithTag:100];
         progressView.normalColor = kBackgroundColor;
         progressView.normalTextColor = HEXCOLOR(@"#BCBCBC");
-        progressView.titleArray = @[@"申请救援", @"救援调整", @"救援中", @"救援完成"];
+        progressView.titleArray = @[@"申请救援", @"救援调度", @"救援中", @"救援完成"];
         progressView.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, index)];
     });
     

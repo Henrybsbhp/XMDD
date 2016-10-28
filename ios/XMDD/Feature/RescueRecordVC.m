@@ -345,6 +345,8 @@
                 @strongify(self);
                 [MobClick event:@"wodejiuyuan" attributes:@{@"quzhifu" : @"quzhifu"}];
                 [self actionGoToRescuingVCWithHistoryRecord:historyRecord];
+                self.req_indexPath = indexPath;
+                self.req_applyID = historyRecord.applyId;
             }];
             
         }

@@ -9,8 +9,6 @@
 #import "CommissionOrderVC.h"
 #import "NSString+RectSize.h"
 #import "GetRescueDetailOp.h"
-#import "CommissionConfirmVC.h"
-#import "RescueHistoryViewController.h"
 #import "LoginViewModel.h"
 #import "GetStartHostCarOp.h"
 #import "MyCarStore.h"
@@ -109,7 +107,6 @@
 }
 
 - (void)commissionHistory {
-//    [MobClick event:@"rp801_1"];
 //    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
 //        RescueHistoryViewController *vc  =[rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHistoryViewController"];
 //        vc.type = 2;
@@ -117,8 +114,10 @@
 //    }
     
     [MobClick event:@"nianjianxieban" attributes:@{@"navi" : @"xiebanlishi"}];
-    CommissionRecordVC *vc = [UIStoryboard vcWithId:@"CommissionRecordVC" inStoryboard:@"Commission"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        CommissionRecordVC *vc = [UIStoryboard vcWithId:@"CommissionRecordVC" inStoryboard:@"Commission"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark - UITableViewDataSource

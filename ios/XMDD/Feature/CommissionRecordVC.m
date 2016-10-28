@@ -397,6 +397,8 @@
                 @strongify(self);
                 [MobClick event:@"wodexieban" attributes:@{@"quzhifu" : @"quzhifu"}];
                 [self actionGoToPaidAlreadyVCWithHistoryRecord:historyRecord];
+                self.req_indexPath = indexPath;
+                self.req_applyID = historyRecord.applyId;
             }];
             
         }

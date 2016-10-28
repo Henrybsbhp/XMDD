@@ -97,6 +97,7 @@
         if (self.vcType == HKCommissionPaidAlready) {
             self.commissionPaymentSuccessVM.vcType = self.vcType;
             self.commissionPaymentSuccessVM.commissionDetailOp = rop;
+            self.commissionPaymentSuccessVM.isEnterFromHomePage = self.isEnterFromHomePage;
             self.commissionPaymentSuccessVM.applyID = self.applyID;
             self.commissionPaymentSuccessVM.confirmButton = self.bottomButton;
             [self.commissionPaymentSuccessVM initialSetup];

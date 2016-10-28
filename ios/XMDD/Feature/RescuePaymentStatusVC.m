@@ -93,6 +93,7 @@
         if (self.vcType == RescueVCTypeControl || self.vcType == RescueVCTypeRescuing) {
             self.rescuingStatusVM.vcType = self.vcType;
             self.rescuingStatusVM.rescueDetialOp = rop;
+            self.rescuingStatusVM.isEnterFromHomePage = self.isEnterFromHomePage;
             self.rescuingStatusVM.applyID = self.applyID;
             if (self.vcType == RescueVCTypeRescuing) {
                 self.rescuingStatusVM.confirmButton = self.bottomButton;
