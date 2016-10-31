@@ -13,5 +13,9 @@
 	<array>
 		<string>merchant.com.huika.xmdd</string>
 	</array>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)com.huika.xmdd</string>
+	</array>
 </dict>
 </plist>
