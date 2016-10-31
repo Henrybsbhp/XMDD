@@ -9,7 +9,7 @@
 #import "ViolationDelegateCommitSuccessVC.h"
 #import "ViolationMissionHistoryVC.h"
 
-@interface ViolationDelegateCommitSuccessVC ()
+@interface ViolationDelegateCommitSuccessVC ()<UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *myCommisionBtn;
 @property (weak, nonatomic) IBOutlet UILabel *successTipLabel;
 
@@ -22,13 +22,25 @@
 
     [self setupUI];
     [self setupNavi];
-    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.router.disableInteractivePopGestureRecognizer = YES;
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.router.disableInteractivePopGestureRecognizer = NO;
+}
+
 #pragma mark - Setup
 
 -(void)setupUI

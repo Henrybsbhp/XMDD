@@ -17,8 +17,6 @@
 @property (strong, nonatomic) NSNumber *userCarID;
 /// 设置代理实现反向传值
 @property (strong, nonatomic) ViolationViewController *delegate;
-/// 是否需要身份证号码 为1时需要输入身份证号码
-@property (assign, nonatomic) BOOL violationNeedIdNo;
 /// 违章代办成功的回调
 @property (strong, nonatomic)void(^missionSuccessBlock)(NSString *);
 
