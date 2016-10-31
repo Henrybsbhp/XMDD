@@ -126,7 +126,7 @@
         @strongify(self);
         [self.view stopActivityAnimation];
         self.bottomView.hidden = YES;
-        [self.view showImageEmptyViewWithImageName:@"def_withoutAssistHistory" text:@"暂无救援记录" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
             @strongify(self);
             [self requestForRescueDetailData];
         }];
