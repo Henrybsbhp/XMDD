@@ -53,8 +53,11 @@ export default Reflux.createStore({
                 memberid: memberid,
             }
         }).then(rsp => {
-            group.base.loading = false
-            group.base.error = null
+            extend(group.base, {
+                ...rsp,
+                loading: false,
+                error: null,
+            })
             group.fund.usable = false
             group.members.usable = false
             group.messages.usable = false

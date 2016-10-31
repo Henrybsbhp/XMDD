@@ -19,6 +19,22 @@
 
 RCT_EXPORT_MODULE()
 
+RCT_EXPORT_METHOD(popToViewByRouteKey:(NSString *)key props:(NSDictionary *)props animated:(BOOL)animated
+                  fail:(RCTResponseSenderBlock)callback) {
+    CKNavigationController *nav = (CKNavigationController *)gAppMgr.navModel.curNavCtrl;
+    CKRouter *route = [nav.routerList objectForKey:key];
+    if (route && ![route.targetViewController isEqual:nav.topViewController]) {
+        CKAsyncMainQueue(^{
+            [nav popToViewController:route.targetViewController animated:YES];
+            if (props && [route.targetViewController isKindOfClass:[ReactNativeViewController class]]) {
+                ReactNativeViewController *rctvc = (ReactNativeViewController *)route.targetViewController;
+                [rctvc.rctView.rctRootView.bridge enqueueJSCall:@"Notify" method:@"handle"
+                                                           args:@[@"MutualInsFetchSimpleGroups"] completion:nil];
+            }
+        });
+    }
+    callback(@[]);
+}
 
 RCT_EXPORT_METHOD(popViewAnimated:(BOOL)animated) {
     CKAsyncMainQueue(^{
@@ -32,8 +48,8 @@ RCT_EXPORT_METHOD(pushViewControllerByUrl:(NSString *)url) {
     });
 }
 
-RCT_EXPORT_METHOD(pushComponent:(NSString *)component withProperties:(NSDictionary *)properties andAnimated:(BOOL)animated) {
-    ReactNativeViewController *vc = [[ReactNativeViewController alloc] initWithModuleName:component properties:properties];
+RCT_EXPORT_METHOD(pushHref:(NSString *)href withProperties:(NSDictionary *)properties andAnimated:(BOOL)animated) {
+    ReactNativeViewController *vc = [[ReactNativeViewController alloc] initWithHref:href properties:properties];
     CKAsyncMainQueue(^{
         [gAppMgr.navModel.curNavCtrl pushViewController:vc animated:YES];
     });

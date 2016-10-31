@@ -1,5 +1,6 @@
 "use strict";
-import {Dimensions} from 'react-native';
+import {Dimensions, PixelRatio} from 'react-native';
+
 const WIN = Dimensions.get('window');
 
 const constants = {
@@ -16,6 +17,7 @@ const constants = {
     Win: {
         Height: WIN.height,
         Width: WIN.width,
+        Scale: PixelRatio.get(),
     },
     Color: {
         Background: '#F7F7F8',

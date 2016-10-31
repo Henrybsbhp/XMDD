@@ -11,7 +11,7 @@
 #import "SearchCooperationGroupOp.h"
 #import "MutualInsGroupInfoVC.h"
 #import "HKImageAlertVC.h"
-#import "GroupIntroductionVC.h"
+#import "HKViewControllerFactory.h"
 
 @interface PasteboardModel ()
 

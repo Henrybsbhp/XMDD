@@ -1,9 +1,11 @@
 "use strict";
 import React, {Component, PropTypes} from 'react';
-import {View, ScrollView, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, ScrollView, Image, StyleSheet, Text, TouchableOpacity, NativeModules} from 'react-native';
 import UI from '../../constant/UIConstants';
+import Constant from '../../constant/Constants';
 import BlankView from '../general/BlankView';
 import Store, {Actions} from '../../store/MutualInsStore';
+const NavigationManager = NativeModules.NavigationManager;
 
 export default class GroupDetailMeView extends Component {
     constructor(props) {
@@ -21,6 +23,26 @@ export default class GroupDetailMeView extends Component {
         if (props.myInfo) {
             this.setState({myInfo: props.myInfo})
         }
+    }
+
+    onBottomButtonPress() {
+        switch (this.state.myInfo.status) {
+            case 5:
+                this.onPaymentButtonPress()
+                break
+            case 6: case 7: case 8:
+                this.onAgreementButtonPress()
+                break
+        }
+    }
+
+    onPaymentButtonPress() {
+        var baseInfo = Store.detailGroups[this.props.route.groupID]['base']
+        NavigationManager.pushViewControllerByUrl(Constant.Link.MutualInsOrder(baseInfo.contractid))
+    }
+
+    onAgreementButtonPress() {
+        NavigationManager.pushViewControllerByUrl(this.state.myInfo.contracturl)
     }
 
     render() {
@@ -148,7 +170,7 @@ export default class GroupDetailMeView extends Component {
         return (
             <View>
                 <View style={styles.line} />
-                <TouchableOpacity style={styles.bottomButton}>
+                <TouchableOpacity style={styles.bottomButton} onPress={this.onBottomButtonPress.bind(this)}>
                     <Text style={styles.bottomButtonTitle}>{m.buttonname}</Text>
                 </TouchableOpacity>
             </View>

@@ -35,6 +35,7 @@ export default class ChooseCarView extends Component {
         return (
             <ListView style={styles.container}
                       dataSource={this.state.datasource}
+                      automaticallyAdjustContentInsets={false}
                       renderRow={(row, sid, rid) => row.render(row, sid, rid)}/>
         )
     }

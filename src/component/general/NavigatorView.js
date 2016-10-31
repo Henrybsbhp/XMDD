@@ -12,8 +12,6 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 'use strict';
-
-import MyInfoView from './../mine/MyInfoView';
 import React, {Component} from 'react';
 import {
     Navigator,
@@ -25,6 +23,7 @@ import {
     NativeModules,
     Image,
 } from 'react-native';
+import RouteHelper from '../../helper/RouteMap';
 
 const NavigationBarRouteMapper = {
 
@@ -142,7 +141,10 @@ export default class NavigatorView extends Component {
         return (
             <View style={styles.container}>
                 <Navigator
-                    ref="nav"
+                    ref={(nav)=> {
+                        this.nav = nav
+                        this.routeHelper = new RouteHelper(nav)
+                    }}
                     debugOverlay={false}
                     style={styles.appContainer}
                     initialRoute={this.props.route}
@@ -156,7 +158,7 @@ export default class NavigatorView extends Component {
 
     _onDidFocus() {
         if (this.refs.nav) {
-            var disable = this.refs.nav.getCurrentRoutes().length > 1;
+            var disable = this.nav.getCurrentRoutes().length > 1;
             NativeModules.NavigationManager.setInteractivePopGestureRecognizerDisable(disable);
         }
     }
@@ -180,6 +182,7 @@ export default class NavigatorView extends Component {
                         route,
                         navigator,
                         ...route.passProps,
+                        routeHelper: this.routeHelper,
                     },
                 )}
             </View>

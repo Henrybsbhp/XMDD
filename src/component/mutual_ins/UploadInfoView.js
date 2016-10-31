@@ -120,7 +120,7 @@ export default class UploadInfoView extends Component {
             this.refs.hud.hide()
             var route = {
                 component: UploadResultView, title: '提交成功', couponList: rsp.couponlist, memberID: rsp.memberid,
-                groupID: this.props.groupID
+                groupID: this.props.route.groupID
             }
             this.props.navigator.push(route);
         }).catch(e => {
@@ -136,7 +136,7 @@ export default class UploadInfoView extends Component {
                            visible={this.state.loading || this.state.error}
                            text={this.state.error}
                            onPress={this.fetchIDLicenseInfo.bind(this)}>
-                    <ScrollView style={{flex: 1}}>
+                    <ScrollView style={{flex: 1}} automaticallyAdjustContentInsets={false}>
                         {this.renderPlateNumber()}
                         <View style={styles.picturesCell}>
                             <Text style={styles.picturesCellTitle}>请上传车主身份证照片</Text>

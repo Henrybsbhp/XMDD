@@ -37,6 +37,8 @@
 #import "AppDelegate.h"
 #import "MyBindedCardVC.h"
 #import "MutInsCalculatePageVC.h"
+#import "InviteByCodeVC.h"
+#import "MutualInsClaimsHistoryVC.h"
 
 @interface NavigationModel()
 
@@ -421,8 +423,7 @@
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
         /// 小马互助订单详情
-        else if ([@"coinso" equalByCaseInsensitive:name]) {
-            
+        else if ([name isEqualToString:@"coinso"]) {
             if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
                 return YES;
             
@@ -430,22 +431,39 @@
             vc.contractId = @([value integerValue]);
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
+        /// 小马互助邀请好友
+        else if ([name isEqualToString:@"coinvite"]) {
+            InviteByCodeVC *vc = [UIStoryboard vcWithId:@"InviteByCodeVC" inStoryboard:@"MutualInsJoin"];
+            vc.groupId = @([value integerValue]);
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
         /// 小马互助团详情
         else if ([@"coinsdtl" equalByCaseInsensitive:name]) {
             
-            if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
+            if (![LoginViewModel loginIfNeededForTargetViewController:topVC]) {
                 return YES;
+            }
             MutualInsGroupDetailVC *vc = [[MutualInsGroupDetailVC alloc] init];
             vc.router.userInfo = [[CKDict alloc] init];
             vc.router.userInfo[kMutInsGroupID] = @([value integerValue]);
             vc.router.userInfo[kMutInsMemberID] = @([value2 integerValue]);
             [(HKNavigationController *)self.curNavCtrl pushViewController:vc animated:YES];
         }
+        /// 补偿记录
+        else if ([name isEqualToString:@"coclaims"]) {
+            if (![LoginViewModel loginIfNeededForTargetViewController:topVC]) {
+                return YES;
+            }
+            MutualInsClaimsHistoryVC *vc = [UIStoryboard vcWithId:@"MutualInsClaimsHistoryVC" inStoryboard:@"MutualInsClaims"];
+            vc.gid = @([value integerValue]);
+            [self.curNavCtrl pushViewController:vc animated:YES];
+        }
         ///补偿详情
         else if ([@"coincldtlo" equalByCaseInsensitive:name]) {
             
-            if (![LoginViewModel loginIfNeededForTargetViewController:topVC])
+            if (![LoginViewModel loginIfNeededForTargetViewController:topVC]) {
                 return YES;
+            }
             
             MutualInsAskForCompensationVC *vc =  [UIStoryboard vcWithId:@"MutualInsAskForCompensationVC" inStoryboard:@"MutualInsClaims"];
             [self.curNavCtrl pushViewController:vc animated:YES];

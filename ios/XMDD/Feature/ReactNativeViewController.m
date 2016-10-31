@@ -21,14 +21,15 @@
 
 @implementation ReactNativeViewController
 
-- (instancetype)initWithModuleName:(NSString *)moduleName properties:(NSDictionary *)properties {
+- (instancetype)initWithHref:(NSString *)href properties:(NSDictionary *)properties {
     self = [super init];
     if (self) {
         NSMutableDictionary *props = [NSMutableDictionary dictionaryWithDictionary:properties];
-        [props setObject:moduleName forKey:@"component"];
+        [props setObject:href forKey:@"href"];
         [props setObject:@(gAppMgr.myUser ? YES : NO) forKey:@"isLogin"];
         _properties = props;
-        _modulName = moduleName;
+        _href = href;
+        self.router.key = href;
         self.router.navigationBarHidden = YES;
         self.hidesBottomBarWhenPushed = YES;
     }
@@ -64,12 +65,12 @@
 
 - (void)setupRCTView {
     self.containerView = [[UIView alloc] initWithFrame:self.view.bounds];
-    self.containerView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+    self.containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.containerView];
     
     self.rctView = [[ReactView alloc] initWithFrame:self.view.bounds];
     self.rctView.backgroundColor = [UIColor whiteColor];
-    self.rctView.autoresizingMask = UIViewAutoresizingFlexibleAll;
+    self.rctView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.containerView addSubview:self.rctView];
     
     [self.view bringSubviewToFront:self.navigationBar];
@@ -82,6 +83,7 @@
         [self.navigationBar setHidden:navigationBarHidden animated:animated];
     }
 }
+
 #pragma mark - Load
 - (void)checkAndUpdatePackage
 {

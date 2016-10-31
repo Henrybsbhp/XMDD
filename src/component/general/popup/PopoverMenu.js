@@ -64,7 +64,7 @@ PopoverMenu.MenuCell = PopoverMenuCell;
 
 const styles = StyleSheet.create({
     container: {flex: 1},
-    menuContainer: {position: 'absolute', width: 148, right: 10, top: 60},
+    menuContainer: {position: 'absolute', width: 148, right: 16, top: 60},
     menuBgImg: {position: 'absolute', left: 0, right: 0, top: 0, bottom: 0},
     menuContent: {marginTop: 7},
     menuSeparator: {height: 0.5, marginLeft: 10, marginRight: 10, backgroundColor: UI.Color.Line},

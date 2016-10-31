@@ -11,7 +11,7 @@
     "moment": "2.14.1",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
-    "react-native": "git+ssh://git@rm.xiaomadada.com:7999/xmdd_rct/react-native.git#c39222a",
+    "react-native": "git+ssh://git@rm.xiaomadada.com:7999/xmdd_rct/react-native.git#dcebd17",
     "react-native-htmlview": "git+https://github.com/ckools/react-native-htmlview.git",
     "react-native-image-picker": "0.18.17",
     "react-native-root-toast": "^1.0.3",

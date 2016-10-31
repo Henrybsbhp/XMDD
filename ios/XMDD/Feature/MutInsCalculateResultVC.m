@@ -8,8 +8,8 @@
 
 #import "MutInsCalculateResultVC.h"
 #import "MutualInsVC.h"
-#import "GroupIntroductionVC.h"
 #import "MutInsSystemGroupListVC.h"
+#import "HKViewControllerFactory.h"
 
 @interface MutInsCalculateResultVC ()
 @property (weak, nonatomic) IBOutlet UILabel *brandNameLabel;
@@ -76,8 +76,7 @@
 {
     [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo2"}];
 
-    GroupIntroductionVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
-    vc.groupType = MutualGroupTypeSystem;
+    UIViewController *vc = [HKViewControllerFactory mutualInsGroupIntroVCWithGroupType:MutualGroupTypeSystem];
     vc.router.userInfo[kOriginRoute] = self.router;
     [self.router.navigationController pushViewController:vc animated:YES];
 }

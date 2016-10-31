@@ -23,11 +23,11 @@ export default class UploadResultView extends Component {
     }
 
     onBack() {
-        if (this.props.groupID && this.props.memberID) { // 到团详情
+        if (this.props.route.groupID && this.props.route.memberID) { // 到团详情
 
         } else  { // 到小马互助首页
-            this.props.navigator.popToTop()
-            Actions.fetchSimpleGroups()
+            var notify = {name:'MutualInsFetchSimpleGroups', time: new Date().getTime()}
+            this.props.navigator.popToHrefInNative('/MutualIns/Home', {notify: notify})
         }
     }
 

@@ -54,6 +54,7 @@ export default class GroupIntroductionView extends Component {
             <HudView ref="hud" style={styles.container}>
                 <WebView source={{uri: 'http://www.xiaomadada.com/apphtml/requirement.html'}}
                          ref="webView"
+                         automaticallyAdjustContentInsets={false}
                          scalesPageToFit={true}
                          style={styles.webView}/>
                 <View style={styles.bottomView}>
@@ -82,7 +83,7 @@ export default class GroupIntroductionView extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {flex: 1, backgroundColor: 'white'},
+    container: {flex: 1, backgroundColor: 'white', marginTop: 0},
     webView: {flex: 1},
     line: {height: 0.5, backgroundColor: UI.Color.Line},
     bottomView: {height: 90},

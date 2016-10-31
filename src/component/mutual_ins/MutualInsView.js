@@ -1,6 +1,5 @@
 "use strict";
 import React, {Component} from 'react';
-
 import {
     View,
     Text,
@@ -12,26 +11,27 @@ import {
     TouchableWithoutFeedback,
     Linking,
     InteractionManager,
+    NativeModules,
 } from 'react-native';
 import BlankView from '../general/BlankView';
-import ADView from '../general/ADView';
 import UI from '../../constant/UIConstants';
 import Constant from '../../constant/Constants';
-import {NavBarRightItem} from '../general/NavigatorView';
 import RefreshControl from '../general/refresh/RefreshControl';
 import PopoverMenu from '../general/popup/PopoverMenu';
 import GroupDetailView from './GroupDetailView';
+import GroupListView from './GroupListView';
 import GroupIntroductionView from './GroupIntroductionView';
+import CalculationView from './CalculationView';
 import Store, {Actions, Domains} from '../../store/MutualInsStore';
 import ImageAlert, {AlertButton} from '../general/popup/ImageAlert';
 import Toast from 'react-native-root-toast';
+import UploadInfoView from './UploadInfoView';
+
+const NavigationManager = NativeModules.NavigationManager;
 
 export default class MutualInsView extends Component {
     constructor(props) {
         super(props);
-        // 设置导航条
-        this.setupNavigator(props);
-
         // 设置数据源
         this.ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 != r2,
@@ -46,25 +46,23 @@ export default class MutualInsView extends Component {
             menuOpened: false,
             callAlertOpened: false,
         }
-        this.menu = this.renderMenu();
     }
 
     componentDidMount() {
+        // 设置导航条
+        this.props.navigator.replace({
+            ...this.props.route,
+            component: MutualInsView,
+            renderRightItem: this.renderRightItem.bind(this)
+        })
+
+        // 获取数据
         this.unsubscribe = Store.listen(this.onStoreChanged.bind(this))
         Actions.fetchSimpleGroups()
     }
 
     componentWillUnmount() {
         this.unsubscribe()
-    }
-
-    // 设置导航条
-    setupNavigator(props) {
-        props.route.rightItem = {
-            component: NavBarRightItem,
-            image: {uri: 'mins_menu', width: 25, height: 25},
-            onPress: this.showMenu.bind(this),
-        }
     }
 
     /// Actions
@@ -85,27 +83,16 @@ export default class MutualInsView extends Component {
         this.setState({menuOpened: !this.state.menuOpened})
     }
 
-    /// callback
-    onStoreChanged(domain, info, error) {
-        if (Domains.SimpleGroups == domain) {
-            var state = {groups: info, loading: info.loading}
-            if (!info.loading && !error) {
-                state.loadedOnce = true
-                state.dataSource = this.createDatasource(info.carlist)
-            }
-            this.setState(state)
-
-            if (this.state.loadedOnce && error) {
-                Toast.show(error, {
-                    duration: Toast.durations.LONG,
-                    position: Toast.positions.CENTER,
-                    shadow: false,
-                });
-            }
-        }
+    showToast(msg) {
+        Toast.show(msg, {
+            duration: Toast.durations.SHORT,
+            position: Toast.positions.CENTER,
+            shadow: false,
+        });
     }
 
-    onGroupCellPress(car) {
+    /// callback
+    gotoGroupDetail(car) {
         var route = {
             component: GroupDetailView,
             groupName: car.groupname,
@@ -117,29 +104,87 @@ export default class MutualInsView extends Component {
         this.props.navigator.push(route);
     }
 
-    onCouponCellPress(car) {
+    onStoreChanged(domain, info, error) {
+        if (Domains.SimpleGroups == domain) {
+            var state = {groups: info, loading: info.loading}
+            if (!info.loading && !error) {
+                state.loadedOnce = true
+                state.dataSource = this.createDatasource(info.carlist)
+            }
+            this.setState(state)
 
+            if (this.state.loadedOnce && error) {
+                this.showToast(error)
+            }
+        }
+    }
+
+    onCouponCellPress(car) {
+        if (car && car.status == 3) {
+            this.showToast('车辆审核中，请耐心等待审核结果')
+        }
+        else {
+            this.onJoinGroup()
+        }
     }
 
     onCarCellPress(car) {
+        var {callback} = this.configInfoForCarButton(car)
+        var hasGroup = car.extendinfo && car.extendinfo.length > 0
+        if (callback) {
+            callback()
+        }
+        else if (hasGroup) {
+            this.gotoGroupDetail(car)
+        }
+        else if (car.status == 3) {
+            this.showToast('车辆审核中，请耐心等待审核结果')
+        }
+        else {
+            this.onJoinGroup()
+        }
     }
 
-    onPayButtonPress(car) {}
+    onPayButtonPress(car) {
+        NavigationManager.pushViewControllerByUrl(Constant.Link.MutualInsOrder(car.contractid))
+    }
 
-    onUploadButtonPress(car) {}
-
-    onReUploadButtonPress(car) {}
+    uploadInfo(car) {
+        var route = {component: UploadInfoView, title: '完善入团信息', car: car, groupID: car.groupid}
+        this.props.navigator.push(route);
+    }
 
     onCallButtonPress() {
         this.setState({menuOpened: false, callAlertOpened: true})
     }
 
-    onJoinButtonPress() {
+    onJoinGroup() {
         var route = {
             component: GroupIntroductionView,
             title: '小马互助',
         };
         this.props.navigator.push(route);
+    }
+
+    onCompensationButtonPress() {
+        NavigationManager.pushViewControllerByUrl(Constant.Link.MutualInsCompensation)
+    }
+
+    onUsingHelpPress() {
+        this.setState({menuOpened: false})
+        NavigationManager.pushViewControllerByUrl(Constant.Link.MutualInsUsingHelp)
+    }
+
+    onCalculatePress() {
+        this.setState({menuOpened: false})
+        NavigationManager.pushViewControllerByUrl(Constant.Link.MutualInsCalculate)
+        // var route = {component: CalculationView, title: '费用试算'}
+        // this.props.navigator.push(route)
+    }
+
+    onGotoGroupList() {
+        var route = {component: GroupListView, title: '互助团'}
+        this.props.navigator.push(route)
     }
 
     /// render
@@ -161,11 +206,12 @@ export default class MutualInsView extends Component {
                 <View style={styles.bottomContainer}>
                     <View style={styles.line}/>
                     <View style={styles.bottomContent}>
-                        <TouchableOpacity style={[styles.bottomButton, styles.bottomLeftButton]}>
+                        <TouchableOpacity style={[styles.bottomButton, styles.bottomLeftButton]}
+                                          onPress={this.onCompensationButtonPress.bind(this)}>
                             <Text style={styles.bottomButtonText}>我要陪</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.bottomButton, styles.bottomRightButton]}
-                                          onPress={this.onJoinButtonPress.bind(this)}>
+                                          onPress={this.onJoinGroup.bind(this)}>
                             <Text style={styles.bottomButtonText}>加入互助</Text>
                         </TouchableOpacity>
                     </View>
@@ -176,18 +222,30 @@ export default class MutualInsView extends Component {
         );
     }
 
+    renderRightItem(route) {
+        return (
+            <View>
+                <TouchableOpacity onPress={this.showMenu.bind(this)} style={{padding: 4}}>
+                    <Image source={{uri: 'mins_menu', width: 25, height: 25}}/>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
     //// renderMenu
     renderMenu() {
         return (
             <PopoverMenu isOpen={this.state.menuOpened}
                          onClosed={() => {this.state.menuOpened = false}}
             >
-                <PopoverMenu.MenuCell image={{uri: 'mutualIns_calculateGreen', width: 19, height: 19}} text="费用试算"/>
+                <PopoverMenu.MenuCell image={{uri: 'mutualIns_calculateGreen', width: 19, height: 19}} text="费用试算"
+                                      onPress={this.onCalculatePress.bind(this)}/>
                 {this.state.myGroups && this.state.myGroups.showplanbtn &&
                 <PopoverMenu.MenuCell image={{uri: 'mins_person', width: 18, height: 16}} text="内测计划"/>}
                 {this.state.myGroups && this.state.myGroups.showregistbtn &&
                 <PopoverMenu.MenuCell image={{uri: 'mec_edit', width: 16, height: 17}} text="内测登记"/>}
-                <PopoverMenu.MenuCell image={{uri: 'mins_question', width: 19, height: 19}} text="使用帮助"/>
+                <PopoverMenu.MenuCell image={{uri: 'mins_question', width: 19, height: 19}} text="使用帮助"
+                                      onPress={this.onUsingHelpPress.bind(this)}/>
                 <PopoverMenu.MenuCell image={{uri: 'mins_phone', width: 18, height: 17}} text="联系客服"
                                       onPress={this.onCallButtonPress.bind(this)}/>
             </PopoverMenu>
@@ -247,7 +305,7 @@ export default class MutualInsView extends Component {
                     )}
                 </View>
                 <View style={styles.line}/>
-                <TouchableOpacity style={styles.allGroupsButton}>
+                <TouchableOpacity style={styles.allGroupsButton} onPress={this.onGotoGroupList.bind(this)}>
                         <Text style={styles.allGroupsButtonTitle}>
                             {this.state.groups.opengrouptip}
                         </Text>
@@ -287,7 +345,7 @@ export default class MutualInsView extends Component {
         var showGroup = row.car.extendinfo && row.car.extendinfo.length > 0
         return (
             <View style={styles.verticalContainer}>
-                <TouchableWithoutFeedback onPress={() => {this.onCarCellPress(row.car)}}>
+                <TouchableOpacity onPress={() => {this.onCarCellPress(row.car)}}>
                     <View>
                         <View style={[styles.horizontalContainer, {marginTop: 19, marginBottom: 12}]}>
                             <Image source={logo}
@@ -304,7 +362,7 @@ export default class MutualInsView extends Component {
                             <Text style={styles.carCellTipTitle}>{row.car.statusdesc}</Text>
                         </View>
                     </View>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
                 <View style={styles.line2}/>
                 {showGroup ? this.renderGroupInfoCell(row) : this.renderCouponCell(row)}
                 <View style={styles.emptyCell}/>
@@ -312,11 +370,11 @@ export default class MutualInsView extends Component {
         );
     }
 
-    renderCarButton(car) {
+    configInfoForCarButton(car) {
         var callback = undefined
         var title = undefined
         if (car.status == 20) { // 审核失败
-            callback = this.onReUploadButtonPress.bind(this)
+            callback = this.uploadInfo.bind(this)
             title = '重新上传资料'
         }
         else if (car.status == 5) { // 待支付
@@ -324,10 +382,14 @@ export default class MutualInsView extends Component {
             title = '前去支付'
         }
         else if (car.status == 1 || car.status == 2) { // 待完善资料
-            callback = this.onUploadButtonPress.bind(this)
+            callback = this.uploadInfo.bind(this)
             title = '完善资料'
         }
+        return {callback: callback, title: title}
+    }
 
+    renderCarButton(car) {
+        var {callback, title} = this.configInfoForCarButton(car)
         return callback && (
             <TouchableOpacity style={styles.carCellButton}
                               onPress={() => {callback(car)}}>
@@ -430,7 +492,7 @@ export default class MutualInsView extends Component {
     renderGroupInfoCell(row) {
         return (
             <TouchableOpacity style={styles.groupCell}
-                              onPress={()=> {this.onGroupCellPress(row.car)}}>
+                              onPress={()=> {this.gotoGroupDetail(row.car)}}>
                 <View style={[styles.groupCellHContainer, {marginBottom: 5}]}>
                     <Text style={styles.groupCellGroupName}>{row.car.groupname}</Text>
                     <Text style={styles.groupCellMemberCount}>

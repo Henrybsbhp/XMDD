@@ -18,7 +18,7 @@
 {
     if ([[ReactNativeManager sharedManager] checkReactNativeEnabledIfNeeded]) {
         NSDictionary *props = @{@"title": @"关于RN-哈哈哈"};
-        UIViewController *vc = [[ReactNativeViewController alloc] initWithModuleName:@"AboutUsView" properties:props];
+        UIViewController *vc = [[ReactNativeViewController alloc] initWithHref:@"/Mine/AboutUs" properties:props];
         return vc;
     }
     
@@ -29,13 +29,23 @@
 + (__kindof UIViewController *)mutualInsVCWithChannel:(NSString *)channel {
     if ([[ReactNativeManager sharedManager] checkReactNativeEnabledIfNeeded]) {
         NSDictionary *props = @{@"title": @"小马互助", @"shouldBack": @YES,@"sensorChannel":channel ?: @""};
-        UIViewController *vc = [[ReactNativeViewController alloc] initWithModuleName:@"MutualInsView" properties:props];
-        vc.router.key = @"MutualInsVC";
+        UIViewController *vc = [[ReactNativeViewController alloc] initWithHref:@"/MutualIns/Home" properties:props];
         return vc;
     }
     
     MutualInsVC * vc = [UIStoryboard vcWithId:@"MutualInsVC" inStoryboard:@"MutualInsJoin"];
     vc.sensorChannel = channel;
+    return vc;
+}
+
++ (__kindof UIViewController *)mutualInsGroupIntroVCWithGroupType:(MutualGroupType)type {
+    if ([[ReactNativeManager sharedManager] checkReactNativeEnabledIfNeeded]) {
+        NSDictionary *props = @{@"title":@"小马互助", @"shouldBack": @YES, @"groupType": @(type)};
+        UIViewController *vc = [[ReactNativeViewController alloc] initWithHref:@"/MutualIns/GroupIntro" properties:props];
+        return vc;
+    }
+    GroupIntroductionVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"GroupIntroductionVC"];
+    vc.groupType = type;
     return vc;
 }
 
