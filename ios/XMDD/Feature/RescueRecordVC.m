@@ -258,12 +258,12 @@
         record.type = rop.rsp_type;
         record.commentStatus = rop.rsp_commentStatus;
         record.rescueStatus = rop.rsp_rescueStatus;
-        record.applyTime = @(rop.rsp_applyTime);
+        record.applyTime = rop.rsp_applyTime;
         record.serviceName = rop.rsp_serviceName;
         record.licenceNumber = rop.rsp_licenseNumber;
         record.applyId = @(rop.rsp_applyID);
         record.type = rop.rsp_type;
-        record.appointTime = @(rop.rsp_appointTime);
+        record.appointTime = rop.rsp_appointTime;
         record.pay = @(rop.rsp_pay);
         
         CKDict *replaceData = [self setupRecordCellWithHistoryRecord:record];

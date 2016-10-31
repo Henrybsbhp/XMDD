@@ -41,7 +41,7 @@ typedef enum : NSInteger
 @property (nonatomic, strong) NSNumber *rsq_applyID;
 
 /// 申请时间（返回参数）
-@property (nonatomic, assign) NSUInteger rsp_applyTime;
+@property (nonatomic, strong) NSNumber *rsp_applyTime;
 
 /// 服务名称（返回参数）
 @property (nonatomic, copy) NSString *rsp_serviceName;
@@ -62,7 +62,7 @@ typedef enum : NSInteger
 @property (nonatomic, assign) NSUInteger rsp_type;
 
 /// 预约时间（返回参数）
-@property (nonatomic, assign) NSUInteger rsp_appointTime;
+@property (nonatomic, strong) NSNumber *rsp_appointTime;
 
 /// 支付金额（返回参数）
 @property (nonatomic, assign) float rsp_pay;
