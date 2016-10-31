@@ -30,6 +30,8 @@
     UIImage *_errorImage;
 }
 
+@property (weak, nonatomic) IBOutlet UIView *topWarmingView;
+@property (weak, nonatomic) IBOutlet UILabel *warmingLb;
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
@@ -115,6 +117,22 @@
     [self setupNavigationBar];
     [self setupNextBtn];
     self.tableView.backgroundColor = kBackgroundColor;
+    
+    NSString * cooperationdesc = gStoreMgr.configStore.systemConfig[@"cooperationdesc"];
+    if (cooperationdesc.length)
+    {
+        CGFloat width = ScreenWidth - 66;
+        CGSize size = [cooperationdesc labelSizeWithWidth:width font:[UIFont systemFontOfSize:13]];
+        CGFloat height = size.height + 10;
+        self.tableView.contentInset = UIEdgeInsetsMake(height, 0, 0, 0);
+        self.topWarmingView.hidden = NO;
+        self.warmingLb.text = cooperationdesc;
+    }
+    else
+    {
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        self.topWarmingView.hidden = YES;
+    }
 
 }
 
@@ -226,7 +244,6 @@
 
 - (void)setupDatasource
 {
-    CKDict * warmingCell = [self setupWarmingCell];
     CKDict * cell0 = [self setupLinsenceCell];
     
     CKDict * cell1_0 = [self setupTitleCell:@"请上传车主身份证照片"];
@@ -234,7 +251,7 @@
     CKDict * cell1_2 = [self setupTitleCell:@"请上传车辆行驶证正本照片"];
     CKDict * cell1_3 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:3 inSection:1] andSampleImg:[UIImage imageNamed:@"ins_pic2"]];
     
-    CKDict * cell1_4 = [self setupTitleCell:@"请上传车辆行驶证副本照片"];
+    CKDict * cell1_4 = [self setupTitleCell:@"请上传车辆行驶证副本正面照片"];
     CKDict * cell1_5 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] andSampleImg:[UIImage imageNamed:@"ins_pic3"]];
 
     CKDict * cell2_0 = [self setupTitleCell:@"请选择保险公司"];
@@ -243,34 +260,9 @@
 
     CKDict * cell3 = [self setupCheckCell];
 
-    self.datasource = $($(warmingCell,cell0),$(cell1_0,cell1_1,cell1_2,cell1_3,cell1_4,cell1_5),$(cell2_0,cell2_1,cell2_2),$(cell3));
+    self.datasource = $($(cell0),$(cell1_0,cell1_1,cell1_2,cell1_3,cell1_4,cell1_5),$(cell2_0,cell2_1,cell2_2),$(cell3));
 }
 
-- (id)setupWarmingCell
-{
-    NSString * cooperationdesc = gStoreMgr.configStore.systemConfig[@"cooperationdesc"];
-    if (!cooperationdesc.length)
-    {
-        return CKNULL;
-    }
-    CKDict * cell = [CKDict dictWith:@{kCKCellID:@"WarmingCell"}];
-    cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        
-        CGFloat width = ScreenWidth - 66;
-        CGSize size = [cooperationdesc labelSizeWithWidth:width font:[UIFont systemFontOfSize:13]];
-        CGFloat height = size.height + 10;
-        return height;
-    });
-    
-    cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-        
-        UILabel *label = (UILabel *)[cell.contentView viewWithTag:101];
-        label.numberOfLines = 0;
-        label.text = cooperationdesc;
-    });
-    
-    return cell;
-}
 
 - (CKDict *)setupLinsenceCell
 {
