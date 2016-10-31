@@ -190,10 +190,12 @@
         @strongify(self);
         self.isLoading = NO;
         [self.tableView.refreshView endRefreshing];
+        self.tableView.hidden = YES;
         [self.view stopActivityAnimation];
         
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
             @strongify(self);
+            [self.datasource removeAllObjects];
             [self requestForRescueData];
         }];
     }];
