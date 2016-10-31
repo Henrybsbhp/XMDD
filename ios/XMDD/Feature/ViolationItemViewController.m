@@ -389,7 +389,6 @@
     ViolationDelegateMissionVC * vc = [UIStoryboard vcWithId:@"ViolationDelegateMissionVC" inStoryboard:@"Violation"];
     vc.licenceNumber = self.violationModel.licencenumber;
     vc.userCarID = self.car.carId;
-    vc.violationNeedIdNo = self.violationModel.violationNeedIdNo;
     vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
     vc.router.userInfo[kOriginRoute]= self.parentViewController.router;
     [vc setMissionSuccessBlock:^(NSString * tip) {

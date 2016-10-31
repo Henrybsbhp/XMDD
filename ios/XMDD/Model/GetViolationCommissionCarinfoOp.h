@@ -20,4 +20,6 @@
 
 @property (assign, nonatomic) BOOL rsp_idnoflag;
 
+@property (strong, nonatomic) NSString *rsp_idno;
+
 @end

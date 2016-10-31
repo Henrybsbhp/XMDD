@@ -38,6 +38,4 @@
 @property (nonatomic,strong)NSArray * rsp_violationArray;
 ///可代办条数
 @property (nonatomic,copy)NSString * rsp_violationAvailableTip;
-///是否需要身份证号码 为1时需要输入身份证号码
-@property (nonatomic,copy)NSNumber * rsp_idno;
 @end

@@ -43,6 +43,8 @@
 {
     [super viewDidLoad];
     
+    self.router.disableInteractivePopGestureRecognizer = YES;
+    
     /// tableView 的 contentInset 的 top 属性设置为 -34，不然在 Grouped 风格的 tableView 下会出现顶端留白。
     self.tableView.contentInset = UIEdgeInsetsMake(-34, 0, 0, 0);
     
@@ -93,6 +95,7 @@
         if (self.vcType == RescueVCTypeControl || self.vcType == RescueVCTypeRescuing) {
             self.rescuingStatusVM.vcType = self.vcType;
             self.rescuingStatusVM.rescueDetialOp = rop;
+            self.rescuingStatusVM.isEnterFromHomePage = self.isEnterFromHomePage;
             self.rescuingStatusVM.applyID = self.applyID;
             if (self.vcType == RescueVCTypeRescuing) {
                 self.rescuingStatusVM.confirmButton = self.bottomButton;

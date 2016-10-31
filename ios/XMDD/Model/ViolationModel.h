@@ -44,8 +44,6 @@
 @property (nonatomic,strong)NSDate * queryDate;
 /// 违章可处理个数
 @property (nonatomic,copy)NSString * violationAvailableTip;
-/// 是否需要身份证号码 为1时需要输入身份证号码
-@property (assign, nonatomic) BOOL violationNeedIdNo;
 
 /// 通过车牌信息获取城市信息
 - (RACSignal *)rac_getCityInfoByLincenseNumber;

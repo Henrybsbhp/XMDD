@@ -369,8 +369,9 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 #pragma mark - TabBar
 - (void)reloadTabBar {
     self.tabItems = $([self tabItemMe], [self tabItemFund],
-                      [self tabItemMembers], [self tabItemMessages],
-                      [self tabItemNoticeBoard]);
+                      [self tabItemMembers], [self tabItemNoticeBoard],
+                      [self tabItemMessages]
+                      );
     NSInteger selectedIndex = 0;
     
     self.tabBar.items = [[self.tabItems allObjects] arrayByMappingOperator:^id(CKDict *dict) {

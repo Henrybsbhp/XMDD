@@ -68,7 +68,6 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.navigationItem.leftBarButtonItem = back;
-    [self.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - Actions
@@ -397,6 +396,8 @@
                 @strongify(self);
                 [MobClick event:@"wodexieban" attributes:@{@"quzhifu" : @"quzhifu"}];
                 [self actionGoToPaidAlreadyVCWithHistoryRecord:historyRecord];
+                self.req_indexPath = indexPath;
+                self.req_applyID = historyRecord.applyId;
             }];
             
         }

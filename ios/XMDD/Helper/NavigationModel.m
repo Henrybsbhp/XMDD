@@ -416,7 +416,7 @@
                 vc.applyID = @(value.integerValue);
                 [self.curNavCtrl pushViewController:vc animated:YES];
             } else {
-                UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeV2VC"];
+                UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueRecordVC"];
                 [self.curNavCtrl pushViewController:vc animated:YES];
             }
         }

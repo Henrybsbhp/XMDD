@@ -88,9 +88,8 @@
 
 - (void)setupNavigationBar
 {
-    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionStatusBack)];
     self.targetVC.navigationItem.leftBarButtonItem = back;
-    [self.targetVC.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - Actions
@@ -125,7 +124,7 @@
     }];
 }
 
-- (void)actionBack
+- (void)actionStatusBack
 {
     [MobClick event:@"jiuyuanzhuangtai" attributes:@{@"navi" : @"back"}];
     
@@ -138,6 +137,7 @@
         if ([vc isKindOfClass:[RescueRecordVC class]]) {
             [self.targetVC.router.navigationController popToViewController:vc animated:YES];
             return;
+            break;
         }
     }
     
@@ -174,7 +174,7 @@
         HKProgressView *progressView = (HKProgressView *)[cell.contentView viewWithTag:100];
         progressView.normalColor = kBackgroundColor;
         progressView.normalTextColor = HEXCOLOR(@"#BCBCBC");
-        progressView.titleArray = @[@"申请救援", @"救援调整", @"救援中", @"救援完成"];
+        progressView.titleArray = @[@"申请救援", @"救援调度", @"救援中", @"救援完成"];
         progressView.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, index)];
     });
     
