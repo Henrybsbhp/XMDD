@@ -127,6 +127,7 @@
         self.duplicateURL = op.rsp_licensecopyurl;
         self.carID = op.rsp_carid;
         self.idnoflag = op.rsp_idnoflag;
+        self.idNo = op.rsp_idno;
         [self setupDataSource];
         [self.tableView reloadData];
         [self getfailedOriginImg];
@@ -274,7 +275,10 @@
         
         CKLimitTextField *idTextField = [cell viewWithTag:100];
         idTextField.textLimit = 18;
-        
+        if (self.idNo.length != 0)
+        {
+            idTextField.text = self.idNo;
+        }
         [idTextField setTextChangingBlock:^(CKLimitTextField *textField, NSString *x) {
             NSScanner* scan = [NSScanner scannerWithString:x];
             int val;

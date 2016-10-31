@@ -36,7 +36,6 @@
         self.rsp_violationTotalfen = [rspObj integerParamForName:@"totalfen"];
         self.rsp_violationTotalmoney = [rspObj integerParamForName:@"totalmoney"];
         self.rsp_violationAvailableTip = [rspObj stringParamForName:@"tip"];
-        self.rsp_idno = [rspObj numberParamForName:@"idno"];
         NSMutableArray * tArray = [NSMutableArray array];
         for (NSDictionary * dict in rspObj[@"lists"])
         {

@@ -1126,7 +1126,6 @@
 		18F3198C1D9B722000D9A0A9 /* DrivingLicenseViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649D3A1D48B9D900F1CCB0 /* DrivingLicenseViewLayout.m */; };
 		18F3198D1D9B722000D9A0A9 /* HKCoverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 186497D81D489A9600F1CCB0 /* HKCoverage.m */; };
 		18F3198E1D9B722000D9A0A9 /* PayInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498041D489A9600F1CCB0 /* PayInfoModel.m */; };
-		18F3198F1D9B722000D9A0A9 /* GetViolationCommissionByIdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */; };
 		18F319901D9B722000D9A0A9 /* GetShopByDistanceV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498A91D489A9600F1CCB0 /* GetShopByDistanceV2Op.m */; };
 		18F319911D9B722000D9A0A9 /* GetAutomobileSeriesV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864984D1D489A9600F1CCB0 /* GetAutomobileSeriesV2Op.m */; };
 		18F319921D9B722000D9A0A9 /* HKBigRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B121D48A93000F1CCB0 /* HKBigRatingView.m */; };
@@ -1576,7 +1575,6 @@
 		4E78DDFB1D5A1A8E00EC52C7 /* UpdateViolationCommissionCarinfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DDF61D5A1A8E00EC52C7 /* UpdateViolationCommissionCarinfoOp.m */; };
 		4E78DF171D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DF161D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.m */; };
 		4E78DF6E1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DF6D1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m */; };
-		4E78DFBA1D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */; };
 		4E78E02D1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */; };
 		4ED048631D643A5500F48A1F /* SendUnioncardSmsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048621D643A5500F48A1F /* SendUnioncardSmsOp.m */; };
 		4ED048C81D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED048C71D64964600F48A1F /* CheckoutUnioncardQuickpayOp.m */; };
@@ -3319,8 +3317,6 @@
 		4E78DF161D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetViolationCommissionCouponsOp.m; sourceTree = "<group>"; };
 		4E78DF6C1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmViolationCommissionOrderConfirmOp.h; sourceTree = "<group>"; };
 		4E78DF6D1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmViolationCommissionOrderConfirmOp.m; sourceTree = "<group>"; };
-		4E78DFB81D5D81E000EC52C7 /* GetViolationCommissionByIdOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetViolationCommissionByIdOp.h; sourceTree = "<group>"; };
-		4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetViolationCommissionByIdOp.m; sourceTree = "<group>"; };
 		4E78E02B1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayViolationCommissionOrderOp.h; sourceTree = "<group>"; };
 		4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayViolationCommissionOrderOp.m; sourceTree = "<group>"; };
 		4ED048611D643A5500F48A1F /* SendUnioncardSmsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendUnioncardSmsOp.h; sourceTree = "<group>"; };
@@ -4501,8 +4497,6 @@
 				4E78DF161D5B2DCA00EC52C7 /* GetViolationCommissionCouponsOp.m */,
 				4E78DF6C1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.h */,
 				4E78DF6D1D5C720E00EC52C7 /* ConfirmViolationCommissionOrderConfirmOp.m */,
-				4E78DFB81D5D81E000EC52C7 /* GetViolationCommissionByIdOp.h */,
-				4E78DFB91D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m */,
 				4E78E02B1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.h */,
 				4E78E02C1D5DBEED00EC52C7 /* PayViolationCommissionOrderOp.m */,
 				FA1459EC1D62DDEC00690140 /* GetBankCardBaseInfoOp.h */,
@@ -7819,7 +7813,6 @@
 				18649D3D1D48B9D900F1CCB0 /* DrivingLicenseViewLayout.m in Sources */,
 				1864997D1D489A9700F1CCB0 /* HKCoverage.m in Sources */,
 				186499931D489A9700F1CCB0 /* PayInfoModel.m in Sources */,
-				4E78DFBA1D5D81E000EC52C7 /* GetViolationCommissionByIdOp.m in Sources */,
 				186499E51D489A9700F1CCB0 /* GetShopByDistanceV2Op.m in Sources */,
 				186499B71D489A9700F1CCB0 /* GetAutomobileSeriesV2Op.m in Sources */,
 				18649B681D48A93000F1CCB0 /* HKBigRatingView.m in Sources */,
@@ -8560,7 +8553,6 @@
 				18F3198C1D9B722000D9A0A9 /* DrivingLicenseViewLayout.m in Sources */,
 				18F3198D1D9B722000D9A0A9 /* HKCoverage.m in Sources */,
 				18F3198E1D9B722000D9A0A9 /* PayInfoModel.m in Sources */,
-				18F3198F1D9B722000D9A0A9 /* GetViolationCommissionByIdOp.m in Sources */,
 				18F319901D9B722000D9A0A9 /* GetShopByDistanceV2Op.m in Sources */,
 				18F319911D9B722000D9A0A9 /* GetAutomobileSeriesV2Op.m in Sources */,
 				18F319921D9B722000D9A0A9 /* HKBigRatingView.m in Sources */,
@@ -9089,10 +9081,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Huika Technology Co.,Ltd (7A3B9332PS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7A3B9332PS;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

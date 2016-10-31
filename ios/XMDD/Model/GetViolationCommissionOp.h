@@ -16,4 +16,6 @@
 
 @property (strong, nonatomic) NSString *rsp_tip;
 
+@property (assign, nonatomic) BOOL rsp_idnoflag;
+
 @end
