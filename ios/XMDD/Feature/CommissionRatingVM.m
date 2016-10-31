@@ -55,7 +55,7 @@
 
 - (void)setDataSource
 {
-    NSString *appointDate = self.commissionDetailOp.rsp_appointTime == 0 ? @"" : [[NSDate dateWithUTS:@(self.commissionDetailOp.rsp_appointTime)] dateFormatForYYMMdd2];
+    NSString *appointDate = self.commissionDetailOp.rsp_appointTime.integerValue == 0 ? @"" : [[NSDate dateWithUTS:self.commissionDetailOp.rsp_appointTime] dateFormatForYYMMdd2];
     if (self.commentStatus == 1) {
         self.dataSource = $($([self setupTitleCell],
                               [self setupPaymentInfoCellWithArray:@[@"申请服务", self.commissionDetailOp.rsp_serviceName] isHighlighted:NO],
@@ -89,7 +89,6 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.targetVC.navigationItem.leftBarButtonItem = back;
-    [self.targetVC.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - Actions
@@ -166,7 +165,7 @@
     } error:^(NSError *error) {
         @strongify(self);
         [self.targetVC.view stopActivityAnimation];
-        [self.targetVC.view showImageEmptyViewWithImageName:@"def_withoutAssistHistory" text:@"暂无待办记录" tapBlock:^{
+        [self.targetVC.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
             @strongify(self);
             [self requestForRescueDetailData];
         }];

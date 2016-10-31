@@ -13,15 +13,14 @@
 #import "CarwashShopListVC.h"
 #import "InsuranceVC.h"
 #import "UIView+DefaultEmptyView.h"
-#import "RescueDetailsVC.h"
 #import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
 #import "CommissionOrderVC.h"
-#import "RescueHomeViewController.h"
 #import "GasVC.h"
 #import "MutualInsVC.h"
 #import "ViolationViewController.h"
 #import "ShopListVC.h"
+#import "RescueHomeV2VC.h"
 
 @interface CouponDetailsVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -169,7 +168,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (self.oldType == CouponTypeRescue) {
-        RescueHomeViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
+        RescueHomeV2VC *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeV2VC"];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if (self.oldType == CouponTypeWithHeartCarwash)

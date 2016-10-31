@@ -14,6 +14,7 @@
 #import "RequestForRescueCommissionOrderOp.h"
 #import "PaymentHelper.h"
 #import "UPApplePayHelper.h"
+#import "OrderPaidSuccessOp.h"
 
 @interface RescuePaymentVM () <UITableViewDelegate, UITableViewDataSource>
 
@@ -132,7 +133,6 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.targetVC.navigationItem.leftBarButtonItem = back;
-    [self.targetVC.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - Actions
@@ -192,6 +192,13 @@
     @weakify(self);
     [[helper rac_startPay] subscribeNext:^(id x) {
         @strongify(self);
+        OrderPaidSuccessOp *op = [OrderPaidSuccessOp operation];
+        op.req_notifytype = 8;
+        op.req_tradeno = paidop.rsp_tradeID;
+        [[op rac_postRequest] subscribeNext:^(id x) {
+            DebugLog(@"已通知服务器支付成功!");
+        }];
+        
         // 支付成功
         [self postCustomNotificationName:kNotifyRescueRecordVC object:nil];
         [self gotoPaymentSuccessVC];
@@ -238,7 +245,7 @@
         HKProgressView *progressView = (HKProgressView *)[cell.contentView viewWithTag:100];
         progressView.normalColor = kBackgroundColor;
         progressView.normalTextColor = HEXCOLOR(@"#BCBCBC");
-        progressView.titleArray = @[@"申请救援", @"救援调整", @"救援中", @"救援完成"];
+        progressView.titleArray = @[@"申请救援", @"救援调度", @"救援中", @"救援完成"];
         progressView.selectedIndexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, index)];
     });
     

@@ -41,6 +41,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.router.disableInteractivePopGestureRecognizer = YES;
+    
     /// tableView 的 contentInset 的 top 属性设置为 -34，不然在 Grouped 风格的 tableView 下会出现顶端留白。
     self.tableView.contentInset = UIEdgeInsetsMake(-34, 0, 0, 0);
     
@@ -97,6 +99,7 @@
         if (self.vcType == HKCommissionPaidAlready) {
             self.commissionPaymentSuccessVM.vcType = self.vcType;
             self.commissionPaymentSuccessVM.commissionDetailOp = rop;
+            self.commissionPaymentSuccessVM.isEnterFromHomePage = self.isEnterFromHomePage;
             self.commissionPaymentSuccessVM.applyID = self.applyID;
             self.commissionPaymentSuccessVM.confirmButton = self.bottomButton;
             [self.commissionPaymentSuccessVM initialSetup];
@@ -125,7 +128,7 @@
         @strongify(self);
         [self.view stopActivityAnimation];
         self.bottomView.hidden = YES;
-        [self.view showImageEmptyViewWithImageName:@"def_withoutAssistHistory" text:@"暂无协办记录" tapBlock:^{
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
             @strongify(self);
             [self requestForRescueDetailData];
         }];

@@ -86,7 +86,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3.5.0.0069</string>
+	<string>3.5.0.0071</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -149,11 +149,11 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
-	<key>NSCameraUsageDescription</key>
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>

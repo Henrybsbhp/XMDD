@@ -68,7 +68,6 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.navigationItem.leftBarButtonItem = back;
-    [self.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - Actions
@@ -277,12 +276,12 @@
         record.type = rop.rsp_type;
         record.commentStatus = rop.rsp_commentStatus;
         record.rescueStatus = rop.rsp_rescueStatus;
-        record.applyTime = @(rop.rsp_applyTime);
+        record.applyTime = rop.rsp_applyTime;
         record.serviceName = rop.rsp_serviceName;
         record.licenceNumber = rop.rsp_licenseNumber;
         record.applyId = @(rop.rsp_applyID);
         record.type = rop.rsp_type;
-        record.appointTime = @(rop.rsp_appointTime);
+        record.appointTime = rop.rsp_appointTime;
         record.pay = @(rop.rsp_pay);
         
         CKDict *replaceData = [self setupRecordCellWithHistoryRecord:record];
@@ -386,7 +385,7 @@
                     [self actionCancelCommissionWithHistoryRecord:historyRecord];
                 }];
                 
-                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"确定要取消本次协助吗" ActionItems:@[cancel, confirm]];
+                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"确定要取消本次协办吗" ActionItems:@[cancel, confirm]];
                 [alert show];
                 
                 self.req_indexPath = indexPath;
@@ -397,6 +396,8 @@
                 @strongify(self);
                 [MobClick event:@"wodexieban" attributes:@{@"quzhifu" : @"quzhifu"}];
                 [self actionGoToPaidAlreadyVCWithHistoryRecord:historyRecord];
+                self.req_indexPath = indexPath;
+                self.req_applyID = historyRecord.applyId;
             }];
             
         }

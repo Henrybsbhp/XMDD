@@ -43,8 +43,8 @@
 {
     [self setupNavigationBar];
     
-    NSString *appointDate = self.commissionDetailOp.rsp_appointTime == 0 ? @"" : [[NSDate dateWithUTS:@(self.commissionDetailOp.rsp_appointTime)] dateFormatForYYMMdd2];
-    self.dataSource = $($([self setupTopTipsCellWithText:@"支付成功，请耐心等待"],
+    NSString *appointDate = self.commissionDetailOp.rsp_appointTime.integerValue == 0 ? @"" : [[NSDate dateWithUTS:self.commissionDetailOp.rsp_appointTime] dateFormatForYYMMdd2];
+    self.dataSource = $($([self setupTopTipsCellWithText:@"支付成功，请保持手机畅通"],
                           [self setupTitleCell],
                           [self setupPaymentInfoCellWithArray:@[@"申请服务", self.commissionDetailOp.rsp_serviceName] isHighlighted:NO],
                           [self setupPaymentInfoCellWithArray:@[@"项目价格", [NSString stringWithFormat:@"￥%.2f", self.commissionDetailOp.rsp_pay]] isHighlighted:YES],
@@ -61,7 +61,6 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.targetVC.navigationItem.leftBarButtonItem = back;
-    [self.targetVC.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - Actions

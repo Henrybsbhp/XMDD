@@ -15,6 +15,7 @@
 #import "CommissionPaymentStatusVC.h"
 #import "HKTableTextCell.h"
 #import "JTTableViewCell.h"
+#import "OrderPaidSuccessOp.h"
 
 @interface CommissionPaymentVM () <UITableViewDelegate, UITableViewDataSource>
 
@@ -86,7 +87,7 @@
         [paymenCellList addObject:[self setupPaymentPlatformCell] forKey:nil];
     }
     
-    NSString *appointDate = self.commissionDetailOp.rsp_appointTime == 0 ? @"" : [[NSDate dateWithUTS:@(self.commissionDetailOp.rsp_appointTime)] dateFormatForYYMMdd2];
+    NSString *appointDate = self.commissionDetailOp.rsp_appointTime.integerValue == 0 ? @"" : [[NSDate dateWithUTS:self.commissionDetailOp.rsp_appointTime] dateFormatForYYMMdd2];
     
     self.dataSource = $($([self setupTitleCell],
                           [self setupPaymentInfoCellWithArray:@[@"申请服务", self.commissionDetailOp.rsp_serviceName] isHighlighted:NO],
@@ -136,7 +137,6 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.targetVC.navigationItem.leftBarButtonItem = back;
-    [self.targetVC.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - Actions
@@ -196,6 +196,13 @@
     @weakify(self);
     [[helper rac_startPay] subscribeNext:^(id x) {
         @strongify(self);
+        OrderPaidSuccessOp *op = [OrderPaidSuccessOp operation];
+        op.req_notifytype = 9;
+        op.req_tradeno = paidop.rsp_tradeID;
+        [[op rac_postRequest] subscribeNext:^(id x) {
+            DebugLog(@"已通知服务器支付成功!");
+        }];
+        
         // 支付成功
         [self postCustomNotificationName:kNotifyCommissionRecordVC object:nil];
         [self gotoPaymentSuccessVC];
