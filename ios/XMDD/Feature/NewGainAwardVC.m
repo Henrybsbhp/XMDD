@@ -44,6 +44,7 @@
 @property (assign, nonatomic) BOOL otherActionFlag;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *carwashXConstraint;
 
 @end
 
@@ -289,6 +290,12 @@
                              animations:^{
                                  self.hyscratchView.alpha = 0;
                              }];
+            
+            self.shareBtn.hidden = YES;
+            [self.carwashBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+               
+                make.centerX.equalTo(self.view);
+            }];
 
         }
         else

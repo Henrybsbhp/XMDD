@@ -177,6 +177,7 @@
                         <outlet property="bgImgView" destination="v8S-LH-fW8" id="7lB-r7-kNb"/>
                         <outlet property="carwashBtn" destination="g1M-Ri-ldX" id="wkN-Kv-2Qw"/>
                         <outlet property="carwashFlagView" destination="DGF-YQ-8wM" id="7j8-2y-x4m"/>
+                        <outlet property="carwashXConstraint" destination="NiO-xF-doc" id="u1Y-qF-qyR"/>
                         <outlet property="constraint" destination="EZh-Bz-2kj" id="XI2-r3-wbo"/>
                         <outlet property="coverView" destination="otv-Sw-lGe" id="Tq7-QC-067"/>
                         <outlet property="instructionBtn" destination="fCo-g0-7Tj" id="lYN-8f-dxr"/>
