@@ -14,7 +14,6 @@
 #import "HKPopoverView.h"
 #import "ExitCooperationOp.h"
 #import "DeleteCooperationGroupOp.h"
-#import "MutualInsClaimsHistoryVC.h"
 
 NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
 
@@ -215,26 +214,7 @@ NSString *const kIgnoreBaseInfo = @"_MutualInsIgnoreBaseInfo";
                        [self menuItemQuit],
                        [self menuItemMakeCall],
                        [self menuItemDeleteGroup],
-                       [self menuItemUsinghelp],
-                       [self menuItemClaim]);
-}
-
-///补偿记录
-- (id)menuItemClaim {
-    if (self.viewModel.baseInfo.rsp_claimbtnflag == 0) {
-        return CKNULL;
-    }
-    CKDict *dict = [CKDict dictWith:@{kCKItemKey:@"Claim",@"title":@"补偿记录",@"img":@"mins_history"}];
-    @weakify(self);
-    dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
-        @strongify(self);
-       [MobClick event:@"hztuanxiangqiang" attributes:@{@"caidan":@"buchang"}];
-        MutualInsClaimsHistoryVC *vc = [UIStoryboard vcWithId:@"MutualInsClaimsHistoryVC" inStoryboard:@"MutualInsClaims"];
-        [vc setValue:self.router.userInfo[kMutInsGroupID] forKey:@"gid"];
-        [self.navigationController pushViewController:vc animated:YES];
-    });
-    
-    return dict;
+                       [self menuItemUsinghelp]);
 }
 
 - (id)menuItemInvite {

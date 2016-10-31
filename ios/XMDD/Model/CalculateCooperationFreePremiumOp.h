@@ -14,7 +14,8 @@
 @property (strong, nonatomic) NSString *req_frameno;
 
 @property (strong, nonatomic) NSString *req_blackbox;
-
+/// 是否有出险
+@property (strong, nonatomic) NSNumber *req_hasriskrecord;
 /// 返回信息
 @property (strong, nonatomic) PremiumModel *model;
 

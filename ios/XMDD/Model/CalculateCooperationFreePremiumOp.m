@@ -17,6 +17,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params addParam:self.req_frameno forName:@"frameno"];
     [params addParam:self.req_blackbox forName:@"blackbox"];
+    [params addParam:self.req_hasriskrecord forName:@"hasriskrecord"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:NO];
 }

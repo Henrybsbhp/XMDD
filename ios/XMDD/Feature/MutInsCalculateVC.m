@@ -22,8 +22,8 @@
 @property (strong, nonatomic) NSArray *insuranceList;
 @property (strong, nonatomic) NSArray *couponList;
 @property (strong, nonatomic) NSArray *activityList;
-
 @property (strong, nonatomic) NSString *frameNo;
+@property (strong, nonatomic) NSNumber *hasRiskRecord;
 @end
 
 @implementation MutInsCalculateVC
@@ -37,7 +37,7 @@
 {
     [super viewDidLoad];
     
-    [self setupFrameNo];
+    [self setupData];
     [self getCalculateBaseInfo];
 }
 
@@ -48,15 +48,16 @@
 
 #pragma mark - Setup
 
-- (void)setupFrameNo
+- (void)setupData
 {
+    self.hasRiskRecord = self.car.hasRiskRecord ? self.car.hasRiskRecord : @(0);
     self.frameNo = self.car.classno.length == 0 ? @"" : self.car.classno;
 }
 
 #pragma mark - Network
 
 /// 获得估算信息
--(void)getCalculateBaseInfo
+- (void)getCalculateBaseInfo
 {
     @weakify(self)
     GetCalculateBaseInfoOp *op = [GetCalculateBaseInfoOp operation];
@@ -78,6 +79,7 @@
         CKList *list = [CKList list];
         NSMutableArray * array = [NSMutableArray array];
         [array safetyAddObject:[self textFieldCellData]];
+        [array safetyAddObject:[self switchCellData]];
         [array safetyAddObject:[self btnCellData]];
         [list addObjectsFromArray:array];
         NSMutableArray *tempArr = [[NSMutableArray alloc]init];
@@ -107,13 +109,14 @@
 }
 
 /// 需要签名
--(void)calculateFrameNoNeedSecurity
+- (void)calculateFrameNoNeedSecurity
 {
     @weakify(self)
     OutlayCalculateWithFrameNumOp *op = [OutlayCalculateWithFrameNumOp operation];
     
     op.frameNo = self.frameNo;
     op.carID = self.car.carId;
+    op.req_hasriskrecord = self.hasRiskRecord;
     
     FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
     NSString *blackBox = manager->getDeviceInfo();
@@ -161,7 +164,7 @@
 }
 
 /// 不需要签名
--(void)calculateFrameNoNotNeedSecurity
+- (void)calculateFrameNoNotNeedSecurity
 {
     
     @weakify(self)
@@ -169,6 +172,7 @@
     CalculateCooperationFreePremiumOp *op = [CalculateCooperationFreePremiumOp operation];
     
     op.req_frameno = self.frameNo;
+    op.req_hasriskrecord = self.hasRiskRecord;
     
     FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
     NSString *blackBox = manager->getDeviceInfo();
@@ -212,19 +216,19 @@
 
 #pragma mark - UITableViewDataSource
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.dataSource.count;
 }
 
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     CKList *cellList = self.dataSource[section];
     return cellList.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CKDict *item = self.dataSource[indexPath.section][indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:item[kCKCellID]];
@@ -240,7 +244,7 @@
 
 #pragma mark - CellData
 
--(CKDict *)textFieldCellData
+- (CKDict *)textFieldCellData
 {
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"TextFieldCell"}];
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -276,7 +280,33 @@
     });
     return data;
 }
--(CKDict *)btnCellData
+
+- (CKDict *)switchCellData
+{
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"SwitchCell"}];
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 50;
+    });
+    @weakify(self)
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        @strongify(self)
+        
+        UISwitch *switchBtn = [cell viewWithTag:100];
+        switchBtn.on = self.hasRiskRecord.integerValue == 1 ;
+        [[switchBtn rac_signalForControlEvents:UIControlEventValueChanged]subscribeNext:^(UISwitch *x) {
+            
+            
+            self.hasRiskRecord = x.isOn ? @(1) : @(0);
+            if (self.car)
+            {
+                self.car.hasRiskRecord = x.isOn ? @(1) : @(0);
+            }
+        }];
+    });
+    return data;
+}
+
+- (CKDict *)btnCellData
 {
     @weakify(self)
     CKDict *data = [CKDict dictWith:@{kCKCellID:@"BtnCell"}];
@@ -527,7 +557,7 @@
     return newArray;
 }
 
--(void)showLicenseTips
+- (void)showLicenseTips
 {
     
     [MobClick event:@"hzfeiyongshisuan" attributes:@{@"cheliangshibiehao":@"lvsebiaoshi"}];
@@ -552,7 +582,7 @@
     imgv.image = [UIImage imageNamed:@"common_carFrameNo_imageView"];
 }
 
--(BOOL)checkFrameNo
+- (BOOL)checkFrameNo
 {
     if ([self isHasZhhansCharacter:self.frameNo] == YES)
     {
@@ -592,7 +622,7 @@
 
 #pragma mark - UITableViewDelegate
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CKDict *item = [[self.dataSource objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     if (item[kCKCellGetHeight])
@@ -602,7 +632,7 @@
     return 44;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == 0)
     {
@@ -616,7 +646,7 @@
 
 #pragma mark - LazyLoad
 
--(CKList *)dataSource
+- (CKList *)dataSource
 {
     if (!_dataSource)
     {

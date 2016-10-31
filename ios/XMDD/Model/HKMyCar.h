@@ -96,6 +96,9 @@ typedef enum : NSInteger
 ///是否为默认车辆
 @property (nonatomic)BOOL isDefault;
 
+/// 是否有出险记录 1有出险 0未出险
+@property (strong, nonatomic) NSNumber *hasRiskRecord;
+
 @property (nonatomic, assign) HKCarTintColorType tintColorType;
 
 @property (nonatomic, assign) HKCarEditableMask editMask;
