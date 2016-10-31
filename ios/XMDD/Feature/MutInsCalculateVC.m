@@ -293,12 +293,13 @@
         
         UISwitch *switchBtn = [cell viewWithTag:100];
         switchBtn.on = self.hasRiskRecord.integerValue == 1 ;
-        [[switchBtn rac_signalForControlEvents:UIControlEventValueChanged]subscribeNext:^(NSNumber *x) {
+        [[switchBtn rac_signalForControlEvents:UIControlEventValueChanged]subscribeNext:^(UISwitch *x) {
             
-            self.hasRiskRecord = x;
+            
+            self.hasRiskRecord = x.isOn ? @(1) : @(0);
             if (self.car)
             {
-                self.car.hasRiskRecord = x;
+                self.car.hasRiskRecord = x.isOn ? @(1) : @(0);
             }
         }];
     });
