@@ -358,6 +358,7 @@
         
         PictureRecord *record;
         record = indexPath.row == 1 ? self.originRcd : self.duplicateRcd;
+        PictureRecord *failedRecord = indexPath.row == 1 ? self.failedOriginRcd : self.failedDuplicateRcd;
         record.customArray = [NSMutableArray arrayWithArray:@[selectImgView,cameraImg]];
         
         [selectImgView removeTagGesture];
@@ -414,9 +415,12 @@
         }];
         
         [[RACObserve(record, image) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(UIImage * img) {
-            selectImgView.hidden = !img;
-            selectImgView.image = img;
-            cameraImg.hidden = img;
+            if (!failedRecord.image)
+            {
+                selectImgView.hidden = !img;
+                selectImgView.image = img;
+                cameraImg.hidden = img;
+            }
         }];
         
         

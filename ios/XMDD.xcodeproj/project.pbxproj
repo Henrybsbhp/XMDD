@@ -661,7 +661,6 @@
 		18649E1B1D48BD8D00F1CCB0 /* MutualInsActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E051D48BD8D00F1CCB0 /* MutualInsActivityVC.m */; };
 		18649E1D1D48BD8D00F1CCB0 /* MutualInsAskForCompensationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E091D48BD8D00F1CCB0 /* MutualInsAskForCompensationVC.m */; };
 		18649E1E1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E0B1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m */; };
-		18649E201D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E0F1D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m */; };
 		18649E211D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E111D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.m */; };
 		18649E221D48BD8D00F1CCB0 /* MutualInsPicListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E131D48BD8D00F1CCB0 /* MutualInsPicListVC.m */; };
 		18649E231D48BD8D00F1CCB0 /* MutualInsScencePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E151D48BD8D00F1CCB0 /* MutualInsScencePageVC.m */; };
@@ -1368,7 +1367,6 @@
 		18F31A761D9B722000D9A0A9 /* UIView+AddBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B4E1D48A93000F1CCB0 /* UIView+AddBadgeView.m */; };
 		18F31A771D9B722000D9A0A9 /* HKMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B1E1D48A93000F1CCB0 /* HKMapView.m */; };
 		18F31A781D9B722000D9A0A9 /* HKServiceOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 186497F41D489A9600F1CCB0 /* HKServiceOrder.m */; };
-		18F31A791D9B722000D9A0A9 /* MutualInsClaimsHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E0F1D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m */; };
 		18F31A7A1D9B722000D9A0A9 /* CXAlertBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F6D961B15919900D38555 /* CXAlertBackgroundWindow.m */; };
 		18F31A7B1D9B722000D9A0A9 /* GetBankCardBaseInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1459ED1D62DDEC00690140 /* GetBankCardBaseInfoOp.m */; };
 		18F31A7C1D9B722000D9A0A9 /* AFDownloadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F4311D48CD6500C64288 /* AFDownloadRequestOperation.m */; };
@@ -3148,8 +3146,6 @@
 		18649E0B1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsChooseCarVC.m; sourceTree = "<group>"; };
 		18649E0C1D48BD8D00F1CCB0 /* MutualInsClaimDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsClaimDetailVC.h; sourceTree = "<group>"; };
 		18649E0D1D48BD8D00F1CCB0 /* MutualInsClaimDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsClaimDetailVC.m; sourceTree = "<group>"; };
-		18649E0E1D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsClaimsHistoryVC.h; sourceTree = "<group>"; };
-		18649E0F1D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsClaimsHistoryVC.m; sourceTree = "<group>"; };
 		18649E101D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPhotoBrowserVC.h; sourceTree = "<group>"; };
 		18649E111D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutualInsPhotoBrowserVC.m; sourceTree = "<group>"; };
 		18649E121D48BD8D00F1CCB0 /* MutualInsPicListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutualInsPicListVC.h; sourceTree = "<group>"; };
@@ -6109,8 +6105,6 @@
 				18649E0B1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m */,
 				18649E0C1D48BD8D00F1CCB0 /* MutualInsClaimDetailVC.h */,
 				18649E0D1D48BD8D00F1CCB0 /* MutualInsClaimDetailVC.m */,
-				18649E0E1D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.h */,
-				18649E0F1D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m */,
 				18649E101D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.h */,
 				18649E111D48BD8D00F1CCB0 /* MutualInsPhotoBrowserVC.m */,
 				18649E121D48BD8D00F1CCB0 /* MutualInsPicListVC.h */,
@@ -8093,7 +8087,6 @@
 				18649B881D48A93000F1CCB0 /* UIView+AddBadgeView.m in Sources */,
 				18649B6E1D48A93000F1CCB0 /* HKMapView.m in Sources */,
 				1864998B1D489A9700F1CCB0 /* HKServiceOrder.m in Sources */,
-				18649E201D48BD8D00F1CCB0 /* MutualInsClaimsHistoryVC.m in Sources */,
 				181F6DA41B15919900D38555 /* CXAlertBackgroundWindow.m in Sources */,
 				FA1459EE1D62DDEC00690140 /* GetBankCardBaseInfoOp.m in Sources */,
 				1888F4321D48CD6500C64288 /* AFDownloadRequestOperation.m in Sources */,
@@ -8837,7 +8830,6 @@
 				18F31A761D9B722000D9A0A9 /* UIView+AddBadgeView.m in Sources */,
 				18F31A771D9B722000D9A0A9 /* HKMapView.m in Sources */,
 				18F31A781D9B722000D9A0A9 /* HKServiceOrder.m in Sources */,
-				18F31A791D9B722000D9A0A9 /* MutualInsClaimsHistoryVC.m in Sources */,
 				18F31A7A1D9B722000D9A0A9 /* CXAlertBackgroundWindow.m in Sources */,
 				18F31A7B1D9B722000D9A0A9 /* GetBankCardBaseInfoOp.m in Sources */,
 				18F31A7C1D9B722000D9A0A9 /* AFDownloadRequestOperation.m in Sources */,
