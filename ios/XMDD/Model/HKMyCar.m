@@ -64,6 +64,7 @@
     car.isDefault = [rsp integerParamForName:@"isdefault"] == 1;
     car.provinceId = [rsp numberParamForName:@"pid"];
     car.cityId = [rsp numberParamForName:@"cid"];
+    car.hasRiskRecord = [rsp numberParamForName:@"hasriskrecord"];
     car.provinceName = [rsp stringParamForName:@"pname"];
     car.cityName = [rsp stringParamForName:@"cname"];
     car.classno = [rsp stringParamForName:@"carframenumber"];
@@ -119,6 +120,7 @@
     [dict safetySetObject:self.cityName forKey:@"cname"];
     [dict safetySetObject:self.classno forKey:@"carframenumber"];
     [dict safetySetObject:self.engineno forKey:@"enginenumber"];
+    [dict safetySetObject:self.hasRiskRecord forKey:@"hasriskrecord"];
     return dict;
 }
 
@@ -151,6 +153,7 @@
     car.cityName = _cityName;
     car.classno = _classno;
     car.engineno = _engineno;
+    car.hasRiskRecord = _hasRiskRecord;
     return car;
 }
 
@@ -221,6 +224,9 @@
         return YES;
     }
     if (self.provinceId != another.provinceId || self.cityId != another.cityId) {
+        return YES;
+    }
+    if (![self.hasRiskRecord isEqualToNumber:another.hasRiskRecord]) {
         return YES;
     }
     return NO;

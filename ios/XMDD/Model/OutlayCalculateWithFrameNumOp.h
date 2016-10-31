@@ -20,6 +20,9 @@
 /// 设备指纹
 @property (strong, nonatomic) NSString *blackBox;
 
+/// 是否有出险
+@property (strong, nonatomic) NSNumber *req_hasriskrecord;
+
 /// 返回信息
 @property (strong, nonatomic) PremiumModel *model;
 
