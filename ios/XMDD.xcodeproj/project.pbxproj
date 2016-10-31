@@ -564,17 +564,10 @@
 		18649CA21D48B64E00F1CCB0 /* OthersOrderViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C9D1D48B64E00F1CCB0 /* OthersOrderViewModel.m */; };
 		18649CA81D48B6D200F1CCB0 /* ViolationItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CA51D48B6D200F1CCB0 /* ViolationItemViewController.m */; };
 		18649CA91D48B6D200F1CCB0 /* ViolationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CA71D48B6D200F1CCB0 /* ViolationViewController.m */; };
-		18649CB31D48B6F100F1CCB0 /* CommissionConfirmVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CAC1D48B6F100F1CCB0 /* CommissionConfirmVC.m */; };
 		18649CB51D48B6F100F1CCB0 /* CommissionOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CB01D48B6F100F1CCB0 /* CommissionOrderVC.m */; };
-		18649CB61D48B6F100F1CCB0 /* CommissionSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CB21D48B6F100F1CCB0 /* CommissionSuccessVC.m */; };
 		18649CBE1D48B70A00F1CCB0 /* AwardOtherSheetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CB91D48B70A00F1CCB0 /* AwardOtherSheetVC.m */; };
 		18649CBF1D48B70A00F1CCB0 /* AwardShareSheetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CBB1D48B70A00F1CCB0 /* AwardShareSheetVC.m */; };
 		18649CC01D48B70A00F1CCB0 /* NewGainAwardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CBD1D48B70A00F1CCB0 /* NewGainAwardVC.m */; };
-		18649CCC1D48B72D00F1CCB0 /* RescueCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CC31D48B72D00F1CCB0 /* RescueCommentsVC.m */; };
-		18649CCD1D48B72D00F1CCB0 /* RescueCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CC51D48B72D00F1CCB0 /* RescueCouponViewController.m */; };
-		18649CCE1D48B72D00F1CCB0 /* RescueDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CC71D48B72D00F1CCB0 /* RescueDetailsVC.m */; };
-		18649CCF1D48B72D00F1CCB0 /* RescueHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CC91D48B72D00F1CCB0 /* RescueHistoryViewController.m */; };
-		18649CD01D48B72D00F1CCB0 /* RescueHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CCB1D48B72D00F1CCB0 /* RescueHomeViewController.m */; };
 		18649CD51D48B77700F1CCB0 /* ChooseCouponVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CD21D48B77700F1CCB0 /* ChooseCouponVC.m */; };
 		18649CD61D48B77700F1CCB0 /* PaymentCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CD41D48B77700F1CCB0 /* PaymentCenterViewController.m */; };
 		18649CF41D48B7C000F1CCB0 /* ADViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CD81D48B7C000F1CCB0 /* ADViewController.m */; };
@@ -729,9 +722,7 @@
 		18F317EC1D9B722000D9A0A9 /* GlobalStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F54AD71D61B0D90008F306 /* GlobalStoreManager.m */; };
 		18F317ED1D9B722000D9A0A9 /* SYPaginatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1816F49F1ACD3B0900BBCC96 /* SYPaginatorView.m */; };
 		18F317EE1D9B722000D9A0A9 /* NSString+MarkupExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 188EF0AA1D351A0F000D01D6 /* NSString+MarkupExtensions.m */; };
-		18F317EF1D9B722000D9A0A9 /* RescueDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CC71D48B72D00F1CCB0 /* RescueDetailsVC.m */; };
 		18F317F01D9B722000D9A0A9 /* HKPageSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 508F65311CACC8AE00F88744 /* HKPageSliderView.m */; };
-		18F317F11D9B722000D9A0A9 /* RescueHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CC91D48B72D00F1CCB0 /* RescueHistoryViewController.m */; };
 		18F317F21D9B722000D9A0A9 /* JTTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649AFD1D48A93000F1CCB0 /* JTTableViewController.m */; };
 		18F317F31D9B722000D9A0A9 /* SecondCarValuationUploadOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498EF1D489A9700F1CCB0 /* SecondCarValuationUploadOp.m */; };
 		18F317F41D9B722000D9A0A9 /* ValuationResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C0D1D48B35000F1CCB0 /* ValuationResultVC.m */; };
@@ -843,7 +834,6 @@
 		18F3185E1D9B722000D9A0A9 /* MutInsSystemGroupListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E391D48BE0A00F1CCB0 /* MutInsSystemGroupListVM.m */; };
 		18F3185F1D9B722000D9A0A9 /* CKLimitTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B021D48A93000F1CCB0 /* CKLimitTextField.m */; };
 		18F318601D9B722000D9A0A9 /* HKPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CE61D48B7C000F1CCB0 /* HKPickerVC.m */; };
-		18F318611D9B722000D9A0A9 /* CommissionSuccessVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CB21D48B6F100F1CCB0 /* CommissionSuccessVC.m */; };
 		18F318621D9B722000D9A0A9 /* GetSystemPromotionOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498BB1D489A9600F1CCB0 /* GetSystemPromotionOp.m */; };
 		18F318631D9B722000D9A0A9 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 18648F4A1D48558000F1CCB0 /* NSObject+SBJSON.m */; };
 		18F318641D9B722000D9A0A9 /* WeChatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 186496AF1D489A4200F1CCB0 /* WeChatHelper.m */; };
@@ -887,7 +877,6 @@
 		18F3188B1D9B722000D9A0A9 /* MyCollectionListBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A2F4BA1D6C639500035679 /* MyCollectionListBottomView.m */; };
 		18F3188C1D9B722000D9A0A9 /* GetUserResourcesGaschargeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498D31D489A9700F1CCB0 /* GetUserResourcesGaschargeOp.m */; };
 		18F3188D1D9B722000D9A0A9 /* MyUIPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B411D48A93000F1CCB0 /* MyUIPageControl.m */; };
-		18F3188E1D9B722000D9A0A9 /* CommissionConfirmVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CAC1D48B6F100F1CCB0 /* CommissionConfirmVC.m */; };
 		18F3188F1D9B722000D9A0A9 /* GetGroupJoinedInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498711D489A9600F1CCB0 /* GetGroupJoinedInfoOp.m */; };
 		18F318901D9B722000D9A0A9 /* HKViewControllerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1888F4411D499F2600C64288 /* HKViewControllerFactory.m */; };
 		18F318911D9B722000D9A0A9 /* JTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649B2C1D48A93000F1CCB0 /* JTAttributedLabel.m */; };
@@ -995,7 +984,6 @@
 		18F318FA1D9B722000D9A0A9 /* MutualInsChooseCarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E0B1D48BD8D00F1CCB0 /* MutualInsChooseCarVC.m */; };
 		18F318FB1D9B722000D9A0A9 /* GetCooperationGroupMyInfoOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56BA1D4C90860001E26A /* GetCooperationGroupMyInfoOp.m */; };
 		18F318FC1D9B722000D9A0A9 /* ValuationCarSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C071D48B35000F1CCB0 /* ValuationCarSubView.m */; };
-		18F318FD1D9B722000D9A0A9 /* RescueCommentsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CC31D48B72D00F1CCB0 /* RescueCommentsVC.m */; };
 		18F318FE1D9B722000D9A0A9 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186496991D489A4200F1CCB0 /* NetworkManager.m */; };
 		18F318FF1D9B722000D9A0A9 /* AddCarOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864980D1D489A9600F1CCB0 /* AddCarOp.m */; };
 		18F319001D9B722000D9A0A9 /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DCE1D48BCF100F1CCB0 /* GradientView.m */; };
@@ -1030,7 +1018,6 @@
 		18F3191D1D9B722000D9A0A9 /* MutualInsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649DF51D48BD2300F1CCB0 /* MutualInsStore.m */; };
 		18F3191E1D9B722000D9A0A9 /* DeleteCooperationGroupOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F569E1D4C90860001E26A /* DeleteCooperationGroupOp.m */; };
 		18F3191F1D9B722000D9A0A9 /* MutInsCalculateResultVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649E331D48BE0A00F1CCB0 /* MutInsCalculateResultVC.m */; };
-		18F319201D9B722000D9A0A9 /* RescueCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CC51D48B72D00F1CCB0 /* RescueCouponViewController.m */; };
 		18F319211D9B722000D9A0A9 /* SuspendedAdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CF31D48B7C000F1CCB0 /* SuspendedAdVC.m */; };
 		18F319221D9B722000D9A0A9 /* HKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 186497E21D489A9600F1CCB0 /* HKMessage.m */; };
 		18F319231D9B722000D9A0A9 /* CKPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = 1836B7A71D54220B0078DB15 /* CKPaths.m */; };
@@ -1288,7 +1275,6 @@
 		18F31A241D9B722000D9A0A9 /* MineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C321D48B49600F1CCB0 /* MineVC.m */; };
 		18F31A251D9B722000D9A0A9 /* GetUserResourcesV2Op.m in Sources */ = {isa = PBXBuildFile; fileRef = 186498D71D489A9700F1CCB0 /* GetUserResourcesV2Op.m */; };
 		18F31A261D9B722000D9A0A9 /* ApplyCooperationGroupJoinOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56901D4C90860001E26A /* ApplyCooperationGroupJoinOp.m */; };
-		18F31A271D9B722000D9A0A9 /* RescueHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649CCB1D48B72D00F1CCB0 /* RescueHomeViewController.m */; };
 		18F31A281D9B722000D9A0A9 /* FeedbackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18649C6A1D48B57300F1CCB0 /* FeedbackVC.m */; };
 		18F31A291D9B722000D9A0A9 /* CancelGaschargeOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 183F56981D4C90860001E26A /* CancelGaschargeOp.m */; };
 		18F31A2A1D9B722000D9A0A9 /* HKConvertModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186496771D489A4200F1CCB0 /* HKConvertModel.m */; };
@@ -2951,28 +2937,14 @@
 		18649CA51D48B6D200F1CCB0 /* ViolationItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationItemViewController.m; sourceTree = "<group>"; };
 		18649CA61D48B6D200F1CCB0 /* ViolationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViolationViewController.h; sourceTree = "<group>"; };
 		18649CA71D48B6D200F1CCB0 /* ViolationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViolationViewController.m; sourceTree = "<group>"; };
-		18649CAB1D48B6F100F1CCB0 /* CommissionConfirmVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommissionConfirmVC.h; sourceTree = "<group>"; };
-		18649CAC1D48B6F100F1CCB0 /* CommissionConfirmVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommissionConfirmVC.m; sourceTree = "<group>"; };
 		18649CAF1D48B6F100F1CCB0 /* CommissionOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommissionOrderVC.h; sourceTree = "<group>"; };
 		18649CB01D48B6F100F1CCB0 /* CommissionOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommissionOrderVC.m; sourceTree = "<group>"; };
-		18649CB11D48B6F100F1CCB0 /* CommissionSuccessVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommissionSuccessVC.h; sourceTree = "<group>"; };
-		18649CB21D48B6F100F1CCB0 /* CommissionSuccessVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommissionSuccessVC.m; sourceTree = "<group>"; };
 		18649CB81D48B70A00F1CCB0 /* AwardOtherSheetVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwardOtherSheetVC.h; sourceTree = "<group>"; };
 		18649CB91D48B70A00F1CCB0 /* AwardOtherSheetVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwardOtherSheetVC.m; sourceTree = "<group>"; };
 		18649CBA1D48B70A00F1CCB0 /* AwardShareSheetVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwardShareSheetVC.h; sourceTree = "<group>"; };
 		18649CBB1D48B70A00F1CCB0 /* AwardShareSheetVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwardShareSheetVC.m; sourceTree = "<group>"; };
 		18649CBC1D48B70A00F1CCB0 /* NewGainAwardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGainAwardVC.h; sourceTree = "<group>"; };
 		18649CBD1D48B70A00F1CCB0 /* NewGainAwardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGainAwardVC.m; sourceTree = "<group>"; };
-		18649CC21D48B72D00F1CCB0 /* RescueCommentsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueCommentsVC.h; sourceTree = "<group>"; };
-		18649CC31D48B72D00F1CCB0 /* RescueCommentsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueCommentsVC.m; sourceTree = "<group>"; };
-		18649CC41D48B72D00F1CCB0 /* RescueCouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueCouponViewController.h; sourceTree = "<group>"; };
-		18649CC51D48B72D00F1CCB0 /* RescueCouponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueCouponViewController.m; sourceTree = "<group>"; };
-		18649CC61D48B72D00F1CCB0 /* RescueDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueDetailsVC.h; sourceTree = "<group>"; };
-		18649CC71D48B72D00F1CCB0 /* RescueDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueDetailsVC.m; sourceTree = "<group>"; };
-		18649CC81D48B72D00F1CCB0 /* RescueHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueHistoryViewController.h; sourceTree = "<group>"; };
-		18649CC91D48B72D00F1CCB0 /* RescueHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueHistoryViewController.m; sourceTree = "<group>"; };
-		18649CCA1D48B72D00F1CCB0 /* RescueHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RescueHomeViewController.h; sourceTree = "<group>"; };
-		18649CCB1D48B72D00F1CCB0 /* RescueHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RescueHomeViewController.m; sourceTree = "<group>"; };
 		18649CD11D48B77700F1CCB0 /* ChooseCouponVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseCouponVC.h; sourceTree = "<group>"; };
 		18649CD21D48B77700F1CCB0 /* ChooseCouponVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCouponVC.m; sourceTree = "<group>"; };
 		18649CD31D48B77700F1CCB0 /* PaymentCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentCenterViewController.h; sourceTree = "<group>"; };
@@ -5733,12 +5705,8 @@
 			isa = PBXGroup;
 			children = (
 				FA34BF8E1DB778600010AF0C /* CommissionVM */,
-				18649CAB1D48B6F100F1CCB0 /* CommissionConfirmVC.h */,
-				18649CAC1D48B6F100F1CCB0 /* CommissionConfirmVC.m */,
 				18649CAF1D48B6F100F1CCB0 /* CommissionOrderVC.h */,
 				18649CB01D48B6F100F1CCB0 /* CommissionOrderVC.m */,
-				18649CB11D48B6F100F1CCB0 /* CommissionSuccessVC.h */,
-				18649CB21D48B6F100F1CCB0 /* CommissionSuccessVC.m */,
 				FA34BF8F1DB7789C0010AF0C /* CommissionPaymentStatusVC.h */,
 				FA34BF901DB7789C0010AF0C /* CommissionPaymentStatusVC.m */,
 				FA45629F1DB8710B00D02B8B /* CommissionRecordVC.h */,
@@ -5764,16 +5732,6 @@
 			isa = PBXGroup;
 			children = (
 				FA34BF841DB706710010AF0C /* RescueVM */,
-				18649CC21D48B72D00F1CCB0 /* RescueCommentsVC.h */,
-				18649CC31D48B72D00F1CCB0 /* RescueCommentsVC.m */,
-				18649CC41D48B72D00F1CCB0 /* RescueCouponViewController.h */,
-				18649CC51D48B72D00F1CCB0 /* RescueCouponViewController.m */,
-				18649CC61D48B72D00F1CCB0 /* RescueDetailsVC.h */,
-				18649CC71D48B72D00F1CCB0 /* RescueDetailsVC.m */,
-				18649CC81D48B72D00F1CCB0 /* RescueHistoryViewController.h */,
-				18649CC91D48B72D00F1CCB0 /* RescueHistoryViewController.m */,
-				18649CCA1D48B72D00F1CCB0 /* RescueHomeViewController.h */,
-				18649CCB1D48B72D00F1CCB0 /* RescueHomeViewController.m */,
 				FAE0BFAC1DB4A3C500BAE4E9 /* RescueHomeV2VC.h */,
 				FAE0BFAD1DB4A3C500BAE4E9 /* RescueHomeV2VC.m */,
 				FA98735A1DB5D12800830902 /* RescuePaymentStatusVC.h */,
@@ -7437,9 +7395,7 @@
 				18F54AD81D61B0D90008F306 /* GlobalStoreManager.m in Sources */,
 				1816F4A71ACD3B0900BBCC96 /* SYPaginatorView.m in Sources */,
 				188EF0B21D351A0F000D01D6 /* NSString+MarkupExtensions.m in Sources */,
-				18649CCE1D48B72D00F1CCB0 /* RescueDetailsVC.m in Sources */,
 				508F65321CACC8AE00F88744 /* HKPageSliderView.m in Sources */,
-				18649CCF1D48B72D00F1CCB0 /* RescueHistoryViewController.m in Sources */,
 				18649B5E1D48A93000F1CCB0 /* JTTableViewController.m in Sources */,
 				18649A081D489A9700F1CCB0 /* SecondCarValuationUploadOp.m in Sources */,
 				18649C141D48B35000F1CCB0 /* ValuationResultVC.m in Sources */,
@@ -7555,7 +7511,6 @@
 				18649E491D48BE0A00F1CCB0 /* MutInsSystemGroupListVM.m in Sources */,
 				18649B601D48A93000F1CCB0 /* CKLimitTextField.m in Sources */,
 				18649CFB1D48B7C000F1CCB0 /* HKPickerVC.m in Sources */,
-				18649CB61D48B6F100F1CCB0 /* CommissionSuccessVC.m in Sources */,
 				186499EE1D489A9700F1CCB0 /* GetSystemPromotionOp.m in Sources */,
 				18648FB71D48558000F1CCB0 /* NSObject+SBJSON.m in Sources */,
 				186496D81D489A4200F1CCB0 /* WeChatHelper.m in Sources */,
@@ -7599,7 +7554,6 @@
 				18A2F4BB1D6C639600035679 /* MyCollectionListBottomView.m in Sources */,
 				186499FA1D489A9700F1CCB0 /* GetUserResourcesGaschargeOp.m in Sources */,
 				18649B811D48A93000F1CCB0 /* MyUIPageControl.m in Sources */,
-				18649CB31D48B6F100F1CCB0 /* CommissionConfirmVC.m in Sources */,
 				186499C91D489A9700F1CCB0 /* GetGroupJoinedInfoOp.m in Sources */,
 				1888F4421D499F2600C64288 /* HKViewControllerFactory.m in Sources */,
 				18649B751D48A93000F1CCB0 /* JTAttributedLabel.m in Sources */,
@@ -7711,7 +7665,6 @@
 				183F57261D4C90860001E26A /* GetCooperationGroupMyInfoOp.m in Sources */,
 				18649C111D48B35000F1CCB0 /* ValuationCarSubView.m in Sources */,
 				4EF0CA391DBA0A080036C024 /* ViolationInputNameVC.m in Sources */,
-				18649CCC1D48B72D00F1CCB0 /* RescueCommentsVC.m in Sources */,
 				186496CD1D489A4200F1CCB0 /* NetworkManager.m in Sources */,
 				186499971D489A9700F1CCB0 /* AddCarOp.m in Sources */,
 				18649DE61D48BCF100F1CCB0 /* GradientView.m in Sources */,
@@ -7747,7 +7700,6 @@
 				18649DF61D48BD2300F1CCB0 /* MutualInsStore.m in Sources */,
 				183F57181D4C90860001E26A /* DeleteCooperationGroupOp.m in Sources */,
 				18649E461D48BE0A00F1CCB0 /* MutInsCalculateResultVC.m in Sources */,
-				18649CCD1D48B72D00F1CCB0 /* RescueCouponViewController.m in Sources */,
 				FA34BF911DB7789C0010AF0C /* CommissionPaymentStatusVC.m in Sources */,
 				18649D021D48B7C000F1CCB0 /* SuspendedAdVC.m in Sources */,
 				186499821D489A9700F1CCB0 /* HKMessage.m in Sources */,
@@ -8012,7 +7964,6 @@
 				18649C3A1D48B49600F1CCB0 /* MineVC.m in Sources */,
 				186499FC1D489A9700F1CCB0 /* GetUserResourcesV2Op.m in Sources */,
 				183F57111D4C90860001E26A /* ApplyCooperationGroupJoinOp.m in Sources */,
-				18649CD01D48B72D00F1CCB0 /* RescueHomeViewController.m in Sources */,
 				18649C6F1D48B57300F1CCB0 /* FeedbackVC.m in Sources */,
 				183F57151D4C90860001E26A /* CancelGaschargeOp.m in Sources */,
 				186496BC1D489A4200F1CCB0 /* HKConvertModel.m in Sources */,
@@ -8198,9 +8149,7 @@
 				18F317EC1D9B722000D9A0A9 /* GlobalStoreManager.m in Sources */,
 				18F317ED1D9B722000D9A0A9 /* SYPaginatorView.m in Sources */,
 				18F317EE1D9B722000D9A0A9 /* NSString+MarkupExtensions.m in Sources */,
-				18F317EF1D9B722000D9A0A9 /* RescueDetailsVC.m in Sources */,
 				18F317F01D9B722000D9A0A9 /* HKPageSliderView.m in Sources */,
-				18F317F11D9B722000D9A0A9 /* RescueHistoryViewController.m in Sources */,
 				18F317F21D9B722000D9A0A9 /* JTTableViewController.m in Sources */,
 				18F317F31D9B722000D9A0A9 /* SecondCarValuationUploadOp.m in Sources */,
 				18F317F41D9B722000D9A0A9 /* ValuationResultVC.m in Sources */,
@@ -8312,7 +8261,6 @@
 				18F3185E1D9B722000D9A0A9 /* MutInsSystemGroupListVM.m in Sources */,
 				18F3185F1D9B722000D9A0A9 /* CKLimitTextField.m in Sources */,
 				18F318601D9B722000D9A0A9 /* HKPickerVC.m in Sources */,
-				18F318611D9B722000D9A0A9 /* CommissionSuccessVC.m in Sources */,
 				18F318621D9B722000D9A0A9 /* GetSystemPromotionOp.m in Sources */,
 				18F318631D9B722000D9A0A9 /* NSObject+SBJSON.m in Sources */,
 				18F318641D9B722000D9A0A9 /* WeChatHelper.m in Sources */,
@@ -8356,7 +8304,6 @@
 				18F3188B1D9B722000D9A0A9 /* MyCollectionListBottomView.m in Sources */,
 				18F3188C1D9B722000D9A0A9 /* GetUserResourcesGaschargeOp.m in Sources */,
 				18F3188D1D9B722000D9A0A9 /* MyUIPageControl.m in Sources */,
-				18F3188E1D9B722000D9A0A9 /* CommissionConfirmVC.m in Sources */,
 				18F3188F1D9B722000D9A0A9 /* GetGroupJoinedInfoOp.m in Sources */,
 				18F318901D9B722000D9A0A9 /* HKViewControllerFactory.m in Sources */,
 				18F318911D9B722000D9A0A9 /* JTAttributedLabel.m in Sources */,
@@ -8464,7 +8411,6 @@
 				18F318FA1D9B722000D9A0A9 /* MutualInsChooseCarVC.m in Sources */,
 				18F318FB1D9B722000D9A0A9 /* GetCooperationGroupMyInfoOp.m in Sources */,
 				18F318FC1D9B722000D9A0A9 /* ValuationCarSubView.m in Sources */,
-				18F318FD1D9B722000D9A0A9 /* RescueCommentsVC.m in Sources */,
 				18F318FE1D9B722000D9A0A9 /* NetworkManager.m in Sources */,
 				18F318FF1D9B722000D9A0A9 /* AddCarOp.m in Sources */,
 				18F319001D9B722000D9A0A9 /* GradientView.m in Sources */,
@@ -8499,7 +8445,6 @@
 				18F3191D1D9B722000D9A0A9 /* MutualInsStore.m in Sources */,
 				18F3191E1D9B722000D9A0A9 /* DeleteCooperationGroupOp.m in Sources */,
 				18F3191F1D9B722000D9A0A9 /* MutInsCalculateResultVC.m in Sources */,
-				18F319201D9B722000D9A0A9 /* RescueCouponViewController.m in Sources */,
 				18F319211D9B722000D9A0A9 /* SuspendedAdVC.m in Sources */,
 				18F319221D9B722000D9A0A9 /* HKMessage.m in Sources */,
 				18F319231D9B722000D9A0A9 /* CKPaths.m in Sources */,
@@ -8757,7 +8702,6 @@
 				18F31A241D9B722000D9A0A9 /* MineVC.m in Sources */,
 				18F31A251D9B722000D9A0A9 /* GetUserResourcesV2Op.m in Sources */,
 				18F31A261D9B722000D9A0A9 /* ApplyCooperationGroupJoinOp.m in Sources */,
-				18F31A271D9B722000D9A0A9 /* RescueHomeViewController.m in Sources */,
 				18F31A281D9B722000D9A0A9 /* FeedbackVC.m in Sources */,
 				18F31A291D9B722000D9A0A9 /* CancelGaschargeOp.m in Sources */,
 				18F31A2A1D9B722000D9A0A9 /* HKConvertModel.m in Sources */,
@@ -9023,9 +8967,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = XMDD/XMDD.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jiaping Yao (J9A3APC962)";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiaping Yao (J9A3APC962)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Xing He (JX857D4Q48)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Xing He (JX857D4Q48)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xing He (JX857D4Q48)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 7A3B9332PS;
 				ENABLE_BITCODE = NO;

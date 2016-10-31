@@ -58,14 +58,20 @@
 {
     [MobClick event:@"zhuanyejiuyuan" attributes:@{@"zhuanyejiuyuan" : @"dingwei"}];
     [self.mapView setCenterCoordinate:self.userCoordinate animated:YES];
+    self.addressLabel.text = @"定位中...";
+    self.reqGEO.location = [AMapGeoPoint locationWithLatitude:self.userCoordinate.latitude longitude:self.userCoordinate.longitude];
+    self.reqGEO.requireExtension = YES;
+    [self.addressSearch AMapReGoecodeSearch:self.reqGEO];
 }
 
 /// 我的救援点击事件
 - (IBAction)actionMyRescue:(id)sender
 {
     [MobClick event:@"zhuanyejiuyuan" attributes:@{@"navi" : @"wodejiuyuan"}];
-    RescueRecordVC *vc = [UIStoryboard vcWithId:@"RescueRecordVC" inStoryboard:@"Rescue"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+        RescueRecordVC *vc = [UIStoryboard vcWithId:@"RescueRecordVC" inStoryboard:@"Rescue"];
+        [self.router.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 /// 一键救援点击事件
@@ -124,7 +130,6 @@
 {
     UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.navigationItem.leftBarButtonItem = back;
-    [self.navigationController.interactivePopGestureRecognizer addTarget:self action:@selector(actionBack)];
 }
 
 #pragma mark - MAMapViewDelegate
@@ -174,6 +179,18 @@
 - (void)mapView:(MAMapView *)mapView didFailToLocateUserWithError:(NSError *)error
 {
     if (error) {
+        
+        // 如果定位权限没打开的话，则 return，mapDidMoveByUser 代理方法里会有相关判断。
+        if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+            return;
+        }
+        
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            [self.router.navigationController popViewControllerAnimated:YES];
+        }];
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"定位失败，请重试" ActionItems:@[cancel]];
+        [alert show];
+        
         [self setAddressLabelText:@"定位失败，请检查定位权限是否开启并请重新定位"];
     }
 }
