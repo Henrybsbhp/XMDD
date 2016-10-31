@@ -22,14 +22,14 @@
 - (instancetype)parseResponseObject:(id)rspObj
 {
     NSDictionary *dict = rspObj[@"rescuedetail"];
-    self.rsp_applyTime = [dict integerParamForName:@"applytime"];
+    self.rsp_applyTime = [dict numberParamForName:@"applytime"];
     self.rsp_serviceName = [dict stringParamForName:@"servicename"];
     self.rsp_licenseNumber = [dict stringParamForName:@"licencenumber"];
     self.rsp_rescueStatus = [dict integerParamForName:@"rescuestatus"];
     self.rsp_commentStatus = [dict integerParamForName:@"commentstatus"];
     self.rsp_applyID = [dict integerParamForName:@"applyid"];
     self.rsp_type = [dict integerParamForName:@"type"];
-    self.rsp_appointTime = [dict integerParamForName:@"appointtime"];
+    self.rsp_appointTime = [dict numberParamForName:@"appointtime"];
     self.rsp_pay = [dict floatParamForName:@"pay"];
     
     return self;

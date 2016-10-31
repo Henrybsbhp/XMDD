@@ -55,7 +55,7 @@
 
 - (void)setDataSource
 {
-    NSString *appointDate = self.commissionDetailOp.rsp_appointTime == 0 ? @"" : [[NSDate dateWithUTS:@(self.commissionDetailOp.rsp_appointTime)] dateFormatForYYMMdd2];
+    NSString *appointDate = self.commissionDetailOp.rsp_appointTime == 0 ? @"" : [[NSDate dateWithUTS:self.commissionDetailOp.rsp_appointTime] dateFormatForYYMMdd2];
     if (self.commentStatus == 1) {
         self.dataSource = $($([self setupTitleCell],
                               [self setupPaymentInfoCellWithArray:@[@"申请服务", self.commissionDetailOp.rsp_serviceName] isHighlighted:NO],
