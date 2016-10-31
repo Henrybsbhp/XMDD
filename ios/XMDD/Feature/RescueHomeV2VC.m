@@ -57,7 +57,7 @@
 - (IBAction)actionLocateMyLocation:(id)sender
 {
     [MobClick event:@"zhuanyejiuyuan" attributes:@{@"zhuanyejiuyuan" : @"dingwei"}];
-    [self.mapView setCenterCoordinate:self.userCoordinate animated:YES];
+    [self setCenter:self.userCoordinate];
     self.addressLabel.text = @"定位中...";
     self.reqGEO.location = [AMapGeoPoint locationWithLatitude:self.userCoordinate.latitude longitude:self.userCoordinate.longitude];
     self.reqGEO.requireExtension = YES;
@@ -186,7 +186,9 @@
         }
         
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"确定" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-            [self.router.navigationController popViewControllerAnimated:YES];
+            if ([[self.navigationController visibleViewController] isKindOfClass:[RescueHomeV2VC class]]) {
+                [self.router.navigationController popViewControllerAnimated:YES];
+            }
         }];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"定位失败，请重试" ActionItems:@[cancel]];
         [alert show];

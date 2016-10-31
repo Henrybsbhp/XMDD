@@ -125,6 +125,7 @@
     } error:^(NSError *error) {
         @strongify(self);
         [self.view stopActivityAnimation];
+        self.tableView.hidden = YES;
         self.bottomView.hidden = YES;
         [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:kDefErrorPormpt tapBlock:^{
             @strongify(self);
