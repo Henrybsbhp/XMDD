@@ -17,249 +17,18 @@
 #import "RRFPSBar.h"
 #import "ScanQRCodeVC.h"
 
+typedef void(^MyBlock)(void);
+
 @interface AboutViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *versionLb;
-- (IBAction)joinAction:(id)sender;
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 
-@property (nonatomic,strong)NSArray * datasource;
+- (IBAction)joinAction:(id)sender;
 
 @end
 
 @implementation AboutViewController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-#ifdef DEBUG
-    if (gAppMgr.canShareFlag)
-    {
-        @weakify(self)
-    self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
-        
-                            @strongify(self)
-                            [self gotoInstructions];
-                        }},
-                        
-                        @{@"title":@"推荐App给好友",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self shareApp];
-                        }},
-                        
-                        @{@"title":@"用户服务协议",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self serviceAgreement];
-                        }},
-                        
-                        @{@"title":@"前往评价",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self rateOurApp];
-                        }},
-                        
-                        @{@"title":@"意见反馈",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self gotoFeedback];
-                        }},
-                        
-                        @{@"title":@"客服电话4007-111-111",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self callCustomerService];
-                        }},
-                        
-                        @{@"title":@"网页跳转",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self gotoTestWeb];
-                        }},
-                        @{@"title":@"环境切换",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self switchSurrounding];
-                        }},
-                        @{@"title":@"FPS开关",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self setupFPSObserver];
-                        }},@{@"title":@"RCT",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self actionRCT];
-                        }},@{@"title":@"RCT2",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self actionRCT2];
-                        }}, @{@"title":@"网络请求参数开关",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self actionShowRequestParamsAlert];
-                        }}, @{@"title":@"二维码扫描",@"action":^(void){
-                            
-                            @strongify(self);
-                            [self goToQRScanVC];
-                        }}];
-    }
-    else
-    {
-        @weakify(self)
-        self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
-            
-            @strongify(self)
-            [self gotoInstructions];
-        }},
-                            
-                            
-                            @{@"title":@"用户服务协议",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self serviceAgreement];
-                            }},
-                            
-                            @{@"title":@"前往评价",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self rateOurApp];
-                            }},
-                            
-                            @{@"title":@"意见反馈",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self gotoFeedback];
-                            }},
-                            
-                            @{@"title":@"客服电话4007-111-111",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self callCustomerService];
-                            }},
-                            
-                            @{@"title":@"网页跳转",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self gotoTestWeb];
-                            }},
-                            @{@"title":@"环境切换",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self switchSurrounding];
-                            }},
-                            @{@"title":@"FPS开关",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self setupFPSObserver];
-                            }},@{@"title":@"RCT",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self actionRCT];
-                            }},@{@"title":@"RCT2",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self actionRCT2];
-                            }}, @{@"title":@"网络请求参数开关",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self actionShowRequestParamsAlert];
-                            }}, @{@"title":@"二维码扫描",@"action":^(void){
-                                
-                                @strongify(self);
-                                [self goToQRScanVC];
-                            }}];
-    }
-#else
-    if (gAppMgr.canShareFlag)
-    {
-        @weakify(self)
-    self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
-        
-                            @strongify(self)
-                            [self gotoInstructions];
-                        }},
-                        
-                        @{@"title":@"推荐App给好友",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self shareApp];
-                        }},
-                        
-                        @{@"title":@"用户服务协议",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self serviceAgreement];
-                        }},
-                        
-                        @{@"title":@"前往评价",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self rateOurApp];
-                        }},
-                        
-                        @{@"title":@"意见反馈",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self gotoFeedback];
-                        }},
-                        
-                        @{@"title":@"客服电话4007-111-111",@"action":^(void){
-                            
-                            @strongify(self)
-                            [self callCustomerService];
-                        }}];
-    }
-    else
-    {
-        @weakify(self)
-        self.datasource = @[@{@"title":@"使用帮助",@"action":^(void){
-            
-            @strongify(self)
-            [self gotoInstructions];
-        }},
-                            
-                            @{@"title":@"用户服务协议",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self serviceAgreement];
-                            }},
-                            
-                            @{@"title":@"前往评价",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self rateOurApp];
-                            }},
-                            
-                            @{@"title":@"意见反馈",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self gotoFeedback];
-                            }},
-                            
-                            @{@"title":@"客服电话4007-111-111",@"action":^(void){
-                                
-                                @strongify(self)
-                                [self callCustomerService];
-                            }}];
-    }
-#endif
-    
-    
-    NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
-    
-#ifndef DEBUG
-    #if XMDDENT == 0
-    version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    #endif
-#endif
-    
-    self.versionLb.text = version;
-    
-    
-
-}
-
 
 - (void)dealloc
 {
@@ -270,49 +39,177 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
     
-    return 1;
+
+    NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+    
+#ifndef DEBUG
+    #if XMDDENT == 0
+    version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    #endif
+#endif
+    
+    self.versionLb.text = version;
+    
+    [self setupDatasource];
+    [self.tableView reloadData];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (void)setupDatasource
+{
+    @weakify(self)
+    CKDict * wechat = [self setupCellWithTitle:@"微信公众号" andAction:^{
+       
+        @strongify(self)
+        [self gotoWechatWebVC];
+    }];
     
-    return self.datasource.count;
+    CKDict * helper = [self setupCellWithTitle:@"使用帮助" andAction:^{
+       
+        @strongify(self)
+        [self gotoInstructions];
+    }];
+    
+    CKDict * share = [self setupCellWithTitle:@"推荐App给好友" andAction:^{
+       
+        @strongify(self)
+        [self shareApp];
+    }];
+    
+    CKDict * service = [self setupCellWithTitle:@"用户服务协议" andAction:^{
+       
+        @strongify(self)
+        [self serviceAgreement];
+    }];
+    
+    CKDict * rate = [self setupCellWithTitle:@"前往评价" andAction:^{
+        
+        @strongify(self)
+        [self rateOurApp];
+    }];
+    
+    CKDict * feedback = [self setupCellWithTitle:@"意见反馈" andAction:^{
+        
+        @strongify(self)
+        [self gotoFeedback];
+    }];
+    
+    CKDict * callService = [self setupCellWithTitle:@"客服电话4007-111-111" andAction:^{
+        
+        @strongify(self)
+        [self callCustomerService];
+    }];
+    
+    CKDict * testWeb = [self setupCellWithTitle:@"网页跳转" andAction:^{
+        
+        @strongify(self)
+        [self gotoTestWeb];
+    }];
+    
+    CKDict * fps = [self setupCellWithTitle:@"FPS开关" andAction:^{
+        
+        @strongify(self)
+        [self setupFPSObserver];
+    }];
+    
+    CKDict * rct1 = [self setupCellWithTitle:@"RCT1" andAction:^{
+        
+        @strongify(self)
+        [self actionRCT];
+    }];
+    
+    CKDict * rct2 = [self setupCellWithTitle:@"RCT2" andAction:^{
+        
+        @strongify(self)
+        [self actionRCT2];
+    }];
+    
+    CKDict * paramsAlert = [self setupCellWithTitle:@"网络请求参数开关" andAction:^{
+       
+        @strongify(self)
+        [self actionShowRequestParamsAlert];
+    }];
+    
+    CKDict * qr = [self setupCellWithTitle:@"二维码扫描" andAction:^{
+        
+        @strongify(self)
+        [self goToQRScanVC];
+    }];
+    
+    CKList * list = [CKList list];
+    [list addObject:wechat forKey:nil];
+    [list addObject:helper forKey:nil];
+    if (gAppMgr.canShareFlag)
+    {
+    [list addObject:share forKey:nil];
+    }
+    [list addObject:service forKey:nil];
+    [list addObject:rate forKey:nil];
+    [list addObject:feedback forKey:nil];
+    [list addObject:callService forKey:nil];
+    
+#ifdef DEBUG
+    [list addObject:testWeb forKey:nil];
+    [list addObject:fps forKey:nil];
+    [list addObject:rct1 forKey:nil];
+    [list addObject:rct2 forKey:nil];
+    [list addObject:paramsAlert forKey:nil];
+    [list addObject:qr forKey:nil];
+#endif
+    
+    self.datasource = $(list);
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CKDict *)setupCellWithTitle:(NSString *)title andAction:(MyBlock)actionAction
+{
+    CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"AboutCell", kCKCellID: @"AboutCell"}];
+    cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        return 45;
+    });
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AboutCell" forIndexPath:indexPath];
-    UILabel * lb = (UILabel *)[cell searchViewWithTag:101];
-    NSDictionary * dict = [self.datasource safetyObjectAtIndex:indexPath.row];
-    lb.text = [dict objectForKey:@"title"];
+    cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+        
+        if (actionAction)
+        {
+            actionAction();
+        }
+    });
+    cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        UILabel * lb = (UILabel *)[cell searchViewWithTag:101];
+        lb.text = title;
+    });
+    
     return cell;
 }
 
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - Utilitly
+- (void)gotoWechatWebVC
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSDictionary * dict = [self.datasource safetyObjectAtIndex:indexPath.row];
-    typedef void(^MyBlock)(void);
-    MyBlock area = dict[@"action"];
-    area();
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"wexingongzhonghao"}];
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.title = @"微信公众号";
+    vc.url = kWechatPublicAccountUrl;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark - Utilitly
 - (void)rateOurApp
 {
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"qianwangpingjia"}];
     NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/cn/app/xiao-ma-da-da-xi-che-zhi-yao1fen/id991665445&mt=8"];
     [[UIApplication sharedApplication] openURL: [NSURL URLWithString:url]];
 }
 
 - (void)serviceAgreement
 {
-    [MobClick event:@"rp322_1"];
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"yonghuxieyi"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"服务协议";
     vc.url = kServiceLicenseUrl;
@@ -321,16 +218,17 @@
 
 - (void)gotoInstructions
 {
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"shiyongbangzhu"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"使用帮助";
     NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    vc.url = [NSString stringWithFormat:@"%@%@.html",AboutViewServiceHelpUrl,version];
+    vc.url = [NSString stringWithFormat:@"%@%@.html",kAboutViewServiceHelpUrl,version];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void) shareApp
 {
-    [MobClick event:@"rp110_1"];
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"fenxiang"}];
     [gToast showingWithText:@"分享信息拉取中..."];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneInsurance;
@@ -340,13 +238,16 @@
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneAppAbout;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        vc.mobBaseValue = @"wodeguanyu";
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
         [sheet presentAnimated:YES completionHandler:nil];
+        [MobClick event:@"fenxiangyemian" attributes:@{@"chuxian":@"wodeguanyu"}];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110-7"];
+            
+            [MobClick event:@"fenxiangyemian" attributes:@{@"quxiao":@"wodeguanyu"}];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
@@ -360,13 +261,18 @@
 
 - (void)callCustomerService
 {
-    [MobClick event:@"rp322_3"];
-    [gPhoneHelper makePhone:@"4007111111" andInfo:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111"];
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"kefu"}];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+        [gPhoneHelper makePhone:@"4007111111"];
+    }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"投诉建议,商户加盟等\n请拨打客服电话: 4007-111-111" ActionItems:@[cancel,confirm]];
+    [alert show];
 }
 
 - (void)gotoFeedback
 {
-    [MobClick event:@"rp322-2"];
+    [MobClick event:@"wodeguanyu" attributes:@{@"guanyu" : @"yijianfankui"}];
     FeedbackVC *vc = [UIStoryboard vcWithId:@"FeedbackVC" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -408,9 +314,15 @@
     /**
      *  商户加盟点击事件
      */
-    [MobClick event:@"rp322_4"];
+    [MobClick event:@"wodeguanyu" attributes:@{@"navi" : @"shanghujiameng"}];
     JoinUsViewController * vc = [UIStoryboard vcWithId:@"JoinUsViewController" inStoryboard:@"About"];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"wodeguanyu" attributes:@{@"navi" : @"back"}];
 }
 
 

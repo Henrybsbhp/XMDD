@@ -10,6 +10,7 @@
 
 @implementation HKTableTextCell
 - (void)awakeFromNib {
+    [super awakeFromNib];
     [self __commonInit];
 }
 

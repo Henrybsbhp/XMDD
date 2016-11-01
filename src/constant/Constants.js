@@ -30,7 +30,6 @@ const constants = {
         MutualInsCalculate: 'xmdd://j?t=coinscalc&channel=apphzsy',
         MutualInsOrder: id => 'xmdd://j?t=coinso&id=' + id,
         MutualInsInvite: id => 'xmdd://j?t=coinvite&id=' + id,
-        MutualInsClaims: id => 'xmdd://j?t=coclaims&id=' + id,
     }
 };
 

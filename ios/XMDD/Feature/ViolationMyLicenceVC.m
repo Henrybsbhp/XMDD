@@ -11,6 +11,7 @@
 #import "PictureRecord.h"
 #import "HKImageView.h"
 #import "JGActionSheet.h"
+#import "CKLimitTextField.h"
 #import "GetViolationCommissionCarinfoOp.h"
 #import "UpdateViolationCommissionCarinfoOp.h"
 
@@ -27,6 +28,8 @@
 @property (strong, nonatomic) NSString *originURL;
 @property (strong, nonatomic) NSString *duplicateURL;
 @property (strong, nonatomic) NSNumber *carID;
+@property (strong, nonatomic) NSString *idNo;
+@property (assign, nonatomic) BOOL idnoflag;
 
 @end
 
@@ -54,12 +57,17 @@
 - (void)setupDataSource
 {
     self.dataSource = $(
-                        [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证正本",self.carNum]],
-                        [self photoCellDataWithSampleImg:[UIImage imageNamed:@"illegal_original"]],
-                        [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证副本",self.carNum]],
-                        [self photoCellDataWithSampleImg:[UIImage imageNamed:@"illegal_licenceReavel"]],
-                        [self blankCellData],
-                        [self btnCellData]
+                        $(
+                          [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证正本",self.carNum]],
+                          [self photoCellDataWithSampleImg:[UIImage imageNamed:@"ins_pic2"]],
+                          [self noticeCellDataWithNotice:[NSString stringWithFormat:@"请上传车辆（%@）行驶证副本",self.carNum]],
+                          [self photoCellDataWithSampleImg:[UIImage imageNamed:@"ins_pic3"]],
+                          [self blankCellData]
+                          ),
+                        $(
+                          self.idnoflag ? [self identifierCellData] : CKNULL,
+                          [self btnCellData]
+                          )
                         );
 }
 
@@ -118,6 +126,9 @@
         self.originURL = op.rsp_licenseurl;
         self.duplicateURL = op.rsp_licensecopyurl;
         self.carID = op.rsp_carid;
+        self.idnoflag = op.rsp_idnoflag;
+        self.idNo = op.rsp_idno;
+        [self setupDataSource];
         [self.tableView reloadData];
         [self getfailedOriginImg];
         [self getfailedDuplicateImg];
@@ -139,13 +150,18 @@
 
 - (void)updateViolationCommissionCarinfo
 {
+    if (self.idnoflag &&self.idNo.length < 18)
+    {
+        [gToast showMistake:@"身份证号码位数不符合要求"];
+        return;
+    }
     UpdateViolationCommissionCarinfoOp *op = [UpdateViolationCommissionCarinfoOp operation];
-    
     op.req_carid = self.carID;
     op.req_licenseurl = self.originRcd.url.length == 0 ? self.originURL : self.originRcd.url;
     op.req_licensecopyurl = self.duplicateRcd.url.length == 0 ? self.duplicateURL : self.duplicateRcd.url;
     op.req_usercarid = self.usercarID;
     op.req_licencenumber = self.carNum;
+    op.req_idno = self.idNo;
     
     [[[op rac_postRequest]initially:^{
         
@@ -161,7 +177,7 @@
         }
         
         [self.navigationController popViewControllerAnimated:YES];
-
+        
     } error:^(NSError *error) {
         
         [gToast showMistake:error.domain.length == 0 ? @"资料上传失败，请点击重试" : error.domain];
@@ -173,17 +189,17 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataSource.count;
+    return [self.dataSource[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CKDict *data = self.dataSource[indexPath.row];
+    CKDict *data = self.dataSource[indexPath.section][indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:data[kCKCellID]];
     CKCellPrepareBlock block = data[kCKCellPrepare];
     if (block)
@@ -211,14 +227,14 @@
     
     if (indexPath.row == 1)
     {
-        [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao2"}];
+        [MobClick event:@"wodezhengjianzhao" attributes:@{@"wodezhengjianzhao" : @"zhengben"}];
     }
     else if(indexPath.row == 3)
     {
-        [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao3"}];
+        [MobClick event:@"wodezhengjianzhao" attributes:@{@"wodezhengjianzhao" : @"fuben"}];
     }
     
-    CKDict *data = self.dataSource[indexPath.row];
+    CKDict *data = self.dataSource[indexPath.section][indexPath.row];
     CKCellSelectedBlock block = data[kCKCellSelected];
     if (block)
     {
@@ -228,7 +244,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CKDict *data = self.dataSource[indexPath.row];
+    CKDict *data = self.dataSource[indexPath.section][indexPath.row];
     CKCellGetHeightBlock block = data[kCKCellGetHeight];
     if (block)
     {
@@ -241,6 +257,52 @@
 }
 
 #pragma mark - Cell
+
+- (CKDict *)identifierCellData
+{
+    @weakify(self)
+    
+    CKDict *data = [CKDict dictWith:@{kCKCellID:@"IdentifierCell"}];
+    
+    //cell行高
+    data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
+        
+        return 48;
+    });
+    //cell准备重绘
+    
+    data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
+        
+        CKLimitTextField *idTextField = [cell viewWithTag:100];
+        idTextField.textLimit = 18;
+        if (self.idNo.length != 0)
+        {
+            idTextField.text = self.idNo;
+        }
+        [idTextField setTextChangingBlock:^(CKLimitTextField *textField, NSString *x) {
+            NSScanner* scan = [NSScanner scannerWithString:x];
+            int val;
+            if (![scan scanInt:&val] && ![x isEqualToString:@"x"] && ![x isEqualToString:@"X"])
+            {
+                textField.text = [textField.text stringByReplacingOccurrencesOfString:x withString:@""];
+            }
+            else
+            {
+                textField.text = [textField.text uppercaseString];
+            }
+        }];
+        
+        [idTextField setDidEndEditingBlock:^(CKLimitTextField *textField) {
+            
+            @strongify(self)
+            self.idNo = textField.text;
+        }];
+        
+        
+    });
+    
+    return data;
+}
 
 - (CKDict *)noticeCellDataWithNotice:(NSString *)notice
 {
@@ -296,6 +358,7 @@
         
         PictureRecord *record;
         record = indexPath.row == 1 ? self.originRcd : self.duplicateRcd;
+        PictureRecord *failedRecord = indexPath.row == 1 ? self.failedOriginRcd : self.failedDuplicateRcd;
         record.customArray = [NSMutableArray arrayWithArray:@[selectImgView,cameraImg]];
         
         [selectImgView removeTagGesture];
@@ -352,9 +415,12 @@
         }];
         
         [[RACObserve(record, image) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(UIImage * img) {
-            selectImgView.hidden = !img;
-            selectImgView.image = img;
-            cameraImg.hidden = img;
+            if (!failedRecord.image)
+            {
+                selectImgView.hidden = !img;
+                selectImgView.image = img;
+                cameraImg.hidden = img;
+            }
         }];
         
         
@@ -427,13 +493,13 @@
     //cell行高
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         
-        return 80;
+        return 90;
         
     });
     //cell准备重绘
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
-    
+        
         UIButton *btn = [cell viewWithTag:100];
         btn.layer.cornerRadius = 5;
         btn.layer.masksToBounds = YES;
@@ -453,8 +519,7 @@
             }
             else
             {
-                [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao4"}];
-                
+                [MobClick event:@"wodezhengjianzhao" attributes:@{@"wodezhengjianzhao" : @"tijiao"}];
                 [self updateViolationCommissionCarinfo];
             }
             
@@ -506,12 +571,10 @@
 
 - (void)actionBack
 {
-    [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao1"}];
+    [MobClick event:@"wodezhengjianzhao" attributes:@{@"navi" : @"back"}];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-#pragma mark - Utility
 
 - (void)actionUpload:(PictureRecord *)record withImageView:(HKImageView *)imageView
 {
@@ -527,6 +590,7 @@
      }];
 }
 
+#pragma mark - Utility
 
 - (void)pickImageWithIndex:(NSIndexPath *)indexPath
 {
@@ -577,13 +641,11 @@
         [exampleView setHidden:YES animated:YES];
         [rsheet dismissAnimated:YES];
         if (sheetIndexPath.section != 0) {
-            [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao7"}];
             return ;
         }
         //拍照
         if (sheetIndexPath.section == 0 && sheetIndexPath.row == 0)
         {
-            [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao5"}];
             if ([UIImagePickerController isCameraAvailable])
             {
                 @strongify(self)
@@ -599,7 +661,6 @@
         // 从相册中选取
         else if (sheetIndexPath.section == 0 && sheetIndexPath.row == 1)
         {
-            [MobClick event:@"zhengjianzhao" attributes:@{@"zhengjianzhao" : @"zhengjianzhao6"}];
             self.pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             [self presentViewController:self.pickerController animated:YES completion:nil];
         }

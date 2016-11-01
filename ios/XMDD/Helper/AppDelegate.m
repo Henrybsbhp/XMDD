@@ -240,7 +240,7 @@
     }
     else if ([url.absoluteString hasPrefix:@"xmdd://"])
     {
-        [MobClick event:@"rp000"];
+        [MobClick event:@"urljinqu"];
         NSString * urlStr = url.absoluteString;
         NSDictionary * dict = @{@"url":urlStr};
         [self.openUrlQueue addObject:dict forKey:nil];
@@ -264,13 +264,26 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     DebugLog(@"didReceiveRemoteNotification :%@",userInfo);
-    [MobClick event:@"rp000"];
     [self.pushMgr handleNofitication:userInfo forApplication:application];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
     
+}
+
+-(BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
+{
+    // 当 userActivity 是 NSUserActivityTypeBrowsingWeb 类型, 则意味着它是由Universal Links进来的
+    if ([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb])
+    {
+        NSURL *webpageURL = userActivity.webpageURL;
+        // 拼接成短链接形式。方便使用 naviModel 逻辑
+        NSString *query = [NSString stringWithFormat:@"xmdd://j?%@",webpageURL.query];
+        NSDictionary *userInfo = @{@"url":query};
+        [self.pushMgr handleNofitication:userInfo forApplication:application];
+    }
+    return YES;
 }
 
 #pragma mark - QQ
@@ -629,11 +642,4 @@
     [gAssistiveMgr setupFPSObserver];
 }
 
-#pragma mark - UIResponser
-- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
-{
-#ifdef DEBUG
-    gAssistiveMgr.isShowAssistiveView = !gAssistiveMgr.isShowAssistiveView;
-#endif
-}
 @end

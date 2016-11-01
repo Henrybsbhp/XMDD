@@ -18,7 +18,10 @@
     [params addParam:self.req_usercarid forName:@"usercarid"];
     [params addParam:self.req_licencenumber forName:@"licencenumber"];
     [params addParam:self.req_dates forName:@"dates"];
-    
+    if (self.req_idno.length)
+    {
+        [params addParam:self.req_idno forName:@"idno"];
+    }
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }
 
@@ -27,6 +30,7 @@
     if ([rspObj isKindOfClass:[NSDictionary class]])
     {
         self.rsp_tip = [rspObj stringParamForName:@"tip"];
+        self.rsp_successmsg = [rspObj stringParamForName:@"successmsg"];
     }
     return self;
 }

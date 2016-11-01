@@ -10,4 +10,6 @@
 
 @interface ViolationDelegateCommitSuccessVC : UIViewController
 
+@property (strong, nonatomic) NSString *successMsg;
+
 @end

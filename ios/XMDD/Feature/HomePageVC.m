@@ -21,6 +21,7 @@
 #import "PasteboardModel.h"
 #import "AdListData.h"
 #import "HomePageModuleModel.h"
+#import "HKViewControllerFactory.h"
 
 #import "ADViewController.h"
 #import "HomeNewbieGuideVC.h"
@@ -206,8 +207,10 @@
 
 - (void)setupADViewInContainer:(UIView *)container
 {
-    self.adctrl = [ADViewController vcWithADType:AdvertisementHomePage boundsWidth:self.view.frame.size.width
-                                        targetVC:self mobBaseEvent:@"rp101_10" mobBaseEventDict:nil];
+    self.adctrl = [ADViewController vcWithADType:AdvertisementHomePage
+                                     boundsWidth:self.view.frame.size.width
+                                        targetVC:self mobBaseEvent:@"xiaomashouye"
+                                      mobBaseKey:@"shouyedingbuguanggao"];
     
     CGFloat height = floor(self.adctrl.adView.frame.size.height);
     [container addSubview:self.adctrl.adView];
@@ -221,8 +224,9 @@
 
 - (void)setupSecondADViewInContainer:(UIView *)container  withSquaresView:(UIView *)squaresView
 {
-    self.secondAdCtrl = [ADViewController vcWithADType:AdvertisementHomePageBottom boundsWidth:self.view.frame.size.width
-                                              targetVC:self mobBaseEvent:@"shouye" mobBaseEventDict:@{@"shouye":@"shouye0002"}];
+    self.secondAdCtrl = [ADViewController vcWithADType:AdvertisementHomePageBottom
+                                           boundsWidth:self.view.frame.size.width
+                                              targetVC:self mobBaseEvent:@"xiaomashouye" mobBaseKey:@"shouyedibuguanggao"];
     
     [container addSubview:self.secondAdCtrl.adView];
     [self.secondAdCtrl.adView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -444,7 +448,7 @@
 
 #pragma mark - Action
 - (IBAction)actionCallService:(id)sender {
-    [MobClick event:@"rp101_2"];
+    [MobClick event:@"xiaomashouye" attributes:@{@"navi":@"kefu"}];
     
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
@@ -501,7 +505,7 @@
 
 - (void)retryGetLocationInfo
 {
-    [MobClick event:@"rp101_1"];
+    [MobClick event:@"navi" attributes:@{@"navi":@"chengshi"}];
     
     [self reloadDatasource];
 }
@@ -674,6 +678,8 @@
     if (!_moduleModel)
     {
         _moduleModel = [[HomePageModuleModel alloc] init];
+        _moduleModel.mobBaseEvent = @"xiaomashouye";
+        _moduleModel.mobBaseKey = @"shiergongge";
     }
     return _moduleModel;
 }

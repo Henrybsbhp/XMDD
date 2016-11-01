@@ -20,6 +20,12 @@
 
 @implementation OthersOrderViewModel
 
+
+- (void)resetWithTargetVC:(UIViewController *)targetVC
+{
+    _targetVC = targetVC;
+}
+
 - (id)initWithTableView:(JTTableView *)tableView
 {
     self = [super init];
@@ -33,12 +39,6 @@
     }
     return self;
 }
-
-- (void)resetWithTargetVC:(UIViewController *)targetVC
-{
-    _targetVC = targetVC;
-}
-
 #pragma mark - HKLoadingModelDelegate
 
 -(NSDictionary *)loadingModel:(HKLoadingModel *)model blankImagePromptingWithType:(HKLoadingTypeMask)type
@@ -130,6 +130,11 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.loadingModel loadMoreDataIfNeededWithIndexPath:indexPath nestItemCount:1 promptView:self.tableView.bottomLoadingView];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [MobClick event:@"wodedingdan" attributes:@{@"qita" : @"dianjidingdan"}];
 }
 
 @end

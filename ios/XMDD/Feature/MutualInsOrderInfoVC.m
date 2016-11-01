@@ -94,9 +94,6 @@
     [[self.addressBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         @strongify(self);
-        
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0020"}];
-        
         [self actionJumpToFinishAddressVC];
     }];
 }
@@ -180,8 +177,7 @@
 #pragma mark - Utilitly
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0001"}];
-    
+    [MobClick event:@"hzdingdan" attributes:@{@"navi":@"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -189,7 +185,7 @@
 {
     if (self.contract.status == 1)
     {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0004"}];
+        [MobClick event:@"hzdingdan" attributes:@{@"dibu":@"zhifu"}];
         
         MutualInsPayViewController * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayViewController"];
         vc.contract = self.contract;
@@ -199,13 +195,14 @@
     }
     else
     {
+        [MobClick event:@"hzdingdan" attributes:@{@"dibu":@"fenxiang"}];
         [self actionShare];
     }
 }
 
 - (void)actionJumpToFinishAddressVC
 {
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0005"}];
+    [MobClick event:@"hzdingdan" attributes:@{@"dibu":@"wanshandizhi"}];
     
     MutualInsPayResultVC * vc = [mutualInsPayStoryboard instantiateViewControllerWithIdentifier:@"MutualInsPayResultVC"];
     vc.contract = self.contract;
@@ -215,7 +212,7 @@
 
 - (void)actionCallService:(id)sender {
     
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0007"}];
+    [MobClick event:@"hzdingdan" attributes:@{@"navi":@"kefu"}];
     
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
@@ -228,7 +225,6 @@
 - (void)actionShare
 {
     
-    [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0020"}];
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneShowXmddIns;
     
@@ -241,13 +237,16 @@
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneShowXmddIns;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        vc.mobBaseValue = @"hzdingdan";
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
         [sheet presentAnimated:YES completionHandler:nil];
+        [MobClick event:@"fenxiangyemian" attributes:@{@"chuxian":@"hzdingdan"}];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
+            [MobClick event:@"fenxiangyemian" attributes:@{@"quxiao":@"hzdingdan"}];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
@@ -516,7 +515,7 @@
     
     if ([cellId isEqualToString:@"SwitchCell"])
     {
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0002"}];
+        [MobClick event:@"hzdingdan" attributes:@{@"huzhudingdan":@"jiaoqiangxiankaiguan"}];
         self.isInsProxy = !self.isInsProxy;
         [self setupDateSource];
         [self.tableView reloadData];
@@ -669,7 +668,8 @@
     [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
         
         @strongify(self)
-        [MobClick event:@"xiaomahuzhu" attributes:@{@"zhifu":@"zhifu0002"}];
+        
+        [MobClick event:@"hzdingdan" attributes:@{@"huzhudingdan":@"jiaoqiangxiankaiguan"}];
         self.isInsProxy = !self.isInsProxy;
         [self setupDateSource];
         [self.tableView reloadData];

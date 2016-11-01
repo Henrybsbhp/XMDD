@@ -16,6 +16,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     [self __commonInit];
 }
 
@@ -79,6 +80,7 @@
     frame.size.height = [_richLabel optimumSize].height;
     frame.origin.y = 32;
     _richLabel.frame = frame;
+    _richLabel.backgroundColor = [UIColor redColor];
 }
 
 @end

@@ -22,13 +22,14 @@
 
 @property (nonatomic, strong, readonly) SYPaginatorView *adView;
 @property (nonatomic, strong, readonly) NSString *mobBaseEvent;
+@property (nonatomic, strong, readonly) NSString *mobBaseKey;
 @property (nonatomic, weak, readonly)   UIViewController *targetVC;
 
 @property (nonatomic, strong) NSArray *adList;
 
 @property (nonatomic, weak) id <SuspendedAdClickDelegate> clickDelegate;
 
-+ (instancetype)adVCWithBoundsWidth:(CGFloat)width
-                    targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event;
++ (instancetype)adVCWithBoundsWidth:(CGFloat)width targetVC:(UIViewController *)vc
+                       mobBaseEvent:(NSString *)event mobBaseKey:(NSString *)key;
 
 @end

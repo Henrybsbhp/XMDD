@@ -341,7 +341,7 @@
     /**
      *  使用帮助事件
      */
-    [MobClick event:@"rp604-1"];
+    [MobClick event:@"ershouchejiaoyi" attributes:@{@"navi" : @"shiyongbangzhu"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.url=@"http://www.xiaomadada.com/apphtml/second-hand-car-help.html";
     [self.navigationController pushViewController:vc animated:YES];
@@ -391,7 +391,7 @@
     /**
      *  提交卖车意向事件
      */
-    [MobClick event:@"rp604_2"];
+    [MobClick event:@"ershouchejiaoyi" attributes:@{@"ershouchejiaoyi" : @"tijiao"}];
     if (self.uploadArr.count == 0)
     {
         [gToast showError:@"所选平台不能为空"];
@@ -434,6 +434,12 @@
             [gToast showError:error.domain];
         }];
     }
+}
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"ershouchejiaoyi" attributes:@{@"navi" : @"back"}];
 }
 
 @end

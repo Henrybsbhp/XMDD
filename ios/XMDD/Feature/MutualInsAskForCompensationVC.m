@@ -94,7 +94,7 @@
 /// navigationBar 上「新手指南」的点击事件
 - (IBAction)newbieGuideBarButtonClicked:(id)sender
 {
-    [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang2"}];
+    [MobClick event:@"hzbuchang" attributes:@{@"navi":@"xinshouzhinan"}];
     
     // 只要点按过「新手指南」图标，则让该图标变为不带红点状态
     self.newbieGuideBarButtonItem.image = [[UIImage imageNamed:@"mutualIns_newbieGuideButtonNoRedDot_barButtonItem"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -126,7 +126,7 @@
 
 - (IBAction)serviceCallButtonClicked:(id)sender
 {
-    [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang3"}];
+    [MobClick event:@"hzbuchang" attributes:@{@"hzbuchang":@"kefubaoan'"}];
     
     HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
     alert.topTitle = @"温馨提示";
@@ -737,9 +737,6 @@
             [takePhotoButton setTitle:@"重新拍照上传" forState:UIControlStateNormal];
             [[[takePhotoButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
-                
-                [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang6"}];
-                
                 MutualInsPicListVC * vc = [UIStoryboard vcWithId:@"MutualInsPicListVC" inStoryboard:@"MutualInsClaimsPicList"];
                 vc.claimID = dict[@"claimid"];
                 [self.navigationController pushViewController:vc animated:YES];
@@ -749,9 +746,6 @@
             [takePhotoButton setTitle:@"拍照上传" forState:UIControlStateNormal];
             [[[takePhotoButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
                 @strongify(self);
-                
-                [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang5"}];
-                
                 MutualInsScencePageVC *scencePageVC = [UIStoryboard vcWithId:@"MutualInsScencePageVC" inStoryboard:@"MutualInsClaims"];
                 //                scencePageVC.noticeArr = self.tempArr;
                 scencePageVC.claimid = dict[@"claimid"];
@@ -808,8 +802,6 @@
         // 「接受补偿」按键的点击事件
         [[[acceptCompensationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
-            [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang8"}];
-            
             MutualInsAcceptCompensationVC *acceptCompensationVC = [UIStoryboard vcWithId:@"MutualInsAcceptCompensationVC" inStoryboard:@"MutualInsClaims"];
             acceptCompensationVC.descriptionString = self.bankCardDescription;
             acceptCompensationVC.usernameString = dict[@"ownername"];
@@ -821,18 +813,14 @@
         // 「价格不满意」按钮的点击事件
         [[[declineButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
-            [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang7"}];
-            
             HKImageAlertVC *alert = [[HKImageAlertVC alloc] init];
             alert.topTitle = @"温馨提示";
             alert.message = @"如对快速补偿结果有异议，可进行拒绝补偿操作，拒绝后会有工作人员与您联系";
             alert.imageName = @"mins_bulb";
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
-                [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang9"}];
             }];
             
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"确认拒绝" color:kDefTintColor clickBlock:^(id alertVC) {
-                [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang10"}];
                 [self confirmClaimWithAgreement:@(1) claimID:dict[@"claimid"] andBankNo:dict[@"bankcardno"]];
             }];
             alert.actionItems = @[cancel, confirm];
@@ -922,7 +910,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang4"}];
     
     NSDictionary *dataDict = [self.fetchedDataSource safetyObjectAtIndex:indexPath.section];
     
@@ -1009,7 +996,7 @@
 
 -(void)setBackAction
 {
-    [MobClick event:@"woyaobuchang" attributes:@{@"woyaobuchang":@"woyaobuchang1"}];
+    [MobClick event:@"hzbuchang" attributes:@{@"navi":@"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

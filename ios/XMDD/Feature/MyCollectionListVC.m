@@ -27,7 +27,7 @@
 @implementation MyCollectionListVC
 
 - (void)dealloc {
-    
+    DebugLog(@"MyCollectionListVC dealloc");
 }
 
 - (void)viewDidLoad {
@@ -39,6 +39,9 @@
     [self setupSignals];
     [self reloadDatasource];
     [self refreshNavigationBar];
+    
+    // 3.5版本有店铺下架，强行拉一边
+    [self actionRefresh:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -170,6 +173,7 @@
 }
 
 - (void)actionSelectAll:(id)sender {
+    [MobClick event:@"wodeshoucang" attributes:@{@"bianji" : @"quanxuan"}];
     NSArray *shops = [gStoreMgr.collectionStore.collections allObjects];
     if (self.selectedCollections.count < shops.count) {
         self.selectedCollections = [CKList listWithArray:shops];
@@ -193,6 +197,7 @@
 }
 
 - (void)actionDelete:(id)sender {
+    [MobClick event:@"wodeshoucang" attributes:@{@"bianji" : @"shanchu"}];
     if (self.selectedCollections.count == 0) {
         [gToast showError:@"请选择一家商户进行删除"];
         return;
@@ -213,23 +218,26 @@
 }
 
 - (void)actionEndEditing:(id)sender {
+    [MobClick event:@"wodeshoucang" attributes:@{@"navi" : @"bianji"}];
     self.isEditing = NO;
     [self refreshViews];
 }
 
 - (void)actionBeginEditing:(id)sender {
+    [MobClick event:@"wodeshoucang" attributes:@{@"navi" : @"bianji"}];
     self.isEditing = YES;
     [self refreshViews];
 }
 
 - (void)actionGotoShopDetail:(JTShop *)shop {
-    [MobClick event:@"rp316_2"];
+    
     ShopDetailVC *vc = [[ShopDetailVC alloc] init];
     vc.shop = shop;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)actionMakeCallWithPhoneNumber:(NSString *)phone {
+    [MobClick event:@"wodeshoucang" attributes:@{@"shanghu" : @"dianhua"}];
     if (phone.length == 0) {
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"好吧" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
         HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"" ImageName:@"mins_bulb"
@@ -243,6 +251,7 @@
 }
 
 - (void)actionNavigationWithShop:(JTShop *)shop {
+    [MobClick event:@"wodeshoucang" attributes:@{@"shanghu" : @"daohang"}];
     [gPhoneHelper navigationRedirectThirdMap:shop
                              andUserLocation:gMapHelper.coordinate
                                      andView:self.navigationController.view];
@@ -314,6 +323,8 @@
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         if (!self.isEditing) {
+            
+            [MobClick event:@"wodeshoucang" attributes:@{@"shanghu" : @"xinxi"}];
             [self actionGotoShopDetail:data[@"shop"]];
         }
     });
@@ -357,6 +368,8 @@
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        
+        [MobClick event:@"wodeshoucang" attributes:@{@"shanghu" : @"fuwu"}];
         [self actionGotoShopDetail:data[@"shop"]];
     });
     
@@ -397,6 +410,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return CGFLOAT_MIN;
+}
+
+#pragma mark - Action
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"wodeshoucang" attributes:@{@"navi" : @"back"}];
 }
 
 @end

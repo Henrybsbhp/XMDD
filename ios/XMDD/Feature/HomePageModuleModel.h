@@ -10,6 +10,9 @@
 
 @interface HomePageModuleModel : NSObject
 
+@property (nonatomic, copy) NSString *mobBaseEvent;
+@property (nonatomic, copy) NSString *mobBaseKey;
+
 @property (nonatomic,strong)NSArray * moduleArray;
 
 @property (nonatomic)NSInteger numOfColumn;

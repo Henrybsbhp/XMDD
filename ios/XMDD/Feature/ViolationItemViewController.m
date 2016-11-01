@@ -15,6 +15,7 @@
 #import "CKLimitTextField.h"
 #import "OETextField.h"
 #import "ViolationDelegateMissionVC.h"
+#import "DetailWebVC.h"
 
 #define ClassNumberStr @"车架号码"
 #define EngineNumberStr @"发动机号"
@@ -26,10 +27,10 @@
 @property (nonatomic,weak)UIButton * queryBtn;
 @property (nonatomic,strong)CABasicAnimation * animation;
 @property (nonatomic)BOOL isQuerying;
-
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
+@property (weak, nonatomic) IBOutlet UILabel *issueLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewConstraint;
-
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *issueViewHeight;
 @property (nonatomic,strong)CKList * datasource;
 
 @end
@@ -57,6 +58,7 @@
     {
         [self setupDatasource];
         [self setupBottomView];
+        [self setupIssueView];
     }
 }
 
@@ -66,6 +68,7 @@
 }
 
 #pragma mark -  Utility
+
 - (void)setupUI
 {
     /// 旋转动画
@@ -81,7 +84,7 @@
     self.view.backgroundColor = kBackgroundColor;
     
     self.tableView.backgroundColor = [UIColor clearColor];
-
+    
     self.bottomBtn.backgroundColor = kOrangeColor;
     self.bottomBtn.layer.cornerRadius = 5.0f;
     self.bottomBtn.layer.masksToBounds = YES;
@@ -91,50 +94,36 @@
     [[self.bottomBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
         @strongify(self)
+        [MobClick event:@"weizhangshouye" attributes:@{@"daiban":@"daiban"}];
         [self actionGotoViolationDelegateMissionVC];
     }];
     
     self.bottomViewConstraint.constant = 0;
 }
 
-
-- (void)getLocalViolationInfoAndCityInfo
+- (void)setupBottomView
 {
-    self.violationModel.licencenumber = self.car.licencenumber;
+    @weakify(self)
+    NSString * title = self.violationModel.violationAvailableTip;
+    [self.bottomBtn setTitle:title forState:UIControlStateNormal];
     
-    RACSignal * localViolationSignal = [self.violationModel rac_getLocalUserViolation];
-    RACSignal * cityInfoSignal = [self.violationModel rac_getCityInfoByLincenseNumber];
-    
-    RACSignal * combineSignal = [RACSignal combineLatest:@[localViolationSignal,cityInfoSignal]];
-    
-    [[combineSignal initially:^{
-        
-        CGFloat reducingY = self.view.frame.size.height * 0.1056;
-        [self.view hideDefaultEmptyView];
-        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
-        self.tableView.hidden = YES;
-    }] subscribeNext:^(id x) {
-        
-        [self.view stopActivityAnimation];
-        self.tableView.hidden = NO;
-        
-        [self setupDatasource];
-        [self.tableView reloadData];
-        
-        [self setupBottomView];
-    } error:^(NSError *error) {
-        
-        [self.view stopActivityAnimation];
-        self.tableView.hidden = YES;
-        @weakify(self);
-        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:error.domain tapBlock:^{
-            @strongify(self);
-            [self getLocalViolationInfoAndCityInfo];
-        }];
+    [UIView animateWithDuration:0.5f animations:^{
+     
+        @strongify(self)
+        self.bottomViewConstraint.constant = self.violationModel.violationAvailableTip.length > 0 ? 64 : 0;
     }];
 }
 
-
+- (void)setupIssueView
+{
+    @weakify(self)
+    self.issueLabel.text = self.violationModel.text;
+    [UIView animateWithDuration:0.5f animations:^{
+     
+        @strongify(self)
+        self.issueViewHeight.constant = self.violationModel.showIssue ? 0 : -35;
+    }];
+}
 
 - (void)setupDatasource
 {
@@ -188,6 +177,47 @@
 }
 
 
+- (void)getLocalViolationInfoAndCityInfo
+{
+    
+    @weakify(self)
+    self.violationModel.licencenumber = self.car.licencenumber;
+    
+    RACSignal * localViolationSignal = [self.violationModel rac_getLocalUserViolation];
+    RACSignal * cityInfoSignal = [self.violationModel rac_getCityInfoByLincenseNumber];
+    
+    RACSignal * combineSignal = [RACSignal combineLatest:@[localViolationSignal,cityInfoSignal]];
+    
+    [[combineSignal initially:^{
+        
+        @strongify(self)
+        CGFloat reducingY = self.view.frame.size.height * 0.1056;
+        [self.view hideDefaultEmptyView];
+        [self.view startActivityAnimationWithType:GifActivityIndicatorType atPositon:CGPointMake(self.view.center.x, self.view.center.y - reducingY)];
+        self.tableView.hidden = YES;
+    }] subscribeNext:^(id x) {
+        
+        @strongify(self)
+        [self.view stopActivityAnimation];
+        self.tableView.hidden = NO;
+        
+        [self setupDatasource];
+        [self.tableView reloadData];
+        
+        [self setupIssueView];
+        [self setupBottomView];
+    } error:^(NSError *error) {
+        
+        @strongify(self)
+        [self.view stopActivityAnimation];
+        self.tableView.hidden = YES;
+        [self.view showImageEmptyViewWithImageName:@"def_failConnect" text:error.domain tapBlock:^{
+            @strongify(self);
+            [self getLocalViolationInfoAndCityInfo];
+        }];
+    }];
+}
+
 - (void)handleViolationCityInfo:(CKList *)list
 {
     if (self.violationModel.cityInfo.isClassNum)
@@ -204,16 +234,6 @@
         CKDict * inputInfoDict = [self setupInputInfoCellWithInfoDict:dict];
         [list addObject:inputInfoDict forKey:nil];
     }
-}
-
-- (void)setupBottomView
-{
-    NSString * title = self.violationModel.violationAvailableTip;
-    [self.bottomBtn setTitle:title forState:UIControlStateNormal];
-    [UIView animateWithDuration:1.0f animations:^{
-        
-        self.bottomViewConstraint.constant = self.violationModel.violationAvailableTip.length > 0 ? 64 : 0;
-    }];
 }
 
 - (void)queryTransform
@@ -261,24 +281,29 @@
 /// 请求违章
 - (void)requesQueryViolation
 {
+    
+    @weakify(self)
     self.violationModel.licencenumber = self.car.licencenumber;
     self.violationModel.cid = self.car.carId;
     
     [[[self.violationModel rac_requestUserViolation] initially:^{
         
+        @strongify(self)
         self.isQuerying = YES;
         [self queryTransform];
     }] subscribeNext:^(id x) {
         
+        @strongify(self)
         self.isQuerying = NO;
         [self stopQueryTransform];
         
         [self setupDatasource];
         [self.tableView reloadData];
         [self setupBottomView];
-        
+        [self setupIssueView];
     } error:^(NSError *error) {
         
+        @strongify(self)
         self.isQuerying = NO;
         [self stopQueryTransform];
         [self.tableView reloadData];
@@ -290,8 +315,32 @@
 
 
 #pragma mark - Action
+
+- (IBAction)actionJumpToViolationDelegateWebVC:(id)sender
+{
+    DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
+    vc.url = self.violationModel.link;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)acitonCloseIssue:(id)sender
+{
+    @weakify(self)
+    self.issueViewHeight.constant = -35;
+    [UIView animateWithDuration:0.5f animations:^{
+        
+        @strongify(self)
+        [self.view layoutIfNeeded];
+    }];
+    self.violationModel.showIssue = NO;
+    /// 点击过按钮后保存。避免下次进入还有消息
+    [self.violationModel saveViolationModel];
+}
+
+
 - (void)queryAction
 {
+    [MobClick event:@"weizhangshouye" attributes:@{@"chaxun" : @"chaxun"}];
     if (!self.violationModel.cityInfo.isViolationAvailable)
     {
         [gToast showError:@"该城市暂不支持违章查询"];
@@ -336,6 +385,7 @@
 
 - (void)actionGotoViolationDelegateMissionVC
 {
+    @weakify(self)
     ViolationDelegateMissionVC * vc = [UIStoryboard vcWithId:@"ViolationDelegateMissionVC" inStoryboard:@"Violation"];
     vc.licenceNumber = self.violationModel.licencenumber;
     vc.userCarID = self.car.carId;
@@ -343,9 +393,9 @@
     vc.router.userInfo[kOriginRoute]= self.parentViewController.router;
     [vc setMissionSuccessBlock:^(NSString * tip) {
         
+        @strongify(self)
         self.violationModel.violationAvailableTip = tip;
         [self setupBottomView];
-        
         [self.violationModel saveViolationModel];
     }];
     [self.navigationController pushViewController:vc animated:YES];
@@ -372,7 +422,6 @@
     if (block) {
         return block(item, indexPath);
     }
-    
     return 49;
 }
 
@@ -452,12 +501,13 @@
     
     cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
-        @strongify(self)
         UILabel * titleLb = (UILabel *)[cell searchViewWithTag:101];
         titleLb.text = dict[@"title"];
         
+        @strongify(self)
         UIButton * howBtn = (UIButton *)[cell searchViewWithTag:102];
         [[[howBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(self)
             if ([dict[@"title"] isEqualToString:EngineNumberStr])
             {
                 [self showPicture:@"violation_eg"];
@@ -505,12 +555,9 @@
             }];
         }
         
-        [field setDidBeginEditingBlock:^(CKLimitTextField *field) {
-            [MobClick event:@"rp901_4"];
-        }];
-        
         [field setTextDidChangedBlock:^(CKLimitTextField *field) {
             
+            @strongify(self)
             field.text = [field.text uppercaseString];
             
             if ([dict[@"title"] isEqualToString:EngineNumberStr])
@@ -530,6 +577,8 @@
 ///设置「添加爱车」Cell
 - (CKDict *)setupAddCarCell
 {
+    
+    @weakify(self)
     CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"AddCarCell", kCKCellID: @"AddCarCell"}];
     cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 260;
@@ -537,7 +586,8 @@
     
     cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
-        [MobClick event:@"rp901_1"];
+        @strongify(self)
+        [MobClick event:@"weizhangshouye" attributes:@{@"tianjiaaiche" : @"tianjiaaiche"}];
         EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
         [self.navigationController pushViewController:vc animated:YES];
     });
@@ -552,7 +602,7 @@
     @weakify(self)
     CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"SearchBtnCell", kCKCellID: @"SearchBtnCell"}];
     cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 112;
+        return 120;
     });
     
     
@@ -592,22 +642,22 @@
             }
         }
         
-        
-        @weakify(self)
         [[[queryBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
+            @strongify(self)
             if (!self.violationModel.queryDate) {
-                [MobClick event:@"rp901_2"];
+                [MobClick event:@"weizhangshouye" attributes:@{@"chaxun" : @"1"}];
             }
             else {
-                [MobClick event:@"rp901_6"];
+                [MobClick event:@"weizhangshouye" attributes:@{@"chaxun" : @"0"}];
             }
-            @strongify(self)
+            
             if (!self.isQuerying)
             {
                 [self queryAction];
             }
             else
             {
+                [MobClick event:@"weizhangshouye" attributes:@{@"chaxun" : @"chaxunzhongdianji"}];
                 [gToast showText:@"小马达达正在努力查询中\n请别着急"];
             }
         }];
@@ -635,6 +685,7 @@
 ///设置「鼓励」Cell
 - (CKDict *)setupViolationTitleCell
 {
+    @weakify(self)
     CKDict *cell = [CKDict dictWith:@{kCKItemKey: @"ViolationTitleCell", kCKCellID: @"ViolationTitleCell"}];
     cell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
         return 50;
@@ -642,6 +693,7 @@
     
     cell[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, UITableViewCell *cell, NSIndexPath *indexPath) {
         
+        @strongify(self)
         // 违章标题
         UILabel * titleLb = (UILabel *)[cell searchViewWithTag:101];
         titleLb.text = [NSString stringWithFormat:@"罚款%ld元，共扣%ld分",(long)self.violationModel.violationTotalmoney,(long)self.violationModel.violationTotalfen];
@@ -714,7 +766,12 @@
         {
             handleIcon.image = [UIImage imageNamed:@"unhandle_icon_300"];
         }
+    });
+    
+    cell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         
+        NSString * mobClickValue = [NSString stringWithFormat:@"dianji_%ld",indexPath.row];
+        [MobClick event:@"weizhangshouye" attributes:@{@"weizhangxinxin":mobClickValue}];
     });
     
     return cell;

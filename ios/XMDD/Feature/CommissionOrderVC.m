@@ -9,8 +9,6 @@
 #import "CommissionOrderVC.h"
 #import "NSString+RectSize.h"
 #import "GetRescueDetailOp.h"
-#import "CommissionConfirmVC.h"
-#import "RescueHistoryViewController.h"
 #import "LoginViewModel.h"
 #import "GetStartHostCarOp.h"
 #import "MyCarStore.h"
@@ -19,6 +17,9 @@
 #import "UIView+JTLoadingView.h"
 #import "HKTableViewCell.h"
 #import "DetailWebVC.h"
+
+#import "CommissionRecordVC.h"
+
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
 @interface CommissionOrderVC ()
@@ -44,79 +45,27 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupNavigationBar];
     [self actionNetwork];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.historyBtn];
 }
 
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+}
 
 #pragma mark - Action
 - (IBAction)actionCommissionClick:(UIButton *)sender {
-    [MobClick event:@"rp801_2"];
-    if (gAppMgr.myUser != nil) {
-        self.carStore = [MyCarStore fetchOrCreateStore];
-        @weakify(self);
-        [[[[self.carStore getAllCars] send] initially:^{
-          
-            [gToast showingWithText:@"" inView:self.view];
-        }] subscribeNext:^(id x) {
-            
-            [gToast dismissInView:self.view];
-            @strongify(self);
-            if (self.carStore.cars.count == 0) {
-                //TODO:1
-                
-                HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-                HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"添加爱车" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-                    EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
-                    [self.navigationController pushViewController:vc animated:YES];
-                }];
-                HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您还没有添加爱车, 请先添加爱车" ActionItems:@[cancel,confirm]];
-                [alert show];
-            }
-            else {
-                //TODO: Request
-                [self request];
-            }
-        }error:^(NSError *error) {
-            
-            [gToast dismissInView:self.view];
-            NSString * number = @"4007111111";
-            [gPhoneHelper makePhone:number andInfo:@"协办电话: 4007-111-111"];
-        }];
-        
-    }else{
-        NSString * number = @"4007111111";
-        [gPhoneHelper makePhone:number andInfo:@"协办电话: 4007-111-111"];
-    }
-}
-
-- (void)request
-{
-    GetStartHostCarOp *op = [GetStartHostCarOp operation];
-    [[[op rac_postRequest] initially:^{
-        
-    }] subscribeNext:^(GetStartHostCarOp *rspop) {
-        
-        self.carNumberArray = self.carStore.allCars;
-        CommissionConfirmVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissonConfirmVC"];
-        [self.navigationController pushViewController:vc animated:YES];
-        
-    }error:^(NSError *error) {
-        if (error.code == 611139001) {
-            
-            HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
-            HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"省钱攻略" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-                DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
-                vc.title = @"省钱攻略";
-                vc.url = kMoneySavingStrategiesUrl;
-                [self.navigationController pushViewController:vc animated:YES];
-            }];
-            HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"亲,暂时只支持协办券办理哦!\n点击省钱攻略免费获取协办券!" ActionItems:@[cancel,confirm]];
-            [alert show];
-        }
+    [MobClick event:@"nianjianxieban" attributes:@{@"woyaoxieban" : @"woyaoxieban"}];
+    HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];
+    HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"拨打" color:HEXCOLOR(@"#F39C12") clickBlock:^(id alertVC) {
+        [gPhoneHelper makePhone:@"4007111111"];
     }];
+    HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"协办电话：4007-111-111" ActionItems:@[cancel, confirm]];
+    [alert show];
 }
-
 
 - (void) actionNetwork{
     GetRescueDetailOp *op = [GetRescueDetailOp operation];
@@ -150,11 +99,22 @@
     
 }
 
+- (void)actionBack
+{
+    [MobClick event:@"nianjianxieban" attributes:@{@"navi" : @"back"}];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)commissionHistory {
-    [MobClick event:@"rp801_1"];
+//    if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
+//        RescueHistoryViewController *vc  =[rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHistoryViewController"];
+//        vc.type = 2;
+//        [self.navigationController pushViewController:vc animated:YES];
+//    }
+    
+    [MobClick event:@"nianjianxieban" attributes:@{@"navi" : @"xiebanlishi"}];
     if ([LoginViewModel loginIfNeededForTargetViewController:self]) {
-        RescueHistoryViewController *vc  =[rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHistoryViewController"];
-        vc.type = 2;
+        CommissionRecordVC *vc = [UIStoryboard vcWithId:@"CommissionRecordVC" inStoryboard:@"Commission"];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -244,7 +204,7 @@
         self.historyBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         _historyBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         _historyBtn.frame = CGRectMake(0, 0, 60, 44);
-        [_historyBtn setTitle:@"协办记录" forState:UIControlStateNormal];
+        [_historyBtn setTitle:@"我的协办" forState:UIControlStateNormal];
         [_historyBtn addTarget:self action:@selector(commissionHistory) forControlEvents:UIControlEventTouchUpInside];
     }
     return _historyBtn;

@@ -13,7 +13,6 @@
 #import "UnbindingBankCardOp.h"
 #import "MyBankCard.h"
 #import "JGActionSheet.h"
-#import "BindBankCardVC.h"
 #import "ADViewController.h"
 
 @interface MyBindedCardVC () <UITableViewDelegate, UITableViewDataSource>
@@ -76,7 +75,7 @@
 {
     CKAsyncMainQueue(^{
         self.advc  =[ADViewController vcWithADType:AdvertisementBankCardBinding boundsWidth:self.view.bounds.size.width
-                                          targetVC:self mobBaseEvent:@"rp314_1" mobBaseEventDict:nil];
+                                          targetVC:self mobBaseEvent:@"wodeyinhangka" mobBaseKey:@"yinhangkaguanggao"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -85,6 +84,7 @@
 // 添加银行卡
 - (void)actionToAddCard
 {
+    [MobClick event:@"wodeyinhangka" attributes:@{@"wodeyinhangka" : @"tianjia"}];
     AddBankCardVC *vc = [UIStoryboard vcWithId:@"AddBankCardVC" inStoryboard:@"Bank"];
     vc.router.userInfo = [CKDict dictWithCKDict:self.router.userInfo];
     vc.router.userInfo[kOriginRoute]= self.router;
@@ -93,6 +93,7 @@
 
 - (void)actionToUnbindTheBankCardWithTokenID:(NSString *)tokenID AtIndexPath:(NSIndexPath *)indexPath
 {
+    [MobClick event:@"wodeyinhangka" attributes:@{@"wodeyinhangka" : @"shanchu"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"否" color:kDefTintColor clickBlock:nil];
     HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"是" color:kGrayTextColor clickBlock:^(id alertVC) {
         UnbindingBankCardOp *op = [UnbindingBankCardOp operation];
@@ -132,6 +133,7 @@
 
 - (IBAction)actionEdit:(id)sender
 {
+    [MobClick event:@"wodeyinhangka" attributes:@{@"navi" : @"bianji"}];
     if (!self.isEditing) {
         [self.tableView setEditing:YES animated:YES];
         self.isEditing = YES;
@@ -139,6 +141,12 @@
         [self.tableView setEditing:NO animated:YES];
         self.isEditing = NO;
     }
+}
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"wodeyinhangka" attributes:@{@"navi" : @"back"}];
 }
 
 #pragma mark - Fetch data
@@ -207,7 +215,6 @@
             CGFloat height = size.height + 86;
             return MAX(height, 101);
         }
-        
         return 80;
     });
     
@@ -237,6 +244,11 @@
         
         checkButton.hidden = model.cardType == 1 ? NO : YES;
         checkButton.enabled = NO;
+    });
+    
+    cardInfoCell[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
+
+        [MobClick event:@"wodeyinhangka" attributes:@{@"wodeyinhangka" : @"dianjiyinhangka"}];
     });
     
     return cardInfoCell;
@@ -387,6 +399,7 @@
 }
 
 #pragma mark - Lazy instantiation
+
 - (UIButton *)addbutton
 {
     if (!_addbutton)

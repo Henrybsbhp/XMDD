@@ -72,6 +72,8 @@
     @weakify(self)
     [[self.payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"zhifuzhongxin" attributes:@{@"zhifu":@"zhifu"}];
+        
         GetGeneralActivityLefttimeOp * lefttimeOp = [[GetGeneralActivityLefttimeOp alloc] init];
         lefttimeOp.tradeType = self.tradeType;
         lefttimeOp.tradeNo = self.tradeNo;
@@ -108,6 +110,8 @@
 
 
 - (void)actionBack:(id)sender {
+    
+    [MobClick event:@"zhifuzhongxin" attributes:@{@"navi":@"back"}];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -149,7 +153,7 @@
         if ([lastVc isKindOfClass:[DetailWebVC class]])
         {
             NSString * url = [NSString stringWithFormat:@"%@?token=%@&tradeno=%@&tradetype=%@&status=%@",
-                              PayCenterNotifyUrl,gNetworkMgr.token,self.tradeNo,self.tradeType,@"S"];
+                              kPayCenterNotifyUrl,gNetworkMgr.token,self.tradeNo,self.tradeType,@"S"];
             DetailWebVC * detailWebVc = (DetailWebVC *)lastVc;
             [detailWebVc requestUrl:url];
         }
@@ -253,19 +257,19 @@
         
         if (paychannel == PaymentChannelUPpay)
         {
-            [MobClick event:@"tongyongzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren6"}];
+            [MobClick event:@"zhifuzhongxin" attributes:@{@"zhifufangshi":@"uppay"}];
         }
         else if (paychannel == PaymentChannelApplePay)
         {
-            [MobClick event:@"tongyongzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren7"}];
+            [MobClick event:@"zhifuzhongxin" attributes:@{@"zhifufangshi":@"applepay"}];
         }
         else if (paychannel == PaymentChannelAlipay)
         {
-            [MobClick event:@"tongyongzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren8"}];
+            [MobClick event:@"zhifuzhongxin" attributes:@{@"zhifufangshi":@"alipay"}];
         }
         else
         {
-            [MobClick event:@"tongyongzhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren9"}];
+           [MobClick event:@"zhifuzhongxin" attributes:@{@"zhifufangshi":@"wechat"}];
         }
     }
 }
@@ -332,7 +336,7 @@
     titleLb.text = dict[@"title"];
     
     PaymentChannelType paychannel = [dict[@"paymentType"] integerValue];
-    recommendLB.hidden = paychannel != PaymentChannelAlipay;
+    recommendLB.hidden = paychannel != PaymentChannelUPpay;
     [recommendLB makeCornerRadius:3.0f];
     
     [[RACObserve(self, paychannel) takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(NSNumber * number) {
@@ -448,15 +452,6 @@
                                                 @"logo":@"wechat_logo_66"}];
                 [tArray safetyAddObject:dict];
             }
-        }
-        else if ([paychannelStr isEqualToString:@"7"])
-        {
-            NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:
-                                          @{@"paymentType":@(PaymentChannelCZBCreditCard),
-                                            @"title":@"浙商支付",
-                                            @"subTitle":@"推荐浙商信用卡用户使用",
-                                            @"logo":@"cw_creditcard"}];
-            [tArray safetyInsertObject:dict atIndex:0];
         }
         else if ([paychannelStr isEqualToString:@"82"])
         {

@@ -81,9 +81,11 @@
 {
     self.navigationItem.title = @"支付确认";
     
-    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
     self.navigationItem.leftBarButtonItem = back;
 }
+
+
 
 - (void)setupUI
 {
@@ -102,7 +104,7 @@
     [[self.payBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         //支付确定点击事件
         @strongify(self);
-        [MobClick event:@"rp508_6"];
+        [MobClick event:@"jiayouzhifuqueren" attributes:@{@"zhifu":@"zhifu"}];
         [self actionPay:nil];
     }];
 }
@@ -311,6 +313,12 @@
     [self startPayWithChargeOp:op gasCard:card];
 }
 
+- (void)actionBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    [MobClick event:@"jiayouzhifuqueren" attributes:@{@"navi":@"back"}];
+}
+
 #pragma mark - Abount Pay
 - (void)startPayWithChargeOp:(GascardChargeOp *)op gasCard:(GasCard *)card {
     
@@ -483,19 +491,19 @@
     PaymentChannelType tt = (PaymentChannelType)[dict[@"payment"] integerValue];
     if (tt == PaymentChannelUPpay)
     {
-        [MobClick event:@"youkazhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren6"}];
+        [MobClick event:@"jiayouzhifuqueren" attributes:@{@"zhifufangshi":@"uppay"}];
     }
     else if (tt == PaymentChannelApplePay)
     {
-        [MobClick event:@"youkazhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren7"}];
+        [MobClick event:@"jiayouzhifuqueren" attributes:@{@"zhifufangshi":@"applepay"}];
     }
     else if (tt == PaymentChannelAlipay)
     {
-        [MobClick event:@"youkazhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren8"}];
+        [MobClick event:@"jiayouzhifuqueren" attributes:@{@"zhifufangshi":@"alipay"}];
     }
     else
     {
-        [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren9"}];
+        [MobClick event:@"jiayouzhifuqueren" attributes:@{@"zhifuqueren":@"wechat"}];
     }
     self.paychannel = tt;
    
@@ -505,9 +513,6 @@
     //分期加油
     if ([paidop isKindOfClass:[GascardChargeByStagesOp class]]) {
         NSString *url = kGasOrderPaidUrl;
-#if DEBUG
-        url = kDevGasOrderPaidUrl;
-#endif
         NSString *status = paidop.rsp_code == 0 ? @"S" : @"F";
         DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
         vc.originVC = self.originVC;
@@ -667,6 +672,8 @@
     NSDictionary * dict = [[self.datasource safetyObjectAtIndex:indexPath.section] safetyObjectAtIndex:indexPath.row];
     NSString * cellName = dict[@"cellname"];
     if ([cellName isEqualToString:@"CouponCell"]) {
+        
+        [MobClick event:@"jiayouzhifuqueren" attributes:@{@"youhui":@"youhuiquan"}];
         [self selectedCouponCell];
     }
     if ([cellName isEqualToString:@"PaymentPlatformCell"]) {

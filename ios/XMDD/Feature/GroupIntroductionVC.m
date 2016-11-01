@@ -244,7 +244,7 @@
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rutuanyaoqiu" attributes:@{@"rutuanyaoqiu" : @"rutuanyaoqiu1"}];
+    [MobClick event:@"hzrutuanyaoqiu" attributes:@{@"navi" : @"back"}];
     
     if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
     {
@@ -262,7 +262,7 @@
 }
 
 - (IBAction)joinAction:(id)sender {
-    [MobClick event:@"rutuanyaoqiu" attributes:@{@"rutuanyaoqiu" : @"rutuanyaoqiu2"}];
+    [MobClick event:@"hzrutuanyaoqiu" attributes:@{@"rutuanyaoqiu" : @"xiayibu"}];
     if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
     {
     [SensorAnalyticsInstance track:@"event_rutuanyaoqiu_xiayibu"];

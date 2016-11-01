@@ -133,7 +133,7 @@
         {
             HKCoupon * c = [self.selectedCouponArray safetyObjectAtIndex:0];
             self.type = c.conponType;
-            if (self.type == CouponTypeInsurance)
+            if (self.type == CouponTypeInsurance || self.type == CouponTypeInsuranceDiscount)
             {
                 [payVc setSelectInsuranceCoupouArray:self.selectedCouponArray];
             }
@@ -257,7 +257,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [MobClick event:@"rp109_1"];
     HKCoupon * coupon = [self.couponArray safetyObjectAtIndex:indexPath.section];
     if (self.type == CouponTypeCarWash)
     {

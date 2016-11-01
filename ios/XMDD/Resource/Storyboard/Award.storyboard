@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--每周礼券-->
@@ -15,51 +16,41 @@
                         <viewControllerLayoutGuide type="bottom" id="heZ-yd-Qp4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7Nf-8j-NUE">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_bg_6s" translatesAutoresizingMaskIntoConstraints="NO" id="v8S-LH-fW8">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
-                            </imageView>
+                            <imageView tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_bg_6s" translatesAutoresizingMaskIntoConstraints="NO" id="v8S-LH-fW8"/>
                             <view tag="1002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ek0-OT-4rh">
-                                <rect key="frame" x="100" y="194" width="400" height="103"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_mask_clean" translatesAutoresizingMaskIntoConstraints="NO" id="ihn-em-AVO">
-                                        <rect key="frame" x="0.0" y="0.0" width="400" height="103"/>
-                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_mask_clean" translatesAutoresizingMaskIntoConstraints="NO" id="ihn-em-AVO"/>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7BL-ad-Ggb">
-                                        <rect key="frame" x="102" y="18" width="16" height="66"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="56"/>
-                                        <color key="textColor" red="0.87450980389999999" green="0.0" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.87450980389999999" green="0.0" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="洗车代金券" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cey-ba-LaZ">
-                                        <rect key="frame" x="121" y="38" width="110" height="26"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
-                                        <color key="textColor" red="0.87450980389999999" green="0.0" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.87450980389999999" green="0.0" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSQ-qN-u5i">
-                                        <rect key="frame" x="82" y="33" width="20" height="24"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
-                                        <color key="textColor" red="0.87450980389999999" green="0.0" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.87450980389999999" green="0.0" blue="0.2274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_used_new" translatesAutoresizingMaskIntoConstraints="NO" id="DGF-YQ-8wM">
-                                        <rect key="frame" x="162" y="33" width="75" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="5rN-RD-kfr"/>
                                             <constraint firstAttribute="width" constant="75" id="oRg-5Z-cVf"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="ihn-em-AVO" secondAttribute="trailing" id="Bf3-Mm-hd5"/>
                                     <constraint firstItem="7BL-ad-Ggb" firstAttribute="leading" secondItem="hSQ-qN-u5i" secondAttribute="trailing" id="C5h-hR-XVD"/>
                                     <constraint firstItem="7BL-ad-Ggb" firstAttribute="centerX" secondItem="Ek0-OT-4rh" secondAttribute="centerX" multiplier="11/20" id="DU5-DK-KeS"/>
                                     <constraint firstItem="DGF-YQ-8wM" firstAttribute="centerY" secondItem="Ek0-OT-4rh" secondAttribute="centerY" id="EZh-Bz-2kj"/>
-                                    <constraint firstAttribute="trailing" secondItem="Cey-ba-LaZ" secondAttribute="trailing" constant="18" id="Lb9-MD-lGY"/>
                                     <constraint firstItem="ihn-em-AVO" firstAttribute="top" secondItem="Ek0-OT-4rh" secondAttribute="top" id="QNw-e8-VM2"/>
                                     <constraint firstItem="ihn-em-AVO" firstAttribute="leading" secondItem="Ek0-OT-4rh" secondAttribute="leading" id="dQV-Zk-3S9"/>
                                     <constraint firstItem="hSQ-qN-u5i" firstAttribute="top" secondItem="7BL-ad-Ggb" secondAttribute="top" constant="15" id="eVn-Tj-lyJ"/>
@@ -69,23 +60,16 @@
                                     <constraint firstAttribute="bottom" secondItem="ihn-em-AVO" secondAttribute="bottom" id="s3O-Ta-3Rs"/>
                                     <constraint firstItem="Cey-ba-LaZ" firstAttribute="leading" secondItem="7BL-ad-Ggb" secondAttribute="trailing" constant="3" id="unY-OL-YO4"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Lb9-MD-lGY"/>
-                                    </mask>
-                                </variation>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已有2016111人领取" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UyU-P1-Ncm">
-                                <rect key="frame" x="252" y="320" width="97" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="230" id="m7I-lj-g1Q"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <color key="textColor" red="0.1647058824" green="0.058823529409999999" blue="0.062745098040000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.1647058824" green="0.058823529409999999" blue="0.062745098040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" tag="1004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1M-Ri-ldX">
-                                <rect key="frame" x="30" y="356" width="240" height="54"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="Ar7-8w-srr"/>
                                     <constraint firstAttribute="width" constant="142" id="shG-R1-Q30"/>
@@ -99,40 +83,36 @@
                                     </mask>
                                 </variation>
                             </button>
-                            <imageView userInteractionEnabled="NO" tag="1006" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="awrad_text" translatesAutoresizingMaskIntoConstraints="NO" id="PoX-OG-TjK">
-                                <rect key="frame" x="185" y="422" width="230" height="38"/>
+                            <imageView userInteractionEnabled="NO" tag="1006" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="awrad_text_3_5" translatesAutoresizingMaskIntoConstraints="NO" id="PoX-OG-TjK">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="230" id="MOm-1c-Utz"/>
-                                    <constraint firstAttribute="height" constant="38" id="c1k-Te-5ky"/>
+                                    <constraint firstAttribute="width" constant="199" id="MOm-1c-Utz"/>
+                                    <constraint firstAttribute="height" constant="15" id="c1k-Te-5ky"/>
                                 </constraints>
                             </imageView>
                             <button hidden="YES" opaque="NO" tag="1008" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fCo-g0-7Tj">
-                                <rect key="frame" x="224" y="457" width="151" height="30"/>
                                 <state key="normal">
                                     <attributedString key="attributedTitle">
                                         <fragment content="点击查看">
                                             <attributes>
-                                                <color key="NSColor" red="0.12549019607843137" green="0.050980392156862744" blue="0.050980392156862744" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="NSColor" red="0.12549019607843137" green="0.050980392156862744" blue="0.050980392156862744" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <font key="NSFont" size="13" name="PingFangSC-Regular"/>
                                             </attributes>
                                         </fragment>
                                         <fragment content="《0元洗车攻略》">
                                             <attributes>
-                                                <color key="NSColor" red="0.87450980392156863" green="0.011764705882352941" blue="0.22745098039215686" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="NSColor" red="0.87450980392156863" green="0.011764705882352941" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <font key="NSFont" size="13" name="PingFangSC-Regular"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" tag="1009" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="每个账号每7天便可领取洗车券一张，有效期为7天" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VIA-ru-11W">
-                                <rect key="frame" x="178" y="510" width="244" height="14"/>
+                            <label opaque="NO" userInteractionEnabled="NO" tag="1009" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="同一设备或账号每7天可领取一次，有效期为7天" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VIA-ru-11W">
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <color key="textColor" red="0.1647058824" green="0.058823529409999999" blue="0.062745098040000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.1647058824" green="0.058823529409999999" blue="0.062745098040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" tag="1005" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BPi-Qc-PTf">
-                                <rect key="frame" x="330" y="356" width="240" height="54"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="4wK-On-EFE"/>
                                     <constraint firstAttribute="width" constant="142" id="tq8-Ul-ecY"/>
@@ -147,11 +127,10 @@
                                 </variation>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="otv-Sw-lGe">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="g1M-Ri-ldX" firstAttribute="height" secondItem="7Nf-8j-NUE" secondAttribute="height" multiplier="1/10" id="1wr-q0-94i"/>
                             <constraint firstItem="fCo-g0-7Tj" firstAttribute="centerX" secondItem="7Nf-8j-NUE" secondAttribute="centerX" id="3kE-UU-Jkd"/>
@@ -185,7 +164,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="每周礼券" id="no9-Rd-L9m">
                         <barButtonItem key="rightBarButtonItem" image="questionMark_300" id="Vvd-sS-PnB">
-                            <color key="tintColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" red="0.094117647060000004" green="0.81568627449999997" blue="0.41568627450000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="helpAction:" destination="SvX-dZ-aqd" id="lZi-IZ-Yo1"/>
                             </connections>
@@ -198,6 +177,8 @@
                         <outlet property="bgImgView" destination="v8S-LH-fW8" id="7lB-r7-kNb"/>
                         <outlet property="carwashBtn" destination="g1M-Ri-ldX" id="wkN-Kv-2Qw"/>
                         <outlet property="carwashFlagView" destination="DGF-YQ-8wM" id="7j8-2y-x4m"/>
+                        <outlet property="carwashXConstraint" destination="NiO-xF-doc" id="u1Y-qF-qyR"/>
+                        <outlet property="constraint" destination="EZh-Bz-2kj" id="XI2-r3-wbo"/>
                         <outlet property="coverView" destination="otv-Sw-lGe" id="Tq7-QC-067"/>
                         <outlet property="instructionBtn" destination="fCo-g0-7Tj" id="lYN-8f-dxr"/>
                         <outlet property="rmbLabel" destination="hSQ-qN-u5i" id="VOl-rG-fSX"/>
@@ -211,7 +192,7 @@
                 <view contentMode="scaleToFill" id="wfj-ki-uT3">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
             </objects>
             <point key="canvasLocation" x="232" y="815"/>
@@ -229,49 +210,43 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_sheetbg_new" translatesAutoresizingMaskIntoConstraints="NO" id="XW5-bo-AXW">
-                                <rect key="frame" x="0.0" y="0.0" width="285" height="365"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="#CI_119,0,119,0"/>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享后即可获得洗车代金券一张！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5MF-lI-zZU">
-                                <rect key="frame" x="37" y="233" width="210" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.15686274509803921" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.15686274509803921" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="机不可失，赶快去分享吧。" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugt-VJ-yn1">
-                                <rect key="frame" x="58" y="253" width="168" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bGL-YF-fyH">
-                                <rect key="frame" x="28" y="290" width="230" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="230" id="AgM-z1-jZf"/>
                                     <constraint firstAttribute="height" constant="44" id="jyS-mY-jsa"/>
                                 </constraints>
                                 <state key="normal" title="立即分享" backgroundImage="award_sheet_btn">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_logo_send" translatesAutoresizingMaskIntoConstraints="NO" id="TZC-1y-Aqe">
-                                <rect key="frame" x="55" y="45" width="175" height="173"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="173" id="4Ym-lj-b29"/>
                                     <constraint firstAttribute="width" constant="175" id="irO-xX-JHR"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kk1-eB-Etw" userLabel="close">
-                                <rect key="frame" x="245" y="0.0" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="cQc-b7-AYK"/>
                                     <constraint firstAttribute="height" constant="40" id="y2q-oN-LNz"/>
                                 </constraints>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="XW5-bo-AXW" firstAttribute="leading" secondItem="YHN-bv-DDd" secondAttribute="leading" id="AwD-Da-PtK"/>
                             <constraint firstItem="bGL-YF-fyH" firstAttribute="top" secondItem="ugt-VJ-yn1" secondAttribute="bottom" constant="20" id="JBX-me-qhI"/>
@@ -313,40 +288,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="285" height="260"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_sheetbg_new" translatesAutoresizingMaskIntoConstraints="NO" id="prU-HQ-jMx">
-                                <rect key="frame" x="0.0" y="0.0" width="285" height="260"/>
-                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_sheetbg_new" translatesAutoresizingMaskIntoConstraints="NO" id="prU-HQ-jMx"/>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mcx-KY-NVt">
-                                <rect key="frame" x="0.0" y="0.0" width="285" height="260"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_logo_arrival" translatesAutoresizingMaskIntoConstraints="NO" id="kEG-d4-lFi">
-                                        <rect key="frame" x="54" y="25" width="176" height="119"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="119" id="1jD-Y9-hqU"/>
                                             <constraint firstAttribute="width" constant="176" id="fKJ-us-1F9"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="红包代金券已发放至您的账户" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W0h-X2-pgn">
-                                        <rect key="frame" x="51" y="149" width="182" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   快去使用吧！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SO1-gF-V7P">
-                                        <rect key="frame" x="88" y="169" width="109" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="isO-Yw-SwA" userLabel="Carwash Btn">
-                                        <rect key="frame" x="52" y="197" width="180" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="180" id="qkX-IA-fmI"/>
                                             <constraint firstAttribute="height" constant="40" id="xUN-kl-QLW"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <state key="normal" title="去洗车" backgroundImage="award_sheet_btn">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="keyPath" value="CR_5"/>
@@ -364,25 +332,21 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y5Z-Wh-Gom" userLabel="AlreadyGet View">
-                                <rect key="frame" x="0.0" y="0.0" width="285" height="260"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_logo_arrival" translatesAutoresizingMaskIntoConstraints="NO" id="o33-be-zJ7">
-                                        <rect key="frame" x="54" y="40" width="176" height="119"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="119" id="YJh-vI-7o2"/>
                                             <constraint firstAttribute="width" constant="176" id="o43-fX-JOH"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="红包代金券已发放至您的账户" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cwa-GI-b1G">
-                                        <rect key="frame" x="51" y="174" width="182" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   快去使用吧！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3oz-7p-sGx">
-                                        <rect key="frame" x="88" y="196" width="109" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -396,25 +360,21 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Gg-7z-gKC" userLabel="Failure View">
-                                <rect key="frame" x="0.0" y="0.0" width="285" height="260"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="award_logo_unarrival" translatesAutoresizingMaskIntoConstraints="NO" id="PEw-lc-YD7">
-                                        <rect key="frame" x="54" y="40" width="176" height="119"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="176" id="DPi-DG-IUi"/>
                                             <constraint firstAttribute="height" constant="119" id="IqR-t1-DE4"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享已取消" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L05-2u-7Ah">
-                                        <rect key="frame" x="108" y="174" width="70" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  据说分享成功后才能拿红包哦！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c4h-rJ-EXw">
-                                        <rect key="frame" x="26" y="196" width="233" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -428,19 +388,16 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g7u-8z-ZUH" userLabel="Common View">
-                                <rect key="frame" x="0.0" y="0.0" width="285" height="260"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DRA-zS-QrJ">
-                                        <rect key="frame" x="82" y="40" width="120" height="120"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="120" id="8sY-VV-8w4"/>
                                             <constraint firstAttribute="width" constant="120" id="J0t-Yv-owL"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bG9-FG-cBQ">
-                                        <rect key="frame" x="25" y="175" width="230" height="73"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.15686274510000001" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -460,14 +417,13 @@
                                 </variation>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iwe-df-NJr" userLabel="close">
-                                <rect key="frame" x="245" y="0.0" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Kr8-RB-IjP"/>
                                     <constraint firstAttribute="width" constant="40" id="twT-Pg-wk2"/>
                                 </constraints>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="2Gg-7z-gKC" secondAttribute="trailing" id="F1e-VH-cKB"/>
                             <constraint firstItem="W0h-X2-pgn" firstAttribute="centerX" secondItem="0ZZ-Nk-siA" secondAttribute="centerX" id="FYo-Ad-eaX"/>
@@ -525,7 +481,7 @@
         <image name="award_sheet_btn" width="203" height="43"/>
         <image name="award_sheetbg_new" width="284" height="259"/>
         <image name="award_used_new" width="84" height="36"/>
-        <image name="awrad_text" width="231" height="38"/>
+        <image name="awrad_text_3_5" width="199" height="15"/>
         <image name="questionMark_300" width="15" height="15"/>
     </resources>
 </document>

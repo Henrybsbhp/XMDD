@@ -15,6 +15,7 @@
 @implementation VCodeInputField
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     self.rightButton = [self _rightBtn];
     self.rightView = self.rightButton;
     self.rightViewMode = UITextFieldViewModeNever;

@@ -9,8 +9,6 @@
 #import "HKSMSModel.h"
 #import "GetTokenOp.h"
 #import "SendUnioncardSmsOp.h"
-#import "GetBindCZBVcodeOp.h"
-#import "GetUnbindBankcardVcodeOp.h"
 
 ///短信30秒冷却时间
 #define kMaxVcodeInterval        30
@@ -31,31 +29,6 @@ static NSTimeInterval s_coolingTimeForUPay = 0;
 @end
 @implementation HKSMSModel
 
-///获取绑定浙商银行卡的短信验证码
-- (RACSignal *)rac_getBindCZBVcodeWithCardno:(NSString *)cardno phone:(NSString *)phone
-{
-    GetBindCZBVcodeOp *op = [GetBindCZBVcodeOp operation];
-    op.req_bankcardno = cardno;
-    op.req_phone = phone;
-    return [[[[op rac_postRequest] doError:^(NSError *error) {
-        if (error.code == 616103) {
-            s_coolingTimeForBindCZB = [[NSDate date] timeIntervalSince1970];
-        }
-    }] doNext:^(id x) {
-        s_coolingTimeForBindCZB = [[NSDate date] timeIntervalSince1970];
-    }] deliverOn:[RACScheduler mainThreadScheduler]];
-}
-
-///获取解绑浙商银行卡的短信验证码
-- (RACSignal *)rac_getUnbindCZBVcode
-{
-    GetUnbindBankcardVcodeOp *op = [GetUnbindBankcardVcodeOp operation];
-    RACSignal *signal = [op rac_postRequest];
-    return [[signal doNext:^(id x) {
-        s_coolingTimeForUnbindCZB = [[NSDate date] timeIntervalSince1970];
-    }] deliverOn:[RACScheduler mainThreadScheduler]];
-}
-
 /// 获取银联快捷支付短信验证码
 - (RACSignal *)rac_getUnionCardVcodeWithTokenID:(NSString *)tokenID andTradeNo:(NSString *)tradeNO
 {
@@ -65,37 +38,6 @@ static NSTimeInterval s_coolingTimeForUPay = 0;
     RACSignal *signal = [op rac_postRequest];
     return [[signal doNext:^(id x) {
         s_coolingTimeForUPay = [[NSDate date] timeIntervalSince1970];
-    }] deliverOn:[RACScheduler mainThreadScheduler]];
-}
-
-- (RACSignal *)rac_getVcodeWithType:(HKVcodeType)type fromSignal:(RACSignal *)signal
-{
-    return [[signal doNext:^(id x) {
-        NSTimeInterval timetag = [[NSDate date] timeIntervalSince1970];
-        switch (type) {
-            case HKVcodeTypeLogin:
-                s_coolingTimeForLogin = timetag;
-                break;
-            case HKVcodeTypeBindCZB:
-                s_coolingTimeForBindCZB = timetag;
-                break;
-            case HKVcodeTypeUnbindCZB:
-                s_coolingTimeForUnbindCZB = timetag;
-                break;
-            case HKVcodeTypeCZBGasCharge:
-                s_coolingTimeForCZBGasCharge = timetag;
-                break;
-            case HKVcodeTypeRegist:
-                s_coolingTimeForLogin = timetag;
-                break;
-            case HKVcodeTypeResetPwd:
-                s_coolingTimeForLogin = timetag;
-                break;
-            case HKVcodeTypeUPay:
-                s_coolingTimeForUPay = timetag;
-            default:
-                break;
-        }
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 

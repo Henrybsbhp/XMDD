@@ -217,12 +217,12 @@
 #pragma  mark setupUI
 
 
--(void)edit:(UIBarButtonItem *)sender
+- (void)edit:(UIBarButtonItem *)sender
 {
     /**
      *  编辑事件
      */
-    [MobClick event:@"rp603_1"];
+    [MobClick event:@"guzhijilu" attributes:@{@"navi" : @"bianji"}];
     self.isEditing = !self.isEditing;
     
     if (self.dataArr.count == 0)
@@ -239,7 +239,7 @@
     [self reloadData];
 }
 
--(void)reloadData
+- (void)reloadData
 {
     if (self.dataArr.count == 0)
     {
@@ -272,9 +272,9 @@
     {
         UIBarButtonItem * rightBtn = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
         
-        //        [rightBtn setTitleTextAttributes:@{
-        //                                           NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
-        //                                           } forState:UIControlStateNormal];
+        [rightBtn setTitleTextAttributes:@{
+                                                   NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:14.0]
+                                                   } forState:UIControlStateNormal];
         [self.navigationItem setRightBarButtonItem:rightBtn animated:YES]; //防抖动
     }
 }
@@ -454,7 +454,7 @@
     /**
      *  删除事件
      */
-    [MobClick event:@"rp603_3"];
+    [MobClick event:@"guzhijilu" attributes:@{@"guzhijilu" : @"shanchu"}];
     if (self.deleteArr.count)
     {
         NSMutableArray *deleteStrArr = [NSMutableArray new];
@@ -477,8 +477,7 @@
      *  清空事件
      */
     self.selectedAllBtn.selected = YES;
-    [MobClick event:@"rp603_2"];
-    
+    [MobClick event:@"guzhijilu" attributes:@{@"guzhijilu" : @"qingkong"}];
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:^(id alertVC) {
         self.selectedAllBtn.selected = NO;
     }];
@@ -487,5 +486,11 @@
     }];
     HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"请确认是否清空估值记录" ActionItems:@[cancel,confirm]];
     [alert show];
+}
+
+-(void)actionBack:(id)sender
+{
+    [super actionBack:sender];
+    [MobClick event:@"guzhijilu" attributes:@{@"guzhijilu" : @"back"}];
 }
 @end

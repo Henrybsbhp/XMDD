@@ -47,10 +47,12 @@
     if (application.applicationState != UIApplicationStateActive) {
         [self.notifyQueue removeAllObjects];
         [self.notifyQueue addObject:info forKey:nil];
+        
+        [MobClick event:@"tuisongjinru"];
     }
     else
     {
-        [gAppMgr.navModel handleForgroundNotification:info[@"url"]];
+        [gAppMgr.navModel handleForgroundNotification:info];
     }
 }
 

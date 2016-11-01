@@ -22,6 +22,7 @@
 #import "MutualInsPicUpdateResultVC.h"
 #import "MyCarStore.h"
 #import "MutualInsGroupDetailVM.h"
+#import "NSString+RectSize.h"
 
 @interface MutualInsPicUpdateVC () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -29,11 +30,14 @@
     UIImage *_errorImage;
 }
 
+@property (weak, nonatomic) IBOutlet UIView *topWarmingView;
+@property (weak, nonatomic) IBOutlet UILabel *warmingLb;
 @property (weak, nonatomic) IBOutlet JTTableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 @property (nonatomic, strong) PictureRecord * idPictureRecord;
 @property (nonatomic, strong) PictureRecord * drivingLicensePictureRecord;
+@property (nonatomic, strong) PictureRecord * drivingLicenseRevelPictureRecord;
 //现保险公司
 @property (nonatomic, copy)NSString * insCompany;
 //上一年度保险公司
@@ -113,6 +117,22 @@
     [self setupNavigationBar];
     [self setupNextBtn];
     self.tableView.backgroundColor = kBackgroundColor;
+    
+    NSString * cooperationdesc = gStoreMgr.configStore.systemConfig[@"cooperationdesc"];
+    if (cooperationdesc.length)
+    {
+        CGFloat width = ScreenWidth - 66;
+        CGSize size = [cooperationdesc labelSizeWithWidth:width font:[UIFont systemFontOfSize:13]];
+        CGFloat height = size.height + 10;
+        self.tableView.contentInset = UIEdgeInsetsMake(height, 0, 0, 0);
+        self.topWarmingView.hidden = NO;
+        self.warmingLb.text = cooperationdesc;
+    }
+    else
+    {
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        self.topWarmingView.hidden = YES;
+    }
 
 }
 
@@ -121,7 +141,7 @@
     @weakify(self);
     [[self.nextBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
-        [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao7"}];
+        [MobClick event:@"hzwanshanziliao" attributes:@{@"hzwanshanziliao":@"tijiaoziliao"}];
         
         if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
         {
@@ -141,7 +161,7 @@
                 return ;
             }
         }
-        if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading)
+        if (self.idPictureRecord.isUploading || self.drivingLicensePictureRecord.isUploading || self.drivingLicenseRevelPictureRecord.isUploading)
         {
             if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
             {
@@ -164,10 +184,20 @@
         {
             if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
             {
-            [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请上传行驶证照片"}];
+            [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请上传行驶证正本照片"}];
             }
 
-            [gToast showMistake:@"请上传行驶证照片"];
+            [gToast showMistake:@"请上传行驶证正本照片"];
+            return ;
+        }
+        if (!self.drivingLicenseRevelPictureRecord.url.length)
+        {
+            if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+            {
+                [SensorAnalyticsInstance track:@"event_wanshanziliao_tijiaoziliaoyouwu" withProperties:@{@"error":@"请上传行驶证副本照片"}];
+            }
+            
+            [gToast showMistake:@"请上传行驶证副本照片"];
             return ;
         }
         if (!self.insCompany.length)
@@ -217,18 +247,22 @@
     CKDict * cell0 = [self setupLinsenceCell];
     
     CKDict * cell1_0 = [self setupTitleCell:@"请上传车主身份证照片"];
-    CKDict * cell1_1 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
-    CKDict * cell1_2 = [self setupTitleCell:@"请上传车辆行驶证照片"];
-    CKDict * cell1_3 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:3 inSection:1]];
-//
+    CKDict * cell1_1 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:1 inSection:1] andSampleImg:[UIImage imageNamed:@"ins_pic1"]];
+    CKDict * cell1_2 = [self setupTitleCell:@"请上传车辆行驶证正本照片"];
+    CKDict * cell1_3 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:3 inSection:1] andSampleImg:[UIImage imageNamed:@"ins_pic2"]];
+    
+    CKDict * cell1_4 = [self setupTitleCell:@"请上传车辆行驶证副本正面照片"];
+    CKDict * cell1_5 = [self setupImageCellWithIndexPath:[NSIndexPath indexPathForRow:5 inSection:1] andSampleImg:[UIImage imageNamed:@"ins_pic3"]];
+
     CKDict * cell2_0 = [self setupTitleCell:@"请选择保险公司"];
     CKDict * cell2_1 = [self setupInsCompanyCellWithIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     CKDict * cell2_2 = [self setupInsCompanyCellWithIndexPath:[NSIndexPath indexPathForRow:1 inSection:2]];
-//
+
     CKDict * cell3 = [self setupCheckCell];
-    
-    self.datasource = $($(cell0),$(cell1_0,cell1_1,cell1_2,cell1_3),$(cell2_0,cell2_1,cell2_2),$(cell3));
+
+    self.datasource = $($(cell0),$(cell1_0,cell1_1,cell1_2,cell1_3,cell1_4,cell1_5),$(cell2_0,cell2_1,cell2_2),$(cell3));
 }
+
 
 - (CKDict *)setupLinsenceCell
 {
@@ -266,6 +300,7 @@
          subscribeNext:^(id x) {
              
              @strongify(self);
+             [MobClick event:@"hzwanshanziliao" attributes:@{@"chepai":@"diyu"}];
              CollectionChooseVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"CollectionChooseVC"];
              HKNavigationController *nav = [[HKNavigationController alloc] initWithRootViewController:vc];
              vc.datasource = gAppMgr.getProvinceArray;
@@ -295,7 +330,7 @@
     return cell0;
 }
 
-- (CKDict *)setupImageCellWithIndexPath:(NSIndexPath *)indexPath
+- (CKDict *)setupImageCellWithIndexPath:(NSIndexPath *)indexPath andSampleImg:(UIImage *)sampleImg
 {
     CKDict * imageCell = [CKDict dictWith:@{kCKCellID:@"SelectImgCell"}];
     imageCell[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
@@ -311,18 +346,28 @@
         
         
         @strongify(self)
-        PictureRecord * record = indexPath.row == 1 ? self.idPictureRecord : self.drivingLicensePictureRecord;
+        PictureRecord * record = self.idPictureRecord;
+        if (indexPath.row == 3)
+        {
+            record = self.drivingLicensePictureRecord;
+        }
+        else if (indexPath.row == 5)
+        {
+            record = self.drivingLicenseRevelPictureRecord;
+        }
         
-        HKImageView * selectImgView = (HKImageView *)[cell.contentView viewWithTag:1001];
-     
-           UIImageView * camView = (UIImageView *)[cell.contentView viewWithTag:1002];
+        HKImageView * selectImgView = (HKImageView *)[cell.contentView viewWithTag:101];
+        UIView * demoView = (UIImageView *)[cell.contentView viewWithTag:102];
         
-        record.customArray = [NSMutableArray arrayWithArray:@[selectImgView,camView]];
+        UIImageView *sampleImgView = [cell viewWithTag:1000];
+        sampleImgView.image = sampleImg;
+        
+        record.customArray = [NSMutableArray arrayWithArray:@[selectImgView,demoView]];
         [selectImgView removeTagGesture];
         UIImageView *maskView = selectImgView.customObject;
         selectImgView.hidden = !record.image;
         selectImgView.image = record.image;
-        camView.hidden = (BOOL)record.image;
+        demoView.hidden = (BOOL)record.image;
         
         
         if (!maskView) {
@@ -334,14 +379,32 @@
         [[[selectImgView.reuploadButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
             @strongify(self)
-            self.currentRecord = indexPath.row == 1 ? self.idPictureRecord : self.drivingLicensePictureRecord;
+            
+            self.currentRecord = self.idPictureRecord;
+            if (indexPath.row == 3)
+            {
+                self.currentRecord = self.drivingLicensePictureRecord;
+            }
+            else if (indexPath.row == 5)
+            {
+                self.currentRecord = self.drivingLicenseRevelPictureRecord;
+            }
             [self actionUpload:self.currentRecord withImageView:selectImgView];
         }];
         
         [[[selectImgView.pickImageButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             
             @strongify(self)
-            self.currentRecord = indexPath.row == 1 ? self.idPictureRecord : self.drivingLicensePictureRecord;
+            
+            self.currentRecord = self.idPictureRecord;
+            if (indexPath.row == 3)
+            {
+                self.currentRecord = self.drivingLicensePictureRecord;
+            }
+            else if (indexPath.row == 5)
+            {
+                self.currentRecord = self.drivingLicenseRevelPictureRecord;
+            }
             [self pickImageWithIndex:indexPath];
         }];
         
@@ -352,7 +415,7 @@
             
             selectImgView.hidden = !img;
             selectImgView.image = img;
-            camView.hidden = (BOOL)img;
+            demoView.hidden = (BOOL)img;
         }];
         
         
@@ -361,7 +424,7 @@
             @strongify(self)
             if (url.length && !record.image)
             {
-                camView.hidden = YES;
+                demoView.hidden = YES;
                 [selectImgView setImageByUrl:record.url withType:ImageURLTypeMedium defImageObj:[self defImage] errorImageObj:[self errorImage]];
             }
         }];
@@ -374,12 +437,12 @@
             if (!img || [[self defImage] isEqual:img] || [[self errorImage] isEqual:img]) {
                 maskView.hidden = YES;
                 selectImgView.hidden = YES;
-                camView.hidden = NO;
+                demoView.hidden = NO;
                 return ;
             }
             maskView.hidden = NO;
             selectImgView.hidden = NO;
-            camView.hidden = YES;
+            demoView.hidden = YES;
             
             if (img.size.width > 0 && img.size.height > 0) {
                 CGFloat imgRatio = img.size.height / img.size.width;
@@ -408,13 +471,19 @@
         @strongify(self)
         if (indexPath.row == 1)
         {
-            [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao2"}];
+            [MobClick event:@"hzwanshanziliao" attributes:@{@"zhaopian":@"shenfenzheng"}];
+            self.currentRecord = self.idPictureRecord;
+        }
+        else if (indexPath.row == 3)
+        {
+            [MobClick event:@"hzwanshanziliao" attributes:@{@"zhaopian":@"xingshizheng"}];
+            self.currentRecord = self.drivingLicensePictureRecord;
         }
         else
         {
-            [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao3"}];
+            [MobClick event:@"hzwanshanziliao" attributes:@{@"zhaopian":@"xingshizhengfanmian"}];
+            self.currentRecord = self.drivingLicenseRevelPictureRecord;
         }
-        self.currentRecord = indexPath.row == 1 ? self.idPictureRecord : self.drivingLicensePictureRecord;
         [self pickImageWithIndex:indexPath];
     });
     
@@ -456,11 +525,11 @@
         
         if (indexPath.row == 1)
         {
-            [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao4"}];
+            [MobClick event:@"hzwanshanziliao" attributes:@{@"baoxiangongsi":@"benniandu"}];
         }
         else
         {
-            [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao5"}];
+            [MobClick event:@"hzwanshanziliao" attributes:@{@"baoxiangongsi":@"shangniandu"}];
         }
         @strongify(self)
         @weakify(self)
@@ -499,7 +568,7 @@
         [[[checkBtn rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]]
          subscribeNext:^(id x) {
              
-             [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao6"}];
+             [MobClick event:@"hzwanshanziliao" attributes:@{@"jiangqiangxian":@"jiangqiangxian"}];
              self.isNeedBuyStrongInsurance = !self.isNeedBuyStrongInsurance;
          }];
         
@@ -614,6 +683,7 @@
     UpdateCooperationIdlicenseInfoV2Op * op = [[UpdateCooperationIdlicenseInfoV2Op alloc] init];
     op.req_idurl = self.idPictureRecord.url;
     op.req_licenseurl = self.drivingLicensePictureRecord.url;
+    op.req_licensecopyurl = self.drivingLicenseRevelPictureRecord.url;
     op.req_firstinscomp = self.insCompany ?: @"";
     op.req_secinscomp = self.lastYearInsCompany ?: @"";
     op.req_memberid = self.memberId;
@@ -687,6 +757,7 @@
         [self.view stopActivityAnimation];
         self.idPictureRecord.url = rop.rsp_idnourl;
         self.drivingLicensePictureRecord.url = rop.rsp_licenseurl;
+        self.drivingLicenseRevelPictureRecord.url = rop.rsp_licensecopyurl;
         self.insCompany = rop.rsp_lstinscomp;
         self.lastYearInsCompany = rop.rsp_secinscomp;
     } error:^(NSError *error) {
@@ -725,7 +796,16 @@
     frame = CGRectMake((frame.size.width-290)/2, (frame.size.height-230)/2, 290, 230);
     UIImageView *imgV = [[UIImageView alloc] initWithFrame:frame];
     imgV.contentMode = UIViewContentModeScaleAspectFit;
-    UIImage *img = indexPath.row == 1 ?  [UIImage imageNamed:@"ins_pic1"] : [UIImage imageNamed:@"ins_pic2"];
+    
+    UIImage * img = [UIImage imageNamed:@"ins_pic1"];
+    if (indexPath.row == 3)
+    {
+        img = [UIImage imageNamed:@"ins_pic2"];
+    }
+    else if  (indexPath.row == 5)
+    {
+        img = [UIImage imageNamed:@"ins_pic3"];
+    }
     imgV.image = img;
     CGFloat offset = 0;
     if (img.size.width > 0) {
@@ -800,8 +880,20 @@
 - (void)actionUpload:(PictureRecord *)record withImageView:(HKImageView *)imageView {
     
     record.isUploading = YES;
-    UploadFileType type = self.currentRecord == self.idPictureRecord ? UploadFileTypeMutualInsId : UploadFileTypeMutualInsLicense;
-    [[[imageView rac_setUploadingImage:self.currentRecord.image withImageType:type] delay:0]
+    UploadFileType type = UploadFileTypeMutualInsId;
+    if (self.currentRecord == self.idPictureRecord)
+    {
+        type = UploadFileTypeMutualInsId;
+    }
+    else if (self.currentRecord == self.drivingLicensePictureRecord)
+    {
+        type = UploadFileTypeMutualInsLicense;
+    }
+    else if (self.currentRecord == self.drivingLicenseRevelPictureRecord)
+    {
+        type = UploadFileTypeMutualIns;
+    }
+    [[imageView rac_setUploadingImage:self.currentRecord.image withImageType:type]
      subscribeNext:^(UploadFileOp *op) {
          
          record.url = [op.rsp_urlArray safetyObjectAtIndex:0];
@@ -836,6 +928,13 @@
              [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengshangchuan" withProperties:@{@"xmhzresult":@"1"}];
              }
          }
+         else if (self.currentRecord == self.drivingLicenseRevelPictureRecord)
+         {
+             if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+             {
+                 [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengfanmianshangchuan" withProperties:@{@"xmhzresult":@"1"}];
+             }
+         }
          
      } error:^(NSError *error) {
          
@@ -852,6 +951,13 @@
              if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
              {
              [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengshangchuan" withProperties:@{@"xmhzresult":@"0"}];
+             }
+         }
+         else if (self.currentRecord == self.drivingLicenseRevelPictureRecord)
+         {
+             if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
+             {
+                 [SensorAnalyticsInstance track:@"event_wanshanziliao_xingshizhengfanmianshangchuan" withProperties:@{@"xmhzresult":@"0"}];
              }
          }
      }];
@@ -880,13 +986,18 @@
 
 - (void)actionBack:(id)sender {
     
-    [MobClick event:@"wanshanziliao" attributes:@{@"wanshanziliao":@"wanshanziliao1"}];
+    
+    [MobClick event:@"hzwanshanziliao" attributes:@{@"navi":@"back"}];
+
     if ([gStoreMgr.configStore.systemConfig boolParamForName:@"shenceflag"])
     {
     [SensorAnalyticsInstance track:@"event_wanshanziliao_fanhui"];
     }
     
-    if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image || self.insCompany.length  || self.lastYearInsCompany.length || self.idPictureRecord.url.length || self.drivingLicensePictureRecord.url.length)
+    if (self.idPictureRecord.image || self.drivingLicensePictureRecord.image ||
+        self.drivingLicenseRevelPictureRecord.image || self.insCompany.length  ||
+        self.lastYearInsCompany.length || self.idPictureRecord.url.length ||
+        self.drivingLicensePictureRecord.url.length || self.drivingLicenseRevelPictureRecord.url.length)
     {
         HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"继续" color:HEXCOLOR(@"#f39c12") clickBlock:nil];
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:kGrayTextColor clickBlock:^(id alertVC) {
@@ -980,6 +1091,13 @@
     if (!_drivingLicensePictureRecord)
         _drivingLicensePictureRecord = [[PictureRecord alloc] init];
     return _drivingLicensePictureRecord;
+}
+
+-(PictureRecord *)drivingLicenseRevelPictureRecord
+{
+    if (!_drivingLicenseRevelPictureRecord)
+        _drivingLicenseRevelPictureRecord = [[PictureRecord alloc] init];
+    return _drivingLicenseRevelPictureRecord;
 }
 
 - (PickInsCompaniesVC *)pickInsCompanysVC

@@ -46,8 +46,12 @@
 #pragma mark - SetupUI
 - (void)setupNavigationBar
 {
-    UIBarButtonItem *commitBtn = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleDone target:self action:@selector(requestModifyUserInfo)];
-    self.navigationItem.rightBarButtonItem = commitBtn;
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain
+                                                             target:self action:@selector(requestModifyUserInfo)];
+    [right setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                    } forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem = right;
     
     self.navigationItem.title = self.naviTitle;
     
@@ -70,7 +74,6 @@
 #pragma mark - Action
 - (void)requestModifyUserInfo
 {
-    [MobClick event:@"rp305_2"];
     UpdateUserInfoOp * op = [UpdateUserInfoOp operation];
     if (self.type == ModifyNickname)
     {
@@ -106,9 +109,5 @@
     [self.textFeild becomeFirstResponder];
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    [MobClick event:@"rp305_3"];
-}
 
 @end

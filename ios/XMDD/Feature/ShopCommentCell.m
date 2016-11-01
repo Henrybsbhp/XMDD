@@ -45,6 +45,11 @@
 
 - (void)setupConstraints {
     @weakify(self);
+    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        @strongify(self);
+        make.edges.equalTo(self);
+    }];
+    
     [_logoView mas_makeConstraints:^(MASConstraintMaker *make) {
         @strongify(self);
         make.left.equalTo(self.contentView).offset(12);

@@ -28,7 +28,6 @@
 
 ///失败原因
 @property (nonatomic,copy)NSString * rsp_reason;
-
 ///违章记录数
 @property (nonatomic)NSInteger rsp_violationCount;
 ///总扣分数
@@ -39,5 +38,4 @@
 @property (nonatomic,strong)NSArray * rsp_violationArray;
 ///可代办条数
 @property (nonatomic,copy)NSString * rsp_violationAvailableTip;
-
 @end

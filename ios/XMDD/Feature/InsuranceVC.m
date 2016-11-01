@@ -45,6 +45,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     self.insModel = [[InsuranceVM alloc] init];
     self.insModel.originVC = self;
 }
@@ -86,7 +87,7 @@
 {
     CKAsyncMainQueue(^{
         self.advc = [ADViewController vcWithADType:AdvertisementInsurance boundsWidth:self.view.frame.size.width
-                                          targetVC:self mobBaseEvent:@"rp114_3" mobBaseEventDict:nil];
+                                          targetVC:self mobBaseEvent:@"baoxianshouye" mobBaseKey:@"baoxianguanggao"];
         [self.advc reloadDataForTableView:self.tableView];
     });
 }
@@ -418,7 +419,7 @@
 {
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [button setTitleColor:kDefTintColor forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:15];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:14];
     [button setTitle:title forState:UIControlStateNormal];
     [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
     return [[UIBarButtonItem alloc] initWithCustomView:button];

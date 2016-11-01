@@ -38,12 +38,10 @@
 #import "MyBindedCardVC.h"
 #import "MutInsCalculatePageVC.h"
 #import "InviteByCodeVC.h"
-#import "MutualInsClaimsHistoryVC.h"
+#import "CommissionPaymentStatusVC.h"
+#import "RescuePaymentStatusVC.h"
 
 @interface NavigationModel()
-
-/// 应用内推送的弹框是否展示
-@property (nonatomic)BOOL isForgroundNotificationAlert;
 
 @end
 
@@ -327,7 +325,7 @@
             
             NSNumber *orderid = value.length > 0 ? @([value integerValue]) : nil;
             NSString *type = params[@"tp"];
-            NSString *urlStr = [OrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%@&tradetype=%@",gNetworkMgr.token ,orderid, type]];
+            NSString *urlStr = [kOrderDetailsUrl stringByAppendingString:[NSString stringWithFormat:@"?token=%@&oid=%@&tradetype=%@",gNetworkMgr.token ,orderid, type]];
             
             UIViewController *vc = [self viewControllerByIdentify:@"DetailWebVC" withPrecidate:^BOOL(UIViewController *curvc) {
                 DetailWebVC *vc = (DetailWebVC *)curvc;
@@ -387,10 +385,41 @@
             UIViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionOrderVC"];
             [self.curNavCtrl pushViewController:vc animated:YES];
         }
+        //协办详情
+        else if ([@"astorder" equalByCaseInsensitive:name]) {
+            
+            // 通过有无 value / id 来判断进入协办详情 / 协办列表的页面
+            if (value.length > 0) {
+                CommissionPaymentStatusVC *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionPaymentStatusVC"];
+                vc.vcType = 1;
+                vc.isEnterFromHomePage = YES;
+                vc.applyID = @(value.integerValue);
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            } else {
+                UIViewController *vc = [commissionStoryboard instantiateViewControllerWithIdentifier:@"CommissionRecordVC"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
+        }
+
         //救援
         else if ([@"rescue" equalByCaseInsensitive:name]) {
-            UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeViewController"];
+            UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueHomeV2VC"];
             [self.curNavCtrl pushViewController:vc animated:YES];
+        }
+        //救援详情
+        else if ([@"rescueorder" equalByCaseInsensitive:name]) {
+            
+            // 通过有无 value / id 来判断进入救援详情 / 救援列表的页面
+            if (value.length > 0) {
+                RescuePaymentStatusVC *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescuePaymentStatusVC"];
+                vc.vcType = 1;
+                vc.isEnterFromHomePage = YES;
+                vc.applyID = @(value.integerValue);
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            } else {
+                UIViewController *vc = [rescueStoryboard instantiateViewControllerWithIdentifier:@"RescueRecordVC"];
+                [self.curNavCtrl pushViewController:vc animated:YES];
+            }
         }
         //加入小马互助长条广告
         else if ([@"coinsad" equalByCaseInsensitive:name]) {
@@ -449,15 +478,6 @@
             vc.router.userInfo[kMutInsMemberID] = @([value2 integerValue]);
             [(HKNavigationController *)self.curNavCtrl pushViewController:vc animated:YES];
         }
-        /// 补偿记录
-        else if ([name isEqualToString:@"coclaims"]) {
-            if (![LoginViewModel loginIfNeededForTargetViewController:topVC]) {
-                return YES;
-            }
-            MutualInsClaimsHistoryVC *vc = [UIStoryboard vcWithId:@"MutualInsClaimsHistoryVC" inStoryboard:@"MutualInsClaims"];
-            vc.gid = @([value integerValue]);
-            [self.curNavCtrl pushViewController:vc animated:YES];
-        }
         ///补偿详情
         else if ([@"coincldtlo" equalByCaseInsensitive:name]) {
             
@@ -507,43 +527,51 @@
     return flag;
 }
 
-- (void)handleForgroundNotification:(NSString *)url
+- (void)handleForgroundNotification:(NSDictionary *)info
 {
-    if (self.isForgroundNotificationAlert)
-        return ;
+    NSString * alertStr = info[@"alert"];
+    NSString * urlStr = info[@"url"];
     
-    NSString * message;
-    //是内部跳转链接(以xmdd://开头)
-    if ([url hasPrefix:@"xmdd://"])
+    if (!alertStr || ![alertStr isKindOfClass:[NSString class]])
+        return;
+    
+    NSData *alertData = [alertStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSError * parseError;
+    NSDictionary * alertDict = [NSJSONSerialization JSONObjectWithData:alertData options:0 error:&parseError];
+    
+    if (parseError || !alertDict)
     {
-        
-        NSDictionary *params = [self getActionParamsFromUrl:url];
-        NSString *name = params[@"t"];
-        
-        if ([@"coinso" equalByCaseInsensitive:name]) {
-            
-            if (!gAppMgr.myUser) {
-                return;
-            }
-            
-            message = @"恭喜您的爱车通过互助审核并且报价成功，是否点击查看详情";
-        }
+        return;
     }
+    
+    NSString * message = alertDict[@"info"];
+    NSString * cancelStr = alertDict[@"cancel"];
+    NSString * sureStr = alertDict[@"sure"];
+    
     
     if (message.length)
     {
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
-        [[av rac_buttonClickedSignal] subscribeNext:^(NSNumber *number) {
+        HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:cancelStr color:kGrayTextColor clickBlock:^(id alertVC) {
             
-            self.isForgroundNotificationAlert = NO;
-            [MobClick event:@"rp001"];
-            if ([number integerValue] == 1)
-            {
-                [self pushToViewControllerByUrl:url];
-            }
+            [MobClick event:@"tuisongtanchuang" attributes:@{@"tuisongtanchuang":@"quxiao"}];
         }];
-        [av show];
-        self.isForgroundNotificationAlert = YES;
+        HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:sureStr color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
+            
+            [MobClick event:@"tuisongtanchuang" attributes:@{@"tuisongtanchuang":@"quzhifu"}];
+            [self pushToViewControllerByUrl:urlStr];
+        }];
+        
+        NSMutableArray * itemArray = [NSMutableArray array];
+        if (cancelStr.length)
+        {
+            [itemArray safetyAddObject:cancel];
+        }
+        if (sureStr.length)
+        {
+            [itemArray safetyAddObject:confirm];
+        }
+        HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:message ActionItems:itemArray];
+        [alert show];
     }
 }
 

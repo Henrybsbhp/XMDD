@@ -281,7 +281,7 @@
 
 -(void)actionBack
 {
-    [MobClick event:@"feiyongshisuan" attributes:@{@"feiyongshisuan":@"feiyongshisuan1"}];
+    [MobClick event:@"hzfeiyongshisuan" attributes:@{@"navi":@"back"}];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -307,6 +307,11 @@
 {
     self.currentIndex = index;
     [self loadPageIndex:index animated:YES];
+    
+    if (self.currentIndex == [self.carStore.cars allObjects].count - 1 + self.datasource.count < 5 ? 1 : 0)
+    {
+        [MobClick event:@"hzfeiyongshisuan" attributes:@{@"cheliang":@"qita"}];
+    }
 }
 
 - (BOOL)observeScrollViewOffset
@@ -315,6 +320,7 @@
     self.offsetDisposable = [[RACObserve(self.scrollView,contentOffset) distinctUntilChanged] subscribeNext:^(NSValue * value) {
         
         @strongify(self)
+        
         CGPoint p = [value CGPointValue];
         [self.pageController slideOffsetX:p.x andTotleW:self.scrollView.contentSize.width andPageW:gAppMgr.deviceInfo.screenSize.width];
     }];

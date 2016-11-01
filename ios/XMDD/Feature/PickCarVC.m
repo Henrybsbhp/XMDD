@@ -40,6 +40,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     _model = [[MyCarListVModel alloc] init];
 }
 
@@ -204,7 +205,6 @@
                 }];
                 HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                     @strongify(self);
-                    [MobClick event:@"rp104_9"];
                     EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                     vc.originCar = self.model.selectedCar;
                     vc.model = self.model;
@@ -261,7 +261,6 @@
             }];
             HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
                 @strongify(self);
-                [MobClick event:@"rp104_9"];
                 EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
                 vc.originCar = self.model.selectedCar;
                 vc.model = self.model;

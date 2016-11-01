@@ -15,7 +15,7 @@
 /// 应用外推送
 - (BOOL)pushToViewControllerByUrl:(NSString *)url;
 /// 应用内推送
-- (void)handleForgroundNotification:(NSString *)url;
+- (void)handleForgroundNotification:(NSDictionary *)info;
 
 + (NSString *)appendStaticParam:(NSString *)url;
 + (NSString *)appendParams:(NSDictionary *)params forUrl:(NSString *)url;

@@ -21,6 +21,8 @@
 #import "GuideStore.h"
 #import "HKAddressComponent.h"
 
+#import "FMDeviceManager.h"
+
 @interface NewGainAwardVC ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *widthConstraint;
@@ -41,14 +43,27 @@
 @property (assign, nonatomic) BOOL isScratched;
 @property (assign, nonatomic) BOOL otherActionFlag;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *carwashXConstraint;
+
 @end
 
 @implementation NewGainAwardVC
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+-(void)dealloc
+{
+    DebugLog(@"NewGainAwardVC dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self requestOperation];
+    [self setupNavigationBar];
+    [self checkUserAwardOperation];
 }
 
 
@@ -59,16 +74,30 @@
     self.otherActionFlag = YES;
 }
 
+- (void)setupNavigationBar
+{
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
+}
+
+- (void)actionBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    [MobClick event:@"meizhouliquan" attributes:@{@"navi":@"back"}];
+}
+
 - (IBAction)helpAction:(id)sender {
+    
+    [MobClick event:@"meizhouliquan" attributes:@{@"navi":@"shiyongbangzhu"}];
     DetailWebVC *vc = [UIStoryboard vcWithId:@"DetailWebVC" inStoryboard:@"Discover"];
     vc.title = @"每周礼券";
     NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    vc.url = [NSString stringWithFormat:@"%@%@.html",WeeklyCouponHelpUrl,version];
+    vc.url = [NSString stringWithFormat:@"%@%@.html",kWeeklyCouponHelpUrl,version];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 
-- (void)requestOperation
+- (void)checkUserAwardOperation
 {
     self.coverView.hidden = NO;
     self.view.indicatorPoistionY = floor((self.view.frame.size.height - 75)/2.0);
@@ -100,6 +129,7 @@
         
         if (op.rsp_leftday > 0) {
             self.amount.text = [NSString stringWithFormat:@"%ld", (long)op.rsp_amount];
+        
             if ([UIScreen mainScreen].bounds.size.height == 480) {
                 self.amount.font = [UIFont systemFontOfSize:42];
             }
@@ -129,7 +159,7 @@
             self.tipLabel.text = [NSString stringWithFormat:@"已有%ld人领取", (long)op.rsp_total];
             [[self.carwashBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
-                [MobClick event:@"rp402_6"];
+                [MobClick event:@"meizhouliquan" attributes:@{@"meizhouliquan":@"lijixiche"}];
                 @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
@@ -142,12 +172,13 @@
             }];
             [[self.shareBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
                 
-                [MobClick event:@"rp402_2"];
                 @strongify(self);
                 if (!self.isScratched) {
                     [gToast showText:@"请先刮卡领取礼券"];
                 }
                 else {
+                    
+                    [MobClick event:@"meizhouliquan" attributes:@{@"meizhouliquan":@"fenxiang"}];
                     self.otherActionFlag = YES;
                     [self shareAction];
                 }
@@ -160,7 +191,7 @@
         
         [self.coverView showImageEmptyViewWithImageName:@"def_failConnect" text:@"获取礼券信息失败，请点击重试" tapBlock:^{
             @strongify(self)
-            [self requestOperation];
+            [self checkUserAwardOperation];
         }];
     }];
 }
@@ -178,7 +209,7 @@
         
         self.hyscratchView.completion = ^(id userInfo) {
             @strongify(self);
-            [MobClick event:@"rp402_7"];
+            [MobClick event:@"meizhouliquan" attributes:@{@"meizhouliquan":@"guakailiquan"}];
             [self gainAwardWithLocation];
         };
         [self.scratchView addSubview:self.hyscratchView];
@@ -205,6 +236,11 @@
     op.req_province = gMapHelper.addrComponent.province;
     op.req_city = gMapHelper.addrComponent.city;
     op.req_district = gMapHelper.addrComponent.district;
+    
+    FMDeviceManager_t *manager = [FMDeviceManager sharedManager];
+    NSString *blackBox = manager->getDeviceInfo();
+    op.req_blackbox = blackBox;
+    
     @weakify(self);
     [[[op rac_postRequest] initially:^{
         
@@ -232,7 +268,40 @@
         
     } error:^(NSError *error) {
         
-        [gToast showError:error.domain];
+        
+        if (error.code == 615301)
+        {
+            [gToast dismiss];
+            
+            self.isScratched = YES;
+            self.amountTypeLabel.text = @"此设备已领取过每周礼券,无法再次领取";
+            self.amountTypeLabel.font = [UIFont systemFontOfSize:18];
+            self.amountTypeLabel.numberOfLines = 2;
+            [self.amountTypeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+                
+                make.centerX.equalTo(self.scratchView);
+                make.centerY.equalTo(self.scratchView);
+                make.left.equalTo(self.scratchView).offset(20);
+            }];
+
+            self.rmbLabel.text = @"";
+            self.tipLabel.text = @"";
+            [UIView animateWithDuration:0.5
+                             animations:^{
+                                 self.hyscratchView.alpha = 0;
+                             }];
+            
+            self.shareBtn.hidden = YES;
+            [self.carwashBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+               
+                make.centerX.equalTo(self.view);
+            }];
+
+        }
+        else
+        {
+            [gToast showError:error.domain];
+        }
     }];
 }
 
@@ -247,12 +316,14 @@
         @weakify(self);
         [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
             @strongify(self);
+            [MobClick event:@"meizhouliquan" attributes:@{@"lingquhoutankuang":@"fenxiang"}];
             [self shareAction];
         }];
     }];
     
     [[sheetVC.closeBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         
+        [MobClick event:@"meizhouliquan" attributes:@{@"lingquhoutankuang":@"quxiao"}];
         [sheet dismissAnimated:YES completionHandler:nil];
     }];
 }
@@ -269,13 +340,16 @@
         SocialShareViewController * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"SocialShareViewController"];
         vc.sceneType = ShareSceneGain;    //页面位置
         vc.btnTypeArr = op.rsp_shareBtns; //分享渠道数组
+        vc.mobBaseValue = @"meizhouliquan";
         
         MZFormSheetController *sheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(290, 200) viewController:vc];
         sheet.shouldCenterVertically = YES;
+        
+        [MobClick event:@"fenxiangyemian" attributes:@{@"chuxian":@"meizhouliquan"}];
         [sheet presentAnimated:YES completionHandler:nil];
         
         [[vc.cancelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-            [MobClick event:@"rp110_7"];
+            [MobClick event:@"fenxiangyemian" attributes:@{@"quxiao":@"meizhouliquan"}];
             [sheet dismissAnimated:YES completionHandler:nil];
         }];
         [vc setClickAction:^{
@@ -343,7 +417,6 @@
         /**
          *  去洗车点击事件
          */
-        [MobClick event:@"rp402_3"];
         @strongify(self);
         [resultSheet dismissAnimated:YES completionHandler:nil];
         CarwashShopListVC *vc = [[CarwashShopListVC alloc] init];
@@ -357,24 +430,14 @@
          */
         if(otherVC.sheetType == AwardSheetTypeSuccess)
         {
-            [MobClick event:@"rp402_4"];
-            
         }
         else if(otherVC.sheetType == AwardSheetTypeCancel)
         {
-            [MobClick event:@"rp402_5"];
         }
         [resultSheet dismissAnimated:YES completionHandler:nil];
     }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
 
--(void)dealloc
-{
-    DebugLog(@"NewGainAwardVC dealloc");
-}
 
 @end

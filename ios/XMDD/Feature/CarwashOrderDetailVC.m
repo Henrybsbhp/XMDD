@@ -181,8 +181,6 @@
  */
 - (void)actionComment
 {
-    [MobClick event:@"rp320_1"];
-    
     PaymentSuccessVC *vc = [UIStoryboard vcWithId:@"PaymentSuccessVC" inStoryboard:@"Carwash"];
     vc.order = self.order;
     vc.originVC = self.originVC;
@@ -194,7 +192,6 @@
 
 - (void)actionShare
 {
-    //    [MobClick event:@"rp320_1"]; @fq
     GetShareButtonOpV2 * op = [GetShareButtonOpV2 operation];
     op.pagePosition = ShareSceneCarwash;
     
@@ -343,29 +340,32 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && indexPath.row == 0 )
+    if (indexPath.section == 0 && indexPath.row == 0 && self.order.shop.isDelete.integerValue == 1)
     {
         ShopDetailVC *vc = [[ShopDetailVC alloc] init];
         vc.shop = self.order.shop;
         vc.serviceType = self.order.serviceType;
         [self.navigationController pushViewController:vc animated:YES];
     }
-    [MobClick event:@"rp320_2"];
 }
 
 #pragma mark - Cell
 - (UITableViewCell *)shopCellAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ShopCell" forIndexPath:indexPath];
+    UIImageView *undercarriageImgView = [cell.contentView viewWithTag:1000];
     UIImageView *logoV = (UIImageView *)[cell.contentView viewWithTag:1001];
     UILabel *titleL = (UILabel *)[cell.contentView viewWithTag:1002];
     UILabel *addrL = (UILabel *)[cell.contentView viewWithTag:1003];
+    UIImageView *arrowView = (UIImageView *)[cell.contentView viewWithTag:1004];
     
     addrL.numberOfLines = 0;
     addrL.preferredMaxLayoutWidth = gAppMgr.deviceInfo.screenSize.width - 120;
     
     JTShop *shop = self.order.shop;
     
+    undercarriageImgView.hidden = shop.isDelete.integerValue == 1;
+    arrowView.hidden = shop.isDelete.integerValue != 1;
     [logoV setImageByUrl:[shop.picArray safetyObjectAtIndex:0] withType:ImageURLTypeThumbnail defImage:@"cm_shop" errorImage:@"cm_shop"];
     titleL.text = shop.shopName;
     addrL.text = shop.shopAddress;

@@ -11,6 +11,8 @@
 #import "SuspendedAdVC.h"
 #import "AdListData.h"
 
+#define SuspendedADVCWidthRadio 0.84
+
 @interface HomeSuspendedAdVC () <SuspendedAdClickDelegate>
 
 @property (nonatomic, weak) UIViewController *targetVC;
@@ -35,7 +37,7 @@
     containerView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:containerView];
     
-    self.adCtrl = [SuspendedAdVC adVCWithBoundsWidth:self.targetVC.view.frame.size.width * 0.84 targetVC:self.targetVC mobBaseEvent:@"rp101_17"];
+    self.adCtrl = [SuspendedAdVC adVCWithBoundsWidth:self.targetVC.view.frame.size.width * SuspendedADVCWidthRadio targetVC:self.targetVC mobBaseEvent:@"xiaomashouye" mobBaseKey:@"shouyetanchuguanggao"];
     self.adCtrl.clickDelegate = self;
     
     self.adCtrl.adList = self.adListArr;
@@ -55,7 +57,7 @@
     [closeBtn addTarget:self action:@selector(actionClose:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:closeBtn];
     
-    CGFloat width = ceil(self.targetVC.view.frame.size.width * 0.84);
+    CGFloat width = ceil(self.targetVC.view.frame.size.width * SuspendedADVCWidthRadio);
     CGFloat topSpace = ceil((self.targetVC.view.frame.size.height - width * 800.0 / 600) / 2);
     
     UIView *view = self.view;
@@ -103,7 +105,7 @@
 
 - (void)actionClose:(id)sender
 {
-    [MobClick event:@"rp101_17_x"];
+    [MobClick event:@"xiaomashouye" attributes:@{@"shouyetanchuguanggao":@"guanbi"}];
     self.closeView.hidden = YES;
     int space;
     if ([UIScreen mainScreen].bounds.size.height == 480) {
@@ -112,7 +114,14 @@
     else {
         space = 0;
     }
-    CGRect endRect = CGRectMake(self.targetVC.view.frame.size.width * 0.84 / 2 - 4, self.targetVC.view.frame.size.height + space, 8, 8);
+    CGFloat x = self.targetVC.view.frame.size.width * SuspendedADVCWidthRadio / 2;
+    if (gAppMgr.huzhuTabFlag)
+    {
+        CGFloat slfWidth = self.targetVC.view.frame.size.width * SuspendedADVCWidthRadio;
+        x = (slfWidth / 2  + self.targetVC.view.frame.size.width / 8);
+    }
+    CGFloat y = self.targetVC.view.frame.size.height + space + 40;
+    CGRect endRect = CGRectMake(x , y, 1, 1);
     
     [self.adCtrl.adView genieInTransitionWithDuration:0.4 destinationRect:endRect destinationEdge:BCRectEdgeTop completion:
      ^{
@@ -129,7 +138,7 @@
     vc.targetVC = targetVC;
     vc.adListArr = adArr;
     
-    CGFloat width = ceil(targetVC.view.frame.size.width * 0.84);
+    CGFloat width = ceil(targetVC.view.frame.size.width * SuspendedADVCWidthRadio);
     CGFloat height = ceil(targetVC.view.frame.size.height);
     CGSize size = CGSizeMake(width+20, height + 48 + 20);
     

@@ -14,6 +14,8 @@
 @property (nonatomic,strong) NSString* req_idurl;
 ///行驶证地址
 @property (nonatomic,strong) NSString* req_licenseurl;
+///行驶证副本地址
+@property (nonatomic,strong) NSString* req_licensecopyurl;
 ///最近一次保险公司名字
 @property (nonatomic,strong) NSString* req_firstinscomp;
 ///再上一次保险公司名字

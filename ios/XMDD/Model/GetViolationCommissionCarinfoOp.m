@@ -25,6 +25,11 @@
     self.rsp_licenseurl = rspObj[@"licenseurl"];
     self.rsp_licensecopyurl = rspObj[@"licensecopyurl"];
     self.rsp_carid = rspObj[@"carid"];
+    self.rsp_idnoflag = [rspObj[@"idnoflag"] integerValue] == 1;
+    if (self.rsp_idnoflag)
+    {
+        self.rsp_idno = rspObj[@"idno"];
+    }
     return self;
 }
 

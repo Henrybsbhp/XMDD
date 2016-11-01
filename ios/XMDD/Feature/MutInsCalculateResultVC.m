@@ -74,7 +74,7 @@
 
 - (IBAction)actionJoin:(id)sender
 {
-    [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo2"}];
+    [MobClick event:@"hzshisuanjieguo" attributes:@{@"jiaruhuzhu":@"jiaruhuzhu"}];
 
     UIViewController *vc = [HKViewControllerFactory mutualInsGroupIntroVCWithGroupType:MutualGroupTypeSystem];
     vc.router.userInfo[kOriginRoute] = self.router;
@@ -83,7 +83,7 @@
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"shisuanjieguo" attributes:@{@"shisuanjieguo":@"shisuanjieguo1"}];
+    [MobClick event:@"hzshisuanjieguo" attributes:@{@"navi":@"back"}];
     
     [self.navigationController popViewControllerAnimated:YES];
 }

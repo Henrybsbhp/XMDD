@@ -55,6 +55,8 @@
 ///优惠券数据源
 @property (nonatomic,strong)NSArray * couponCellArray;
 
+@property (nonatomic, copy)NSString * mobClickEvent;
+
 @end
 
 @implementation PayForWashCarVC
@@ -68,6 +70,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setupUmengEvent];
     
     [self setupNavigationBar];
     [self setupBottomView];
@@ -111,6 +115,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (self.mobClickEvent.length)
+    {
+        [MobClick beginLogPageView:self.mobClickEvent];
+    }
+    
     if (self.needChooseResource)
     {
         [self requestGetUserResource:YES];
@@ -118,9 +128,35 @@
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if (self.mobClickEvent.length)
+    {
+        [MobClick endLogPageView:self.mobClickEvent];
+    }
+}
+
 
 
 #pragma mark - Setup
+
+- (void)setupUmengEvent
+{
+    if (self.service.shopServiceType == ShopServiceCarMaintenance)
+    {
+        self.mobClickEvent = @"baoyangzhifuqueren";
+    }
+    else if (self.service.shopServiceType == ShopServiceCarBeauty)
+    {
+        self.mobClickEvent = @"meirongzhifuqueren";
+    }
+    else
+    {
+        self.mobClickEvent = @"xichezhifuqueren";
+    }
+}
 
 - (void)setupPaymentArray
 {
@@ -231,17 +267,30 @@
 {
     if (self.shop.shopPhone.length)
     {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"咨询商户"
-                                                                                  style:UIBarButtonItemStylePlain
-                                                                                 target:self
-                                                                                 action:@selector(actionCallShop)];
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"咨询商户" style:UIBarButtonItemStylePlain
+                                                                 target:self action:@selector(actionCallShop)];
+        [right setTitleTextAttributes:@{
+                                        NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold" size:14.0]
+                                        } forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = right;
+
     }
+    
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 #pragma mark - Action
+- (void)actionBack
+{
+    [MobClick event:self.mobClickEvent attributes:@{@"navi":@"back"}];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)actionPay:(id)sender
 {
-    [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren10"}];
+    [MobClick event:self.mobClickEvent attributes:@{@"zhifu":@"zhifu"}];
     if (!self.defaultCar) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:3 inSection:0];
         [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
@@ -266,11 +315,12 @@
         @weakify(self);
         HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃" color:kGrayTextColor clickBlock:^(id alertVC) {
             @strongify(self);
+            [MobClick event:self.mobClickEvent attributes:@{@"xinxibuwanshantankuang":@"fangqi"}];
             [self.navigationController popViewControllerAnimated:YES];
         }];
         HKAlertActionItem *improve = [HKAlertActionItem itemWithTitle:@"去完善" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
             @strongify(self);
-            [MobClick event:@"rp104_9"];
+            [MobClick event:self.mobClickEvent attributes:@{@"xinxibuwanshantankuang":@"quwanshan"}];
             EditCarVC *vc = [UIStoryboard vcWithId:@"EditCarVC" inStoryboard:@"Car"];
             vc.originCar = self.defaultCar;
             [self.navigationController pushViewController:vc animated:YES];
@@ -290,7 +340,7 @@
 
 - (void)actionCallShop
 {
-    [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren2"}];
+    [MobClick event:self.mobClickEvent attributes:@{@"navi":@"dianhua"}];
     [gPhoneHelper makePhone:self.shop.shopPhone andInfo:self.shop.shopPhone];
 }
 
@@ -381,11 +431,11 @@
     if (indexPath.section == 0){
         if (indexPath.row == 0)
         {
-            [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren3"}];
+            [MobClick event:self.mobClickEvent attributes:@{@"fuwuxinxi":@"info"}];
         }
         else if (indexPath.row == 3) {
             // 选择爱车
-            [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren4"}];
+            [MobClick event:self.mobClickEvent attributes:@{@"fuwuxinxi":@"dianjiaiche"}];
             PickCarVC *vc = [UIStoryboard vcWithId:@"PickCarVC" inStoryboard:@"Car"];
             vc.defaultCar = self.defaultCar;
             @weakify(self);
@@ -404,7 +454,7 @@
         if (couponCellTag == 1)
         {
             //点击查看洗车券
-            [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren5_1"}];
+            [MobClick event:self.mobClickEvent attributes:@{@"youhui":@"xichequan"}];
             ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
             vc.originVC = self.originVC;
             vc.type = CouponTypeCarWash;
@@ -414,7 +464,7 @@
         }
         else if (couponCellTag == 2)
         {
-            [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren5_2"}];
+            [MobClick event:self.mobClickEvent attributes:@{@"youhui":@"xichequan"}];
             ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
             vc.originVC = self.originVC;
             if (self.service.shopServiceType == ShopServiceCarMaintenance)
@@ -438,19 +488,19 @@
         
         if (payChannel == PaymentChannelUPpay)
         {
-            [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren6"}];
+            [MobClick event:self.mobClickEvent attributes:@{@"zhifufangshi":@"uppay"}];
         }
         else if (payChannel == PaymentChannelApplePay)
         {
-            [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren7"}];
+            [MobClick event:self.mobClickEvent attributes:@{@"zhifufangshi":@"applepay"}];
         }
         else if (payChannel == PaymentChannelAlipay)
         {
-            [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren8"}];
+            [MobClick event:self.mobClickEvent attributes:@{@"zhifufangshi":@"alipay"}];
         }
         else
         {
-            [MobClick event:@"zhifuqueren" attributes:@{@"zhifuqueren":@"zhifuqueren9"}];
+            [MobClick event:self.mobClickEvent attributes:@{@"zhifufangshi":@"wechat"}];
         }
         
         self.checkoutServiceOrderV4Op.paychannel = payChannel;
@@ -989,7 +1039,6 @@
         
         [[vc.gainWeeklyCouponBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
-            [MobClick event:@"rp108_13"];
             [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
                 [self requestGainWeeklyCoupon];
             }];
@@ -998,7 +1047,6 @@
         
         [[vc.whateverBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
             
-            [MobClick event:@"rp108_14"];
             [sheet dismissAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
             }];
         }];
@@ -1046,10 +1094,10 @@
         
         CKAfter(0.3, ^{
             HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"放弃支付" color:kGrayTextColor clickBlock:^(id alertVC) {
-                 [MobClick event:@"rp108_8"];
+                [MobClick event:self.mobClickEvent attributes:@{@"chaoguosangonglitankuang":@"fangqi"}];
             }];
             HKAlertActionItem *confirm = [HKAlertActionItem itemWithTitle:@"原价支付" color:HEXCOLOR(@"#f39c12") clickBlock:^(id alertVC) {
-                [MobClick event:@"rp108_9"];
+                [MobClick event:self.mobClickEvent attributes:@{@"chaoguosangonglitankuang":@"yuanjiazhifu"}];
                 [self requestCheckoutWithCouponType:CouponTypeNone];
             }];
             HKImageAlertVC *alert = [HKImageAlertVC alertWithTopTitle:@"温馨提示" ImageName:@"mins_bulb" Message:@"您不在该商户服务范围内，请刷新或者到店后洗完车后再支付或者原价支付。" ActionItems:@[cancel,confirm]];

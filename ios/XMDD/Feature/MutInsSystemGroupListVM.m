@@ -136,11 +136,7 @@
 {
     if (self.status == GroupStatusTypeBegin)
     {
-        [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan4"}];
-    }
-    else
-    {
-        [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan6"}];
+        [MobClick event:@"hzxitongtuan" attributes:@{@"huzhuxitongtuan":@"dianjituan_x"}];
     }
     CKDict *data = self.dataSource[indexPath.section][indexPath.row];
     CKCellSelectedBlock block = data[kCKCellSelected];

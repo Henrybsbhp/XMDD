@@ -441,19 +441,19 @@
         
         if (self.paychannel == PaymentChannelUPpay)
         {
-            [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang3"}];
+            [MobClick event:@"weizhangdaibanzhifu" attributes:@{@"zhifufangshi" : @"uppay"}];
         }
         else if (self.paychannel == PaymentChannelApplePay)
         {
-            [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang4"}];
+            [MobClick event:@"weizhangdaibanzhifu" attributes:@{@"zhifufangshi" : @"applepay"}];
         }
         else if (self.paychannel == PaymentChannelAlipay)
         {
-            [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang5"}];
+            [MobClick event:@"weizhangdaibanzhifu" attributes:@{@"zhifufangshi" : @"alipay"}];
         }
         else if (self.paychannel == PaymentChannelWechat)
         {
-            [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang6"}];
+            [MobClick event:@"weizhangdaibanzhifu" attributes:@{@"zhifufangshi" : @"wechat"}];
         }
         
         self.paychannel = [(NSNumber *)payChannelData[@"type"] integerValue];
@@ -594,7 +594,7 @@
         
         @strongify(self)
         
-        [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang2"}];
+        [MobClick event:@"weizhangdaibanzhifu" attributes:@{@"youhui" : @"youhuiquan"}];
         
         ChooseCouponVC * vc = [commonStoryboard instantiateViewControllerWithIdentifier:@"ChooseCouponVC"];
         vc.originVC = self;
@@ -627,14 +627,14 @@
 
 - (void)actionBack
 {
-    [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang1"}];
+    [MobClick event:@"weizhangdaibanzhifu" attributes:@{@"navi" : @"back"}];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)actionPay:(id)sender
 {
-    [MobClick event:@"zhifuqueren-weizhang" attributes:@{@"zhifuqueren-weizhang" : @"zhifuqueren-weizhang7"}];
+    [MobClick event:@"weizhangdaibanzhifu" attributes:@{@"zhifu" : @"zhifu"}];
     [self payViolationCommissionOrder];
 }
 

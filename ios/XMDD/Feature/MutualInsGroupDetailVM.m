@@ -55,6 +55,7 @@ NSInteger const kFetchPageAmount = 10;
         self.reloadMembersInfoSignal = nil;
         self.reloadFundInfoSignal = nil;
         self.reloadMessagesInfoSignal = nil;
+        self.reloadNoticeInfoSignal = nil;
     }];
 }
 
@@ -171,6 +172,23 @@ NSInteger const kFetchPageAmount = 10;
         
         @strongify(self);
         self.loadMoreMembersInfoSignal = nil;
+    }];
+}
+
+- (void)fetchNoticeInfoForce:(BOOL)force {
+    if (!force && self.reloadNoticeInfoSignal) {
+        return;
+    }
+    GetCooperationClaimsListV2Op *op = [GetCooperationClaimsListV2Op operation];
+    op.req_gid = self.groupID;
+    op.simulateResponse = kSimulateResponse;
+    op.simulateResponseDelay = 1;
+    
+    @weakify(self);
+    self.reloadNoticeInfoSignal = [[op rac_postRequest] doNext:^(id x) {
+        
+        @strongify(self);
+        self.noticeInfo = x;
     }];
 }
 

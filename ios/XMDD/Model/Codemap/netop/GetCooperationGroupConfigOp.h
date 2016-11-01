@@ -29,6 +29,7 @@
 @property (nonatomic,assign) int rsp_isdelete;
 ///是否显示“我 (0：否。1：是)
 @property (nonatomic,assign) int rsp_showselfflag;
-
+///是否显示“公示 (0：否。1：是)
+@property (nonatomic,assign) int rsp_showpublicityflag;
 
 @end

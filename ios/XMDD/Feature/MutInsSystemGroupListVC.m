@@ -59,7 +59,7 @@
 
 -(void)actionBack
 {
-    [MobClick event:@"huzhutuan" attributes:@{@"huzhutuan":@"huzhutuan1"}];
+    [MobClick event:@"hzxitongtuan" attributes:@{@"navi":@"back"}];
     
     self.groupBeginVM = nil;
     

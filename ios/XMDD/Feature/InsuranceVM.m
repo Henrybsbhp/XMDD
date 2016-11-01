@@ -76,7 +76,7 @@
         vc.originVC = self.originVC;
         vc.orderID = orderid;
         NSMutableArray *vcs = [NSMutableArray arrayWithArray:nav.viewControllers];
-        [vcs safetyInsertObject:vc atIndex:vcs.count-2];
+        [vcs safetyInsertObject:vc atIndex:vcs.count-1];
         nav.viewControllers = vcs;
         self.orderVC = vc;
         

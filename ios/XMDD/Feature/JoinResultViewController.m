@@ -18,6 +18,8 @@
 @implementation JoinResultViewController
 
 - (void)awakeFromNib {
+    
+    [super awakeFromNib];
     self.router.disableInteractivePopGestureRecognizer = YES;
 }
 
@@ -89,7 +91,6 @@
 
 - (void)actionBack:(id)sender
 {
-    [MobClick event:@"rp334_1"];
     for (UIViewController * vc in self.navigationController.viewControllers) {
         if ([vc isKindOfClass:[AboutViewController class]]) {
             [self.navigationController popToViewController:vc animated:YES];

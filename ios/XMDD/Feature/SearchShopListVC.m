@@ -29,10 +29,15 @@
 @property (nonatomic, strong) NSMutableArray *searchReacords;
 @property (nonatomic, assign) BOOL isEditing;
 @property (nonatomic, assign) BOOL isSearching;
+
+@property (nonatomic, copy)NSString * mobClickEvent;
 @end
 @implementation SearchShopListVC
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setupUmengEvent];
+    
     self.view.backgroundColor = kBackgroundColor;
     self.isEditing = YES;
     self.loadingHelper = [HKLoadingHelper loadingHelperWithPageAmount:10];
@@ -40,6 +45,19 @@
     [self setupSearchBar];
     [self setupTableView];
     [self loadHistoryRecords];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [MobClick beginLogPageView:self.mobClickEvent];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [MobClick endLogPageView:self.mobClickEvent];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -57,10 +75,29 @@
 }
 
 #pragma mark - Setup
+- (void)setupUmengEvent
+{
+    if (self.serviceType == ShopServiceCarMaintenance)
+    {
+        self.mobClickEvent = @"baoyangsousuo";
+    }
+    else if (self.serviceType == ShopServiceCarBeauty)
+    {
+        self.mobClickEvent = @"meirongsousuo";
+    }
+    else
+    {
+        self.mobClickEvent = @"xichesousuo";
+    }
+}
+
 - (void)setupSearchBar {
     _searchView = [[SearchShopListBar alloc] initWithFrame:CGRectMake(45, 4, ScreenWidth-45, 36)];
     _searchView.searchBar.delegate = self;
     [_searchView.searchButton addTarget:self action:@selector(actionSearch) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack)];
+    self.navigationItem.leftBarButtonItem = back;
 }
 
 - (void)setupTableView {
@@ -162,7 +199,16 @@
 }
 
 #pragma mark - Action
+- (void)actionBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    [MobClick event:self.mobClickEvent attributes:@{@"navi":@"back"}];
+}
+
 - (void)actionSearch {
+    
+    [MobClick event:self.mobClickEvent attributes:@{@"navi":@"sousuo"}];
+    
     NSString *word = [self.searchView.searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if (word.length == 0) {
         return;
@@ -276,6 +322,8 @@
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        
+        [MobClick event:self.mobClickEvent attributes:@{@"jilu":@"dianji"}];
         self.searchView.searchBar.text = data[@"record"];
         [self actionSearch];
     });
@@ -303,6 +351,8 @@
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
         if (self.searchReacords.count > 0) {
+            
+            [MobClick event:self.mobClickEvent attributes:@{@"jilu":@"qingkong"}];
             [self cleanSearchHistory];
         }
     });
@@ -355,6 +405,8 @@
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        
+        [MobClick event:self.mobClickEvent attributes:@{@"shanghu":@"xinxi"}];
         [self actionGotoShopDetailWithShop:data[@"shop"]];
     });
     
@@ -397,6 +449,8 @@
     @weakify(self);
     dict[kCKCellSelected] = CKCellSelected(^(CKDict *data, NSIndexPath *indexPath) {
         @strongify(self);
+        
+        [MobClick event:self.mobClickEvent attributes:@{@"shanghu":@"fuwu"}];
         [self actionGotoShopDetailWithShop:data[@"shop"]];
     });
     
@@ -412,12 +466,14 @@
         @strongify(self);
         [[[cell.navigationButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
+            [MobClick event:self.mobClickEvent attributes:@{@"shanghu":@"daohang"}];
             [self actionNavigationWithShop:data[@"shop"]];
         }];
         
         [[[cell.phoneButton rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:[cell rac_prepareForReuseSignal]] subscribeNext:^(id x) {
             @strongify(self);
             JTShop *shop = data[@"shop"];
+            [MobClick event:self.mobClickEvent attributes:@{@"shanghu":@"dianhua"}];
             [self actionMakeCallWithPhoneNumber:shop.shopPhone];
         }];
     });
@@ -451,7 +507,7 @@
 
 #pragma mark - UISearchBarDelegate 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [MobClick event:@"rp103_4"];
+    [MobClick event:self.mobClickEvent attributes:@{@"sousuo":@"sousuo"}];
     [self actionSearch];
 }
 

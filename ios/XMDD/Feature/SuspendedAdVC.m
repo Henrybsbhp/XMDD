@@ -17,19 +17,21 @@
 
 @implementation SuspendedAdVC
 
-+ (instancetype)adVCWithBoundsWidth:(CGFloat)width targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
++ (instancetype)adVCWithBoundsWidth:(CGFloat)width targetVC:(UIViewController *)vc
+                       mobBaseEvent:(NSString *)event mobBaseKey:(NSString *)key
 {
-    SuspendedAdVC *adctrl = [[SuspendedAdVC alloc] initWithBoundsWidth:width targetVC:vc mobBaseEvent:event];
+    SuspendedAdVC *adctrl = [[SuspendedAdVC alloc] initWithBoundsWidth:width targetVC:vc mobBaseEvent:event mobBaseKey:key];
     return adctrl;
 }
 
-- (instancetype)initWithBoundsWidth:(CGFloat)width
-                      targetVC:(UIViewController *)vc mobBaseEvent:(NSString *)event
+- (instancetype)initWithBoundsWidth:(CGFloat)width targetVC:(UIViewController *)vc
+                       mobBaseEvent:(NSString *)event mobBaseKey:(NSString *)key
 {
     self = [super init];
     if (self) {
         _targetVC = vc;
         _mobBaseEvent = event;
+        _mobBaseKey = key;
         _navModel = [[NavigationModel alloc] init];
         _navModel.curNavCtrl = _targetVC.navigationController;
         CGFloat height = floor(width * 800 / 600);
@@ -105,15 +107,13 @@
         
         if ([self.clickDelegate respondsToSelector:@selector(adClick)]) {
             [self.clickDelegate adClick];
-            if (self.mobBaseEvent.length != 0) {
-                if ([self.mobBaseEvent isEqualToString:@"AdvertisementMutualIns"]) {
-                    //互助弹窗广告点击友盟事件
-                    [MobClick event:@"xiaomahuzhu" attributes:@{@"shouye" : @"shouye0016"}];
-                }
-                else {
-                    NSString * eventstr = [NSString stringWithFormat:@"%@_%d", self.mobBaseEvent, (int)pageIndex];
-                    [MobClick event:eventstr];
-                }
+            if (self.mobBaseEvent.length && self.mobBaseKey.length) {
+                NSString * eventstr = [NSString stringWithFormat:@"dianji_%d", (int)pageIndex];
+                [MobClick event:self.mobBaseEvent attributes:@{self.mobBaseKey:eventstr}];
+            }
+            else
+            {
+                DebugLog(@"这个页面的广告页面mobBaseEvent,mobBaseKey为空,请务必补充");
             }
             @strongify(self);
             if (ad.adLink.length > 0) {

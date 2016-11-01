@@ -35,7 +35,7 @@ typedef enum : NSUInteger {
     PaymentChannelABCCarWashAmount,
     PaymentChannelABCIntegral,
     PaymentChannelCoupon,
-    PaymentChannelCZBCreditCard,
+    PaymentChannelCZBCreditCard,// (废弃)
     PaymentChannelUPpay = 82 ,
     PaymentChannelApplePay = 81
 } PaymentChannelType;
@@ -72,7 +72,13 @@ typedef enum : NSUInteger {
     AdvertisementMutualInsTop = 16,
     AdvertisementMutualInsHome = 17,
     AdvertisementTypeActivities = 20,
-    AdvertisementTypeLeaunch = 30
+    AdvertisementTypeLeaunch = 30,
+    AdvertisementCarwashSuccess = 50,
+    AdvertisementGasSuccess = 51,
+    AdvertisementMutualInsSuccess = 52,
+    AdvertisementInsSuccess = 53,
+    AdvertisementMaintenanceSuccess = 54,
+    AdvertisementBeautySuccess = 55,
 } AdvertisementType;
 
 ///分享页面类型
@@ -189,6 +195,11 @@ typedef enum : NSUInteger {
 /// 违章放弃代办通知
 #define kNotifyCommissionAbandoned          @"com.huika.xmdd.commissionAbandoned"
 
+// 需要更新救援列表
+#define kNotifyRescueRecordVC               @"com.huika.xmdd.rescueRecordVC"
+// 需要更新协办列表
+#define kNotifyCommissionRecordVC           @"com.huika.xmdd.commissionRecordVC"
+
 //key定义
 #define kOriginVC       @"originVC"
 #define kNextVC         @"nextVC"
@@ -196,24 +207,31 @@ typedef enum : NSUInteger {
 
 
 /// 相关网页地址
-#define kDevGasOrderPaidUrl @"http://dev.xiaomadada.com/paaweb/general/order/paynotify"
-#define kGasOrderPaidUrl @"http://www.xiaomadada.com/paaweb/general/order/paynotify"
-#define kInsuranceOlineUrl  @"https://www.xiaomadada.com/apphtml/aichebao.html"
-#define kServiceLicenseUrl @"https://www.xiaomadada.com/apphtml/license.html"
-#define kAppShareUrl        @"https://www.xiaomadada.com/apphtml/share001.html"
-#define kCZBankLicenseUrl  @"https://www.xiaomadada.com/apphtml/license-czb.html"
-#define kGetMoreCouponUrl     @"https://www.xiaomadada.com/apphtml/youhuiquan.html"
-#define kAgencyUrl              @"https://www.xiaomadada.com/apphtml/daiban.html"
-#define kRescureUrl             @"https://www.xiaomadada.com/apphtml/jiuyuan.html"
-#define kAboutCouponPkgUrl      @"https://www.xiaomadada.com/apphtml/guanyulibao.html"
-#define kAddGasNoticeUrl    @"https://xiaomadada.com/apphtml/chongzhishuoming.html"
-#define kInstalmentGasNoticeUrl @"https://www.xiaomadada.com/apphtml/fenqijiayou.html"
-#define kGasPaymentResultUrl      @"https://www.xiaomadada.com/paaweb/general/appDownload?ch=10002"
-#define kGasLicenseUrl          @"https://xiaomadada.com/apphtml/license-youka.html"
-#define kInsuranceDirectSellingUrl  @"https://www.xiaomadada.com/apphtml/chexianzhixiao.html"
-#define kMoneySavingStrategiesUrl  @"http://xiaomadada.com/apphtml/view/shengqian/index.html?jump=t"
-#define kInsuranceLicenseUrl    @"http://www.xiaomadada.com/apphtml/xmdd-ins-licenese.html"
-//新手引导
-#define kNewbieGuideUrl  @"http://www.xiaomadada.com/apphtml/lingyuanxiche.html"
+
+#define LogUploadUrl @"http://dev01.xiaomadada.com/log/upload"
+
+#define kWechatPublicAccountUrl [UrlPrefix append:@"/apphtml/wechatyindao.html"] // 微信公众号
+#define kWeeklyCouponHelpUrl    [UrlPrefix append:@"/apphtml/meizhouliquan-v"] //每周礼券
+#define kAboutViewServiceHelpUrl     [UrlPrefix append:@"/apphtml/shiyongbangzhu-v"] // 使用帮助
+#define kMutualInsGroupDetailHelpUrl [UrlPrefix append:@"/apphtml/tuan-help.html"] //小马互助团详情使用帮助
+#define kInsuranceIntroUrl  [UrlPrefix append:@"/apphtml/baoxianfuwu.html"]  //保险服务首页介绍
+#define kOrderDetailsUrl [UrlPrefix append:@"/paaweb/general/order/detail/by-id"]//订单详情 测试地址
+#define kPayCenterNotifyUrl [UrlPrefix append:@"/paaweb/general/order/paynotify"] //支付通知地址
+#define kDiscoverUrl [UrlPrefix append:@"/paaweb/general/discoveryload"] //发现地址
+#define kGasOrderPaidUrl [UrlPrefix append:@"/paaweb/general/order/paynotify"] //分期加油支付后的通知地址
+#define kServiceLicenseUrl [UrlPrefix append:@"/apphtml/license.html"]
+#define kAppShareUrl        [UrlPrefix append:@"/apphtml/share001.html"]
+#define kGetMoreCouponUrl     [UrlPrefix append:@"/apphtml/youhuiquan.html"]
+#define kAgencyUrl              [UrlPrefix append:@"/apphtml/daiban.html"]
+#define kRescureUrl             [UrlPrefix append:@"/apphtml/jiuyuan.html"]
+#define kAboutCouponPkgUrl       [UrlPrefix append:@"/apphtml/guanyulibao.html"]
+#define kAddGasNoticeUrl     [UrlPrefix append:@"/apphtml/chongzhishuoming.html"]
+#define kInstalmentGasNoticeUrl  [UrlPrefix append:@"/apphtml/fenqijiayou.html"]
+#define kGasPaymentResultUrl       [UrlPrefix append:@"/paaweb/general/appDownload?ch=10002"]
+#define kGasLicenseUrl           [UrlPrefix append:@"/apphtml/license-youka.html"]
+#define kInsuranceDirectSellingUrl   [UrlPrefix append:@"/apphtml/chexianzhixiao.html"]
+#define kMoneySavingStrategiesUrl   [UrlPrefix append:@"/apphtml/view/shengqian/index.html?jump=t"]
+#define kInsuranceLicenseUrl     [UrlPrefix append:@"/apphtml/xmdd-ins-licenese.html"]
+#define kNewbieGuideUrl  [UrlPrefix append:@"/apphtml/lingyuanxiche.html"] //新手引导
 
 #endif

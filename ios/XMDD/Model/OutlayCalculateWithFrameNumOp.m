@@ -18,6 +18,7 @@
     [params addParam:self.frameNo forName:@"frameno"];
     [params addParam:self.carID forName:@"carid"];
     [params addParam:self.blackBox forName:@"blackbox"];
+    [params addParam:self.req_hasriskrecord forName:@"hasriskrecord"];
     
     return [self rac_invokeWithRPCClient:gNetworkMgr.apiManager params:params security:YES];
 }

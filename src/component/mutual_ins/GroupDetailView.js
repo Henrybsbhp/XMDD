@@ -85,11 +85,6 @@ export default class MutualInsGroupDetailView extends Component {
         NavigationManager.pushViewControllerByUrl(Constant.Link.MutualInsInvite(this.props.route.groupID))
     }
 
-    onClaimPress() {
-        this.setState({menuOpened: false})
-        NavigationManager.pushViewControllerByUrl(Constant.Link.MutualInsClaims(this.props.route.groupID))
-    }
-
     onDeleteGroup() {
         this.refs.hud.showSpinner()
         net.postApi({
@@ -220,11 +215,6 @@ export default class MutualInsGroupDetailView extends Component {
                 <PopoverMenu.MenuCell image={{uri: 'mins_phone', width: 18, height: 17}}
                                       text="联系客服"
                                       onPress={this.onCallButtonPress.bind(this)}/>
-                {base.claimbtnflag == 1 && (
-                    <PopoverMenu.MenuCell image={{uri: 'mins_history', width: 20, height: 20}}
-                                          text="补偿记录"
-                                          onPress={this.onClaimPress.bind(this)}/>
-                )}
             </PopoverMenu>
         );
     }

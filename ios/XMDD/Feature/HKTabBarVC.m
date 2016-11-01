@@ -264,7 +264,7 @@
 #pragma mark - Delegate
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
-    NSString * str = [NSString stringWithFormat:@"rp101_%ld",(long)viewController.tabBarItem.tag];
+    NSString * str = [NSString stringWithFormat:@"yingyongtabbar_%ld",(long)viewController.tabBarItem.tag];
     [MobClick event:str];
     if ([viewController isKindOfClass:[UINavigationController class]]) {
         gAppMgr.navModel.curNavCtrl = (UINavigationController *)viewController;
@@ -302,5 +302,17 @@
     return _mineDot;
 }
 
+#pragma mark - UIResponser
 
+#ifdef DEBUG
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    gAssistiveMgr.isShowAssistiveView = !gAssistiveMgr.isShowAssistiveView;
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+#endif
 @end

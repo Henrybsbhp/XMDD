@@ -125,7 +125,7 @@
     
     RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
         
-        [self tapGestureSubscribeWith:item andIconImageView:iconImageView];
+        [self tapGestureSubscribeWith:item andIconImageView:iconImageView andIndex:index];
     }];
     
     [self.disposableArray safetyAddObject:disposable];
@@ -204,8 +204,18 @@
     }
 }
 
-- (void)tapGestureSubscribeWith:(HomeItem *)item andIconImageView:(UIImageView *)iconImageView
+- (void)tapGestureSubscribeWith:(HomeItem *)item andIconImageView:(UIImageView *)iconImageView andIndex:(NSInteger)i
 {
+    
+    if (self.mobBaseEvent.length && self.mobBaseKey.length) {
+        NSString * eventstr = [NSString stringWithFormat:@"fun_%ld", (long)i];
+        [MobClick event:self.mobBaseEvent attributes:@{self.mobBaseKey:eventstr}];
+    }
+    else
+    {
+        DebugLog(@"这个页面的mobBaseEvent,mobBaseKey为空,请务必补充");
+    }
+    
     [self jumpToViewControllerByUrl:item.homeItemRedirect];
     
     // 把new标签设置回去
@@ -246,7 +256,7 @@
     UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] init];
     RACDisposable * disposable = [[tapGesture rac_gestureSignal] subscribeNext:^(id x) {
         
-        [self tapGestureSubscribeWith:item andIconImageView:iconImageView];
+        [self tapGestureSubscribeWith:item andIconImageView:iconImageView andIndex:i];
     }];
     [itemView addGestureRecognizer:tapGesture];
     [self.disposableArray safetyAddObject:disposable];
