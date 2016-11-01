@@ -55,7 +55,7 @@
 - (void)setFrame:(CGRect)frame
 {
     CGFloat x = 10;
-    CGRect lbFrame = CGRectMake(x, 32, frame.size.width - x * 2, 0);
+    CGRect lbFrame = CGRectMake(x, 32, frame.size.width - x * 2, self.richLabel.frame.size.height);
     self.richLabel.frame = lbFrame;
     [super setFrame:frame];
 }
@@ -80,7 +80,6 @@
     frame.size.height = [_richLabel optimumSize].height;
     frame.origin.y = 32;
     _richLabel.frame = frame;
-    _richLabel.backgroundColor = [UIColor redColor];
 }
 
 @end
