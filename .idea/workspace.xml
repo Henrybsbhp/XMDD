@@ -5,324 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="181cf7ef-9f6f-448e-b69a-fdb2081a69a0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Award/awrad_text_3_5.imageset/字@2x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Award/awrad_text_3_5.imageset/字@3x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Illegal/illegal_close.imageset/close@2x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Illegal/illegal_close.imageset/close@3x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Illegal/illegal_message.imageset/message@2x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Illegal/illegal_message.imageset/message@3x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/MutualInsClaims/mutualins_undercarriage.imageset/已下架@2x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/MutualInsClaims/mutualins_undercarriage.imageset/已下架@3x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_car_pull.imageset/rescue_car_pull@2x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_car_pull.imageset/rescue_car_pull@3x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_car_pump.imageset/rescue_car_pump@2x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_car_pump.imageset/rescue_car_pump@3x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_coordiate.imageset/rescue_coordiate@2x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_coordiate.imageset/rescue_coordiate@3x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_time_gray.imageset/rescue_time_gray@2x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_time_gray.imageset/rescue_time_gray@3x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_tyre_exchange.imageset/rescue_tyre_exchange@2x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_tyre_exchange.imageset/rescue_tyre_exchange@3x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/Script/JSPatch/3.4.0/jspatch_340_201610251716.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/Script/JSPatch/3.4.1/jspatch_341_20161020.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/Script/JSPatch/3.4.1/jspatch_341_20161020.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/Script/JSPatch/3.4.1/jspatch_341_20161025.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/Script/JSPatch/3.4.1/untitled.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionPaymentStatusVC.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionPaymentStatusVC.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionPaymentSuccessVM.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionPaymentSuccessVM.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionPaymentVM.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionPaymentVM.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionRatingVM.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionRatingVM.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionRecordVC.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionRecordVC.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/GeneralTableViewVM.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/GeneralTableViewVM.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailNoticeBoardVC.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailNoticeBoardVC.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupNoticeItemCell.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupNoticeItemCell.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/RescueHomeV2VC.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/RescueHomeV2VC.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/RescuePaymentStatusVC.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/RescuePaymentStatusVC.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/RescuePaymentVM.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/RescuePaymentVM.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/RescueRatingVM.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/RescueRatingVM.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/RescueRecordVC.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/RescueRecordVC.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/RescuingStatusVM.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/RescuingStatusVM.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationInputNameVC.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationInputNameVC.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetCooperationClaimsListV2Op.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetCooperationClaimsListV2Op.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetRescueOrCommissionDetailOp.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetRescueOrCommissionDetailOp.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Model/RequestForRescueCommissionOrderOp.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Model/RequestForRescueCommissionOrderOp.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Model/RescueConfirmFinishOp.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Model/RescueConfirmFinishOp.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/MutualInsClaims/mutualins_undercarriage.imageset/Contents.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_car_pull.imageset/Contents.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_car_pump.imageset/Contents.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_coordiate.imageset/Contents.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_time_gray.imageset/Contents.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Rescue/rescue_tyre_exchange.imageset/Contents.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/build/ModuleCache/PC6BRHAGI4F5/os_object-38I6DLZ5IH61J.pcm.timestamp" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/Cer/3793cdf4-53f4-4f85-b9c7-e209582ab43f.mobileprovision" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/Cer/e99ef683-8fb8-416a-b8dd-f7628eafec24.mobileprovision" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD copy-Info.plist" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD copy2-Info.plist" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/BindBankCardVC.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/BindBankCardVC.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionConfirmVC.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionConfirmVC.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionSuccessVC.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionSuccessVC.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/DetailsAlertVC.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/DetailsAlertVC.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/GasNormalVC.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/GasNormalVC.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/GasSubVC.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/GasSubVC.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsClaimAccountVC.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsClaimAccountVC.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsClaimsHistoryVC.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsClaimsHistoryVC.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsSuspendedAdVC.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsSuspendedAdVC.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/RescueCommentsVC.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/RescueCommentsVC.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/RescueCouponViewController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/RescueCouponViewController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/RescueDetailsVC.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/RescueDetailsVC.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/RescueHistoryViewController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/RescueHistoryViewController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/RescueHomeViewController.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/RescueHomeViewController.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/UnusedCouponVModel.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/UnusedCouponVModel.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/UsedCouponVModel.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/UsedCouponVModel.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetBindCZBVcodeOp.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetBindCZBVcodeOp.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetUnbindBankcardVcodeOp.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetUnbindBankcardVcodeOp.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetViolationCommissionByIdOp.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetViolationCommissionByIdOp.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Award/awrad_text.imageset/文案@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Award/awrad_text.imageset/文案@3x.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Illegal/illegal_licenceReavel.imageset/行驶证反@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Illegal/illegal_licenceReavel.imageset/行驶证反@3x.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Illegal/illegal_original.imageset/行驶证正@2x.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Illegal/illegal_original.imageset/行驶证正@3x.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD_RCTDEV copy-Info.plist" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD_RCTDEV copy2-Info.plist" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Award/awrad_text.imageset/Contents.json" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Award/awrad_text_3_5.imageset/Contents.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Illegal/illegal_licenceReavel.imageset/Contents.json" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Illegal/illegal_close.imageset/Contents.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Illegal/illegal_original.imageset/Contents.json" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Images.xcassets/Illegal/illegal_message.imageset/Contents.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/Cer/Development_Provisioning_xmdd.mobileprovision" afterPath="$PROJECT_DIR$/ios/Cer/Development_Provisioning_xmdd.mobileprovision" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/Cer/Distribution_Provisioning_xmdd.mobileprovision" afterPath="$PROJECT_DIR$/ios/Cer/Distribution_Provisioning_xmdd.mobileprovision" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionOrderVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CommissionOrderVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/PayForGasViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/PayForGasViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/Script/xmdd_archive.sh" afterPath="$PROJECT_DIR$/ios/Script/xmdd_archive.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/ios/XMDD.xcodeproj/project.pbxproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Extension/UIBarButtonItem+CustomStyle.m" afterPath="$PROJECT_DIR$/ios/XMDD/Extension/UIBarButtonItem+CustomStyle.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ADViewController.h" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ADViewController.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ADViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ADViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/AboutViewController.h" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/AboutViewController.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/AboutViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/AboutViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CKLine.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CKLine.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CKNavigationController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CKNavigationController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CarWashCouponVModel.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CarWashCouponVModel.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CarsListVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CarsListVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CarwashOrderDetailVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CarwashOrderDetailVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CarwashOrderViewModel.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CarwashOrderViewModel.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ChooseCouponVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ChooseCouponVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CommitSuccessVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CommitSuccessVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CouponDetailsVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CouponDetailsVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/CouponPkgViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/CouponPkgViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/DashLine.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/DashLine.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/DetailWebVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/DetailWebVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/EditCarVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/EditCarVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/EditMyInfoViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/EditMyInfoViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/FeedbackVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/FeedbackVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/GasAddCardVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/GasAddCardVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/GasCardListVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/GasCardListVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/GasOrderModelView.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/GasOrderModelView.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/GasPaymentResultVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/GasPaymentResultVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/GasPickAmountCell.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/GasPickAmountCell.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/GasReminderCell.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/GasReminderCell.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/GasVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/GasVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/GroupIntroductionVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/GroupIntroductionVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/HKBigRatingView.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/HKBigRatingView.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/HKImagePicker.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/HKImagePicker.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/HKTabBarVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/HKTabBarVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/HKTableTextCell.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/HKTableTextCell.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/HKTableViewCell.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/HKTableViewCell.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/HKTableViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/HKTableViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/HistoryCollectionVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/HistoryCollectionVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/HomeNewbieGuideVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/HomeNewbieGuideVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/HomePageModuleModel.h" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/HomePageModuleModel.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/HomePageModuleModel.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/HomePageModuleModel.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/HomePageVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/HomePageVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/HomeSuspendedAdVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/HomeSuspendedAdVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/InsCheckResultsVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/InsCheckResultsVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/InsCouponView.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/InsCouponView.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/InsInputInfoVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/InsInputInfoVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/InsIntroVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/InsIntroVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/InsSubmitResultVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/InsSubmitResultVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/InsranceOrderViewModel.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/InsranceOrderViewModel.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/InsuranceOrderVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/InsuranceOrderVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/InsuranceVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/InsuranceVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/InsuranceVM.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/InsuranceVM.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/InviteByCodeVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/InviteByCodeVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/JTRatingView.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/JTRatingView.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/JTTableViewCell.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/JTTableViewCell.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/JoinResultViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/JoinResultViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/JoinUsViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/JoinUsViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/LaunchVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/LaunchVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ListWebVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ListWebVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MaintainOrderViewModel.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MaintainOrderViewModel.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MessageListVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MessageListVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MineVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MineVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutInsCalculatePageVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutInsCalculatePageVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutInsCalculateResultVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutInsCalculateResultVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutInsCalculateVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutInsCalculateVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutInsSystemGroupListVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutInsSystemGroupListVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutInsSystemGroupListVM.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutInsSystemGroupListVM.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsAskForCompensationVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsAskForCompensationVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailMeVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailMeVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailMembersVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailMembersVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailMessagesVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailMessagesVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailVM.h" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailVM.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailVM.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupDetailVM.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupMemberCell.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupMemberCell.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupMemberSectionCell.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsGroupMemberSectionCell.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsHomeAdVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsHomeAdVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsOrderInfoVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsOrderInfoVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsPayResultVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsPayResultVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsPayViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsPayViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsPicUpdateVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsPicUpdateVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsPickCarVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsPickCarVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsScencePageVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsScencePageVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualInsVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualOrderViewModel.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualOrderViewModel.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MutualPlanViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MutualPlanViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MyBindedCardVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MyBindedCardVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MyCollectionListVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MyCollectionListVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MyCouponVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MyCouponVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MyInfoViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MyInfoViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MyOrderListVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MyOrderListVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MyUIPageControl.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MyUIPageControl.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/MyWebViewBridge.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/MyWebViewBridge.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/NearbyShopsViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/NearbyShopsViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/NewGainAwardVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/NewGainAwardVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/OthersOrderViewModel.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/OthersOrderViewModel.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/PayForInsuranceVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/PayForInsuranceVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/PayForWashCarVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/PayForWashCarVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/PaymentCenterViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/PaymentCenterViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/PaymentSuccessVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/PaymentSuccessVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/PickAutomobileBrandVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/PickAutomobileBrandVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/PickCarVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/PickCarVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/SearchShopListVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/SearchShopListVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/SecondCarValuationVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/SecondCarValuationVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ShopCommentCell.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ShopCommentCell.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ShopDetailVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ShopDetailVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ShopListVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ShopListVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/SocialShareViewController.h" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/SocialShareViewController.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/SocialShareViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/SocialShareViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/SuspendedAdVC.h" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/SuspendedAdVC.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/SuspendedAdVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/SuspendedAdVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/UPayVerifyVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/UPayVerifyVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/VCodeInputField.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/VCodeInputField.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ValuationCarSubView.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ValuationCarSubView.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ValuationHomeVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ValuationHomeVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ValuationResultVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ValuationResultVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/VcodeLoginVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/VcodeLoginVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationCommissionStateVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationCommissionStateVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationDelegateCommitSuccessVC.h" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationDelegateCommitSuccessVC.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationDelegateCommitSuccessVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationDelegateCommitSuccessVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationDelegateMissionVC.h" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationDelegateMissionVC.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationDelegateMissionVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationDelegateMissionVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationItemViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationItemViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationMissionHistoryVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationMissionHistoryVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationMyLicenceVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationMyLicenceVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationPayConfirmVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationPayConfirmVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ViolationViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/WebVC.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/WebVC.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/AppDelegate.m" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/AppDelegate.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/HKPushManager.m" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/HKPushManager.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/HKSMSModel.h" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/HKSMSModel.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/HKSMSModel.m" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/HKSMSModel.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/LogAlertView.m" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/LogAlertView.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/NavigationModel.h" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/NavigationModel.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/NavigationModel.m" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/NavigationModel.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/PhoneHelper.h" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/PhoneHelper.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/UMLogHelper.m" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/UMLogHelper.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Macro/Constants.h" afterPath="$PROJECT_DIR$/ios/XMDD/Macro/Constants.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Macro/HKConstants.h" afterPath="$PROJECT_DIR$/ios/XMDD/Macro/HKConstants.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/ApplyViolationCommissionOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/ApplyViolationCommissionOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/ApplyViolationCommissionOp.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/ApplyViolationCommissionOp.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/CalculateCooperationFreePremiumOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/CalculateCooperationFreePremiumOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/CalculateCooperationFreePremiumOp.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/CalculateCooperationFreePremiumOp.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/Codemap/netop/GetCooperationGroupConfigOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/Codemap/netop/GetCooperationGroupConfigOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/Codemap/netop/GetCooperationGroupConfigOp.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/Codemap/netop/GetCooperationGroupConfigOp.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/Codemap/netop/GetCooperationIdlicenseInfoOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/Codemap/netop/GetCooperationIdlicenseInfoOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/Codemap/netop/GetCooperationIdlicenseInfoOp.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/Codemap/netop/GetCooperationIdlicenseInfoOp.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GainUserAwardOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GainUserAwardOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GainUserAwardOp.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GainUserAwardOp.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetCityInfoByLicenseNumberOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetCityInfoByLicenseNumberOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetCityInfoByLicenseNumberOp.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetCityInfoByLicenseNumberOp.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetRescueCommentOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetRescueCommentOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetRescueCommentOp.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetRescueCommentOp.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetRescueHistoryOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetRescueHistoryOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetRescueHistoryOp.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetRescueHistoryOp.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetViolationCommissionCarinfoOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetViolationCommissionCarinfoOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetViolationCommissionCarinfoOp.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetViolationCommissionCarinfoOp.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetViolationCommissionOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetViolationCommissionOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/GetViolationCommissionOp.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/GetViolationCommissionOp.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/HKCoupon.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/HKCoupon.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/HKMyCar.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/HKMyCar.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/HKMyCar.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/HKMyCar.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/HKRescueHistory.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/HKRescueHistory.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/JTShop.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/JTShop.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/JTShop.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/JTShop.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/OrderPaidSuccessOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/OrderPaidSuccessOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/OutlayCalculateWithFrameNumOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/OutlayCalculateWithFrameNumOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/OutlayCalculateWithFrameNumOp.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/OutlayCalculateWithFrameNumOp.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/UpdateCooperationIdlicenseInfoV2Op.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/UpdateCooperationIdlicenseInfoV2Op.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/UpdateCooperationIdlicenseInfoV2Op.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/UpdateCooperationIdlicenseInfoV2Op.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/UpdateViolationCommissionCarinfoOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/UpdateViolationCommissionCarinfoOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/UpdateViolationCommissionCarinfoOp.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/UpdateViolationCommissionCarinfoOp.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/UserViolationQueryOp.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/UserViolationQueryOp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/ViolationModel.h" afterPath="$PROJECT_DIR$/ios/XMDD/Model/ViolationModel.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Model/ViolationModel.m" afterPath="$PROJECT_DIR$/ios/XMDD/Model/ViolationModel.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Plist/Info.plist" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Plist/Info.plist" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/About.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/About.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Award.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Award.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Bank.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Bank.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Carwash.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Carwash.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Commission.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Commission.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Gas.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Gas.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Main.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Main.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Mine.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Mine.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/MutualInsClaims.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/MutualInsClaims.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/MutualInsJoin.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/MutualInsJoin.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Rescue.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Rescue.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Violation.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Violation.storyboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Vendor/SYPaginator/SYPaginatorView.h" afterPath="$PROJECT_DIR$/ios/XMDD/Vendor/SYPaginator/SYPaginatorView.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Vendor/SYPaginator/SYPaginatorView.m" afterPath="$PROJECT_DIR$/ios/XMDD/Vendor/SYPaginator/SYPaginatorView.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/XMDD.entitlements" afterPath="$PROJECT_DIR$/ios/XMDD/XMDD.entitlements" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/mutual_ins/GroupDetailView.js" afterPath="$PROJECT_DIR$/src/component/mutual_ins/GroupDetailView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/constant/Constants.js" afterPath="$PROJECT_DIR$/src/constant/Constants.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/RCTBundle/0.0.1.1478052480899.zip" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/RCTBundle/0.0.1.1476958219970.zip" afterPath="" />
     </list>
     <ignored path="xmdd_ios.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -483,20 +167,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyUserStore.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/store/MyUserStore.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="GroupDetailView.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupDetailView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
+            <state relative-caret-position="1139">
               <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
               <folding>
                 <element signature="e#14#53#0" expanded="true" />
@@ -536,11 +210,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Constants.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Constants.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/constant/Constants.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="458">
+            <state relative-caret-position="544">
               <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fabfile.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/fabfile.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -707,6 +391,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -981,10 +666,27 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xmdd_ios" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xmdd_ios" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="react-native-overlay" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1078,14 +780,15 @@
       <workItem from="1477974597730" duration="177000" />
       <workItem from="1477987816377" duration="2879000" />
       <workItem from="1477995629617" duration="2113000" />
+      <workItem from="1478052615947" duration="591000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="113744000" />
+    <option name="totallyTimeSpent" value="114335000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="873" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="873" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1094,7 +797,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33418694" sideWeight="0.49753347" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33418694" sideWeight="0.49753347" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1123,14 +826,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/Touchable/TouchableOpacity.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-193">
-          <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/react-native/packager/react-packager/src/Bundler/__tests__/Bundle-test.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="164">
@@ -1290,7 +985,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="296">
           <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1354,7 +1048,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1404,7 +1097,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="13" column="22" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1550,7 +1242,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupDetailView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
+        <state relative-caret-position="1139">
           <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
           <folding>
             <element signature="e#14#53#0" expanded="true" />
@@ -1586,6 +1278,14 @@
             <element signature="e#10377#10534#0" expanded="false" />
             <element signature="e#10616#10708#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/constant/Constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1656,10 +1356,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/constant/Constants.js">
+    <entry file="file://$PROJECT_DIR$/fabfile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

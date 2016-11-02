@@ -83,8 +83,10 @@
                                          [defPath stringByAppendingPathComponent:@"contents/rctbundle.json"]];
         HKRCTPackageConfig *latestConfig = [HKRCTPackageConfig configWithPath:
                                             [latest stringByAppendingPathComponent:@"contents/rctbundle.json"]];
-        //当前默认版本大于上次检测到的版本
-        if ([defConfig.bundleVersion compare:latestConfig.bundleVersion options:NSNumericSearch] == NSOrderedDescending) {
+        //当前默认版本大于上次检测到的版本(默认版本的时间戳大于上次检测的版本)
+        BOOL overdue = [defConfig.bundleVersion compare:latestConfig.bundleVersion options:NSNumericSearch] == NSOrderedDescending;
+        BOOL same = [defConfig.bundleVersion compare:latestConfig.bundleVersion options:NSNumericSearch] == NSOrderedSame;
+        if (overdue || (same && [defConfig.timetag doubleValue] > [latestConfig.timetag doubleValue])) {
             [self removeAtPath:latest];
             [self linkFromPath:defPath toPath:latest];
             latestConfig = defConfig;
