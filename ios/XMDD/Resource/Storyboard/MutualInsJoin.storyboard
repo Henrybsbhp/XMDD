@@ -2254,8 +2254,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="glY-Jf-HfN"/>
                                                     <exclude reference="bHL-eh-ASh"/>
+                                                    <exclude reference="glY-Jf-HfN"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -2543,11 +2543,11 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="C85-ai-dRS"/>
-                                                    <exclude reference="soW-vx-Gik"/>
                                                     <exclude reference="7MI-t4-Vzc"/>
                                                     <exclude reference="N2n-4l-D8z"/>
                                                     <exclude reference="lwE-gE-8VL"/>
+                                                    <exclude reference="C85-ai-dRS"/>
+                                                    <exclude reference="soW-vx-Gik"/>
                                                     <exclude reference="Fuk-53-PPl"/>
                                                 </mask>
                                             </variation>
@@ -2677,8 +2677,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="CgD-5S-inV"/>
                                                     <exclude reference="KeG-B7-CFt"/>
+                                                    <exclude reference="CgD-5S-inV"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -2712,7 +2712,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fH9-QM-zM3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="469.60000000000002" y="195.6521739130435"/>
+            <point key="canvasLocation" x="729" y="176"/>
         </scene>
         <!--试算结果-->
         <scene sceneID="awT-dS-ASt">
