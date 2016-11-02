@@ -76,7 +76,7 @@ NSString *const JCAlertViewWillShowNotification = @"JCAlertViewWillShowNotificat
 - (UIWindow *)backgroundWindow{
     if (!_backgroundWindow) {
         _backgroundWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        _backgroundWindow.windowLevel = UIWindowLevelStatusBar - 1;
+        _backgroundWindow.windowLevel = UIWindowLevelNormal;
     }
     return _backgroundWindow;
 }
