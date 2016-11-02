@@ -28,6 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self setupNavigationBar];
     [self loadDefData];
     [self reloadData];
     CKAsyncMainQueue(^{
@@ -39,6 +40,24 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupNavigationBar
+{
+    self.navigationItem.title = @"保险公司";
+    if (self.navigationController.viewControllers.count < 2) {
+        UIBarButtonItem *back = [UIBarButtonItem backBarButtonItemWithTarget:self action:@selector(actionBack:)];
+        self.navigationItem.leftBarButtonItem = back;
+    }
+}
+
+- (void)actionBack:(id)sender {
+    if (self.navigationController.viewControllers.count < 2) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)reloadData
@@ -96,7 +115,7 @@
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self actionBack:nil];
     if (self.pickedBlock) {
         NSString *name = [self.datasource safetyObjectAtIndex:indexPath.item];
         self.pickedBlock(name);

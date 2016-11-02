@@ -12,8 +12,6 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 'use strict';
-
-import MyInfoView from './../mine/MyInfoView';
 import React, {Component} from 'react';
 import {
     Navigator,
@@ -25,6 +23,7 @@ import {
     NativeModules,
     Image,
 } from 'react-native';
+import RouteHelper from '../../helper/RouteMap';
 
 const NavigationBarRouteMapper = {
 
@@ -142,7 +141,10 @@ export default class NavigatorView extends Component {
         return (
             <View style={styles.container}>
                 <Navigator
-                    ref="nav"
+                    ref={(nav)=> {
+                        this.nav = nav
+                        this.routeHelper = new RouteHelper(nav)
+                    }}
                     debugOverlay={false}
                     style={styles.appContainer}
                     initialRoute={this.props.route}
@@ -150,19 +152,13 @@ export default class NavigatorView extends Component {
                     onDidFocus={this._onDidFocus.bind(this)}
                     navigationBar={this._renderNavigationBar()}
                 />
-                {
-                    this.state.modal && React.cloneElement(this.state.modal, {
-                        ...this.state.modalProps,
-                        ref: 'modal'
-                    })
-                }
             </View>
         );
     }
 
     _onDidFocus() {
         if (this.refs.nav) {
-            var disable = this.refs.nav.getCurrentRoutes().length > 1;
+            var disable = this.nav.getCurrentRoutes().length > 1;
             NativeModules.NavigationManager.setInteractivePopGestureRecognizerDisable(disable);
         }
     }
@@ -186,22 +182,11 @@ export default class NavigatorView extends Component {
                         route,
                         navigator,
                         ...route.passProps,
-                        modal: {
-                            get: this._getModal.bind(this),
-                            render: this._registModal.bind(this),
-                        },
+                        routeHelper: this.routeHelper,
                     },
                 )}
             </View>
         )
-    }
-
-    _getModal(modal) {
-        return this.refs.modal;
-    }
-
-    _registModal(modal) {
-        this.setState({modal: modal});
     }
 };
 
@@ -269,6 +254,5 @@ const styles = StyleSheet.create({
         marginRight: 0,
     },
     scene: {flex: 1, marginTop: Navigator.NavigationBar.Styles.General.TotalNavHeight,},
-    modal: {position: 'absolute', left: 0, right: 0, top: 0, bottom: 0,}
 });
 

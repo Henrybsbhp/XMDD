@@ -25,7 +25,9 @@ RCT_EXPORT_MODULE()
 
 - (void)subscribeSignals {
     [[[RACObserve(gAppMgr, myUser) distinctUntilChanged] skip:1] subscribeNext:^(id x) {
-        [self sendEventWithName:@"login" body:@(x ? YES : NO)];
+        if (self.bridge) {
+            [self sendEventWithName:@"login" body:@(x ? YES : NO)];
+        }
     }];
 }
 

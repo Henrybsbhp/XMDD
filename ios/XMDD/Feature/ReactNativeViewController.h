@@ -12,10 +12,10 @@
 
 @interface ReactNativeViewController : UIViewController
 
-- (instancetype)initWithModuleName:(NSString *)moduleName properties:(NSDictionary *)properties;
+- (instancetype)initWithHref:(NSString *)href properties:(NSDictionary *)properties;
 
 @property (strong, nonatomic) ReactView *rctView;
-@property (nonatomic, strong, readonly) NSString * modulName;
+@property (nonatomic, strong, readonly) NSString *href;
 
 - (void)setNavigationBarHidden:(BOOL)navigationBarHidden animated:(BOOL)animated;
 

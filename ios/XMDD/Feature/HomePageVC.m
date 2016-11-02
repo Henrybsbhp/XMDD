@@ -448,7 +448,6 @@
 
 #pragma mark - Action
 - (IBAction)actionCallService:(id)sender {
-    
     [MobClick event:@"xiaomashouye" attributes:@{@"navi":@"kefu"}];
     
     HKAlertActionItem *cancel = [HKAlertActionItem itemWithTitle:@"取消" color:kGrayTextColor clickBlock:nil];

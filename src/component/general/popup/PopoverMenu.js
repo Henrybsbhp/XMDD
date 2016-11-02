@@ -3,23 +3,13 @@ import React, {Component, PropTypes} from 'react';
 import {
     Text, View, Image, StyleSheet, TouchableOpacity
 } from 'react-native';
-import Modal from '../general/Modal';
-import UI from '../../constant/UIConstants';
+import ModalView from '../ModalView';
+import UI from '../../../constant/UIConstants';
 
-export default class PopoverMenu extends Modal {
-
-    open() {
-        this.refs.m.open();
-    }
-
-    close() {
-        this.refs.m.close();
-    }
-
+export default class PopoverMenu extends ModalView {
     render() {
-        var props = this.props ? this.props : undefined;
         return (
-            <Modal ref="m" {...props}>
+            <ModalView {...this.props} aboveStatusBar={false} fgCloseAnimation="none" >
                 <View style={styles.menuContainer}>
                     <Image
                         source={{uri: 'mins_pop_bg'}}
@@ -31,7 +21,7 @@ export default class PopoverMenu extends Modal {
                         {this.props.children}
                     </View>
                 </View>
-            </Modal>
+            </ModalView>
         );
     }
 }
@@ -74,7 +64,7 @@ PopoverMenu.MenuCell = PopoverMenuCell;
 
 const styles = StyleSheet.create({
     container: {flex: 1},
-    menuContainer: {position: 'absolute', width: 148, right: 10, top: 60},
+    menuContainer: {position: 'absolute', width: 148, right: 16, top: 60},
     menuBgImg: {position: 'absolute', left: 0, right: 0, top: 0, bottom: 0},
     menuContent: {marginTop: 7},
     menuSeparator: {height: 0.5, marginLeft: 10, marginRight: 10, backgroundColor: UI.Color.Line},

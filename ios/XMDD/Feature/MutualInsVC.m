@@ -24,7 +24,6 @@
 #import "MutualInsOrderInfoVC.h"
 #import "MutualInsAdModel.h"
 #import "MutualInsGroupDetailVC.h"
-#import "GroupIntroductionVC.h"
 #import "MutualInsTipsInfoExtendedView.h"
 #import "SJMarqueeLabelView.h"
 #import "MutInsCalculatePageVC.h"

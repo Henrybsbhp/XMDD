@@ -71,8 +71,8 @@
     }];
     
     [_backButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView).offset(20);
-        make.left.equalTo(self.contentView).offset(6);
+        make.top.equalTo(self.contentView).offset(21);
+        make.left.equalTo(self.contentView).offset(9);
         make.size.mas_equalTo(CGSizeMake(50, 42));
     }];
 }

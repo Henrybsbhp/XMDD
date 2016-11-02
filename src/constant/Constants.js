@@ -21,6 +21,15 @@ const constants = {
             PaidForAll: 101,              // 全部人支付成功
             PeopleNumberUment: 101,       // 审核通过未达5人，继续邀请好友(团长特有)
         },
+    },
+    Link: {
+        Phone: 'tel://4007111111',
+        MutualInsUsingHelp: "http://xiaomadada.com/xmdd-web/xmdd-app/qa.html",
+        MutualInsDetailUsingHelp: "http://www.xiaomadada.com/apphtml/tuan-help.html",
+        MutualInsCompensation: "xmdd://j?t=coincldtlo",
+        MutualInsCalculate: 'xmdd://j?t=coinscalc&channel=apphzsy',
+        MutualInsOrder: id => 'xmdd://j?t=coinso&id=' + id,
+        MutualInsInvite: id => 'xmdd://j?t=coinvite&id=' + id,
     }
 };
 

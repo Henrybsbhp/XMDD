@@ -575,6 +575,7 @@
              [self refreshBottomButton];
          }];
         
+
         //充值提示
         cell.richLabel.text = [self rechargeDescription];
         
@@ -656,6 +657,10 @@
         @strongify(self);
         cell.richLabel.delegate = self;
         cell.richLabel.text = [self gasRemainder];
+        [cell setNeedsLayout];
+        CKAsyncMainQueue(^{
+            NSLog(@"richFrame=%@", NSStringFromCGRect(cell.richLabel.frame));
+        });
     });
     return item;
 }

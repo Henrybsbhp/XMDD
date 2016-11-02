@@ -16,6 +16,7 @@
 #import "HKFileCache.h"
 #import "NSData+MD5Digest.h"
 #import "NSString+UUID.h"
+#import <RCTBundleURLProvider.h>
 
 //更新间隔暂定为6小时
 #define kUpdateTimeInterval        6 * 60 * 60
@@ -194,12 +195,20 @@
 
 - (RACSignal *)rac_checkPackageVersion
 {
+
     GetReactNativePackageOp *op = [GetReactNativePackageOp operation];
     op.req_projectname = self.latestPackageConfig.projectName;
     op.req_rctversion = self.latestPackageConfig.bundleVersion;
     op.req_timetag = self.latestPackageConfig.timetag;
     op.req_buildtype = self.latestPackageConfig.buildType;
     op.req_appversion = gAppMgr.deviceInfo.appVersion;
+#if XMDDEnvironment == 0
+    op.req_buildtype = @"dev";
+#elif XMDDEnvironment == 1
+    op.req_buildtype = @"alpha";
+#else
+    op.req_buildtype = @"release";
+#endif
     
     return [[op rac_postRequest] catch:^RACSignal *(NSError *error) {
         
@@ -413,6 +422,15 @@
 
 #pragma mark - Util
 - (NSURL *)latestJSBundleUrl {
+
+#if REACT_DEV == 1
+    //在线运行
+    return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios"
+                                                          fallbackResource:nil];
+#elif REACT_DEV == 2
+    //从本地加载
+    return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+#endif
     return CKURLForDocument(@"rct/bundle/latest/contents/main.jsbundle");
 }
 
