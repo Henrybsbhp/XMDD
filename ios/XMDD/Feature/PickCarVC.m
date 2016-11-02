@@ -233,6 +233,13 @@
             self.carNumLabel.text = car.licencenumber;
             self.model.selectedCar = car;
             [self.tableView reloadData];
+            
+            CKAfter(0.3, ^{
+                
+                NSIndexPath * path = [NSIndexPath indexPathForRow:self.checkIndex inSection:0];
+                [self tableView:self.tableView didSelectRowAtIndexPath:path];
+            });
+
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -326,6 +333,12 @@
                 self.carNumLabel.text = car.licencenumber;
                 self.model.selectedCar = car;
                 [self.tableView reloadData];
+                
+                CKAfter(0.3, ^{
+                    
+                    NSIndexPath * path = [NSIndexPath indexPathForRow:self.checkIndex inSection:0];
+                    [self tableView:self.tableView didSelectRowAtIndexPath:path];
+                });
             }];
             [self.navigationController pushViewController:vc animated:YES];
         }];
