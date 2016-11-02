@@ -265,17 +265,14 @@
         OETextField *textField = [cell viewWithTag:101];
         
         textField.text = self.frameNo;
-        
+        textField.textLimit = 17;
         [textField setNormalInputAccessoryViewWithDataArr:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"0"]];
-        
         [textField setTextDidChangedBlock:^(CKLimitTextField *textField) {
             
             @strongify(self)
-            
             NSString *newtext = [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
             textField.text = [newtext uppercaseString];
             self.frameNo = textField.text;
-            
         }];
     });
     return data;
