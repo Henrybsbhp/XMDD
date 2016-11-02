@@ -92,7 +92,7 @@
 
 - (void)setupPageController
 {
-    NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
+    NSInteger total = self.datasource.count + 1;
     NSInteger current = self.currentIndex;
     
     NSMutableArray * tArray = [NSMutableArray array];
@@ -101,10 +101,7 @@
         return car.licencenumber;
     }];
     [tArray safetyAddObjectsFromArray:licenceArray];
-    if (licenceArray.count < 5)
-    {
-        [tArray safetyAddObject:kOtherCarTitle];
-    }
+    [tArray safetyAddObject:kOtherCarTitle];
     
     self.pageController = nil;
     self.pageController.delegate = nil;
@@ -150,11 +147,8 @@
         NSString * obj = [self.datasource safetyObjectAtIndex:i];
         [self createIllegalCardWithCar:obj];
     }
-    
-    if (self.datasource.count < 5)
-    {
+
         [self createIllegalCardWithCar:nil];
-    }
     
     NSInteger index = NSNotFound;
     
@@ -224,7 +218,7 @@
 /// 设置pageController
 - (void)refreshPageController
 {
-    NSInteger total = self.datasource.count + (self.datasource.count < 5 ? 1 : 0);
+    NSInteger total = self.datasource.count + 1;
     self.pageController.hidden = total <= 1;
 }
 
@@ -308,7 +302,7 @@
     self.currentIndex = index;
     [self loadPageIndex:index animated:YES];
     
-    if (self.currentIndex == [self.carStore.cars allObjects].count - 1 + self.datasource.count < 5 ? 1 : 0)
+    if (self.currentIndex == [self.carStore.cars allObjects].count)
     {
         [MobClick event:@"hzfeiyongshisuan" attributes:@{@"cheliang":@"qita"}];
     }
