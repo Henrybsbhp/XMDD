@@ -411,7 +411,7 @@
         dic = [self.dataSource safetyObjectAtIndex:self.indexPath.row];
     }
     
-    total = [(NSString *)dic[@"servicefee"] integerValue];
+    total = [(NSString *)dic[@"money"] integerValue] + [(NSString *)dic[@"servicefee"] integerValue];
     return total;
 }
 
