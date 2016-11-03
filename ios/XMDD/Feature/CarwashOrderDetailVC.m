@@ -185,7 +185,16 @@
     vc.order = self.order;
     vc.originVC = self.originVC;
     [vc setCommentSuccess:^{
+        
         [self reloadTableView];
+        
+        GetCarwashOrderV2Op *op = [GetCarwashOrderV2Op operation];
+        op.req_orderid = self.order.orderid;
+        [[op rac_postRequest] subscribeNext:^(GetCarwashOrderV2Op * rop) {
+           
+            self.order = rop.rsp_order;
+            [self reloadTableView];
+        }];
     }];
     [self.navigationController pushViewController:vc animated:YES];
 }

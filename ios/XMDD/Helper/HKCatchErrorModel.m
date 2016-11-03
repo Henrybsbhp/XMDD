@@ -9,7 +9,6 @@
 #import "HKCatchErrorModel.h"
 #import "Xmdd.h"
 #import "HKLoginModel.h"
-#import "CXAlertView.h"
 
 @interface HKCatchErrorModel ()
 
