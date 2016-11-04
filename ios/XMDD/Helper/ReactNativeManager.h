@@ -10,6 +10,12 @@
 #import "HKRCTPackageConfig.h"
 #import "GetReactNativePackageOp.h"
 
+extern NSString *const kReactNativeSwitchType;
+extern NSString *const kReactNativeSwitchForceOpen;
+extern NSString *const kReactNativeSwitchForceClose;
+extern NSString *const kReactNativeSwitchAuto;
+
+
 @interface ReactNativeManager : MyUserStore
 
 @property (nonatomic, strong, readonly) RACSignal *loadingSignal;

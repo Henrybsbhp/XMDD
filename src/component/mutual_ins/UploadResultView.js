@@ -1,39 +1,44 @@
 "use strict";
 
 import React, {Component} from 'react';
-import {NavBarBackItem} from '../general/NavigatorView';
 import {
     View, StyleSheet, Text, Image, ScrollView,
 } from 'react-native';
 import UI from '../../constant/UIConstants';
-import {Actions} from '../../store/MutualInsStore';
+import GroupDetailView from './GroupDetailView';
 
 export default class UploadResultView extends Component {
-
-    constructor(props) {
-        super(props)
-        this.setupNavigator(props)
-    }
-
-    setupNavigator(props) {
-        props.route.leftItem = {
-            component: NavBarBackItem,
-            onPress: this.onBack.bind(this),
-        }
+    componentDidMount() {
+        // 设置导航条
+        this.props.navigator.replace({
+            ...this.props.route,
+            component: UploadResultView,
+            onBack: this.onBack.bind(this),
+        })
     }
 
     onBack() {
         if (this.props.route.groupID && this.props.route.memberID) { // 到团详情
+            var route = {
+                component: GroupDetailView,
+                groupName: group.groupname,
+                groupID: group.groupid,
+                shouldLogin: false,
+                title: group.groupname
+            };
+            this.props.navigator.push(route);
 
         } else  { // 到小马互助首页
-            var notify = {name:'MutualInsFetchSimpleGroups', time: new Date().getTime()}
-            this.props.navigator.popToHrefInNative('/MutualIns/Home', {notify: notify})
+            var notify = {name:'GotoMutualInsHomeView', time: new Date().getTime()}
+            this.props.navigator.popToHrefInNative('/MutualIns/Home', notify, true)
         }
     }
 
     render() {
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container}
+                        automaticallyAdjustContentInsets={false}
+            >
                 <View style={styles.content}>
                     <View style={styles.successCell}>
                         <Image source={{uri: 'MutualIns_paySuccessed'}} style={styles.successImage}/>

@@ -27,6 +27,7 @@ export default class MutualInsGroupDetailView extends Component {
             titles.splice(0, 0, '我的')
         }
         this.state = {
+            route: props.route,
             group: Store.getOrCreateDetailGroup(props.route.groupID),
             titles: titles,
             segmentIndex: 0,
@@ -40,14 +41,16 @@ export default class MutualInsGroupDetailView extends Component {
     componentDidMount() {
         this.unsubscribe = Store.listen(this.onStoreChanged.bind(this))
         Actions.fetchGroupBase(this.props.route.groupID, this.props.route.memberID)
-        if (this.props.route.shouldLogin) {
-            this.props.navigator.replace({
-                ...this.props.route,
-                component: MutualInsGroupDetailView,
-                renderRightItem: this.renderRightItem.bind(this),
-                onBack: this.onBack.bind(this),
-            })
+        this.state.route = {
+            ...this.state.route,
+            component: MutualInsGroupDetailView,
+            onBack: this.onBack.bind(this),
+            renderRightItem: this.renderRightItem.bind(this),
         }
+        if (this.props.route.shouldLogin) {
+            this.state.route.renderRightItem = this.renderRightItem.bind(this)
+        }
+        this.props.navigator.replace(this.state.route)
     }
 
     componentWillUnmount() {
@@ -61,6 +64,10 @@ export default class MutualInsGroupDetailView extends Component {
 
     onStoreChanged(domain, info) {
         if (Domains.GroupDetail == domain && this.props.route.groupID == info.groupID) {
+            if (info.base.groupname && info.base.groupname != this.state.route.title) {
+                this.state.route.title = info.base.groupname
+                this.props.navigator.replace(this.state.route)
+            }
             this.setState({group: info})
         }
     }

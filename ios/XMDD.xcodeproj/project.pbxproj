@@ -706,6 +706,8 @@
 		18A377F41AE4AB4B0031A574 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18A377F11AE4AB4B0031A574 /* SVProgressHUD.bundle */; };
 		18A377F51AE4AB4B0031A574 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations -Wno-conditional-uninitialized"; }; };
 		18BF41F91BCF75DA0039F210 /* RTLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF41F81BCF75DA0039F210 /* RTLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-shorten-64-to-32"; }; };
+		18C10FCF1DC9907200EE3EA2 /* ReactNativeDeveloperVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C10FCE1DC9907200EE3EA2 /* ReactNativeDeveloperVC.m */; };
+		18C10FD01DC9907200EE3EA2 /* ReactNativeDeveloperVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C10FCE1DC9907200EE3EA2 /* ReactNativeDeveloperVC.m */; };
 		18C52C3A1BA6CE9400F6C38B /* DAProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C52C391BA6CE9400F6C38B /* DAProgressOverlayView.m */; };
 		18CECC281C30F8890075B7F9 /* JT3DScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CECC251C30F8890075B7F9 /* JT3DScrollView.m */; };
 		18CECC291C30F8890075B7F9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 18CECC261C30F8890075B7F9 /* LICENSE */; };
@@ -3218,6 +3220,8 @@
 		18A377F31AE4AB4B0031A574 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		18BF41F71BCF75DA0039F210 /* RTLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTLabel.h; sourceTree = "<group>"; };
 		18BF41F81BCF75DA0039F210 /* RTLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTLabel.m; sourceTree = "<group>"; };
+		18C10FCD1DC9907200EE3EA2 /* ReactNativeDeveloperVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactNativeDeveloperVC.h; sourceTree = "<group>"; };
+		18C10FCE1DC9907200EE3EA2 /* ReactNativeDeveloperVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactNativeDeveloperVC.m; sourceTree = "<group>"; };
 		18C52C381BA6CE9400F6C38B /* DAProgressOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAProgressOverlayView.h; sourceTree = "<group>"; };
 		18C52C391BA6CE9400F6C38B /* DAProgressOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAProgressOverlayView.m; sourceTree = "<group>"; };
 		18CECC241C30F8890075B7F9 /* JT3DScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JT3DScrollView.h; sourceTree = "<group>"; };
@@ -5587,6 +5591,8 @@
 				18649C6C1D48B57300F1CCB0 /* JoinResultViewController.m */,
 				18649C6D1D48B57300F1CCB0 /* JoinUsViewController.h */,
 				18649C6E1D48B57300F1CCB0 /* JoinUsViewController.m */,
+				18C10FCD1DC9907200EE3EA2 /* ReactNativeDeveloperVC.h */,
+				18C10FCE1DC9907200EE3EA2 /* ReactNativeDeveloperVC.m */,
 			);
 			name = About;
 			sourceTree = "<group>";
@@ -7976,6 +7982,7 @@
 				186499961D489A9700F1CCB0 /* ViolationModel.m in Sources */,
 				186499A71D489A9700F1CCB0 /* DeleteCarOp.m in Sources */,
 				FA45629E1DB86C8D00D02B8B /* CommissionRatingVM.m in Sources */,
+				18C10FCF1DC9907200EE3EA2 /* ReactNativeDeveloperVC.m in Sources */,
 				1888F42F1D48CC6C00C64288 /* ReactNativeViewController.m in Sources */,
 				C3D9B81E1CC0DBF000B5D2A7 /* FLAnimatedImage.m in Sources */,
 				18649D011D48B7C000F1CCB0 /* SocialShareViewController.m in Sources */,
@@ -8757,6 +8764,8 @@
 				18F31A361D9B722000D9A0A9 /* GetInscouponOp.m in Sources */,
 				18F31A371D9B722000D9A0A9 /* UIColor+ColorWithHexString.m in Sources */,
 				18F31A381D9B722000D9A0A9 /* DashLine.m in Sources */,
+				18C10FD01DC9907200EE3EA2 /* ReactNativeDeveloperVC.m in Sources */,
+				18F31A391D9B722000D9A0A9 /* CXAlertView.m in Sources */,
 				18F31A3A1D9B722000D9A0A9 /* HKLoadingModel.m in Sources */,
 				18F31A3B1D9B722000D9A0A9 /* ShopListServiceCell.m in Sources */,
 				18F31A3C1D9B722000D9A0A9 /* ShopDetailServiceCell.m in Sources */,

@@ -14,6 +14,7 @@
 @interface RNWebView ()<NJKWebViewProgressDelegate, UIWebViewDelegate>
 @property (nonatomic, strong)NJKWebViewProgress * progressProxy;
 @property (nonatomic, strong)NJKWebViewProgressView *progressView;
+
 @end
 
 @implementation RNWebView
@@ -48,7 +49,12 @@
 {
     NSString *url = request.URL.absoluteString;
     if ([url hasPrefix:@"xmdd://"]) {
-        [gAppMgr.navModel pushToViewControllerByUrl:url];
+        if (self.onHandleLink) {
+            self.onHandleLink(@{@"link":url});
+        }
+        else {
+            [gAppMgr.navModel pushToViewControllerByUrl:url];
+        }
         return NO;
     }
     return [super webView: webView shouldStartLoadWithRequest: request navigationType: navigationType];

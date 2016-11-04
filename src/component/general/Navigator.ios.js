@@ -12,25 +12,44 @@ import {
 import RouteMap from '../../helper/RouteMap';
 import UI from '../../constant/UIConstants';
 
+const NavigationManager = NativeModules.NavigationManager;
+
 export default class Navigator extends Component {
-    popInNative() {
-        NativeModules.NavigationManager.popViewAnimated(true);
+    getRouteStack() {
+        return this.nav.state.routeStack
     }
 
-    popToHrefInNative(href, options) {
-        NativeNavigator.popToViewByRouteKey(href, options, true, () => {
-            this.popToHref(href)
+    popInNative() {
+        NavigationManager.popViewAnimated(true);
+    }
+
+    popToHrefInNative(href, options, reset) {
+        NavigationManager.popToViewByRouteKey(href, options, true, () => {
+            this.popToHref(href, reset)
         })
     }
 
-    popToHref(href) {
-        var routeStack = this.navigator.state.routeStack
+    popToHref(href, reset) {
+        var routeStack = this.nav.state.routeStack
         for (var route of routeStack) {
             if (route.href == href) {
                 this.nav.popToRoute(route)
-                break
+                return true;
             }
         }
+        if (reset && RouteMap[href]) {
+            this.resetTo(RouteMap[href])
+        }
+        return false;
+    }
+
+    resetTo(route) {
+        route = this.createRoute(route)
+        if (this.props.shouldBack) {
+            route.renderLeftItem = this.renderBackItem.bind(this)
+            route.onBack = this.popInNative
+        }
+        this.nav.resetTo(route)
     }
 
     pop() {
@@ -38,12 +57,12 @@ export default class Navigator extends Component {
     }
 
     push(route) {
-        this.nav.push(this._createRoute(route))
+        this.nav.push(this.createRoute(route))
     }
 
     update(oldRoute, newRoute) {
         if (this.nav) {
-            this.nav.replace(this._createRoute({...oldRoute, ...newRoute}))
+            this.nav.replace(this.createRoute({...oldRoute, ...newRoute}))
         }
         else  {
             console.log('newRoute', newRoute)
@@ -53,16 +72,21 @@ export default class Navigator extends Component {
         }
     }
 
+    replacePreviousAndPop(route) {
+        route = this.createRoute(route)
+        this.nav.replacePreviousAndPop(route)
+    }
+
     replace(route) {
         if (this.nav) {
-            this.nav.replace(this._createRoute(route))
+            this.nav.replace(this.createRoute(route))
         }
         else  {
             this._unReplacedRoute = route
         }
     }
 
-    _createRoute(route) {
+    createRoute(route) {
         return {
             onBack: this.pop.bind(this),
             ...route,
@@ -80,9 +104,9 @@ export default class Navigator extends Component {
     }
 
     render() {
-        var route = this._createRoute({
+        var route = this.createRoute({
+            ...RouteMap[this.props.href],
             title: this.props.title,
-            component: RouteMap[this.props.href],
             renderLeftItem: this.props.shouldBack ? this.renderBackItem.bind(this) : undefined,
             onBack: this.popInNative,
         })

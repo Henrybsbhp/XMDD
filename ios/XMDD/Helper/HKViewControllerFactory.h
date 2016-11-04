@@ -15,6 +15,8 @@
 + (__kindof UIViewController *)aboutUsVC;
 ///小马互助
 + (__kindof UIViewController *)mutualInsVCWithChannel:(NSString *)channel;
+///小马互助首页广告
++ (__kindof UIViewController *)mutualInsHomeAdVCWithChannel:(NSString *)channel;
 ///小马互助介绍页
 + (__kindof UIViewController *)mutualInsGroupIntroVCWithGroupType:(MutualGroupType)type;
 

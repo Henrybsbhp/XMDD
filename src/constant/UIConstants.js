@@ -11,6 +11,7 @@ const constants = {
         DefaultMutInsCarBrand: {url: 'mins_def'},
         ArrowRight: {uri: 'Common_pointer_imageView', width: 10, height: 12},
         BtnBgGreen: {uri: 'btn_bg_green'},
+        BtnBgOrange: {uri: 'btn_bg_orange'},
         BtnBgGreenBorder: {uri: 'btn_bg_green_border'},
         BtnBgGreenDisable: {uri: 'btn_bg_green_disable'},
     },

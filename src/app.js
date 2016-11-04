@@ -14,7 +14,6 @@ export default class RootView extends React.Component {
     constructor(props) {
         super(props)
         MyUserStore.isLogin = Boolean(props.isLogin)
-        this.notify = new Notify()
         this.state = {forceRerend: false}
 
     }
@@ -26,7 +25,8 @@ export default class RootView extends React.Component {
     render() {
         return (
             <View style={{flex: 1}}>
-                <Navigator {...this.props}/>
+                <Navigator {...this.props}
+                           ref={(nav) => {Notify.RootNavigator = nav}}/>
             </View>
         );
     }
@@ -34,6 +34,3 @@ export default class RootView extends React.Component {
 
 AppRegistry.registerComponent('App', () => RootView);
 BatchedBridge.registerCallableModule('Notify', Notify);
-
-import TestView from './component/test/TestView';
-AppRegistry.registerComponent('Test', () => TestView)

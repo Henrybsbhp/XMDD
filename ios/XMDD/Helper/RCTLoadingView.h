@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <RCTComponent.h>
 #import "UIView+JTLoadingView.h"
 
 @interface RCTLoadingView : UIView
