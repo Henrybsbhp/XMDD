@@ -14,6 +14,7 @@
 #import "CheckoutUnioncardQuickpayOp.h"
 #import "GetTokenOp.h"
 #import "MyBankCard.h"
+#import "NSString+RectSize.h"
 
 @interface UPayVerifyVC ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -120,7 +121,18 @@
     CKDict *data = [CKDict dictWith:@{kCKCellID : @"HeaderCell"}];
     
     data[kCKCellGetHeight] = CKCellGetHeight(^CGFloat(CKDict *data, NSIndexPath *indexPath) {
-        return 40;
+        
+        if ([identifier isEqualToString:@"FeeCell"])
+        {
+            return 40;
+        }
+        else
+        {
+            CGFloat titleLbWidth = [@"服务项目" labelSizeWithWidth:9999 font:[UIFont systemFontOfSize:14]].width;
+            CGFloat lbWidth = ScreenWidth - 15 - titleLbWidth - 10 - 15;
+            CGSize size = [self.serviceName labelSizeWithWidth:lbWidth font:[UIFont systemFontOfSize:14]];
+            return size.height + 23;
+        }
     });
     
     data[kCKCellPrepare] = CKCellPrepare(^(CKDict *data, __kindof UITableViewCell *cell, NSIndexPath *indexPath) {

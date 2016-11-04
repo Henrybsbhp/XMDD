@@ -392,7 +392,7 @@
 
         if (self.commentSuccess)
         {
-            [self commentSuccess];
+            self.commentSuccess();
         }
     } error:^(NSError *error) {
         [gToast showError:error.domain];
