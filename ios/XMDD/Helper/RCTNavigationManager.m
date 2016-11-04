@@ -29,7 +29,7 @@ RCT_EXPORT_METHOD(popToViewByRouteKey:(NSString *)key props:(NSDictionary *)prop
             if (props && [route.targetViewController isKindOfClass:[ReactNativeViewController class]]) {
                 ReactNativeViewController *rctvc = (ReactNativeViewController *)route.targetViewController;
                 [rctvc.rctView.rctRootView.bridge enqueueJSCall:@"Notify" method:@"handle"
-                                                           args:@[@"MutualInsFetchSimpleGroups"] completion:nil];
+                                                           args:@[props] completion:nil];
             }
         });
     }

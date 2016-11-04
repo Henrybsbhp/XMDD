@@ -10,6 +10,7 @@
 #import "ReactNativeManager.h"
 #import "ReactNativeViewController.h"
 #import "MutualInsVC.h"
+#import "MutualInsHomeAdVC.h"
 #import "AboutViewController.h"
 
 @implementation HKViewControllerFactory
@@ -34,6 +35,19 @@
     }
     
     MutualInsVC * vc = [UIStoryboard vcWithId:@"MutualInsVC" inStoryboard:@"MutualInsJoin"];
+    vc.sensorChannel = channel;
+    return vc;
+}
+
+///小马互助首页广告
++ (__kindof UIViewController *)mutualInsHomeAdVCWithChannel:(NSString *)channel {
+    if ([[ReactNativeManager sharedManager] checkReactNativeEnabledIfNeeded]) {
+        NSDictionary *props = @{@"title": @"小马互助", @"shouldBack": @YES,@"sensorChannel":channel ?: @""};
+        UIViewController *vc = [[ReactNativeViewController alloc] initWithHref:@"/MutualIns/ADHome" properties:props];
+        vc.router.key = @"/MutualIns/Home";
+        return vc;
+    }
+    MutualInsHomeAdVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsHomeAdVC"];
     vc.sensorChannel = channel;
     return vc;
 }

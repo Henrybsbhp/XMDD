@@ -26,6 +26,7 @@ const constants = {
         Phone: 'tel://4007111111',
         MutualInsUsingHelp: "http://xiaomadada.com/xmdd-web/xmdd-app/qa.html",
         MutualInsDetailUsingHelp: "http://www.xiaomadada.com/apphtml/tuan-help.html",
+        MutualInsADHome: "http://www.xiaomadada.com/apphtml/huzhujieshao-app.html",
         MutualInsCompensation: "xmdd://j?t=coincldtlo",
         MutualInsCalculate: 'xmdd://j?t=coinscalc&channel=apphzsy',
         MutualInsOrder: id => 'xmdd://j?t=coinso&id=' + id,

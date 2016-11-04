@@ -57,7 +57,7 @@
 #elif XMDDEnvironment==1
 //测试环境
     #define UrlPrefix @"https://dev.xiaomadada.com"
-    #define XmddBaseUrl @"http://dev01.xiaomadada.com"
+    #define XmddBaseUrl @"http://dev.xiaomadada.com"
     #define ApiBaseUrl @"https://dev.xiaomadada.com/paa/rest/api"
     #define ApiFormalUrl @"https://www.xiaomadada.com/paa/rest/api" //正式
     #define RCTServerBaseUrl    @"http://dev01.xiaomadada.com/rct/server"

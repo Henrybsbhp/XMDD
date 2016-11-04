@@ -5,9 +5,11 @@ import {View, StyleSheet, Text, TouchableOpacity, Image, TouchableWithoutFeedbac
 import Toast from 'react-native-root-toast';
 import WebView from '../general/WebView';
 import UI from '../../constant/UIConstants';
-import ChooseCarView from './ChooseCarView';
 import net from '../../helper/Network';
 import HudView from '../general/HudView';
+import ChooseCarView from './ChooseCarView';
+import UploadInfoView from './UploadInfoView';
+
 
 export default class GroupIntroductionView extends Component {
     constructor(props) {
@@ -37,6 +39,9 @@ export default class GroupIntroductionView extends Component {
             if (cars && cars.length > 0) {
                 route = {component: ChooseCarView, title: '选择车辆', cars: cars}
             }
+            else {
+                route = {component: UploadInfoView, title: '完善入团信息'}
+            }
             this.props.navigator.push(route);
         }).catch(e => {
             this.refs.hud.hide()
@@ -56,7 +61,9 @@ export default class GroupIntroductionView extends Component {
                          ref="webView"
                          automaticallyAdjustContentInsets={false}
                          scalesPageToFit={true}
-                         style={styles.webView}/>
+                         navigator={this.props.navigator}
+                         style={styles.webView}
+                />
                 <View style={styles.bottomView}>
                     <View style={styles.line}/>
                     <View style={styles.agreementView}>

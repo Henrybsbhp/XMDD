@@ -65,6 +65,10 @@ export default class MutualInsView extends Component {
         this.unsubscribe()
     }
 
+    isInGroup(car) {
+        return Boolean(car && car.groupid > 0 && car.status != 0)
+    }
+
     /// Actions
     createDatasource(cars) {
         var dataBlob = [{render: this.renderHeaderSection.bind(this)}]
@@ -130,7 +134,7 @@ export default class MutualInsView extends Component {
 
     onCarCellPress(car) {
         var {callback} = this.configInfoForCarButton(car)
-        var hasGroup = car.extendinfo && car.extendinfo.length > 0
+        var hasGroup = this.isInGroup(car)
         if (callback) {
             callback()
         }
@@ -199,6 +203,7 @@ export default class MutualInsView extends Component {
                 <RefreshControl.ListView
                     onRefresh={Actions.fetchSimpleGroups}
                     style={styles.bg}
+                    automaticallyAdjustContentInsets={false}
                     refreshing={this.state.loading}
                     dataSource={this.state.dataSource}
                     renderRow={(row, sid, rid) => row.render(row, sid, rid)}
@@ -342,7 +347,7 @@ export default class MutualInsView extends Component {
             );
         }
         var logo = row.car.brandlogo  && row.car.brandlogo.length > 0 ? {uri: row.car.brandlogo} : undefined
-        var showGroup = row.car.extendinfo && row.car.extendinfo.length > 0
+        var showGroup = this.isInGroup(row.car)
         return (
             <View style={styles.verticalContainer}>
                 <TouchableOpacity onPress={() => {this.onCarCellPress(row.car)}}>

@@ -423,10 +423,8 @@
         }
         //加入小马互助长条广告
         else if ([@"coinsad" equalByCaseInsensitive:name]) {
-            
-            MutualInsHomeAdVC *vc = [mutualInsJoinStoryboard instantiateViewControllerWithIdentifier:@"MutualInsHomeAdVC"];
-            NSString * channel = params[@"channel"];
-            vc.sensorChannel = channel;
+
+            UIViewController *vc = [HKViewControllerFactory mutualInsHomeAdVCWithChannel:params[@"channel"]];
             [self.curNavCtrl pushViewController:vc animated:YES];
             return YES;
         }

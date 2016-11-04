@@ -9,5 +9,5 @@
 #import "RCTWebView.h"
 
 @interface RNWebView : RCTWebView
-
+@property (nonatomic, copy) RCTBubblingEventBlock onHandleLink;
 @end

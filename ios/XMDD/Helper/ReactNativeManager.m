@@ -25,6 +25,11 @@
 #define kTimetagForReactUpdating                    @"react.updating"
 #define kDefaultReactEnabled    NO
 
+NSString *const kReactNativeSwitchType = @"$ReactNativeSwitchType";
+NSString *const kReactNativeSwitchForceOpen = @"$ReactNativeSwitchForceOpen";
+NSString *const kReactNativeSwitchForceClose = @"$ReactNativeSwitchForceClose";
+NSString *const kReactNativeSwitchAuto = @"$ReactNativeSwitchAuto";
+
 @interface ReactNativeManager ()
 @property (nonatomic, strong) HKFileCache *fileCache;
 @end
@@ -374,6 +379,15 @@
 
 #pragma mark - 检测react native是否启用
 - (BOOL)checkReactNativeEnabledIfNeeded {
+#if XMDDEnvironment != 2
+    NSString *type = [[NSUserDefaults standardUserDefaults] objectForKey:kReactNativeSwitchType];
+    if ([type isEqual:kReactNativeSwitchForceOpen]) {
+        return YES;
+    }
+    else if ([type isEqual:kReactNativeSwitchForceClose]) {
+        return NO;
+    }
+#endif
     if ([self needUpdateTimetagForKey:kTimetagForReactEnabledWithoutLogin]) {
         [self checkReactEnabledWithLogin:NO];
     }

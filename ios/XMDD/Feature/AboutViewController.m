@@ -14,6 +14,7 @@
 #import "GetShareButtonOpV2.h"
 #import "ShareResponeManager.h"
 #import "ReactTestViewController.h"
+#import "ReactNativeDeveloperVC.h"
 #import "RRFPSBar.h"
 #import "ScanQRCodeVC.h"
 
@@ -117,18 +118,13 @@ typedef void(^MyBlock)(void);
         [self setupFPSObserver];
     }];
     
-    CKDict * rct1 = [self setupCellWithTitle:@"RCT1" andAction:^{
+    CKDict * rct1 = [self setupCellWithTitle:@"React Native" andAction:^{
         
         @strongify(self)
         [self actionRCT];
     }];
     
-    CKDict * rct2 = [self setupCellWithTitle:@"RCT2" andAction:^{
-        
-        @strongify(self)
-        [self actionRCT2];
-    }];
-    
+
     CKDict * paramsAlert = [self setupCellWithTitle:@"网络请求参数开关" andAction:^{
        
         @strongify(self)
@@ -157,7 +153,6 @@ typedef void(^MyBlock)(void);
     [list addObject:testWeb forKey:nil];
     [list addObject:fps forKey:nil];
     [list addObject:rct1 forKey:nil];
-    [list addObject:rct2 forKey:nil];
     [list addObject:paramsAlert forKey:nil];
     [list addObject:qr forKey:nil];
 #endif
@@ -335,17 +330,10 @@ typedef void(^MyBlock)(void);
 #pragma mark - RN
 - (void)actionRCT
 {
-    ReactTestViewController * vc = [aboutStoryboard instantiateViewControllerWithIdentifier:@"ReactTestViewController"];
-    vc.modulName = @"MyInfoView";
+    ReactNativeDeveloperVC *vc = [[ReactNativeDeveloperVC alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)actionRCT2
-{
-    ReactTestViewController * vc = [aboutStoryboard instantiateViewControllerWithIdentifier:@"ReactTestViewController"];
-    vc.modulName = @"helloworld";
-    [self.navigationController pushViewController:vc animated:YES];
-}
 
 #pragma mark - Network request parameters
 - (void)actionShowRequestParamsAlert {

@@ -59,6 +59,7 @@ export default class GroupListView extends Component {
                        onPress={this.fetchAllGroups.bind(this)}>
                 <ListView style={styles.listView}
                           dataSource={this.state.datasource}
+                          automaticallyAdjustContentInsets={false}
                           renderRow={this.renderGroup.bind(this)}
                 />
             </BlankView>
