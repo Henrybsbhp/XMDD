@@ -83,7 +83,7 @@ export default class MutualInsView extends Component {
         return this.ds.cloneWithRows(dataBlob)
     }
 
-    showMenu() {
+    showMenu() {Toast
         this.setState({menuOpened: !this.state.menuOpened})
     }
 
@@ -181,9 +181,11 @@ export default class MutualInsView extends Component {
 
     onCalculatePress() {
         this.setState({menuOpened: false})
-        NavigationManager.pushViewControllerByUrl(Constant.Link.MutualInsCalculate)
+        // NavigationManager.pushViewControllerByUrl(Constant.Link.MutualInsCalculate)
         // var route = {component: CalculationView, title: '费用试算'}
         // this.props.navigator.push(route)
+        var route = {component: CalculationView, title: '费用试算'}
+        this.props.navigator.push(route);
     }
 
     onGotoGroupList() {

@@ -481,15 +481,17 @@
         if (isFastClaimInt == 1 && status == 3) {
             stamperImageView.hidden = NO;
             
-            if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]])
-            {
+            if (dict.customObject && [dict.customObject isKindOfClass:[UIImage class]]) {
+                
                 stamperImageView.image = dict.customObject;
-            }
-            else
-            {
-                UIImage * cuttedImage = [self.stamperImage croppedImage:CGRectMake(0, 0, StamperImageWidthHeight, 16)];
+                
+            } else {
+                
+                UIImage *cuttedImage = [self.stamperImage croppedImage:CGRectMake(0, 0, StamperImageWidthHeight, 16)];
+                
                 dict.customObject = cuttedImage;
                 stamperImageView.image = dict.customObject;
+                
             }
         } else {
             stamperImageView.hidden = YES;

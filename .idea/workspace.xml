@@ -5,35 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="181cf7ef-9f6f-448e-b69a-fdb2081a69a0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ReactNativeDeveloperVC.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/ReactNativeDeveloperVC.m" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/component/test/TestView.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/RNWebView.m" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/RNWebView.m" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/ios/XMDD.xcodeproj/project.pbxproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Feature/AboutViewController.m" afterPath="$PROJECT_DIR$/ios/XMDD/Feature/AboutViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/HKViewControllerFactory.h" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/HKViewControllerFactory.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/HKViewControllerFactory.m" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/HKViewControllerFactory.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/NavigationModel.m" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/NavigationModel.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/RCTLoadingView.h" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/RCTLoadingView.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/RCTNavigationManager.m" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/RCTNavigationManager.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/RNWebView.h" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/RNWebView.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/RNWebViewManager.m" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/RNWebViewManager.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/ReactNativeManager.h" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/ReactNativeManager.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Helper/ReactNativeManager.m" afterPath="$PROJECT_DIR$/ios/XMDD/Helper/ReactNativeManager.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Macro/HKConstants.h" afterPath="$PROJECT_DIR$/ios/XMDD/Macro/HKConstants.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app.js" afterPath="$PROJECT_DIR$/src/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/general/Navigator.ios.js" afterPath="$PROJECT_DIR$/src/component/general/Navigator.ios.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/general/WebView.js" afterPath="$PROJECT_DIR$/src/component/general/WebView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/mutual_ins/GroupDetailView.js" afterPath="$PROJECT_DIR$/src/component/mutual_ins/GroupDetailView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/mutual_ins/GroupIntroductionView.js" afterPath="$PROJECT_DIR$/src/component/mutual_ins/GroupIntroductionView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/mutual_ins/GroupListView.js" afterPath="$PROJECT_DIR$/src/component/mutual_ins/GroupListView.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Commission.storyboard" afterPath="$PROJECT_DIR$/ios/XMDD/Resource/Storyboard/Commission.storyboard" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/mutual_ins/CalculationView.js" afterPath="$PROJECT_DIR$/src/component/mutual_ins/CalculationView.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/mutual_ins/MutualInsView.js" afterPath="$PROJECT_DIR$/src/component/mutual_ins/MutualInsView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/component/mutual_ins/UploadResultView.js" afterPath="$PROJECT_DIR$/src/component/mutual_ins/UploadResultView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/constant/Constants.js" afterPath="$PROJECT_DIR$/src/constant/Constants.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/constant/UIConstants.js" afterPath="$PROJECT_DIR$/src/constant/UIConstants.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/helper/Notify.js" afterPath="$PROJECT_DIR$/src/helper/Notify.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/helper/RouteMap.js" afterPath="$PROJECT_DIR$/src/helper/RouteMap.js" />
     </list>
     <ignored path="xmdd_ios.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,136 +25,208 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+            <file leaf-file-name="TestProject.js" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/../../Xcode/React Native/PropertyFinder/TestProject.js">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="105">
+                    <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="ImageAlert.js" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/../../Xcode/React Native/PropertyFinder/src/component/general/popup/ImageAlert.js">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="420">
+                    <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+                    <folding>
+                      <element signature="e#14#64#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="MutualInsView.js" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/MutualInsView.js">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="174">
+                    <caret line="103" column="19" selection-start-line="103" selection-start-column="19" selection-end-line="103" selection-end-column="19" />
+                    <folding>
+                      <element signature="e#14#53#0" expanded="true" />
+                      <element signature="e#1344#1544#0" expanded="false" />
+                      <element signature="e#1632#1775#0" expanded="false" />
+                      <element signature="e#3623#3780#0" expanded="false" />
+                      <element signature="e#3661#3718#0" expanded="false" />
+                      <element signature="e#3732#3774#0" expanded="false" />
+                      <element signature="e#4521#4594#0" expanded="false" />
+                      <element signature="e#6306#7113#0" expanded="false" />
+                      <element signature="e#6412#7089#0" expanded="false" />
+                      <element signature="e#6472#6760#0" expanded="false" />
+                      <element signature="e#6785#7061#0" expanded="false" />
+                      <element signature="e#7262#7542#0" expanded="false" />
+                      <element signature="e#7293#7526#0" expanded="false" />
+                      <element signature="e#7316#7506#0" expanded="false" />
+                      <element signature="e#10363#10918#0" expanded="false" />
+                      <element signature="e#10979#11347#0" expanded="false" />
+                      <element signature="e#11095#11230#0" expanded="false" />
+                      <element signature="e#11364#11490#0" expanded="false" />
+                      <element signature="e#12500#13832#0" expanded="false" />
+                      <element signature="e#12556#13629#0" expanded="false" />
+                      <element signature="e#12642#13593#0" expanded="false" />
+                      <element signature="e#13978#14076#0" expanded="false" />
+                      <element signature="e#14111#14212#0" expanded="false" />
+                      <element signature="e#14266#14363#0" expanded="false" />
+                      <element signature="e#18362#19435#0" expanded="false" />
+                      <element signature="e#18393#19419#0" expanded="false" />
+                      <element signature="e#18530#18914#0" expanded="false" />
+                      <element signature="e#18700#18890#0" expanded="false" />
+                      <element signature="e#18960#19385#0" expanded="false" />
+                      <element signature="e#19068#19345#0" expanded="false" />
+                      <element signature="e#20988#21137#0" expanded="false" />
+                      <element signature="e#21243#21347#0" expanded="false" />
+                      <element signature="e#22226#22351#0" expanded="false" />
+                      <element signature="e#22532#22652#0" expanded="false" />
+                      <element signature="e#22871#22981#0" expanded="false" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="GroupDetailView.js" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupDetailView.js">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="390">
+                    <caret line="43" column="28" selection-start-line="43" selection-start-column="28" selection-end-line="43" selection-end-column="28" />
+                    <folding>
+                      <element signature="e#1134#1183#0" expanded="false" />
+                      <element signature="e#2156#2190#0" expanded="false" />
+                      <element signature="e#2221#2263#0" expanded="false" />
+                      <element signature="e#2862#2935#0" expanded="false" />
+                      <element signature="e#2958#3154#0" expanded="false" />
+                      <element signature="e#3176#3333#0" expanded="false" />
+                      <element signature="e#3355#3907#0" expanded="false" />
+                      <element signature="e#3413#3645#0" expanded="false" />
+                      <element signature="e#3516#3635#0" expanded="false" />
+                      <element signature="e#3659#3805#0" expanded="false" />
+                      <element signature="e#3818#3900#0" expanded="false" />
+                      <element signature="e#3927#4423#0" expanded="false" />
+                      <element signature="e#3985#4161#0" expanded="false" />
+                      <element signature="e#4083#4151#0" expanded="false" />
+                      <element signature="e#4175#4321#0" expanded="false" />
+                      <element signature="e#4334#4416#0" expanded="false" />
+                      <element signature="e#4456#4645#0" expanded="false" />
+                      <element signature="e#4486#4637#0" expanded="false" />
+                      <element signature="e#4675#5937#0" expanded="false" />
+                      <element signature="e#4841#5920#0" expanded="false" />
+                      <element signature="e#4877#5897#0" expanded="false" />
+                      <element signature="e#5115#5238#0" expanded="false" />
+                      <element signature="e#5966#6297#0" expanded="false" />
+                      <element signature="e#5997#6281#0" expanded="false" />
+                      <element signature="e#6020#6261#0" expanded="false" />
+                      <element signature="e#6323#6572#0" expanded="false" />
+                      <element signature="e#6354#6555#0" expanded="false" />
+                      <element signature="e#6591#8491#0" expanded="false" />
+                      <element signature="e#6663#8474#0" expanded="false" />
+                      <element signature="e#6857#7068#0" expanded="false" />
+                      <element signature="e#7154#7365#0" expanded="false" />
+                      <element signature="e#7444#7670#0" expanded="false" />
+                      <element signature="e#7706#7914#0" expanded="false" />
+                      <element signature="e#7976#8205#0" expanded="false" />
+                      <element signature="e#8241#8447#0" expanded="false" />
+                      <element signature="e#8515#9318#0" expanded="false" />
+                      <element signature="e#8546#9302#0" expanded="false" />
+                      <element signature="e#8789#8956#0" expanded="false" />
+                      <element signature="e#8973#9276#0" expanded="false" />
+                      <element signature="e#9098#9273#0" expanded="false" />
+                      <element signature="e#9344#10133#0" expanded="false" />
+                      <element signature="e#9375#10117#0" expanded="false" />
+                      <element signature="e#9616#9785#0" expanded="false" />
+                      <element signature="e#9802#10091#0" expanded="false" />
+                      <element signature="e#9927#10088#0" expanded="false" />
+                      <element signature="e#10424#10591#0" expanded="false" />
+                      <element signature="e#10608#10894#0" expanded="false" />
+                      <element signature="e#10734#10891#0" expanded="false" />
+                      <element signature="e#10973#11065#0" expanded="false" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="Toast.js" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/node_modules/react-native-root-toast/lib/Toast.js">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="120">
+                    <caret line="8" column="68" selection-start-line="8" selection-start-column="54" selection-end-line="8" selection-end-column="68" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="MutualInsStore.js" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/store/MutualInsStore.js">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="504">
+                    <caret line="72" column="29" selection-start-line="72" selection-start-column="27" selection-end-line="72" selection-end-column="29" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="xmdd_ios" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MutualInsView.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/MutualInsView.js">
+      <file leaf-file-name="CalculationResultView.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/CalculationResultView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1054">
-              <caret line="140" column="25" selection-start-line="140" selection-start-column="20" selection-end-line="140" selection-end-column="25" />
+            <state relative-caret-position="255">
+              <caret line="24" column="92" selection-start-line="24" selection-start-column="92" selection-end-line="24" selection-end-column="92" />
               <folding>
-                <element signature="e#1344#1544#0" expanded="false" />
-                <element signature="e#1632#1775#0" expanded="false" />
-                <element signature="e#1936#1970#0" expanded="false" />
-                <element signature="e#2109#2512#0" expanded="false" />
-                <element signature="e#2219#2364#0" expanded="false" />
-                <element signature="e#2255#2354#0" expanded="false" />
-                <element signature="e#2378#2459#0" expanded="false" />
-                <element signature="e#2529#2596#0" expanded="false" />
-                <element signature="e#2617#2780#0" expanded="false" />
-                <element signature="e#2643#2772#0" expanded="false" />
-                <element signature="e#3160#3589#0" expanded="false" />
-                <element signature="e#3206#3583#0" expanded="false" />
-                <element signature="e#3311#3437#0" expanded="false" />
-                <element signature="e#3520#3573#0" expanded="false" />
-                <element signature="e#3618#3775#0" expanded="false" />
-                <element signature="e#3656#3713#0" expanded="false" />
-                <element signature="e#3727#3769#0" expanded="false" />
-                <element signature="e#4516#4589#0" expanded="false" />
-                <element signature="e#4609#4764#0" expanded="false" />
-                <element signature="e#4631#4715#0" expanded="false" />
-                <element signature="e#4798#4892#0" expanded="false" />
-                <element signature="e#4917#5051#0" expanded="false" />
-                <element signature="e#5076#5321#0" expanded="false" />
-                <element signature="e#5213#5271#0" expanded="false" />
-                <element signature="e#6192#6999#0" expanded="false" />
-                <element signature="e#6298#6975#0" expanded="false" />
-                <element signature="e#6358#6646#0" expanded="false" />
-                <element signature="e#6671#6947#0" expanded="false" />
-                <element signature="e#7148#7428#0" expanded="false" />
-                <element signature="e#7179#7412#0" expanded="false" />
-                <element signature="e#7202#7392#0" expanded="false" />
-                <element signature="e#7467#8602#0" expanded="false" />
-                <element signature="e#7498#8585#0" expanded="false" />
-                <element signature="e#7646#7827#0" expanded="false" />
-                <element signature="e#8203#8373#0" expanded="false" />
-                <element signature="e#8390#8558#0" expanded="false" />
-                <element signature="e#8647#9451#0" expanded="false" />
-                <element signature="e#8678#9435#0" expanded="false" />
-                <element signature="e#8922#9089#0" expanded="false" />
-                <element signature="e#9106#9409#0" expanded="false" />
-                <element signature="e#9231#9406#0" expanded="false" />
-                <element signature="e#9504#11413#0" expanded="false" />
-                <element signature="e#9575#11396#0" expanded="false" />
-                <element signature="e#9633#10187#0" expanded="false" />
-                <element signature="e#10249#10804#0" expanded="false" />
-                <element signature="e#10865#11233#0" expanded="false" />
-                <element signature="e#10981#11116#0" expanded="false" />
-                <element signature="e#11250#11376#0" expanded="false" />
-                <element signature="e#11454#11820#0" expanded="false" />
-                <element signature="e#11485#11804#0" expanded="false" />
-                <element signature="e#11612#11784#0" expanded="false" />
-                <element signature="e#11928#12199#0" expanded="false" />
-                <element signature="e#11969#12174#0" expanded="false" />
-                <element signature="e#12031#12150#0" expanded="false" />
-                <element signature="e#12386#13718#0" expanded="false" />
-                <element signature="e#12442#13515#0" expanded="false" />
-                <element signature="e#12528#13479#0" expanded="false" />
-                <element signature="e#13769#14305#0" expanded="false" />
-                <element signature="e#13864#13962#0" expanded="false" />
-                <element signature="e#13997#14098#0" expanded="false" />
-                <element signature="e#14152#14249#0" expanded="false" />
-                <element signature="e#14332#14845#0" expanded="false" />
-                <element signature="e#14440#14829#0" expanded="false" />
-                <element signature="e#14566#14726#0" expanded="false" />
-                <element signature="e#14873#16376#0" expanded="false" />
-                <element signature="e#15064#15242#0" expanded="false" />
-                <element signature="e#15333#15508#0" expanded="false" />
-                <element signature="e#15603#15780#0" expanded="false" />
-                <element signature="e#15811#16360#0" expanded="false" />
-                <element signature="e#15896#16328#0" expanded="false" />
-                <element signature="e#15956#16221#0" expanded="false" />
-                <element signature="e#16422#16783#0" expanded="false" />
-                <element signature="e#16453#16766#0" expanded="false" />
-                <element signature="e#16526#16746#0" expanded="false" />
-                <element signature="e#16828#17135#0" expanded="false" />
-                <element signature="e#16859#17119#0" expanded="false" />
-                <element signature="e#17181#17855#0" expanded="false" />
-                <element signature="e#17270#17713#0" expanded="false" />
-                <element signature="e#17348#17687#0" expanded="false" />
-                <element signature="e#17743#17839#0" expanded="false" />
-                <element signature="e#17901#18217#0" expanded="false" />
-                <element signature="e#17977#18074#0" expanded="false" />
-                <element signature="e#18105#18201#0" expanded="false" />
-                <element signature="e#18248#19321#0" expanded="false" />
-                <element signature="e#18279#19305#0" expanded="false" />
-                <element signature="e#18416#18800#0" expanded="false" />
-                <element signature="e#18586#18776#0" expanded="false" />
-                <element signature="e#18846#19271#0" expanded="false" />
-                <element signature="e#18954#19231#0" expanded="false" />
-                <element signature="e#19358#23233#0" expanded="false" />
-                <element signature="e#20874#21023#0" expanded="false" />
-                <element signature="e#21129#21233#0" expanded="false" />
-                <element signature="e#22112#22237#0" expanded="false" />
-                <element signature="e#22418#22538#0" expanded="false" />
-                <element signature="e#22757#22867#0" expanded="false" />
+                <element signature="e#48#98#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ModalView.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/component/general/ModalView.js">
+      <file leaf-file-name="UIConstants.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/constant/UIConstants.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2975">
-              <caret line="178" column="5" selection-start-line="178" selection-start-column="5" selection-end-line="178" selection-end-column="5" />
+            <state relative-caret-position="204">
+              <caret line="28" column="31" selection-start-line="28" selection-start-column="31" selection-end-line="28" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UploadResultView.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/UploadResultView.js">
+      <file leaf-file-name="CalculationView.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/CalculationView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
-              <folding>
-                <element signature="e#15#54#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="195">
+              <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HudView.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/component/general/HudView.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="303">
+              <caret line="31" column="12" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="12" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -187,128 +234,35 @@
       <file leaf-file-name="UploadInfoView.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/UploadInfoView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1904">
-              <caret line="122" column="23" selection-start-line="122" selection-start-column="13" selection-end-line="122" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GroupDetailView.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupDetailView.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+            <state relative-caret-position="91">
+              <caret line="103" column="35" selection-start-line="103" selection-start-column="8" selection-end-line="103" selection-end-column="35" />
               <folding>
-                <element signature="e#1134#1183#0" expanded="false" />
-                <element signature="e#2156#2190#0" expanded="false" />
-                <element signature="e#2221#2263#0" expanded="false" />
-                <element signature="e#2862#2935#0" expanded="false" />
-                <element signature="e#2958#3154#0" expanded="false" />
-                <element signature="e#3176#3333#0" expanded="false" />
-                <element signature="e#3355#3907#0" expanded="false" />
-                <element signature="e#3413#3645#0" expanded="false" />
-                <element signature="e#3516#3635#0" expanded="false" />
-                <element signature="e#3659#3805#0" expanded="false" />
-                <element signature="e#3818#3900#0" expanded="false" />
-                <element signature="e#3927#4423#0" expanded="false" />
-                <element signature="e#3985#4161#0" expanded="false" />
-                <element signature="e#4083#4151#0" expanded="false" />
-                <element signature="e#4175#4321#0" expanded="false" />
-                <element signature="e#4334#4416#0" expanded="false" />
-                <element signature="e#4456#4645#0" expanded="false" />
-                <element signature="e#4486#4637#0" expanded="false" />
-                <element signature="e#4675#5937#0" expanded="false" />
-                <element signature="e#4841#5920#0" expanded="false" />
-                <element signature="e#4877#5897#0" expanded="false" />
-                <element signature="e#5115#5238#0" expanded="false" />
-                <element signature="e#5966#6297#0" expanded="false" />
-                <element signature="e#5997#6281#0" expanded="false" />
-                <element signature="e#6020#6261#0" expanded="false" />
-                <element signature="e#6323#6572#0" expanded="false" />
-                <element signature="e#6354#6555#0" expanded="false" />
-                <element signature="e#6591#8491#0" expanded="false" />
-                <element signature="e#6663#8474#0" expanded="false" />
-                <element signature="e#6857#7068#0" expanded="false" />
-                <element signature="e#7154#7365#0" expanded="false" />
-                <element signature="e#7444#7670#0" expanded="false" />
-                <element signature="e#7706#7914#0" expanded="false" />
-                <element signature="e#7976#8205#0" expanded="false" />
-                <element signature="e#8241#8447#0" expanded="false" />
-                <element signature="e#8515#9318#0" expanded="false" />
-                <element signature="e#8546#9302#0" expanded="false" />
-                <element signature="e#8789#8956#0" expanded="false" />
-                <element signature="e#8973#9276#0" expanded="false" />
-                <element signature="e#9098#9273#0" expanded="false" />
-                <element signature="e#9344#10133#0" expanded="false" />
-                <element signature="e#9375#10117#0" expanded="false" />
-                <element signature="e#9616#9785#0" expanded="false" />
-                <element signature="e#9802#10091#0" expanded="false" />
-                <element signature="e#9927#10088#0" expanded="false" />
-                <element signature="e#10157#10936#0" expanded="false" />
-                <element signature="e#10188#10920#0" expanded="false" />
-                <element signature="e#10424#10591#0" expanded="false" />
-                <element signature="e#10608#10894#0" expanded="false" />
-                <element signature="e#10734#10891#0" expanded="false" />
-                <element signature="e#10973#11065#0" expanded="false" />
+                <element signature="e#15#54#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Navigator.ios.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/component/general/Navigator.ios.js">
+      <file leaf-file-name="ToastContainer.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/react-native-root-toast/lib/ToastContainer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1751">
-              <caret line="114" column="19" selection-start-line="114" selection-start-column="19" selection-end-line="114" selection-end-column="19" />
+            <state relative-caret-position="285">
+              <caret line="36" column="20" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
               <folding>
-                <element signature="e#14#53#0" expanded="true" />
+                <element signature="e#0#60#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NavigatorIOS.ios.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/Navigation/NavigatorIOS.ios.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="14586">
-              <caret line="858" column="33" selection-start-line="858" selection-start-column="9" selection-end-line="858" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CalculationView.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/CalculationView.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="23" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GroupListView.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupListView.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GroupIntroductionView.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupIntroductionView.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="901">
-              <caret line="61" column="25" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="65" />
-              <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -323,7 +277,6 @@
         <option value="$PROJECT_DIR$/ios/XMDD.xcodeproj/project.pbxproj" />
         <option value="$PROJECT_DIR$/src/component/general/ImageUploadingView.js" />
         <option value="$PROJECT_DIR$/src/component/general/popup/ImagePicker.js" />
-        <option value="$PROJECT_DIR$/src/component/mutual_ins/CalculationView.js" />
         <option value="$PROJECT_DIR$/src/store/AppStore.js" />
         <option value="$PROJECT_DIR$/src/store/MutualInsStore.js" />
         <option value="$PROJECT_DIR$/src/component/mutual_ins/GroupDetailMeView.js" />
@@ -351,9 +304,13 @@
         <option value="$PROJECT_DIR$/src/helper/Notify.js" />
         <option value="$PROJECT_DIR$/src/component/general/Navigator.ios.js" />
         <option value="$PROJECT_DIR$/src/component/mutual_ins/UploadResultView.js" />
-        <option value="$PROJECT_DIR$/src/component/mutual_ins/MutualInsView.js" />
         <option value="$PROJECT_DIR$/src/component/mutual_ins/GroupListView.js" />
         <option value="$PROJECT_DIR$/src/component/mutual_ins/GroupDetailView.js" />
+        <option value="$PROJECT_DIR$/src/component/mutual_ins/ImageTips.js" />
+        <option value="$PROJECT_DIR$/src/component/general/popup/ImageTips.js" />
+        <option value="$PROJECT_DIR$/src/component/mutual_ins/MutualInsView.js" />
+        <option value="$PROJECT_DIR$/src/component/mutual_ins/CalculationResultView.js" />
+        <option value="$PROJECT_DIR$/src/component/mutual_ins/CalculationView.js" />
       </list>
     </option>
   </component>
@@ -371,7 +328,7 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="873" />
+    <option name="height" value="827" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -398,8 +355,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -684,10 +641,14 @@
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
+    <property name="SearchEverywhereHistoryKey" value="hudview&#9;null&#9;null" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/component/general/popup" />
     </key>
   </component>
   <component name="RunManager">
@@ -748,6 +709,9 @@
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
+  <component name="StructuralSearchPlugin">
+    <searchConfiguration name="user defined" text="hudview&#10;" recursive="true" caseInsensitive="true" type="XML" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -772,33 +736,36 @@
       <workItem from="1478092504569" duration="23724000" />
       <workItem from="1478181292133" duration="1311000" />
       <workItem from="1478222694475" duration="470000" />
+      <workItem from="1478227042050" duration="16761000" />
+      <workItem from="1478481750131" duration="46381000" />
+      <workItem from="1478742618088" duration="23452000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="146611000" />
+    <option name="totallyTimeSpent" value="233205000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="873" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="827" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24930556" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33418694" sideWeight="0.5024665" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32849604" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290653" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33418694" sideWeight="0.49753347" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33245382" sideWeight="0.49753347" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290653" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -814,97 +781,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/react-native/jestSupport/env.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/AppRegistry/AppRegistry.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="66" column="2" selection-start-line="66" selection-start-column="2" selection-end-line="66" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/BatchedBridge/BatchedBridge.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="27" column="47" selection-start-line="27" selection-start-column="47" selection-end-line="27" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/JavaScriptAppEngine/System/JSTimers/JSTimers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="15" column="41" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/react-native/react-native.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="42" column="51" selection-start-line="42" selection-start-column="39" selection-end-line="42" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/react-native-overlay/RNOverlay.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="53" column="30" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/StaticContainer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-68">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/Touchable/TouchableWithoutFeedback.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2704">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/react-native/React/Modules/RCTDevLoadingView.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/general/NavigatorView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1343">
-          <caret line="90" column="28" selection-start-line="90" selection-start-column="13" selection-end-line="90" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/react/react.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/test/TestView.js" />
-    <entry file="file://$PROJECT_DIR$/src/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -912,28 +793,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupDetailMessagesView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fabfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/constant/UIConstants.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="44" selection-start-line="13" selection-start-column="44" selection-end-line="13" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/fabfile.py" />
     <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupDetailFundView.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2006">
@@ -971,13 +831,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/component/general/HKDatePicker.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/general/HudView.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1040,24 +893,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupDetailMeView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="62" column="27" selection-start-line="62" selection-start-column="27" selection-end-line="62" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/store/MyUserStore.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-103">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/helper/Network.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -1091,14 +929,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/MutualInsStore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/component/general/popup/PopoverMenu.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1037">
@@ -1106,140 +936,203 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/general/ModalView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2975">
-          <caret line="178" column="5" selection-start-line="178" selection-start-column="5" selection-end-line="178" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/UploadInfoView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1904">
-          <caret line="122" column="23" selection-start-line="122" selection-start-column="13" selection-end-line="122" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/UploadResultView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
+        <state relative-caret-position="375">
           <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
           <folding>
-            <element signature="e#15#54#0" expanded="true" />
+            <element signature="e#15#54#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/Navigation/NavigatorIOS.ios.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="858" column="33" selection-start-line="858" selection-start-column="9" selection-end-line="858" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/general/Navigator.ios.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="114" column="19" selection-start-line="114" selection-start-column="19" selection-end-line="114" selection-end-column="19" />
+          <folding>
+            <element signature="e#14#53#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/helper/Network.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="2" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Containers/com.tencent.qq/Data/Library/Caches/Images/CB888AFF5986985B99B9F96DB71ED61A.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1950">
+          <caret line="130" column="16" selection-start-line="130" selection-start-column="16" selection-end-line="130" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/react.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="2261" column="23" selection-start-line="2261" selection-start-column="23" selection-end-line="2261" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupListView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1365">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupIntroductionView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="37" column="28" selection-start-line="37" selection-start-column="28" selection-end-line="37" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupDetailMessagesView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="19" column="25" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/general/popup/ImageTips.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="62" column="1" selection-start-line="62" selection-start-column="1" selection-end-line="62" selection-end-column="1" />
+          <folding>
+            <element signature="e#48#98#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/general/ModalView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-165">
+          <caret line="17" column="55" selection-start-line="17" selection-start-column="51" selection-end-line="17" selection-end-column="55" />
+          <folding>
+            <element signature="e#14#64#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-native-root-toast/lib/Toast.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="68" selection-start-line="8" selection-start-column="54" selection-end-line="8" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/react-native/react-native.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-native-root-toast/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/MutualInsStore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="72" column="29" selection-start-line="72" selection-start-column="27" selection-end-line="72" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Xcode/React Native/PropertyFinder/src/component/general/popup/ImageAlert.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+          <folding>
+            <element signature="e#14#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupDetailMeView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="18" column="84" selection-start-line="18" selection-start-column="84" selection-end-line="18" selection-end-column="84" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/MutualInsView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1054">
-          <caret line="140" column="25" selection-start-line="140" selection-start-column="20" selection-end-line="140" selection-end-column="25" />
+        <state relative-caret-position="174">
+          <caret line="103" column="19" selection-start-line="103" selection-start-column="19" selection-end-line="103" selection-end-column="19" />
           <folding>
+            <element signature="e#14#53#0" expanded="true" />
             <element signature="e#1344#1544#0" expanded="false" />
             <element signature="e#1632#1775#0" expanded="false" />
-            <element signature="e#1936#1970#0" expanded="false" />
-            <element signature="e#2109#2512#0" expanded="false" />
-            <element signature="e#2219#2364#0" expanded="false" />
-            <element signature="e#2255#2354#0" expanded="false" />
-            <element signature="e#2378#2459#0" expanded="false" />
-            <element signature="e#2529#2596#0" expanded="false" />
-            <element signature="e#2617#2780#0" expanded="false" />
-            <element signature="e#2643#2772#0" expanded="false" />
-            <element signature="e#3160#3589#0" expanded="false" />
-            <element signature="e#3206#3583#0" expanded="false" />
-            <element signature="e#3311#3437#0" expanded="false" />
-            <element signature="e#3520#3573#0" expanded="false" />
-            <element signature="e#3618#3775#0" expanded="false" />
-            <element signature="e#3656#3713#0" expanded="false" />
-            <element signature="e#3727#3769#0" expanded="false" />
-            <element signature="e#4516#4589#0" expanded="false" />
-            <element signature="e#4609#4764#0" expanded="false" />
-            <element signature="e#4631#4715#0" expanded="false" />
-            <element signature="e#4798#4892#0" expanded="false" />
-            <element signature="e#4917#5051#0" expanded="false" />
-            <element signature="e#5076#5321#0" expanded="false" />
-            <element signature="e#5213#5271#0" expanded="false" />
-            <element signature="e#6192#6999#0" expanded="false" />
-            <element signature="e#6298#6975#0" expanded="false" />
-            <element signature="e#6358#6646#0" expanded="false" />
-            <element signature="e#6671#6947#0" expanded="false" />
-            <element signature="e#7148#7428#0" expanded="false" />
-            <element signature="e#7179#7412#0" expanded="false" />
-            <element signature="e#7202#7392#0" expanded="false" />
-            <element signature="e#7467#8602#0" expanded="false" />
-            <element signature="e#7498#8585#0" expanded="false" />
-            <element signature="e#7646#7827#0" expanded="false" />
-            <element signature="e#8203#8373#0" expanded="false" />
-            <element signature="e#8390#8558#0" expanded="false" />
-            <element signature="e#8647#9451#0" expanded="false" />
-            <element signature="e#8678#9435#0" expanded="false" />
-            <element signature="e#8922#9089#0" expanded="false" />
-            <element signature="e#9106#9409#0" expanded="false" />
-            <element signature="e#9231#9406#0" expanded="false" />
-            <element signature="e#9504#11413#0" expanded="false" />
-            <element signature="e#9575#11396#0" expanded="false" />
-            <element signature="e#9633#10187#0" expanded="false" />
-            <element signature="e#10249#10804#0" expanded="false" />
-            <element signature="e#10865#11233#0" expanded="false" />
-            <element signature="e#10981#11116#0" expanded="false" />
-            <element signature="e#11250#11376#0" expanded="false" />
-            <element signature="e#11454#11820#0" expanded="false" />
-            <element signature="e#11485#11804#0" expanded="false" />
-            <element signature="e#11612#11784#0" expanded="false" />
-            <element signature="e#11928#12199#0" expanded="false" />
-            <element signature="e#11969#12174#0" expanded="false" />
-            <element signature="e#12031#12150#0" expanded="false" />
-            <element signature="e#12386#13718#0" expanded="false" />
-            <element signature="e#12442#13515#0" expanded="false" />
-            <element signature="e#12528#13479#0" expanded="false" />
-            <element signature="e#13769#14305#0" expanded="false" />
-            <element signature="e#13864#13962#0" expanded="false" />
-            <element signature="e#13997#14098#0" expanded="false" />
-            <element signature="e#14152#14249#0" expanded="false" />
-            <element signature="e#14332#14845#0" expanded="false" />
-            <element signature="e#14440#14829#0" expanded="false" />
-            <element signature="e#14566#14726#0" expanded="false" />
-            <element signature="e#14873#16376#0" expanded="false" />
-            <element signature="e#15064#15242#0" expanded="false" />
-            <element signature="e#15333#15508#0" expanded="false" />
-            <element signature="e#15603#15780#0" expanded="false" />
-            <element signature="e#15811#16360#0" expanded="false" />
-            <element signature="e#15896#16328#0" expanded="false" />
-            <element signature="e#15956#16221#0" expanded="false" />
-            <element signature="e#16422#16783#0" expanded="false" />
-            <element signature="e#16453#16766#0" expanded="false" />
-            <element signature="e#16526#16746#0" expanded="false" />
-            <element signature="e#16828#17135#0" expanded="false" />
-            <element signature="e#16859#17119#0" expanded="false" />
-            <element signature="e#17181#17855#0" expanded="false" />
-            <element signature="e#17270#17713#0" expanded="false" />
-            <element signature="e#17348#17687#0" expanded="false" />
-            <element signature="e#17743#17839#0" expanded="false" />
-            <element signature="e#17901#18217#0" expanded="false" />
-            <element signature="e#17977#18074#0" expanded="false" />
-            <element signature="e#18105#18201#0" expanded="false" />
-            <element signature="e#18248#19321#0" expanded="false" />
-            <element signature="e#18279#19305#0" expanded="false" />
-            <element signature="e#18416#18800#0" expanded="false" />
-            <element signature="e#18586#18776#0" expanded="false" />
-            <element signature="e#18846#19271#0" expanded="false" />
-            <element signature="e#18954#19231#0" expanded="false" />
-            <element signature="e#19358#23233#0" expanded="false" />
-            <element signature="e#20874#21023#0" expanded="false" />
-            <element signature="e#21129#21233#0" expanded="false" />
-            <element signature="e#22112#22237#0" expanded="false" />
-            <element signature="e#22418#22538#0" expanded="false" />
-            <element signature="e#22757#22867#0" expanded="false" />
+            <element signature="e#3623#3780#0" expanded="false" />
+            <element signature="e#3661#3718#0" expanded="false" />
+            <element signature="e#3732#3774#0" expanded="false" />
+            <element signature="e#4521#4594#0" expanded="false" />
+            <element signature="e#6306#7113#0" expanded="false" />
+            <element signature="e#6412#7089#0" expanded="false" />
+            <element signature="e#6472#6760#0" expanded="false" />
+            <element signature="e#6785#7061#0" expanded="false" />
+            <element signature="e#7262#7542#0" expanded="false" />
+            <element signature="e#7293#7526#0" expanded="false" />
+            <element signature="e#7316#7506#0" expanded="false" />
+            <element signature="e#10363#10918#0" expanded="false" />
+            <element signature="e#10979#11347#0" expanded="false" />
+            <element signature="e#11095#11230#0" expanded="false" />
+            <element signature="e#11364#11490#0" expanded="false" />
+            <element signature="e#12500#13832#0" expanded="false" />
+            <element signature="e#12556#13629#0" expanded="false" />
+            <element signature="e#12642#13593#0" expanded="false" />
+            <element signature="e#13978#14076#0" expanded="false" />
+            <element signature="e#14111#14212#0" expanded="false" />
+            <element signature="e#14266#14363#0" expanded="false" />
+            <element signature="e#18362#19435#0" expanded="false" />
+            <element signature="e#18393#19419#0" expanded="false" />
+            <element signature="e#18530#18914#0" expanded="false" />
+            <element signature="e#18700#18890#0" expanded="false" />
+            <element signature="e#18960#19385#0" expanded="false" />
+            <element signature="e#19068#19345#0" expanded="false" />
+            <element signature="e#20988#21137#0" expanded="false" />
+            <element signature="e#21243#21347#0" expanded="false" />
+            <element signature="e#22226#22351#0" expanded="false" />
+            <element signature="e#22532#22652#0" expanded="false" />
+            <element signature="e#22871#22981#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupDetailView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+        <state relative-caret-position="390">
+          <caret line="43" column="28" selection-start-line="43" selection-start-column="28" selection-end-line="43" selection-end-column="28" />
           <folding>
             <element signature="e#1134#1183#0" expanded="false" />
             <element signature="e#2156#2190#0" expanded="false" />
@@ -1286,8 +1179,6 @@
             <element signature="e#9616#9785#0" expanded="false" />
             <element signature="e#9802#10091#0" expanded="false" />
             <element signature="e#9927#10088#0" expanded="false" />
-            <element signature="e#10157#10936#0" expanded="false" />
-            <element signature="e#10188#10920#0" expanded="false" />
             <element signature="e#10424#10591#0" expanded="false" />
             <element signature="e#10608#10894#0" expanded="false" />
             <element signature="e#10734#10891#0" expanded="false" />
@@ -1296,44 +1187,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/general/Navigator.ios.js">
+    <entry file="file://$PROJECT_DIR$/../../Xcode/React Native/PropertyFinder/TestProject.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1751">
-          <caret line="114" column="19" selection-start-line="114" selection-start-column="19" selection-end-line="114" selection-end-column="19" />
+        <state relative-caret-position="105">
+          <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Xcode/React Native/PropertyFinder/SearchResults.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Xcode/React Native/PropertyFinder/SearchPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="86" column="25" selection-start-line="86" selection-start-column="16" selection-end-line="86" selection-end-column="25" />
           <folding>
-            <element signature="e#14#53#0" expanded="true" />
+            <element signature="e#63#104#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/react-native/Libraries/Components/Navigation/NavigatorIOS.ios.js">
+    <entry file="file://$PROJECT_DIR$/src/constant/UIConstants.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14586">
-          <caret line="858" column="33" selection-start-line="858" selection-start-column="9" selection-end-line="858" selection-end-column="33" />
+        <state relative-caret-position="204">
+          <caret line="28" column="31" selection-start-line="28" selection-start-column="31" selection-end-line="28" selection-end-column="31" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/CalculationResultView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="24" column="92" selection-start-line="24" selection-start-column="92" selection-end-line="24" selection-end-column="92" />
+          <folding>
+            <element signature="e#48#98#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/general/HudView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="31" column="12" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-native-root-toast/lib/ToastContainer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="36" column="20" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#60#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/UploadInfoView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="91">
+          <caret line="103" column="35" selection-start-line="103" selection-start-column="8" selection-end-line="103" selection-end-column="35" />
+          <folding>
+            <element signature="e#15#54#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/CalculationView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="23" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupListView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/mutual_ins/GroupIntroductionView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
-          <caret line="61" column="25" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="65" />
+        <state relative-caret-position="195">
+          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
           <folding />
         </state>
       </provider>

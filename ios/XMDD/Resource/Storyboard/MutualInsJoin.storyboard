@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -491,7 +491,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CheckCell" id="v8y-nW-4sf">
-                                        <rect key="frame" x="0.0" y="339" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="338.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v8y-nW-4sf" id="UaI-xm-SDC">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -528,7 +528,7 @@
                                         <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TitleCell" rowHeight="34" id="Mmd-ME-3Xv">
-                                        <rect key="frame" x="0.0" y="383" width="375" height="34"/>
+                                        <rect key="frame" x="0.0" y="382.5" width="375" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mmd-ME-3Xv" id="30a-em-Uc2">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="34"/>
@@ -2168,7 +2168,7 @@
                                 <color key="backgroundColor" red="0.96054202318191528" green="0.96035552024841309" blue="0.96543395519256592" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TitleCell" rowHeight="85" id="wGF-dP-sVc">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="85"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="85"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wGF-dP-sVc" id="aeI-LL-7DH">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="85"/>
@@ -2261,7 +2261,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DetailCell" rowHeight="29" id="Bdg-gL-HnE">
-                                        <rect key="frame" x="0.0" y="141" width="375" height="29"/>
+                                        <rect key="frame" x="0.0" y="140.5" width="375" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bdg-gL-HnE" id="eM2-Kx-xJi">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="29"/>
@@ -2289,7 +2289,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BlankCell" rowHeight="29" id="Ftz-nf-60g">
-                                        <rect key="frame" x="0.0" y="170" width="375" height="29"/>
+                                        <rect key="frame" x="0.0" y="169.5" width="375" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ftz-nf-60g" id="lUI-HC-XNf">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="29"/>

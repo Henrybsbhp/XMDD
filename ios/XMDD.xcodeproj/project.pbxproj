@@ -6158,6 +6158,7 @@
 				78CEA7719525445DA27BED75 /* Libraries */,
 				1864956D1D488E4500F1CCB0 /* Resources */,
 				E4072E40F1E22BAE4F9D52F9 /* Pods */,
+				FA5049BC1FF1279E00319623 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -6884,6 +6885,17 @@
 				FA45629D1DB86C8D00D02B8B /* CommissionRatingVM.m */,
 			);
 			name = CommissionVM;
+			sourceTree = "<group>";
+		};
+		FA5049BC1FF1279E00319623 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				42A4FF4931374F8E9563443E /* libRCTToast.a */,
+				2218E7662B054DDBA205E349 /* libRNImagePicker.a */,
+				60AC0CA67A2E4B4692442457 /* libRNVectorIcons.a */,
+				1428CFB868EB4405A5C804DC /* libRNSVG.a */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		FA84965F1CBE367700631062 /* SJKeyboardManager */ = {
@@ -8765,7 +8777,6 @@
 				18F31A371D9B722000D9A0A9 /* UIColor+ColorWithHexString.m in Sources */,
 				18F31A381D9B722000D9A0A9 /* DashLine.m in Sources */,
 				18C10FD01DC9907200EE3EA2 /* ReactNativeDeveloperVC.m in Sources */,
-				18F31A391D9B722000D9A0A9 /* CXAlertView.m in Sources */,
 				18F31A3A1D9B722000D9A0A9 /* HKLoadingModel.m in Sources */,
 				18F31A3B1D9B722000D9A0A9 /* ShopListServiceCell.m in Sources */,
 				18F31A3C1D9B722000D9A0A9 /* ShopDetailServiceCell.m in Sources */,
